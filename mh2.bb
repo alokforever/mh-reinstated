@@ -2775,7 +2775,6 @@ zpic(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small.bmp")
 zpic_(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small_.bmp")
 zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
 zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
-DebugLog "BBB: " + zpic(n,0,2) + ", n: " + n
 
 For i=0 To 20
 	zpic(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + ".bmp")
@@ -2949,24 +2948,25 @@ If n=42 Then	;Joker
 EndIf
 
 If n=14 Then ;SubZero
-	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subAir.wav")
-	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subFreeze1.wav")
-	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subFreeze2.wav")
-	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subFreeze3.wav")
-	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subHit.wav")
-	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subIceBlast.wav")
-	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subKick.wav")
-	If subZeroLaughSnd=0 Then subZeroLaughSnd=LoadSound(soundsdir$ + "subLaugh.wav")
-	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subPunch.wav")
-	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subPunch2.wav")
-	If subZeroSuperSnd=0 Then subZeroSuperSnd=LoadSound(soundsdir$ + "subSuper.wav")
-	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subThrow.wav")
-	If subZeroExcellentSnd=0 Then subZeroExcellentSnd=LoadSound(soundsdir$ + "subExcellent.wav")
-	If subZeroOutstandingSnd=0 Then subZeroOutstandingSnd=LoadSound(soundsdir$ + "subOutstanding.wav")
-	If subZeroSuperbSnd=0 Then subZeroSuperbSnd=LoadSound(soundsdir$ + "subSuperb.wav")
-	If subZeroStrongHitSnd=0 Then subZeroStrongHitSnd=LoadSound(soundsdir$ + "subStrongHit.wav")
-	If subZeroWelldoneSnd=0 Then subZeroWelldoneSnd=LoadSound(soundsdir$ + "subWelldone.wav")
-	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subWind.wav")
+	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subzero\subAir.wav")
+	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subzero\subFreeze1.wav")
+	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subzero\subFreeze2.wav")
+	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subzero\subFreeze3.wav")
+	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subzero\subHit.wav")
+	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subzero\subIceBlast.wav")
+	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subzero\subKick.wav")
+	If subZeroLaughSnd=0 Then subZeroLaughSnd=LoadSound(soundsdir$ + "subzero\subLaugh.wav")
+	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.wav")
+	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subzero\subPunch2.wav")
+	If subZeroSuperSnd=0 Then subZeroSuperSnd=LoadSound(soundsdir$ + "subzero\subSuper.wav")
+	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.wav")
+	If subZeroExcellentSnd=0 Then subZeroExcellentSnd=LoadSound(soundsdir$ + "subzero\subExcellent.wav")
+	If subZeroOutstandingSnd=0 Then subZeroOutstandingSnd=LoadSound(soundsdir$ + "subzero\subOutstanding.wav")
+	If subZeroSuperbSnd=0 Then subZeroSuperbSnd=LoadSound(soundsdir$ + "subzero\subSuperb.wav")
+	If subZeroStrongHitSnd=0 Then subZeroStrongHitSnd=LoadSound(soundsdir$ + "subzero\subStrongHit.wav")
+	If subZeroWelldoneSnd=0 Then subZeroWelldoneSnd=LoadSound(soundsdir$ + "subzero\subWelldone.wav")
+	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subzero\subWind.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.wav")	
 EndIf
 
 If n=13 Then	;Broly
@@ -2991,34 +2991,36 @@ If n=13 Then	;Broly
 EndIf
 
 If n=12 Then
-    If sonyaSnd=0 Then sonyaSnd=LoadSound(soundsdir$ + "sonya-2.wav")
-    If sonyaBallsnd=0 Then sonyaBallsnd=LoadSound(soundsdir$ + "sonya.wav")
-    If sonyaSpinsnd=0 Then sonyaSpinsnd=LoadSound(soundsdir$ + "sonya-1.wav")
-	If sonyaUppersnd=0 Then sonyaUppersnd=LoadSound(soundsdir$ + "sonya-3.wav");
-	If sonyaFlamesnd=0 Then sonyaFlameSnd=LoadSound(soundsdir$ + "sonya-4.wav");
-	If sonyaFlameHitSnd=0 Then sonyaFlameHitSnd=LoadSound(soundsdir$ + "sonyaFlameHit.wav");
-	If sonyaBreathSnd=0 Then sonyaBreathSnd=LoadSound(soundsdir$ + "sonya-5.wav");
+    If sonyaSnd=0 Then sonyaSnd=LoadSound(soundsdir$ + "sonya\sonya-2.wav")
+    If sonyaBallsnd=0 Then sonyaBallsnd=LoadSound(soundsdir$ + "sonya\sonya.wav")
+    If sonyaSpinsnd=0 Then sonyaSpinsnd=LoadSound(soundsdir$ + "sonya\sonya-1.wav")
+	If sonyaUppersnd=0 Then sonyaUppersnd=LoadSound(soundsdir$ + "sonya\sonya-3.wav")
+	If sonyaFlamesnd=0 Then sonyaFlameSnd=LoadSound(soundsdir$ + "sonya\sonya-4.wav")
+	If sonyaFlameHitSnd=0 Then sonyaFlameHitSnd=LoadSound(soundsdir$ + "sonya\sonyaFlameHit.wav")
+	If sonyaBreathSnd=0 Then sonyaBreathSnd=LoadSound(soundsdir$ + "sonya\sonya-5.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "sonya\sonyaDie.wav")
 EndIf
 
 If n=11 Then
-    If wolverineJumpSnd=0 Then wolverineJumpSnd=LoadSound(soundsdir$ + "wolverinejump.wav")
-	If wolverineBarrageSnd=0 Then wolverineBarrageSnd=LoadSound(soundsdir$ + "berserker_barrage.wav")
-	If wolverineSlashSnd=0 Then wolverineSlashSnd=LoadSound(soundsdir$ + "wolverine_slash1.wav")
-	If wolverineSlash2Snd=0 Then wolverineSlash2Snd=LoadSound(soundsdir$ + "wolverine_slash2.wav")
-	If wolverineSlash3Snd=0 Then wolverineSlash3Snd=LoadSound(soundsdir$ + "wolverine_slash3.wav")
-	If wolverineSlash4Snd=0 Then wolverineSlash4Snd=LoadSound(soundsdir$ + "wolverine_slash4.wav")
-	If wolverineTornadoClawSnd=0 Then wolverineTornadoClawSnd=LoadSound(soundsdir$ + "wolverineTornadoClaw.wav")
-	If wolverineShoutSnd=0 Then wolverineShoutSnd=LoadSound(soundsdir$ + "wolverineShout.wav")
-	If wolverineShout2Snd=0 Then wolverineShout2Snd=LoadSound(soundsdir$ + "wolverineShout2.wav")
-	If wolverineShout3Snd=0 Then wolverineShout3Snd=LoadSound(soundsdir$ + "wolverineShout3.wav")
-	If wolverineShout4Snd=0 Then wolverineShout4Snd=LoadSound(soundsdir$ + "wolverineShout4.wav")
-	If wolverineKickSnd=0 Then wolverineKickSnd=LoadSound(soundsdir$ + "wolverineKick.wav")
-	If wolverineSuper1Snd=0 Then wolverineSuper1Snd=LoadSound(soundsdir$ + "wolverineSuper1.wav")
-	If wolverineSuper2Snd=0 Then wolverineSuper2Snd=LoadSound(soundsdir$ + "wolverineSuper2.wav")
-	If wolverineGrabSnd=0 Then wolverineGrabSnd=LoadSound(soundsdir$ + "wolverineGrab.wav")
-	If wolverineDrillClawSnd=0 Then wolverineDrillClawSnd=LoadSound(soundsdir$ + "wolverineDrillClaw.wav")
-	If wolverineDrillClawHitSnd=0 Then wolverineDrillClawHitSnd=LoadSound(soundsdir$ + "wolverineDrillClawHit.wav")
-	If wolverineClawSnd=0 Then wolverineClawSnd=LoadSound(soundsdir$ + "wolverineClaw.wav")
+    If wolverineJumpSnd=0 Then wolverineJumpSnd=LoadSound(soundsdir$ + "wolverine\wolverinejump.wav")
+	If wolverineBarrageSnd=0 Then wolverineBarrageSnd=LoadSound(soundsdir$ + "wolverine\berserker_barrage.wav")
+	If wolverineSlashSnd=0 Then wolverineSlashSnd=LoadSound(soundsdir$ + "wolverine\wolverine_slash1.wav")
+	If wolverineSlash2Snd=0 Then wolverineSlash2Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash2.wav")
+	If wolverineSlash3Snd=0 Then wolverineSlash3Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash3.wav")
+	If wolverineSlash4Snd=0 Then wolverineSlash4Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash4.wav")
+	If wolverineTornadoClawSnd=0 Then wolverineTornadoClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineTornadoClaw.wav")
+	If wolverineShoutSnd=0 Then wolverineShoutSnd=LoadSound(soundsdir$ + "wolverine\wolverineShout.wav")
+	If wolverineShout2Snd=0 Then wolverineShout2Snd=LoadSound(soundsdir$ + "wolverine\wolverineShout2.wav")
+	If wolverineShout3Snd=0 Then wolverineShout3Snd=LoadSound(soundsdir$ + "wolverine\wolverineShout3.wav")
+	If wolverineShout4Snd=0 Then wolverineShout4Snd=LoadSound(soundsdir$ + "wolverine\wolverineShout4.wav")
+	If wolverineKickSnd=0 Then wolverineKickSnd=LoadSound(soundsdir$ + "wolverine\wolverineKick.wav")
+	If wolverineSuper1Snd=0 Then wolverineSuper1Snd=LoadSound(soundsdir$ + "wolverine\wolverineSuper1.wav")
+	If wolverineSuper2Snd=0 Then wolverineSuper2Snd=LoadSound(soundsdir$ + "wolverine\wolverineSuper2.wav")
+	If wolverineGrabSnd=0 Then wolverineGrabSnd=LoadSound(soundsdir$ + "wolverine\wolverineGrab.wav")
+	If wolverineDrillClawSnd=0 Then wolverineDrillClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineDrillClaw.wav")
+	If wolverineDrillClawHitSnd=0 Then wolverineDrillClawHitSnd=LoadSound(soundsdir$ + "wolverine\wolverineDrillClawHit.wav")
+	If wolverineClawSnd=0 Then wolverineClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineClaw.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wolverine\wolverineDie.wav")
 EndIf
 
 If n=10 Then ;Ritcher

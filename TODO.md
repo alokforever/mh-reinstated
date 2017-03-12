@@ -8,15 +8,16 @@ walk animation - DONE (3/12/17)
 cooldown for some character's moves (sub zero freeze ground, wolverine special)
 item pickup positioning
 death sound in adventure mode
-custom frozen sprites
+custom frozen sprites - DONE (3/12/17)
 
 character-specific:
 1. subzero:
+re-size sprites
 ice + shower
-ground freeze remake
+ground freeze remake 
  
 2. wolverine: 
-reuse old blade sound - done
+reuse old blade sound - DONE (3/12/17)
 fix tornado claw hitboxes
 fix berserker barrage hitboxes
 fix roll

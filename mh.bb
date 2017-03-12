@@ -208,7 +208,7 @@ Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
-Dim zStanceFrames(30), zStanceSeq(30), zWalkFrames(30)
+Dim zStanceFrames(30), zStanceSeq(30), zWalkFrames(30), deathSnd(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -468,19 +468,19 @@ Global clicksnd=LoadSound(soundsdir$ + "click.wav")
 Global slashsnd=LoadSound(soundsdir$ + "slash.wav")
 Global ctfSnd=LoadSound(soundsdir$ + "ctf.wav")
 Global pickupSnd=LoadSound(soundsdir$ + "pickup.wav")
-Global subZeroAirSnd=LoadSound(soundsdir$ + "subAir.wav")
-Global subZeroFreeze1Snd=LoadSound(soundsdir$ + "subFreeze1.wav")
-Global subZeroFreeze2Snd=LoadSound(soundsdir$ + "subFreeze2.wav")
-Global subZeroFreeze3Snd=LoadSound(soundsdir$ + "subFreeze3.wav")
-Global subZeroHitSnd=LoadSound(soundsdir$ + "subHit.wav")
-Global subZeroIceBlastSnd=LoadSound(soundsdir$ + "subIceBlast.wav")
-Global subZeroKickSnd=LoadSound(soundsdir$ + "subKick.wav")
-Global subZeroLaughSnd=LoadSound(soundsdir$ + "subLaugh.wav")
-Global subZeroPunchSnd=LoadSound(soundsdir$ + "subPunch.wav")
-Global subZeroPunch2Snd=LoadSound(soundsdir$ + "subPunch2.wav")
-Global subZeroSuperSnd=LoadSound(soundsdir$ + "subSuper.wav")
-Global subZeroThrowSnd=LoadSound(soundsdir$ + "subThrow.wav")
-Global subZeroJumpSnd=LoadSound(soundsdir$ + "subjump.wav")
+Global subZeroAirSnd
+Global subZeroFreeze1Snd
+Global subZeroFreeze2Snd
+Global subZeroFreeze3Snd
+Global subZeroHitSnd
+Global subZeroIceBlastSnd
+Global subZeroKickSnd
+Global subZeroLaughSnd
+Global subZeroPunchSnd
+Global subZeroPunch2Snd
+Global subZeroSuperSnd
+Global subZeroThrowSnd
+Global subZeroJumpSnd
 Global subZeroExcellentSnd
 Global subZeroOutstandingSnd
 Global subZeroSuperbSnd
@@ -2129,7 +2129,7 @@ If zHit(n)=0 And zBlocked(n)=0 Then zHitByRect(n)=0
 If zStone(n)=1 And fightMode=2 Then
 	If zLife(n) < 1 Then
 		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-		If gamesound Then PlaySound mikeKickSnd
+		playDeathSnd(n)
 		zlives(n)=zlives(n)-1
 		killZ(n)
 	EndIf
@@ -2160,7 +2160,7 @@ If zhit(n)=1 Then
 		If fightMode=2 And zFalltime(n) > 15 Then
 			If zLife(n) < 1 Then
 				makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-				If gamesound Then PlaySound mikeKickSnd
+				playDeathSnd(n)
 				zlives(n)=zlives(n)-1
 				killZ(n)
 			EndIf
@@ -4661,7 +4661,7 @@ For nn=1 To zzamount
 				If platYspeed(n) > 2 Then zy(nn) = (yPlat(n)+platHeight(n))+zHeight(nn)
 				If (zongnd(nn)=1 Or zonplat(nn)=1)And zGrabbed(nn)=0 Then	;crushes player
 					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
-					If gamesound Then PlaySound mikeKickSnd
+					playDeathSnd(n)
 					zlives(nn)=zlives(nn)-1
 					killZ(nn)
 					Goto platDone
@@ -4693,7 +4693,7 @@ For nn=1 To zzamount
 				
 				If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then	;crushes player
 					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
-					If gamesound Then PlaySound mikeKickSnd
+					playDeathSnd(n)
 					zlives(nn)=zlives(nn)-1
 					killZ(nn)
 					Goto platDone
@@ -5177,7 +5177,7 @@ Case 52	;Bag
 If zVar1(n)=1 Then 	;If bag has energy limit
 	If zLife(n) < 0 Then
 		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-		If gamesound Then PlaySound mikeKickSnd
+		playDeathSnd(n)
 		zlives(n)=zlives(n)-1
 		killZ(n)
 	EndIf
@@ -6182,4 +6182,13 @@ Function drawStanceSequence(n)
 			Return
 		EndIf			
 	Next
+End Function
+
+;----------- Play Death Sound -----------------
+Function playDeathSnd(n)
+	If deathSnd(curguy(n)) Then
+		If gamesound Then PlaySound deathSnd(curguy(n))
+	Else
+		If gamesound Then PlaySound mikeKickSnd
+	EndIf
 End Function
