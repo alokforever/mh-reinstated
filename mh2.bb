@@ -1454,7 +1454,7 @@ Case 43 ;Sub Zero ice clone
 	shotheight(n)=58
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
-	shotHitMode(n)=6
+	shotHitMode(n)=3
 	shotFallTime(n)=0
 	shotHitXspeed(n)=0
 	shotHitYspeed(n)=0
@@ -2773,6 +2773,9 @@ zpic(n,0,0)=LoadImage(gfxStuffDir$ + "frozen.bmp")
 zpic_(n,0,0)=LoadImage(gfxStuffDir$ + "frozen_.bmp")
 zpic(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small.bmp")
 zpic_(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small_.bmp")
+zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
+zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
+DebugLog "BBB: " + zpic(n,0,2) + ", n: " + n
 
 For i=0 To 20
 	zpic(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + ".bmp")

@@ -137,9 +137,9 @@ Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),sho
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
 Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200),shotSound(200)
 Dim shotdamage(200),shotsize(200),shotsizeL(200),shotPic(200,10),shotPic_(200,10),shotImpact(200)
-Dim shotImage(51), shotImage_(51), shotHitTrail(200),  shotSuper(200),shotBounce(200),shotExplosionSound(200)
+Dim shotImage(51), shotImage_(51), shotHitTrail(200), shotSuper(200), shotBounce(200),shotExplosionSound(200)
 Dim shotHeight(200),shotWidth(200),shotside(200),shotChunkType(200), shotType(200), shotPushForce(200)
-Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200),shotDrill(200),shotDuration2(200)
+Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200), shotDrill(200),shotDuration2(200)
 Dim shotAcc#(200),shotMaxSpeed#(200),shotUturn(200),shotReturnOnHit(200), shotFollowOwner(200),shotUturnseq(200)
 Dim shotFramesAmount(200), shotCurFrame(200), shotFrameSeq(200), shotFrameTime(200),shotImmuneTime(200),shotUturnAmount(200)
 
@@ -4658,7 +4658,7 @@ For nn=1 To zzamount
 		   	ph=36
 			 If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
 				zHitHead(nn)=1:zJump(nn)=0
-				If platYspeed(n) > 2 Then zy(nn)= (yPlat(n)+platHeight(n))+zHeight(nn)
+				If platYspeed(n) > 2 Then zy(nn) = (yPlat(n)+platHeight(n))+zHeight(nn)
 				If (zongnd(nn)=1 Or zonplat(nn)=1)And zGrabbed(nn)=0 Then	;crushes player
 					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
 					If gamesound Then PlaySound mikeKickSnd
@@ -6058,16 +6058,11 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 						If Not zBlock(targetPlayer) And shotSuper(projectile)=0 Then
 							zlife(targetPlayer)=zlife(targetPlayer)-shotdamage(projectile)
 							zDamage#(targetPlayer)=zDamage#(targetPlayer)+shotDamage(projectile)
-							If zStone(targetPlayer)=0 Then
-								If zface(targetPlayer)=2 Then
-									zFallDir(targetPlayer)=2
-								Else
-									zFallDir(targetPlayer)=4						
-								EndIf
-									zjump(targetPlayer)=0:zBouncedgnd(targetPlayer)=0:zhit(targetPlayer)=1
-									calcShot(targetPlayer, projectile)
-									zBlow(targetPlayer)=0:zBlowStill(targetPlayer)=0:zHitSeq(targetPlayer)=0
-							EndIf
+							
+							zjump(targetPlayer)=0:zBouncedgnd(targetPlayer)=0:zhit(targetPlayer)=1
+							calcShot(targetPlayer, projectile)
+							zBlow(targetPlayer)=0:zBlowStill(targetPlayer)=0:zHitSeq(targetPlayer)=0
+				
 							If shotHitTrail(projectile) > 0 Then zTrail(targetPlayer)=1:zTrailSeq(targetPlayer)=0:zTrailType(targetPlayer)=shotHitTrail(projectile)
 							If gameSound = 1 Then PlaySound shotsound(projectile)	
 							EndIf
@@ -6108,7 +6103,11 @@ Function drawFrozenState(unit)
 			If curGuy(unit) = 40 Then 
 				zani(unit)=0:zf(unit)=1
 			Else
-				zani(unit)=0:zf(unit)=0
+				If zpic(curguy(unit),0,2) <> 0 And zpic_(curguy(unit),0,2) <> 0 Then
+					zani(unit)=0:zf(unit)=2
+				Else
+					zani(unit)=0:zf(unit)=0
+				EndIf
 			EndIf
 		EndIf
 		If currentFreezeTime(unit) => endFreezeTime(unit) Then canGetTime(unit)=0:unFreeze(unit):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)

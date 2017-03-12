@@ -3,7 +3,7 @@
 3/10/17
 general:
 some versus mode maps are not working
-stance animation
+stance animation - DONE (3/12/17)
 walk animation - DONE (3/12/17)
 cooldown for some character's moves (sub zero freeze ground, wolverine special)
 item pickup positioning
