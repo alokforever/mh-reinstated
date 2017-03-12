@@ -83,7 +83,7 @@ Dim xDist(30),yDist(30), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSn
 Dim zSuperMove(30),zSuperMoveSeq(30),zSuperX(30),zSuperY(30),zSuperDir(30),zSuperBar(30)
 Dim zGrabbed(30),zGrabbedBy(30),zGrabs(30),zGrabsThis(30),zGrabSeq(30),zNoAirSpecial(30)
 Dim xOval(30),yOval(30),woval(30),hOval(30), zGrabDist(30),shotFireSound(30)
-Dim zWalkAni(30),zWalkSeq(30),zCurPic(30),zBlowSound(30),zani(30),zf(30),zPrevAni(30),zPrevf(30),zDontPickItem(30),zFlyAni(30),zfa(30)
+Dim zWalkAni(30),zCurPic(30),zBlowSound(30),zani(30),zf(30),zPrevAni(30),zPrevf(30),zDontPickItem(30),zFlyAni(30),zfa(30)
 Dim zWalkSeq(30), startFreezeTime(30), currentFreezeTime(30), endFreezeTime(30), canGetTime(30), freezeSeq(30), canMakeShot(30)
 Dim rageSeq(30), startRageTime(30), currentRageTime(30), endRageTime(30), canGetRageTime(30), wolvSpdFctr(30)
 Dim zShotByN(30),zShotHitSeq(30,200), zDontJump(30),zDeathChunk(30),zStone(30),zUngrabable(30)
@@ -207,6 +207,8 @@ Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraB
 Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
+
+Dim zStanceFrames(30), zWalkFrames(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -2062,14 +2064,7 @@ Function selectDraw(n)
 		Else
 			zwalkseq(n)=0
 		EndIf
-		
-		If zwalkseq(n) > 40 Then zwalkseq(n)=1
-		If zwalkseq(n) = 0  Then zani(n)=1:zf(n)=0:Goto drawZ
-		If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zani(n)=1:zf(n)=2:Goto drawZ
-		If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zani(n)=1:zf(n)=3:Goto drawZ
-		If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Goto drawZ
-		If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Goto drawZ
-
+		drawWalkSequence(n):Goto drawZ
 	EndIf
 	
 	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then 
@@ -6146,5 +6141,29 @@ Function drawRageEffect(player)
 	Else
 		ztopSpeed(player) = ztopSpeed(player) / wolvSpdFctr(player)
 		canGetRageTime(unit)=0
+	EndIf
+End Function
+
+;------------ Draw Walk Sequence ----------------
+Function drawWalkSequence(n)
+	Local frameSpeed=3
+	If zwalkseq(n) = 0 Then 
+		zani(n)=1:zf(n)=0
+		Return
+	EndIf
+	If zWalkFrames(n) <> 0 Then
+		For frame=zWalkFrames(n) To 1 Step -1
+			If (zwalkseq(n) / frameSpeed) Mod frame = 0 Then 
+				If zwalkseq(n) > (frame * 10) + 10 Then zwalkseq(n) = 1:Return
+				zani(n)=1:zf(n)=frame
+				Return
+			EndIf
+		Next
+	Else
+		If zwalkseq(n) > 40 Then zwalkseq(n)=1:Return
+		If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zani(n)=1:zf(n)=2:Return
+		If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zani(n)=1:zf(n)=3:Return
+		If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Return
+		If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Return
 	EndIf
 End Function
