@@ -17,7 +17,6 @@ zchunkType(n)=10
 
 Select zCurBlow(n)
 Case 0	;Blocking
-	DebugLog wolvSpdFctr(n)
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
@@ -541,7 +540,6 @@ Case 9	; berserker barrage (down special)
 	EndIf
 	If zBlowSeq(n) => g And zBlowSeq(n) =< i Then
 		If zBlowSeq(n) = g Then xAxis = zx(n):yAxis = zy(n)
-		DebugLog xAxis + " " + yAxis
 		extraObj(n,xAxis,40,yAxis,8,zblowdir(n),79)
 		extraObj(n,xAxis,-17,yAxis,-22,zblowdir(n),80)
 	EndIf
@@ -669,7 +667,9 @@ Case 16 ;Counter Key (Berserker Rage)
 		If zBlowSeq(n) Mod 2 = 0 Then zx(n)=zx(n)+2
 		If zBlowSeq(n) Mod 2 = 1 Then zx(n)=zx(n)-2
 		zani(n)=17:zf(n)=8
-		If zSuperBar(n) <= 100 Then zSuperBar(n)=zSuperBar(n)+5
+		If zBlowSeq(n) = d Then 
+			If zSuperBar(n) <= 100 Then zSuperBar(n)=zSuperBar(n)+5
+		EndIf
 	EndIf
 	;***** Taunt *****
 	

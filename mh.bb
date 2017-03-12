@@ -208,7 +208,7 @@ Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
-Dim zStanceFrames(30), zWalkFrames(30)
+Dim zStanceFrames(30), zStanceSeq(30), zWalkFrames(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -2054,14 +2054,14 @@ Function selectDraw(n)
 		End Select
 		Goto drawZ
 	EndIf
-
 	
 	If zongnd(n)=0 And zhit(n)=0 Then zani(n)=4:zf(n)=1:Goto drawZ	;mid air
-		
-	If Not zhit(n)  Then 
-		If zspeed(n) <> 0 Then
+
+	If Not zhit(n) Then ;on ground
+		If zspeed(n) <> 0 Then	;walking
 			zwalkseq(n)=zwalkseq(n)+1
-		Else
+			If zwalkseq(n)=1 Then zStanceSeq(n) = 0
+		Else	;not walking
 			zwalkseq(n)=0
 		EndIf
 		drawWalkSequence(n):Goto drawZ
@@ -6148,7 +6148,11 @@ End Function
 Function drawWalkSequence(n)
 	Local frameSpeed=3
 	If zwalkseq(n) = 0 Then 
-		zani(n)=1:zf(n)=0
+		If zStanceFrames(n) <> 0 Then 
+			drawStanceSequence(n):Return
+		Else
+			zani(n)=1:zf(n)=0
+		EndIf
 		Return
 	EndIf
 	If zWalkFrames(n) <> 0 Then
@@ -6166,4 +6170,17 @@ Function drawWalkSequence(n)
 		If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Return
 		If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Return
 	EndIf
+End Function
+
+;----------- Draw Stance Sequence --------------
+Function drawStanceSequence(n)
+	zStanceSeq(n) = zStanceSeq(n) + 1
+	Local frameSpeed=3
+	For frame=zStanceFrames(n) To 1 Step -1
+		If (zStanceSeq(n) / frameSpeed) Mod frame = 0 Then
+			If zStanceSeq(n) > (frame * 10) + 10 Then zStanceSeq(n) = 1:Return
+			zani(n)=19:zf(n)=frame
+			Return
+		EndIf			
+	Next
 End Function

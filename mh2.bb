@@ -246,6 +246,7 @@ Case 11: ;Wolverine
 	zJumpSnd(n)=jumpsnd
 	zJumpSnd2(n)=wolverinejumpsnd
 	zWalkFrames(n)=16
+	zStanceFrames(n)=17
 		
 Case 12: ;Sonya
 	zBlowDist(n,1)=60
@@ -2862,6 +2863,11 @@ Next
 For counter = 1 To 40
 	zpic(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + ".bmp")
 	zpic_(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + "_.bmp")
+Next
+
+For counter = 1 To 20
+	zpic(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + ".bmp")
+	zpic_(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + "_.bmp")
 Next
 
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
