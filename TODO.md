@@ -15,9 +15,7 @@ ground freeze remake
  
 2. wolverine: 
 reuse old blade sound
-fix tornado claw hitboxes
 fix berserker barrage hitboxes
-fix roll
 fix normal attack
 fix grab
 add super special #3
