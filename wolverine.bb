@@ -414,7 +414,6 @@ Case 5	;Uppercut (Tornado claw)
 		zblowback(n)=1
 		For counter = 5 To 75
 			xblow(n,nn)=8: yblow(n,nn)=counter:wblow(n,nn)=10:hblow(n,nn)=5:nn=nn+1
-			makechunk(n,zx(n)-8,zy(n)-counter,2, 1)
 			counter = counter + 10
 		Next
 		zHitmode(n)=2:zBlowHold(n)=0
