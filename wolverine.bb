@@ -292,7 +292,7 @@ Case 13 ; item pickup
 				objData(nn,n)
 				objThrow(nn)=0:objTaken(nn)=1
 				If gameSound Then PlaySound pickupSnd
-				makeChunk(n,zx(n),zy(n)-8,2,15)
+				makeChunk(n,zx(n),zy(n)-15,2,15)
 				If objEat(nn) > 0 Then objConsume(nn,n)
 				Exit
 			EndIf
@@ -399,9 +399,9 @@ Case 5	;Uppercut (Tornado claw)
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=7:zf(n)=2:moveX(n,zBlowdir(n),1)
 	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then
 		zblowPamount(n)=3:nn=1
-		xblow(n,nn)=0: yblow(n,nn)=28:wblow(n,nn)=20:hblow(n,nn)=1:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=37:wblow(n,nn)=20:hblow(n,nn)=1:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=20:hblow(n,nn)=1:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=18:wblow(n,nn)=20:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=5: yblow(n,nn)=27:wblow(n,nn)=20:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=35:wblow(n,nn)=20:hblow(n,nn)=10:nn=nn+1
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=1:zHitUpSpeed#(n)=2.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2)
@@ -413,7 +413,8 @@ Case 5	;Uppercut (Tornado claw)
 		zblowPamount(n)=8:nn=1
 		zblowback(n)=1
 		For counter = 5 To 75
-			xblow(n,nn)=-18: yblow(n,nn)=counter:wblow(n,nn)=10:hblow(n,nn)=5:nn=nn+1
+			xblow(n,nn)=8: yblow(n,nn)=counter:wblow(n,nn)=10:hblow(n,nn)=5:nn=nn+1
+			makechunk(n,zx(n)-8,zy(n)-counter,2, 1)
 			counter = counter + 10
 		Next
 		zHitmode(n)=2:zBlowHold(n)=0
@@ -430,7 +431,7 @@ Case 5	;Uppercut (Tornado claw)
 		If upkey(n)=0 Then zBlowSeq(n) = r
 		zblowPamount(n)=8:nn=1
 		For counter = 5 To 75
-			xblow(n,nn)=-18: yblow(n,nn)=counter:wblow(n,nn)=10:hblow(n,nn)=5:nn=nn+1
+			xblow(n,nn)=8: yblow(n,nn)=counter:wblow(n,nn)=10:hblow(n,nn)=5:nn=nn+1
 			counter = counter + 10
 		Next
 
@@ -553,6 +554,7 @@ Case 9	; berserker barrage (down special)
 	If zBlowSeq(n) => a And zBlowSeq(n) =< c Then
 		zblowPamount(n)=3
 		xblow(n,1)=0: yblow(n,1)=25:wblow(n,1)=65:hblow(n,1)=1
+
 		xblow(n,2)=10: yblow(n,2)=30:wblow(n,2)=65:hblow(n,2)=10
 		xblow(n,3)=20: yblow(n,3)=55:wblow(n,3)=65:hblow(n,3)=10
 		zHitmode(n)=2:zBlowHold(n)=0
