@@ -83,7 +83,7 @@ Dim xDist(30),yDist(30), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSn
 Dim zSuperMove(30),zSuperMoveSeq(30),zSuperX(30),zSuperY(30),zSuperDir(30),zSuperBar(30)
 Dim zGrabbed(30),zGrabbedBy(30),zGrabs(30),zGrabsThis(30),zGrabSeq(30),zNoAirSpecial(30)
 Dim xOval(30),yOval(30),woval(30),hOval(30), zGrabDist(30),shotFireSound(30)
-Dim zWalkAni(30),zWalkSeq(30),zCurPic(30),zBlowSound(30),zani(30),zf(30),zPrevAni(30),zPrevf(30),zDontPickItem(30),zFlyAni(30),zfa(30)
+Dim zWalkAni(30),zCurPic(30),zBlowSound(30),zani(30),zf(30),zPrevAni(30),zPrevf(30),zDontPickItem(30),zFlyAni(30),zfa(30)
 Dim zWalkSeq(30), startFreezeTime(30), currentFreezeTime(30), endFreezeTime(30), canGetTime(30), freezeSeq(30), canMakeShot(30)
 Dim rageSeq(30), startRageTime(30), currentRageTime(30), endRageTime(30), canGetRageTime(30), wolvSpdFctr(30)
 Dim zShotByN(30),zShotHitSeq(30,200), zDontJump(30),zDeathChunk(30),zStone(30),zUngrabable(30)
@@ -137,9 +137,9 @@ Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),sho
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
 Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200),shotSound(200)
 Dim shotdamage(200),shotsize(200),shotsizeL(200),shotPic(200,10),shotPic_(200,10),shotImpact(200)
-Dim shotImage(51), shotImage_(51), shotHitTrail(200),  shotSuper(200),shotBounce(200),shotExplosionSound(200)
+Dim shotImage(51), shotImage_(51), shotHitTrail(200), shotSuper(200), shotBounce(200),shotExplosionSound(200)
 Dim shotHeight(200),shotWidth(200),shotside(200),shotChunkType(200), shotType(200), shotPushForce(200)
-Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200),shotDrill(200),shotDuration2(200)
+Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200), shotDrill(200),shotDuration2(200)
 Dim shotAcc#(200),shotMaxSpeed#(200),shotUturn(200),shotReturnOnHit(200), shotFollowOwner(200),shotUturnseq(200)
 Dim shotFramesAmount(200), shotCurFrame(200), shotFrameSeq(200), shotFrameTime(200),shotImmuneTime(200),shotUturnAmount(200)
 
@@ -207,6 +207,8 @@ Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraB
 Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
+
+Dim zStanceFrames(30), zStanceSeq(30), zWalkFrames(30), deathSnd(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -466,19 +468,19 @@ Global clicksnd=LoadSound(soundsdir$ + "click.wav")
 Global slashsnd=LoadSound(soundsdir$ + "slash.wav")
 Global ctfSnd=LoadSound(soundsdir$ + "ctf.wav")
 Global pickupSnd=LoadSound(soundsdir$ + "pickup.wav")
-Global subZeroAirSnd=LoadSound(soundsdir$ + "subAir.wav")
-Global subZeroFreeze1Snd=LoadSound(soundsdir$ + "subFreeze1.wav")
-Global subZeroFreeze2Snd=LoadSound(soundsdir$ + "subFreeze2.wav")
-Global subZeroFreeze3Snd=LoadSound(soundsdir$ + "subFreeze3.wav")
-Global subZeroHitSnd=LoadSound(soundsdir$ + "subHit.wav")
-Global subZeroIceBlastSnd=LoadSound(soundsdir$ + "subIceBlast.wav")
-Global subZeroKickSnd=LoadSound(soundsdir$ + "subKick.wav")
-Global subZeroLaughSnd=LoadSound(soundsdir$ + "subLaugh.wav")
-Global subZeroPunchSnd=LoadSound(soundsdir$ + "subPunch.wav")
-Global subZeroPunch2Snd=LoadSound(soundsdir$ + "subPunch2.wav")
-Global subZeroSuperSnd=LoadSound(soundsdir$ + "subSuper.wav")
-Global subZeroThrowSnd=LoadSound(soundsdir$ + "subThrow.wav")
-Global subZeroJumpSnd=LoadSound(soundsdir$ + "subjump.wav")
+Global subZeroAirSnd
+Global subZeroFreeze1Snd
+Global subZeroFreeze2Snd
+Global subZeroFreeze3Snd
+Global subZeroHitSnd
+Global subZeroIceBlastSnd
+Global subZeroKickSnd
+Global subZeroLaughSnd
+Global subZeroPunchSnd
+Global subZeroPunch2Snd
+Global subZeroSuperSnd
+Global subZeroThrowSnd
+Global subZeroJumpSnd
 Global subZeroExcellentSnd
 Global subZeroOutstandingSnd
 Global subZeroSuperbSnd
@@ -2052,24 +2054,17 @@ Function selectDraw(n)
 		End Select
 		Goto drawZ
 	EndIf
-
 	
 	If zongnd(n)=0 And zhit(n)=0 Then zani(n)=4:zf(n)=1:Goto drawZ	;mid air
-		
-	If Not zhit(n)  Then 
-		If zspeed(n) <> 0 Then
+
+	If Not zhit(n) Then ;on ground
+		If zspeed(n) <> 0 Then	;walking
 			zwalkseq(n)=zwalkseq(n)+1
-		Else
+			If zwalkseq(n)=1 Then zStanceSeq(n) = 0
+		Else	;not walking
 			zwalkseq(n)=0
 		EndIf
-		
-		If zwalkseq(n) > 40 Then zwalkseq(n)=1
-		If zwalkseq(n) = 0  Then zani(n)=1:zf(n)=0:Goto drawZ
-		If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zani(n)=1:zf(n)=2:Goto drawZ
-		If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zani(n)=1:zf(n)=3:Goto drawZ
-		If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Goto drawZ
-		If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Goto drawZ
-
+		drawWalkSequence(n):Goto drawZ
 	EndIf
 	
 	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then 
@@ -2134,7 +2129,7 @@ If zHit(n)=0 And zBlocked(n)=0 Then zHitByRect(n)=0
 If zStone(n)=1 And fightMode=2 Then
 	If zLife(n) < 1 Then
 		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-		If gamesound Then PlaySound mikeKickSnd
+		playDeathSnd(n)
 		zlives(n)=zlives(n)-1
 		killZ(n)
 	EndIf
@@ -2165,7 +2160,7 @@ If zhit(n)=1 Then
 		If fightMode=2 And zFalltime(n) > 15 Then
 			If zLife(n) < 1 Then
 				makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-				If gamesound Then PlaySound mikeKickSnd
+				playDeathSnd(n)
 				zlives(n)=zlives(n)-1
 				killZ(n)
 			EndIf
@@ -4663,10 +4658,10 @@ For nn=1 To zzamount
 		   	ph=36
 			 If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
 				zHitHead(nn)=1:zJump(nn)=0
-				If platYspeed(n) > 2 Then zy(nn)= (yPlat(n)+platHeight(n))+zHeight(nn)
+				If platYspeed(n) > 2 Then zy(nn) = (yPlat(n)+platHeight(n))+zHeight(nn)
 				If (zongnd(nn)=1 Or zonplat(nn)=1)And zGrabbed(nn)=0 Then	;crushes player
 					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
-					If gamesound Then PlaySound mikeKickSnd
+					playDeathSnd(n)
 					zlives(nn)=zlives(nn)-1
 					killZ(nn)
 					Goto platDone
@@ -4698,7 +4693,7 @@ For nn=1 To zzamount
 				
 				If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then	;crushes player
 					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
-					If gamesound Then PlaySound mikeKickSnd
+					playDeathSnd(n)
 					zlives(nn)=zlives(nn)-1
 					killZ(nn)
 					Goto platDone
@@ -5182,7 +5177,7 @@ Case 52	;Bag
 If zVar1(n)=1 Then 	;If bag has energy limit
 	If zLife(n) < 0 Then
 		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-		If gamesound Then PlaySound mikeKickSnd
+		playDeathSnd(n)
 		zlives(n)=zlives(n)-1
 		killZ(n)
 	EndIf
@@ -6063,16 +6058,11 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 						If Not zBlock(targetPlayer) And shotSuper(projectile)=0 Then
 							zlife(targetPlayer)=zlife(targetPlayer)-shotdamage(projectile)
 							zDamage#(targetPlayer)=zDamage#(targetPlayer)+shotDamage(projectile)
-							If zStone(targetPlayer)=0 Then
-								If zface(targetPlayer)=2 Then
-									zFallDir(targetPlayer)=2
-								Else
-									zFallDir(targetPlayer)=4						
-								EndIf
-									zjump(targetPlayer)=0:zBouncedgnd(targetPlayer)=0:zhit(targetPlayer)=1
-									calcShot(targetPlayer, projectile)
-									zBlow(targetPlayer)=0:zBlowStill(targetPlayer)=0:zHitSeq(targetPlayer)=0
-							EndIf
+							
+							zjump(targetPlayer)=0:zBouncedgnd(targetPlayer)=0:zhit(targetPlayer)=1
+							calcShot(targetPlayer, projectile)
+							zBlow(targetPlayer)=0:zBlowStill(targetPlayer)=0:zHitSeq(targetPlayer)=0
+				
 							If shotHitTrail(projectile) > 0 Then zTrail(targetPlayer)=1:zTrailSeq(targetPlayer)=0:zTrailType(targetPlayer)=shotHitTrail(projectile)
 							If gameSound = 1 Then PlaySound shotsound(projectile)	
 							EndIf
@@ -6113,7 +6103,11 @@ Function drawFrozenState(unit)
 			If curGuy(unit) = 40 Then 
 				zani(unit)=0:zf(unit)=1
 			Else
-				zani(unit)=0:zf(unit)=0
+				If zpic(curguy(unit),0,2) <> 0 And zpic_(curguy(unit),0,2) <> 0 Then
+					zani(unit)=0:zf(unit)=2
+				Else
+					zani(unit)=0:zf(unit)=0
+				EndIf
 			EndIf
 		EndIf
 		If currentFreezeTime(unit) => endFreezeTime(unit) Then canGetTime(unit)=0:unFreeze(unit):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
@@ -6146,5 +6140,55 @@ Function drawRageEffect(player)
 	Else
 		ztopSpeed(player) = ztopSpeed(player) / wolvSpdFctr(player)
 		canGetRageTime(unit)=0
+	EndIf
+End Function
+
+;------------ Draw Walk Sequence ----------------
+Function drawWalkSequence(n)
+	Local frameSpeed=3
+	If zwalkseq(n) = 0 Then 
+		If zStanceFrames(n) <> 0 Then 
+			drawStanceSequence(n):Return
+		Else
+			zani(n)=1:zf(n)=0
+		EndIf
+		Return
+	EndIf
+	If zWalkFrames(n) <> 0 Then
+		For frame=zWalkFrames(n) To 1 Step -1
+			If (zwalkseq(n) / frameSpeed) Mod frame = 0 Then 
+				If zwalkseq(n) > (frame * 10) + 10 Then zwalkseq(n) = 1:Return
+				zani(n)=1:zf(n)=frame
+				Return
+			EndIf
+		Next
+	Else
+		If zwalkseq(n) > 40 Then zwalkseq(n)=1:Return
+		If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zani(n)=1:zf(n)=2:Return
+		If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zani(n)=1:zf(n)=3:Return
+		If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Return
+		If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Return
+	EndIf
+End Function
+
+;----------- Draw Stance Sequence --------------
+Function drawStanceSequence(n)
+	zStanceSeq(n) = zStanceSeq(n) + 1
+	Local frameSpeed=3
+	For frame=zStanceFrames(n) To 1 Step -1
+		If (zStanceSeq(n) / frameSpeed) Mod frame = 0 Then
+			If zStanceSeq(n) > (frame * 10) + 10 Then zStanceSeq(n) = 1:Return
+			zani(n)=19:zf(n)=frame
+			Return
+		EndIf			
+	Next
+End Function
+
+;----------- Play Death Sound -----------------
+Function playDeathSnd(n)
+	If deathSnd(curguy(n)) Then
+		If gamesound Then PlaySound deathSnd(curguy(n))
+	Else
+		If gamesound Then PlaySound mikeKickSnd
 	EndIf
 End Function

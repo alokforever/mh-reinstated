@@ -48,6 +48,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	zTrailType(n)=0
 	zHitByRect(nn)=0
 	zRollOnImpact(n)=0
+	zStanceFrames(n)=0
+	zWalkFrames(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -243,6 +245,8 @@ Case 11: ;Wolverine
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=jumpsnd
 	zJumpSnd2(n)=wolverinejumpsnd
+	zWalkFrames(n)=16
+	zStanceFrames(n)=17
 		
 Case 12: ;Sonya
 	zBlowDist(n,1)=60
@@ -1450,7 +1454,7 @@ Case 43 ;Sub Zero ice clone
 	shotheight(n)=58
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
-	shotHitMode(n)=6
+	shotHitMode(n)=3
 	shotFallTime(n)=0
 	shotHitXspeed(n)=0
 	shotHitYspeed(n)=0
@@ -2769,33 +2773,21 @@ zpic(n,0,0)=LoadImage(gfxStuffDir$ + "frozen.bmp")
 zpic_(n,0,0)=LoadImage(gfxStuffDir$ + "frozen_.bmp")
 zpic(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small.bmp")
 zpic_(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small_.bmp")
-zpic(n,1,0)=LoadImage(gfxdir$ + "zwalk0.bmp")
-zpic(n,1,1)=LoadImage(gfxdir$ + "zwalk1.bmp")
-zpic(n,1,2)=LoadImage(gfxdir$ + "zwalk2.bmp")
-zpic(n,1,3)=LoadImage(gfxdir$ + "zwalk3.bmp")
+zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
+zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
 
-zpic_(n,1,0)=LoadImage(gfxdir$ + "zwalk0_.bmp")
-zpic_(n,1,1)=LoadImage(gfxdir$ + "zwalk1_.bmp")
-zpic_(n,1,2)=LoadImage(gfxdir$ + "zwalk2_.bmp")
-zpic_(n,1,3)=LoadImage(gfxdir$ + "zwalk3_.bmp")
+For i=0 To 20
+	zpic(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + ".bmp")
+	zpic_(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + "_.bmp")
+Next
 
 zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
-zpic(n,2,1)=LoadImage(gfxdir$ + "zfalling1.bmp")
-zpic(n,2,2)=LoadImage(gfxdir$ + "zfalling2.bmp")
-zpic(n,2,3)=LoadImage(gfxdir$ + "zfalling3.bmp")
-zpic(n,2,4)=LoadImage(gfxdir$ + "zfalling4.bmp")
-zpic(n,2,5)=LoadImage(gfxdir$ + "zfalling5.bmp")
-zpic(n,2,6)=LoadImage(gfxdir$ + "zfalling6.bmp")
-zpic(n,2,7)=LoadImage(gfxdir$ + "zfalling7.bmp")
-
 zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
-zpic_(n,2,1)=LoadImage(gfxdir$ + "zfalling1_.bmp")
-zpic_(n,2,2)=LoadImage(gfxdir$ + "zfalling2_.bmp")
-zpic_(n,2,3)=LoadImage(gfxdir$ + "zfalling3_.bmp")
-zpic_(n,2,4)=LoadImage(gfxdir$ + "zfalling4_.bmp")
-zpic_(n,2,5)=LoadImage(gfxdir$ + "zfalling5_.bmp")
-zpic_(n,2,6)=LoadImage(gfxdir$ + "zfalling6_.bmp")
-zpic_(n,2,7)=LoadImage(gfxdir$ + "zfalling7_.bmp")
+
+For i=1 To 7
+	zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
+	zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
+Next
 
 zpic(n,3,1)=LoadImage(gfxdir$ + "zduck.bmp")
 zpic_(n,3,1)=LoadImage(gfxdir$ + "zduck_.bmp")
@@ -2805,149 +2797,50 @@ zpic(n,4,2)=LoadImage(gfxdir$ + "zair2.bmp")
 zPic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
 zPic_(n,4,2)=LoadImage(gfxdir$ + "zair2_.bmp")
 
-zpic(n,5,1)=LoadImage(gfxdir$ + "zFlip1.bmp")
-zpic(n,5,2)=LoadImage(gfxdir$ + "zFlip2.bmp")
-zpic(n,5,3)=LoadImage(gfxdir$ + "zFlip3.bmp")
-zpic(n,5,4)=LoadImage(gfxdir$ + "zFlip4.bmp")
-zpic(n,5,5)=LoadImage(gfxdir$ + "zflip5.bmp")
-zpic(n,5,6)=LoadImage(gfxdir$ + "zflip5.bmp")
-zpic_(n,5,1)=LoadImage(gfxdir$ + "zFlip1_.bmp")
-zpic_(n,5,2)=LoadImage(gfxdir$ + "zFlip2_.bmp")
-zpic_(n,5,3)=LoadImage(gfxdir$ + "zFlip3_.bmp")
-zpic_(n,5,4)=LoadImage(gfxdir$ + "zFlip4_.bmp")
-zpic_(n,5,5)=LoadImage(gfxdir$ + "zflip5_.bmp")
-zpic_(n,5,6)=LoadImage(gfxdir$ + "zflip6.bmp")
+For i=1 To 6
+	zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")
+	zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
+Next
 
-zpic(n,6,1)=LoadImage(gfxdir$ + "zblow1.bmp")
-zpic(n,6,2)=LoadImage(gfxdir$ + "zblow2.bmp")
-zpic(n,6,3)=LoadImage(gfxdir$ + "zblow3.bmp")
-zpic(n,6,4)=LoadImage(gfxdir$ + "zblow4.bmp")
-zpic(n,6,5)=LoadImage(gfxdir$ + "zblow5.bmp")
-zpic(n,6,6)=LoadImage(gfxdir$ + "zblow6.bmp")
-zpic(n,6,7)=LoadImage(gfxdir$ + "zblow7.bmp")
-zpic(n,6,8)=LoadImage(gfxdir$ + "zblow8.bmp")
-zpic_(n,6,1)=LoadImage(gfxdir$ + "zblow1_.bmp")
-zpic_(n,6,2)=LoadImage(gfxdir$ + "zblow2_.bmp")
-zpic_(n,6,3)=LoadImage(gfxdir$ + "zblow3_.bmp")
-zpic_(n,6,4)=LoadImage(gfxdir$ + "zblow4_.bmp")
-zpic_(n,6,5)=LoadImage(gfxdir$ + "zblow5_.bmp")
-zpic_(n,6,6)=LoadImage(gfxdir$ + "zblow6_.bmp")
-zpic_(n,6,7)=LoadImage(gfxdir$ + "zblow7_.bmp")
-zpic_(n,6,8)=LoadImage(gfxdir$ + "zblow8_.bmp")
+For i=1 To 8
+	zpic(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + ".bmp")
+	zpic_(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + "_.bmp")
+Next
 
-zpic(n,7,1)=LoadImage(gfxdir$ + "zuspecial1.bmp")
-zpic(n,7,2)=LoadImage(gfxdir$ + "zuspecial2.bmp")
-zpic(n,7,3)=LoadImage(gfxdir$ + "zuspecial3.bmp")
-zpic(n,7,4)=LoadImage(gfxdir$ + "zuspecial4.bmp")
-zpic(n,7,5)=LoadImage(gfxdir$ + "zuspecial5.bmp")
-zpic(n,7,6)=LoadImage(gfxdir$ + "zuspecial6.bmp")
-zpic(n,7,7)=LoadImage(gfxdir$ + "zuspecial7.bmp")
-zpic(n,7,8)=LoadImage(gfxdir$ + "zuspecial8.bmp")
-zpic(n,7,9)=LoadImage(gfxdir$ + "zuspecial9.bmp")
-zpic_(n,7,1)=LoadImage(gfxdir$ + "zuspecial1_.bmp")
-zpic_(n,7,2)=LoadImage(gfxdir$ + "zuspecial2_.bmp")
-zpic_(n,7,3)=LoadImage(gfxdir$ + "zuspecial3_.bmp")
-zpic_(n,7,4)=LoadImage(gfxdir$ + "zuspecial4_.bmp")
-zpic_(n,7,5)=LoadImage(gfxdir$ + "zuspecial5_.bmp")
-zpic_(n,7,6)=LoadImage(gfxdir$ + "zuspecial6_.bmp")
-zpic_(n,7,7)=LoadImage(gfxdir$ + "zuspecial7_.bmp")
-zpic_(n,7,8)=LoadImage(gfxdir$ + "zuspecial8_.bmp")
-zpic_(n,7,9)=LoadImage(gfxdir$ + "zuspecial9_.bmp")
+For i=1 To 9
+	zpic(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + ".bmp")
+	zpic_(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + "_.bmp")
+Next
 
-zpic(n,8,1)=LoadImage(gfxdir$ + "zflykick1.bmp")
-zpic(n,8,2)=LoadImage(gfxdir$ + "zflykick2.bmp")
-zpic(n,8,3)=LoadImage(gfxdir$ + "zflykick3.bmp")
-zpic(n,8,4)=LoadImage(gfxdir$ + "zflykick4.bmp")
-zpic(n,8,5)=LoadImage(gfxdir$ + "zflykick5.bmp")
-zpic(n,8,6)=LoadImage(gfxdir$ + "zflykick6.bmp")
-zpic(n,8,7)=LoadImage(gfxdir$ + "zflykick7.bmp")
-zpic(n,8,8)=LoadImage(gfxdir$ + "zflykick8.bmp")
-zpic(n,8,9)=LoadImage(gfxdir$ + "zflykick9.bmp")
-zpic(n,8,10)=LoadImage(gfxdir$ + "zflykick10.bmp")
-zpic(n,8,11)=LoadImage(gfxdir$ + "zflykick11.bmp")
-zpic(n,8,12)=LoadImage(gfxdir$ + "zflykick12.bmp")
-zpic(n,8,13)=LoadImage(gfxdir$ + "zflykick13.bmp")
+For i=1 To 13
+	zpic(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + ".bmp")
+	zpic_(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + "_.bmp")
+Next
 
-zpic_(n,8,1)=LoadImage(gfxdir$ + "zflykick1_.bmp")
-zpic_(n,8,2)=LoadImage(gfxdir$ + "zflykick2_.bmp")
-zpic_(n,8,3)=LoadImage(gfxdir$ + "zflykick3_.bmp")
-zpic_(n,8,4)=LoadImage(gfxdir$ + "zflykick4_.bmp")
-zpic_(n,8,5)=LoadImage(gfxdir$ + "zflykick5_.bmp")
-zpic_(n,8,6)=LoadImage(gfxdir$ + "zflykick6_.bmp")
-zpic_(n,8,7)=LoadImage(gfxdir$ + "zflykick7_.bmp")
-zpic_(n,8,8)=LoadImage(gfxdir$ + "zflykick8_.bmp")
-zpic_(n,8,9)=LoadImage(gfxdir$ + "zflykick9_.bmp")
-zpic_(n,8,10)=LoadImage(gfxdir$ + "zflykick10_.bmp")
-zpic_(n,8,11)=LoadImage(gfxdir$ + "zflykick11_.bmp")
-zpic_(n,8,12)=LoadImage(gfxdir$ + "zflykick12_.bmp")
-zpic_(n,8,13)=LoadImage(gfxdir$ + "zflykick13_.bmp")
+For i=1 To 9
+	zpic(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + ".bmp")
+	zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
+Next
 
-zpic(n,9,1)=LoadImage(gfxdir$ + "zlowkick1.bmp")
-zpic(n,9,2)=LoadImage(gfxdir$ + "zlowkick2.bmp")
-zpic(n,9,3)=LoadImage(gfxdir$ + "zlowkick3.bmp")
-zpic(n,9,4)=LoadImage(gfxdir$ + "zlowkick4.bmp")
-zpic(n,9,5)=LoadImage(gfxdir$ + "zlowkick5.bmp")
-zpic(n,9,6)=LoadImage(gfxdir$ + "zlowkick6.bmp")
-zpic(n,9,7)=LoadImage(gfxdir$ + "zlowkick7.bmp")
-zpic(n,9,8)=LoadImage(gfxdir$ + "zlowkick8.bmp")
-zpic(n,9,9)=LoadImage(gfxdir$ + "zlowkick9.bmp")
-zpic_(n,9,1)=LoadImage(gfxdir$ + "zlowkick1_.bmp")
-zpic_(n,9,2)=LoadImage(gfxdir$ + "zlowkick2_.bmp")
-zpic_(n,9,3)=LoadImage(gfxdir$ + "zlowkick3_.bmp")
-zpic_(n,9,4)=LoadImage(gfxdir$ + "zlowkick4_.bmp")
-zpic_(n,9,5)=LoadImage(gfxdir$ + "zlowkick5_.bmp")
-zpic_(n,9,6)=LoadImage(gfxdir$ + "zlowkick6_.bmp")
-zpic_(n,9,7)=LoadImage(gfxdir$ + "zlowkick7_.bmp")
-zpic_(n,9,8)=LoadImage(gfxdir$ + "zlowkick8_.bmp")
-zpic_(n,9,9)=LoadImage(gfxdir$ + "zlowkick9_.bmp")
+For i=1 To 8
+	zpic(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + ".bmp")
+	zpic_(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + "_.bmp")
+Next
 
-zpic(n,10,1)=LoadImage(gfxdir$ + "zspecial1.bmp")
-zpic(n,10,2)=LoadImage(gfxdir$ + "zspecial2.bmp")
-zpic(n,10,3)=LoadImage(gfxdir$ + "zspecial3.bmp")
-zpic(n,10,4)=LoadImage(gfxdir$ + "zspecial4.bmp")
-zpic(n,10,5)=LoadImage(gfxdir$ + "zspecial5.bmp")
-zpic(n,10,6)=LoadImage(gfxdir$ + "zspecial6.bmp")
-zpic(n,10,7)=LoadImage(gfxdir$ + "zspecial7.bmp")
-zpic(n,10,8)=LoadImage(gfxdir$ + "zspecial8.bmp")
-zpic_(n,10,1)=LoadImage(gfxdir$ + "zspecial1_.bmp")
-zpic_(n,10,2)=LoadImage(gfxdir$ + "zspecial2_.bmp")
-zpic_(n,10,3)=LoadImage(gfxdir$ + "zspecial3_.bmp")
-zpic_(n,10,4)=LoadImage(gfxdir$ + "zspecial4_.bmp")
-zpic_(n,10,5)=LoadImage(gfxdir$ + "zspecial5_.bmp")
-zpic_(n,10,6)=LoadImage(gfxdir$ + "zspecial6_.bmp")
-zpic_(n,10,7)=LoadImage(gfxdir$ + "zspecial7_.bmp")
-zpic_(n,10,8)=LoadImage(gfxdir$ + "zspecial8_.bmp")
+For i=1 To 2
+	zpic(n,11,i)=LoadImage(gfxdir$ + "zshot" + i + ".bmp")
+	zpic_(n,11,i)=LoadImage(gfxdir$ + "zshot" + i + "_.bmp")
+Next
 
-zpic(n,11,1)=LoadImage(gfxdir$ + "zshot1.bmp")
-zpic(n,11,2)=LoadImage(gfxdir$ + "zshot2.bmp")
-zpic_(n,11,1)=LoadImage(gfxdir$ + "zshot1_.bmp")
-zpic_(n,11,2)=LoadImage(gfxdir$ + "zshot2_.bmp")
+For i=1 To 9
+	zpic(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + ".bmp")
+	zpic_(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + "_.bmp")
+Next
 
-zpic(n,12,1)=LoadImage(gfxdir$ + "zDspecial1.bmp")
-zpic(n,12,2)=LoadImage(gfxdir$ + "zDspecial2.bmp")
-zpic(n,12,3)=LoadImage(gfxdir$ + "zDspecial3.bmp")
-zpic(n,12,4)=LoadImage(gfxdir$ + "zDspecial4.bmp")
-zpic(n,12,5)=LoadImage(gfxdir$ + "zDspecial5.bmp")
-zpic(n,12,6)=LoadImage(gfxdir$ + "zDspecial6.bmp")
-zpic(n,12,7)=LoadImage(gfxdir$ + "zDspecial7.bmp")
-zpic(n,12,8)=LoadImage(gfxdir$ + "zDspecial8.bmp")
-zpic(n,12,9)=LoadImage(gfxdir$ + "zDspecial9.bmp")
-zpic_(n,12,1)=LoadImage(gfxdir$ + "zDspecial1_.bmp")
-zpic_(n,12,2)=LoadImage(gfxdir$ + "zDspecial2_.bmp")
-zpic_(n,12,3)=LoadImage(gfxdir$ + "zDspecial3_.bmp")
-zpic_(n,12,4)=LoadImage(gfxdir$ + "zDspecial4_.bmp")
-zpic_(n,12,5)=LoadImage(gfxdir$ + "zDspecial5_.bmp")
-zpic_(n,12,6)=LoadImage(gfxdir$ + "zDspecial6_.bmp")
-zpic_(n,12,7)=LoadImage(gfxdir$ + "zDspecial7_.bmp")
-zpic_(n,12,8)=LoadImage(gfxdir$ + "zDspecial8_.bmp")
-zpic_(n,12,9)=LoadImage(gfxdir$ + "zDspecial9_.bmp")
-
-zpic(n,13,1)=LoadImage(gfxdir$ + "zblock1.bmp")
-zpic(n,13,2)=LoadImage(gfxdir$ + "zblock2.bmp")
-zpic(n,13,3)=LoadImage(gfxdir$ + "zblock3.bmp")
-zpic_(n,13,1)=LoadImage(gfxdir$ + "zblock1_.bmp")
-zpic_(n,13,2)=LoadImage(gfxdir$ + "zblock2_.bmp")
-zpic_(n,13,3)=LoadImage(gfxdir$ + "zblock3_.bmp")
+For i=1 To 3
+	zpic(n,13,i)=LoadImage(gfxdir$ + "zblock" + i + ".bmp")
+	zpic_(n,13,i)=LoadImage(gfxdir$ + "zblock" + i + "_.bmp")
+Next
 
 For counter = 1 To 8
 	zpic(n,14,counter)=LoadImage(gfxdir$ + "zupblow" + counter + ".bmp")
@@ -2972,6 +2865,11 @@ Next
 For counter = 1 To 40
 	zpic(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + ".bmp")
 	zpic_(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + "_.bmp")
+Next
+
+For counter = 1 To 20
+	zpic(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + ".bmp")
+	zpic_(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + "_.bmp")
 Next
 
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
@@ -3050,24 +2948,25 @@ If n=42 Then	;Joker
 EndIf
 
 If n=14 Then ;SubZero
-	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subAir.wav")
-	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subFreeze1.wav")
-	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subFreeze2.wav")
-	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subFreeze3.wav")
-	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subHit.wav")
-	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subIceBlast.wav")
-	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subKick.wav")
-	If subZeroLaughSnd=0 Then subZeroLaughSnd=LoadSound(soundsdir$ + "subLaugh.wav")
-	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subPunch.wav")
-	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subPunch2.wav")
-	If subZeroSuperSnd=0 Then subZeroSuperSnd=LoadSound(soundsdir$ + "subSuper.wav")
-	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subThrow.wav")
-	If subZeroExcellentSnd=0 Then subZeroExcellentSnd=LoadSound(soundsdir$ + "subExcellent.wav")
-	If subZeroOutstandingSnd=0 Then subZeroOutstandingSnd=LoadSound(soundsdir$ + "subOutstanding.wav")
-	If subZeroSuperbSnd=0 Then subZeroSuperbSnd=LoadSound(soundsdir$ + "subSuperb.wav")
-	If subZeroStrongHitSnd=0 Then subZeroStrongHitSnd=LoadSound(soundsdir$ + "subStrongHit.wav")
-	If subZeroWelldoneSnd=0 Then subZeroWelldoneSnd=LoadSound(soundsdir$ + "subWelldone.wav")
-	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subWind.wav")
+	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subzero\subAir.wav")
+	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subzero\subFreeze1.wav")
+	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subzero\subFreeze2.wav")
+	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subzero\subFreeze3.wav")
+	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subzero\subHit.wav")
+	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subzero\subIceBlast.wav")
+	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subzero\subKick.wav")
+	If subZeroLaughSnd=0 Then subZeroLaughSnd=LoadSound(soundsdir$ + "subzero\subLaugh.wav")
+	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.wav")
+	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subzero\subPunch2.wav")
+	If subZeroSuperSnd=0 Then subZeroSuperSnd=LoadSound(soundsdir$ + "subzero\subSuper.wav")
+	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.wav")
+	If subZeroExcellentSnd=0 Then subZeroExcellentSnd=LoadSound(soundsdir$ + "subzero\subExcellent.wav")
+	If subZeroOutstandingSnd=0 Then subZeroOutstandingSnd=LoadSound(soundsdir$ + "subzero\subOutstanding.wav")
+	If subZeroSuperbSnd=0 Then subZeroSuperbSnd=LoadSound(soundsdir$ + "subzero\subSuperb.wav")
+	If subZeroStrongHitSnd=0 Then subZeroStrongHitSnd=LoadSound(soundsdir$ + "subzero\subStrongHit.wav")
+	If subZeroWelldoneSnd=0 Then subZeroWelldoneSnd=LoadSound(soundsdir$ + "subzero\subWelldone.wav")
+	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subzero\subWind.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.wav")	
 EndIf
 
 If n=13 Then	;Broly
@@ -3092,34 +2991,36 @@ If n=13 Then	;Broly
 EndIf
 
 If n=12 Then
-    If sonyaSnd=0 Then sonyaSnd=LoadSound(soundsdir$ + "sonya-2.wav")
-    If sonyaBallsnd=0 Then sonyaBallsnd=LoadSound(soundsdir$ + "sonya.wav")
-    If sonyaSpinsnd=0 Then sonyaSpinsnd=LoadSound(soundsdir$ + "sonya-1.wav")
-	If sonyaUppersnd=0 Then sonyaUppersnd=LoadSound(soundsdir$ + "sonya-3.wav");
-	If sonyaFlamesnd=0 Then sonyaFlameSnd=LoadSound(soundsdir$ + "sonya-4.wav");
-	If sonyaFlameHitSnd=0 Then sonyaFlameHitSnd=LoadSound(soundsdir$ + "sonyaFlameHit.wav");
-	If sonyaBreathSnd=0 Then sonyaBreathSnd=LoadSound(soundsdir$ + "sonya-5.wav");
+    If sonyaSnd=0 Then sonyaSnd=LoadSound(soundsdir$ + "sonya\sonya-2.wav")
+    If sonyaBallsnd=0 Then sonyaBallsnd=LoadSound(soundsdir$ + "sonya\sonya.wav")
+    If sonyaSpinsnd=0 Then sonyaSpinsnd=LoadSound(soundsdir$ + "sonya\sonya-1.wav")
+	If sonyaUppersnd=0 Then sonyaUppersnd=LoadSound(soundsdir$ + "sonya\sonya-3.wav")
+	If sonyaFlamesnd=0 Then sonyaFlameSnd=LoadSound(soundsdir$ + "sonya\sonya-4.wav")
+	If sonyaFlameHitSnd=0 Then sonyaFlameHitSnd=LoadSound(soundsdir$ + "sonya\sonyaFlameHit.wav")
+	If sonyaBreathSnd=0 Then sonyaBreathSnd=LoadSound(soundsdir$ + "sonya\sonya-5.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "sonya\sonyaDie.wav")
 EndIf
 
 If n=11 Then
-    If wolverineJumpSnd=0 Then wolverineJumpSnd=LoadSound(soundsdir$ + "wolverinejump.wav")
-	If wolverineBarrageSnd=0 Then wolverineBarrageSnd=LoadSound(soundsdir$ + "berserker_barrage.wav")
-	If wolverineSlashSnd=0 Then wolverineSlashSnd=LoadSound(soundsdir$ + "wolverine_slash1.wav")
-	If wolverineSlash2Snd=0 Then wolverineSlash2Snd=LoadSound(soundsdir$ + "wolverine_slash2.wav")
-	If wolverineSlash3Snd=0 Then wolverineSlash3Snd=LoadSound(soundsdir$ + "wolverine_slash3.wav")
-	If wolverineSlash4Snd=0 Then wolverineSlash4Snd=LoadSound(soundsdir$ + "wolverine_slash4.wav")
-	If wolverineTornadoClawSnd=0 Then wolverineTornadoClawSnd=LoadSound(soundsdir$ + "wolverineTornadoClaw.wav")
-	If wolverineShoutSnd=0 Then wolverineShoutSnd=LoadSound(soundsdir$ + "wolverineShout.wav")
-	If wolverineShout2Snd=0 Then wolverineShout2Snd=LoadSound(soundsdir$ + "wolverineShout2.wav")
-	If wolverineShout3Snd=0 Then wolverineShout3Snd=LoadSound(soundsdir$ + "wolverineShout3.wav")
-	If wolverineShout4Snd=0 Then wolverineShout4Snd=LoadSound(soundsdir$ + "wolverineShout4.wav")
-	If wolverineKickSnd=0 Then wolverineKickSnd=LoadSound(soundsdir$ + "wolverineKick.wav")
-	If wolverineSuper1Snd=0 Then wolverineSuper1Snd=LoadSound(soundsdir$ + "wolverineSuper1.wav")
-	If wolverineSuper2Snd=0 Then wolverineSuper2Snd=LoadSound(soundsdir$ + "wolverineSuper2.wav")
-	If wolverineGrabSnd=0 Then wolverineGrabSnd=LoadSound(soundsdir$ + "wolverineGrab.wav")
-	If wolverineDrillClawSnd=0 Then wolverineDrillClawSnd=LoadSound(soundsdir$ + "wolverineDrillClaw.wav")
-	If wolverineDrillClawHitSnd=0 Then wolverineDrillClawHitSnd=LoadSound(soundsdir$ + "wolverineDrillClawHit.wav")
-	If wolverineClawSnd=0 Then wolverineClawSnd=LoadSound(soundsdir$ + "wolverineClaw.wav")
+    If wolverineJumpSnd=0 Then wolverineJumpSnd=LoadSound(soundsdir$ + "wolverine\wolverinejump.wav")
+	If wolverineBarrageSnd=0 Then wolverineBarrageSnd=LoadSound(soundsdir$ + "wolverine\berserker_barrage.wav")
+	If wolverineSlashSnd=0 Then wolverineSlashSnd=LoadSound(soundsdir$ + "wolverine\wolverine_slash1.wav")
+	If wolverineSlash2Snd=0 Then wolverineSlash2Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash2.wav")
+	If wolverineSlash3Snd=0 Then wolverineSlash3Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash3.wav")
+	If wolverineSlash4Snd=0 Then wolverineSlash4Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash4.wav")
+	If wolverineTornadoClawSnd=0 Then wolverineTornadoClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineTornadoClaw.wav")
+	If wolverineShoutSnd=0 Then wolverineShoutSnd=LoadSound(soundsdir$ + "wolverine\wolverineShout.wav")
+	If wolverineShout2Snd=0 Then wolverineShout2Snd=LoadSound(soundsdir$ + "wolverine\wolverineShout2.wav")
+	If wolverineShout3Snd=0 Then wolverineShout3Snd=LoadSound(soundsdir$ + "wolverine\wolverineShout3.wav")
+	If wolverineShout4Snd=0 Then wolverineShout4Snd=LoadSound(soundsdir$ + "wolverine\wolverineShout4.wav")
+	If wolverineKickSnd=0 Then wolverineKickSnd=LoadSound(soundsdir$ + "wolverine\wolverineKick.wav")
+	If wolverineSuper1Snd=0 Then wolverineSuper1Snd=LoadSound(soundsdir$ + "wolverine\wolverineSuper1.wav")
+	If wolverineSuper2Snd=0 Then wolverineSuper2Snd=LoadSound(soundsdir$ + "wolverine\wolverineSuper2.wav")
+	If wolverineGrabSnd=0 Then wolverineGrabSnd=LoadSound(soundsdir$ + "wolverine\wolverineGrab.wav")
+	If wolverineDrillClawSnd=0 Then wolverineDrillClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineDrillClaw.wav")
+	If wolverineDrillClawHitSnd=0 Then wolverineDrillClawHitSnd=LoadSound(soundsdir$ + "wolverine\wolverineDrillClawHit.wav")
+	If wolverineClawSnd=0 Then wolverineClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineClaw.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wolverine\wolverineDie.wav")
 EndIf
 
 If n=10 Then ;Ritcher
