@@ -18,8 +18,8 @@ ground freeze remake
  
 2. wolverine: 
 reuse old blade sound - DONE (3/12/17)
-fix tornado claw hitboxes
-fix normal attack
+fix tornado claw hitboxes - DONE (3/14/17)
+fix normal attack - DONE (3/14/17)
 fix grab
 add super special #3
 down + slide attack

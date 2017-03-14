@@ -185,8 +185,8 @@ Case 14	;Super Special
 
 
 Case 1	;High Claw
-	a=5/wolvSpdFctr(n):b=10/wolvSpdFctr(n):c=15/wolvSpdFctr(n):d=22/wolvSpdFctr(n):e=27/wolvSpdFctr(n)
-	:f=32/wolvSpdFctr(n):g=37/wolvSpdFctr(n):h=42/wolvSpdFctr(n):i=47/wolvSpdFctr(n)
+	a=6/wolvSpdFctr(n):b=12/wolvSpdFctr(n):c=18/wolvSpdFctr(n):d=24/wolvSpdFctr(n):e=27/wolvSpdFctr(n)
+	:f=30/wolvSpdFctr(n):g=34/wolvSpdFctr(n):h=40/wolvSpdFctr(n):i=45/wolvSpdFctr(n)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	If zBlowSeq(n) = c Then If gameSound Then PlaySound wolverineShout2Snd
@@ -206,8 +206,8 @@ Case 1	;High Claw
 	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=12:zf(n)=4
 	If zBlowSeq(n) => d And zBlowSeq(n) < e Then zani(n)=12:zf(n)=5
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=12:zf(n)=6
-	If zBlowSeq(n) = f-1 And gameSound Then PlaySound wolverineShout2Snd
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then 
+		If zBlowSeq(n) = f And gameSound Then PlaySound wolverineShout2Snd
 		zblowPamount(n)=3
 		nn=1
 		xblow(n,nn)=0: yblow(n,nn)=36:wblow(n,nn)=52:hblow(n,nn)=5:nn=nn+1
