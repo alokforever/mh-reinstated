@@ -569,6 +569,12 @@ If clickedBut(n) Then
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
 	Case 14
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
+	Case 15
+		If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
+	Case 16
+		If characterOpen(n)=1 Then curGuy(clickedBy(n))=16:zThumbNail(clickedBy(n))=butpic(n)
+	Case 17
+		If characterOpen(n)=1 Then curGuy(clickedBy(n))=17:zThumbNail(clickedBy(n))=butpic(n)
 	
 	Case 50 ;Select game mode on vs
 		gamemode=gamemode+1
@@ -1062,8 +1068,8 @@ If clickedBut(n) Then
        	   EndIf
 		   
 	Case 5:menuOption=4
-	Case 6:If curIdiom=1 Then curIdiom=2 Else curIdiom=1
-			idioms(curIdiom)
+	Case 6:If curIdiom=1 Then curIdiom=2 Else If curIdiom=2 Then curIdiom=3 	Else If curIdiom=3 Then curIdiom=1
+		idioms(curIdiom)
 	Case 7:
 		If duringGameMenu=1 Then menuOption=5 Else menuOption=2
   End Select
@@ -1410,6 +1416,114 @@ strInfo$(95)="segredos encontrados: "
 
 strInfo$(96)="itens: sim"
 strInfo$(97)="itens: N?O"
+
+Case 3
+;Spanish
+StrInfo $ (1) = "INICIAR EL JUEGO!"
+StrInfo $ (2) = "DAÑO ALIADO = ACTIVADO"
+StrInfo $ (3) = "DAÑO ALIADO = DESACTIVADO"
+StrInfo $ (4) = "SONIDO = ACTIVADO"
+StrInfo $ (5) = "SONIDO = DESACTIVADO"
+StrInfo $ (6) = "DEATH MATCH"
+StrInfo $ (7) = "CAPTURA LA BANDERA"
+StrInfo $ (8) = "MANTENGA LA BANDERA"
+StrInfo $ (9) = "GOLPEA EL OBJETIVO"
+StrInfo $ (10) = "TIEMPO:"
+StrInfo $ (11) = "PUNTUACIÓN:"
+StrInfo $ (12) = "JUGADOR"
+StrInfo $ (13) = "¡HAS GANADO!"
+StrInfo $ (14) = "MODO AVENTURA"
+StrInfo $ (15) = "OPCIONES"
+StrInfo $ (16) = "IDIOMA"
+StrInfo $ (17) = "MODO DE JUEGO:"
+StrInfo $ (18) = "VIDEO"
+StrInfo $ (19) = "PANTALLA COMPLETA"
+StrInfo $ (20) = "MODO VENTANA"
+StrInfo $ (21) = "MODO VS"
+StrInfo $ (22) = "S E L E C C I Ó N DE E S C E N A R I O"
+StrInfo $ (23) = "C A R G A N D O ..."
+StrInfo $ (24) = "¡EL EQUIPO ROJO GANO!"
+StrInfo $ (25) = "¡EL EQUIPO VERDE GANO!"
+StrInfo $ (26) = "ROJO"
+StrInfo $ (27) = "VERDE"
+StrInfo $ (28) = "¡EQUIPO: GANO!"
+StrInfo $ (29) = "VIDAS:"
+StrInfo $ (30) = "EQUIPO: NINGUNO"
+StrInfo $ (31) = "EQUIPO:"
+StrInfo $ (32) = "NIVEL:"
+StrInfo $ (33) = "Todos los jugadores DEBEN tener un EQUIPO."
+StrInfo $ (34) = "¡JUEGO EMPATADO!"
+StrInfo $ (35) = "ÁREAS SECRETAS:"
+StrInfo $ (36) = "¡ETAPA COMPLETADA!"
+StrInfo $ (37) = "PRESIONE CUALQUIER TECLA"
+StrInfo $ (38) = "GOLPES RECIBIDOS:"
+StrInfo $ (39) = "¡INTOCABLE!"
+StrInfo $ (40) = "CREDITOS"
+StrInfo $ (41) = "ACTIVADO"
+StrInfo $ (42) = "DESACTIVADO"
+StrInfo $ (43) = "16 BITS"
+StrInfo $ (44) = "32 BITS"
+StrInfo $ (45) = "SFX"
+StrInfo $ (46) = "MUSICA"
+StrInfo $ (47) = "ESPANOL"
+StrInfo $ (48) = "ATRAS"
+StrInfo $ (49) = "CONTROLES"
+StrInfo $ (50) = "SALIR"
+StrInfo $ (51) = "ARRIBA"
+StrInfo $ (52) = "ABAJO"
+StrInfo $ (53) = "IZQUIERDA"
+StrInfo $ (54) = "DERECHA"
+StrInfo $ (55) = "ATAQUE"
+StrInfo $ (56) = "ESPECIAL"
+StrInfo $ (57) = "SALTO"
+StrInfo $ (58) = "BLOQUEAR"
+StrInfo $ (59) = "LANZAR"
+StrInfo $ (60) = "CONFIG."
+StrInfo $ (61) = "¡NUEVO PERSONAJE DESBLOQUEADO!"
+StrInfo $ (62) = "¡NUEVO ESCENARIO VS. DESBLOQUEADO!"
+StrInfo $ (63) = "CONTINUAR"
+StrInfo $ (64) = "MENÚ PRINCIPAL"
+StrInfo $ (65) = "SALIR DEL JUEGO"
+StrInfo $ (66) = "DEBE REINICIAR PARA TOMAR EFECTO"
+
+StrInfo $ (67) = "Presione saltar mientras"
+StrInfo $ (68) = "esta en el aire para un salto doble."
+StrInfo $ (69) = "Presione arriba + especial"
+StrInfo $ (70) = "mientras esta en el aire"
+StrInfo $ (71) = "para subir aún mas."
+
+StrInfo $ (72) = "Presione atacar o especial para"
+StrInfo $ (73) = "luchar, puede usar combinaciones"
+StrInfo $ (74) = "presionando hacia arriba o"
+StrInfo $ (75) = "hacia abajo. Ej.: abajo + especial."
+
+StrInfo $ (76) = "Colóquese cerca del interruptor"
+StrInfo $ (77) = "y presione arriba para activarlo."
+StrInfo $ (78) = "Acérquese a un objeto y"
+StrInfo $ (79) = "presione atacar para recogerlo."
+StrInfo $ (80) = "luego presiona lanzar o atacar"
+StrInfo $ (81) = "para lanzarlo."
+
+StrInfo $ (82) = "Para bajar de las plataformas"
+StrInfo $ (83) = "presione abajo + saltar"
+StrInfo $ (84) = "al estar de pie sobre ellas."
+
+
+StrInfo $ (85) = "puede lanzar objetos en"
+StrInfo $ (86) = "diferentes direcciones, incluso"
+StrInfo $ (87) = "en diagonal, simplemente mantenga"
+StrInfo $ (88) = "la dirección en la que desea lanzar"
+StrInfo $ (89) = "y pulse atacar"
+
+StrInfo $ (90) = "Cuando la barra roja en la parte superior"
+StrInfo $ (91) = "de la pantalla se vuelve verde,"
+StrInfo $ (92) = "puedes usar un súper movimiento"
+StrInfo $ (93) = "pulsando bloquear + especial."
+StrInfo $ (94) = "No hay especial aéreo."
+StrInfo $ (95) = "secretos encontrados:"
+
+StrInfo $ (96) = "Objetos: sí"
+StrInfo $ (97) = "Objetos: no"
 
 End Select
 
