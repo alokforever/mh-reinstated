@@ -7,7 +7,7 @@ stance animation - DONE (3/12/17)
 walk animation - DONE (3/12/17)
 cooldown for some character's moves (sub zero freeze ground, wolverine special)
 item pickup positioning
-death sound in adventure mode
+death sound in adventure mode - DONE (3/12/17)
 custom frozen sprites - DONE (3/12/17)
 
 character-specific:
@@ -19,8 +19,6 @@ ground freeze remake
 2. wolverine: 
 reuse old blade sound - DONE (3/12/17)
 fix tornado claw hitboxes
-fix berserker barrage hitboxes
-fix roll
 fix normal attack
 fix grab
 add super special #3

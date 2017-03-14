@@ -392,7 +392,7 @@ Case 9	;spinning kick
 	If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=12:zf(n)=5
 	If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=12:zf(n)=6:moveX(n,zBlowdir(n),1)
 	If zblowseq(n) => f Then zblowseq(n)=b:zblowseq2(n)=zblowseq2(n)+1
-		
+	
 		If zf(n)=3 Then
 		zblowpamount(n)=2
 		xblow(n,1)=-4: yblow(n,1)=30:wblow(n,1)=32:hblow(n,1)=1
