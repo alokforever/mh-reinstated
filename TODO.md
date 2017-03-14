@@ -14,13 +14,14 @@ character-specific:
 1. subzero:
 re-size sprites
 ice + shower
-ground freeze remake 
+ground freeze remake
+sub zero ice clone makes sub zero die on cramped spaces
  
 2. wolverine: 
 reuse old blade sound - DONE (3/12/17)
 fix tornado claw hitboxes - DONE (3/14/17)
 fix normal attack - DONE (3/14/17)
-fix grab
+fix grab - DONE (3/14/17)
 add super special #3
 down + slide attack
 

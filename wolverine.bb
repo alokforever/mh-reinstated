@@ -49,7 +49,7 @@ Case 15 ;Wolverine throw
 			zFallTime(en)=40:zHitSeq(en)=0:zhitTime(en)=40
 		Else
 			zBlowSeq(n)=zBlowSeq(n)-1
-			zAni(en)=2:zf(en)=2
+			zAni(en)=2:zf(en)=3
 			zGrabbed(en)=1:zHit(en)=1
 			zAni(n)=12:zf(n)=5
 			If shotKey(en)=1 Or specialKey(en)=1 Then zLetGoSeq(en)=zLetGoSeq(en)+1
@@ -70,25 +70,25 @@ Case 15 ;Wolverine throw
 		zani(n)=15:zf(n)=1
 	EndIf
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=15:zf(n)=2
-	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=15:zf(n)=3
-	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=15:zf(n)=2
+	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=15:zf(n)=3:zani(en)=2:zf(en)=2
+	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=15:zf(n)=2:zani(en)=2:zf(en)=3
 
 	If zblowseq(n) = f Then
 		zHitmodeTaken(en)=2:zHit(en)=1:
-		zDamage(en)=zDamage(en)+4
-		zLife(en)=zLife(en)-4
+		zDamage(en)=zDamage(en)+5
+		zLife(en)=zLife(en)-5
 	EndIf
 	
 	If zBlowSeq(n) = g  Then
 		PlaySound slashSnd
 	EndIf
 
-	If zBlowSeq(n) => h And zBlowSeq(n) < i Then zani(n)=15:zf(n)=4:zNoGrav(n)=0
-	If zBlowSeq(n) => i And zBlowSeq(n) < j Then zani(n)=15:zf(n)=5
-	If zBlowSeq(n) => j And zBlowSeq(n) < k Then zani(n)=15:zf(n)=6
-	If zBlowSeq(n) => k And zBlowSeq(n) < l Then zani(n)=15:zf(n)=7
-	If zBlowSeq(n) => k And zBlowSeq(n) < l Then zani(n)=15:zf(n)=8
-	If zBlowSeq(n) => l And zBlowSeq(n) < m Then zani(n)=15:zf(n)=9
+	If zBlowSeq(n) => h And zBlowSeq(n) < i Then zani(n)=15:zf(n)=4:zNoGrav(n)=1:moveX(n,zBlowDir(n),-1)
+	If zBlowSeq(n) => i And zBlowSeq(n) < j Then zani(n)=15:zf(n)=5:moveX(n,zBlowDir(n),-1)
+	If zBlowSeq(n) => j And zBlowSeq(n) < k Then zani(n)=15:zf(n)=6:zNoGrav(n)=0
+	If zBlowSeq(n) => k And zBlowSeq(n) < l Then zani(n)=15:zf(n)=7:zNoGrav(n)=0
+	If zBlowSeq(n) => k And zBlowSeq(n) < l Then zani(n)=15:zf(n)=8:zNoGrav(n)=0
+	If zBlowSeq(n) => l And zBlowSeq(n) < m Then zani(n)=15:zf(n)=9:zNoGrav(n)=0
 	
 	If zface(n)=2 Then dir=4:dir2=2:n1=1:n2=30	Else dir=2:dir2=4:n1=-1:n2=-30
 	
@@ -96,8 +96,8 @@ Case 15 ;Wolverine throw
 		zx(en)=zx(n)+0:zy(en)=zy(n)-30 :zHitSeq(en)=14
 		zHitmodeTaken(en)=2 : zHit(en)=1:zBouncedGnd(en)=0
 		zFallSpeed(en)=5:zUpFallSpeed(en)=5:zFallTime(en)=80:zHitSeq(en)=30:zHitHold(en)=0
-		zDamage(en)=zDamage(en)+6
-		zLife(en)=zLife(en)-6
+		zDamage(en)=zDamage(en)+8
+		zLife(en)=zLife(en)-8
 		zFace(en)=dir : zFallDir(en)=dir
 		zgrabs(n)=0:zGrabsThis(n)=0:zGrabbedBy(en)=0
 		
@@ -106,7 +106,7 @@ Case 15 ;Wolverine throw
 	
 	
 	If zBlowSeq(n) > d And zBlowSeq(n) < m Then zgrabbed(en)=1:checkZvsWall(en,0)
-	If zBlowSeq(n) => nnn Then zBlowSeq(n)=0:zBlow(n)=0:zFace(n)=dir:zBlowDir(n)=dir
+	If zBlowSeq(n) => nnn Then zBlowSeq(n)=0:zBlow(n)=0:zFace(n)=dir:zBlowDir(n)=dir:zNoGrav(n)=0
 
 Case 14	;Super Special
 	a=15/wolvSpdFctr(n):b=25/wolvSpdFctr(n):c=32/wolvSpdFctr(n):d=34/wolvSpdFctr(n):e=36/wolvSpdFctr(n)
