@@ -2,6 +2,33 @@ Function pow(x, y)
 	Return x^y
 End Function
 
+Function performSuperSpecial2(n)
+	a=1100+2:b=a+2:c=b+2:d=c+184
+	
+	If zBlowSeq(n)=1100 Then
+		zani(n)=10:zf(n)=6
+		If gameSound Then PlaySound wolverineLetsGoSnd
+	End If
+	If zBlowSeq(n)=b Then
+		zSuperMove(n)=1:zSuperMoveSeq(n)=0
+		If gameSound Then PlaySound wolverineSuper1Snd
+	EndIf
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d
+		zani(n)=12
+		If zBlowSeq(n) Mod 6 = 0 Then zf(n)=1
+		If zBlowSeq(n) Mod 7 = 0 Then zf(n)=2
+		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=3
+		If zBlowSeq(n) Mod 9 = 0 Then zf(n)=4
+		If zBlowSeq(n) Mod 10 = 0 Then zf(n)=5
+		If zBlowSeq(n) Mod 11 = 0 Then zf(n)=6
+		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=7
+		If zBlowSeq(n) Mod 13 = 0 Then zf(n)=8
+		If zBlowSeq(n) Mod 14 = 0 Then zf(n)=9
+		If zBlowSeq(n) Mod 5 = 0 Then
+			If gameSound Then PlaySound wolverineSlashSnd
+		End If
+	EndIf
+End Function
 
 Function DoWolverine(n)
 
@@ -115,6 +142,8 @@ Case 14	;Super Special
 	zNoJump(n)=1
 	zjump(n)=0
 	zNoGrav(n)=1
+	If zBlowSeq(n) = 1 And downKey(n) = 1 Then zBlowSeq(n) = 1100
+	If zBlowSeq(n) >= 1100 Then performSuperSpecial2(n)
 	If zBlowSeq(n) = 1 And zOnGnd(n) = 0 Then zBlowSeq(n) = i
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then 
 		zani(n)=10:zf(n)=6
@@ -667,7 +696,7 @@ Case 16 ;Counter Key (Berserker Rage)
 	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=17:zf(n)=3
 	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=17:zf(n)=4
 	If zBlowSeq(n) => d And zBlowSeq(n) < e Then 
-		If zBlowSeq(n) = d And gameSound Then PlaySound wolverineShoutSnd
+		If zBlowSeq(n) = d And gameSound Then PlaySound wolverineShoutSnd:zSuperBar(n)=100
 		If zBlowSeq(n) Mod 2 = 0 Then zx(n)=zx(n)+2
 		If zBlowSeq(n) Mod 2 = 1 Then zx(n)=zx(n)-2
 		zani(n)=17:zf(n)=8

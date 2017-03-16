@@ -496,7 +496,7 @@ Global wolverineKickSnd
 Global wolverineSuper1Snd, wolverineSuper2Snd
 Global wolverineGrabSnd
 Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
-Global wolverineClawSnd
+Global wolverineClawSnd, wolverineLetsGoSnd	
 
 Dim letter(20,100), letterWidth(20,100)	
 ;LOADS fonts
