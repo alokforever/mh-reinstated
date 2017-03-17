@@ -2865,7 +2865,7 @@ For i=1 To 13
 	zpic_(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + "_.bmp")
 Next
 
-For i=1 To 9
+For i=1 To 16
 	zpic(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + ".bmp")
 	zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
 Next
@@ -3021,8 +3021,6 @@ If n=13 Then	;Broly
 	zDontPickItem(n)=1
 	If brolyPunchSnd=0 Then brolyPunchSnd=LoadSound(soundsdir$ + "Broly/Broly-0065.wav")
 ;	If brolyPunchHitSnd=0 Then brolyPunchHitSnd=LoadSound(soundsdir$ + "Broly/Broly-0059.wav")
-	
-	
 	
     If brolyBallSnd=0 Then brolyBallSnd=LoadSound(soundsdir$ + "broly-1.wav")
 	If brolyBall2Snd=0 Then brolyBall2Snd=LoadSound(soundsdir$ + "broly-2.wav")

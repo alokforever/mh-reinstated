@@ -77,6 +77,31 @@ Function performSuperSpecial2(n)
 	End If	
 End Function
 
+Function performSlideKick(n)
+	a=102:b=a+2:c=b+2:d=c+20:e=d+4:f=e+4:g=f+4:h=g+4:i=h+4
+	If zBlowSeq(n) >=a And zBlowSeq(n) < b Then zani(n)=9:zf(n)=7
+	If zBlowSeq(n) >=b And zBlowSeq(n) < c Then zani(n)=9:zf(n)=9
+	If zBlowSeq(n) >=c And zBlowSeq(n) < d Then 
+		If zBlowSeq(n) = c And gameSound Then PlaySound floorSlideSnd 
+		If zBlowSeq(n) Mod 2 = 0 Then zani(n)=9:zf(n)=10
+		If zBlowSeq(n) Mod 2 = 1 Then zani(n)=9:zf(n)=11
+		zblowPamount(n)=1:nn=1
+		xblow(n,nn)=20:yblow(n,nn)=10:wblow(n,nn)=33:hblow(n,nn)=10
+		
+		zHitmode(n)=0:zBlowHold(n)=10
+		zBlowDamage(n)=9:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
+		zBlowSound(n)=slashSnd
+		moveX(n,zBlowDir(n),3.5)
+	End If
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=9:zf(n)=12
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then zani(n)=9:zf(n)=13
+	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then zani(n)=9:zf(n)=14
+	If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zani(n)=9:zf(n)=15
+	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zani(n)=9:zf(n)=16
+	If zBlowSeq(n) = i Then zBlowSeq(n) = 95
+	
+End Function
+
 Function DoWolverine(n)
 
 zFace(n)=zBlowDir(n)
@@ -439,7 +464,12 @@ Case 4	;Low kick
 	zNoMove(n)=1:zNoJump(n)=1
 	zheight(n)=zduckheight(n)
 	a=7/wolvSpdFctr(n):b=14/wolvSpdFctr(n):c=21/wolvSpdFctr(n):d=28/wolvSpdFctr(n):e=35/wolvSpdFctr(n)
-	:f=40/wolvSpdFctr(n):g=45/wolvSpdFctr(n)
+	:f=40/wolvSpdFctr(n):g=45/wolvSpdFctr(n):h=100
+	If zBlowSeq(n) = 1 Then
+		If zBlowDir(n)=2 And rightKey(n) Then zBlowSeq(n)=h
+		If zBlowDir(n)=4 And leftKey(n) Then zBlowSeq(n)=h
+	End If
+	If zBlowSeq(n) >= h Then performSlideKick(n)
 	If zblowseq(n) < c Then zheight(n)=zduckheight(n)
 	If zBlowSeq(n)= a Then If gameSound Then PlaySound wolverineShout3Snd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
@@ -460,7 +490,7 @@ Case 4	;Low kick
 	If zBlowSeq(n) => e And zBlowSeq(n) =< d Then zani(n)=9:zf(n)=6
 	If zBlowSeq(n) => f And zBlowSeq(n) =< g Then zani(n)=9:zf(n)=7
 	
-	If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
+	If zBlowSeq(n) > g And zBlowSeq(n) < h Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
 
 Case 5	;Uppercut (Tornado claw)
 	zNoMove(n)=1

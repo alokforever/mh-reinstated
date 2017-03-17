@@ -435,6 +435,7 @@ Global shotsnd=LoadSound(soundsdir$ + "shot.wav")
 Global shotwallsnd=LoadSound(soundsdir$ + "shotwall.wav")
 Global zhitwallsnd=LoadSound(soundsdir$ + "zhitwall.wav")
 Global jumpsnd=LoadSound(soundsdir$ + "jump.wav")
+Global floorSlideSnd=LoadSound(soundsDir$ + "floorSlide.wav")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
@@ -496,7 +497,7 @@ Global wolverineKickSnd
 Global wolverineSuper1Snd, wolverineSuper2Snd
 Global wolverineGrabSnd
 Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
-Global wolverineClawSnd, wolverineLetsGoSnd	
+Global wolverineClawSnd, wolverineLetsGoSnd
 
 Dim letter(20,100), letterWidth(20,100)	
 ;LOADS fonts
