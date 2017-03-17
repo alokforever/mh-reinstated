@@ -233,7 +233,7 @@ Case 2	;Flying kick
 Case 4	;Low kick
 	zNoMove(n)=1:zNoJump(n)=1
 	zheight(n)=zduckheight(n)
-	a=10: b=20: c=42
+	a=10: b=20: c=45
 	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroKickSnd
 	If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then 
@@ -241,7 +241,7 @@ Case 4	;Low kick
 		xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		movex2(n,zface(n),4.5)
+		movex2(n,zface(n),5)
 		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
 		zBlowSound(n)=subZeroHitSnd
 		zani(n)=9:zf(n)=2

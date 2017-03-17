@@ -2114,6 +2114,54 @@ Case 87:		;X slash4b
 	
 	If chunkSeq(n) = c Then chunk(n)=0
 		
+Case 88:		;Faint slash
+	a=3:b=a+3:c=b+3:d=c+3:e=d+3
+	If chunkSeq(n) => 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(69,1):chunkPic_(n)=ptPic(69,1)
+	If chunkSeq(n) => a And chunkSeq(n) < b Then chunkPic(n)=ptPic(69,2):chunkPic_(n)=ptPic(69,2)
+	If chunkSeq(n) => b And chunkSeq(n) < c Then chunkPic(n)=ptPic(69,3):chunkPic_(n)=ptPic(69,3)
+	If chunkSeq(n) => c And chunkSeq(n) < d Then chunkPic(n)=ptPic(69,4):chunkPic_(n)=ptPic(69,4)
+	If chunkSeq(n) => d And chunkSeq(n) < e Then chunkPic(n)=ptPic(69,5):chunkPic_(n)=ptPic(69,5)
+	
+	If chunkSeq(n) = e Then chunk(n)=0
+	
+Case 89:		;Dust
+	If chunkSeq(n) => 1 And chunkSeq(n) < 2 Then chunkPic(n)=ptPic(70,1):chunkPic_(n)=ptPic_(70,1)
+	If chunkSeq(n) => 2 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(70,2):chunkPic_(n)=ptPic_(70,2)
+	If chunkSeq(n) => 3 And chunkSeq(n) < 4 Then chunkPic(n)=ptPic(70,3):chunkPic_(n)=ptPic_(70,3)
+	If chunkSeq(n) => 4 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(70,4):chunkPic_(n)=ptPic_(70,4)
+	If chunkSeq(n) => 5 And chunkSeq(n) < 6 Then chunkPic(n)=ptPic(70,5):chunkPic_(n)=ptPic_(70,5)
+	If chunkSeq(n) => 6 And chunkSeq(n) < 7 Then chunkPic(n)=ptPic(70,6):chunkPic_(n)=ptPic_(70,6)
+	If chunkSeq(n) => 7 And chunkSeq(n) < 8 Then chunkPic(n)=ptPic(70,7):chunkPic_(n)=ptPic_(70,7)
+	If chunkSeq(n) => 8 And chunkSeq(n) < 9 Then chunkPic(n)=ptPic(70,8):chunkPic_(n)=ptPic_(70,8)
+	If chunkSeq(n) => 9 And chunkSeq(n) < 10 Then chunkPic(n)=ptPic(70,9):chunkPic_(n)=ptPic_(70,9)
+	
+	If chunkSeq(n) = 10 Then chunk(n)=0
+	
+Case 90:		;Silhouette
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 2 Then chunkPic(n)=ptPic(71,1):chunkPic_(n)=ptPic_(71,1)
+	If chunkSeq(n) >= 2 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(71,2):chunkPic_(n)=ptPic_(71,2)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 4 Then chunkPic(n)=ptPic(71,3):chunkPic_(n)=ptPic_(71,3)
+	If chunkSeq(n) >= 4 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(71,4):chunkPic_(n)=ptPic_(71,4)
+	If chunkSeq(n) >= 5 And chunkSeq(n) < 6 Then chunkPic(n)=ptPic(71,5):chunkPic_(n)=ptPic_(71,5)
+	
+	If chunkSeq(n) = 6 Then chunk(n)=0
+	
+Case 91:		;Small X slashA
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 2 Then chunkPic(n)=ptPic(72,1):chunkPic_(n)=ptPic_(72,1)
+	If chunkSeq(n) >= 2 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(72,2):chunkPic_(n)=ptPic_(72,2)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 4 Then chunkPic(n)=ptPic(72,3):chunkPic_(n)=ptPic_(72,3)
+	If chunkSeq(n) >= 4 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(72,4):chunkPic_(n)=ptPic_(72,4)
+	
+	If chunkSeq(n) = 5 Then chunk(n)=0
+	
+Case 92: 		;Small X slashB
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 2 Then chunkPic(n)=ptPic_(72,1):chunkPic_(n)=ptPic(72,1)
+	If chunkSeq(n) >= 2 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic_(72,2):chunkPic_(n)=ptPic(72,2)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 4 Then chunkPic(n)=ptPic_(72,3):chunkPic_(n)=ptPic(72,3)
+	If chunkSeq(n) >= 4 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic_(72,4):chunkPic_(n)=ptPic(72,4)
+	
+	If chunkSeq(n) = 5 Then chunk(n)=0
+	
 Case 101: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(51,1):chunkPic_(n)=ptPic(51,1)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(51,2):chunkPic_(n)=ptPic(51,2)
@@ -2122,7 +2170,7 @@ Case 101: a=10:b=20		;sonya ball impact
 Case 102: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(52,2):chunkPic_(n)=ptPic(52,2)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(52,2):chunkPic_(n)=ptPic(52,2)
-	If chunkSeq(n) > b Then chunk(n)=0
+	If chunkSeq(n) > b Then chunk(n)=0	
 
 	
 Default

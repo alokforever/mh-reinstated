@@ -266,88 +266,88 @@ gfxdir$="gfx\stuff\"
 
 ;**** Objects ******
 ;Loads ciment club images
-epic(1,1)=LoadImage(gfxdir$ + "obj6_1.bmp")
-epic(1,2)=LoadImage(gfxdir$ + "obj6_2.bmp")
-epic(1,3)=LoadImage(gfxdir$ + "obj6_3.bmp")
-epic(1,4)=LoadImage(gfxdir$ + "obj6_4.bmp")
-epic_(1,1)=LoadImage(gfxdir$ + "obj6_1_.bmp")
-epic_(1,2)=LoadImage(gfxdir$ + "obj6_2_.bmp")
-epic_(1,3)=LoadImage(gfxdir$ + "obj6_3_.bmp")
-epic_(1,4)=LoadImage(gfxdir$ + "obj6_4_.bmp")
+epic(1,1)=LoadImage(gfxdir$ + "obj\obj6_1.bmp")
+epic(1,2)=LoadImage(gfxdir$ + "obj\obj6_2.bmp")
+epic(1,3)=LoadImage(gfxdir$ + "obj\obj6_3.bmp")
+epic(1,4)=LoadImage(gfxdir$ + "obj\obj6_4.bmp")
+epic_(1,1)=LoadImage(gfxdir$ + "obj\obj6_1_.bmp")
+epic_(1,2)=LoadImage(gfxdir$ + "obj\obj6_2_.bmp")
+epic_(1,3)=LoadImage(gfxdir$ + "obj\obj6_3_.bmp")
+epic_(1,4)=LoadImage(gfxdir$ + "obj\obj6_4_.bmp")
 
 ;Loads gun images
-epic(2,1)=LoadImage(gfxdir$ + "obj7_1.bmp")	
-epic(2,2)=LoadImage(gfxdir$ + "obj7_2.bmp")
-epic_(2,1)=LoadImage(gfxdir$ + "obj7_1_.bmp")
-epic_(2,2)=LoadImage(gfxdir$ + "obj7_2_.bmp")
+epic(2,1)=LoadImage(gfxdir$ + "obj\obj7_1.bmp")	
+epic(2,2)=LoadImage(gfxdir$ + "obj\obj7_2.bmp")
+epic_(2,1)=LoadImage(gfxdir$ + "obj\obj7_1_.bmp")
+epic_(2,2)=LoadImage(gfxdir$ + "obj\obj7_2_.bmp")
 
 ;Loads bazooka images
-epic(3,1)=LoadImage(gfxdir$ + "obj10_1.bmp")	
-epic(3,2)=LoadImage(gfxdir$ + "obj10_2.bmp")
-epic_(3,1)=LoadImage(gfxdir$ + "obj10_1_.bmp")
-epic_(3,2)=LoadImage(gfxdir$ + "obj10_2_.bmp")
+epic(3,1)=LoadImage(gfxdir$ + "obj\obj10_1.bmp")	
+epic(3,2)=LoadImage(gfxdir$ + "obj\obj10_2.bmp")
+epic_(3,1)=LoadImage(gfxdir$ + "obj\obj10_1_.bmp")
+epic_(3,2)=LoadImage(gfxdir$ + "obj\obj10_2_.bmp")
 
 ;Loads ray gun images
-epic(4,1)=LoadImage(gfxdir$ + "obj11_1.bmp")	
-epic(4,2)=LoadImage(gfxdir$ + "obj11_2.bmp")
-epic_(4,1)=LoadImage(gfxdir$ + "obj11_1_.bmp")
-epic_(4,2)=LoadImage(gfxdir$ + "obj11_2_.bmp")
+epic(4,1)=LoadImage(gfxdir$ + "obj\obj11_1.bmp")	
+epic(4,2)=LoadImage(gfxdir$ + "obj\obj11_2.bmp")
+epic_(4,1)=LoadImage(gfxdir$ + "obj\obj11_1_.bmp")
+epic_(4,2)=LoadImage(gfxdir$ + "obj\obj11_2_.bmp")
 
 ;Loads hammer images
-epic(5,1)=LoadImage(gfxdir$ + "obj13_1.bmp")	
-epic(5,2)=LoadImage(gfxdir$ + "obj13_2.bmp")
-epic(5,3)=LoadImage(gfxdir$ + "obj13_3.bmp")
-epic(5,4)=LoadImage(gfxdir$ + "obj13_4.bmp")
-epic_(5,1)=LoadImage(gfxdir$ + "obj13_1_.bmp")
-epic_(5,2)=LoadImage(gfxdir$ + "obj13_2_.bmp")
-epic_(5,3)=LoadImage(gfxdir$ + "obj13_3_.bmp")
-epic_(5,4)=LoadImage(gfxdir$ + "obj13_4_.bmp")
+epic(5,1)=LoadImage(gfxdir$ + "obj\obj13_1.bmp")	
+epic(5,2)=LoadImage(gfxdir$ + "obj\obj13_2.bmp")
+epic(5,3)=LoadImage(gfxdir$ + "obj\obj13_3.bmp")
+epic(5,4)=LoadImage(gfxdir$ + "obj\obj13_4.bmp")
+epic_(5,1)=LoadImage(gfxdir$ + "obj\obj13_1_.bmp")
+epic_(5,2)=LoadImage(gfxdir$ + "obj\obj13_2_.bmp")
+epic_(5,3)=LoadImage(gfxdir$ + "obj\obj13_3_.bmp")
+epic_(5,4)=LoadImage(gfxdir$ + "obj\obj13_4_.bmp")
 
 ;Loads dragon fire balls images
-epic(6,1)=LoadImage(gfxdir$ + "obj14_1.bmp")	
-epic(6,2)=LoadImage(gfxdir$ + "obj14_2.bmp")
-epic_(6,1)=LoadImage(gfxdir$ + "obj14_1_.bmp")
-epic_(6,2)=LoadImage(gfxdir$ + "obj14_2_.bmp")
+epic(6,1)=LoadImage(gfxdir$ + "obj\obj14_1.bmp")	
+epic(6,2)=LoadImage(gfxdir$ + "obj\obj14_2.bmp")
+epic_(6,1)=LoadImage(gfxdir$ + "obj\obj14_1_.bmp")
+epic_(6,2)=LoadImage(gfxdir$ + "obj\obj14_2_.bmp")
 
 ;Loads flying bat
-epic(7,1)=LoadImage(gfxdir$ + "obj12_1.bmp")	
-epic(7,2)=LoadImage(gfxdir$ + "obj12_2.bmp")
-epic_(7,1)=LoadImage(gfxdir$ + "obj12_1_.bmp")
-epic_(7,2)=LoadImage(gfxdir$ + "obj12_2_.bmp")
+epic(7,1)=LoadImage(gfxdir$ + "obj\obj12_1.bmp")	
+epic(7,2)=LoadImage(gfxdir$ + "obj\obj12_2.bmp")
+epic_(7,1)=LoadImage(gfxdir$ + "obj\obj12_1_.bmp")
+epic_(7,2)=LoadImage(gfxdir$ + "obj\obj12_2_.bmp")
 
 ;loads big rocks
-epic(8,1)=LoadImage(gfxdir$ + "obj16_1.bmp")	
-epic(8,2)=LoadImage(gfxdir$ + "obj16_2.bmp")
-epic(8,3)=LoadImage(gfxdir$ + "obj16_3.bmp")
-epic(8,4)=LoadImage(gfxdir$ + "obj16_4.bmp")
+epic(8,1)=LoadImage(gfxdir$ + "obj\obj16_1.bmp")	
+epic(8,2)=LoadImage(gfxdir$ + "obj\obj16_2.bmp")
+epic(8,3)=LoadImage(gfxdir$ + "obj\obj16_3.bmp")
+epic(8,4)=LoadImage(gfxdir$ + "obj\obj16_4.bmp")
 
 ;loads little rocks
-epic(9,1)=LoadImage(gfxdir$ + "obj17_1.bmp")	
-epic(9,2)=LoadImage(gfxdir$ + "obj17_2.bmp")
-epic(9,3)=LoadImage(gfxdir$ + "obj17_3.bmp")
-epic(9,4)=LoadImage(gfxdir$ + "obj17_4.bmp")
+epic(9,1)=LoadImage(gfxdir$ + "obj\obj17_1.bmp")	
+epic(9,2)=LoadImage(gfxdir$ + "obj\obj17_2.bmp")
+epic(9,3)=LoadImage(gfxdir$ + "obj\obj17_3.bmp")
+epic(9,4)=LoadImage(gfxdir$ + "obj\obj17_4.bmp")
 
 ;loads little lava rocks
-epic(10,1)=LoadImage(gfxdir$ + "obj18_1.bmp")	
-epic(10,2)=LoadImage(gfxdir$ + "obj18_2.bmp")
-epic(10,3)=LoadImage(gfxdir$ + "obj18_3.bmp")
-epic(10,4)=LoadImage(gfxdir$ + "obj18_4.bmp")
+epic(10,1)=LoadImage(gfxdir$ + "obj\obj18_1.bmp")	
+epic(10,2)=LoadImage(gfxdir$ + "obj\obj18_2.bmp")
+epic(10,3)=LoadImage(gfxdir$ + "obj\obj18_3.bmp")
+epic(10,4)=LoadImage(gfxdir$ + "obj\obj18_4.bmp")
 
 ;Loads axe
 For i=1 To 8
-    epic(11,i)=LoadImage(gfxdir$ + "obj19_"+i+".bmp")
-    epic_(11,i)=LoadImage(gfxdir$ + "obj19_"+i+"_.bmp")
+    epic(11,i)=LoadImage(gfxdir$ + "obj\obj19_"+i+".bmp")
+    epic_(11,i)=LoadImage(gfxdir$ + "obj\obj19_"+i+"_.bmp")
 Next
 
 
-Global obj1P=LoadImage(gfxdir$ + "obj1_1.bmp")
-Global obj2P=LoadImage(gfxdir$ + "obj2_1.bmp")
-Global obj3P=LoadImage(gfxdir$ + "obj3_1.bmp")
-Global obj4p=LoadImage(gfxdir$ + "obj4_1.bmp")
-Global obj5p=LoadImage(gfxdir$ + "obj5_1.bmp")
-Global obj8p=LoadImage(gfxdir$ + "obj8_1.bmp")
-Global obj9p=LoadImage(gfxdir$ + "obj9_1.bmp")
-Global obj9p_=LoadImage(gfxdir$ + "obj9_1_.bmp")
+Global obj1P=LoadImage(gfxdir$ + "obj\obj1_1.bmp")
+Global obj2P=LoadImage(gfxdir$ + "obj\obj2_1.bmp")
+Global obj3P=LoadImage(gfxdir$ + "obj\obj3_1.bmp")
+Global obj4p=LoadImage(gfxdir$ + "obj\obj4_1.bmp")
+Global obj5p=LoadImage(gfxdir$ + "obj\obj5_1.bmp")
+Global obj8p=LoadImage(gfxdir$ + "obj\obj8_1.bmp")
+Global obj9p=LoadImage(gfxdir$ + "obj\obj9_1.bmp")
+Global obj9p_=LoadImage(gfxdir$ + "obj\obj9_1_.bmp")
 
 Global objArrow=LoadImage(gfxdir$ + "objArrow.bmp")
 Global flag1P=LoadImage(gfxdir$ + "flag1.bmp")
@@ -356,14 +356,14 @@ Global controllerPic=LoadImage(gfxdir$ + "controller.bmp")
 Global keyboardPic=LoadImage(gfxdir$ + "keyboard.bmp")
 
 For n=1 To 51   ;load shots
-	shotImage(n)=LoadImage(gfxdir$ + "shot"+n+".bmp")	
-	shotImage_(n)=LoadImage(gfxdir$ + "shot"+n+"_.bmp")
+	shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")	
+	shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
 Next
 
 For n=1 To 103   ; load chunks
 	For nn=1 To 10
-		ptPic(n,nn)=LoadImage( gfxdir$ + "pt"+n+"_a"+nn+ ".bmp" )
-		ptPic_(n,nn)=LoadImage( gfxdir$ + "pt"+n+"_a"+nn+"_.bmp" )
+		ptPic(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+ ".bmp" )
+		ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
 	Next
 Next
 
@@ -5917,12 +5917,12 @@ Next
 End Function
 
 ;-------------------------- MoveX -------------------------------------------------------------
-Function moveX(n,dir,speed)
+Function moveX(n,dir,speed#)
 
 ;zx(n)=zx(n)+speed
 Select dir
-Case 2:zx(n)=zx(n)+speed
-Case 4:zx(n)=zx(n)-speed
+Case 2:zx(n)=zx(n)+speed#
+Case 4:zx(n)=zx(n)-speed#
 End Select
 
 End Function

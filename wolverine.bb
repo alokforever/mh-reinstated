@@ -3,7 +3,8 @@ Function pow(x, y)
 End Function
 
 Function performSuperSpecial2(n)
-	a=1100+2:b=a+2:c=b+2:d=c+184
+	a=1100+2:b=a+2:c=b+2:d=c+144:e=d+1:f=e+1:g=f+1
+	h=g+1:i=h+1:j=i+1:k=j+1:l=k+20
 	
 	If zBlowSeq(n)=1100 Then
 		zani(n)=10:zf(n)=6
@@ -15,7 +16,14 @@ Function performSuperSpecial2(n)
 	EndIf
 	If zBlowSeq(n) >= c And zBlowSeq(n) < d
 		zani(n)=12
-		If zBlowSeq(n) Mod 6 = 0 Then zf(n)=1
+		moveX(n,zBlowDir(n),Float(0.5))
+		If zBlowSeq(n) Mod 6 = 0 Then 
+			zf(n)=1
+			extraObj(n,zx(n),-70,zy(n),2,zblowdir(n),89)
+			extraObj(n,zx(n),-60,zy(n),-10,zblowdir(n),90)
+			extraObj(n,zx(n),34,zy(n),-2,zblowdir(n),91)
+			extraObj(n,zx(n),34,zy(n),-2,zblowdir(n),92)
+		End If
 		If zBlowSeq(n) Mod 7 = 0 Then zf(n)=2
 		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=3
 		If zBlowSeq(n) Mod 9 = 0 Then zf(n)=4
@@ -27,7 +35,46 @@ Function performSuperSpecial2(n)
 		If zBlowSeq(n) Mod 5 = 0 Then
 			If gameSound Then PlaySound wolverineSlashSnd
 		End If
+		zblowPamount(n)=5:nn=1
+		For counter = -10 To 30 Step 10
+			xblow(n,nn)=-30: yblow(n,nn)=counter:wblow(n,nn)=110:hblow(n,nn)=10:nn=nn+1
+			counter = counter + 10
+		Next
+
+		zHitmode(n)=2:zBlowHold(n)=3:zBlowSound(n)=slashSnd
+		zBlowDamage(n)=2:zBLowEffect(n)=1:zBlowImpact(n)=4:zBlowStillTime(n)=0:zBlowBlockTime(n)=15
+		zHitSpeed#(n)=1.5:zHitUpSpeed#(n)=1.8:zHitTime(n)=5
 	EndIf
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=10:zf(n)=1
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then 
+		zani(n)=10:zf(n)=2
+		If zBlowSeq(n) = e And gameSound Then PlaySound wolverineShoutSnd
+	End If
+	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then 
+		zani(n)=10:zf(n)=3
+		If zBlowSeq(n) = f And gameSound Then PlaySound wolverineSlashSnd
+	End If
+	If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=4
+	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zani(n)=10:zf(n)=5
+	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zani(n)=10:zf(n)=6
+	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zani(n)=10:zf(n)=7
+	If zBlowSeq(n) >= k And zBlowSeq(n) < l Then 
+		zani(n)=10:zf(n)=8
+		If zBlowSeq(n) = k Then extraObj(n,zx(n),40,zy(n),50,zblowdir(n),88)
+				
+		zblowPamount(n)=4:nn=1
+		For counter = 0 To 30
+			xblow(n,nn)=0: yblow(n,nn)=counter:wblow(n,nn)=80:hblow(n,nn)=10:nn=nn+1
+			counter = counter + 10
+		Next
+
+		zHitmode(n)=0:zBlowHold(n)=0:zBlowSound(n)=slashSnd
+		zBlowDamage(n)=10:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=15
+	End If
+	If zBlowSeq(n) = l Then 
+		zNoGrav(n)=0:ztopSpeed(n)=2:zNomove(n)=0
+		zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	End If	
 End Function
 
 Function DoWolverine(n)
@@ -48,6 +95,7 @@ zchunkType(n)=10
 
 Select zCurBlow(n)
 Case 0	;Blocking
+	zSuperBar(n)=100
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
@@ -212,7 +260,6 @@ Case 14	;Super Special
 	If zBlowSeq(n) > h And zBlowSeq(n) < i Then zani(n)=17:zf(n)=6:zNoGrav(n)=0:ztopSpeed(n)=1.5:zNomove(n)=0:
 	If zongnd(n)=1 And zBlowSeq(n) => h-2 And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-
 Case 1	;High Claw
 	a=5/wolvSpdFctr(n):b=10/wolvSpdFctr(n):c=15/wolvSpdFctr(n):d=22/wolvSpdFctr(n):e=27/wolvSpdFctr(n)
 	:f=32/wolvSpdFctr(n):g=37/wolvSpdFctr(n):h=42/wolvSpdFctr(n):i=47/wolvSpdFctr(n)
@@ -226,7 +273,7 @@ Case 1	;High Claw
 		xblow(n,nn)=0: yblow(n,nn)=26:wblow(n,nn)=44:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=16:wblow(n,nn)=44:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=36:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
-		zHitMode(n)=0:zBlowHold(n)=30/wolvSpdFctr(n)
+		zHitMode(n)=2:zBlowHold(n)=30/wolvSpdFctr(n)
 		zBlowDamage(n)=10:zBLowEffect(n)=1:zBlowImpact(n)=20/wolvSpdFctr(n):zBlowStillTime(n)=0:zBlowBlockTime(n)=20
 		zBlowSound(n)=slashSnd
 		If zBlowSeq(n) = a Then zani(n)=12:zf(n)=2
