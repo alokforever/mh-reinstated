@@ -208,7 +208,7 @@ Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
-Dim zStanceFrames(30), zStanceSeq(30), zWalkFrames(30), deathSnd(30)
+Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), deathSnd(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -482,6 +482,7 @@ Global subZeroPunch2Snd
 Global subZeroSuperSnd
 Global subZeroThrowSnd
 Global subZeroJumpSnd
+Global subZeroJump2Snd
 Global subZeroExcellentSnd
 Global subZeroOutstandingSnd
 Global subZeroSuperbSnd
@@ -6174,12 +6175,15 @@ End Function
 
 ;----------- Draw Stance Sequence --------------
 Function drawStanceSequence(n)
-	zStanceSeq(n) = zStanceSeq(n) + 1
-	Local frameSpeed=3
+	If zStanceSeq(n) < zStanceSpeed(n) Then 
+		zStanceSeq(n) = zStanceSpeed(n)
+	Else
+		zStanceSeq(n) = zStanceSeq(n) + 1
+	End If
 	For frame=zStanceFrames(n) To 1 Step -1
-		If (zStanceSeq(n) / frameSpeed) Mod frame = 0 Then
-			If zStanceSeq(n) > (frame * 10) + 10 Then zStanceSeq(n) = 1:Return
+		If (zStanceSeq(n) / zStanceSpeed(n)) Mod frame = 0 Then
 			zani(n)=19:zf(n)=frame
+			If zStanceSeq(n)-1 > zStanceFrames(n)*zStanceSpeed(n) Then zStanceSeq(n) = zStanceSpeed(n)-1
 			Return
 		EndIf			
 	Next

@@ -49,6 +49,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zHitByRect(nn)=0
 	zRollOnImpact(n)=0
 	zStanceFrames(n)=0
+	zStanceSpeed(n)=0
 	zWalkFrames(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
@@ -247,6 +248,7 @@ Case 11: ;Wolverine
 	zJumpSnd2(n)=wolverinejumpsnd
 	zWalkFrames(n)=16
 	zStanceFrames(n)=17
+	zStanceSpeed(n)=3
 		
 Case 12: ;Sonya
 	zBlowDist(n,1)=60
@@ -303,6 +305,9 @@ Case 14: ;Sub Zero
 	zxHand(n,3)=-0 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=subZeroJumpSnd
+	zJumpSnd2(n)=subZeroJump2Snd
+	zStanceFrames(n)=9
+	zStanceSpeed(n)=5
 
 Case 53: ;Broly
 	zBlowDist(n,1)=60
@@ -3015,6 +3020,8 @@ If n=14 Then ;SubZero
 	If subZeroWelldoneSnd=0 Then subZeroWelldoneSnd=LoadSound(soundsdir$ + "subzero\subWelldone.wav")
 	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subzero\subWind.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.wav")	
+	If subZeroJumpSnd=0 Then subZeroJumpSnd=LoadSound(soundsdir$ + "subzero\subjump.wav")
+	If subZeroJump2Snd=0 Then subZeroJump2Snd=LoadSound(soundsdir$ + "subzero\subJump2.mp3")
 EndIf
 
 If n=13 Then	;Broly
