@@ -52,6 +52,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	zStanceSpeed(n)=0
 	zWalkFrames(n)=0
 	zWalkFrameSpeed#(n)=0
+	zRunFrames(n)=0
+	zRunFrameSpeed#(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -312,6 +314,8 @@ Case 14: ;Sub Zero
 	zStanceSpeed(n)=5
 	zWalkFrames(n)=9
 	zWalkFrameSpeed#(n)=4
+	zRunFrames(n)=11
+	zRunFrameSpeed#(n)=3
 	
 Case 53: ;Broly
 	zBlowDist(n,1)=60
@@ -2945,6 +2949,11 @@ For counter = 1 To 20
 	zpic_(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + "_.bmp")
 Next
 
+For counter = 1 To 20
+	zpic(n,21,counter)=LoadImage(gfxdir$ + "run\zRun" + counter + ".bmp")
+	zpic_(n,21,counter)=LoadImage(gfxdir$ + "run\zRun" + counter + "_.bmp")
+Next
+
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom
@@ -3032,8 +3041,7 @@ If n=14 Then ;SubZero
 	If subZeroLaughSnd=0 Then subZeroLaughSnd=LoadSound(soundsdir$ + "subzero\subLaugh.wav")
 	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.mp3")
 	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subzero\subPunch2.wav")
-	If subZeroSuperSnd=0 Then subZeroSuperSnd=LoadSound(soundsdir$ + "subzero\subSuper.wav")
-	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.wav")
+	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.mp3")
 	If subZeroExcellentSnd=0 Then subZeroExcellentSnd=LoadSound(soundsdir$ + "subzero\subExcellent.wav")
 	If subZeroOutstandingSnd=0 Then subZeroOutstandingSnd=LoadSound(soundsdir$ + "subzero\subOutstanding.wav")
 	If subZeroSuperbSnd=0 Then subZeroSuperbSnd=LoadSound(soundsdir$ + "subzero\subSuperb.wav")
@@ -3043,6 +3051,8 @@ If n=14 Then ;SubZero
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.mp3")	
 	If subZeroJumpSnd=0 Then subZeroJumpSnd=LoadSound(soundsdir$ + "subzero\subjump.wav")
 	If subZeroJump2Snd=0 Then subZeroJump2Snd=LoadSound(soundsdir$ + "subzero\subJump2.mp3")
+	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\mkMaleGrunt1.mp3")
+	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 EndIf
 
 If n=13 Then	;Broly

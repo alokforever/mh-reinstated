@@ -89,7 +89,7 @@ Case 14	;Super Special (ice spikes)
 	If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=2
 	If zBlowSeq(n) => b And zBlowSeq(n) < d Then 
 		zani(n)=10:zf(n)=3
-		If zBlowSeq(n)=c-1 And gameSound=1 Then PlaySound subZeroSuperSnd
+		If zBlowSeq(n)=c-1 And gameSound=1 Then PlaySound mkMaleGrunt1Snd
         If zBlowSeq(n) = d-1 And zblowseq2(n)=0 Then zSuperMove(n)=1:zSuperMoveSeq(n)=0
 	EndIf
 	If zBlowSeq(n) > a And zBlowSeq(n) =< d Then zani(n)=10:zf(n)=3
@@ -235,13 +235,15 @@ Case 4	;Low kick
 	zheight(n)=zduckheight(n)
 	a=10: b=20: c=45
 	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroSlideKickSnd
+	If zBlowSeq(n) < 7 And isRunning(n) Then zBlowSeq(n) = 7
 	If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then 
 		zblowPamount(n)=2:nn=1
 		xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		movex2(n,zface(n),5)
+		If isRunning(n) Then movex2(n,zface(n),5+(Abs(zSpeed#(n))))
+		If isRunning(n)=0 Then movex2(n,zface(n),5)
 		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
 		zBlowSound(n)=subZeroHitSnd
 		zani(n)=9:zf(n)=2
@@ -409,7 +411,7 @@ Case 10	; Up + Attack
 	If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0	
 	
 	
-Case 16 ; ice clone
+Case 16: ; ice clone
 	a=3:b=6:c=9:d=11:e=13:f=16:g=19:h=22:i=25:j=28
 	zNoMove(n)=1
 	zNoJump(n)=1
@@ -455,7 +457,7 @@ Case 16 ; ice clone
 	
 	If zBlowSeq(n) > j Then zBlowSeq(n)=0:zBlow(n)=0
 	
-Case 17 ;Extra special key
+Case 17: ;Ice shower
 	zBlowSeq(n)=0:zBlow(n)=0
 	
 End Select

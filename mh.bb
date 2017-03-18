@@ -208,7 +208,11 @@ Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
+;zeto's variables
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
+Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
+Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30), zRunFootSound(30)
+Dim zStaminaBar#(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -480,7 +484,6 @@ Global subZeroSlideKickSnd
 Global subZeroLaughSnd
 Global subZeroPunchSnd
 Global subZeroPunch2Snd
-Global subZeroSuperSnd
 Global subZeroThrowSnd
 Global subZeroJumpSnd
 Global subZeroJump2Snd
@@ -500,6 +503,8 @@ Global wolverineSuper1Snd, wolverineSuper2Snd
 Global wolverineGrabSnd
 Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
 Global wolverineClawSnd, wolverineLetsGoSnd
+
+Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 
 Dim letter(20,100), letterWidth(20,100)	
 ;LOADS fonts
@@ -773,9 +778,9 @@ If vsMode=1 Then
 	Next
   Else
     For n=1 To 20
-	    ;If vsMapOpen(n)=1 Then
+	    If vsMapOpen(n)=1 Then
             mapTn(n)=LoadImage(modFolder$(curModId) + "map_" + n + ".jpg")
-	    ;EndIf
+	    EndIf
 	Next
   EndIf
 
@@ -869,6 +874,7 @@ For n=1 To zzamount
 	zjumplimit(n)=20    ;20		;Jump height (per frame), not pixels!
 	zDtopSpeed#(n)=2    ;2
 	zTopSpeed#(n)=zDtopSpeed(n)
+	zTopRunningSpeed#(n)=zDtopSpeed(n)*2
 	zBlockSpeed(n)=.8
 	zBLow(n)=0
 	ztargetScore(n)=0
@@ -887,7 +893,9 @@ For n=1 To zzamount
 	zSuperMove(n)=0
 	zSuperMoveSeq(n)=0
 	zSuperBar(n)=0
+	zStaminaBar#(n)=100
 	zTrail(n)=0
+	isRunning(n)=0
 	If zon(n) And guyLoaded(curGuy(n))=0 Then loadPics(curGuy(n))
 	If zon(n) Then initZ(n)
 Next
@@ -1087,7 +1095,7 @@ For n= 1 To zzamount
     zBeenHere(n)=0
 	zJumping(n)=1:zNoGrav(n)=0:zNoJump(n)=0:zNoMove(n)=0:zTopSpeed(n)=zDtopSpeed(n)
 	zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
-	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0
+	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*2
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
@@ -1178,7 +1186,7 @@ For n= 1 To zzamount
 	If zon(n) > 0 Then blows(n)
 Next
 For n=1 To zzamount
-	If zHit(n) =1  Then zBlow(n)=0:zBlowStill(n)=0
+	If zHit(n) =1  Then zBlow(n)=0:zBlowStill(n)=0:isRunning(n)=0
 Next
 
 stages();Special stuff that goes on the current map
@@ -1259,8 +1267,12 @@ Next
 For n= 1 To zzamount
 	If zon(n) > 0 And zGrabbed(n)=0 Then zman(n)
 	
-	If zon(n) Then SelectDraw(n)
+	checkInputs(n)
+	If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
+		zStaminaBar#(n)=zStaminaBar#(n)+0.5
+	End If
 	
+	If zon(n) Then SelectDraw(n)
 Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
@@ -1572,7 +1584,7 @@ For b=3 To 5
 Next
 
 
-x=15:y=3	;draws bars, super bar, damage/life, lives
+x=15:y=3	;draws bars, super bar, damage/life, lives, etc.
 For n=1 To 4
 	xx=0
  If zon(n) Then
@@ -1600,6 +1612,8 @@ For n=1 To 4
 	End Select
  	If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
 	Rect x,y+15,zSuperbar(n),4,1
+	If zStaminaBar#(n) < 70 Then Color 231,76,60 Else Color 52,152,219  
+	Rect x,y+20,zStaminaBar#(n),4,1
 	Color 120,120,120
 	Rect x,y+15,100,4,0	 
  EndIf
@@ -2030,7 +2044,6 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
 		If curF(n) > FfacAmount(n) Then
 			If Floop(n) =0 Then Fon(n)=0 Else curF(n)=1
 		EndIf
-	
 EndIf
 .noFac
 
@@ -2046,10 +2059,14 @@ Function selectDraw(n)
 		drawRageEffect(n)
 	EndIf
 
-	If zBlow(n)=1 Or zGrabbed(n)=1 Then Goto drawZ
+	If zBlow(n)=1 Or zGrabbed(n)=1 Then 
+		If zCurBlow(n) <> 4 Then isRunning(n)=0
+		Goto drawZ
+	End If
 	If zduck(n)=1 Then zani(n)=3:zf(n)=1:Goto drawZ					;ducking
 	
 	If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
+		If isRunning(n) Then depleteStaminaBar(n, 1)
 		Select True													;Jump flip
 		Case (zjump2seq(n)=>1 And zjump2seq(n)=<5):zani(n)=5:zf(n)=1
 		Case (zjump2seq(n)=>6 And zjump2seq(n)=<10):zani(n)=5:zf(n)=2
@@ -2060,15 +2077,24 @@ Function selectDraw(n)
 		Goto drawZ
 	EndIf
 	
-	If zongnd(n)=0 And zhit(n)=0 Then zani(n)=4:zf(n)=1:Goto drawZ	;mid air
-
+	If zongnd(n)=0 And zhit(n)=0 Then 	;mid air,,,,,,,
+		If isRunning(n) Then depleteStaminaBar(n, 1)
+		zani(n)=4:zf(n)=1:Goto drawZ	
+	End If  
 	If Not zhit(n) Then ;on ground
 		If zspeed(n) <> 0 Then	;walking
-			zwalkseq(n)=zwalkseq(n)+1
-			If zwalkseq(n)=1 Then zStanceSeq(n) = 0
-		Else	;not walking
+			If isRunning(n) Then
+				zRunSeq(n)=zRunSeq(n)+1
+				If zRunSeq(n) = 1 And gameSound Then PlaySound zRunGruntSound(curGuy(n))
+			Else
+				zwalkseq(n)=zwalkseq(n)+1
+				If zwalkseq(n)=1 Then zStanceSeq(n) = 0
+			End If
+		Else	;not walking/running
 			zwalkseq(n)=0
+			zRunSeq(n)=0
 		EndIf
+		If isRunning(n) Then drawRunSequence(n):Goto drawZ
 		drawWalkSequence(n):Goto drawZ
 	EndIf
 	
@@ -2492,35 +2518,51 @@ If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
 ;--walking/speed/accelaration stuff---------------------------------------------------------------------
 If rightkey(n)=1 Then
 	zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
-	If zSpeed#(n) > zTopSpeed#(n) Then zSpeed#(n) = zTopSpeed#(n)
+	If isRunning(n) Then
+		If zSpeed#(n) > zTopRunningSpeed#(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
+	Else
+		If zSpeed#(n) > zTopSpeed#(n) Then zSpeed#(n) = zTopSpeed#(n)
+	End If
 	Goto PressedDi
 EndIf
 
 If leftkey(n)=1 Then
 	zSpeed#(n)=zSpeed#(n)-zAcc#(n):lk=1
-	If zSpeed#(n) < zTopSpeed#(n) - (zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed#(n) - (zTopSpeed(n)*2)
+	If isRunning(n) Then
+		If zSpeed#(n) < zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2) Then zSpeed#(n) = zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2)
+	Else
+		If zSpeed#(n) < zTopSpeed#(n) - (zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed#(n) - (zTopSpeed(n)*2)
+	End If
 	Goto PressedDi
 EndIf
 
 If zspeed(n) > 0 Then
 	zSpeed#(n)=zSpeed#(n)-zAcc#(n)
-	If ZSPEED(N) < 0 Then zspeed(n)=0
+	If ZSPEED(N) < 0 Then zspeed(n)=0:isRunning(n)=0
 EndIf
 If zspeed(n) < 0 Then
 	zSpeed#(n)=zSpeed#(n)+zAcc#(n)
-	If ZSPEED(N) > 0 Then zspeed(n)=0
+	If ZSPEED(N) > 0 Then zspeed(n)=0:isRunning(n)=0
 EndIf
 .PressedDi
 
-If zSpeed#(n) > zTopSpeed(n) Then zSpeed#(n) = zTopSpeed(n)
-If zSpeed#(n) < zTopSpeed(n)-(zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed(n)-(ztopSpeed(n)*2)
+If isRunning(n) Then
+	If zSpeed#(n) > zTopRunningSpeed(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
+	If zSpeed#(n) < zTopRunningSpeed(n)-(zTopRunningSpeed(n)*2) Then zSpeed#(n) = zTopRunningSpeed(n)-(zTopRunningSpeed(n)*2)
+Else
+	If zSpeed#(n) > zTopSpeed(n) Then zSpeed#(n) = zTopSpeed#(n)
+	If zSpeed#(n) < zTopSpeed(n)-(zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed(n)-(ztopSpeed(n)*2)
+End If
 ;------------------------------------------------------------------------------------------------------
+
 If zhit(n)=0 And zNoMove(n)=0 And zBlowStill(n)=0 Then
 	If rightkey(n) And rk=1 Then zface(n)=2
 	If leftkey(n) And lk=1 Then zface(n)=4
 	If zDuck(n)=0 Then zx(n)=zx(n)+zSpeed#(n)
 EndIf
 
+
+;--blocking--------------------------------------------------------------------------------------------
 If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then 
 	If zhit(n)=0 And zongnd(n)=1 And zBlow(n)=1 And zCurBlow(n)=0 And zBlocked(n)=0 Then
 		If leftKeyhit(n) Then zFace(n)=4 Else zFace(n)=2
@@ -2528,6 +2570,7 @@ If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then
 		zCurBlow(n)=8:zBlowDir(n)=zFace(n)  ;Dodge move
 	EndIf
 EndIf
+;------------------------------------------------------------------------------------------------------
 
 ;----pickup iten---------------------------
 If shotKey(n) And downkey(n)=0 And upkey(n)=0 And zblow(n)=0 And zHit(n)=0 And zGotobj(n)=0 Then
@@ -3403,8 +3446,8 @@ boxHitSpeed(n) = ReadFloat (file)
 boxHitYSpeed(n) = ReadFloat (file)
 boxDamage(n) = ReadInt (file)
 boxHitSound(n) = ReadInt (file)
-boxUseTrigger(n)=ReadInt (file)		;;
-boxEventN(n)=ReadInt (file)			;;
+boxUseTrigger(n)=ReadInt (file)		
+boxEventN(n)=ReadInt (file)			
 boxFinalDest(n)= ReadInt (file)	
 boxBreak(n)= ReadInt (file)
 boxSound(n) = ReadInt (file)
@@ -3438,18 +3481,18 @@ For b=0 To bgAmount  ;
 		yTile(b,n) = ReadFloat (file)
 		tileNumber(b,n) = ReadInt (file)
 		tileSetNumber(b,n) = ReadInt (file)
-		tileXend1(b,n) = ReadInt (file);;
-		tileXend2(b,n) = ReadInt (file);;
-		tileXrand1(b,n) = ReadInt (file);;
-		tileXrand2(b,n) = ReadInt (file);;
-		tileXspeed(b,n) = ReadFloat (file);;
-		tileYend1(b,n) = ReadInt (file);;
-		tileYend2(b,n) = ReadInt (file);;
-		tileYrand1(b,n) = ReadInt (file);;
-		tileYrand2(b,n) = ReadInt (file);;
-		tileYspeed(b,n) = ReadFloat (file);;
-		tileXstart(b,n) = ReadInt (file);;
-		tileYstart(b,n) = ReadInt (file);;
+		tileXend1(b,n) = ReadInt (file)
+		tileXend2(b,n) = ReadInt (file)
+		tileXrand1(b,n) = ReadInt (file)
+		tileXrand2(b,n) = ReadInt (file)
+		tileXspeed(b,n) = ReadFloat (file)
+		tileYend1(b,n) = ReadInt (file)
+		tileYend2(b,n) = ReadInt (file)
+		tileYrand1(b,n) = ReadInt (file)
+		tileYrand2(b,n) = ReadInt (file)
+		tileYspeed(b,n) = ReadFloat (file)
+		tileXstart(b,n) = ReadInt (file)
+		tileYstart(b,n) = ReadInt (file)
 		tileFollow(b,n)= ReadInt (file)
 		tileTarget(b,n)= ReadInt (file)	
 		xtile2(b,n) = ReadInt (file)
@@ -3750,7 +3793,7 @@ If zBlow(n)=1 And zBlowEffect(n) =1 Then
 
 Select zblowdir(n)
 Case 2
-	For nn= 1 To zzamount
+	For nn = 1 To zzamount
 		
 		If zShield(nn)=0 And zon(nn)=1 Then 
 		If Not nn=n Then
@@ -4038,6 +4081,7 @@ End Function
 ;------------------------calculate box impact ---------------------------------------------------
 Function calcBox(nn,n)
 
+isRunning(nn)=0
 zHitHold(nn)=8
 zgrabs(nn)=0: zGrabsThis(nn)=0
 zBlock(nn)=0::zBlocked(nn)=0
@@ -4062,6 +4106,7 @@ End Function
 ;---------------------------Calculate object impact ------------------------------------------------
 Function calcObj(nn,n)
 
+isRunning(nn)=0
 zgrabs(nn)=0: zGrabsThis(nn)=0
 zBlock(nn)=0:zBlocked(nn)=0
 zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
@@ -4096,6 +4141,7 @@ zBlock(nn)=0:zBlocked(nn)=0
 
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 If shotHitMode(n)=2 Then ;normal projectile
+	isRunning(nn)=0
 	zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 	zHitModeTaken(nn)=2
 	zhit(nn)=1:zHitSeq(nn)=0
@@ -4105,6 +4151,7 @@ If shotHitMode(n)=2 Then ;normal projectile
 EndIf
 
 If shotHitMode(n)=3 Or shotHitMode(n)=5 Or shotHitMode(n)=6 Then ; sub zero freeze attacks
+	isRunning(nn)=0
 	zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 	zHitModeTaken(nn)=3
 	zhit(nn)=0:zHitSeq(nn)=0
@@ -4116,6 +4163,7 @@ If shotHitMode(n)=3 Or shotHitMode(n)=5 Or shotHitMode(n)=6 Then ; sub zero free
 EndIf
 
 If shotHitMode(n)=4 Then ;sub zero freeze ground
+	isRunning(nn)=0
 	zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 	zHitModeTaken(nn)=4
 	zhit(nn)=1:zHitSeq(nn)=0
@@ -5988,7 +6036,6 @@ zNoJump(n)=1
 zgravity(n)=0
 zFrozen(n)=1
 zController(n)=zController(n)-10
-DebugLog "zController(freeze): " + zController(n)
 End Function
 
 ;------------ unfreeze unit -----------------
@@ -5998,7 +6045,6 @@ zgravity(n)=3
 zFrozen(n)=0
 canGetTime(n)=0
 If gameSound Then PlaySound subZeroFreeze3Snd
-DebugLog "zController(unfreeze): " + zController(n)
 End Function
 
 ;------------ handle sub zero projectile attacks --------------
@@ -6097,7 +6143,6 @@ Function drawFrozenState(unit)
 		endFreezeTime(unit) = startFreezeTime(unit) + freezeDuration
 		Local shakeXAxis=2
 		freezeSeq(unit) = freezeSeq(unit) + 1
-		DebugLog "currentFreezeTime: " + currentFreezeTime(unit) + ", startFreezeTime(unit): " + startFreezeTime(unit) + ", freezeSeq: " + freezeSeq(unit) + ", canGetTime(unit): " + canGetTime(unit)
 		zPrevAni(unit) = zani(unit):zPrevF(unit)=zf(unit)
 		If currentFreezeTime(unit) => startFreezeTime(unit) + freezeDurationTillShake Then
 			If freezeSeq(unit) Mod 4 = 0 Then zx(unit)=zx(unit)-shakeXAxis
@@ -6175,6 +6220,21 @@ Function drawWalkSequence(n)
 	EndIf
 End Function
 
+;------------ Draw Run Sequence ----------------
+Function drawRunSequence(n)
+	If zRunFrames(n) <> 0 Then
+		For frame=zRunFrames(n) To 1 Step -1
+			If (zRunSeq(n) / zRunFrameSpeed#(n)) Mod frame = 0 Then 
+				If zRunSeq(n) > (frame * 10) + 10 Then zRunSeq(n) = 1:Return
+				zani(n)=21:zf(n)=frame
+				DebugLog "runseq: " + zRunSeq(n) + ", frame: " + frame
+				depleteStaminaBar(n, 5)
+				Return
+			EndIf
+		Next
+	End If
+End Function
+
 ;----------- Draw Stance Sequence --------------
 Function drawStanceSequence(n)
 	If zStanceSeq(n) < zStanceSpeed(n) Then 
@@ -6198,4 +6258,37 @@ Function playDeathSnd(n)
 	Else
 		If gamesound Then PlaySound mikeKickSnd
 	EndIf
+End Function
+
+;----------- Check controller Inputs -------------
+Function checkInputs(n)
+	If rightKeyHit(n) Then checkRightKeyHit(n)
+	If leftKeyHit(n) Then checkLeftKeyHit(n)
+End Function
+
+;----------- Check right key hit ---------------
+Function checkRightKeyHit(n)
+	Local halfSec=500, curTime=MilliSecs()
+	If (curTime - rightKeyHitTimer(n)) < halfSec Then
+		If zOnGnd(n) And zStaminaBar(n) >= 70 And zStanceFrames(n) Then isRunning(n)=1
+	End If
+	rightKeyHitTimer(n) = curTime
+	
+End Function
+
+;----------- Check right key hit ---------------
+Function checkLeftKeyHit(n)
+	Local halfSec=500, curTime=MilliSecs()
+	If (curTime - leftKeyHitTimer(n)) < halfSec Then
+		If zOnGnd(n) And zStaminaBar(n) >= 70 And zStanceFrames(n) Then isRunning(n)=1
+	End If
+	leftKeyHitTimer(n) = curTime
+	
+End Function
+
+;------------ Deplete Stamina Bar --------------
+Function depleteStaminaBar(n, amt)
+	If zStaminaBar#(n) > 0 Then zStaminaBar#(n)=zStaminaBar#(n)-amt
+	If zStaminaBar#(n) <= 0 Then isRunning(n) = 0
+	DebugLog "stamina bar: " + zStaminaBar#(n)
 End Function

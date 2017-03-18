@@ -772,7 +772,7 @@ Case 16 ;Counter Key (Berserker Rage)
 	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=17:zf(n)=3
 	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=17:zf(n)=4
 	If zBlowSeq(n) => d And zBlowSeq(n) < e Then 
-		If zBlowSeq(n) = d And gameSound Then PlaySound wolverineShoutSnd:zSuperBar(n)=100
+		If zBlowSeq(n) = d And gameSound Then PlaySound wolverineShoutSnd
 		If zBlowSeq(n) Mod 2 = 0 Then zx(n)=zx(n)+2
 		If zBlowSeq(n) Mod 2 = 1 Then zx(n)=zx(n)-2
 		zani(n)=17:zf(n)=8
