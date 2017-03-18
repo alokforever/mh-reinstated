@@ -208,7 +208,7 @@ Global rendert, renderFreq, maxObjAmount
 Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
-Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), deathSnd(30)
+Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -476,6 +476,7 @@ Global subZeroFreeze3Snd
 Global subZeroHitSnd
 Global subZeroIceBlastSnd
 Global subZeroKickSnd
+Global subZeroSlideKickSnd
 Global subZeroLaughSnd
 Global subZeroPunchSnd
 Global subZeroPunch2Snd
@@ -1285,9 +1286,11 @@ If scrollMap=1 Then
 			If zx(n) > xscr+640 Then zx(n)=zoldx(n)
 			If zx(n) < xscr Then zx(n)=zoldx(n)
 			If zy(n) > yscr+525 Then
+				playDeathSnd(n)
                 zlives(n)=zlives(n)-1
 				killZ(n)
 			ElseIf zy(n) < yscr-45 Then
+				playDeathSnd(n)
 			    zlives(n)=zlives(n)-1
 				killZ(n)
 			EndIf
@@ -2099,10 +2102,7 @@ Function selectDraw(n)
 		End Select
 	EndIf
 	
-	
-	
 ;------------Decided frame finished--------------------------------------------
-
 
 End Function
 
@@ -2295,6 +2295,7 @@ If zjump(n)=1 Then zongnd(n)=0
 If zongnd(n)=1 Then zjump2(n)=0
 
 If (zy(n) > dscrlimit Or zx(n) > rscrlimit+50 Or zx(n) < lscrlimit-50) And zon(n)=1 Then ;If off screen limits Then loses lives
+	playDeathSnd(n)
 	zLives(n)=zLives(n)-1
 	killZ(n)
 	
@@ -6147,7 +6148,6 @@ End Function
 
 ;------------ Draw Walk Sequence ----------------
 Function drawWalkSequence(n)
-	Local frameSpeed=3
 	If zwalkseq(n) = 0 Then 
 		If zStanceFrames(n) <> 0 Then 
 			drawStanceSequence(n):Return
@@ -6158,7 +6158,7 @@ Function drawWalkSequence(n)
 	EndIf
 	If zWalkFrames(n) <> 0 Then
 		For frame=zWalkFrames(n) To 1 Step -1
-			If (zwalkseq(n) / frameSpeed) Mod frame = 0 Then 
+			If (zwalkseq(n) / zWalkFrameSpeed#(n)) Mod frame = 0 Then 
 				If zwalkseq(n) > (frame * 10) + 10 Then zwalkseq(n) = 1:Return
 				zani(n)=1:zf(n)=frame
 				Return

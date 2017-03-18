@@ -17,14 +17,15 @@ ice + shower
 ground freeze remake
 sub zero ice clone makes sub zero die on cramped spaces
 freeze ball not hitting enemy players in team vs mode
+freeze ball bug
  
 2. wolverine: 
 reuse old blade sound - DONE (3/12/17)
 fix tornado claw hitboxes - DONE (3/14/17)
 fix normal attack - DONE (3/14/17)
 fix grab - DONE (3/14/17)
-add super special #3
-down + slide attack
+add super special #3 - DONE (3/17/17)
+down + slide attack - DONE (3/17/17)
 
 3. sonya: remake
 4. thor: re-create

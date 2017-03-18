@@ -234,7 +234,7 @@ Case 4	;Low kick
 	zNoMove(n)=1:zNoJump(n)=1
 	zheight(n)=zduckheight(n)
 	a=10: b=20: c=45
-	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroKickSnd
+	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroSlideKickSnd
 	If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then 
 		zblowPamount(n)=2:nn=1
@@ -376,7 +376,7 @@ Case 9	;Sub zero freeze ground
 				dir=zface(n):y=zy(n)-zheight(n)+5
 				If zface(n)=2 Then x=zx(n)+24:y=zy(n)-21
 				If zface(n)=4 Then x=zx(n)-24:y=zy(n)-15
-				makeshot(n,42,x,y,dir)	
+				If zBlowSeq(n) = h Then makeshot(n,42,x,y,dir)	
 			EndIf
 		EndIf
 	EndIf

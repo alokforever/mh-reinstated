@@ -51,6 +51,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zStanceFrames(n)=0
 	zStanceSpeed(n)=0
 	zWalkFrames(n)=0
+	zWalkFrameSpeed#(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -249,6 +250,7 @@ Case 11: ;Wolverine
 	zWalkFrames(n)=16
 	zStanceFrames(n)=17
 	zStanceSpeed(n)=3
+	zWalkFrameSpeed#(n)=3
 		
 Case 12: ;Sonya
 	zBlowDist(n,1)=60
@@ -308,7 +310,9 @@ Case 14: ;Sub Zero
 	zJumpSnd2(n)=subZeroJump2Snd
 	zStanceFrames(n)=9
 	zStanceSpeed(n)=5
-
+	zWalkFrames(n)=9
+	zWalkFrameSpeed#(n)=4
+	
 Case 53: ;Broly
 	zBlowDist(n,1)=60
 	zBlowDist(n,2)=55
@@ -3001,15 +3005,16 @@ If n=42 Then	;Joker
 EndIf
 
 If n=14 Then ;SubZero
-	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subzero\subAir.wav")
+	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subzero\subAir.mp3")
 	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subzero\subFreeze1.wav")
 	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subzero\subFreeze2.wav")
 	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subzero\subFreeze3.wav")
-	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subzero\subHit.wav")
+	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subzero\subHit.mp3")
 	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subzero\subIceBlast.wav")
-	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subzero\subKick.wav")
+	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subzero\subKick.mp3")
+	If subZeroSlideKickSnd=0 Then subZeroSlideKickSnd=LoadSound(soundsdir$ + "subzero\subSlideKick.mp3")
 	If subZeroLaughSnd=0 Then subZeroLaughSnd=LoadSound(soundsdir$ + "subzero\subLaugh.wav")
-	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.wav")
+	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.mp3")
 	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subzero\subPunch2.wav")
 	If subZeroSuperSnd=0 Then subZeroSuperSnd=LoadSound(soundsdir$ + "subzero\subSuper.wav")
 	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.wav")
@@ -3019,7 +3024,7 @@ If n=14 Then ;SubZero
 	If subZeroStrongHitSnd=0 Then subZeroStrongHitSnd=LoadSound(soundsdir$ + "subzero\subStrongHit.wav")
 	If subZeroWelldoneSnd=0 Then subZeroWelldoneSnd=LoadSound(soundsdir$ + "subzero\subWelldone.wav")
 	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subzero\subWind.wav")
-	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.wav")	
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.mp3")	
 	If subZeroJumpSnd=0 Then subZeroJumpSnd=LoadSound(soundsdir$ + "subzero\subjump.wav")
 	If subZeroJump2Snd=0 Then subZeroJump2Snd=LoadSound(soundsdir$ + "subzero\subJump2.mp3")
 EndIf
