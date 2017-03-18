@@ -16,8 +16,8 @@ re-size sprites
 ice + shower
 ground freeze remake
 sub zero ice clone makes sub zero die on cramped spaces
-freeze ball not hitting enemy players in team vs mode
-freeze ball bug
+freeze ball not hitting enemy players in team vs mode - DONE (3/18/17)
+freeze ball bug - DONE (3/18/17)
  
 2. wolverine: 
 reuse old blade sound - DONE (3/12/17)

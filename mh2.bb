@@ -1417,7 +1417,7 @@ Case 40 ;Sub Zero ground freeze
 	shotDuration(n)=100
 	shotMaxSpeed(n)=shotSpeed(n)
 	shotDrill(n)=0
-	shotChunkType(n)=74
+	shotChunkType(n)=94
 	shotPic(n,1)=shotImage(48)
 	shotPic_(n,1)=shotImage_(48)
 	shotSound(n)=NoSnd
@@ -2171,6 +2171,22 @@ Case 92: 		;Small X slashB
 	
 	If chunkSeq(n) = 5 Then chunk(n)=0
 	
+Case 93:		;Berserker aura
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(73,1):chunkPic_(n)=ptPic(73,1)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(73,2):chunkPic_(n)=ptPic(73,2)
+	If chunkSeq(n) >= 5 And chunkSeq(n) < 7 Then chunkPic(n)=ptPic(73,3):chunkPic_(n)=ptPic(73,3)
+	If chunkSeq(n) >= 7 And chunkSeq(n) < 9 Then chunkPic(n)=ptPic(73,4):chunkPic_(n)=ptPic(73,4)
+	If chunkSeq(n) >= 9 And chunkSeq(n) < 11 Then chunkPic(n)=ptPic(73,5):chunkPic_(n)=ptPic(73,5)
+	If chunkSeq(n) >= 11 And chunkSeq(n) < 13 Then chunkPic(n)=ptPic(73,6):chunkPic_(n)=ptPic(73,6)
+	If chunkSeq(n) >= 13 And chunkSeq(n) < 15 Then chunkPic(n)=ptPic(73,7):chunkPic_(n)=ptPic(73,7)
+	
+	If chunkSeq(n) = 15 Then chunk(n)=0
+
+Case 94:		;no chunk
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(74,1):chunkPic_(n)=ptPic(74,1)
+	
+	If chunkSeq(n) = 5 Then chunk(n)=0
+
 Case 101: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(51,1):chunkPic_(n)=ptPic(51,1)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(51,2):chunkPic_(n)=ptPic(51,2)

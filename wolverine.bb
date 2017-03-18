@@ -43,7 +43,7 @@ Function performSuperSpecial2(n)
 
 		zHitmode(n)=2:zBlowHold(n)=3:zBlowSound(n)=slashSnd
 		zBlowDamage(n)=2:zBLowEffect(n)=1:zBlowImpact(n)=4:zBlowStillTime(n)=0:zBlowBlockTime(n)=15
-		zHitSpeed#(n)=1.5:zHitUpSpeed#(n)=1.8:zHitTime(n)=5
+		zHitSpeed#(n)=1.1:zHitUpSpeed#(n)=2:zHitTime(n)=5
 	EndIf
 	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=10:zf(n)=1
 	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then 
@@ -782,7 +782,7 @@ Case 16 ;Counter Key (Berserker Rage)
 	EndIf
 	;***** Taunt *****
 	
-	If zBlowSeq(n) = 1 And zSuperBar(n) = 100 Then zBlowSeq(n) = f
+	If zBlowSeq(n) = 1 And zSuperBar(n) >= 100 Then zBlowSeq(n) = f
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=10:zf(n)=1
 	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=2
 	If zBlowSeq(n) => h And zBlowSeq(n) < i Then zani(n)=10:zf(n)=3

@@ -1805,12 +1805,12 @@ Repeat
 		Case 3: optionsMenu()   ;Options menu
 		Case 4: controlsMenu()  ;Controls menu
 		Case 5: inGameMenu()    ;during gameplay menu
-			If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
-				For n=1 To zzamount
-					If zFrozen(n)=1 Then unFreeze(n)
-					If wolverineRage(n)=1 Then wolverineRage(n)=0
-				Next
-			EndIf
+				If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
+					For n=1 To zzamount
+						If zFrozen(n)=1 Then unFreeze(n)
+						If wolverineRage(n)=1 Then wolverineRage(n)=0
+					Next
+				EndIf
 	End Select
 
 If warning=1 Then
@@ -2138,6 +2138,7 @@ If zStone(n)=1 And fightMode=2 Then
 EndIf
 
 If zhit(n)=1 Then
+	If zFrozen(n)=1 Then unFreeze(n)
 	zhitseq(n)=zhitseq(n)+1 
 	zSuperMove(n)=0
 	If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
@@ -2407,8 +2408,6 @@ screenShotN = screenShotN + 1
 FreeImage temppic
 EndIf
 
-
-
 If NoUserInput=0 Then 
 
 For k= 1 To zzamount
@@ -2422,11 +2421,9 @@ For k= 1 To zzamount
 		.SkipAI
 	EndIf
 Next
+	
+For n = 1 To zzamount		
 
-For n= 1 To zzamount
-If zController(n)<2 Then
-	If zFrozen(n)=1 Then zController(n)=zController(n)+2
-EndIf
 If Not zai(n) Then 
 Select zController(n)
 Case 0  
@@ -5990,14 +5987,18 @@ Function freezeVictim(n)
 zNoJump(n)=1
 zgravity(n)=0
 zFrozen(n)=1
-;If gameSound Then PlaySound subZeroFreeze3Snd
+zController(n)=zController(n)-10
+DebugLog "zController(freeze): " + zController(n)
 End Function
 
 ;------------ unfreeze unit -----------------
 Function unFreeze(n)
-zController(n)=zController(n)-2
+zController(n)=zController(n)+10
 zgravity(n)=3
 zFrozen(n)=0
+canGetTime(n)=0
+If gameSound Then PlaySound subZeroFreeze3Snd
+DebugLog "zController(unfreeze): " + zController(n)
 End Function
 
 ;------------ handle sub zero projectile attacks --------------
@@ -6094,9 +6095,9 @@ Function drawFrozenState(unit)
 			startFreezeTime(unit) = MilliSecs()
 		EndIf
 		endFreezeTime(unit) = startFreezeTime(unit) + freezeDuration
-		
 		Local shakeXAxis=2
 		freezeSeq(unit) = freezeSeq(unit) + 1
+		DebugLog "currentFreezeTime: " + currentFreezeTime(unit) + ", startFreezeTime(unit): " + startFreezeTime(unit) + ", freezeSeq: " + freezeSeq(unit) + ", canGetTime(unit): " + canGetTime(unit)
 		zPrevAni(unit) = zani(unit):zPrevF(unit)=zf(unit)
 		If currentFreezeTime(unit) => startFreezeTime(unit) + freezeDurationTillShake Then
 			If freezeSeq(unit) Mod 4 = 0 Then zx(unit)=zx(unit)-shakeXAxis
@@ -6135,6 +6136,7 @@ Function drawRageEffect(player)
 		
 		Local shakeXAxis=4
 		rageSeq(player) = rageSeq(player) + 1
+		If rageSeq(player) Mod 15 = 0 Then extraObj(n,zx(player),0,zy(player),0,zblowdir(player),93)
 
 		If rageSeq(player) Mod 4 = 0 Then zx(player)=zx(player)-shakeXAxis
 		If rageSeq(player) Mod 4 = 1  Then zx(player)=zx(player)+shakeXAxis
