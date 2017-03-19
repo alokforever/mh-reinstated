@@ -2954,6 +2954,11 @@ For counter = 1 To 20
 	zpic_(n,21,counter)=LoadImage(gfxdir$ + "run\zRun" + counter + "_.bmp")
 Next
 
+For counter = 1 To 20
+	zpic(n,22,counter)=LoadImage(gfxdir$ + "combo\zCombo" + counter + ".bmp")
+	zpic_(n,22,counter)=LoadImage(gfxdir$ + "combo\zCombo" + counter + "_.bmp")
+Next
+
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom

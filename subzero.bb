@@ -1,3 +1,7 @@
+Function performCombo(n)
+
+End Function
+
 Function DoSubZero(n)
 
 zFace(n)=zBlowDir(n)
@@ -188,8 +192,12 @@ Case 13 ; item pickup
 	If zBlowSeq(n) => c Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 Case 1	; Kick
-	a= 5: b=10: c=15: d=20: e=27: f=26: g=30: h=35	zNoMove(n)=1
-	zNoJump(n)=1
+	a= 5: b=10: c=15: d=20: e=27: f=26: g=30: h=35: i=50
+	zNoMove(n)=1:zNoJump(n)=1
+	If zBlowSeq(n) = 1 And isRunning(n) Then
+		zBlowSeq(n) = i
+		performCombo(n)
+	End If
 	If zBlowSeq(n) = d And gameSound Then PlaySound subZeroKickSnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2
@@ -227,7 +235,7 @@ Case 2	;Flying kick
 		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
 		zBlowSound(n)=subZeroHitSnd
 	EndIf
-	If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
+	If zBlowSeq(n) > d And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
 	If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zblowseq(n)=0
 
 Case 4	;Low kick
@@ -235,21 +243,21 @@ Case 4	;Low kick
 	zheight(n)=zduckheight(n)
 	a=10: b=20: c=45
 	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroSlideKickSnd
-	If zBlowSeq(n) < 7 And isRunning(n) Then zBlowSeq(n) = 7
+	If zSpeed(n) <> 0 Then b=b+(Abs(zSpeed#(n))/2):c=c+(Abs(zSpeed#(n))/2)
 	If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
+	If zBlowSeq(n) < a And isRunning(n) Then zBlowSeq(n)=a
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then 
 		zblowPamount(n)=2:nn=1
 		xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		If isRunning(n) Then movex2(n,zface(n),5+(Abs(zSpeed#(n))))
-		If isRunning(n)=0 Then movex2(n,zface(n),5)
+		movex2(n,zface(n),5+(Abs(zSpeed#(n))/1.5))
 		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
 		zBlowSound(n)=subZeroHitSnd
 		zani(n)=9:zf(n)=2
 	EndIf
 	If zBlowSeq(n) >= b And zBlowSeq(n) =< c Then zani(n)=9:zf(n)=1
-	If zBlowSeq(n) > c Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
+	If zBlowSeq(n) > c Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1:isRunning(n)=0
 
 Case 5 ; Uppercut
    	zNoMove(n)=1

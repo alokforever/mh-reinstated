@@ -211,8 +211,8 @@ Global menuOption, duringGameMenu
 ;zeto's variables
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
-Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30), zRunFootSound(30)
-Dim zStaminaBar#(30)
+Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
+Dim zStaminaBar#(30), zRunFootSound(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -473,6 +473,7 @@ Global clicksnd=LoadSound(soundsdir$ + "click.wav")
 Global slashsnd=LoadSound(soundsdir$ + "slash.wav")
 Global ctfSnd=LoadSound(soundsdir$ + "ctf.wav")
 Global pickupSnd=LoadSound(soundsdir$ + "pickup.wav")
+Global mkMaleGrunt1Snd=LoadSound(soundsdir$ + "mk\mkMaleGrunt1.mp3")
 Global subZeroAirSnd
 Global subZeroFreeze1Snd
 Global subZeroFreeze2Snd
@@ -736,6 +737,7 @@ EndIf
 Select menuOption
 	Case 1: menu()  ;character Select screen
 	Case 2: mainMenu()  ;main menu, first screen
+			clearSubStates()
 	Case 3: optionsMenu()   ;Options menu
 	Case 4: controlsMenu()   ;Controls menu
 End Select
@@ -1614,6 +1616,8 @@ For n=1 To 4
 	Rect x,y+15,zSuperbar(n),4,1
 	If zStaminaBar#(n) < 70 Then Color 231,76,60 Else Color 52,152,219  
 	Rect x,y+20,zStaminaBar#(n),4,1
+	Color 74,35,90
+	Rect x,y+25,(zBlockLife(n)*1.28),4,1
 	Color 120,120,120
 	Rect x,y+15,100,4,0	 
  EndIf
@@ -1819,12 +1823,7 @@ Repeat
 		Case 3: optionsMenu()   ;Options menu
 		Case 4: controlsMenu()  ;Controls menu
 		Case 5: inGameMenu()    ;during gameplay menu
-				If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
-					For n=1 To zzamount
-						If zFrozen(n)=1 Then unFreeze(n)
-						If wolverineRage(n)=1 Then wolverineRage(n)=0
-					Next
-				EndIf
+	
 	End Select
 
 If warning=1 Then
@@ -2060,10 +2059,15 @@ Function selectDraw(n)
 	EndIf
 
 	If zBlow(n)=1 Or zGrabbed(n)=1 Then 
-		If zCurBlow(n) <> 4 Then isRunning(n)=0
+		If zCurBlow(n)=5 Then isRunning(n)=0
 		Goto drawZ
 	End If
-	If zduck(n)=1 Then zani(n)=3:zf(n)=1:Goto drawZ					;ducking
+	
+	If zDuck(n)=1 Then 
+		zani(n)=3:zf(n)=1
+		If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
+		Goto drawZ		
+	End If			;ducking
 	
 	If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
 		If isRunning(n) Then depleteStaminaBar(n, 1)
@@ -2085,7 +2089,6 @@ Function selectDraw(n)
 		If zspeed(n) <> 0 Then	;walking
 			If isRunning(n) Then
 				zRunSeq(n)=zRunSeq(n)+1
-				If zRunSeq(n) = 1 And gameSound Then PlaySound zRunGruntSound(curGuy(n))
 			Else
 				zwalkseq(n)=zwalkseq(n)+1
 				If zwalkseq(n)=1 Then zStanceSeq(n) = 0
@@ -2507,7 +2510,18 @@ If zon(n)=0 Then Goto noshot
 
 zDuck(n)=0:zHeight(n)=zUpHeight(n)
 If downKey(n)=1 And zHit(n)=0 And zongnd(n)=1 And zBlow(n)=0 Then
-	zDuck(n)=1:zHeight(n)=zDuckHeight(n):zspeed(n)=0
+	zDuck(n)=1:zHeight(n)=zDuckHeight(n)
+	If isRunning(n)=0 Then
+		zSpeed(n)=0
+	Else
+		If zSpeed#(n) < 0.1 And zSpeed#(n) > -0.1 Then
+			zSpeed(n)=0
+			isRunning(n)=0
+		Else
+			If zFace(n)=2 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
+			If zFace(n)=4 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
+		End If
+	End If
 EndIf
 
 If downKey(n)=1  And jumpKey(n)=1 And zonplat(n)=1 And zonThickPlat(n)=0 And zHit(n)=0 And zblow(n)=0 Then
@@ -2515,7 +2529,7 @@ If downKey(n)=1  And jumpKey(n)=1 And zonplat(n)=1 And zonThickPlat(n)=0 And zHi
 EndIf
 
 If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
-;--walking/speed/accelaration stuff---------------------------------------------------------------------
+;--walking/running/speed/accelaration stuff---------------------------------------------------------------------
 If rightkey(n)=1 Then
 	zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
 	If isRunning(n) Then
@@ -2548,19 +2562,19 @@ EndIf
 
 If isRunning(n) Then
 	If zSpeed#(n) > zTopRunningSpeed(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
-	If zSpeed#(n) < zTopRunningSpeed(n)-(zTopRunningSpeed(n)*2) Then zSpeed#(n) = zTopRunningSpeed(n)-(zTopRunningSpeed(n)*2)
+	If zSpeed#(n) < zTopRunningSpeed(n)-(zTopRunningSpeed(n)*2) Then zSpeed#(n)=zTopRunningSpeed(n)-(zTopRunningSpeed(n)*2)
 Else
 	If zSpeed#(n) > zTopSpeed(n) Then zSpeed#(n) = zTopSpeed#(n)
-	If zSpeed#(n) < zTopSpeed(n)-(zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed(n)-(ztopSpeed(n)*2)
+	If zSpeed#(n) < zTopSpeed(n)-(zTopSpeed(n)*2) Then zSpeed#(n)=zTopSpeed(n)-(ztopSpeed(n)*2)
 End If
+
 ;------------------------------------------------------------------------------------------------------
 
 If zhit(n)=0 And zNoMove(n)=0 And zBlowStill(n)=0 Then
 	If rightkey(n) And rk=1 Then zface(n)=2
 	If leftkey(n) And lk=1 Then zface(n)=4
-	If zDuck(n)=0 Then zx(n)=zx(n)+zSpeed#(n)
+	If zDuck(n)=0 Or isRunning(n) Then zx(n)=zx(n)+zSpeed#(n)
 EndIf
-
 
 ;--blocking--------------------------------------------------------------------------------------------
 If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then 
@@ -4054,6 +4068,7 @@ End Function
 ;---------------------------Calculate Blow Impact 2 ------------------------------------------------
 Function calcBlow2(nn,n,hitTime)
 
+isRunning(nn)=0
 zgrabs(nn)=0: zGrabsThis(nn)=0
 zBlock(nn)=0:zBlocked(nn)=0
 zHitModeTaken(nn)=zHitMode(n)
@@ -6222,12 +6237,13 @@ End Function
 
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
+	If zStaminaBar(n) = 95 And zRunSeq(n)=5 And gameSound Then PlaySound zRunGruntSound(curGuy(n))
+	If zRunSeq(n) Mod 12 = 0 And gameSound Then PlaySound zRunFootSound(curGuy(n))
 	If zRunFrames(n) <> 0 Then
 		For frame=zRunFrames(n) To 1 Step -1
 			If (zRunSeq(n) / zRunFrameSpeed#(n)) Mod frame = 0 Then 
-				If zRunSeq(n) > (frame * 10) + 10 Then zRunSeq(n) = 1:Return
+				If zRunSeq(n) > (frame * 10) + 10 Then zRunSeq(n) = zRunFrameSpeed#(n)-1:Return
 				zani(n)=21:zf(n)=frame
-				DebugLog "runseq: " + zRunSeq(n) + ", frame: " + frame
 				depleteStaminaBar(n, 5)
 				Return
 			EndIf
@@ -6268,9 +6284,9 @@ End Function
 
 ;----------- Check right key hit ---------------
 Function checkRightKeyHit(n)
-	Local halfSec=500, curTime=MilliSecs()
-	If (curTime - rightKeyHitTimer(n)) < halfSec Then
-		If zOnGnd(n) And zStaminaBar(n) >= 70 And zStanceFrames(n) Then isRunning(n)=1
+	Local quarterSec=250, curTime=MilliSecs()
+	If (curTime - rightKeyHitTimer(n)) < quarterSec Then
+		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n) Then isRunning(n)=1
 	End If
 	rightKeyHitTimer(n) = curTime
 	
@@ -6278,9 +6294,9 @@ End Function
 
 ;----------- Check right key hit ---------------
 Function checkLeftKeyHit(n)
-	Local halfSec=500, curTime=MilliSecs()
-	If (curTime - leftKeyHitTimer(n)) < halfSec Then
-		If zOnGnd(n) And zStaminaBar(n) >= 70 And zStanceFrames(n) Then isRunning(n)=1
+	Local quarterSec=250, curTime=MilliSecs()
+	If (curTime - leftKeyHitTimer(n)) < quarterSec Then
+		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n) Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
 	
@@ -6289,6 +6305,16 @@ End Function
 ;------------ Deplete Stamina Bar --------------
 Function depleteStaminaBar(n, amt)
 	If zStaminaBar#(n) > 0 Then zStaminaBar#(n)=zStaminaBar#(n)-amt
-	If zStaminaBar#(n) <= 0 Then isRunning(n) = 0
-	DebugLog "stamina bar: " + zStaminaBar#(n)
+	If zStaminaBar#(n) <= 0 Then isRunning(n)=0
+End Function
+
+;------------ Clear gameplay sub states ---------------
+Function clearSubStates()
+	If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
+		For n=1 To zzamount
+			If zController(n) < 0 Then zController(n)=zController(n)+10
+			If zFrozen(n)=1 Then unFreeze(n)
+			If wolverineRage(n)=1 Then wolverineRage(n)=0
+		Next
+	EndIf
 End Function
