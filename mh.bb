@@ -1090,7 +1090,6 @@ FlushKeys() : FlushJoy()
 ;------*-------*--- MAIN LOOP -----*--------*--------
 ;------*-------*-------------------*--------*--------
 While Not gameDone=1
-
 Getinput
 flags
 For n= 1 To zzamount
@@ -1100,6 +1099,7 @@ For n= 1 To zzamount
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	
+	If zFrozen(n) Then zNoMove(n)=1
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
@@ -6050,12 +6050,10 @@ Function freezeVictim(n)
 zNoJump(n)=1
 zgravity(n)=0
 zFrozen(n)=1
-zController(n)=zController(n)-10
 End Function
 
 ;------------ unfreeze unit -----------------
 Function unFreeze(n)
-zController(n)=zController(n)+10
 zgravity(n)=3
 zFrozen(n)=0
 canGetTime(n)=0
@@ -6311,7 +6309,6 @@ End Function
 Function clearSubStates()
 	If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
 		For n=1 To zzamount
-			If zController(n) < 0 Then zController(n)=zController(n)+10
 			If zFrozen(n)=1 Then unFreeze(n)
 			If wolverineRage(n)=1 Then wolverineRage(n)=0
 		Next

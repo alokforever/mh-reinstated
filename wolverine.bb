@@ -779,7 +779,7 @@ Case 16 ;Counter Key (Berserker Rage)
 		If zBlowSeq(n) Mod 2 = 1 Then zx(n)=zx(n)-2
 		zani(n)=17:zf(n)=8
 		If zBlowSeq(n) = d Then 
-			If zSuperBar(n) <= 100 And wolverineRage(n) = 0 Then zSuperBar(n)=zSuperBar(n)+5
+			If zSuperBar(n) <= 100 And wolverineRage(n) = 0 And vsMode=1 Then zSuperBar(n)=zSuperBar(n)+5
 		EndIf
 	EndIf
 	;***** Taunt *****
