@@ -104,7 +104,7 @@ Dim guyLoaded(100)
 
 Dim extraDraw(30),extraPic(30), xED(30),yED(30), epic(20,20), epic_(20,20),eAni(20),ef(20)
 Global quake, quakeSeq,mapsLoaded,xScr,yScr,xScr_,yScr_,scrollMap,scrollXspeed#, scrollYspeed#, scrLock
-Global fightMode, xScrStart, yScrStart, noAirSpecial, noDoubleJump, fileBkp, noItems, xAxis, yAxis
+Global fightMode, xScrStart, yScrStart, noAirSpecial, noDoubleJump, fileBkp, noItems=1, xAxis, yAxis
 
 Global Famount
 Dim curF(100),FdelaySeq(100),Fevent(100),FfacAmount(100),Floop(100)

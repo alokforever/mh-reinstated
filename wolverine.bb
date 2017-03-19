@@ -173,6 +173,7 @@ Case 15 ;Wolverine throw
 	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=15:zf(n)=2:zani(en)=2:zf(en)=3
 
 	If zblowseq(n) = f Then
+		extraObj(n,zx(n),-10,zy(n),10,zblowdir(n),95)
 		zHitmodeTaken(en)=2:zHit(en)=1:
 		zDamage(en)=zDamage(en)+5
 		zLife(en)=zLife(en)-5

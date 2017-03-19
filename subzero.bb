@@ -1,5 +1,48 @@
 Function performCombo(n)
+	a=53:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
+	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
+	endSeq=45
+	If zBlowSeq(n)>=50 And zBlowSeq(n) < c Then movex2(n,zface(n),2+(Abs(zSpeed#(n))/1.5))
+	
+;----- animations -----
+	If zBlowSeq(n)>=50 And zBlowSeq(n) < a Then zani(n)=22:zf(n)=1
+	If zBlowSeq(n)>=a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
+	If zBlowSeq(n)>=b And zBlowSeq(n) < c Then 
+		zani(n)=22:zf(n)=3
+		If zBlowSeq(n) = c-1 And KeyDown(specialK(n))=0 Then zBlowSeq(n)=endSeq
+	End If
+	If zBlowSeq(n)>=c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
+	If zBlowSeq(n)>=d And zBlowSeq(n) < e Then zani(n)=22:zf(n)=5
+	If zBlowSeq(n)>=e And zBlowSeq(n) < f Then 
+		zani(n)=22:zf(n)=6
+		If zBlowSeq(n) = f-1 And KeyDown(blockK(n))=0 Then zBlowSeq(n)=endSeq
+	End If
+	If zBlowSeq(n)>=f And zBlowSeq(n) < g Then zani(n)=22:zf(n)=7
+	If zBlowSeq(n)>=g And zBlowSeq(n) < h Then zani(n)=22:zf(n)=8
+	If zBlowSeq(n)>=h And zBlowSeq(n) < i Then zani(n)=22:zf(n)=9
+	If zBlowSeq(n)>=i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=10
+	If zBlowSeq(n)>=j And zBlowSeq(n) < k Then 
+		zani(n)=22:zf(n)=11
+		If zBlowSeq(n) = k-1 And KeyDown(grabK(n))=0 Then zBlowSeq(n)=endSeq
+	End If
+	If zBlowSeq(n)>=k And zBlowSeq(n) < l Then zani(n)=22:zf(n)=7
+	If zBlowSeq(n)>=l And zBlowSeq(n) < m Then zani(n)=22:zf(n)=8
+	If zBlowSeq(n)>=m And zBlowSeq(n) < n1 Then zani(n)=22:zf(n)=9
+	If zBlowSeq(n)>=n1 And zBlowSeq(n) < o Then zani(n)=22:zf(n)=10
+	If zBlowSeq(n)>=o And zBlowSeq(n) < p Then zani(n)=22:zf(n)=11
+;----------------------
+;----- hit boxes ------
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
+		extraObj(n,zx(n),25,zy(n),-24,zblowdir(n),12)
+	End If
 
+
+
+;----------------------
+	
+	
+
+	If zBlowSeq(n) = p Then zBlowSeq(n)=endSeq
 End Function
 
 Function DoSubZero(n)
@@ -196,8 +239,9 @@ Case 1	; Kick
 	zNoMove(n)=1:zNoJump(n)=1
 	If zBlowSeq(n) = 1 And isRunning(n) Then
 		zBlowSeq(n) = i
-		performCombo(n)
+		isRunning(n)=0
 	End If
+	If zBlowSeq(n) >= i Then performCombo(n)
 	If zBlowSeq(n) = d And gameSound Then PlaySound subZeroKickSnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2
@@ -215,7 +259,7 @@ Case 1	; Kick
 	If zBlowseq(n) > e And zblowseq(n) =< f Then zani(n)=6:zf(n)=4
 	If zBlowseq(n) > f And zblowseq(n) =< g Then zani(n)=6:zf(n)=6
 	If zBlowseq(n) > g And zblowseq(n) =< h Then zani(n)=6:zf(n)=7
-	If zBlowSeq(n) => h Then zBlowSeq(n)=0:zBlow(n)=0
+	If zBlowSeq(n) => h And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 2	;Flying kick
 	a=5: b=a+5: c=b+8: d=c+10

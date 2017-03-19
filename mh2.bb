@@ -2190,6 +2190,18 @@ Case 94:		;no chunk
 	If chunkSeq(n) >= 1 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(74,1):chunkPic_(n)=ptPic(74,1)
 	
 	If chunkSeq(n) = 5 Then chunk(n)=0
+	
+Case 95:		;Blood
+	If chunkSeq(n) >=1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(75,1):chunkPic_(n)=ptPic_(75,1)
+	If chunkSeq(n) >=3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(75,2):chunkPic_(n)=ptPic_(75,2)
+	If chunkSeq(n) >=5 And chunkSeq(n) < 7 Then chunkPic(n)=ptPic(75,3):chunkPic_(n)=ptPic_(75,3)
+	If chunkSeq(n) >=7 And chunkSeq(n) < 9 Then chunkPic(n)=ptPic(75,4):chunkPic_(n)=ptPic_(75,4)
+	If chunkSeq(n) >=9 And chunkSeq(n) < 11 Then chunkPic(n)=ptPic(75,5):chunkPic_(n)=ptPic_(75,5)
+	If chunkSeq(n) >=11 And chunkSeq(n) < 13 Then chunkPic(n)=ptPic(75,6):chunkPic_(n)=ptPic_(75,6)
+	If chunkSeq(n) >=13 And chunkSeq(n) < 15 Then chunkPic(n)=ptPic(75,7):chunkPic_(n)=ptPic_(75,7)
+	If chunkSeq(n) >=15 And chunkSeq(n) < 17 Then chunkPic(n)=ptPic(75,8):chunkPic_(n)=ptPic_(75,8)
+	
+	If chunkSeq(n) = 9 Then chunk(n)=0
 
 Case 101: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(51,1):chunkPic_(n)=ptPic(51,1)
