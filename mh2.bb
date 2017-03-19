@@ -54,6 +54,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zWalkFrameSpeed#(n)=0
 	zRunFrames(n)=0
 	zRunFrameSpeed#(n)=0
+	zCharSpeed#(n)=2
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -253,6 +254,9 @@ Case 11: ;Wolverine
 	zStanceFrames(n)=17
 	zStanceSpeed(n)=3
 	zWalkFrameSpeed#(n)=3
+	zRunFrames(n)=6
+	zRunFrameSpeed#(n)=3
+	zCharSpeed#(n)=2.5
 		
 Case 12: ;Sonya
 	zBlowDist(n,1)=60
@@ -316,6 +320,7 @@ Case 14: ;Sub Zero
 	zWalkFrameSpeed#(n)=4
 	zRunFrames(n)=11
 	zRunFrameSpeed#(n)=3
+	zCharSpeed#(n)=2
 	
 Case 53: ;Broly
 	zBlowDist(n,1)=60
@@ -3123,6 +3128,8 @@ If n=11 Then
 	If wolverineClawSnd=0 Then wolverineClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineClaw.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wolverine\wolverineDie.wav")
 	If wolverineLetsGoSnd=0 Then wolverineLetsGoSnd=LoadSound(soundsdir$ + "wolverine\wolverineLetsGo.wav")
+	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "wolverine\wolverineShout2.wav")
+	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 EndIf
 
 If n=10 Then ;Ritcher

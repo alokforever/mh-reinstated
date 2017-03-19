@@ -212,7 +212,7 @@ Global menuOption, duringGameMenu
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
-Dim zStaminaBar#(30), zRunFootSound(30)
+Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -876,7 +876,7 @@ For n=1 To zzamount
 	zjumplimit(n)=20    ;20		;Jump height (per frame), not pixels!
 	zDtopSpeed#(n)=2    ;2
 	zTopSpeed#(n)=zDtopSpeed(n)
-	zTopRunningSpeed#(n)=zDtopSpeed(n)*2
+	zTopRunningSpeed#(n)=zDtopSpeed(n)*zCharSpeed#(curGuy(n))
 	zBlockSpeed(n)=.8
 	zBLow(n)=0
 	ztargetScore(n)=0
@@ -1097,7 +1097,7 @@ For n= 1 To zzamount
     zBeenHere(n)=0
 	zJumping(n)=1:zNoGrav(n)=0:zNoJump(n)=0:zNoMove(n)=0:zTopSpeed(n)=zDtopSpeed(n)
 	zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
-	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*2
+	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
@@ -6199,7 +6199,7 @@ Function drawRageEffect(player)
 		If rageSeq(player) Mod 15 = 0 Then extraObj(n,zx(player),0,zy(player),0,zblowdir(player),93)
 
 		If rageSeq(player) Mod 4 = 0 Then zx(player)=zx(player)-shakeXAxis
-		If rageSeq(player) Mod 4 = 1  Then zx(player)=zx(player)+shakeXAxis
+		If rageSeq(player) Mod 4 = 1 Then zx(player)=zx(player)+shakeXAxis
 
 		If currentRageTime(player) => endRageTime(player) Then canGetRageTime(player)=0:wolverineRage(player)=0:wolvSpdFctr(player)=1
 	Else
@@ -6237,6 +6237,7 @@ End Function
 
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
+	drawTrailingEffects(n, zRunSeq(n))
 	If zStaminaBar(n) = 95 And zRunSeq(n)=5 And gameSound Then PlaySound zRunGruntSound(curGuy(n))
 	If zRunSeq(n) Mod 12 = 0 And gameSound Then PlaySound zRunFootSound(curGuy(n))
 	If zRunFrames(n) <> 0 Then
@@ -6286,20 +6287,18 @@ End Function
 Function checkRightKeyHit(n)
 	Local quarterSec=250, curTime=MilliSecs()
 	If (curTime - rightKeyHitTimer(n)) < quarterSec Then
-		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n) Then isRunning(n)=1
+		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	rightKeyHitTimer(n) = curTime
-	
 End Function
 
 ;----------- Check right key hit ---------------
 Function checkLeftKeyHit(n)
 	Local quarterSec=250, curTime=MilliSecs()
 	If (curTime - leftKeyHitTimer(n)) < quarterSec Then
-		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n) Then isRunning(n)=1
+		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
-	
 End Function
 
 ;------------ Deplete Stamina Bar --------------
@@ -6317,4 +6316,11 @@ Function clearSubStates()
 			If wolverineRage(n)=1 Then wolverineRage(n)=0
 		Next
 	EndIf
+End Function
+
+;-------------- Draw trailing effects ----------------
+Function drawTrailingEffects(n, runSeq)
+	If curGuy(n)=11 Then
+		If runSeq Mod 5 = 0 And (zSpeed#(n) >= 3 Or zSpeed#(n) <= -3) Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
+	End If
 End Function
