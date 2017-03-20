@@ -2208,6 +2208,17 @@ Case 95:		;Blood
 	
 	If chunkSeq(n) = 9 Then chunk(n)=0
 
+Case 96:		;Blood2
+
+
+Case 97:		;Berserker slash2 FX
+	If chunkSeq(n) >=1 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(77,1):chunkPic_(n)=ptPic_(77,1)
+	If chunkSeq(n) >=5 And chunkSeq(n) < 9 Then chunkPic(n)=ptPic(77,2):chunkPic_(n)=ptPic_(77,2)
+	If chunkSeq(n) >=9 And chunkSeq(n) < 13 Then chunkPic(n)=ptPic(77,3):chunkPic_(n)=ptPic_(77,3)
+	If chunkSeq(n) >=13 And chunkSeq(n) < 17 Then chunkPic(n)=ptPic(77,4):chunkPic_(n)=ptPic_(77,4)
+	
+	If chunkSeq(N) = 17 Then chunk(n)=0
+
 Case 101: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(51,1):chunkPic_(n)=ptPic(51,1)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(51,2):chunkPic_(n)=ptPic(51,2)
@@ -2916,7 +2927,7 @@ For i=1 To 16
 	zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
 Next
 
-For i=1 To 8
+For i=1 To 20
 	zpic(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + ".bmp")
 	zpic_(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + "_.bmp")
 Next

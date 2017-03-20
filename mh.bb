@@ -213,7 +213,7 @@ Global menuOption, duringGameMenu
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
-Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30)
+Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -2531,7 +2531,6 @@ EndIf
 
 If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
 ;--walking/running/speed/accelaration stuff---------------------------------------------------------------------
-DebugLog zSpeed#(n)
 If rightkey(n)=1 Then
 	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
 	If isRunning(n) Then
@@ -6285,8 +6284,8 @@ End Function
 
 ;----------- Check right key hit ---------------
 Function checkRightKeyHit(n)
-	Local quarterSec=250, curTime=MilliSecs()
-	If (curTime - rightKeyHitTimer(n)) < quarterSec Then
+	Local quintSec=200, curTime=MilliSecs()
+	If (curTime - rightKeyHitTimer(n)) < quintSec Then
 		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	rightKeyHitTimer(n) = curTime
@@ -6294,8 +6293,8 @@ End Function
 
 ;----------- Check right key hit ---------------
 Function checkLeftKeyHit(n)
-	Local quarterSec=250, curTime=MilliSecs()
-	If (curTime - leftKeyHitTimer(n)) < quarterSec Then
+	Local quintSec=200, curTime=MilliSecs()
+	If (curTime - leftKeyHitTimer(n)) < quintSec Then
 		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
@@ -6323,4 +6322,3 @@ Function drawTrailingEffects(n, runSeq)
 		If runSeq Mod 5 = 0 And (zSpeed#(n) >= 3 Or zSpeed#(n) <= -3) Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
 	End If
 End Function
-
