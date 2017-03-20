@@ -625,7 +625,7 @@ Case 9	; berserker barrage (down special)
 		zJump(n)=0
 	EndIf
 	If zHitHead(n)=1 Then zBlowSeq(n)=i:zy(n)=zy(n)+4
-	If zBlowSeq(n) = 1 Then xAxis=0:yAxis=0
+	If zBlowSeq(n) = 1 Then xAxis(n)=0:yAxis(n)=0
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< aa Then zani(n)=3:zf(n)=1
 	If zBlowSeq(n) => aa And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=1:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))	
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=2:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))
@@ -645,24 +645,24 @@ Case 9	; berserker barrage (down special)
 	EndIf
 	
 	If (zBlowSeq(n) => a And zBlowSeq(n) =< c) Then
-		If zBlowSeq(n) = a And xAxis = 0 Then xAxis = zx(n):yAxis = zy(n)
-		extraObj(n,xAxis,30,yAxis,16,zblowdir(n),77)
-		extraObj(n,xAxis,64,yAxis,-17,zblowdir(n),78)
+		If zBlowSeq(n) = a And xAxis(n) = 0 Then xAxis(n) = zx(n):yAxis(n) = zy(n)
+		extraObj(n,xAxis(n),30,yAxis(n),16,zblowdir(n),77)
+		extraObj(n,xAxis(n),64,yAxis(n),-17,zblowdir(n),78)
 	EndIf
 	If zBlowSeq(n) => g And zBlowSeq(n) =< i Then
-		If zBlowSeq(n) = g Then xAxis = zx(n):yAxis = zy(n)
-		extraObj(n,xAxis,40,yAxis,8,zblowdir(n),79)
-		extraObj(n,xAxis,-17,yAxis,-22,zblowdir(n),80)
+		If zBlowSeq(n) = g Then xAxis(n) = zx(n):yAxis(n) = zy(n)
+		extraObj(n,xAxis(n),40,yAxis(n),8,zblowdir(n),79)
+		extraObj(n,xAxis(n),-17,yAxis(n),-22,zblowdir(n),80)
 	EndIf
 	If zBlowSeq(n) = c+1 Or zBlowSeq(n) = i+1 Then 
-		xAxis=0:yAxis=0
+		xAxis(n)=0:yAxis(n)=0
 	EndIf
 
 	If zBlowSeq(n) => a And zBlowSeq(n) =< c Then
 		zblowPamount(n)=3
-		xblow(n,1)=0: yblow(n,1)=25:wblow(n,1)=65:hblow(n,1)=1
-		xblow(n,2)=10: yblow(n,2)=30:wblow(n,2)=65:hblow(n,2)=10
-		xblow(n,3)=20: yblow(n,3)=55:wblow(n,3)=65:hblow(n,3)=10
+		xblow(n,1)=0: yblow(n,1)=5:wblow(n,1)=65:hblow(n,1)=15
+		xblow(n,2)=10: yblow(n,2)=30:wblow(n,2)=65:hblow(n,2)=15
+		xblow(n,3)=20: yblow(n,3)=55:wblow(n,3)=65:hblow(n,3)=20
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=2:zHitUpSpeed#(n)=2:zHitTime(n)=35
 		;If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),1)
@@ -762,7 +762,7 @@ Case 8	;Dogding
 Case 16 ;Counter Key (Berserker Rage)
 	a=4/wolvSpdFctr(n):b=8/wolvSpdFctr(n):c=12/wolvSpdFctr(n):d=16/wolvSpdFctr(n):e=50/wolvSpdFctr(n)
 	:f=60:g=62:h=63:i=64:j=65:k=67:l=67:m=69:nnn=70:o=75
-	
+	DebugLog zBlowSeq(n)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0

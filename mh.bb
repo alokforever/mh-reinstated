@@ -84,7 +84,7 @@ Dim zSuperMove(30),zSuperMoveSeq(30),zSuperX(30),zSuperY(30),zSuperDir(30),zSupe
 Dim zGrabbed(30),zGrabbedBy(30),zGrabs(30),zGrabsThis(30),zGrabSeq(30),zNoAirSpecial(30)
 Dim xOval(30),yOval(30),woval(30),hOval(30), zGrabDist(30),shotFireSound(30)
 Dim zWalkAni(30),zCurPic(30),zBlowSound(30),zani(30),zf(30),zPrevAni(30),zPrevf(30),zDontPickItem(30),zFlyAni(30),zfa(30)
-Dim zWalkSeq(30), startFreezeTime(30), currentFreezeTime(30), endFreezeTime(30), canGetTime(30), freezeSeq(30), canMakeShot(30)
+Dim zWalkSeq(30), startFreezeTime(30), currentFreezeTime(30), endFreezeTime(30), cantGetTime(30), freezeSeq(30), canMakeShot(30)
 Dim rageSeq(30), startRageTime(30), currentRageTime(30), endRageTime(30), canGetRageTime(30), wolvSpdFctr(30)
 Dim zShotByN(30),zShotHitSeq(30,200), zDontJump(30),zDeathChunk(30),zStone(30),zUngrabable(30)
 Dim yRange(30), zMyShot(30), zUseSpecialAI(30), zCanFly(30), zPushedForce(30),zShootThis(30)
@@ -104,7 +104,8 @@ Dim guyLoaded(100)
 
 Dim extraDraw(30),extraPic(30), xED(30),yED(30), epic(20,20), epic_(20,20),eAni(20),ef(20)
 Global quake, quakeSeq,mapsLoaded,xScr,yScr,xScr_,yScr_,scrollMap,scrollXspeed#, scrollYspeed#, scrLock
-Global fightMode, xScrStart, yScrStart, noAirSpecial, noDoubleJump, fileBkp, noItems=1, xAxis, yAxis
+Global fightMode, xScrStart, yScrStart, noAirSpecial, noDoubleJump, fileBkp, noItems=1
+Dim xAxis(30), yAxis(30)
 
 Global Famount
 Dim curF(100),FdelaySeq(100),Fevent(100),FfacAmount(100),Floop(100)
@@ -1099,7 +1100,7 @@ For n= 1 To zzamount
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	
-	If zFrozen(n) Then zNoMove(n)=1
+	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
@@ -2530,8 +2531,9 @@ EndIf
 
 If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
 ;--walking/running/speed/accelaration stuff---------------------------------------------------------------------
+DebugLog zSpeed#(n)
 If rightkey(n)=1 Then
-	zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
+	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
 	If isRunning(n) Then
 		If zSpeed#(n) > zTopRunningSpeed#(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
 	Else
@@ -2541,7 +2543,7 @@ If rightkey(n)=1 Then
 EndIf
 
 If leftkey(n)=1 Then
-	zSpeed#(n)=zSpeed#(n)-zAcc#(n):lk=1
+	If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed#(n) - (zTopSpeed(n)*2)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n):lk=1
 	If isRunning(n) Then
 		If zSpeed#(n) < zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2) Then zSpeed#(n) = zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2)
 	Else
@@ -6056,7 +6058,7 @@ End Function
 Function unFreeze(n)
 zgravity(n)=3
 zFrozen(n)=0
-canGetTime(n)=0
+cantGetTime(n)=0
 If gameSound Then PlaySound subZeroFreeze3Snd
 End Function
 
@@ -6149,8 +6151,8 @@ Function drawFrozenState(unit)
 	If zFrozen(unit)=1 Then
 		Local freezeDuration = 2700: freezeDurationTillShake = 2000 ; in milliseconds
 		currentFreezeTime(unit) = MilliSecs()
-		If canGetTime(unit) = 0 Then
-			canGetTime(unit) = 1
+		If cantGetTime(unit) = 0 Then
+			cantGetTime(unit) = 1
 			startFreezeTime(unit) = MilliSecs()
 		EndIf
 		endFreezeTime(unit) = startFreezeTime(unit) + freezeDuration
@@ -6172,9 +6174,9 @@ Function drawFrozenState(unit)
 				EndIf
 			EndIf
 		EndIf
-		If currentFreezeTime(unit) => endFreezeTime(unit) Then canGetTime(unit)=0:unFreeze(unit):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
+		If currentFreezeTime(unit) => endFreezeTime(unit) Then cantGetTime(unit)=0:unFreeze(unit):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
 	Else
-		canGetTime(unit)=0
+		cantGetTime(unit)=0
 	EndIf
 End Function
 
@@ -6321,3 +6323,4 @@ Function drawTrailingEffects(n, runSeq)
 		If runSeq Mod 5 = 0 And (zSpeed#(n) >= 3 Or zSpeed#(n) <= -3) Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
 	End If
 End Function
+
