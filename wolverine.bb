@@ -323,7 +323,7 @@ Case 14	;Super Special
 
 Case 1	;High Claw
 	a=5/wolvSpdFctr(n):b=10/wolvSpdFctr(n):c=15/wolvSpdFctr(n):d=22/wolvSpdFctr(n):e=27/wolvSpdFctr(n)
-	:f=32/wolvSpdFctr(n):g=37/wolvSpdFctr(n):h=42/wolvSpdFctr(n):i=47/wolvSpdFctr(n)
+	:f=32/wolvSpdFctr(n):g=36/wolvSpdFctr(n):h=40/wolvSpdFctr(n):i=55/wolvSpdFctr(n)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	If zBlowSeq(n) = c Then If gameSound Then PlaySound wolverineShout2Snd
@@ -344,7 +344,7 @@ Case 1	;High Claw
 	If zBlowSeq(n) => d And zBlowSeq(n) < e Then zani(n)=12:zf(n)=5
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=12:zf(n)=6
 	If zBlowSeq(n) = f-1 And gameSound Then PlaySound wolverineShout2Snd
-	If zBlowSeq(n) => f And zBlowSeq(n) < g Then 
+	If zBlowSeq(n) => f And zBlowSeq(n) < h Then 
 		zblowPamount(n)=3
 		nn=1
 		xblow(n,nn)=0: yblow(n,nn)=36:wblow(n,nn)=52:hblow(n,nn)=5:nn=nn+1
@@ -659,7 +659,11 @@ Case 9	; berserker barrage (down special)
 	aa=15/wolvSpdFctr(n):a=25/wolvSpdFctr(n):b=28/wolvSpdFctr(n):c=35/wolvSpdFctr(n):d=38/wolvSpdFctr(n)
 	:e=40/wolvSpdFctr(n):f=43/wolvSpdFctr(n):g=46/wolvSpdFctr(n):h=53/wolvSpdFctr(n):i=56/wolvSpdFctr(n)
 	:j=(i+20)	
-	If isRunning(n) And zBlowSeq(n)=1 Then zBlowSeq(n)=aa:isRunning(n)=0
+	If isRunning(n) And zBlowSeq(n)=1 Then 
+		If Abs(zSpeed#(n)) >= 3 And zBlowSeq(n) < 4 Then zBlowSeq(n)=10
+		If Abs(zSpeed#(n)) >= 4 Then zBlowSeq(n)=aa
+		isRunning(n)=0
+	End If
 	If zBlowSeq(n) = b Then
 		If gameSound Then PlaySound wolverineBarrageSnd
 		zJump(n)=0

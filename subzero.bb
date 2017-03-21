@@ -1,8 +1,19 @@
+Function applyComboHitBox(n, hitMode, damage)
+	enemyControlInit(n,zx(n),zy(n)-30,45,36)
+	zblowPamount(n)=1:nn=1
+	xblow(n,nn)=15: yblow(n,nn)=35:wblow(n,nn)=15:hblow(n,nn)=16:nn=nn+1
+	zHitMode(n)=hitMode:zBlowHold(n)=0
+	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
+	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=18:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
+	zBlowSound(n)=subZeroStrongHitSnd
+	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zControls(n)=1 And zBlock(zControlsThis(n))=0 Then extraObj(n,zx(n),25,zy(n),-24,zblowdir(n),95)
+End Function
+
 Function performCombo(n)
 	a=53:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=45
-	If zBlowSeq(n)>=50 And zBlowSeq(n) < c Then movex2(n,zface(n),2+(Abs(zSpeed#(n))/1.5))
+	If zBlowSeq(n)>=50 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
 	
 ;----- animations -----
 	If zBlowSeq(n)>=50 And zBlowSeq(n) < a Then zani(n)=22:zf(n)=1
@@ -31,18 +42,47 @@ Function performCombo(n)
 	If zBlowSeq(n)>=n1 And zBlowSeq(n) < o Then zani(n)=22:zf(n)=10
 	If zBlowSeq(n)>=o And zBlowSeq(n) < p Then zani(n)=22:zf(n)=11
 ;----------------------
+	isHitting=0
+	zControls(n)=0
 ;----- hit boxes ------
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
-		extraObj(n,zx(n),25,zy(n),-24,zblowdir(n),12)
+		applyComboHitBox(n, 2, 5)
+		If zOnGnd(zControlsThis(n))=0 Then zy(zControlsThis(n))=zy(n)
+		movex2(zControlsThis(n),zface(zControlsThis(n)),-1*(1+(Abs(zSpeed#(n))/1.5)))
+		isHitting=1
 	End If
+	If zBlowSeq(n)=b And zControls(n)=0 Then zBlowSeq(n)=endSeq
+	
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
+		applyComboHitBox(n, 2, 5)
+		isHitting=1
+	End If
+	If zBlowSeq(n)=e And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
+	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then
+		applyComboHitBox(n, 2, 6)
+		isHitting=1
+	End If
+	If zBlowSeq(n)=j And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
+	If zBlowSeq(n) >= o And zBlowSeq(n) < p Then
+		applyComboHitBox(n, 0, 6)
+		isHitting=1
+	End If
+	zNoGrav(en)=0
+	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
 ;----------------------
+	en=zControlsThis(n)
+	If (zBlowSeq(n) <= o) And zBlocked(en)=0 Then zParalyzed(en)=1
 	
-	
+	If isHitting=1 Then
+		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
+	Else
+		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
+	End If
 
-	If zBlowSeq(n) = p Then zBlowSeq(n)=endSeq
+	If zBlowSeq(n) = p Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function
 
 Function DoSubZero(n)
@@ -237,10 +277,7 @@ Case 13 ; item pickup
 Case 1	; Kick
 	a= 5: b=10: c=15: d=20: e=27: f=26: g=30: h=35: i=50
 	zNoMove(n)=1:zNoJump(n)=1
-	If zBlowSeq(n) = 1 And isRunning(n) Then
-		zBlowSeq(n) = i
-		isRunning(n)=0
-	End If
+	If zBlowSeq(n) = 1 And isRunning(n) Then zBlowSeq(n)=i:isRunning(n)=0
 	If zBlowSeq(n) >= i Then performCombo(n)
 	If zBlowSeq(n) = d And gameSound Then PlaySound subZeroKickSnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
@@ -279,7 +316,7 @@ Case 2	;Flying kick
 		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
 		zBlowSound(n)=subZeroHitSnd
 	EndIf
-	If zBlowSeq(n) > d And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
+	If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
 	If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zblowseq(n)=0
 
 Case 4	;Low kick

@@ -214,6 +214,7 @@ Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkF
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
+Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -431,7 +432,7 @@ Global hueSnd=LoadSound(soundsdir$ + "hue.wav")
 Global uppercutsnd=LoadSound(soundsdir$ + "uppercut.wav")
 Global mariouppercutsnd=LoadSound(soundsdir$ + "marioUppercut.wav")
 Global brokensnd=LoadSound(soundsdir$ + "broken.wav")
-Global blockedsnd=LoadSound(soundsdir$ + "blocked.wav")
+Global blockedsnd=LoadSound(soundsdir$ + "blocked.mp3")
 Global kicksnd=LoadSound(soundsdir$ + "highkick.wav")
 Global blowsnd=LoadSound(soundsdir$ + "highBlow.wav")
 Global highpunchsnd=LoadSound(soundsdir$ + "highpunch.wav")
@@ -441,6 +442,7 @@ Global shotwallsnd=LoadSound(soundsdir$ + "shotwall.wav")
 Global zhitwallsnd=LoadSound(soundsdir$ + "zhitwall.wav")
 Global jumpsnd=LoadSound(soundsdir$ + "jump.wav")
 Global floorSlideSnd=LoadSound(soundsDir$ + "floorSlide.wav")
+Global toastySnd=LoadSound(soundsdir$ + "mk\toasty.mp3")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
@@ -1099,6 +1101,7 @@ For n= 1 To zzamount
 	zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
+	zControlled(n)=0:zParalyzed(n)=0
 	
 	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
@@ -1252,7 +1255,6 @@ If rendert=3 Then	;delete stuff as needed, every 3 frames
 	   daY(daAN(n)) = yPlat(daMovedBy(daAN(n))) + daY2(daAN(n))
 	   daLlimit(daAN(n))=daX(daAN(n)): daRlimit(daAN(n))=dax(daAN(n))+daW(daAN(n))
   	Next
-
 EndIf
 
 For n=1 To expAmount
@@ -1268,7 +1270,7 @@ For n=1 To Famount
 Next
 
 For n= 1 To zzamount
-	If zon(n) > 0 And zGrabbed(n)=0 Then zman(n)
+	If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
 	
 	checkInputs(n)
 	If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
@@ -2052,6 +2054,9 @@ End Function
 Function selectDraw(n)
 	If zFrozen(n) Then 
 		drawFrozenState(n)
+		Goto drawZ
+	EndIf
+	If zParalyzed(n) Then
 		Goto drawZ
 	EndIf
 	If wolvSpdFctr(n) = 0 Then wolvSpdFctr(n) = 1
@@ -3765,10 +3770,7 @@ For nn=1 To zzamount
 				zGrabs(n)=1
 				zGrabs(nn)=0
 				zGrabsThis(n)=nn
-				zBlow(nn)=0:zBlowEffect(nn)=0
-				zBlock(nn)=0:zBlocked(nn)=0
-				zJump(nn)=0: zJump2(nn)=0
-				zongnd(nn)=0
+				initNoControl(nn)
 			EndIf
 			
 		Case 4
@@ -3779,10 +3781,7 @@ For nn=1 To zzamount
 				zGrabs(n)=1
 				zGrabs(nn)=0
 				zGrabsThis(n)=nn
-				zBlow(nn)=0:zBlowEffect(nn)=0
-				zBlock(nn)=0:zBlocked(nn)=0
-				zJump(nn)=0: zJump2(nn)=0
-				zongnd(nn)=0
+				initNoControl(nn)
 			EndIf
 		
 		End Select
@@ -3985,20 +3984,23 @@ Case 4
 		EndIf
 		.tryz2
 	Next
-		
+
 End Select
 .blowDone
-If zHitCount(n) > 2 And zHitMode(n) <> 2 And gamesound Then PlaySound clapSnd: zHitCount(n)=0
-
-EndIf
+	If zHitCount(n) > 2 And zHitMode(n) <> 2 Then 
+		If Rand(5) = 5 Then 
+			If gameSound Then PlaySound toastySnd 
+		Else
+			If gameSound Then PlaySound clapSnd
+		EndIf
+		zHitCount(n)=0
+	EndIf
+End If
 
 End Function
 ;---------------------------Calculate Blow Impact------------------------------------------------
 Function calcBlow(nn,n,hitMode,damage)
-
-;fightMode=1	
-zBLock(nn)=0:zBlocked(nn)=0
-zgrabs(nn)=0 : zGrabsThis(nn)=0
+initFightStates(nn)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 If fightMode=1 Then
 	zHitModeTaken(nn)=HitMode
@@ -4042,9 +4044,7 @@ EndIf
 End Function
 ;--------------------------Calculate Rect impact 2 --------------------------------------------------
 Function calcRect2(nn,n,hitTime)
-
-zgrabs(nn)=0: zGrabsThis(nn)=0
-zblock(nn)=0:zBlocked(nn)=0
+initFightStates(nn)
 zHitModeTaken(nn)=rectHitMode(n)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 zhit(nn)=1:zHitSeq(nn)=0
@@ -4068,10 +4068,7 @@ EndIf
 End Function
 ;---------------------------Calculate Blow Impact 2 ------------------------------------------------
 Function calcBlow2(nn,n,hitTime)
-
-isRunning(nn)=0
-zgrabs(nn)=0: zGrabsThis(nn)=0
-zBlock(nn)=0:zBlocked(nn)=0
+initFightStates(nn)
 zHitModeTaken(nn)=zHitMode(n)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 zhit(nn)=1:zHitSeq(nn)=0
@@ -4096,11 +4093,8 @@ End Function
 
 ;------------------------calculate box impact ---------------------------------------------------
 Function calcBox(nn,n)
-
-isRunning(nn)=0
+initFightStates(nn)
 zHitHold(nn)=8
-zgrabs(nn)=0: zGrabsThis(nn)=0
-zBlock(nn)=0::zBlocked(nn)=0
 zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 zHitModeTaken(nn)=boxHitMode(n)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
@@ -4121,10 +4115,7 @@ End Function
 
 ;---------------------------Calculate object impact ------------------------------------------------
 Function calcObj(nn,n)
-
-isRunning(nn)=0
-zgrabs(nn)=0: zGrabsThis(nn)=0
-zBlock(nn)=0:zBlocked(nn)=0
+initFightStates(nn)
 zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 zHitModeTaken(nn)=2
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
@@ -4150,10 +4141,7 @@ End Function
 
 ;---------------------------Calculate Shot Impact ---------------------
 Function calcShot(nn,n)
-
 zHitHold(nn)=shotHold(n)
-zgrabs(nn)=0: zGrabsThis(nn)=0
-zBlock(nn)=0:zBlocked(nn)=0
 
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 If shotHitMode(n)=2 Then ;normal projectile
@@ -6319,6 +6307,59 @@ End Function
 ;-------------- Draw trailing effects ----------------
 Function drawTrailingEffects(n, runSeq)
 	If curGuy(n)=11 Then
-		If runSeq Mod 5 = 0 And (zSpeed#(n) >= 3 Or zSpeed#(n) <= -3) Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
+		If runSeq Mod 5 = 0 And Abs(zSpeed#(n)) >= 4 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
 	End If
+End Function
+
+;-------------- Enemy Control Initialization ---------
+Function enemyControlInit(n, x#, y#, width#, height#)
+	zControls(n)=0:zControlsThis(n)=0
+	For nn=1 To zzamount
+		Select zFace(n)
+		Case 2
+			DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			If zon(nn) And nn <> n And zControlled(nn)=0 And zUnGrabable(nn)=0 Then 
+				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
+					initParalysis(n, nn)
+					DebugLog "nn: " + nn
+				End If 
+			End If
+		Case 4
+			If zon(nn) And nn <> n And zControlled(nn)=0 And zUnGrabable(nn)=0 Then 
+				If zx(nn) <= x# And zx(nn) >= x#-width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
+					initParalysis(n, nn)
+				End If 
+			End If
+		End Select
+	Next
+
+End Function
+
+;-------------- Initialize paralysis ---------------
+Function initParalysis(n, nn)
+;DebugLog "nn: " + n + "block: " + zBlock(nn)
+If zBlock(nn)=0 Then 
+	zParalyzed(nn)=1
+	zParalyzedSeq(nn)=0
+	zControlled(nn)=1
+	zControlsThis(n)=nn
+	initNoControl(nn)
+End If
+zControls(n)=1
+End Function
+
+;-------------- Initialize No Control ---------------
+Function initNoControl(nn)
+	zBlow(nn)=0:zBlowEffect(nn)=0
+	zBlock(nn)=0:zBlocked(nn)=0
+	zJump(nn)=0:zJump2(nn)=0
+	zongnd(nn)=0
+End Function
+
+;------------- Initialize fight states --------------
+Function initFightStates(nn)
+	isRunning(nn)=0
+	zgrabs(nn)=0:zGrabsThis(nn)=0
+	zControls(nn)=0:zControlsThis(nn)=0
+	zblock(nn)=0:zBlocked(nn)=0
 End Function
