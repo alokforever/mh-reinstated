@@ -103,7 +103,6 @@ zCHunkType(n)=50
 
 Select zCurBlow(n)
 Case 0	;Blocking
-	zSuperBar(n)=10000
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0
@@ -446,6 +445,8 @@ Case 9	;Sub zero freeze ground
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	If zFace(n)=2 Then checkYDist(n,zx(n)+32,zy(n)+6,2)
+	If zFace(n)=4 Then checkYDist(n,zx(n)-32,zy(n)+6,2)
 	zBlowImpact(n)=800
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=12:zf(n)=1
@@ -460,14 +461,14 @@ Case 9	;Sub zero freeze ground
 		If zBlowSeq(n) => f And zBlowSeq(n) < g Then extraObj(n,zx(n),29,zy(n),-2,zblowdir(n),72)
 		If zBlowSeq(n) => g And zBlowSeq(n) < h And zongnd(n)=1 Then extraObj(n,zx(n),37,zy(n),-6,zblowdir(n),73)
 		If zBlowSeq(n) => h And zBlowSeq(n) < i Then
-			If zongnd(n)=1 And (shot(zMyShot(n)) = 0 Or shotOwner(zMyshot(n)) <> n Or shotType(zMyShot(n)) <> 40) Then
+			If zongnd(n)=1 And (shot(zMyShot(n)) = 0 Or shotOwner(zMyshot(n)) <> n Or shotType(zMyShot(n)) <> 40) And yDist(n) < 2 Then
 				zMyShot(n)=getShot()
 				extraObj(n,zx(n),35,zy(n),-1,zblowdir(n),72)
 				dir=zface(n):y=zy(n)-zheight(n)+5
 				If zface(n)=2 Then x=zx(n)+30
 				If zface(n)=4 Then x=zx(n)-60
 				makeshot(n,40,x,y,dir)
-			Else If zongnd(n)=0 Then
+			Else If zongnd(n)=0 Or yDist(n) > 1 Then
 				dir=zface(n):y=zy(n)-zheight(n)+5
 				If zface(n)=2 Then x=zx(n)+24:y=zy(n)-21
 				If zface(n)=4 Then x=zx(n)-24:y=zy(n)-15

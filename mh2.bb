@@ -750,6 +750,7 @@ Function shotData(weaponChosen,n)
 	shotExplosive(n)=0
 	shotExplosionSound(n)=explodeSnd
 	shotWidth(n)=1
+	shotId(n)=0
 
 Select weaponChosen
 
@@ -1482,7 +1483,7 @@ Case 43 ;Sub Zero ice clone
 	shotheight(n)=58
 	shotWidth(n)=51
 	shotId(n)=43
-	shotVerticalSize(n)=15
+	shotVerticalSize(n)=25
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
 	shotHitMode(n)=3

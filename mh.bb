@@ -4156,7 +4156,7 @@ If shotHitMode(n)=2 Then ;normal projectile
 	zUpFallSpeed#(nn)=shotHitYspeed(n)+3
 EndIf
 
-If shotHitMode(n)=3 Or shotHitMode(n)=5 Or shotHitMode(n)=6 Then ; sub zero freeze attacks
+If shotHitMode(n)=3 Then ; sub zero freeze attacks
 	isRunning(nn)=0
 	zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 	zHitModeTaken(nn)=3
@@ -5820,6 +5820,48 @@ End Select
 .distChecked
 
 End Function
+;--------CHECK VERTICAL PIXEL COLLISION DISTANCE-----------------------------------------------------------
+Function checkYDist(n,x,y,dir)
+
+yDist(n)=1000
+
+Select dir
+Case 2 ;down
+For q=1 To 1000 Step 5
+	If ImageRectCollide(map,0,0,0,y+q,x,1,1) Then
+		yDist(n)=q
+		Goto distChecked
+	EndIf
+	For nn=1 To platAmount
+		If y+q > yplat(nn) And y+q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
+			If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
+				yDist(n)=q
+				Goto distChecked	
+			EndIf
+		EndIf
+	Next
+Next
+
+Case 4 ;up
+For q=1 To 600 Step 5
+	If ImageRectCollide(map,0,0,0,y-q,x,1,1) Then
+		yDist(n)=q
+		Goto distChecked
+	EndIf
+	For nn=1 To platAmount
+		If x-q > yplat(nn) And y-q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
+			If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
+				yDist(n)=q
+				Goto distChecked	
+			EndIf
+		EndIf
+	Next
+Next
+
+End Select
+.distChecked
+
+End Function
 ;------------ check If element is inside visible area--------------------------------------------------
 Function inSight(x,y)
 
@@ -6326,7 +6368,7 @@ Function enemyControlInit(n, x#, y#, width#, height#)
 				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
 					If zBlock(nn)=0 Then 
 						DebugLog "zblock: " + zBlock(nn)
-						;initParalysis(n, nn)
+						initParalysis(n, nn)
 					End If
 					;DebugLog "nn: " + nn
 				End If 
@@ -6336,7 +6378,7 @@ Function enemyControlInit(n, x#, y#, width#, height#)
 				If zx(nn) <= x# And zx(nn) >= x#-width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
 					If zBlock(nn)=0 Then 
 						DebugLog "zblock: " + zBlock(nn)
-						;initParalysis(n, nn)
+						initParalysis(n, nn)
 					End If
 				End If 
 			End If
