@@ -1418,11 +1418,13 @@ Case 39	;Sub Zero freeze ball
 	shotSound(n)=subZeroFreeze3Snd
 	
 Case 40 ;Sub Zero ground freeze
+	shotId(n)=40
 	shotspeed(n)=0
 	shotsize(n)=40
-	shotWidth(n)=60
+	shotWidth(n)=87
 	shotheight(n)=-28
 	shotDamage(n)=4
+	shotVerticalSize(n)=1
 	shotHitMode(n)=4
 	shotSide(n)=shotsize(n)/2
 	shotImmuneTime(n)=200
@@ -1431,7 +1433,7 @@ Case 40 ;Sub Zero ground freeze
 	shotFallTime(n)=25
 	shotDuration(n)=100
 	shotMaxSpeed(n)=shotSpeed(n)
-	shotDrill(n)=0
+	shotDrill(n)=1
 	shotChunkType(n)=94
 	shotPic(n,1)=shotImage(48)
 	shotPic_(n,1)=shotImage_(48)

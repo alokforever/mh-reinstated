@@ -216,6 +216,7 @@ Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrame
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
+Dim isHit(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1102,7 +1103,7 @@ For n= 1 To zzamount
 	zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
-	zControlled(n)=0:zParalyzed(n)=0
+	zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
 	
 	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
@@ -2536,7 +2537,7 @@ If downKey(n)=1  And jumpKey(n)=1 And zonplat(n)=1 And zonThickPlat(n)=0 And zHi
 EndIf
 
 If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
-;--walking/running/speed/accelaration stuff---------------------------------------------------------------------
+;--walking/running/speed/acceleration stuff---------------------------------------------------------------------
 If rightkey(n)=1 Then
 	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
 	If isRunning(n) Then
@@ -4166,16 +4167,6 @@ If shotHitMode(n)=3 Then ; sub zero freeze attacks
 	zUpFallSpeed#(nn)=shotHitYspeed(n)
 	zFreezer=n
 	freezeVictim(nn)
-EndIf
-
-If shotHitMode(n)=4 Then ;sub zero freeze ground
-	isRunning(nn)=0
-	zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
-	zHitModeTaken(nn)=4
-	zhit(nn)=1:zHitSeq(nn)=0
-	zFallSpeed#(nn)=shotHitXspeed(n)
-	zFallTime#(nn)=shotFallTime(n)
-	zUpFallSpeed#(nn)=shotHitYspeed(n)
 EndIf
 
 If shotHitMode(n)=0 Then
@@ -6095,8 +6086,8 @@ End Function
 
 ;------------ handle sub zero projectile attacks --------------
 Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, projectileYPos)
-	Local heightLoop, xAxisShotPos, yAxisShotPos, xAxisFreezeGroundPos, yAxisFreezeGroundPos
-
+	Local heightLoop, xAxisShotPos, yAxisShotPos
+	
 	objShotWidth=shotWidth(projectile)
 	objShotHeight=shotVerticalSize(projectile)
 
@@ -6106,16 +6097,31 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 	Else
 		yAxisShotPos=yshot(projectile)
 	End If
-	If shotHitMode(shotOwner(projectile))=4 Then 
-		xAxisShotPos=xshot(projectile)+20
-		yAxisShotPos=yshot(projectile)+30
-		xAxisFreezeGroundPos=xshot(projectile)
-		yAxisFreezeGroundPos=yshot(projectile)+20
-		If zface(shotOwner(projectile)) = 4 Then 
-			xAxisFreezeGroundPos=xshot(projectile)+25
-		EndIf
-	EndIf
-
+	
+	If shotHitMode(projectile)=4 Then 
+		If zFace(shotOwner(projectile))=2 Then
+			xAxisShotPos=xshot(projectile)-30
+		Else
+			xAxisShotPos=xshot(projectile)+50
+		End If
+		yAxisShotPos=yshot(projectile)+40
+		shotId(projectile)=0
+		If zHit(zControlsThis(shotOwner(projectile)))=0 Then
+			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile))
+			en=zControlsThis(shotOwner(projectile))
+			zParalyzedSeq(en)=zParalyzedSeq(en)+1
+			If zParalyzedSeq(en)>10000 Then zParalyzedSeq(en)=0
+			If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 20=0 Then 
+				zani(en)=2:zf(en)=1
+				Goto modTwenty
+			End If
+			If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 10=0 Then zani(en)=2:zf(en)=3
+			.modTwenty
+		End If
+		moveX(en,zFace(en),1.3)
+		Return
+	EndIf 
+	
 	If shotHeight(projectile) < 0 Then 
 		heightLoop = shotHeight(projectile) * -1
 	Else
@@ -6160,7 +6166,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 							zjump(targetPlayer)=0:zBouncedgnd(targetPlayer)=0:zhit(targetPlayer)=1
 							calcShot(targetPlayer, projectile)
 							zBlow(targetPlayer)=0:zBlowStill(targetPlayer)=0:zHitSeq(targetPlayer)=0
-				
+
 							If shotHitTrail(projectile) > 0 Then zTrail(targetPlayer)=1:zTrailSeq(targetPlayer)=0:zTrailType(targetPlayer)=shotHitTrail(projectile)
 							If gameSound = 1 Then PlaySound shotsound(projectile)	
 							EndIf
@@ -6366,20 +6372,14 @@ Function enemyControlInit(n, x#, y#, width#, height#)
 			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(nn) And nn <> n And zControlled(nn)=0 Then 
 				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
-					If zBlock(nn)=0 Then 
-						DebugLog "zblock: " + zBlock(nn)
-						initParalysis(n, nn)
-					End If
+					initParalysis(n, nn)
 					;DebugLog "nn: " + nn
 				End If 
 			End If
 		Case 4
 			If zon(nn) And nn <> n And zControlled(nn)=0 Then 
 				If zx(nn) <= x# And zx(nn) >= x#-width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
-					If zBlock(nn)=0 Then 
-						DebugLog "zblock: " + zBlock(nn)
-						initParalysis(n, nn)
-					End If
+					initParalysis(n, nn)
 				End If 
 			End If
 		End Select
@@ -6390,7 +6390,6 @@ End Function
 ;-------------- Initialize paralysis ---------------
 Function initParalysis(n, nn)
 	zParalyzed(nn)=1
-	zParalyzedSeq(nn)=0
 	zControlled(nn)=1
 	zControlsThis(n)=nn
 	initNoControl(nn)
@@ -6399,9 +6398,11 @@ End Function
 
 ;-------------- Initialize No Control ---------------
 Function initNoControl(nn)
+	zNoMove(nn)=1
 	zBlow(nn)=0:zBlowEffect(nn)=0
 	zBlock(nn)=0:zBlocked(nn)=0
 	zJump(nn)=0:zJump2(nn)=0
+	zNoJump(nn)=1
 	zongnd(nn)=0
 End Function
 
