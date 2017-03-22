@@ -136,7 +136,7 @@ Dim	rectChunkType(50),rectHitSound(50),zHitByRect(50)
 
 Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),shotHold(200),shotTrailType(200)
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
-Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200),shotSound(200)
+Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200), shotYspeed#(200), shotSound(200)
 Dim shotdamage(200),shotsize(200),shotsizeL(200),shotPic(200,10),shotPic_(200,10),shotImpact(200)
 Dim shotImage(51), shotImage_(51), shotHitTrail(200), shotSuper(200), shotBounce(200),shotExplosionSound(200)
 Dim shotHeight(200),shotWidth(200),shotside(200),shotChunkType(200), shotType(200), shotPushForce(200)
@@ -215,6 +215,7 @@ Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
+Dim shotVerticalSize(200), shotId(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1938,7 +1939,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
 	 If facWaitEvent(n,curF(n)) > 0 Then
 	 	If EventN(facWaitEvent(n,curF(n)))=1 Then
 		;If eventAction(facWaitEvent(n,curF(n))=1 Then
-			;eventAction(facWaitEvent(n,curF(n))=0
+			;eventAction(facWaitEvent(n,curFn))=0
 			:
 		Else
 			;FdelaySeq(n)=FdelaySeq(n)-1
@@ -2840,7 +2841,7 @@ Case 2
 		If shothit Then Exit
 	Next 
 	
-	If shotHitMode(n) > 2 And shotHitMode(n) < 6 Then 
+	If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
 		handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
 		Goto shotDone
 	EndIf
@@ -2966,7 +2967,7 @@ Case 4
 		If shothit Then Exit
 	Next 
 	
-	If shotHitMode(n) > 2 And shotHitMode(n) < 6 Then 
+	If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
 		handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
 		Goto shotDone
 	EndIf
@@ -3028,13 +3029,14 @@ End Select
 
 .shotDone
 ;xShot(n)=oldxshot(n)
-If shotHitMode(n)=5 Then yshot(n)=yshot(n)+shotspeed(n)
+
 Select shotDir(n)
 	Case 2:
 		xshot(n)=xshot(n)+shotspeed(n)
 	Case 4:
 		xshot(n)=xshot(n)-shotspeed(n)
 End Select
+yShot(n)=yShot(n)+shotYspeed(n)
 
 If shotFollowOwner(n) Then 
 	If yShot(n) > zy(shotOwner(n))-20 Then yShot(n)=yShot(n)-1
@@ -3858,7 +3860,7 @@ Case 2
 								If gameSound=1 Then PlaySound blockedsnd
 							EndIf
 						EndIf	
-						If zblock(nn) =0 Then 
+						If zblock(nn) = 0 Then 
 							zlife(nn)=zlife(nn)-zBlowDamage(n)
 							zDamage#(nn)=zDamage#(nn)+zBlowDamage(n)
 							zhitbybox(nn)=0
@@ -6051,28 +6053,30 @@ End Function
 
 ;------------ handle sub zero projectile attacks --------------
 Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, projectileYPos)
-	Local heightLoop, xAxisShotPos, yAxisShotPos, xAxisFreezeGroundPos, yAxisFreezeGroundPos, freezeGroundShotWidth, freezeGroundShotHeight
+	Local heightLoop, xAxisShotPos, yAxisShotPos, xAxisFreezeGroundPos, yAxisFreezeGroundPos
 
-	objShotWidth=1
-	objShotHeight=1
+	objShotWidth=shotWidth(projectile)
+	objShotHeight=shotVerticalSize(projectile)
+
 	xAxisShotPos=xshot(projectile)
-	yAxisShotPos=yshot(projectile)
+	If shotId(projectile)=43 Then
+		yAxisShotPos=yShot(projectile)-40
+	Else
+		yAxisShotPos=yshot(projectile)
+	End If
 	If shotHitMode(shotOwner(projectile))=4 Then 
 		xAxisShotPos=xshot(projectile)+20
 		yAxisShotPos=yshot(projectile)+30
 		xAxisFreezeGroundPos=xshot(projectile)
 		yAxisFreezeGroundPos=yshot(projectile)+20
-		freezeGroundShotWidth=64
-		freezeGroundShotHeight=1
 		If zface(shotOwner(projectile)) = 4 Then 
 			xAxisFreezeGroundPos=xshot(projectile)+25
-			freezeGroundShotWidth=65
 		EndIf
 	EndIf
-		
+
 	If shotHeight(projectile) < 0 Then 
 		heightLoop = shotHeight(projectile) * -1
-	Else 
+	Else
 		heightLoop = shotHeight(projectile)
 	End If
 	For qh=0 To heightLoop Step 6
@@ -6084,7 +6088,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 				If Not targetPlayer=shotOwner(projectile) Then
 					If Not (zShotByN(targetPlayer) = projectile And zShotHitSeq(targetPlayer, projectile) < shotImmuneTime(projectile)) Then 
 					If teamAttack=0 And zteam(shotOwner(projectile)) = zteam(targetPlayer) Then Return
-					If ImageRectCollide(zCurPic(targetPlayer),zx(targetPlayer)-(ImageWidth(zCurPic(targetPlayer))/2)+30,zy(targetPlayer)-ImageHeight(zCurPic(targetPlayer))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth+50,objShotHeight) Then
+					If ImageRectCollide(zCurPic(targetPlayer),zx(targetPlayer)-(ImageWidth(zCurPic(targetPlayer))/2)+30,zy(targetPlayer)-ImageHeight(zCurPic(targetPlayer))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
 						If Not shotDrill(projectile) Then shot(projectile)=0
 							zShotByN(targetPlayer)=projectile : zShotHitSeq(targetPlayer,projectile)=0
 							makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile),2,shotChunkType(projectile))
@@ -6307,7 +6311,7 @@ End Function
 ;-------------- Draw trailing effects ----------------
 Function drawTrailingEffects(n, runSeq)
 	If curGuy(n)=11 Then
-		If runSeq Mod 5 = 0 And Abs(zSpeed#(n)) >= 4 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
+		If runSeq Mod 5 = 0 And Abs(zSpeed#(n)) >= 5 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
 	End If
 End Function
 
@@ -6317,17 +6321,23 @@ Function enemyControlInit(n, x#, y#, width#, height#)
 	For nn=1 To zzamount
 		Select zFace(n)
 		Case 2
-			DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
-			If zon(nn) And nn <> n And zControlled(nn)=0 And zUnGrabable(nn)=0 Then 
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			If zon(nn) And nn <> n And zControlled(nn)=0 Then 
 				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
-					initParalysis(n, nn)
-					DebugLog "nn: " + nn
+					If zBlock(nn)=0 Then 
+						DebugLog "zblock: " + zBlock(nn)
+						;initParalysis(n, nn)
+					End If
+					;DebugLog "nn: " + nn
 				End If 
 			End If
 		Case 4
-			If zon(nn) And nn <> n And zControlled(nn)=0 And zUnGrabable(nn)=0 Then 
+			If zon(nn) And nn <> n And zControlled(nn)=0 Then 
 				If zx(nn) <= x# And zx(nn) >= x#-width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
-					initParalysis(n, nn)
+					If zBlock(nn)=0 Then 
+						DebugLog "zblock: " + zBlock(nn)
+						;initParalysis(n, nn)
+					End If
 				End If 
 			End If
 		End Select
@@ -6337,15 +6347,12 @@ End Function
 
 ;-------------- Initialize paralysis ---------------
 Function initParalysis(n, nn)
-;DebugLog "nn: " + n + "block: " + zBlock(nn)
-If zBlock(nn)=0 Then 
 	zParalyzed(nn)=1
 	zParalyzedSeq(nn)=0
 	zControlled(nn)=1
 	zControlsThis(n)=nn
 	initNoControl(nn)
-End If
-zControls(n)=1
+	zControls(n)=1
 End Function
 
 ;-------------- Initialize No Control ---------------

@@ -714,6 +714,7 @@ Function shotData(weaponChosen,n)
 	shotType(n)=weaponChosen
 	shotOwner(n)=0
 	shotspeed(n)=3
+	shotYspeed(n)=0
 	shotsize(n)=10	;width
 	shotheight(n)=10
 	shotSide(n)=shotsize(n)/2
@@ -748,6 +749,7 @@ Function shotData(weaponChosen,n)
 	shotHold(n)=8
 	shotExplosive(n)=0
 	shotExplosionSound(n)=explodeSnd
+	shotWidth(n)=1
 
 Select weaponChosen
 
@@ -1399,6 +1401,8 @@ Case 39	;Sub Zero freeze ball
 	shotspeed(n)=3
 	shotsize(n)=40
 	shotheight(n)=3
+	shotWidth(n)=60
+	shotVerticalSize(n)=1
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
 	shotHitMode(n)=3
@@ -1415,6 +1419,7 @@ Case 39	;Sub Zero freeze ball
 Case 40 ;Sub Zero ground freeze
 	shotspeed(n)=0
 	shotsize(n)=40
+	shotWidth(n)=60
 	shotheight(n)=-28
 	shotDamage(n)=4
 	shotHitMode(n)=4
@@ -1435,6 +1440,8 @@ Case 41	;Sub Zero ice spikes
 	shotspeed(n)=6
 	shotsize(n)=42
 	shotheight(n)=40
+	shotWidth(n)=50
+	shotVerticalSize(n)=1
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=9
 	shotHitMode(n)=3
@@ -1451,11 +1458,14 @@ Case 41	;Sub Zero ice spikes
 	
 Case 42	;Sub Zero diagonal freeze ball
 	shotspeed(n)=3
+	shotYspeed(n)=3
 	shotsize(n)=40
 	shotheight(n)=3
+	shotWidth(n)=50
+	shotVerticalSize(n)=1
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
-	shotHitMode(n)=5
+	shotHitMode(n)=3
 	shotFallTime(n)=0
 	shotHitXspeed(n)=0
 	shotHitYspeed(n)=0
@@ -1468,8 +1478,11 @@ Case 42	;Sub Zero diagonal freeze ball
 	
 Case 43 ;Sub Zero ice clone
 	shotspeed(n)=0
-	shotsize(n)=34
+	shotsize(n)=44
 	shotheight(n)=58
+	shotWidth(n)=51
+	shotId(n)=43
+	shotVerticalSize(n)=15
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
 	shotHitMode(n)=3

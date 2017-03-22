@@ -4,7 +4,7 @@ Function applyComboHitBox(n, hitMode, damage)
 	xblow(n,nn)=15: yblow(n,nn)=35:wblow(n,nn)=15:hblow(n,nn)=16:nn=nn+1
 	zHitMode(n)=hitMode:zBlowHold(n)=0
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
-	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=18:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
+	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 	zBlowSound(n)=subZeroStrongHitSnd
 	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zControls(n)=1 And zBlock(zControlsThis(n))=0 Then extraObj(n,zx(n),25,zy(n),-24,zblowdir(n),95)
 End Function
@@ -20,12 +20,14 @@ Function performCombo(n)
 	If zBlowSeq(n)>=a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
 	If zBlowSeq(n)>=b And zBlowSeq(n) < c Then 
 		zani(n)=22:zf(n)=3
+		If zBlowSeq(n) > b+3 And KeyDown(specialK(n))=1 Then zBlowSeq(n)=c
 		If zBlowSeq(n) = c-1 And KeyDown(specialK(n))=0 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n)>=c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
 	If zBlowSeq(n)>=d And zBlowSeq(n) < e Then zani(n)=22:zf(n)=5
 	If zBlowSeq(n)>=e And zBlowSeq(n) < f Then 
 		zani(n)=22:zf(n)=6
+		If zBlowSeq(n) > e+3 And KeyDown(blockK(n))=1 Then zBlowSeq(n)=f
 		If zBlowSeq(n) = f-1 And KeyDown(blockK(n))=0 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n)>=f And zBlowSeq(n) < g Then zani(n)=22:zf(n)=7
@@ -34,6 +36,7 @@ Function performCombo(n)
 	If zBlowSeq(n)>=i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=10
 	If zBlowSeq(n)>=j And zBlowSeq(n) < k Then 
 		zani(n)=22:zf(n)=11
+		If zBlowSeq(n) > j+3 And KeyDown(grabK(n))=1 Then zBlowSeq(n)=k
 		If zBlowSeq(n) = k-1 And KeyDown(grabK(n))=0 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n)>=k And zBlowSeq(n) < l Then zani(n)=22:zf(n)=7
@@ -65,7 +68,7 @@ Function performCombo(n)
 	End If
 	If zBlowSeq(n)=j And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
-	If zBlowSeq(n) >= o And zBlowSeq(n) < p Then
+	If zBlowSeq(n) >= o And zBlowSeq(n) < o+3 Then
 		applyComboHitBox(n, 0, 6)
 		isHitting=1
 	End If
@@ -94,12 +97,13 @@ zBlowEffect(n)=0
 		If zBlowStillSeq(n) > zBlowStillTime(n) Then zBlowStill(n)=0
 		Goto noBlowSeq11
 	EndIf
-zBlowSeq(n)=zBlowSeq(n)+1:
+zBlowSeq(n)=zBlowSeq(n)+1
 .noBlowSeq11
 zCHunkType(n)=50
 
 Select zCurBlow(n)
 Case 0	;Blocking
+	zSuperBar(n)=10000
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0

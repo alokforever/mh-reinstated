@@ -447,7 +447,10 @@ Case 10	;High Kick
 	EndIf
 		If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=14:zf(n)=1
 	If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0
-	
+
+Case 17:
+	zBlowSeq(n)=0:zBlow(n)=0
+		
 End Select
 
 End Function
