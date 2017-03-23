@@ -105,6 +105,7 @@ Select zCurBlow(n)
 Case 0	;Blocking
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
+	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0
 
 Case 15 ;Subzero throw
@@ -289,9 +290,10 @@ Case 1	; Kick
 	If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=6:zf(n)=4
 	If zBlowseq(n) > d And zblowseq(n) =< e Then 
 		zani(n)=6:zf(n)=5
-		zblowPamount(n)=2:nn=1
-		xblow(n,nn)=18: yblow(n,nn)=33:wblow(n,nn)=15:hblow(n,nn)=1:nn=nn+1
-		xblow(n,nn)=6: yblow(n,nn)=28:wblow(n,nn)=15:hblow(n,nn)=1:nn=nn+1
+		zblowPamount(n)=3:nn=1
+		xblow(n,nn)=18: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=1:nn=nn+1
+		xblow(n,nn)=12: yblow(n,nn)=30:wblow(n,nn)=12:hblow(n,nn)=1:nn=nn+1
+		xblow(n,nn)=6: yblow(n,nn)=28:wblow(n,nn)=9:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=18:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=subZeroStrongHitSnd
@@ -445,9 +447,8 @@ Case 9	;Sub zero freeze ground
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
-	If zFace(n)=2 Then checkYDist(n,zx(n)+32,zy(n)+6,2)
-	If zFace(n)=4 Then checkYDist(n,zx(n)-32,zy(n)+6,2)
-	zBlowImpact(n)=800
+	If zFace(n)=2 Then checkYDist(n,zx(n)+40,zy(n)+6,2)
+	If zFace(n)=4 Then checkYDist(n,zx(n)-40,zy(n)+6,2)
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=12:zf(n)=1
 	If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=12:zf(n)=2
@@ -467,7 +468,11 @@ Case 9	;Sub zero freeze ground
 				dir=zface(n):y=zy(n)-zheight(n)+5
 				If zface(n)=2 Then x=zx(n)+30
 				If zface(n)=4 Then x=zx(n)-60
-				makeshot(n,40,x,y,dir)
+				If zBlowSeq(n)=h Then 
+					makeshot(n,40,x,y,dir)
+					spellCooldownMaxTime(n, 1)=100
+					spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1) 
+				End If
 			Else If zongnd(n)=0 Or yDist(n) > 1 Then
 				dir=zface(n):y=zy(n)-zheight(n)+5
 				If zface(n)=2 Then x=zx(n)+24:y=zy(n)-21
@@ -552,7 +557,22 @@ Case 16: ; ice clone
 	If zBlowSeq(n) > j Then zBlowSeq(n)=0:zBlow(n)=0
 	
 Case 17: ;Ice shower
-	zBlowSeq(n)=0:zBlow(n)=0
+	a=3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+17
+	zNoMove(n)=1
+	zNoJump(n)=1
+	zjump(n)=0
+	If zongnd(n)=0 Then zy(n)=zy(n)-2
+	If zBlowSeq(n) >= 0 And zBlowSeq(n) < a Then
+		If zBlowSeq(n) = 1 And gameSound Then PlaySound subZeroFreeze1Snd
+		 zani(n)=18:zf(n)=1
+	End If
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zani(n)=18:zf(n)=2
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zani(n)=18:zf(n)=3
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zani(n)=18:zf(n)=4
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=18:zf(n)=5
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then zani(n)=18:zf(n)=6
+	
+	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0
 	
 End Select
 

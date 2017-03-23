@@ -216,7 +216,7 @@ Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrame
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
-Dim isHit(30)
+Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -226,6 +226,8 @@ modName(1) = "original"
 Global gfxStuffDir$="gfx\stuff\"
 Global gfxdir$="gfx\stuff\"
 Global soundsdir$="sounds\"
+Global timerDir$="gfx\stuff\timer"
+Global cdDir$="gfx\stuff\cd"
 
 ;Find all mod directories and set their paths/name 
 setModDirs()
@@ -252,6 +254,10 @@ For i=1 To 20
 	Timage(i,1)=LoadImage(gfxdir$ + "trig" + i + "_a1.bmp")
 	Timage(i,2)=LoadImage(gfxdir$ + "trig" + i + "_a2.bmp")
 Next
+For i=0 To 30
+	cdImage(i)=LoadImage(cdDir$ + "cd" + i + ".bmp")
+Next
+
 Dim platImage(20)
 For i=1 To 20
 	platImage(i)=LoadImage(gfxdir$ + "plat" + i + ".bmp")
@@ -273,7 +279,7 @@ gfxdir$="gfx\stuff\"
 
 
 ;**** Objects ******
-;Loads ciment club images
+;Loads cement club images
 epic(1,1)=LoadImage(gfxdir$ + "obj\obj6_1.bmp")
 epic(1,2)=LoadImage(gfxdir$ + "obj\obj6_2.bmp")
 epic(1,3)=LoadImage(gfxdir$ + "obj\obj6_3.bmp")
@@ -374,6 +380,10 @@ For n=1 To 103   ; load chunks
 		ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
 	Next
 Next
+
+For n=0 To 90
+	timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + i + ".bmp")	
+Next 
 
 ;Load Sounds
 Global intro=LoadSound(soundsdir$ + "intro.mp3")
@@ -1273,7 +1283,7 @@ Next
 
 For n= 1 To zzamount
 	If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
-	
+	If curGuy(n) <= 30 Then checkCooldown(n)
 	checkInputs(n)
 	If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
 		zStaminaBar#(n)=zStaminaBar#(n)+0.5
@@ -3993,6 +4003,7 @@ End Select
 	If zHitCount(n) > 2 And zHitMode(n) <> 2 Then 
 		If Rand(5) = 5 Then 
 			If gameSound Then PlaySound toastySnd 
+			extraObj(n,xScr+620,0,yScr+480,0,2,98)
 		Else
 			If gameSound Then PlaySound clapSnd
 		EndIf
@@ -6370,28 +6381,27 @@ Function enemyControlInit(n, x#, y#, width#, height#)
 		Select zFace(n)
 		Case 2
 			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
-			If zon(nn) And nn <> n And zControlled(nn)=0 Then 
+			If zon(nn) And nn <> n And zTeam(nn) <> zTeam(n) And zControlled(nn)=0 Then 
 				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
 					initParalysis(n, nn)
 					;DebugLog "nn: " + nn
 				End If 
 			End If
 		Case 4
-			If zon(nn) And nn <> n And zControlled(nn)=0 Then 
+			If zon(nn) And nn <> n And zTeam(nn) <> zTeam(n) And zControlled(nn)=0 Then 
 				If zx(nn) <= x# And zx(nn) >= x#-width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
 					initParalysis(n, nn)
 				End If 
 			End If
 		End Select
 	Next
-
 End Function
 
 ;-------------- Initialize paralysis ---------------
 Function initParalysis(n, nn)
 	zParalyzed(nn)=1
 	zControlled(nn)=1
-	zControlsThis(n)=nn
+	zControlsThis(n)=nnoq
 	initNoControl(nn)
 	zControls(n)=1
 End Function
@@ -6412,4 +6422,22 @@ Function initFightStates(nn)
 	zgrabs(nn)=0:zGrabsThis(nn)=0
 	zControls(nn)=0:zControlsThis(nn)=0
 	zblock(nn)=0:zBlocked(nn)=0
+End Function
+
+;---------------- Check Cooldown --------------------
+Function checkCooldown(n)
+	DebugLog "AAA: " + spellCooldownSeq(n, 1) + ", " + n
+	For spellId = 0 To 4
+		If spellCooldownSeq(n, spellId) > 0 Then
+			drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId))
+			spellCooldownSeq(n, spellId) = spellCooldownSeq(n, spellId)-1
+		End If
+	Next
+End Function
+
+;------------------ Draw Timer ----------------------
+Function drawTimer(curSeq, maxSeq)
+	;SetBuffer FrontBuffer()
+	;DrawImage timerImage(0),100,100
+	;Flip
 End Function

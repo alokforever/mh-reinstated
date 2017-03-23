@@ -2233,7 +2233,12 @@ Case 97:		;Berserker slash2 FX
 	If chunkSeq(n) >=9 And chunkSeq(n) < 13 Then chunkPic(n)=ptPic(77,3):chunkPic_(n)=ptPic_(77,3)
 	If chunkSeq(n) >=13 And chunkSeq(n) < 17 Then chunkPic(n)=ptPic(77,4):chunkPic_(n)=ptPic_(77,4)
 	
-	If chunkSeq(N) = 17 Then chunk(n)=0
+	If chunkSeq(n) = 17 Then chunk(n)=0
+
+Case 98:		;Toasty fx
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 60 Then chunkPic(n)=ptPic(78,1):chunkPic_(n)=ptPic(78,1)
+
+	If chunkSeq(n) >= 60 Then chunk(n)=0
 
 Case 101: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(51,1):chunkPic_(n)=ptPic(51,1)
