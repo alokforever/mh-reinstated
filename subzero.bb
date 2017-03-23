@@ -1,24 +1,27 @@
 Function applyComboHitBox(n, hitMode, damage)
-	enemyControlInit(n,zx(n),zy(n)-30,45,36)
 	zblowPamount(n)=1:nn=1
-	xblow(n,nn)=15: yblow(n,nn)=35:wblow(n,nn)=15:hblow(n,nn)=16:nn=nn+1
+	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=20:hblow(n,nn)=22:nn=nn+1
 	zHitMode(n)=hitMode:zBlowHold(n)=0
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 	zBlowSound(n)=subZeroStrongHitSnd
-	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zControls(n)=1 And zBlock(zControlsThis(n))=0 Then extraObj(n,zx(n),25,zy(n),-24,zblowdir(n),95)
+	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zParalyzed(zControlsThis(n))=1 And zBlock(zControlsThis(n))=0 Then 
+		extraObj(n,zx(n),25,zy(n),-32,zblowdir(n),95)
+	End If
 End Function
 
 Function performCombo(n)
 	a=53:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=45
+	If (zBlowSeq(n) <= o+3) And zBlocked(en)=0 Then enemyControlInit(n,zx(n),zy(n)-20,45,20)
+	
 	If zBlowSeq(n)>=50 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
 	
 ;----- animations -----
 	If zBlowSeq(n)>=50 And zBlowSeq(n) < a Then zani(n)=22:zf(n)=1
 	If zBlowSeq(n)>=a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
-	If zBlowSeq(n)>=b And zBlowSeq(n) < c Then 
+	If zBlowSeq(n)>=b And zBlowSeq(n) < c Then
 		zani(n)=22:zf(n)=3
 		If zBlowSeq(n) > b+3 And KeyDown(specialK(n))=1 Then zBlowSeq(n)=c
 		If zBlowSeq(n) = c-1 And KeyDown(specialK(n))=0 Then zBlowSeq(n)=endSeq
@@ -46,7 +49,6 @@ Function performCombo(n)
 	If zBlowSeq(n)>=o And zBlowSeq(n) < p Then zani(n)=22:zf(n)=11
 ;----------------------
 	isHitting=0
-	zControls(n)=0
 ;----- hit boxes ------
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
 		applyComboHitBox(n, 2, 5)
@@ -72,12 +74,11 @@ Function performCombo(n)
 		applyComboHitBox(n, 0, 6)
 		isHitting=1
 	End If
-	zNoGrav(en)=0
 	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
-
+	DebugLog en
 ;----------------------
 	en=zControlsThis(n)
-	If (zBlowSeq(n) <= o) And zBlocked(en)=0 Then zParalyzed(en)=1
+	zNoGrav(en)=1
 	
 	If isHitting=1 Then
 		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3

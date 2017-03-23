@@ -703,7 +703,6 @@ For n=1 To 4
 	xpointer(n)=100+x:ypointer(n)=400
 	x=x+150
 	If zteam(n) > 2 Then zteam(n)=0
-
 Next
 
 gfxdir$="gfx\stuff\"
@@ -957,8 +956,6 @@ For n=1 To 30
 	zGotObj(n)=0
 Next
 
-
-
 If vsMode=0 Then gameMode=1
 If gamemode=2 Then setPos_ctf Else setpos   ;Load map definitions
 
@@ -1113,7 +1110,7 @@ For n= 1 To zzamount
 	zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
-	zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
+	zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
 	
 	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
@@ -1950,7 +1947,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
 	 If facWaitEvent(n,curF(n)) > 0 Then
 	 	If EventN(facWaitEvent(n,curF(n)))=1 Then
 		;If eventAction(facWaitEvent(n,curF(n))=1 Then
-			;eventAction(facWaitEvent(n,curFn))=0
+			;eventAction(facWaitEvent(n,curF(n))=0
 			:
 		Else
 			;FdelaySeq(n)=FdelaySeq(n)-1
@@ -2030,7 +2027,6 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
 					If nn > shotAmount Then shotAmount=nn
 					Exit
 				EndIf
-				
 			Next
 			xshot(nn)=xfac(n,curF(n))
 			yshot(nn)=yfac(n,curF(n))
@@ -2081,7 +2077,7 @@ Function selectDraw(n)
 		Goto drawZ
 	End If
 	
-	If zDuck(n)=1 Then 
+	If zDuck(n)=1 Then
 		zani(n)=3:zf(n)=1
 		If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
 		Goto drawZ		
@@ -3385,13 +3381,13 @@ Function makeChunk(n,x,y,dir,kind)
 For i=1 To 1500
 	If chunk(i)=0 Then
 		If i > chunkAmount Then chunkAmount=i
-		chunkPic(i)=0
-		chunkOwner(i)=n
-		chunkSeq(i)=0
-		chunkDir(i)=dir
-		chunk(i)=1:chunkType(i)=kind
-		xChunk(i)=x:yChunk(i)=y
-		chunkCategory(i)=1
+			chunkPic(i)=0
+			chunkOwner(i)=n
+			chunkSeq(i)=0
+			chunkDir(i)=dir
+			chunk(i)=1:chunkType(i)=kind
+			xChunk(i)=x:yChunk(i)=y
+			chunkCategory(i)=1
 		Exit
 	EndIf	
 Next
@@ -6401,7 +6397,7 @@ End Function
 Function initParalysis(n, nn)
 	zParalyzed(nn)=1
 	zControlled(nn)=1
-	zControlsThis(n)=nnoq
+	zControlsThis(n)=nn
 	initNoControl(nn)
 	zControls(n)=1
 End Function
@@ -6426,7 +6422,7 @@ End Function
 
 ;---------------- Check Cooldown --------------------
 Function checkCooldown(n)
-	DebugLog "AAA: " + spellCooldownSeq(n, 1) + ", " + n
+	;DebugLog "AAA: " + spellCooldownSeq(n, 1) + ", " + n
 	For spellId = 0 To 4
 		If spellCooldownSeq(n, spellId) > 0 Then
 			drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId))
@@ -6437,7 +6433,7 @@ End Function
 
 ;------------------ Draw Timer ----------------------
 Function drawTimer(curSeq, maxSeq)
-	;SetBuffer FrontBuffer()
-	;DrawImage timerImage(0),100,100
-	;Flip
+	
+	DrawImage timerImage(0),100,100
+	
 End Function
