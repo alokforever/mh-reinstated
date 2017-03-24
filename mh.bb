@@ -214,9 +214,10 @@ Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkF
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
-Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
+Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30), zCustomSlideCry(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
+Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), wallJumpSeq(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -497,17 +498,18 @@ Global subZeroHitSnd
 Global subZeroIceBlastSnd
 Global subZeroKickSnd
 Global subZeroSlideKickSnd
-Global subZeroLaughSnd
 Global subZeroPunchSnd
 Global subZeroPunch2Snd
 Global subZeroThrowSnd
 Global subZeroJumpSnd
 Global subZeroJump2Snd
-Global subZeroExcellentSnd
-Global subZeroOutstandingSnd
-Global subZeroSuperbSnd
+Global mkExcellentSnd=LoadSound(soundsdir$ + "mk\mkExcellent.mp3")
+Global mkOutstandingSnd=LoadSound(soundsdir$ + "mk\mkOutstanding.mp3")
+Global mkWelldoneSnd=LoadSound(soundsdir$ + "mk\mkWellDone.mp3")
+Global mkSuperbSnd=LoadSound(soundsdir$ + "mk\mkSuperb.mp3")
+Global mkLaugh1Snd=LoadSound(soundsdir$ + "mk\shaoKahnLaugh1.mp3")
+Global mkLaugh2Snd=LoadSound(soundsdir$ + "mk\shaoKahnLaugh2.mp3")
 Global subZeroStrongHitSnd
-Global subZeroWelldoneSnd
 Global subZeroWindSnd
 Global wolverineJumpSnd
 Global wolverineBarrageSnd
@@ -1111,8 +1113,7 @@ For n= 1 To zzamount
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
-	
-	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0
+	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
@@ -2276,7 +2277,7 @@ For vn=3 To zheight(n) Step 4	;Detects wall collision Next to player
 			Case 4:zface(n)=4:zFallDir(n)=2
 			Case 2:zFace(n)=2:zFallDir(n)=4
 			End Select
-			If gameSound = 1 Then PlaySound zhitwallsnd 
+			If gameSound = 1 Then PlaySound zhitwallsnd
 		EndIf
 		zx(n)=zoldx(n):Exit
 	EndIf
@@ -2307,12 +2308,17 @@ For vn=3 To zheight(n) Step 4	;Detects wall collision Next to player
 Next
 
 If zjump(n)=1 And zhit(n)=0 And zBlowStill(n)=0 And zJumping(n)=1 Then		;Makes it jump!
-	zjumpseq(n)=zjumpseq(n)+1:zongnd(n)=0
-	If zjumpseq(n) = 11 And jumpKeyDown(n)=0 And zjump2(n)=0 Then zjump(n)=0
-	If zjumpSeq(n) <= zJumpLimit(n) - 5 Then zy(n)=zy(n)-zgravity(n):Goto asd
-	If zjumpSeq(n) > zJumpLimit(n) - 5 Then zy(n)=zy(n)-(zgravity(n) / 2):Goto asd
- 	.asd
-	If zjumpseq(n) => zjumplimit(n) Then zjump(n)=0
+	checkDist(n, zx(n), zy(n), zFace(n))
+	If canWallJump(n)=1 And xDist(n)=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) Then
+		;handleWallJump(n)
+	Else
+		zjumpseq(n)=zjumpseq(n)+1:zongnd(n)=0
+		If zjumpseq(n) = 11 And jumpKeyDown(n)=0 And zjump2(n)=0 Then zjump(n)=0
+		If zjumpSeq(n) <= zJumpLimit(n) - 5 Then zy(n)=zy(n)-zgravity(n):Goto asd
+		If zjumpSeq(n) > zJumpLimit(n) - 5 Then zy(n)=zy(n)-(zgravity(n) / 2):Goto asd
+	 	.asd
+		If zjumpseq(n) => zjumplimit(n) Then zjump(n)=0
+	End If
 EndIf
 If zjump2(n)=1 Then zjump2seq(n)=zjump2seq(n)+1
 
@@ -3997,12 +4003,20 @@ Case 4
 End Select
 .blowDone
 	If zHitCount(n) > 2 And zHitMode(n) <> 2 Then 
-		If Rand(5) = 5 Then 
-			If gameSound Then PlaySound toastySnd 
-			extraObj(n,xScr+620,0,yScr+480,0,2,98)
-		Else
-			If gameSound Then PlaySound clapSnd
-		EndIf
+		If isMkCharacter(n) = 1 Then
+			soundSeed = Rand(8)
+			If soundSeed = 1 Then If gameSound Then PlaySound mkOutstandingSnd 
+			If soundSeed = 2 Then If gameSound Then PlaySound mkSuperbSnd 
+			If soundSeed = 3 Then If gameSound Then PlaySound mkExcellentSnd 
+			If soundSeed = 4 Then If gameSound Then PlaySound mkWelldoneSnd 
+			If soundSeed = 5 Then If gameSound Then PlaySound mkLaugh1Snd 
+			If soundSeed = 6 Then If gameSound Then PlaySound mkLaugh2Snd
+			If soundSeed >= 7 And soundSeed <= 8 Then 
+				If gameSound Then PlaySound toastySnd 
+				extraObj(n,xScr+600,0,yScr+480,0,2,98)
+			End If
+		End If
+		If isMkCharacter(n)= 0 And gameSound Then PlaySound clapSnd
 		zHitCount(n)=0
 	EndIf
 End If
@@ -6093,8 +6107,7 @@ End Function
 
 ;------------ handle sub zero projectile attacks --------------
 Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, projectileYPos)
-	Local heightLoop, xAxisShotPos, yAxisShotPos
-	
+	Local heightLoop, xAxisShotPos, yAxisShotPos	
 	objShotWidth=shotWidth(projectile)
 	objShotHeight=shotVerticalSize(projectile)
 
@@ -6112,12 +6125,12 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 			xAxisShotPos=xshot(projectile)+50
 		End If
 		yAxisShotPos=yshot(projectile)+40
-		shotId(projectile)=0
-		If zHit(zControlsThis(shotOwner(projectile)))=0 Then
+		If zHit(zControlsThis(shotOwner(projectile)))=0 And zFrozen(zControlsThis(shotOwner(projectile)))=0 Then
 			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile))
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
-			If zParalyzedSeq(en)>10000 Then zParalyzedSeq(en)=0
+			If zParalyzedSeq(en)=1 And zCustomSlideCry(en) <> 0 And gameSound Then PlaySound zCustomSlideCry(en)
+			If zParalyzedSeq(en)>69 Then zParalyzedSeq(en)=0
 			If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 20=0 Then 
 				zani(en)=2:zf(en)=1
 				Goto modTwenty
@@ -6376,7 +6389,7 @@ Function enemyControlInit(n, x#, y#, width#, height#)
 	For nn=1 To zzamount
 		Select zFace(n)
 		Case 2
-			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(nn) And nn <> n And zTeam(nn) <> zTeam(n) And zControlled(nn)=0 Then 
 				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
 					initParalysis(n, nn)
@@ -6420,7 +6433,7 @@ Function initFightStates(nn)
 	zblock(nn)=0:zBlocked(nn)=0
 End Function
 
-;---------------- Check Cooldown --------------------
+;---------------- Check Move Cooldown ---------------
 Function checkCooldown(n)
 	;DebugLog "AAA: " + spellCooldownSeq(n, 1) + ", " + n
 	For spellId = 0 To 4

@@ -79,6 +79,7 @@ Function performCombo(n)
 ;----------------------
 	en=zControlsThis(n)
 	zNoGrav(en)=1
+	zantiPlat(en)=1
 	
 	If isHitting=1 Then
 		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
