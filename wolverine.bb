@@ -581,7 +581,6 @@ Case 5	;Uppercut (Tornado claw)
 
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=2:zHitUpSpeed#(n)=2.5:zHitTime(n)=45
-		;If zBlowStill(n)=0 Then zy(n)=zy(n)-4
 		zBlowDamage(n)=6:zBLowEffect(n)=1:zBlowImpact(n)=18:zBlowStillTime(n)=2:zBlowBlockTime(n)=20
 		zBlowSound(n)=slashSnd
 		If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=7:zf(n)=5:zantiplat(n)=1
@@ -621,7 +620,6 @@ Case 7	;berserker slash (special)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
-	DebugLog "AAA: " + zBlowSeq(n)
 	If isRunning(n) And zBlowSeq(n)=1 Then zBlowSeq(n)=i:isRunning(n)=0:zCurSpeed#(n)=zSpeed#(n)
 	If zBlowSeq(n)>=i Then performBerserkerSlash(n)
 	If zongnd(n)=0 And zBlowSeq(n) < i Then zy(n)=zy(n)-2

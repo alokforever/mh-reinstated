@@ -1,3 +1,61 @@
+Function performFatalitySuper(n)
+	a=103:b=a+4:c=b+4:d=c+28:e=d+3:f=e+4:g=f+42:h=g+4:i=h+4:j=h+120
+	;zNoGrav(zControlsThis(n))=0
+	checkDist(n, zx(n), zy(n), zFace(n))
+	If zBlowSeq(n) => 100 And zBlowSeq(n) < a Then 
+		zani(n)=14:zf(n)=1
+		If zBlowSeq(n) = a-1 Then
+			If gameSound=1 Then PlaySound mkFatalitySnd
+			zSuperMove(n)=1:zSuperMoveSeq(n)=0
+		End If
+	End If
+	If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=14:zf(n)=2
+	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=14:zf(n)=3
+	If zBlowSeq(n) = b And gameSound Then PlaySound blow2snd
+	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=14:zf(n)=4
+	If zBlowSeq(n) => c And zBlowSeq(n) < c+5	
+		If zBlowSeq(n) = c Then zControls(n)=0
+		enemyControlInit(n,zx(n),zy(n)-45,41,45,0)
+		zblowPamount(n)=2:nn=1
+		xblow(n,nn)=6: yblow(n,nn)=73:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
+		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
+		zHitMode(n)=2:zBlowHold(n)=0
+		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=35
+		zHitSpeed#(n)=2.4:zHitUpSpeed#(n)=3.5:zHitTime(n)=90
+		zBlowSound(n)=subZeroStrongHitSnd
+	End If
+	If zBlowSeq(n) => d And zBlowSeq(n) < e Then 
+		If zBlowSeq(n) = d And xDist(n) > 56 And gameSound Then PlaySound subzeroFreeze1Snd
+		zani(n)=12:zf(n)=1
+		If xDist(n) > 56 Then extraObj(n,zx(n),45,zy(n),0,zblowdir(n),101)
+	End If
+	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=4
+	If zBlowSeq(n) => h And zBlowSeq(n) < i Then 
+		zani(n)=10:zf(n)=5
+		If zBlowSeq(n) = h And gameSound Then PlaySound mkFatality2Snd
+	End If
+	If zBlowSeq(n) => i And zBlowSeq(n) < j Then 
+		zani(n)=10:zf(n)=6
+		If zBlowSeq(n) = j-60 And gameSound Then PlaySound mkFatality3Snd
+	End If
+	If zBlowSeq(n) = d-1 Then
+		If xDist(n) <= 56 Or zControlsThis(n)=0 Or (zLife(zControlsThis(n)) < 1 And vsMode=0) Or zUngrabable(zControlsThis(n))=1 Then zBlowSeq(n)=90
+	End If
+	If zBlowSeq(n) >= 183 And xDist(n) > 56 Then 
+		enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n))
+		If zBlowSeq(n) = 183 Then
+			extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
+			If gameSound And isMale(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
+			zLife(zControlsThis(n))=zLife(zControlsThis(n))-80
+			zDamage(zControlsThis(n))=zDamage(zControlsThis(n))+80
+		End If	
+	End If
+	If zy(zControlsThis(n))>zy(n)-20 Then zNoGrav(zControlsThis(n))=1
+	If zBlowSeq(n) > j Then zBlowSeq(n)=90
+End Function
+
 Function applyComboHitBox(n, hitMode, damage)
 	zblowPamount(n)=1:nn=1
 	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=20:hblow(n,nn)=22:nn=nn+1
@@ -6,7 +64,7 @@ Function applyComboHitBox(n, hitMode, damage)
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 	zBlowSound(n)=subZeroStrongHitSnd
 	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zParalyzed(zControlsThis(n))=1 And zBlock(zControlsThis(n))=0 Then 
-		extraObj(n,zx(n),25,zy(n),-32,zblowdir(n),95)
+		extraObj(n,zx(n),45,zy(n),-32,zblowdir(n),95)
 	End If
 End Function
 
@@ -14,7 +72,7 @@ Function performCombo(n)
 	a=53:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=45
-	If (zBlowSeq(n) <= o+3) And zBlocked(en)=0 Then enemyControlInit(n,zx(n),zy(n)-20,45,20)
+	If (zBlowSeq(n) <= o+3) And zBlocked(en)=0 Then enemyControlInit(n,zx(n),zy(n)-39,45,39,0)
 	
 	If zBlowSeq(n)>=50 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
 	
@@ -75,7 +133,6 @@ Function performCombo(n)
 		isHitting=1
 	End If
 	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
-	DebugLog en
 ;----------------------
 	en=zControlsThis(n)
 	zNoGrav(en)=1
@@ -105,6 +162,7 @@ zCHunkType(n)=50
 
 Select zCurBlow(n)
 Case 0	;Blocking
+	zSuperBar(n)=100
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
@@ -172,12 +230,14 @@ Case 15 ;Subzero throw
 
 
 Case 14	;Super Special (ice spikes)
-	a=2:b=4:c=7:d=20:e=50
+	a=2:b=4:c=7:d=20:e=50:f=100
 	Local numOfShots=6
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
-	If zongnd(n)=0 Then zy(n)=zy(n)-2
+	If zongnd(n)=1 And upKey(n)=1 And zBlowSeq(n)=1 Then zBlowSeq(n)=100
+	If zBlowSeq(n) >= 100 Then performFatalitySuper(n) 
+	If zongnd(n)=0 And downKey(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=2
 	If zBlowSeq(n) => b And zBlowSeq(n) < d Then 
@@ -194,9 +254,9 @@ Case 14	;Super Special (ice spikes)
 		da = makeshot(n,41,x,y,dir)
  	EndIf
  	
-	If zBlowSeq(n) > d And zBlowSeq2(n) < numOfShots Then zBlowSeq2(n)=zBlowSeq2(n)+1:zBlowSeq(n)=zBlowSeq(n)-10
+	If zBlowSeq(n) > d And zBlowSeq(n) < f And zBlowSeq2(n) < numOfShots Then zBlowSeq2(n)=zBlowSeq2(n)+1:zBlowSeq(n)=zBlowSeq(n)-10
 	If zBlowSeq(n) = d+2 And gameSound=1 Then PlaySound subZeroWindSnd
-	If zBlowSeq(n) > e Then zBlowSeq(n)=0:zBlow(n)=0
+	If zBlowSeq(n) > e And zBlowSeq(n) < f Then zBlowSeq(n)=0:zBlow(n)=0
 	
 
 Case 11	;club
@@ -497,12 +557,11 @@ Case 10	; Up + Attack
 	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=14:zf(n)=3
 	If zBlowseq(n) > c And zblowseq(n) =< d Then 
 		zblowPamount(n)=2:nn=1
-		xblow(n,nn)=6: yblow(n,nn)=63:wblow(n,nn)=9:hblow(n,nn)=15:nn=nn+1
-		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=9:hblow(n,nn)=17:nn=nn+1
+		xblow(n,nn)=6: yblow(n,nn)=70:wblow(n,nn)=13:hblow(n,nn)=15:nn=nn+1
+		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=13:hblow(n,nn)=17:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=subZeroStrongHitSnd
-		;If zBlowSeq(n)=d
 		zani(n)=14:zf(n)=4
 	EndIf
 	If zBlowSeq(n) > d And zBlowSeq(n) <= e Then zani(n)=14:zf(n)=4

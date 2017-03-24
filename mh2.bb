@@ -772,7 +772,7 @@ Case 61	;sonya ball
 	shotFallTime(n)=20
 	shotDuration(n)=200
 	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=101
+	shotChunkType(n)=102
 	shotPic(n,1)=shotImage(43)
 	shotPic_(n,1)=shotImage(43)
 	shotPic(n,2)=shotImage(44)
@@ -1492,7 +1492,7 @@ Case 43 ;Sub Zero ice clone
 	shotheight(n)=58
 	shotWidth(n)=51
 	shotId(n)=43
-	shotVerticalSize(n)=25
+	shotVerticalSize(n)=28
 	shotSide(n)=shotsize(n)/2
 	shotdamage(n)=0
 	shotHitMode(n)=3
@@ -2229,10 +2229,24 @@ Case 95:		;Blood
 	If chunkSeq(n) >=13 And chunkSeq(n) < 15 Then chunkPic(n)=ptPic(75,7):chunkPic_(n)=ptPic_(75,7)
 	If chunkSeq(n) >=15 And chunkSeq(n) < 17 Then chunkPic(n)=ptPic(75,8):chunkPic_(n)=ptPic_(75,8)
 	
-	If chunkSeq(n) = 9 Then chunk(n)=0
+	If chunkSeq(n) = 17 Then chunk(n)=0
 
 Case 96:		;Blood2
+	If chunkSeq(n) >=1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(76,1):chunkPic_(n)=ptPic(76,1)
+	If chunkSeq(n) >=3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(76,2):chunkPic_(n)=ptPic(76,2)
+	If chunkSeq(n) >=5 And chunkSeq(n) < 7 Then chunkPic(n)=ptPic(76,3):chunkPic_(n)=ptPic(76,3)
+	If chunkSeq(n) >=7 And chunkSeq(n) < 9 Then chunkPic(n)=ptPic(76,4):chunkPic_(n)=ptPic(76,4)
+	If chunkSeq(n) >=9 And chunkSeq(n) < 11 Then chunkPic(n)=ptPic(76,5):chunkPic_(n)=ptPic(76,5)
+	If chunkSeq(n) >=11 And chunkSeq(n) < 13 Then chunkPic(n)=ptPic(76,6):chunkPic_(n)=ptPic(76,6)
+	If chunkSeq(n) >=13 And chunkSeq(n) < 15 Then chunkPic(n)=ptPic(76,7):chunkPic_(n)=ptPic(76,7)
+	If chunkSeq(n) >=15 And chunkSeq(n) < 17 Then chunkPic(n)=ptPic(76,8):chunkPic_(n)=ptPic(76,8)
+	If chunkSeq(n) >=17 And chunkSeq(n) < 19 Then chunkPic(n)=ptPic(76,9):chunkPic_(n)=ptPic(76,9)
+	If chunkSeq(n) >=19 And chunkSeq(n) < 21 Then chunkPic(n)=ptPic(76,10):chunkPic_(n)=ptPic(76,10)
+	If chunkSeq(n) >=21 And chunkSeq(n) < 23 Then chunkPic(n)=ptPic(76,11):chunkPic_(n)=ptPic(76,11)
+	If chunkSeq(n) >=23 And chunkSeq(n) < 25 Then chunkPic(n)=ptPic(76,12):chunkPic_(n)=ptPic(76,12)
+	If chunkSeq(n) >=25 And chunkSeq(n) < 27 Then chunkPic(n)=ptPic(76,13):chunkPic_(n)=ptPic(76,13)
 
+	If chunkSeq(n) = 27 Then chunk(n)=0
 
 Case 97:		;Berserker slash2 FX
 	If chunkSeq(n) >=1 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(77,1):chunkPic_(n)=ptPic_(77,1)
@@ -2246,17 +2260,20 @@ Case 98:		;Toasty fx
 	If chunkSeq(n) >= 1 And chunkSeq(n) < 60 Then chunkPic(n)=ptPic(78,1):chunkPic_(n)=ptPic(78,1)
 
 	If chunkSeq(n) >= 60 Then chunk(n)=0
+	
+Case 101:		;Ice impale
+	a=5:b=a+5:c=b+5:d=c+165
+	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(81,1):chunkPic_(n)=ptPic_(81,1)
+	If chunkSeq(n) >= a And chunkSeq(n) < b Then chunkPic(n)=ptPic(81,2):chunkPic_(n)=ptPic_(81,2)
+	If chunkSeq(n) >= b And chunkSeq(n) < c Then chunkPic(n)=ptPic(81,3):chunkPic_(n)=ptPic_(81,3)
+	If chunkSeq(n) >= c And chunkSeq(n) < d Then chunkPic(n)=ptPic(81,4):chunkPic_(n)=ptPic_(81,4)
+	
+	If chunkSeq(n) = d Then chunk(n)=0
 
-Case 101: a=10:b=20		;sonya ball impact
+Case 102: a=10:b=20		;sonya ball impact
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(51,1):chunkPic_(n)=ptPic(51,1)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(51,2):chunkPic_(n)=ptPic(51,2)
 	If chunkSeq(n) > b Then chunk(n)=0
-
-Case 102: a=10:b=20		;sonya ball impact
-	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(52,2):chunkPic_(n)=ptPic(52,2)
-	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(52,2):chunkPic_(n)=ptPic(52,2)
-	If chunkSeq(n) > b Then chunk(n)=0	
-
 	
 Default
 	 a=5:b=10:c=14	;Blocking

@@ -186,7 +186,7 @@ Dim EventAction(100),Tsound(100)
 Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
 Dim xChunk(1500),yChunk(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
-Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,10),ptPic_(1500,10),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
+Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,15),ptPic_(1500,15),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
 Dim chunkOwner(1500)
 
 Dim explosion(100),xExp(100),yExp(100),expDamage(100), expSide(100),expHeight(100),expImpact(100),expType(100),explosionSound(100)
@@ -376,7 +376,7 @@ For n=1 To 51   ;load shots
 Next
 
 For n=1 To 103   ; load chunks
-	For nn=1 To 10
+	For nn=1 To 15
 		ptPic(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+ ".bmp" )
 		ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
 	Next
@@ -404,7 +404,7 @@ Global PredatorRaySnd=LoadSound(soundsdir$ + "predatorRay.wav")
 Global PredatorSnd=LoadSound(soundsdir$ + "predator.wav")
 Global NoSnd=LoadSound(soundsdir$ + "NoSound.wav")
 Global ReadySnd=LoadSound(soundsdir$ + "ready.wav")
-Global FightSnd=LoadSound(soundsdir$ + "fight.wav")
+Global FightSnd=LoadSound(soundsdir$ + "mk\mkFight.mp3")
 Global clapSnd=LoadSound(soundsdir$ + "clap.wav")
 Global ohclapSnd=LoadSound(soundsdir$ + "ohclap.wav")
 Global eeeeSnd=LoadSound(soundsdir$ + "eeee.wav")
@@ -509,6 +509,10 @@ Global mkWelldoneSnd=LoadSound(soundsdir$ + "mk\mkWellDone.mp3")
 Global mkSuperbSnd=LoadSound(soundsdir$ + "mk\mkSuperb.mp3")
 Global mkLaugh1Snd=LoadSound(soundsdir$ + "mk\shaoKahnLaugh1.mp3")
 Global mkLaugh2Snd=LoadSound(soundsdir$ + "mk\shaoKahnLaugh2.mp3")
+Global mkFatalitySnd=LoadSound(soundsdir$ + "mk\mkFatality.mp3")
+Global mkFatality2Snd=LoadSound(soundsdir$ + "mk\mkFatality2.mp3")
+Global mkFatality3Snd=LoadSound(soundsdir$ + "mk\mkFatality3.mp3")
+Global mkMaleAgonySnd=LoadSound(soundsdir$ + "mk\mkMaleAgony.mp3")
 Global subZeroStrongHitSnd
 Global subZeroWindSnd
 Global wolverineJumpSnd
@@ -1572,7 +1576,6 @@ For n= 1 To chunkAmount
 	xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
 	;Select chunkCategory(n)
 	;Case 1	;normal chunks
-	  
 	  Select chunkDir(n)
 		Case 0:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr
 		Case 2:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
@@ -2551,22 +2554,24 @@ EndIf
 If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
 ;--walking/running/speed/acceleration stuff---------------------------------------------------------------------
 If rightkey(n)=1 Then
-	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n):rk=1
+	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n)
 	If isRunning(n) Then
 		If zSpeed#(n) > zTopRunningSpeed#(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
 	Else
 		If zSpeed#(n) > zTopSpeed#(n) Then zSpeed#(n) = zTopSpeed#(n)
 	End If
+	rk=1
 	Goto PressedDi
 EndIf
 
 If leftkey(n)=1 Then
-	If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed#(n) - (zTopSpeed(n)*2)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n):lk=1
+	If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed#(n) - (zTopSpeed(n)*2)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n)
 	If isRunning(n) Then
 		If zSpeed#(n) < zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2) Then zSpeed#(n) = zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2)
 	Else
 		If zSpeed#(n) < zTopSpeed#(n) - (zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed#(n) - (zTopSpeed(n)*2)
 	End If
+	lk=1
 	Goto PressedDi
 EndIf
 
@@ -6126,7 +6131,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 		End If
 		yAxisShotPos=yshot(projectile)+40
 		If zHit(zControlsThis(shotOwner(projectile)))=0 And zFrozen(zControlsThis(shotOwner(projectile)))=0 Then
-			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile))
+			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0)
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
 			If zParalyzedSeq(en)=1 And zCustomSlideCry(en) <> 0 And gameSound Then PlaySound zCustomSlideCry(en)
@@ -6384,22 +6389,28 @@ Function drawTrailingEffects(n, runSeq)
 End Function
 
 ;-------------- Enemy Control Initialization ---------
-Function enemyControlInit(n, x#, y#, width#, height#)
+Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 	zControls(n)=0:zControlsThis(n)=0
 	For nn=1 To zzamount
+		If enemy = 0 Then 
+			en=nn
+		Else 
+			en=enemy
+		End If
 		Select zFace(n)
 		Case 2
-			DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
-			If zon(nn) And nn <> n And zTeam(nn) <> zTeam(n) And zControlled(nn)=0 Then 
-				If zx(nn) >= x# And zx(nn) <= x#+width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
-					initParalysis(n, nn)
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
+				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
+					initParalysis(n, en)
 					;DebugLog "nn: " + nn
 				End If 
 			End If
 		Case 4
-			If zon(nn) And nn <> n And zTeam(nn) <> zTeam(n) And zControlled(nn)=0 Then 
-				If zx(nn) <= x# And zx(nn) >= x#-width# And zy(nn) >= y# And zy(nn) <= y#+height# Then
-					initParalysis(n, nn)
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
+				If zx(en) <= x# And zx(en) >= x#-width# And zy(en) >= y# And zy(en) <= y#+height# Then
+					initParalysis(n, en)
 				End If 
 			End If
 		End Select
@@ -6435,7 +6446,7 @@ End Function
 
 ;---------------- Check Move Cooldown ---------------
 Function checkCooldown(n)
-	;DebugLog "AAA: " + spellCooldownSeq(n, 1) + ", " + n
+	;; "AAA: " + spellCooldownSeq(n, 1) + ", " + n
 	For spellId = 0 To 4
 		If spellCooldownSeq(n, spellId) > 0 Then
 			drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId))
