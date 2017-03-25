@@ -5860,13 +5860,13 @@ For q=1 To 1000 Step 5
 Next
 
 Case 4 ;up
-For q=1 To 600 Step 5
+For q=1 To 1000 Step 5
 	If ImageRectCollide(map,0,0,0,y-q,x,1,1) Then
 		yDist(n)=q
 		Goto distChecked
 	EndIf
 	For nn=1 To platAmount
-		If x-q > yplat(nn) And y-q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
+		If y-q > yplat(nn) And y-q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
 			If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
 				yDist(n)=q
 				Goto distChecked	

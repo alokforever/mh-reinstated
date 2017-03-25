@@ -576,6 +576,7 @@ Case 16: ; ice clone
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	checkYDist(n, zx(n), zy(n), 4)
 	If zHitHead(n)=1 Then zBlowSeq(n)=i:zy(n)=zy(n)+4
 	If zongnd(n) = 0 And zBlowSeq(n) = 1 Then zBlowSeq(n) = j+1
 	If zBlowSeq(n) = 1 Then PlaySound subZeroFreeze1Snd
@@ -598,12 +599,12 @@ Case 16: ; ice clone
 			If gameSound Then PlaySound subZeroJumpSnd
 			zani(n)=5:zf(n)=1::zantiplat(n)=1
 			movex2(n,dir,16)
-			movey(n,-30)
+			If yDist(n) > 75 Then movey(n,-30)
 		EndIf
 		If zBlowSeq(n) = g And zBlowSeq(n) <= h Then
 			zani(n)=5:zf(n)=4::zantiplat(n)=1
 			movex2(n,dir,15)
-			movey(n,-25)
+			If yDist(n) > 75 Then movey(n,-25)
 		EndIf
 		If zBlowSeq(n) = h And zBlowSeq(n) <= i Then
 			zani(n)=5:zf(n)=3::zantiplat(n)=1
