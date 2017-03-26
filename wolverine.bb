@@ -556,9 +556,8 @@ Case 5	;Uppercut (Tornado claw)
 	If zBlowSeq(n) > c And zBlowSeq(n) =< d Then
 		zblowPamount(n)=8:nn=1
 		zblowback(n)=1
-		For counter = 5 To 75
+		For counter = 5 To 75 Step 10
 			xblow(n,nn)=-20: yblow(n,nn)=counter:wblow(n,nn)=55:hblow(n,nn)=1:nn=nn+1
-			counter = counter + 10
 		Next
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=2:zHitUpSpeed#(n)=2.5:zHitTime(n)=45
@@ -574,9 +573,8 @@ Case 5	;Uppercut (Tornado claw)
 		If upkey(n)=0 Then zBlowSeq(n) = r
 		zblowPamount(n)=8:nn=1
 		zblowback(n)=1
-		For counter = 5 To 75
+		For counter = 5 To 75 Step 10
 			xblow(n,nn)=-30: yblow(n,nn)=counter:wblow(n,nn)=65:hblow(n,nn)=1:nn=nn+1
-			counter = counter + 10
 		Next
 
 		zHitmode(n)=2:zBlowHold(n)=0
@@ -843,7 +841,6 @@ Case 16 ;Counter Key (Berserker Rage)
 	If zBlowSeq(n) = k And gameSound Then PlaySound wolverineClawSnd
 	If zBlowSeq(n) = nnn And gameSound Then PlaySound wolverineShout4Snd
 	If zBlowSeq(n) >= nnn And zBlowSeq(n) <= o Then
-		
 		zblowPamount(n)=4:nn=1
 		For counter = 0 To 30
 			xblow(n,nn)=0: yblow(n,nn)=counter:wblow(n,nn)=50:hblow(n,nn)=1:nn=nn+1
@@ -967,6 +964,39 @@ Case 17 ;Extra special key (Drill Claw)
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=3:zNomove(n)=0
 	If zongnd(n)=1 And zBlowSeq(n) => e+1 And zBlowSeq(n) < f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
+Case 18:	;wall jump
+	zNoGrav(n)=1
+	zNoMove(n)=1
+	zNoJump(n)=1
+	zjump(n)=0
+	zantiplat(n)=1
+	checkYDist(n,zx(n),zy(n),4)
+	If zBlowSeq(n) = 1 And gameSound Then PlaySound wolverineShout4Snd
+	If zBlowSeq(n) = 1 And gameSound Then PlaySound wolverineJump2Snd
+	If jumpKey(n)=1 And zBlowSeq(n) > 10 Then zBlowSeq(n)=30
+	If zBlowSeq(n) >= 10 And zBlowSeq(n) < 23 Then 
+		If yDist(n) > 50 Then zy#(n)=zy#(n)-2.5
+		If zFace(n)=2 Then zx#(n)=zx#(n)-3.8
+		If zFace(n)=4 Then zx#(n)=zx#(n)+3.8
+	Else If zBlowSeq(n) >= 23 And zBlowSeq(n) < 27 Then
+		If yDist(n) > 50 Then zy#(n)=zy#(n)-1.8
+		If zFace(n)=2 Then zx#(n)=zx#(n)-2.6
+		If zFace(n)=4 Then zx#(n)=zx#(n)+2.6
+	Else If zBlowSeq(n) >= 27 And zBlowSeq(n) < 30 Then
+		If yDist(n) > 50 Then zy#(n)=zy#(n)-1
+		If zFace(n)=2 Then zx#(n)=zx#(n)-1
+		If zFace(n)=4 Then zx#(n)=zx#(n)+1
+	End If
+	
+;---------------- Animation frames sequence -----------------
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) < 4 Then zani(n)=4:zf(n)=2
+	If zBlowSeq(n) >= 4 And zBlowSeq(n) < 7 Then zani(n)=4:zf(n)=3
+	If zBlowSeq(n) >= 7 And zBlowSeq(n) < 10 Then zani(n)=4:zf(n)=4
+	If zBlowSeq(n) >= 10 And zBlowSeq(n) < 23 Then zani(n)=4:zf(n)=5
+	If zBlowSeq(n) >= 23 And zBlowSeq(n) < 30 Then zani(n)=4:zf(n)=6
+
+	If zBlowSeq(n) > 30 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zNoJump(n)=0
+	
 End Select
 
 End Function

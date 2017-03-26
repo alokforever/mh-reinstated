@@ -46,7 +46,7 @@ Function performFatalitySuper(n)
 	If zBlowSeq(n) >= 183 And xDist(n) > 56 Then 
 		enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n))
 		If zBlowSeq(n) = 183 Then
-			extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
+			If zControlsThis(n) <> 0 Then extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
 			If gameSound And isMale(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
 			zLife(zControlsThis(n))=zLife(zControlsThis(n))-80
 			zDamage(zControlsThis(n))=zDamage(zControlsThis(n))+80

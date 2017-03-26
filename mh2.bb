@@ -55,6 +55,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zRunFrames(n)=0
 	zRunFrameSpeed#(n)=0
 	zCharSpeed#(n)=2
+	isMale(n)=2
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -73,7 +74,7 @@ Case 1: ;Ryu
 	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
-	;zgravity(n)=8;test
+	isMale(n)=1
 
 Case 2: ;Rash
 	zBlowDist(n,1)=65
@@ -91,6 +92,7 @@ Case 2: ;Rash
 	zxHand(n,3)=-8 :zyHand(n,3)=20
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 3: ;Spider-man
 	zBlowDist(n,1)=55
@@ -109,6 +111,7 @@ Case 3: ;Spider-man
 	zxHand(n,3)=-13 :zyHand(n,3)=10
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 4: ;Mario
 	zBlowDist(n,1)=92
@@ -126,6 +129,7 @@ Case 4: ;Mario
 	zxHand(n,3)=-6 :zyHand(n,3)=13
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 5: ;Michaelangelo
 	zBlowDist(n,1)=64
@@ -144,6 +148,7 @@ Case 5: ;Michaelangelo
 	zxHand(n,3)=-7 :zyHand(n,3)=20
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 6: ;Ryu (gaiden)
 	zBlowDist(n,1)=60
@@ -161,6 +166,7 @@ Case 6: ;Ryu (gaiden)
 	zxHand(n,3)=-4 :zyHand(n,3)=21
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 7: ;Batman
 	zBlowDist(n,1)=48
@@ -179,6 +185,7 @@ Case 7: ;Batman
 	zxHand(n,3)=-2 :zyHand(n,3)=15
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 8: ;Predator
 	zBlowDist(n,1)=48
@@ -197,6 +204,7 @@ Case 8: ;Predator
 	zxHand(n,3)=-5 :zyHand(n,3)=24
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 	
 Case 9: ;Goku
 	zBlowDist(n,1)=54
@@ -214,6 +222,7 @@ Case 9: ;Goku
 	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 10: ;Richter Belmont
 	zBlowDist(n,1)=110
@@ -231,6 +240,7 @@ Case 10: ;Richter Belmont
 	zxHand(n,3)=-6 :zyHand(n,3)=19
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=shotwallsnd
+	isMale(n)=1
 
 Case 11: ;Wolverine
 	zBlowDist(n,1)=60
@@ -299,6 +309,7 @@ Case 13: ;Broly
 	zjumplimit(n)=28
 	zDontPickItem(n)=1
 	zheight(n)=58
+	isMale(n)=1
 
 Case 14: ;Sub Zero
 	zBlowDist(n,1)=45
@@ -348,6 +359,7 @@ Case 53: ;Broly
 	zjumplimit(n)=26
 	zDontPickItem(n)=1
 	zheight(n)=56
+	isMale(n)=1
 	
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -366,6 +378,7 @@ Case 30: ;Pig
 	zDtopSpeed#(n)=1.5
 	zTopSpeed#(n)=zDtopSpeed(n)
 	zNoAirSpecial(n)=1
+	isMale(n)=1
 
 Case 31: ;Alien
 	zBlowDist(n,1)=64
@@ -382,6 +395,7 @@ Case 31: ;Alien
 	zDuckHeight(n)=40
 	zDontPickItem(n)=1
 	zNoAirSpecial(n)=1
+	isMale(n)=1
 
 Case 32: ;Foot Clan
 	zBlowDist(n,1)=50
@@ -396,6 +410,7 @@ Case 32: ;Foot Clan
 	zDuckHeight(n)=45
 	zDontPickItem(n)=1
 	zNoAirSpecial(n)=1
+	isMale(n)=1
 
 Case 33: ;Shredder
 	zBlowDist(n,1)=50
@@ -408,6 +423,7 @@ Case 33: ;Shredder
 	zBlowDist(n,11)=50
 	zBlowDist(n,14)=50
 	zDontPickItem(n)=1
+	isMale(n)=1
 
 Case 34: ;Thug
 	zBlowDist(n,1)=40
@@ -422,6 +438,7 @@ Case 34: ;Thug
 	zDontPickItem(n)=1
 	zNoAirSpecial(n)=1
 	zRollOnImpact(n)=1
+	isMale(n)=1
 
 Case 35: ;Red horns
 	zBlowDist(n,1)=164
@@ -440,6 +457,7 @@ Case 35: ;Red horns
 	zDtopSpeed#(n)=.5
 	zTopSpeed#(n)=zDtopSpeed(n)
 	zNoAirSpecial(n)=1
+	isMale(n)=1
 
 Case 36: ;Gargola
 	zBlowDist(n,1)=364
@@ -504,6 +522,7 @@ Case 38: ;Bowser
 	zStone(n)=1
 	zUngrabable(n)=1
 	yRange(n)=100
+	isMale(n)=1
 
 Case 39	;thief
 	zBlowDist(n,1)=200
@@ -519,6 +538,7 @@ Case 39	;thief
 	zDontJump(n)=1
 	zDontPickItem(n)=1
 	zNoAirSpecial(n)=1
+	isMale(n)=1
 
 Case 40	;turtle
 	zBlowDist(n,1)=200
@@ -536,6 +556,7 @@ Case 40	;turtle
 	zDontJump(n)=1
 	zDontPickItem(n)=1
 	zNoAirSpecial(n)=1
+	isMale(n)=2
 
 Case 41: ;Turtle Cloud
 	zJumpLimit(n)=0
@@ -570,6 +591,7 @@ Case 42	;Joker
 	zDtopSpeed#(n)=2.5
 	zDontPickItem(n)=1
 	zTopSpeed#(n)=zDtopSpeed(n)
+	isMale(n)=1
 
 Case 43;Laser helper
 	zUpHeight(n)=20
@@ -599,6 +621,7 @@ Case 44	;Venom
 	zStone(n)=1
 	zUngrabable(n)=1
 	zBlockFull(n)=500
+	isMale(n)=1
 
 Case 45	;bombing ship
 	zUpHeight(n)=40
@@ -636,6 +659,7 @@ Case 47	;soldier
 	zTopSpeed#(n)=zDtopSpeed(n)
 	zDontPickItem(n)=1
 	zUseSpecialAI(n)=1
+	isMale(n)=1
 
 Case 48: ;Cylinder
 	zUpHeight(n)=20
@@ -697,6 +721,7 @@ Case 51: ;Gray Ninja
 	zTopSpeed(n)=zDtopSpeed(n)
 	zjumplimit(n)=22
 	zRollOnImpact(n)=1
+	isMale(n)=1
 
 Case 52: ;punching bag
 	zUpHeight(n)=34
@@ -2943,9 +2968,11 @@ zpic(n,3,1)=LoadImage(gfxdir$ + "zduck.bmp")
 zpic_(n,3,1)=LoadImage(gfxdir$ + "zduck_.bmp")
 
 zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
-zpic(n,4,2)=LoadImage(gfxdir$ + "zair2.bmp")
 zPic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
-zPic_(n,4,2)=LoadImage(gfxdir$ + "zair2_.bmp")
+For i=2 To 10
+	zpic(n,4,i)=LoadImage(gfxdir$ + "zair" + i + ".bmp")
+	zPic_(n,4,i)=LoadImage(gfxdir$ + "zair" + i + "_.bmp")
+Next
 
 For i=1 To 6
 	zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")

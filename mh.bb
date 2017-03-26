@@ -1,3 +1,5 @@
+Include "globalSoundVariables.bb"
+
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
 Global modsAmount, curModId
@@ -66,7 +68,7 @@ Dim xPointer(10),yPointer(10),zName$(14),zThumbNail(14),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(30)
 Dim zx#(30),zy#(30),zdi(30),zface(30),zoldx#(30),zoldy#(30),zWasOn(30),zon(30),prevZOn(30),CurGuy(30),lastZon(30),lastzAI(30)
-Dim zxStart(30),zyStart(30),zxRespawn(30),zyRespawn(30),zjump2(30),zjump2seq(30),zFallDir(30),zDeadEvent(30)
+Dim zxStart(30),zyStart(30),zxRespawn(30),zyRespawn(30),zJump2(30),zjump2seq(30),zFallDir(30),zDeadEvent(30)
 Dim zlife(30),zhit(30),zhitseq(30),Zshield(30),zTempShield(30),Zshieldseq(30),ZshieldedTime(30),zHit2(30)
 Dim zjump(30),zjumpseq(30),zjumplimit(30),zongnd(30),zfallenSeq(30),zFallImpact#(30),zFallSpeed#(30)
 Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30),zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
@@ -217,7 +219,7 @@ Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30), zCustomSlideCry(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
-Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), wallJumpSeq(30)
+Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30) 
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -226,7 +228,6 @@ Global mapsBaseDir$="maps\"
 modName(1) = "original"
 Global gfxStuffDir$="gfx\stuff\"
 Global gfxdir$="gfx\stuff\"
-Global soundsdir$="sounds\"
 Global timerDir$="gfx\stuff\timer"
 Global cdDir$="gfx\stuff\cd"
 
@@ -385,148 +386,6 @@ Next
 For n=0 To 90
 	timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + i + ".bmp")	
 Next 
-
-;Load Sounds
-Global intro=LoadSound(soundsdir$ + "intro.mp3")
-Global victorySnd=LoadSound(soundsdir$ + "victory.wav")
-Global sDoorSnd=LoadSound(soundsdir$ + "sDoor.wav")
-Global mDoorSnd=LoadSound(soundsdir$ + "mDoor.wav")
-Global energySnd=LoadSound(soundsdir$ + "energy.wav")
-Global batsSnd=LoadSound(soundsdir$ + "bats.wav")
-Global dragonRoarSnd=LoadSound(soundsdir$ + "dragonRoar.wav")
-Global bazookaSnd=LoadSound(soundsdir$ + "bazooka.wav")
-Global shockSnd=LoadSound(soundsdir$ + "shock.wav")
-Global RaySnd=LoadSound(soundsdir$ + "ray.wav")
-Global flyBySnd=LoadSound(soundsdir$ + "flyBy.wav")
-Global jokerSnd=LoadSound(soundsdir$ + "joker.wav")
-Global predHitSnd=LoadSound(soundsdir$ + "predHit.wav")
-Global PredatorRaySnd=LoadSound(soundsdir$ + "predatorRay.wav")
-Global PredatorSnd=LoadSound(soundsdir$ + "predator.wav")
-Global NoSnd=LoadSound(soundsdir$ + "NoSound.wav")
-Global ReadySnd=LoadSound(soundsdir$ + "ready.wav")
-Global FightSnd=LoadSound(soundsdir$ + "mk\mkFight.mp3")
-Global clapSnd=LoadSound(soundsdir$ + "clap.wav")
-Global ohclapSnd=LoadSound(soundsdir$ + "ohclap.wav")
-Global eeeeSnd=LoadSound(soundsdir$ + "eeee.wav")
-Global TucupSnd=LoadSound(soundsdir$ + "tucup.wav")
-Global ThrowSnd=LoadSound(soundsdir$ + "Throw.wav")
-Global gotShotSnd=LoadSound(soundsdir$ + "gotShot.wav")
-Global vooSnd=LoadSound(soundsdir$ + "voo.wav")
-Global smashSnd=LoadSound(soundsdir$ + "smash.wav")
-Global blow2Snd=LoadSound(soundsdir$ + "blow2.wav")
-Global bhitSnd=LoadSound(soundsdir$ + "bhit.wav")
-Global CapeSnd=LoadSound(soundsdir$ + "cape.wav")
-Global RashHitSnd=LoadSound(soundsdir$ + "RashHit.wav")
-Global MarioUahaSnd=LoadSound(soundsdir$ + "uaha.wav")
-Global MarioWeakSnd=LoadSound(soundsdir$ + "marioWeak.wav")
-Global MarioFierceSnd=LoadSound(soundsdir$ + "marioFierce.wav")
-Global ddHitSnd=LoadSound(soundsdir$ + "ddHit.wav")
-Global shredderSnd=LoadSound(soundsdir$ + "shredder.wav")
-Global shredder2Snd=LoadSound(soundsdir$ + "shredder2.wav")
-Global mikePunchSnd=LoadSound(soundsdir$ + "mikePunch.wav")
-Global mikeKickSnd=LoadSound(soundsdir$ + "mikeKick.wav")
-Global mikeSnd=LoadSound(soundsdir$ + "mikeSnd.wav")
-Global mikeUpperCutSnd=LoadSound(soundsdir$ + "mikeUpperCut.wav")
-Global mikeFlipSnd=LoadSound(soundsdir$ + "mikeFlip.wav")
-Global mikeBreathSnd=LoadSound(soundsdir$ + "mikeBreath.wav")
-Global spiderstingsnd=LoadSound(soundsdir$ + "spidersting.wav")
-Global huasnd=LoadSound(soundsdir$ + "hua.wav")
-Global swordSnd=LoadSound(soundsdir$ + "sword.wav")
-Global hayabusaSnd=LoadSound(soundsdir$ + "hayabusa.wav")
-Global shurikenSnd=LoadSound(soundsdir$ + "shuriken.wav")
-Global webshotsnd=LoadSound(soundsdir$ + "webshot.wav")
-Global webhitsnd=LoadSound(soundsdir$ + "webhit.wav")
-Global fireballsnd=LoadSound(soundsdir$ + "fireball.wav")
-Global firehitsnd=LoadSound(soundsdir$ + "firehit.wav")
-Global hiasnd=LoadSound(soundsdir$ + "hia.wav")
-Global hiahuusnd=LoadSound(soundsdir$ + "hiahuu.wav")
-Global coinsnd=LoadSound(soundsdir$ + "coin.wav")
-Global hueSnd=LoadSound(soundsdir$ + "hue.wav")
-Global uppercutsnd=LoadSound(soundsdir$ + "uppercut.wav")
-Global mariouppercutsnd=LoadSound(soundsdir$ + "marioUppercut.wav")
-Global brokensnd=LoadSound(soundsdir$ + "broken.wav")
-Global blockedsnd=LoadSound(soundsdir$ + "blocked.mp3")
-Global kicksnd=LoadSound(soundsdir$ + "highkick.wav")
-Global blowsnd=LoadSound(soundsdir$ + "highBlow.wav")
-Global highpunchsnd=LoadSound(soundsdir$ + "highpunch.wav")
-Global lasersnd=LoadSound(soundsdir$ + "laser.wav")
-Global shotsnd=LoadSound(soundsdir$ + "shot.wav")
-Global shotwallsnd=LoadSound(soundsdir$ + "shotwall.wav")
-Global zhitwallsnd=LoadSound(soundsdir$ + "zhitwall.wav")
-Global jumpsnd=LoadSound(soundsdir$ + "jump.wav")
-Global floorSlideSnd=LoadSound(soundsDir$ + "floorSlide.wav")
-Global toastySnd=LoadSound(soundsdir$ + "mk\toasty.mp3")
-Global ryuBallsnd
-Global ryuSpinsnd
-Global sonyaUpperSnd
-Global sonyaBallSnd
-Global sonyaSpinSnd
-Global sonyaBreathSnd
-Global sonyaFlameSnd
-Global sonyaFlameHitSnd
-Global sonyaSnd
-Global brolyBallSnd
-Global brolyBall2Snd
-Global brolyBall3Snd
-Global brolySnd
-
-Global brolyPunchSnd
-Global brolyPunchHitSnd
-
-Global brolyHitSnd
-Global brolyBigHitSnd
-Global brolyLaughSnd
-Global brolyTauntSnd
-Global brolyOopsSnd
-Global brolyKickSnd
-Global brolyNHitSnd
-
-Global whipSnd, crossSnd, richterSnd, fastThrowSnd
-Global gokuSnd, goku1Snd, teleportSnd
-Global dbzHitSnd=LoadSound(soundsdir$ + "dbzHit.wav")
-Global explodesnd=LoadSound(soundsdir$ + "explode.wav")
-Global clicksnd=LoadSound(soundsdir$ + "click.wav")
-Global slashsnd=LoadSound(soundsdir$ + "slash.wav")
-Global ctfSnd=LoadSound(soundsdir$ + "ctf.wav")
-Global pickupSnd=LoadSound(soundsdir$ + "pickup.wav")
-Global mkMaleGrunt1Snd=LoadSound(soundsdir$ + "mk\mkMaleGrunt1.mp3")
-Global subZeroAirSnd
-Global subZeroFreeze1Snd
-Global subZeroFreeze2Snd
-Global subZeroFreeze3Snd
-Global subZeroHitSnd
-Global subZeroIceBlastSnd
-Global subZeroKickSnd
-Global subZeroSlideKickSnd
-Global subZeroPunchSnd
-Global subZeroPunch2Snd
-Global subZeroThrowSnd
-Global subZeroJumpSnd
-Global subZeroJump2Snd
-Global mkExcellentSnd=LoadSound(soundsdir$ + "mk\mkExcellent.mp3")
-Global mkOutstandingSnd=LoadSound(soundsdir$ + "mk\mkOutstanding.mp3")
-Global mkWelldoneSnd=LoadSound(soundsdir$ + "mk\mkWellDone.mp3")
-Global mkSuperbSnd=LoadSound(soundsdir$ + "mk\mkSuperb.mp3")
-Global mkLaugh1Snd=LoadSound(soundsdir$ + "mk\shaoKahnLaugh1.mp3")
-Global mkLaugh2Snd=LoadSound(soundsdir$ + "mk\shaoKahnLaugh2.mp3")
-Global mkFatalitySnd=LoadSound(soundsdir$ + "mk\mkFatality.mp3")
-Global mkFatality2Snd=LoadSound(soundsdir$ + "mk\mkFatality2.mp3")
-Global mkFatality3Snd=LoadSound(soundsdir$ + "mk\mkFatality3.mp3")
-Global mkMaleAgonySnd=LoadSound(soundsdir$ + "mk\mkMaleAgony.mp3")
-Global subZeroStrongHitSnd
-Global subZeroWindSnd
-Global wolverineJumpSnd
-Global wolverineBarrageSnd
-Global wolverineSlashSnd, wolverineSlash2Snd, wolverineSlash3Snd, wolverineSlash4Snd
-Global wolverineTornadoClawSnd
-Global wolverineShoutSnd, wolverineShout2Snd, wolverineShout3Snd, wolverineShout4Snd
-Global wolverineKickSnd
-Global wolverineSuper1Snd, wolverineSuper2Snd
-Global wolverineGrabSnd
-Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
-Global wolverineClawSnd, wolverineLetsGoSnd
-
-Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 
 Dim letter(20,100), letterWidth(20,100)	
 ;LOADS fonts
@@ -1147,7 +1006,7 @@ For n= 1 To zzamount
 	EndIf
 Next
 For n=1 To zzamount
-        If (zblow(n) =1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
+        If (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
 		;Add character, add another CASE call to your new function, will probably be 
 		;something like: CASE 11:DoGuyNameHere(n)
 		Select curguy(n)	
@@ -2102,7 +1961,7 @@ Function selectDraw(n)
 	If zongnd(n)=0 And zhit(n)=0 Then 	;mid air,,,,,,,
 		If isRunning(n) Then depleteStaminaBar(n, 1)
 		zani(n)=4:zf(n)=1:Goto drawZ	
-	End If  
+	End If
 	If Not zhit(n) Then ;on ground
 		If zspeed(n) <> 0 Then	;walking
 			If isRunning(n) Then
@@ -2308,20 +2167,16 @@ For vn=3 To zheight(n) Step 4	;Detects wall collision Next to player
 		EndIf
 		zx(n)=zoldx(n):Exit
 	EndIf
-Next
+Next	
 
 If zjump(n)=1 And zhit(n)=0 And zBlowStill(n)=0 And zJumping(n)=1 Then		;Makes it jump!
 	checkDist(n, zx(n), zy(n), zFace(n))
-	If canWallJump(n)=1 And xDist(n)=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) Then
-		;handleWallJump(n)
-	Else
-		zjumpseq(n)=zjumpseq(n)+1:zongnd(n)=0
-		If zjumpseq(n) = 11 And jumpKeyDown(n)=0 And zjump2(n)=0 Then zjump(n)=0
-		If zjumpSeq(n) <= zJumpLimit(n) - 5 Then zy(n)=zy(n)-zgravity(n):Goto asd
-		If zjumpSeq(n) > zJumpLimit(n) - 5 Then zy(n)=zy(n)-(zgravity(n) / 2):Goto asd
-	 	.asd
-		If zjumpseq(n) => zjumplimit(n) Then zjump(n)=0
-	End If
+	zjumpseq(n)=zjumpseq(n)+1:zongnd(n)=0
+	If zjumpseq(n) = 11 And jumpKeyDown(n)=0 And zjump2(n)=0 Then zjump(n)=0
+	If zjumpSeq(n) <= zJumpLimit(n) - 5 Then zy(n)=zy(n)-zgravity(n):Goto asd
+	If zjumpSeq(n) > zJumpLimit(n) - 5 Then zy(n)=zy(n)-(zgravity(n) / 2):Goto asd
+	.asd
+	If zjumpseq(n) => zjumplimit(n) Then zjump(n)=0
 EndIf
 If zjump2(n)=1 Then zjump2seq(n)=zjump2seq(n)+1
 
@@ -2351,7 +2206,6 @@ If (zy(n) > dscrlimit Or zx(n) > rscrlimit+50 Or zx(n) < lscrlimit-50) And zon(n
 	playDeathSnd(n)
 	zLives(n)=zLives(n)-1
 	killZ(n)
-	
 EndIf
 	
 End Function
@@ -2684,8 +2538,7 @@ If specialKey(n)=1 And (zhit(n)=0 And zBlow(n)=0) Then
 EndIf
 
 
-If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then
-	
+If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then	
 	If zongnd(n)=0 Then
 		zBlow(n)=1:zBlowSeq(n)=0:remImune(n)
 		zCurBlow(n)=2:zBlowDir(n)=zFace(n)
@@ -2704,30 +2557,29 @@ If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then
 	If zongnd(n)=1 Then
 		zBlow(n)=1:zBlowSeq(n)=0:remImune(n)
 		zCurBlow(n)=1:zBlowDir(n)=zFace(n)
-		Goto noShot	
+		Goto noShot
 	EndIf
 EndIf
 
 If jumpKey(n)=1 Then    ;jumping
+	checkWallJump(n)
 	If zhit(n)=0 And zBlow(n)=0 And zNoJump(n)=0 Then
-	downKey(n)=0
+		downKey(n)=0
 		If zjump(n)=0 And zongnd(n)=1 Then
 			If gamesound Then PlaySound zJumpSnd(n)
 			zjump(n)=1:zjumpseq(n)=0:zongnd(n)=0
-				If zblockLife(n) > zblockfull(n) Then zblockLife(n)=zblockfull(n)
+			If zblockLife(n) > zblockfull(n) Then zblockLife(n)=zblockfull(n)
 		Else
-			If zjump2(n)=0 And noDoubleJump=0 Then
-				zjump2(n)=1:zjump(n)=1:zjumpseq(n)=0:zjump2seq(n)=0
-				If gamesound And zJumpSnd2(n) <> 0 Then 
-					PlaySound zJumpSnd2(n)
-				Else
-					PlaySound zJumpSnd(n)
-				EndIf
-			EndIf
-		EndIf
+			performDoubleJump(n)
+		End If
 	EndIf
+	If zWallJump(n)=1 Then zWallJump(n)=0
 EndIf
 
+If zBlowSeq(n) > 12 And zBlow(n)<>0 And zCurBlow(n)=18 And jumpKey(n)=1 Then
+	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zNoJump(n)=0
+	performDoubleJump(n)
+End If
 
 If blockKey(n)=1 And zHit(n)=0 And zBlow(n)=0 And zongnd(n)=1 Then 
 	zCurBlow(n)=0:zBlow(n)=1:zBlowDir(n)=zFace(n):downKey(n)=0:Goto noShot
@@ -5798,7 +5650,6 @@ Next
 End Function
 ;--------CHECK PIXEL COLLISION DISTANCE-----------------------------------------------------------
 Function checkDist(n,x,y,dir)
-
 xDist(n)=600
 Select dir
 Case 2
@@ -6446,7 +6297,7 @@ End Function
 
 ;---------------- Check Move Cooldown ---------------
 Function checkCooldown(n)
-	;; "AAA: " + spellCooldownSeq(n, 1) + ", " + n
+	; "AAA: " + spellCooldownSeq(n, 1) + ", " + n
 	For spellId = 0 To 4
 		If spellCooldownSeq(n, spellId) > 0 Then
 			drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId))
@@ -6460,4 +6311,37 @@ Function drawTimer(curSeq, maxSeq)
 	
 	DrawImage timerImage(0),100,100
 	
+End Function
+
+;------------------ Check Wall Jump -----------------
+Function checkWallJump(n)
+If canWallJump(n)=1 Then
+	checkYDist(n,zx(n),zy(n),2)
+	If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
+	If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
+Else
+	yDist(n)=0
+End If
+If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
+	If zBlowSeq(n) < 1 Then
+		zBlow(n)=1:zBlowSeq(n)=0:
+		zCurBlow(n)=18:zBlowDir(n)=zFace(n)
+		zWallJump(n)=1
+	End If
+End If
+
+End Function
+
+;---------------- Perform Double Jump --------------
+Function performDoubleJump(n)
+If zjump2(n)=0 And noDoubleJump=0 Then
+	zjump2(n)=1:zjump2seq(n)=0
+	zjump(n)=1:zjumpseq(n)=0
+	If gamesound And zJumpSnd2(n) <> 0 Then 
+		PlaySound zJumpSnd2(n)
+	Else
+		PlaySound zJumpSnd(n)
+	EndIf
+EndIf
+
 End Function
