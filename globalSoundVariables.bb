@@ -117,6 +117,7 @@ Global subZeroPunch2Snd
 Global subZeroThrowSnd
 Global subZeroJumpSnd
 Global subZeroJump2Snd
+Global mkSlideCrySnd=LoadSound(soundsdir$ + "mk\mkMaleSlideCry.mp3")
 Global mkExcellentSnd=LoadSound(soundsdir$ + "mk\mkExcellent.mp3")
 Global mkOutstandingSnd=LoadSound(soundsdir$ + "mk\mkOutstanding.mp3")
 Global mkWelldoneSnd=LoadSound(soundsdir$ + "mk\mkWellDone.mp3")

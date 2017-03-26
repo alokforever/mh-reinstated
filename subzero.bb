@@ -15,7 +15,7 @@ Function performFatalitySuper(n)
 	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=14:zf(n)=4
 	If zBlowSeq(n) => c And zBlowSeq(n) < c+5	
 		If zBlowSeq(n) = c Then zControls(n)=0
-		enemyControlInit(n,zx(n),zy(n)-45,41,45,0)
+		enemyControlInit(n,zx(n),zy(n)-45,41,35,0)
 		zblowPamount(n)=2:nn=1
 		xblow(n,nn)=6: yblow(n,nn)=73:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
 		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
@@ -28,6 +28,12 @@ Function performFatalitySuper(n)
 		If zBlowSeq(n) = d And xDist(n) > 56 And gameSound Then PlaySound subzeroFreeze1Snd
 		zani(n)=12:zf(n)=1
 		If xDist(n) > 56 Then extraObj(n,zx(n),45,zy(n),0,zblowdir(n),101)
+	End If
+	If zBlowSeq(n) => d And zBlowSeq(n) < j-90 Then 
+		dir=zface(n):y=zy(n)-zheight(n)+5
+		If zface(n)=2 Then x=zx(n)+30
+		If zface(n)=4 Then x=zx(n)-60
+		makeshot(n,40,x,y,dir)
 	End If
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=12:zf(n)=2
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=12:zf(n)=3
@@ -50,7 +56,7 @@ Function performFatalitySuper(n)
 			If gameSound And isMale(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
 			zLife(zControlsThis(n))=zLife(zControlsThis(n))-80
 			zDamage(zControlsThis(n))=zDamage(zControlsThis(n))+80
-		End If	
+		End If
 	End If
 	If zy(zControlsThis(n))>zy(n)-20 Then zNoGrav(zControlsThis(n))=1
 	If zBlowSeq(n) > j Then zBlowSeq(n)=90
@@ -619,7 +625,7 @@ Case 16: ; ice clone
 	If zBlowSeq(n) > j Then zBlowSeq(n)=0:zBlow(n)=0
 	
 Case 17: ;Ice shower
-	a=3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+17
+	a=3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+23
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
@@ -634,6 +640,14 @@ Case 17: ;Ice shower
 	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=18:zf(n)=5
 	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then zani(n)=18:zf(n)=6
 	
+	If zFace(n)=2 Then
+		If zBlowSeq(n) = e Then extraObj(n,zx(n),153,zy(n),-103,zblowdir(n),99)
+		If zBlowSeq(n) = e+15 Then makeshot(n,44,zx(n)+156,zy(n)-103,zface(n))
+	Else
+		If zBlowSeq(n) = e Then extraObj(n,zx(n),150,zy(n),-103,zblowdir(n),99)
+		If zBlowSeq(n) = e+15 Then makeshot(n,44,zx(n)-147,zy(n)-103,zface(n))
+	End If
+
 	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0
 	
 End Select

@@ -140,7 +140,7 @@ Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),sho
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
 Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200), shotYspeed#(200), shotSound(200)
 Dim shotdamage(200),shotsize(200),shotsizeL(200),shotPic(200,10),shotPic_(200,10),shotImpact(200)
-Dim shotImage(51), shotImage_(51), shotHitTrail(200), shotSuper(200), shotBounce(200),shotExplosionSound(200)
+Dim shotImage(100), shotImage_(100), shotHitTrail(200), shotSuper(200), shotBounce(200),shotExplosionSound(200)
 Dim shotHeight(200),shotWidth(200),shotside(200),shotChunkType(200), shotType(200), shotPushForce(200)
 Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200), shotDrill(200),shotDuration2(200)
 Dim shotAcc#(200),shotMaxSpeed#(200),shotUturn(200),shotReturnOnHit(200), shotFollowOwner(200),shotUturnseq(200)
@@ -216,7 +216,7 @@ Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkF
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
-Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30), zCustomSlideCry(30)
+Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30) 
@@ -371,7 +371,7 @@ Global flag2P=LoadImage(gfxdir$ + "flag2.bmp")
 Global controllerPic=LoadImage(gfxdir$ + "controller.bmp")
 Global keyboardPic=LoadImage(gfxdir$ + "keyboard.bmp")
 
-For n=1 To 51   ;load shots
+For n=1 To 100   ;load shots
 	shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")	
 	shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
 Next
@@ -2263,7 +2263,7 @@ EndIf
 If zGotObj(n) <> 0 Then
 	If drawObjOnZ(n)=1 Then
 		If zani(n)=1 Then
-			xED(n)=(zxHand(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zyHAnd(n,zf(n)) + yObjHand(zGotObj(n)))
+			xED(n)=(zxHand(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zyHand(n,zf(n)) + yObjHand(zGotObj(n)))
 		Else
 			xED(n)=3:yED(n)=15
 			If curGuy(n) = 14 Then xED(n)=0:yED(n)=22
@@ -2562,7 +2562,7 @@ If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then
 EndIf
 
 If jumpKey(n)=1 Then    ;jumping
-	checkWallJump(n)
+	If canWallJump(n)=1 Then checkWallJump(n)
 	If zhit(n)=0 And zBlow(n)=0 And zNoJump(n)=0 Then
 		downKey(n)=0
 		If zjump(n)=0 And zongnd(n)=1 Then
@@ -5967,13 +5967,16 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 	objShotWidth=shotWidth(projectile)
 	objShotHeight=shotVerticalSize(projectile)
 
-	xAxisShotPos=xshot(projectile)
+	xAxisShotPos=xShot(projectile)
 	If shotId(projectile)=43 Then
 		yAxisShotPos=yShot(projectile)-40
+	Else If shotId(projectile)=44 Then
+		xAxisShotPos=xShot(projectile)+26
+		yAxisShotPos=yShot(projectile)-57
 	Else
 		yAxisShotPos=yshot(projectile)
 	End If
-	
+
 	If shotHitMode(projectile)=4 Then 
 		If zFace(shotOwner(projectile))=2 Then
 			xAxisShotPos=xshot(projectile)-30
@@ -5985,7 +5988,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0)
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
-			If zParalyzedSeq(en)=1 And zCustomSlideCry(en) <> 0 And gameSound Then PlaySound zCustomSlideCry(en)
+			If zParalyzedSeq(en)=1 And isMale(en)=1 And gameSound Then PlaySound mkSlideCrySnd
 			If zParalyzedSeq(en)>69 Then zParalyzedSeq(en)=0
 			If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 20=0 Then 
 				zani(en)=2:zf(en)=1
@@ -6314,14 +6317,11 @@ Function drawTimer(curSeq, maxSeq)
 End Function
 
 ;------------------ Check Wall Jump -----------------
-Function checkWallJump(n)
-If canWallJump(n)=1 Then
-	checkYDist(n,zx(n),zy(n),2)
-	If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
-	If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
-Else
-	yDist(n)=0
-End If
+Function checkWallJump(n)	
+checkYDist(n,zx(n),zy(n),2)
+If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
+If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
+
 If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
 	If zBlowSeq(n) < 1 Then
 		zBlow(n)=1:zBlowSeq(n)=0:

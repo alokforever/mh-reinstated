@@ -338,7 +338,6 @@ Case 14: ;Sub Zero
 	zCharSpeed#(n)=2
 	isMkCharacter(n)=1
 	isMale(n)=1
-	zCustomSlideCry(n)=LoadSound(soundsdir$ + "mk\mkMaleSlideCry.mp3")
 	
 Case 53: ;Broly
 	zBlowDist(n,1)=60
@@ -1531,6 +1530,27 @@ Case 43 ;Sub Zero ice clone
 	shotPic_(n,1)=shotImage_(51)
 	shotSound(n)=subZeroFreeze2Snd
 	
+Case 44	;Sub Zero ice shower
+	shotId(n)=44
+	shotspeed(n)=0
+	shotYspeed(n)=3
+	shotsize(n)=16
+	shotheight(n)=57
+	shotWidth(n)=8
+	shotVerticalSize(n)=57
+	shotSide(n)=shotsize(n)/2
+	shotdamage(n)=0
+	shotHitMode(n)=3
+	shotFallTime(n)=0
+	shotHitXspeed(n)=0
+	shotHitYspeed(n)=0
+	shotDuration(n)=100
+	shotMaxSpeed(n)=shotSpeed(n)
+	shotChunkType(n)=100
+	shotPic(n,1)=shotImage(52)
+	shotPic_(n,1)=shotImage(52)
+	shotSound(n)=subZeroFreeze2Snd
+	
 End Select
 
 End Function
@@ -2285,6 +2305,26 @@ Case 98:		;Toasty fx
 	If chunkSeq(n) >= 1 And chunkSeq(n) < 60 Then chunkPic(n)=ptPic(78,1):chunkPic_(n)=ptPic(78,1)
 
 	If chunkSeq(n) >= 60 Then chunk(n)=0
+	
+Case 99:		;Ice shower chunk
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(79,10):chunkPic_(n)=ptPic_(79,10)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(79,9):chunkPic_(n)=ptPic_(79,9)
+	If chunkSeq(n) >= 5 And chunkSeq(n) < 7 Then chunkPic(n)=ptPic(79,8):chunkPic_(n)=ptPic_(79,8)
+	If chunkSeq(n) >= 7 And chunkSeq(n) < 9 Then chunkPic(n)=ptPic(79,7):chunkPic_(n)=ptPic_(79,7)
+	If chunkSeq(n) >= 9 And chunkSeq(n) < 11 Then chunkPic(n)=ptPic(79,6):chunkPic_(n)=ptPic_(79,6)
+	If chunkSeq(n) >= 11 And chunkSeq(n) < 13 Then chunkPic(n)=ptPic(79,5):chunkPic_(n)=ptPic_(79,5)
+	If chunkSeq(n) >= 13 And chunkSeq(n) < 15 Then chunkPic(n)=ptPic(79,4):chunkPic_(n)=ptPic_(79,4)
+	If chunkSeq(n) >= 15 And chunkSeq(n) < 17 Then chunkPic(n)=ptPic(79,3):chunkPic_(n)=ptPic_(79,3)
+	If chunkSeq(n) >= 17 And chunkSeq(n) < 19 Then chunkPic(n)=ptPic(79,2):chunkPic_(n)=ptPic_(79,2)
+	If chunkSeq(n) >= 19 And chunkSeq(n) < 21 Then chunkPic(n)=ptPic(79,1):chunkPic_(n)=ptPic_(79,1)
+	
+	If chunkSeq(n) = 21 Then chunk(n)=0
+
+Case 100:		;Ice shower chunk2
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(80,1):chunkPic_(n)=ptPic_(80,1)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(80,2):chunkPic_(n)=ptPic_(80,2)
+	
+	If chunkSeq(n) = 5 Then chunk(n)=0
 	
 Case 101:		;Ice impale
 	a=5:b=a+5:c=b+5:d=c+165

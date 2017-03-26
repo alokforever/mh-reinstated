@@ -366,8 +366,8 @@ Case 11	;club
 	zNoJump(n)=1
 	extraDraw(n)=1
 	drawObjOnZ(n)=0
-	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-22:yed(n)=20
-	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-25:yed(n)=22
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-22:yed(n)=20
+	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-25:yed(n)=22
 	If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
 	If zBlowSeq(n) => b And zBlowSeq(n) =< c Then
 		zblowPamount(n)=6
@@ -382,7 +382,7 @@ Case 11	;club
 		zBlowDamage(n)=25:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
 		zChunkType(n)=5
 		zBlowSound(n)=smashsnd
-		zani(n)=6:zf(n)=3
+		zani(n)=12:zf(n)=3
 		eAni(n)=1:ef(n)=3:xED(n)=58:yed(n)=1
 	EndIf
 	If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=6:zf(n)=3 :eAni(n)=1:ef(n)=4:xed(n)=57:yed(n)=0
