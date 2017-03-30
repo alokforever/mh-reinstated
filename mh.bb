@@ -6254,7 +6254,7 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 		End If
 		Select zFace(n)
 		Case 2
-			DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
 					initParalysis(n, en)
@@ -6262,7 +6262,7 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 				End If 
 			End If
 		Case 4
-			DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) <= x# And zx(en) >= x#-width# And zy(en) >= y# And zy(en) <= y#+height# Then
 					initParalysis(n, en)

@@ -65,7 +65,6 @@ Function performWolverineCombo(n)
 	
 ;------------------------ sounds ------------------------
 	If zBlowSeq(n) = 60 And gameSound Then PlaySound wolverineSlashSnd
-
 ;--------------------------------------------------------
 	isHitting=0
 ;----------------------- hitboxes -----------------------
@@ -92,14 +91,16 @@ Function performWolverineCombo(n)
 		applyWolverineComboHitBox(n, 2, 6, 0, 43, 37, 27, 0)
 		isHitting=1
 	End If
-
 ;--------------------------------------------------------
 ;---------------- target manipulation -------------------
 	If zBlowSeq(n) >= 60 And zBlowSeq(n) < c Then enemyControlInit(n,zx(n)+7,zy(n)-50,40,50,0)
 	If zBlowSeq(n) >= c And zBlowSeq(n) < f Then enemyControlInit(n,zx(n),zy(n)-43,28,92,0)
 	If zBlowSeq(n) >= f And zBlowSeq(n) < i Then enemyControlInit(n,zx(n),zy(n)-15,36,32,0)
 	If zBlowSeq(n) >= j And zBlowSeq(n) < p Then enemyControlInit(n,zx(n),zy(n)-43,37,54,0)
+	If zBlowSeq(n) >= 200 And zBlowSeq(n) < 213 Then enemyControlInit(n,zx(n),zy(n)-43,37,54,0)
 	
+	If (zBlowSeq(n)=b+2 Or zBlowSeq(n)=e+2 Or zBlowSeq(n)=h+2 Or zBlowSeq(n)=j+2 Or zBlowSeq(n)=202) And zControls(n)=0 Then zBlowSeq(n)=endSeq
+
 	en=zControlsThis(n)
 	zNoGrav(en)=1
 	zantiPlat(en)=1
@@ -917,7 +918,7 @@ Case 16 ;Counter Key (Berserker Rage)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
-	DebugLog "AAA: " + zBlowSeq(n)
+
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	;***** Taunt *****
 	If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(3)
