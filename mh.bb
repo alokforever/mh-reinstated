@@ -219,7 +219,8 @@ Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
-Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30) 
+Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
+Dim canPerformNextCombo(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -6253,7 +6254,7 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 		End If
 		Select zFace(n)
 		Case 2
-			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
 					initParalysis(n, en)
@@ -6261,7 +6262,7 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 				End If 
 			End If
 		Case 4
-			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) <= x# And zx(en) >= x#-width# And zy(en) >= y# And zy(en) <= y#+height# Then
 					initParalysis(n, en)

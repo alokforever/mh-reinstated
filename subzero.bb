@@ -62,7 +62,7 @@ Function performFatalitySuper(n)
 	If zBlowSeq(n) > j Then zBlowSeq(n)=90
 End Function
 
-Function applyComboHitBox(n, hitMode, damage)
+Function applySubZeroComboHitBox(n, hitMode, damage)
 	zblowPamount(n)=1:nn=1
 	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=20:hblow(n,nn)=22:nn=nn+1
 	zHitMode(n)=hitMode:zBlowHold(n)=0
@@ -74,7 +74,7 @@ Function applyComboHitBox(n, hitMode, damage)
 	End If
 End Function
 
-Function performCombo(n)
+Function performSubzeroCombo(n)
 	a=53:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=45
@@ -115,7 +115,7 @@ Function performCombo(n)
 	isHitting=0
 ;----- hit boxes ------
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
-		applyComboHitBox(n, 2, 5)
+		applySubZeroComboHitBox(n, 2, 5)
 		If zOnGnd(zControlsThis(n))=0 Then zy(zControlsThis(n))=zy(n)
 		movex2(zControlsThis(n),zface(zControlsThis(n)),-1*(1+(Abs(zSpeed#(n))/1.5)))
 		isHitting=1
@@ -123,23 +123,23 @@ Function performCombo(n)
 	If zBlowSeq(n)=b And zControls(n)=0 Then zBlowSeq(n)=endSeq
 	
 	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
-		applyComboHitBox(n, 2, 5)
+		applySubZeroComboHitBox(n, 2, 5)
 		isHitting=1
 	End If
 	If zBlowSeq(n)=e And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
 	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then
-		applyComboHitBox(n, 2, 6)
+		applySubZeroComboHitBox(n, 2, 6)
 		isHitting=1
 	End If
 	If zBlowSeq(n)=j And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
 	If zBlowSeq(n) >= o And zBlowSeq(n) < o+3 Then
-		applyComboHitBox(n, 0, 6)
+		applySubZeroComboHitBox(n, 0, 6)
 		isHitting=1
 	End If
 	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
-;----------------------
+;------ target manipulation --------
 	en=zControlsThis(n)
 	zNoGrav(en)=1
 	zantiPlat(en)=1
@@ -350,7 +350,7 @@ Case 1	; Kick
 	a= 5: b=10: c=15: d=20: e=27: f=26: g=30: h=35: i=50
 	zNoMove(n)=1:zNoJump(n)=1
 	If zBlowSeq(n) = 1 And isRunning(n) Then zBlowSeq(n)=i:isRunning(n)=0
-	If zBlowSeq(n) >= i Then performCombo(n)
+	If zBlowSeq(n) >= i Then performSubzeroCombo(n)
 	If zBlowSeq(n) = d And gameSound Then PlaySound subZeroKickSnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2
@@ -571,8 +571,8 @@ Case 10	; Up + Attack
 		zani(n)=14:zf(n)=4
 	EndIf
 	If zBlowSeq(n) > d And zBlowSeq(n) <= e Then zani(n)=14:zf(n)=4
-	If zBlowSeq(n) > e And zBlowSeq(n) <= f Then zani(n)=14:zf(n)=2
-	If zBlowSeq(n) > f And zBlowSeq(n) <= g Then zani(n)=14:zf(n)=1
+	If zBlowSeq(n) > e And zBlowSeq(n) <= f Then zani(n)=14:zf(n)=4
+	If zBlowSeq(n) > f And zBlowSeq(n) <= g Then zani(n)=14:zf(n)=2
 	
 	If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0	
 	

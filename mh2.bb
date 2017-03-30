@@ -56,6 +56,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zRunFrameSpeed#(n)=0
 	zCharSpeed#(n)=2
 	isMale(n)=2
+	canWallJump(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -2103,39 +2104,39 @@ Case 76: a=5:b=10:c=14:d=18 		;ground freeze hit
 	;If chunkSeq(n) > d Then chunk(n)=0
 	chunkPic(n)=noPic
 Case 77: 		;berserker barrage slash1a
-	a=5:b=10:c=15:d=20
+	a=5:b=10:c=15:d=20:e=25:f=30:g=35:h=40
 
-	If chunkSeq(n) = 1 And chunkSeq(n) < a Then	chunkPic(n)=ptPic(60,1):chunkPic_(n)=ptPic_(60,1)
-	If chunkSeq(n) = a And chunkSeq(n) < b Then chunkPic(n)=ptPic(60,2):chunkPic_(n)=ptPic_(60,2)
-	If chunkSeq(n) = b And chunkSeq(n) < c Then chunkPic(n)=ptPic(60,3):chunkPic_(n)=ptPic_(60,3)
-	If chunkSeq(n) = c And chunkSeq(n) < d Then chunkPic(n)=ptPic(60,4):chunkPic_(n)=ptPic_(60,4)
+	If (chunkSeq(n) >= 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(60,1):chunkPic_(n)=ptPic_(60,1)
+	If (chunkSeq(n) >= a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(60,2):chunkPic_(n)=ptPic_(60,2)
+	If (chunkSeq(n) >= b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(60,3):chunkPic_(n)=ptPic_(60,3)
+	If (chunkSeq(n) >= c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(60,4):chunkPic_(n)=ptPic_(60,4)
 	
-	If chunkSeq(n) > d Or zhit(chunkOwner(n))=1 Then chunk(n)=0
+	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 Case 78:		;berserker barrage slash1b
-	d=5:e=10:f=15:g=20
-	If chunkSeq(n) = 1 And chunkSeq(n) < d Then chunkPic(n)=ptPic(61,1):chunkPic_(n)=ptPic_(61,1)
-	If chunkSeq(n) = d And chunkSeq(n) < e Then chunkPic(n)=ptPic(61,2):chunkPic_(n)=ptPic_(61,2)
-	If chunkSeq(n) = e And chunkSeq(n) < f Then chunkPic(n)=ptPic(61,3):chunkPic_(n)=ptPic_(61,3)
-	If chunkSeq(n) = f And chunkSeq(n) < g Then chunkPic(n)=ptPic(61,4):chunkPic_(n)=ptPic_(61,4)
+	a=5:b=10:c=15:d=20:e=25:f=30:g=35:h=40
+	If (chunkSeq(n) >= 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(61,1):chunkPic_(n)=ptPic_(61,1)
+	If (chunkSeq(n) >= a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(61,2):chunkPic_(n)=ptPic_(61,2)
+	If (chunkSeq(n) >= b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(61,3):chunkPic_(n)=ptPic_(61,3)
+	If (chunkSeq(n) >= c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(61,4):chunkPic_(n)=ptPic_(61,4)
 
-	If chunkSeq(n) > g Or zhit(chunkOwner(n))=1 Then chunk(n)=0
+	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 Case 79:		;berserker barrage slash2a
-	a=5:b=10:c=15:d=20
-	If chunkSeq(n) = 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(62,1):chunkPic_(n)=ptPic_(62,1)
-	If chunkSeq(n) = a And chunkSeq(n) < b Then chunkPic(n)=ptPic(62,2):chunkPic_(n)=ptPic_(62,2)
-	If chunkSeq(n) = b And chunkSeq(n) < c Then chunkPic(n)=ptPic(62,3):chunkPic_(n)=ptPic_(62,3)
-	If chunkSeq(n) = c And chunkSeq(n) < d Then chunkPic(n)=ptPic(62,4):chunkPic_(n)=ptPic_(62,4)
+	a=5:b=10:c=15:d=20:e=25:f=30:g=35:h=40
+	If (chunkSeq(n) = 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(62,1):chunkPic_(n)=ptPic_(62,1)
+	If (chunkSeq(n) = a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(62,2):chunkPic_(n)=ptPic_(62,2)
+	If (chunkSeq(n) = b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(62,3):chunkPic_(n)=ptPic_(62,3)
+	If (chunkSeq(n) = c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(62,4):chunkPic_(n)=ptPic_(62,4)
 	
-	If chunkSeq(n) > d Or zhit(chunkOwner(n))=1 Then chunk(n)=0
+	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 	
 Case 80:		;berserker barrage slash2b
-	d=5:e=10:f=15:g=20
-	If chunkSeq(n) = 1 And chunkSeq(n) < d Then chunkPic(n)=ptPic(63,1):chunkPic_(n)=ptPic_(63,1)
-	If chunkSeq(n) = d And chunkSeq(n) < e Then chunkPic(n)=ptPic(63,2):chunkPic_(n)=ptPic_(63,2)
-	If chunkSeq(n) = e And chunkSeq(n) < f Then chunkPic(n)=ptPic(63,3):chunkPic_(n)=ptPic_(63,3)
-	If chunkSeq(n) = f And chunkSeq(n) < g Then chunkPic(n)=ptPic(63,4):chunkPic_(n)=ptPic_(63,4)
+	a=5:b=10:c=15:d=20:e=25:f=30:g=35:h=40
+	If (chunkSeq(n) >= 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(63,1):chunkPic_(n)=ptPic_(63,1)
+	If (chunkSeq(n) >= a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(63,2):chunkPic_(n)=ptPic_(63,2)
+	If (chunkSeq(n) >= b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(63,3):chunkPic_(n)=ptPic_(63,3)
+	If (chunkSeq(n) >= c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(63,4):chunkPic_(n)=ptPic_(63,4)
 	
-	If chunkSeq(n) > g Or zhit(chunkOwner(n))=1 Then chunk(n)=0
+	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 	
 Case 81:		;berserker slash chunk
 	a=3:b=7:c=10:d=14:e=17:f=21
@@ -3069,14 +3070,14 @@ For counter = 1 To 12
 	zpic_(n,15,counter)=LoadImage(gfxdir$ + "zgrab" + counter + "_.bmp")
 Next
 
-For counter = 1 To 5
-	zpic(n,16,counter)=LoadImage(gfxdir$ + "zcounter" + counter + ".bmp")
-	zpic_(n,16,counter)=LoadImage(gfxdir$ + "zcounter" + counter + "_.bmp")
+For counter = 1 To 22
+	zpic(n,16,counter)=LoadImage(gfxdir$ + "counter\zcounter" + counter + ".bmp")
+	zpic_(n,16,counter)=LoadImage(gfxdir$ + "counter\zcounter" + counter + "_.bmp")
 Next
 
-For counter = 1 To 8
-	zpic(n,17,counter)=LoadImage(gfxdir$ + "zsuper" + counter + ".bmp")
-	zpic_(n,17,counter)=LoadImage(gfxdir$ + "zsuper" + counter + "_.bmp")
+For counter = 1 To 20
+	zpic(n,17,counter)=LoadImage(gfxdir$ + "superspecial\zsuper" + counter + ".bmp")
+	zpic_(n,17,counter)=LoadImage(gfxdir$ + "superspecial\zsuper" + counter + "_.bmp")
 Next
 
 For counter = 1 To 40
@@ -3244,6 +3245,7 @@ If n=11 Then
 	If wolverineDrillClawSnd=0 Then wolverineDrillClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineDrillClaw.wav")
 	If wolverineDrillClawHitSnd=0 Then wolverineDrillClawHitSnd=LoadSound(soundsdir$ + "wolverine\wolverineDrillClawHit.wav")
 	If wolverineClawSnd=0 Then wolverineClawSnd=LoadSound(soundsdir$ + "wolverine\wolverineClaw.wav")
+	If wolverineClaw2Snd=0 Then wolverineClaw2Snd=LoadSound(soundsdir$ + "wolverine\wolverineClaw2.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wolverine\wolverineDie.wav")
 	If wolverineLetsGoSnd=0 Then wolverineLetsGoSnd=LoadSound(soundsdir$ + "wolverine\wolverineLetsGo.wav")
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "wolverine\wolverineShout2.wav")
