@@ -95,7 +95,7 @@ Case 14	;Super Special
 		checkDist(n,zx(n),zy(n)-20,zFace(n))
 		zSuperMove(n)=1:zSuperMoveSeq(n)=0:
 	EndIf
-	If zBlowSeq(n) => b And zBlowSeq(n) =< c Then
+	If zBlowSeq(n) => b And zBlowSeq(n) =< c Then 
 		If rendert = 2 Then checkDist(n,zx(n),zy(n)-20,zFace(n))
 		For x=1 To (xDist(n)-27) Step 5
 			If zFace(n)=2 Then
@@ -108,7 +108,7 @@ Case 14	;Super Special
 		;makeRectHit(n, x, y, w, h, dir, hitMode, xHit, yHit, damage, hitHold, chunk, HitSOund)
 		
 		If zface(n)=2 Then
-		 If zBlowSeq(n) < c Then makeRectHit(n,zx(n)+5       ,zy(n)-38,xDist(n),20,zFace(n),hm,2,.5,2.6,6,17,highpunchSnd)
+		 If zBlowSeq(n) < c Then makeRectHit(n,zx(n)+5,zy(n)-38,xDist(n),20,zFace(n),hm,2,.5,2.6,6,17,highpunchSnd)
 		 makeChunk(n,zx(n) + xDist(n), zy(n)-11,2,21+Rand(0,1))
 		 makeChunk(n,zx(n) + 24, zy(n)-11,2,21+Rand(0,1))
 		Else

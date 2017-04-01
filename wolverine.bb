@@ -120,40 +120,39 @@ Function performSuperSpecial2(n)
 	h=g+1:i=h+1:j=i+1:k=j+1:l=k+20
 	
 	If zBlowSeq(n)=1100 Then
-		zani(n)=10:zf(n)=6
-		If gameSound Then PlaySound wolverineLetsGoSnd
+		zani(n)=9:zf(n)=7
+		If gameSound Then PlaySound wolverineSuper2Snd
 	End If
 	If zBlowSeq(n)=b Then
 		zSuperMove(n)=1:zSuperMoveSeq(n)=0
 		If gameSound Then PlaySound wolverineSuper1Snd
 	EndIf
 	If zBlowSeq(n) >= c And zBlowSeq(n) < d
-		zani(n)=12
+		If zBlowSeq(n) = c And gameSound Then PlaySound wolverineLetsGoSnd
+		zani(n)=17
 		moveX(n,zBlowDir(n),Float(0.5))
-		If zBlowSeq(n) Mod 6 = 0 Then 
-			zf(n)=1
+		If zBlowSeq(n) Mod 6 = 0 Then
 			extraObj(n,zx(n),-70,zy(n),2,zblowdir(n),89)
 			extraObj(n,zx(n),-60,zy(n),-10,zblowdir(n),90)
 			extraObj(n,zx(n),34,zy(n),-2,zblowdir(n),91)
 			extraObj(n,zx(n),34,zy(n),-2,zblowdir(n),92)
 		End If
-		If zBlowSeq(n) Mod 7 = 0 Then zf(n)=2
-		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=3
-		If zBlowSeq(n) Mod 9 = 0 Then zf(n)=4
-		If zBlowSeq(n) Mod 10 = 0 Then zf(n)=5
-		If zBlowSeq(n) Mod 11 = 0 Then zf(n)=6
-		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=7
-		If zBlowSeq(n) Mod 13 = 0 Then zf(n)=8
-		If zBlowSeq(n) Mod 14 = 0 Then zf(n)=9
+		If zBlowSeq(n) Mod 24 = 0 Then zf(n)=12:Goto confirmFrame
+		If zBlowSeq(n) Mod 20 = 0 Then zf(n)=13:Goto confirmFrame
+		If zBlowSeq(n) Mod 16 = 0 Then zf(n)=14:Goto confirmFrame
+		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=15:Goto confirmFrame
+		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=16:Goto confirmFrame
+		If zBlowSeq(n) Mod 4 = 0 Then zf(n)=17
+		.confirmFrame
 		If zBlowSeq(n) Mod 5 = 0 Then
 			If gameSound Then PlaySound wolverineSlashSnd
 		End If
+		
 		zblowPamount(n)=5:nn=1
 		For counter = -10 To 30 Step 10
 			xblow(n,nn)=-30: yblow(n,nn)=counter:wblow(n,nn)=110:hblow(n,nn)=10:nn=nn+1
 			counter = counter + 10
 		Next
-
 		zHitmode(n)=2:zBlowHold(n)=3:zBlowSound(n)=slashSnd
 		zBlowDamage(n)=2:zBLowEffect(n)=1:zBlowImpact(n)=4:zBlowStillTime(n)=0:zBlowBlockTime(n)=15
 		zHitSpeed#(n)=1.1:zHitUpSpeed#(n)=2:zHitTime(n)=5
@@ -268,6 +267,7 @@ zchunkType(n)=10
 
 Select zCurBlow(n)
 Case 0	;Blocking
+	zSuperBar(n)=100
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
