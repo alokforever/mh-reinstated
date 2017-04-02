@@ -2333,7 +2333,7 @@ For n = 1 To zzamount
 
 If Not zai(n) Then 
 Select zController(n)
-Case 0  
+Case 0
 	If KeyDown(upK(n)) Then upKey(n)=1:hitKey(n)=1
 	If KeyDown(downK(n)) Then downKey(n)=1:hitKey(n)=1
 	If KeyDown(leftK(n)) Then leftKey(n)=1:hitKey(n)=1
@@ -6246,6 +6246,7 @@ End Function
 ;-------------- Enemy Control Initialization ---------
 Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 	zControls(n)=0:zControlsThis(n)=0
+	DebugLog zBlocked(2) + ", " + zBlock(2)
 	For nn=1 To zzamount
 		If enemy = 0 Then 
 			en=nn
@@ -6258,7 +6259,6 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
 					initParalysis(n, en)
-					;DebugLog "nn: " + nn
 				End If 
 			End If
 		Case 4
@@ -6274,10 +6274,9 @@ End Function
 
 ;-------------- Initialize paralysis ---------------
 Function initParalysis(n, nn)
-	zParalyzed(nn)=1
 	zControlled(nn)=1
 	zControlsThis(n)=nn
-	initNoControl(nn)
+	If blockKey(nn)=0 And zOnGnd(nn)=1 Then zParalyzed(nn)=1:initNoControl(nn)
 	zControls(n)=1
 End Function
 

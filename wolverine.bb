@@ -97,7 +97,7 @@ Function performWolverineCombo(n)
 	If zBlowSeq(n) >= c And zBlowSeq(n) < f Then enemyControlInit(n,zx(n),zy(n)-43,28,92,0)
 	If zBlowSeq(n) >= f And zBlowSeq(n) < i Then enemyControlInit(n,zx(n),zy(n)-15,36,32,0)
 	If zBlowSeq(n) >= j And zBlowSeq(n) < p Then enemyControlInit(n,zx(n),zy(n)-43,37,54,0)
-	If zBlowSeq(n) >= 200 And zBlowSeq(n) < 213 Then enemyControlInit(n,zx(n),zy(n)-43,37,54,0)
+	If zBlowSeq(n) >= 200 And zBlowSeq(n) < 214 Then enemyControlInit(n,zx(n),zy(n)-43,37,57,0)
 	
 	If (zBlowSeq(n)=b+2 Or zBlowSeq(n)=e+2 Or zBlowSeq(n)=h+2 Or zBlowSeq(n)=j+2 Or zBlowSeq(n)=202) And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
@@ -107,7 +107,7 @@ Function performWolverineCombo(n)
 	
 	If isHitting=1 Then
 		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-	Else
+	Else If isHitting=0 And zBlock(en)=0
 		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
 	End If
 	
@@ -137,12 +137,12 @@ Function performSuperSpecial2(n)
 			extraObj(n,zx(n),34,zy(n),-2,zblowdir(n),91)
 			extraObj(n,zx(n),34,zy(n),-2,zblowdir(n),92)
 		End If
-		If zBlowSeq(n) Mod 24 = 0 Then zf(n)=12:Goto confirmFrame
-		If zBlowSeq(n) Mod 20 = 0 Then zf(n)=13:Goto confirmFrame
-		If zBlowSeq(n) Mod 16 = 0 Then zf(n)=14:Goto confirmFrame
-		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=15:Goto confirmFrame
-		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=16:Goto confirmFrame
-		If zBlowSeq(n) Mod 4 = 0 Then zf(n)=17
+		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=12:Goto confirmFrame
+		If zBlowSeq(n) Mod 10 = 0 Then zf(n)=13:Goto confirmFrame
+		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=14:Goto confirmFrame
+		If zBlowSeq(n) Mod 6 = 0 Then zf(n)=15:Goto confirmFrame
+		If zBlowSeq(n) Mod 4 = 0 Then zf(n)=16:Goto confirmFrame
+		If zBlowSeq(n) Mod 2 = 0 Then zf(n)=17
 		.confirmFrame
 		If zBlowSeq(n) Mod 5 = 0 Then
 			If gameSound Then PlaySound wolverineSlashSnd
@@ -267,7 +267,6 @@ zchunkType(n)=10
 
 Select zCurBlow(n)
 Case 0	;Blocking
-	zSuperBar(n)=100
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2

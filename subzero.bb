@@ -168,7 +168,6 @@ zCHunkType(n)=50
 
 Select zCurBlow(n)
 Case 0	;Blocking
-	zSuperBar(n)=100
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
