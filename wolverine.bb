@@ -2,9 +2,59 @@ Function pow(x, y)
 	Return x^y
 End Function
 
+Function performBerserkerSlash2(n)
+	a=500:b=a+3:c=b+20:d=c+10:e=d+12:f=e+5:g=f+15
+	endSeq=400
+	zNoMove(n)=1
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then
+		zani(n)=10:zf(n)=16
+		If zBlowSeq(n)=a And zOnGnd(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
+	End If
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
+		zani(n)=10:zf(n)=16
+		If zBlowSeq(n) = c-1 And gameSound Then PlaySound wolverineSlash3Snd	
+	End If
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then
+		If zBlowSeq(n) = c Then 
+			zani(n)=21:zf(n)=2
+			If zOnGnd(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
+		End If
+		If zBlowSeq(n) = c+2 Then zani(n)=21:zf(n)=3
+		If zBlowSeq(n) = c+4 Then zani(n)=21:zf(n)=4
+		If zBlowSeq(n) = c+6 Then 
+			zani(n)=21:zf(n)=5
+			If zOnGnd(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
+		End If
+		If zBlowSeq(n) = c+8 Then zani(n)=21:zf(n)=6
+		movex2(n,zface(n),5)
+	End If
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then
+		zani(n)=10:zf(n)=16
+		movex2(n,zface(n),4)
+		If zBlowSeq(n) Mod 3 = 0 Then extraObj(n,zx(n),0,zy(n),0,zBlowDir(n),102)
+		If zBlowSeq(n) = e-1 And gameSound Then PlaySound wolverineShoutSnd
+	End If
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
+		If zBlowSeq(n) = e Then extraObj(n,zx(n),40,zy(n),50,zblowdir(n),88)
+		zani(n)=17:zf(n)=11
+				
+		zblowPamount(n)=4:nn=1
+		For counter = 0 To 30
+			xblow(n,nn)=0: yblow(n,nn)=counter:wblow(n,nn)=80:hblow(n,nn)=10:nn=nn+1
+			counter = counter + 10
+		Next
+
+		zHitmode(n)=0:zBlowHold(n)=0:zBlowSound(n)=slashSnd
+		zBlowDamage(n)=15:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=15	
+	End If
+	If zBlowSeq(n) > f And zBlowSeq(n) < g Then zani(n)=17:zf(n)=11
+	
+	If zBlowSeq(n) > g Then zBlowSeq(n)=endSeq
+End Function
+
 Function performGlidingKick(n)
 	a=200:b=a+3:c=b+3:d=c+3:e=d+3
-	f=1000000:g=f+5
+	f=1000000:g=f+10
 	endSeq=190
 	If zBlowSeq(n) >= a And zOnGnd(n)=0 Then zNoGrav(n)=1
 	If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
@@ -25,7 +75,7 @@ Function performGlidingKick(n)
 		xblow(n,nn)=10: yblow(n,nn)=0:wblow(n,nn)=27:hblow(n,nn)=1:nn=nn+5
 		xblow(n,nn)=12: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+5
 		zHitMode(n)=0:zBlowHold(n)=0
-		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=1:zBlowBlockTime(n)=25
+		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=25
 		zBlowSound(n)=wolverineKickSnd
 		
 		If zBlowStill(n)=0 Then
@@ -37,9 +87,10 @@ Function performGlidingKick(n)
 	End If
 	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then
 		zNoMove(n)=1
-		movex2(n,zface(n),-3)
-		moveY(n,-6)
+		movex2(n,zface(n),-5)
+		moveY(n,-3)
 		zani(n)=4:zf(n)=1
+		If zBlowStill(n)=1 Then zani(n)=8:zf(n)=19
 	End If
 	If zBlowSeq(n) = g Then
 		zBlowSeq(n) = endSeq
@@ -227,7 +278,7 @@ Function performSuperSpecial2(n)
 	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zani(n)=10:zf(n)=5
 	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zani(n)=10:zf(n)=6
 	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zani(n)=10:zf(n)=7
-	If zBlowSeq(n) >= k And zBlowSeq(n) < l Then 
+	If zBlowSeq(n) >= k And zBlowSeq(n) < l Then
 		zani(n)=17:zf(n)=11
 		If zBlowSeq(n) = k Then extraObj(n,zx(n),40,zy(n),50,zblowdir(n),88)
 				
@@ -811,7 +862,7 @@ Case 7	;berserker slash (special)
 	zNoJump(n)=1
 	zjump(n)=0
 	If isRunning(n) And zBlowSeq(n)=1 Then zBlowSeq(n)=i:isRunning(n)=0:zCurSpeed#(n)=zSpeed#(n)
-	If zBlowSeq(n)>=i Then performBerserkerSlash(n, 68)
+	If zBlowSeq(n) >= i Then performBerserkerSlash(n, 68)
 	If zongnd(n)=0 And zBlowSeq(n) < i Then zy(n)=zy(n)-2
 	If zBlowSeq(n) = c And gameSound=1 Then PlaySound wolverineShoutSnd
 	If zBlowSeq(n) = d And gameSound=1 Then PlaySound wolverineSlash3Snd
@@ -846,7 +897,9 @@ Case 9	; berserker barrage (down special)
 	zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
 	aa=11/wolvSpdFctr(n):a=21/wolvSpdFctr(n):b=24/wolvSpdFctr(n):c=31/wolvSpdFctr(n):d=34/wolvSpdFctr(n)
 	:e=30/wolvSpdFctr(n):f=39/wolvSpdFctr(n):g=42/wolvSpdFctr(n):h=49/wolvSpdFctr(n):i=52/wolvSpdFctr(n)
-	:j=(i+20)	
+	:j=(i+20):k=500
+	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=k:downKeyDoubleTap(n)=0
+	If zBlowSeq(n) >= k Then performBerserkerSlash2(n)
 	If isRunning(n) And zBlowSeq(n)=1 Then 
 		If Abs(zSpeed#(n)) >= 3 And zBlowSeq(n) < 4 Then zBlowSeq(n)=10
 		If Abs(zSpeed#(n)) >= 4 Then zBlowSeq(n)=aa
@@ -907,11 +960,11 @@ Case 9	; berserker barrage (down special)
 		zBlowDamage(n)=10:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=40
 		zBlowSound(n)=slashSnd
 	EndIf
-	If zBlowSeq(n) > i And zBlowSeq(n) =< j Then zani(n)=12:zf(n)=7:zNograv(n)=0
+	If zBlowSeq(n) > i And zBlowSeq(n) < j Then zani(n)=12:zf(n)=7:zNograv(n)=0
 	
-	If zBlowSeq(n) => i Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5
-	If zBlowSeq(n) > j Then zBlow(n)=0:zblowstill(n)=0
-	If zongnd(n)=1 And zBlowSeq(n) => j-2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	If zBlowSeq(n) => i And zBlowSeq(n) < k Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5
+	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zBlow(n)=0:zblowstill(n)=0
+	If zongnd(n)=1 And zBlowSeq(n) >= j-2 And zBlowSeq(n) < k Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Kick 
 	zNoMove(n)=1
@@ -1028,9 +1081,11 @@ Case 16 ;Counter Key (Berserker Rage)
 		If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=17:zf(n)=4
 		If zBlowSeq(n) => d And zBlowSeq(n) < e Then 
 			If zBlowSeq(n) = d And gameSound Then PlaySound wolverineShoutSnd
-			If zBlowSeq(n) Mod 2 = 0 Then zx(n)=zx(n)+2
-			If zBlowSeq(n) Mod 2 = 1 Then zx(n)=zx(n)-2
-			zani(n)=17:zf(n)=8
+			If zBlowSeq(n) Mod 3 = 0 And zBlowSeq(n) Mod 4 = 0 Then 
+				zani(n)=17:zf(n)=8
+			Else
+				zani(n)=17:zf(n)=18
+			End If
 		EndIf
 	Else If zTauntSeed(n)=2 Then
 		If zBlowSeq(n) = 1 Then zBlowSeq(n) = 100

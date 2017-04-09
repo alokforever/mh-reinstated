@@ -2337,40 +2337,12 @@ Case 101:		;Ice impale
 	
 	If chunkSeq(n) = d Then chunk(n)=0
 
-Case 102: 		;fast berserker barrage slash1a
-	a=1:b=2:c=3:d=4:e=5:f=6:g=7:h=8
+Case 102: 		;berserker slash2 after-image
+	a=12
 
-	If (chunkSeq(n) >= 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(60,1):chunkPic_(n)=ptPic_(60,1)
-	If (chunkSeq(n) >= a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(60,2):chunkPic_(n)=ptPic_(60,2)
-	If (chunkSeq(n) >= b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(60,3):chunkPic_(n)=ptPic_(60,3)
-	If (chunkSeq(n) >= c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(60,4):chunkPic_(n)=ptPic_(60,4)
+	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(82,1):chunkPic_(n)=ptPic_(82,1)
 	
-	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
-Case 103:		;fast berserker barrage slash1b
-	a=1:b=2:c=3:d=4:e=5:f=6:g=7:h=8
-	If (chunkSeq(n) >= 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(61,1):chunkPic_(n)=ptPic_(61,1)
-	If (chunkSeq(n) >= a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(61,2):chunkPic_(n)=ptPic_(61,2)
-	If (chunkSeq(n) >= b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(61,3):chunkPic_(n)=ptPic_(61,3)
-	If (chunkSeq(n) >= c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(61,4):chunkPic_(n)=ptPic_(61,4)
-
-	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
-Case 104:		;fast berserker barrage slash2a
-	a=1:b=2:c=3:d=4:e=5:f=6:g=7:h=8
-	If (chunkSeq(n) = 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(62,1):chunkPic_(n)=ptPic_(62,1)
-	If (chunkSeq(n) = a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(62,2):chunkPic_(n)=ptPic_(62,2)
-	If (chunkSeq(n) = b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(62,3):chunkPic_(n)=ptPic_(62,3)
-	If (chunkSeq(n) = c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(62,4):chunkPic_(n)=ptPic_(62,4)
-	
-	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
-	
-Case 105:		;fast berserker barrage slash2b
-	a=1:b=2:c=3:d=4:e=5:f=6:g=7:h=8
-	If (chunkSeq(n) >= 1 And chunkSeq(n) < a) Or (chunkSeq(n) >=d And chunkSeq(n) < e) Then chunkPic(n)=ptPic(63,1):chunkPic_(n)=ptPic_(63,1)
-	If (chunkSeq(n) >= a And chunkSeq(n) < b) Or (chunkSeq(n) >=e And chunkSeq(n) < f) Then chunkPic(n)=ptPic(63,2):chunkPic_(n)=ptPic_(63,2)
-	If (chunkSeq(n) >= b And chunkSeq(n) < c) Or (chunkSeq(n) >=f And chunkSeq(n) < g) Then chunkPic(n)=ptPic(63,3):chunkPic_(n)=ptPic_(63,3)
-	If (chunkSeq(n) >= c And chunkSeq(n) < d) Or (chunkSeq(n) >=g And chunkSeq(n) < h) Then chunkPic(n)=ptPic(63,4):chunkPic_(n)=ptPic_(63,4)
-	
-	If chunkSeq(n) > h Or zhit(chunkOwner(n))=1 Then chunk(n)=0
+	If chunkSeq(n) >= a Then chunk(n)=0
 	
 Default
 	a=5:b=10:c=14	;Blocking

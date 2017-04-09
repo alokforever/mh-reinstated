@@ -2409,8 +2409,8 @@ If downKey(n)=1 And zHit(n)=0 And zongnd(n)=1 And zBlow(n)=0 Then
 			zSpeed(n)=0
 			isRunning(n)=0
 		Else
-			If zFace(n)=2 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
-			If zFace(n)=4 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
+			If zSpeed#(n) > 0 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
+			If zSpeed#(n) < 0 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
 		End If
 	End If
 EndIf
@@ -6217,7 +6217,7 @@ Function checkInputs(n)
 End Function
 
 ;----------- Check right key hit ---------------
-Function checkRightKeyHit(n)
+Function checkRightKeyHit(n)	
 	Local quintSec=200, curTime=MilliSecs()
 	If (curTime - rightKeyHitTimer(n)) < quintSec Then
 		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
@@ -6238,7 +6238,7 @@ End Function
 Function checkDownKeyHit(n)
 	Local quintSec=200, curTime=MilliSecs()
 	If (curTime - downKeyHitTimer(n)) < quintSec Then
-		If zOnGnd(n)=0 Then downKeyDoubleTap(n)=1
+		downKeyDoubleTap(n)=1
 	Else
 		downKeyDoubleTap(n)=0
 	End If
