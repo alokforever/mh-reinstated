@@ -3061,7 +3061,7 @@ For i=1 To 9
 	zpic_(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + "_.bmp")
 Next
 
-For i=1 To 13
+For i=1 To 20
 	zpic(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + ".bmp")
 	zpic_(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + "_.bmp")
 Next

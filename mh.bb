@@ -3962,7 +3962,7 @@ EndIf
 
 End Function
 ;---------------------------Calculate Blow Impact 2 ------------------------------------------------
-Function calcBlow2(nn,n,hitTime)
+Function calcblow2(nn,n,hitTime)
 initFightStates(nn)
 zHitModeTaken(nn)=zHitMode(n)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
@@ -6243,7 +6243,6 @@ Function checkDownKeyHit(n)
 		downKeyDoubleTap(n)=0
 	End If
 	downKeyHitTimer(n) = curTime
-	DebugLog downKeyDoubleTap(n) + ", " + downKeyHit(n)
 End Function
 
 ;------------ Deplete Stamina Bar --------------

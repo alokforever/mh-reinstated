@@ -3,8 +3,47 @@ Function pow(x, y)
 End Function
 
 Function performGlidingKick(n)
-	a=200:b=a+3:c=b+3:d=c+3
+	a=200:b=a+3:c=b+3:d=c+3:e=d+3
+	f=1000000:g=f+5
+	endSeq=190
 	If zBlowSeq(n) >= a And zOnGnd(n)=0 Then zNoGrav(n)=1
+	If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
+	
+	If zBlowSeq(n) = a And gameSound Then PlaySound wolverineShout3Snd
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zani(n)=8:zf(n)=14
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zani(n)=8:zf(n)=15
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zani(n)=8:zf(n)=16
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=8:zf(n)=17
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
+		If zBlowSeq(n) Mod 3 = 0 And zBlowSeq(n) Mod 4 = 0 Then
+			zani(n)=8:zf(n)=18
+		Else
+			zani(n)=8:zf(n)=19
+		End If
+		zblowpamount(n)=2
+		nn=1
+		xblow(n,nn)=10: yblow(n,nn)=0:wblow(n,nn)=27:hblow(n,nn)=1:nn=nn+5
+		xblow(n,nn)=12: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+5
+		zHitMode(n)=0:zBlowHold(n)=0
+		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=1:zBlowBlockTime(n)=25
+		zBlowSound(n)=wolverineKickSnd
+		
+		If zBlowStill(n)=0 Then
+			movex2(n,zface(n),1.5)
+			moveY(n,5)
+		Else
+			zBlowSeq(n)=f
+		End If
+	End If
+	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then
+		zNoMove(n)=1
+		movex2(n,zface(n),-3)
+		moveY(n,-6)
+		zani(n)=4:zf(n)=1
+	End If
+	If zBlowSeq(n) = g Then
+		zBlowSeq(n) = endSeq
+	End If
 End Function
 
 Function handleWolverineCooldown(n, blowSeq, cooldownType)
@@ -597,8 +636,8 @@ Case 2	;Flying Kick
 	:j2=42/wolvSpdFctr(n)
 	aa=200
 	zNoJump(n)=0
-	
-	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=aa
+
+	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=aa:downKeyDoubleTap(n)=0
 	If zBlowSeq(n) >= aa Then performGlidingKick(n)
 	
 	If zBlowSeq(n) >= 1 And downKey(n) = 0  Then
