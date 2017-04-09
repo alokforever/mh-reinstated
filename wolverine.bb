@@ -2,8 +2,43 @@ Function pow(x, y)
 	Return x^y
 End Function
 
+Function performWolverineHeal(n)
+	a=1000:b=a+10:c=b+5:d=c+30
+	endSeq=58
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then
+		If zBlowSeq(n)=a Then
+			zSuperMove(n)=1:zSuperMoveSeq(n)=0
+			If gameSound Then PlaySound wolverineSuper1Snd
+			If gameSound Then PlaySound wolverineSuper3Snd
+			zHealAmount(n)=10:zHealInterval(n)=50:zHealTimes(n)=7
+		End If
+		If zBlowSeq(n) Mod 3 = 0 And zBlowSeq(n) Mod 4 = 0 Then 
+			zani(n)=17:zf(n)=1
+		Else
+			zani(n)=17:zf(n)=2
+		End If
+	End If
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zani(n)=17:zf(n)=3
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then
+		If zBlowSeq(n) Mod 10 = 0 And zOnGnd(n)=1 Then 
+			extraObj(n,zx(n),-40,zy(n),2,2,89)
+			extraObj(n,zx(n),-40,zy(n),2,4,89)
+		End If
+		If zBlowSeq(n) = c Then 
+			healMode(n)=1
+			If gameSound Then PlaySound wolverineShoutSnd
+		End If
+		If zBlowSeq(n) Mod 3 = 0 And zBlowSeq(n) Mod 4 = 0 Then
+			zani(n)=17:zf(n)=8
+		Else
+			zani(n)=17:zf(n)=18
+		End If
+	End If
+	If zBlowSeq(n) > d Then zBlowSeq(n)=endSeq
+End Function
+
 Function performBerserkerSlash2(n)
-	a=500:b=a+3:c=b+20:d=c+10:e=d+12:f=e+5:g=f+15
+	a=500:b=a+3:c=b+20/wolvSpdFctr(n):d=c+10:e=d+12:f=e+5:g=f+15
 	endSeq=400
 	zNoMove(n)=1
 	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then
@@ -389,7 +424,7 @@ Case 0	;Blocking
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
-	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0
+	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 15 ;Wolverine throw
 	a=8/wolvSpdFctr(n): b=15/wolvSpdFctr(n): c=25/wolvSpdFctr(n): d=50/wolvSpdFctr(n): e=60/wolvSpdFctr(n)
@@ -791,7 +826,7 @@ Case 5	;Uppercut (Tornado claw)
 		xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=20:hblow(n,nn)=1:nn=nn+1
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=1:zHitUpSpeed#(n)=3.5:zHitTime(n)=20
-		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2*pow(wolvSpdFctr(n),2))
+		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2*pow(wolvSpdFctr(n),1))
 		zBlowDamage(n)=4:zBLowEffect(n)=1:zBlowImpact(n)=16:zBlowStillTime(n)=1:zBlowBlockTime(n)=20
 		zBlowSound(n)=slashSnd
 		zani(n)=7:zf(n)=3:zantiplat(n)=1
@@ -804,7 +839,7 @@ Case 5	;Uppercut (Tornado claw)
 		Next
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=2:zHitUpSpeed#(n)=2.5:zHitTime(n)=45
-		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2*pow(wolvSpdFctr(n),2))
+		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2*pow(wolvSpdFctr(n),1.5))
 		zBlowDamage(n)=4:zBLowEffect(n)=1:zBlowImpact(n)=16:zBlowStillTime(n)=1:zBlowBlockTime(n)=20
 		zBlowSound(n)=slashSnd
 		zani(n)=7:zf(n)=4:zantiplat(n)=1
@@ -1039,12 +1074,14 @@ Case 8	;Dogding
 Case 16 ;Counter Key (Berserker Rage)
 	a=4/wolvSpdFctr(n):b=8/wolvSpdFctr(n):c=12/wolvSpdFctr(n):d=16/wolvSpdFctr(n):e=50/wolvSpdFctr(n)
 	:f=60:g=62:h=63:i=64:j=65:k=67:l=67:m=69:nnn=70:o=75
+	aa=1000
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
 
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
-	
+	If zBlowSeq(n) = 1 And zSuperBar(n) >= 100 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=aa:downKeyDoubleTap(n)=0
+	If zBlowSeq(n) >= aa Then performWolverineHeal(n)
 	If zBlowSeq(n) = 1 And zSuperBar(n) >= 100 And downKey(n)=1 Then zBlowSeq(n) = f
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=10:zf(n)=1
 	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=2

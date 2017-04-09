@@ -1919,7 +1919,7 @@ Case 45:a=10	;tutorial 6 - go down from platform
 	EndIf
 	If tutorial(6)=1 Then chunk(n)=0:message=0
 	
-Case 46:a=10	;tutorial 7 - throw item dioganally
+Case 46:a=10	;tutorial 7 - throw item diagonally
     message=1 : messageN=n
 	chunkCategory(n)=2
 	chunkPic(n)= noPic:chunkPic_(n)= noPic
@@ -3257,6 +3257,7 @@ If n=11 Then
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 	If wolverineSpellCooldown1Snd=0 Then wolverineSpellCooldown1Snd=LoadSound(soundsdir$ + "wolverine\wolverineSpellCooldown1.mp3")
 	If wolverineSpellCooldown2Snd=0 Then wolverineSpellCooldown2Snd=LoadSound(soundsdir$ + "wolverine\wolverineSpellCooldown2.mp3")
+	If wolverineSuper3Snd=0 Then wolverineSuper3Snd=LoadSound(soundsdir$ + "wolverine\wolverineSuper3.wav")
 EndIf
 
 If n=10 Then ;Ritcher

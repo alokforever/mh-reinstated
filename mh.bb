@@ -222,7 +222,7 @@ Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4)
-Dim isShotLongRange(30)
+Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30)
 
 ;Paths For directories / mods
@@ -1157,7 +1157,7 @@ For n= 1 To zzamount
 	If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
 		zStaminaBar#(n)=zStaminaBar#(n)+0.5
 	End If
-	
+	If healMode(n)=1 Then healPlayer(n)
 	If zon(n) Then SelectDraw(n)
 Next
 
@@ -6354,30 +6354,46 @@ End Function
 
 ;------------------ Check Wall Jump -----------------
 Function checkWallJump(n)	
-checkYDist(n,zx(n),zy(n),2)
-If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
-If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
+	checkYDist(n,zx(n),zy(n),2)
+	If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
+	If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
 
-If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
-	If zBlowSeq(n) < 1 Then
-		zBlow(n)=1:zBlowSeq(n)=0:
-		zCurBlow(n)=18:zBlowDir(n)=zFace(n)
-		zWallJump(n)=1
+	If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
+		If zBlowSeq(n) < 1 Then
+			zBlow(n)=1:zBlowSeq(n)=0:
+			zCurBlow(n)=18:zBlowDir(n)=zFace(n)
+			zWallJump(n)=1
+		End If
 	End If
-End If
-
 End Function
 
 ;---------------- Perform Double Jump --------------
 Function performDoubleJump(n)
-If zjump2(n)=0 And noDoubleJump=0 Then
-	zjump2(n)=1:zjump2seq(n)=0
-	zjump(n)=1:zjumpseq(n)=0
-	If gamesound And zJumpSnd2(n) <> 0 Then 
-		PlaySound zJumpSnd2(n)
-	Else
-		PlaySound zJumpSnd(n)
+	If zjump2(n)=0 And noDoubleJump=0 Then
+		zjump2(n)=1:zjump2seq(n)=0
+		zjump(n)=1:zjumpseq(n)=0
+		If gamesound And zJumpSnd2(n) <> 0 Then 
+			PlaySound zJumpSnd2(n)
+		Else
+			PlaySound zJumpSnd(n)
+		EndIf
 	EndIf
-EndIf
+End Function
 
+;---------------- Heal Player ----------------------
+Function healPlayer(n)
+	zHealSeq(n)=zHealSeq(n)+1
+	If zHealSeq(n) Mod zHealInterval(n) = 0 Then
+		extraObj(n,zx(n),0,zy(n),0,zblowdir(n),93)
+		If gameSound Then PlaySound energySnd
+		If zDamage(n) >= 10 Then
+			zDamage(n)=zDamage(n)-zHealAmount(n)
+		Else
+			zDamage(n)=0
+		End If
+		zLife(n)=zLife(n)+zHealAmount(n)
+		zHealTimes(n)=zHealTimes(n)-1
+	End If
+	
+	If zHealTimes(n)=0 Then healMode(n)=0:zHealSeq(n)=0
 End Function

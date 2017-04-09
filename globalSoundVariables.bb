@@ -144,5 +144,6 @@ Global wolverineGrabSnd
 Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
 Global wolverineClawSnd, wolverineClaw2Snd, wolverineLetsGoSnd
 Global wolverineSpellCooldown1Snd, wolverineSpellCooldown2Snd
+Global wolverineSuper3Snd
 
 Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
