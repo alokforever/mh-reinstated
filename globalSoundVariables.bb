@@ -95,6 +95,7 @@ Global brolyOopsSnd
 Global brolyKickSnd
 Global brolyNHitSnd
 
+Global clockTickSnd=LoadSound(soundsdir$ + "clockTick.mp3")
 Global whipSnd, crossSnd, richterSnd, fastThrowSnd
 Global gokuSnd, goku1Snd, teleportSnd
 Global dbzHitSnd=LoadSound(soundsdir$ + "dbzHit.wav")
@@ -117,6 +118,8 @@ Global subZeroPunch2Snd
 Global subZeroThrowSnd
 Global subZeroJumpSnd
 Global subZeroJump2Snd
+Global subZeroCooldown1Snd
+Global subZeroCooldown2Snd
 Global mkSlideCrySnd=LoadSound(soundsdir$ + "mk\mkMaleSlideCry.mp3")
 Global mkExcellentSnd=LoadSound(soundsdir$ + "mk\mkExcellent.mp3")
 Global mkOutstandingSnd=LoadSound(soundsdir$ + "mk\mkOutstanding.mp3")
@@ -140,5 +143,6 @@ Global wolverineSuper1Snd, wolverineSuper2Snd
 Global wolverineGrabSnd
 Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
 Global wolverineClawSnd, wolverineClaw2Snd, wolverineLetsGoSnd
+Global wolverineSpellCooldown1Snd, wolverineSpellCooldown2Snd
 
 Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")

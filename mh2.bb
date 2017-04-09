@@ -56,6 +56,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zRunFrameSpeed#(n)=0
 	zCharSpeed#(n)=2
 	isMale(n)=2
+	isMkCharacter(n)=0
 	canWallJump(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
@@ -1515,7 +1516,7 @@ Case 43 ;Sub Zero ice clone
 	shotspeed(n)=0
 	shotsize(n)=44
 	shotheight(n)=58
-	shotWidth(n)=51
+	shotWidth(n)=48
 	shotId(n)=43
 	shotVerticalSize(n)=28
 	shotSide(n)=shotsize(n)/2
@@ -3224,6 +3225,8 @@ If n=14 Then ;SubZero
 	If subZeroJump2Snd=0 Then subZeroJump2Snd=LoadSound(soundsdir$ + "subzero\subJump2.mp3")
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\mkMaleGrunt1.mp3")
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
+	If subZeroCooldown1Snd=0 Then subZeroCooldown1Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown1.mp3")
+	If subZeroCooldown2Snd=0 Then subZeroCooldown2Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown2.mp3")
 EndIf
 
 If n=13 Then	;Broly
@@ -3280,6 +3283,8 @@ If n=11 Then
 	If wolverineLetsGoSnd=0 Then wolverineLetsGoSnd=LoadSound(soundsdir$ + "wolverine\wolverineLetsGo.wav")
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "wolverine\wolverineShout2.wav")
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
+	If wolverineSpellCooldown1Snd=0 Then wolverineSpellCooldown1Snd=LoadSound(soundsdir$ + "wolverine\wolverineSpellCooldown1.mp3")
+	If wolverineSpellCooldown2Snd=0 Then wolverineSpellCooldown2Snd=LoadSound(soundsdir$ + "wolverine\wolverineSpellCooldown2.mp3")
 EndIf
 
 If n=10 Then ;Ritcher

@@ -4,7 +4,7 @@
 general:
 AI
 some versus mode maps are not working
-cooldown for some character's moves (sub zero freeze ground, wolverine special)
+cooldown for some character's moves (sub zero freeze ground, wolverine special) - DONE (4/2/17)
 item pickup positioning
 stance animation - DONE (3/12/17)
 walk animation - DONE (3/12/17)
@@ -29,8 +29,8 @@ fix normal attack - DONE (3/14/17)
 fix grab - DONE (3/14/17)
 add super special #3 - DONE (3/17/17)
 down + slide attack - DONE (3/17/17)
-add combo
-add wall jump
+add combo - DONE (3/26/17)
+add wall jump - DONE (3/25/17)
 
 3. sonya: remake
 4. thor: re-create

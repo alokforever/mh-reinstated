@@ -1,6 +1,6 @@
 Function performFatalitySuper(n)
 	a=103:b=a+4:c=b+4:d=c+28:e=d+3:f=e+4:g=f+42:h=g+4:i=h+4:j=h+120
-	;zNoGrav(zControlsThis(n))=0
+	guardable=0
 	checkDist(n, zx(n), zy(n), zFace(n))
 	If zBlowSeq(n) => 100 And zBlowSeq(n) < a Then 
 		zani(n)=14:zf(n)=1
@@ -15,7 +15,7 @@ Function performFatalitySuper(n)
 	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=14:zf(n)=4
 	If zBlowSeq(n) => c And zBlowSeq(n) < c+5	
 		If zBlowSeq(n) = c Then zControls(n)=0
-		enemyControlInit(n,zx(n),zy(n)-45,41,35,0)
+		enemyControlInit(n,zx(n),zy(n)-45,41,35,0,guardable)
 		zblowPamount(n)=2:nn=1
 		xblow(n,nn)=6: yblow(n,nn)=73:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
 		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
@@ -50,7 +50,7 @@ Function performFatalitySuper(n)
 		If xDist(n) <= 56 Or zControlsThis(n)=0 Or (zLife(zControlsThis(n)) < 1 And vsMode=0) Or zUngrabable(zControlsThis(n))=1 Then zBlowSeq(n)=90
 	End If
 	If zBlowSeq(n) >= 183 And xDist(n) > 56 Then 
-		enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n))
+		enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n),guardable)
 		If zBlowSeq(n) = 183 Then
 			If zControlsThis(n) <> 0 Then extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
 			If gameSound And isMale(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
@@ -64,12 +64,12 @@ End Function
 
 Function applySubZeroComboHitBox(n, hitMode, damage)
 	zblowPamount(n)=1:nn=1
-	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=20:hblow(n,nn)=22:nn=nn+1
+	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=36:hblow(n,nn)=22:nn=nn+1
 	zHitMode(n)=hitMode:zBlowHold(n)=0
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 	zBlowSound(n)=subZeroStrongHitSnd
-	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zParalyzed(zControlsThis(n))=1 And zBlock(zControlsThis(n))=0 Then 
+	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zParalyzed(zControlsThis(n))=1 Then 
 		extraObj(n,zx(n),45,zy(n),-32,zblowdir(n),95)
 	End If
 End Function
@@ -78,7 +78,7 @@ Function performSubzeroCombo(n)
 	a=53:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=45
-	If (zBlowSeq(n) <= o+3) And zBlocked(en)=0 Then enemyControlInit(n,zx(n),zy(n)-39,45,39,0)
+	If (zBlowSeq(n) <= o+3) Then enemyControlInit(n,zx(n),zy(n)-39,40,39,0,guardable)
 	
 	If zBlowSeq(n)>=50 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
 	
@@ -141,8 +141,7 @@ Function performSubzeroCombo(n)
 	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
 ;------ target manipulation --------
 	en=zControlsThis(n)
-	zNoGrav(en)=1
-	zantiPlat(en)=1
+	If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
 	
 	If isHitting=1 Then
 		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
@@ -514,6 +513,7 @@ Case 9	;Sub zero freeze ground
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+
 	If zFace(n)=2 Then checkYDist(n,zx(n)+40,zy(n)+6,2)
 	If zFace(n)=4 Then checkYDist(n,zx(n)-40,zy(n)+6,2)
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
@@ -537,7 +537,7 @@ Case 9	;Sub zero freeze ground
 				If zface(n)=4 Then x=zx(n)-60
 				If zBlowSeq(n)=h Then 
 					makeshot(n,40,x,y,dir)
-					spellCooldownMaxTime(n, 1)=100
+					spellCooldownMaxTime(n, 1)=130
 					spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1) 
 				End If
 			Else If zongnd(n)=0 Or yDist(n) > 1 Then
@@ -548,6 +548,16 @@ Case 9	;Sub zero freeze ground
 			EndIf
 		EndIf
 	EndIf
+	If zBlowSeq(n)=1 And zongnd(n)=1 And yDist(n) < 2 And spellCooldownSeq(n, 1) > 0 Then
+		cdSeed=Rand(2)
+		If cdSeed=1 And gameSound And zAI(n)=0 Then 
+			PlaySound subZeroCooldown1Snd
+		Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+			PlaySound subZeroCooldown2Snd
+		End If
+		If gameSound Then PlaySound clockTickSnd
+		zBlowSeq(n)=0:zBlow(n)=0
+	End If
 			
 	If zBlowSeq(n) => j Then zBlowSeq(n)=0:zBlow(n)=0
 
@@ -638,13 +648,20 @@ Case 17: ;Ice shower
 	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zani(n)=18:zf(n)=4
 	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=18:zf(n)=5
 	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then zani(n)=18:zf(n)=6
-	
 	If zFace(n)=2 Then
-		If zBlowSeq(n) = e Then extraObj(n,zx(n),153,zy(n),-103,zblowdir(n),99)
-		If zBlowSeq(n) = e+15 Then makeshot(n,44,zx(n)+156,zy(n)-103,zface(n))
+		If zBlowSeq(n) = e And rightKey(n)=1 Then isShotLongRange(n)=1
+		If zBlowSeq(n) = e And rightKey(n)=0 Then isShotLongRange(n)=0
+		If zBlowSeq(n) = e And isShotLongRange(n)=1 Then extraObj(n,zx(n),153,zy(n),-90,zblowdir(n),99)
+		If zBlowSeq(n) = e And isShotLongRange(n)=0 Then extraObj(n,zx(n),83,zy(n),-90,zblowdir(n),99)
+		If zBlowSeq(n) = e+15 And isShotLongRange(n)=1 Then makeshot(n,44,zx(n)+156,zy(n)-90,zface(n))
+		If zBlowSeq(n) = e+15 And isShotLongRange(n)=0 Then makeshot(n,44,zx(n)+86,zy(n)-90,zface(n))
 	Else
-		If zBlowSeq(n) = e Then extraObj(n,zx(n),150,zy(n),-103,zblowdir(n),99)
-		If zBlowSeq(n) = e+15 Then makeshot(n,44,zx(n)-147,zy(n)-103,zface(n))
+		If zBlowSeq(n) = e And leftKey(n)=1 Then isShotLongRange(n)=1
+		If zBlowSeq(n) = e And leftKey(n)=0 Then isShotLongRange(n)=0
+		If zBlowSeq(n) = e And isShotLongRange(n)=1 Then extraObj(n,zx(n),150,zy(n),-90,zblowdir(n),99)
+		If zBlowSeq(n) = e And isShotLongRange(n)=0 Then extraObj(n,zx(n),80,zy(n),-90,zblowdir(n),99)
+		If zBlowSeq(n) = e+15 And isShotLongRange(n)=1 Then makeshot(n,44,zx(n)-147,zy(n)-90,zface(n))
+		If zBlowSeq(n) = e+15 And isShotLongRange(n)=0 Then makeshot(n,44,zx(n)-77,zy(n)-90,zface(n))
 	End If
 
 	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0

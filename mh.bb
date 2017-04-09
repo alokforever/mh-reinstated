@@ -1,4 +1,5 @@
 Include "globalSoundVariables.bb"
+Include "constants.bb"
 
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
@@ -213,14 +214,16 @@ Global menuOption, duringGameMenu
 
 ;zeto's variables
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
-Dim rightKeyHitTimer(30), leftKeyHitTimer(30)
+Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
-Dim canPerformNextCombo(30)
+Dim canPerformNextCombo(30), cooldownPic(30, 4)
+Dim isShotLongRange(30)
+Dim downKeyHit(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -231,6 +234,11 @@ Global gfxStuffDir$="gfx\stuff\"
 Global gfxdir$="gfx\stuff\"
 Global timerDir$="gfx\stuff\timer"
 Global cdDir$="gfx\stuff\cd"
+
+;Cooldown Icons
+cooldownPic(11, 1)=LoadImage(gfxdir$ + "\cooldown\cd11_1.bmp")
+cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
+cooldownPic(14, 1)=LoadImage(gfxdir$ + "\cooldown\cd14_1.bmp")
 
 ;Find all mod directories and set their paths/name 
 setModDirs()
@@ -384,8 +392,8 @@ For n=1 To 103   ; load chunks
 	Next
 Next
 
-For n=0 To 90
-	timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + i + ".bmp")	
+For n=0 To 90 Step 1
+	timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")	
 Next 
 
 Dim letter(20,100), letterWidth(20,100)	
@@ -1145,7 +1153,6 @@ Next
 
 For n= 1 To zzamount
 	If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
-	If curGuy(n) <= 30 Then checkCooldown(n)
 	checkInputs(n)
 	If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
 		zStaminaBar#(n)=zStaminaBar#(n)+0.5
@@ -2240,7 +2247,9 @@ End Function
 ;--------RENDER Z---------------------------------------------------------------------------------
 Function renderZ(n)
 
-	l_zani=zani(n) : l_zf=zf(n) : l_zpic=zcurpic(n)
+l_zani=zani(n) : l_zf=zf(n) : l_zpic=zcurpic(n)
+
+If curGuy(n) <= 30 Then checkCooldown(n):checkBuffStatus(n)
 
 If scrollMap=0 Then
 	If zx(n) < -30 And zHelper(n)=0 Then 
@@ -2297,7 +2306,7 @@ Next
 For n=1 To zzamount
 	hitKey(n)=0:upKey(n)=0:leftKey(n)=0:rightKey(n)=0:downKey(n)=0:jumpKey(n)=0:shotKey(n)=0
 	jumpKeyDown(n)=0:runkey(n)=0:blockKey(n)=0:specialkey(n)=0:grabKey(n)=0:superKey(n)=0
-	rightKeyhit(n)=0:leftKeyHit(n)=0:counterkey(n)=0:extraSpecialkey(n)=0
+	rightKeyhit(n)=0:leftKeyHit(n)=0:downKeyHit(n)=0:counterkey(n)=0:extraSpecialkey(n)=0
 	If zBlocked(n) Then zBlock(n)=1:zBlow(n)=1 Else zblock(n)=0
 Next
 If KeyHit(1) Then   ;pause button
@@ -2340,6 +2349,7 @@ Case 0
 	If KeyDown(rightK(n)) Then rightKey(n)=1:hitKey(n)=1
 	If KeyHit(leftK(n)) Then leftKeyhit(n)=1:hitKey(n)=1
 	If KeyHit(rightK(n)) Then rightKeyhit(n)=1:hitKey(n)=1
+	If KeyHit(downK(n)) Then downKeyHit(n)=1:hitKey(n)=1
 	If KeyHit(specialK(n)) Then specialkey(n)=1:hitKey(n)=1
 	If KeyHit(shotK(n)) Then shotKey(n)=1:hitKey(n)=1
 	If KeyHit(jumpK(n)) Then jumpKey(n)=1 :hitKey(n)=1
@@ -2362,6 +2372,9 @@ Case 1
 	EndIf
 	If JoyX(controllerPort(n)) > .5 And b_JoyHit = False Then ; Hit Right
 	     rightKeyhit(n)=1 : b_JoyHit = True:hitKey(n)=1
+	EndIf
+	If JoyY(controllerPort(n)) > .5 And b_JoyHit = False Then ; Hit Down
+	     downKeyHit(n)=1 : b_JoyHit = True:hitKey(n)=1
 	EndIf
 	If JoyX(controllerPort(n)) > -.1 And JoyX(controllerPort(n)) < .1 Then b_JoyHit = False ; Reset Flag
 	If JoyYDir(controllerPort(n))=1 Then downkey(n)=1:hitKey(n)=1
@@ -2402,7 +2415,7 @@ If downKey(n)=1 And zHit(n)=0 And zongnd(n)=1 And zBlow(n)=0 Then
 	End If
 EndIf
 
-If downKey(n)=1  And jumpKey(n)=1 And zonplat(n)=1 And zonThickPlat(n)=0 And zHit(n)=0 And zblow(n)=0 Then
+If downKey(n)=1 And jumpKey(n)=1 And zonplat(n)=1 And zonThickPlat(n)=0 And zHit(n)=0 And zblow(n)=0 Then
 	zForceAntiplat(n)=1:zantiPLatTime(n)=5:zantiPlatSeq(n)=0:Goto noshot
 EndIf
 
@@ -3874,7 +3887,7 @@ End Select
 				extraObj(n,xScr+600,0,yScr+480,0,2,98)
 			End If
 		End If
-		If isMkCharacter(n)= 0 And gameSound Then PlaySound clapSnd
+		If isMkCharacter(n) = 0 And gameSound Then PlaySound clapSnd
 		zHitCount(n)=0
 	EndIf
 End If
@@ -5986,7 +5999,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 		End If
 		yAxisShotPos=yshot(projectile)+40
 		If zHit(zControlsThis(shotOwner(projectile)))=0 And zFrozen(zControlsThis(shotOwner(projectile)))=0 Then
-			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0)
+			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0,1)
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
 			If zParalyzedSeq(en)=1 And isMale(en)=1 And gameSound Then PlaySound mkSlideCrySnd
@@ -6200,6 +6213,7 @@ End Function
 Function checkInputs(n)
 	If rightKeyHit(n) Then checkRightKeyHit(n)
 	If leftKeyHit(n) Then checkLeftKeyHit(n)
+	If downKeyHit(n) Then checkDownKeyHit(n)
 End Function
 
 ;----------- Check right key hit ---------------
@@ -6211,13 +6225,25 @@ Function checkRightKeyHit(n)
 	rightKeyHitTimer(n) = curTime
 End Function
 
-;----------- Check right key hit ---------------
+;----------- Check left key hit ---------------
 Function checkLeftKeyHit(n)
 	Local quintSec=200, curTime=MilliSecs()
 	If (curTime - leftKeyHitTimer(n)) < quintSec Then
 		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
+End Function
+
+;----------- Check down key hit ---------------
+Function checkDownKeyHit(n)
+	Local quintSec=200, curTime=MilliSecs()
+	If (curTime - downKeyHitTimer(n)) < quintSec Then
+		If zOnGnd(n)=0 Then downKeyDoubleTap(n)=1
+	Else
+		downKeyDoubleTap(n)=0
+	End If
+	downKeyHitTimer(n) = curTime
+	DebugLog downKeyDoubleTap(n) + ", " + downKeyHit(n)
 End Function
 
 ;------------ Deplete Stamina Bar --------------
@@ -6244,9 +6270,8 @@ Function drawTrailingEffects(n, runSeq)
 End Function
 
 ;-------------- Enemy Control Initialization ---------
-Function enemyControlInit(n, x#, y#, width#, height#, enemy)
+Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
 	zControls(n)=0:zControlsThis(n)=0
-	DebugLog zBlocked(2) + ", " + zBlock(2)
 	For nn=1 To zzamount
 		If enemy = 0 Then 
 			en=nn
@@ -6258,14 +6283,14 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
-					initParalysis(n, en)
+					initParalysis(n, en, isUnguardable)
 				End If 
 			End If
 		Case 4
 			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) <= x# And zx(en) >= x#-width# And zy(en) >= y# And zy(en) <= y#+height# Then
-					initParalysis(n, en)
+					initParalysis(n, en, isUnguardable)
 				End If 
 			End If
 		End Select
@@ -6273,10 +6298,13 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy)
 End Function
 
 ;-------------- Initialize paralysis ---------------
-Function initParalysis(n, nn)
+Function initParalysis(n, nn, isUnguardable)
 	zControlled(nn)=1
 	zControlsThis(n)=nn
-	If blockKey(nn)=0 And zOnGnd(nn)=1 Then zParalyzed(nn)=1:initNoControl(nn)
+	If isUnguardable=1 Then zParalyzed(nn)=1:initNoControl(nn)
+	If isUnguardable=0 Then
+		If (zBlowSeq(nn)=0 And zCurBlow(nn)=0) Or (zCurBlow(nn)<>0) Then zParalyzed(nn)=1:initNoControl(nn)
+	EndIf
 	zControls(n)=1
 End Function
 
@@ -6300,20 +6328,29 @@ End Function
 
 ;---------------- Check Move Cooldown ---------------
 Function checkCooldown(n)
-	; "AAA: " + spellCooldownSeq(n, 1) + ", " + n
 	For spellId = 0 To 4
 		If spellCooldownSeq(n, spellId) > 0 Then
-			drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId))
+			drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId), n, spellId)
 			spellCooldownSeq(n, spellId) = spellCooldownSeq(n, spellId)-1
 		End If
 	Next
 End Function
 
+;---------------- Check Buff Status -----------------
+Function checkBuffStatus(n)
+	x=-5:y=33
+	If curGuy(n)=11 And wolverineRage(n)=1 Then
+		Local curRageTime = (endRageTime(n) - currentRageTime(n))
+		Local rageDuration = 23000 ; milliseconds
+		DrawImage timerImage(Int((Float(curRageTime)/rageDuration)*90)),x+((n-1)*155)+20,y
+	End If
+End Function
+
 ;------------------ Draw Timer ----------------------
-Function drawTimer(curSeq, maxSeq)
-	
-	DrawImage timerImage(0),100,100
-	
+Function drawTimer(curSeq, maxSeq, n, spellId)
+	x=15:y=480
+	DrawImage cooldownPic(curGuy(n),spellId),x+((n-1)*160)-20,y-(spellId*9)-20
+	DrawImage timerImage(Int((Float(curSeq)/maxSeq)*90)),x+((n-1)*160)+20,y-(spellId*9)
 End Function
 
 ;------------------ Check Wall Jump -----------------
