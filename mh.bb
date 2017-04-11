@@ -209,7 +209,7 @@ Global gamePaused,b_joyhit,timePassed#, keypressed, keyschosen,pn,ifiniteLives,f
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global characterAmount=13	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
 ;zeto's variables
@@ -221,7 +221,7 @@ Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyze
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
-Dim canPerformNextCombo(30), cooldownPic(30, 4)
+Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30)
 
@@ -238,7 +238,7 @@ Global cdDir$="gfx\stuff\cd"
 ;Cooldown Icons
 cooldownPic(11, 1)=LoadImage(gfxdir$ + "\cooldown\cd11_1.bmp")
 cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
-cooldownPic(14, 1)=LoadImage(gfxdir$ + "\cooldown\cd14_1.bmp")
+cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
 
 ;Find all mod directories and set their paths/name 
 setModDirs()
@@ -673,7 +673,6 @@ If vsMode=1 Then
 	    EndIf
 	Next
   EndIf
-
 Else
 	For n=1 To maxAmap
 	    If mapOpen(n)=1 Then
@@ -1031,9 +1030,8 @@ For n=1 To zzamount
 			Case 9:DoGoku(n)
 			Case 10:DoRitcher(n)
 			Case 11:DoWolverine(n)
-			Case 12:DoSonya(n)
-			Case 13:DoBroly(n)
-			Case 14:DoSubZero(n)
+			Case 12:DoScorpion(n)
+			Case 13:DoSubZero(n)
 			Case 30:DoPig(n)
 			Case 31:DoAlien(n)
 			Case 32:DoFootClan(n)
@@ -1057,7 +1055,6 @@ For n=1 To zzamount
 			Case 50:DoLaserBeam(n)
 			Case 51:DoGaiden(n)
 			Case 52:DoBag(n)
-			Case 53:DoBroly(n)
 
 		End Select
 
@@ -1549,7 +1546,7 @@ For n=1 To zzamount		;Draws big pictures of characters when performing super spe
 			Color 0,0,Rand(80,200)
 			Rect 0,y,640,10,1
 			y=y+10
-		Next	
+		Next
 		DrawImage zPic(curGuy(n),20,1),zSuperX(n),zSuperY(n)
 		
 	EndIf
@@ -1956,13 +1953,7 @@ Function selectDraw(n)
 	
 	If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
 		If isRunning(n) Then depleteStaminaBar(n, 1)
-		Select True													;Jump flip
-		Case (zjump2seq(n)=>1 And zjump2seq(n)=<5):zani(n)=5:zf(n)=1
-		Case (zjump2seq(n)=>6 And zjump2seq(n)=<10):zani(n)=5:zf(n)=2
-		Case (zjump2seq(n)=>11 And zjump2seq(n)=<15):zani(n)=5:zf(n)=3
-		Case (zjump2seq(n)=>16 And zjump2seq(n)=<20):zani(n)=5:zf(n)=4
-		Case (zjump2seq(n)>20):zani(n)=4:zf(n)=1
-		End Select
+		drawFlipFrames(n)
 		Goto drawZ
 	EndIf
 	
@@ -2276,7 +2267,6 @@ If zGotObj(n) <> 0 Then
 			xED(n)=(zxHand(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zyHand(n,zf(n)) + yObjHand(zGotObj(n)))
 		Else
 			xED(n)=3:yED(n)=15
-			If curGuy(n) = 14 Then xED(n)=0:yED(n)=22
 		EndIf
 		Select zFace(n)
 			Case 2:DrawImage objPic(zGotObj(n),objCurFrame(zGotObj(n))),((zx(n)-(ImageWidth (objpic(zGotObj(n),objCurFrame(zGotObj(n))))/2)) + xED(n))-xscr, ((zy(n)-ImageHeight(objPic(zGotObj(n),objCurFrame(zGotObj(n))))) -yED(n))-yscr
@@ -5448,15 +5438,15 @@ If aiCurLevel(n) > 4 And zongnd(n)=0 And safeArea=1 Then
 	EndIf
 EndIf
 
-;If guy is Sub Zero or Sonya and enemy is on top
-If curGuy(n) = 14 Or curGuy (n) = 12 Then
+;If guy is Sub Zero or Scorpion and enemy is on top
+If curGuy(n) = 13 Or curGuy (n) = 12 Then
 If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (70+yRange(n)) And zy(nn) > zy(n) - (80+yRange(n))) Then 
 	If (zongnd(n)=1 And onEdge2=0 And curArea > 0) Or (zongnd(n)=0 And dangerMove5(n)=0 And curArea > 0) Then
 
 		If zNoAirSpecial(n)=0 Then
 			counterkey(n)=1:Goto aidone
 		Else
-			If curGuy(n) = 14 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
+			If curGuy(n) = 13 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
 		EndIf
 	EndIf	
 EndIf
@@ -6200,6 +6190,29 @@ Function drawStanceSequence(n)
 	Next
 End Function
 
+;----------------  Draw Flip Frames ----------------
+Function drawFlipFrames(n)
+	If flipFrames(n)=0 Then
+		Select True														;Jump flip
+			Case (zjump2seq(n)=>1 And zjump2seq(n)=<5):zani(n)=5:zf(n)=1
+			Case (zjump2seq(n)=>6 And zjump2seq(n)=<10):zani(n)=5:zf(n)=2
+			Case (zjump2seq(n)=>11 And zjump2seq(n)=<15):zani(n)=5:zf(n)=3
+			Case (zjump2seq(n)=>16 And zjump2seq(n)=<20):zani(n)=5:zf(n)=4
+		End Select
+	Else If flipFrames(n)=6 Then
+		Select True														;Jump flip
+			Case (zjump2seq(n)=>1 And zjump2seq(n)=<3):zani(n)=5:zf(n)=1
+			Case (zjump2seq(n)=>3 And zjump2seq(n)=<7):zani(n)=5:zf(n)=2
+			Case (zjump2seq(n)=>7 And zjump2seq(n)=<10):zani(n)=5:zf(n)=3
+			Case (zjump2seq(n)=>10 And zjump2seq(n)=<14):zani(n)=5:zf(n)=4
+			Case (zjump2seq(n)=>14 And zjump2seq(n)=<17):zani(n)=5:zf(n)=5
+			Case (zjump2seq(n)=>17 And zjump2seq(n)=<21):zani(n)=5:zf(n)=6
+		End Select
+	End If
+	If zjump2seq(n)>20 Then zani(n)=4:zf(n)=1
+End Function
+
+
 ;----------- Play Death Sound -----------------
 Function playDeathSnd(n)
 	If deathSnd(curguy(n)) Then
@@ -6357,7 +6370,7 @@ Function checkWallJump(n)
 	checkYDist(n,zx(n),zy(n),2)
 	If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
 	If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
-
+	DebugLog "xDist: " + xDist(n)
 	If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
 		If zBlowSeq(n) < 1 Then
 			zBlow(n)=1:zBlowSeq(n)=0:

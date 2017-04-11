@@ -22,7 +22,7 @@ Function performFatalitySuper(n)
 		zHitMode(n)=2:zBlowHold(n)=0
 		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=35
 		zHitSpeed#(n)=2.4:zHitUpSpeed#(n)=3.5:zHitTime(n)=90
-		zBlowSound(n)=subZeroStrongHitSnd
+		zBlowSound(n)=mkStrongHitSnd
 	End If
 	If zBlowSeq(n) => d And zBlowSeq(n) < e Then 
 		If zBlowSeq(n) = d And xDist(n) > 56 And gameSound Then PlaySound subzeroFreeze1Snd
@@ -68,7 +68,7 @@ Function applySubZeroComboHitBox(n, hitMode, damage)
 	zHitMode(n)=hitMode:zBlowHold(n)=0
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
-	zBlowSound(n)=subZeroStrongHitSnd
+	zBlowSound(n)=mkStrongHitSnd
 	If (zBlowSeq(n)=56 Or zBlowSeq(n)=73 Or zBlowSeq(n)=96 Or zBlowSeq(n)=119) And zParalyzed(zControlsThis(n))=1 Then 
 		extraObj(n,zx(n),45,zy(n),-32,zblowdir(n),95)
 	End If
@@ -231,8 +231,6 @@ Case 15 ;Subzero throw
 	If zBlowSeq(n) > c And zBlowSeq(n) < g Then zgrabbed(en)=1:checkZvsWall(en,0)
 	If zBlowSeq(n) => i Then zBlowSeq(n)=0:zBlow(n)=0
 
-
-
 Case 14	;Super Special (ice spikes)
 	a=2:b=4:c=7:d=20:e=50:f=100
 	Local numOfShots=6
@@ -268,8 +266,8 @@ Case 11	;club
 	zNoMove(n)=1
 	zNoJump(n)=1
 	extraDraw(n)=1: drawObjOnZ(n)=0
-	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-18:yed(n)=22
-	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-19:yed(n)=23
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-21:yed(n)=24
+	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-22:yed(n)=25
 	If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
 	If zBlowSeq(n) => b And zBlowSeq(n) =< c Then
 		zblowPamount(n)=6
@@ -285,10 +283,10 @@ Case 11	;club
 		zChunkType(n)=5
 		zBlowSound(n)=smashsnd
 		zani(n)=10:zf(n)=1
-		eAni(n)=1:ef(n)=3:xED(n)=35:yed(n)=18
+		eAni(n)=1:ef(n)=3:xED(n)=40:yed(n)=19
 	EndIf
-	If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=10:zf(n)=1 :eAni(n)=1:ef(n)=4:xed(n)=40:yed(n)=18
-	If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-29:yed(n)=19
+	If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=10:zf(n)=1 :eAni(n)=1:ef(n)=4:xed(n)=40:yed(n)=19
+	If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-29:yed(n)=20
 	If zBlowSeq(n) > e Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 12	;Shooting Position
@@ -349,7 +347,7 @@ Case 1	; Kick
 	zNoMove(n)=1:zNoJump(n)=1
 	If zBlowSeq(n) = 1 And isRunning(n) Then zBlowSeq(n)=i:isRunning(n)=0
 	If zBlowSeq(n) >= i Then performSubzeroCombo(n)
-	If zBlowSeq(n) = d And gameSound Then PlaySound subZeroKickSnd
+	If zBlowSeq(n) = d And gameSound Then PlaySound mkKickSnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2
 	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=6:zf(n)=3
@@ -362,7 +360,7 @@ Case 1	; Kick
 		xblow(n,nn)=6: yblow(n,nn)=28:wblow(n,nn)=9:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=18:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
-		zBlowSound(n)=subZeroStrongHitSnd
+		zBlowSound(n)=mkStrongHitSnd
 	EndIf
 	If zBlowseq(n) > e And zblowseq(n) =< f Then zani(n)=6:zf(n)=4
 	If zBlowseq(n) > f And zblowseq(n) =< g Then zani(n)=6:zf(n)=6
@@ -576,15 +574,14 @@ Case 10	; Up + Attack
 		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=13:hblow(n,nn)=17:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
-		zBlowSound(n)=subZeroStrongHitSnd
+		zBlowSound(n)=mkStrongHitSnd
 		zani(n)=14:zf(n)=4
 	EndIf
 	If zBlowSeq(n) > d And zBlowSeq(n) <= e Then zani(n)=14:zf(n)=4
 	If zBlowSeq(n) > e And zBlowSeq(n) <= f Then zani(n)=14:zf(n)=4
 	If zBlowSeq(n) > f And zBlowSeq(n) <= g Then zani(n)=14:zf(n)=2
 	
-	If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0	
-	
+	If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0
 	
 Case 16: ; ice clone
 	a=3:b=6:c=9:d=11:e=13:f=16:g=19:h=22:i=25:j=28

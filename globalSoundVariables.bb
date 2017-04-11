@@ -18,7 +18,7 @@ Global PredatorRaySnd=LoadSound(soundsdir$ + "predatorRay.wav")
 Global PredatorSnd=LoadSound(soundsdir$ + "predator.wav")
 Global NoSnd=LoadSound(soundsdir$ + "NoSound.wav")
 Global ReadySnd=LoadSound(soundsdir$ + "ready.wav")
-Global FightSnd=LoadSound(soundsdir$ + "mk\mkFight.mp3")
+Global FightSnd=LoadSound(soundsdir$ + "fight.wav")
 Global clapSnd=LoadSound(soundsdir$ + "clap.wav")
 Global ohclapSnd=LoadSound(soundsdir$ + "ohclap.wav")
 Global eeeeSnd=LoadSound(soundsdir$ + "eeee.wav")
@@ -116,8 +116,8 @@ Global subZeroSlideKickSnd
 Global subZeroPunchSnd
 Global subZeroPunch2Snd
 Global subZeroThrowSnd
-Global subZeroJumpSnd
-Global subZeroJump2Snd
+Global mkJumpSnd=LoadSound(soundsdir$ + "mk\mkjump.wav")
+Global mkJump2Snd=LoadSound(soundsdir$ + "mk\mkjump2.mp3")
 Global subZeroCooldown1Snd
 Global subZeroCooldown2Snd
 Global mkSlideCrySnd=LoadSound(soundsdir$ + "mk\mkMaleSlideCry.mp3")
@@ -131,7 +131,11 @@ Global mkFatalitySnd=LoadSound(soundsdir$ + "mk\mkFatality.mp3")
 Global mkFatality2Snd=LoadSound(soundsdir$ + "mk\mkFatality2.mp3")
 Global mkFatality3Snd=LoadSound(soundsdir$ + "mk\mkFatality3.mp3")
 Global mkMaleAgonySnd=LoadSound(soundsdir$ + "mk\mkMaleAgony.mp3")
-Global subZeroStrongHitSnd
+Global mkStrongHitSnd=LoadSound(soundsdir$ + "mk\mkStrongHit.wav")
+Global mkKickSnd=LoadSound(soundsdir$ + "mk\mkKick.mp3")
+Global mkKickHitSnd=LoadSound(soundsdir$ + "mk\mkKickHit.mp3")
+Global scorpionGruntSnd
+Global scorpionGrunt2Snd
 Global subZeroWindSnd
 Global wolverineJumpSnd
 Global wolverineBarrageSnd

@@ -58,6 +58,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	isMale(n)=2
 	isMkCharacter(n)=0
 	canWallJump(n)=0
+	flipFrames(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -255,10 +256,10 @@ Case 11: ;Wolverine
 	zBlowDist(n,11)=150
 	zBlowDist(n,14)=120
 	zBlowDist(n,16)=550
-	zxHand(n,0)=-5 :zyHand(n,0)=21
-	zxHand(n,1)=-5 :zyHand(n,1)=22
-	zxHand(n,2)=-5 :zyHand(n,2)=21
-	zxHand(n,3)=-4 :zyHand(n,3)=21
+	zxHand(n,0)=15 :zyHand(n,0)=21
+	zxHand(n,1)=7 :zyHand(n,1)=23
+	zxHand(n,2)=-11 :zyHand(n,2)=20
+	zxHand(n,3)=-6 :zyHand(n,3)=19
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=jumpsnd
 	zJumpSnd2(n)=wolverinejumpsnd
@@ -272,7 +273,7 @@ Case 11: ;Wolverine
 	isMale(n)=1
 	canWallJump(n)=1
 		
-Case 12: ;Sonya
+Case 12: ;Scorpion
 	zBlowDist(n,1)=60
 	zBlowDist(n,2)=52
 	zBlowDist(n,4)=53
@@ -288,32 +289,20 @@ Case 12: ;Sonya
 	zxHand(n,2)=-5 :zyHand(n,2)=21
 	zxHand(n,3)=-4 :zyHand(n,3)=21
 	zRollOnImpact(n)=1
-	zJumpSnd(n)=shotwallsnd
+	zJumpSnd(n)=mkJumpSnd
+	zJumpSnd2(n)=mkJump2Snd
+	zStanceFrames(n)=9
+	zStanceSpeed(n)=5
+	zWalkFrames(n)=9
+	zWalkFrameSpeed#(n)=4
+	zRunFrames(n)=11
+	zRunFrameSpeed#(n)=3
+	zCharSpeed#(n)=2
 	isMkCharacter(n)=1
-	isMale(n)=0
-	
-Case 13: ;Broly
-	zBlowDist(n,1)=60
-	zBlowDist(n,2)=55
-	zBlowDist(n,4)=42
-	zBlowDist(n,5)=50
-	zBlowDist(n,7)=100
-	zBlowDist(n,9)=300	:dangerMove9(n)=1
-	zBlowDist(n,10)=38
-	zBlowDist(n,11)=150
-	zBlowDist(n,14)=45
-	zxHand(n,0)=-5 :zyHand(n,0)=23
-	zxHand(n,1)=-5 :zyHand(n,1)=23
-	zxHand(n,2)=-5 :zyHand(n,2)=23
-	zxHand(n,3)=-4 :zyHand(n,3)=23
-	zRollOnImpact(n)=1
-	zJumpSnd(n)=shotwallsnd
-	zjumplimit(n)=28
-	zDontPickItem(n)=1
-	zheight(n)=58
 	isMale(n)=1
+	flipFrames(n)=6
 
-Case 14: ;Sub Zero
+Case 13: ;Sub Zero
 	zBlowDist(n,1)=45
 	zBlowDist(n,2)=50
 	zBlowDist(n,4)=64
@@ -329,8 +318,8 @@ Case 14: ;Sub Zero
 	zxHand(n,2)=-5 :zyHand(n,2)=24
 	zxHand(n,3)=-0 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
-	zJumpSnd(n)=subZeroJumpSnd
-	zJumpSnd2(n)=subZeroJump2Snd
+	zJumpSnd(n)=mkJumpSnd
+	zJumpSnd2(n)=mkJump2Snd
 	zStanceFrames(n)=9
 	zStanceSpeed(n)=5
 	zWalkFrames(n)=9
@@ -340,28 +329,7 @@ Case 14: ;Sub Zero
 	zCharSpeed#(n)=2
 	isMkCharacter(n)=1
 	isMale(n)=1
-	
-Case 53: ;Broly
-	zBlowDist(n,1)=60
-	zBlowDist(n,2)=55
-	zBlowDist(n,4)=42
-	zBlowDist(n,5)=50
-	zBlowDist(n,7)=100
-	zBlowDist(n,9)=300	:dangerMove9(n)=1
-	zBlowDist(n,10)=38
-	zBlowDist(n,11)=150
-	zBlowDist(n,14)=45
-	zxHand(n,0)=-5 :zyHand(n,0)=23
-	zxHand(n,1)=-5 :zyHand(n,1)=23
-	zxHand(n,2)=-5 :zyHand(n,2)=23
-	zxHand(n,3)=-4 :zyHand(n,3)=23
-	zRollOnImpact(n)=1
-	zJumpSnd(n)=shotwallsnd
-	zjumplimit(n)=26
-	zDontPickItem(n)=1
-	zheight(n)=56
-	isMale(n)=1
-	
+
 Case 30: ;Pig
 	zBlowDist(n,1)=64
 	zBlowDist(n,2)=60
@@ -785,113 +753,7 @@ Function shotData(weaponChosen,n)
 	shotWidth(n)=1
 	shotId(n)=0
 
-Select weaponChosen
-
-Case 61	;sonya ball
-	shotspeed(n)=3
-	shotsize(n)=18
-	shotheight(n)=16
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=5
-	shotHitXspeed(n)=2
-	shotHitYspeed(n)=2
-	shotFallTime(n)=20
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=102
-	shotPic(n,1)=shotImage(43)
-	shotPic_(n,1)=shotImage(43)
-	shotPic(n,2)=shotImage(44)
-	shotPic_(n,2)=shotImage(44)
-	shotFramesAmount(n)=2
-	shotSound(n)=HighPunchsnd
-
-Case 62	;broly ball
-	shotspeed(n)=5
-	shotsize(n)=22
-	shotheight(n)=23
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=28
-	shotHitXspeed(n)=4
-	shotHitYspeed(n)=2
-	shotFallTime(n)=40
-	shotHitMode(n)=0
-	shotImpact(n)=15
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=10
-	shotPic(n,1)=shotImage(39)
-	shotPic_(n,1)=shotImage_(39)
-	shotPic(n,2)=shotImage(40)
-	shotPic_(n,2)=shotImage_(40)
-	shotFramesAmount(n)=2
-	shotFrameTime(n)=3
-	shotSound(n)=highPunchSnd
-
-Case 63	;broly ball 2
-	shotspeed(n)=4
-	shotsize(n)=18
-	shotheight(n)=16
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=5
-	shotImpact(n)=20
-	shotHitXspeed(n)=4
-	shotHitYspeed(n)=2
-	shotFallTime(n)=40
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=3
-	shotPic(n,1)=shotImage(41)
-	shotPic_(n,1)=shotImage(41)
-	shotPic(n,2)=shotImage(42)
-	shotPic_(n,2)=shotImage(42)
-	shotFramesAmount(n)=2
-	shotSound(n)=HighPunchsnd
-
-Case 64	;broly ball 3
-	shotspeed(n)=5
-	shotsize(n)=22
-	shotheight(n)=23
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=13
-	shotHitXspeed(n)=4
-	shotHitYspeed(n)=2
-	shotFallTime(n)=40
-	shotHitMode(n)=0
-	shotImpact(n)=15
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=10
-	shotPic(n,1)=shotImage(39)
-	shotPic_(n,1)=shotImage_(39)
-	shotPic(n,2)=shotImage(40)
-	shotPic_(n,2)=shotImage_(40)
-	shotFramesAmount(n)=2
-	shotFrameTime(n)=3
-	shotSound(n)=highPunchSnd
-	
-Case 65	;sonya super special
-	shotspeed(n)=5
-	shotsize(n)=22
-	shotheight(n)=23
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=92
-	shotHitXspeed(n)=4
-	shotHitYspeed(n)=2
-	shotFallTime(n)=40
-	shotHitMode(n)=0
-	shotImpact(n)=99
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=10
-	shotPic(n,1)=shotImage(45)
-	shotPic_(n,1)=shotImage(45)
-	shotPic(n,2)=shotImage(46)
-	shotPic_(n,2)=shotImage(46)
-	shotFramesAmount(n)=2
-	shotFrameTime(n)=2
-	shotSound(n)=sonyaFlameHitSnd
-	
+Select weaponChosen	
 	
 Case 5	;ryu ball
 	shotspeed(n)=3
@@ -2023,37 +1885,10 @@ Case 60: 		;Whip
 	chunkPic(n)=ptPic(40,8):chunkPic_(n)=ptPic_(40,8)
 	If chunkSeq(n) > 1 Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 	
-Case 61	;sonya ball
-	shotspeed(n)=3
-	shotsize(n)=18
-	shotheight(n)=16
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=4
-	shotHitXspeed(n)=2
-	shotHitYspeed(n)=2
-	shotFallTime(n)=20
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=3
-	shotPic(n,1)=shotImage(5)
-	shotPic_(n,1)=shotImage_(5)
-	shotSound(n)=HighPunchsnd
+Case 61	;scorpion spear
 
-Case 62	;ryu ball
-	shotspeed(n)=3
-	shotsize(n)=18
-	shotheight(n)=16
-	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=4
-	shotHitXspeed(n)=2
-	shotHitYspeed(n)=2
-	shotFallTime(n)=20
-	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
-	shotChunkType(n)=3
-	shotPic(n,1)=shotImage(5)
-	shotPic_(n,1)=shotImage_(5)
-	shotSound(n)=HighPunchsnd
+Case 62	;
+
 	
 Case 63:		;pre-freeze ball
 	chunkPic(n)=ptPic(41,1):chunkPic_(n)=ptPic_(41,1)
@@ -3178,57 +3013,30 @@ If n=42 Then	;Joker
 	If jokerSnd=0 Then jokerSnd=LoadSound(soundsdir$ + "joker.wav")
 EndIf
 
-If n=14 Then ;SubZero
+If n=13 Then ;SubZero
 	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subzero\subAir.mp3")
 	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subzero\subFreeze1.mp3")
 	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subzero\subFreeze2.mp3")
 	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subzero\subFreeze3.mp3")
 	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subzero\subHit.mp3")
 	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subzero\subIceBlast.wav")
-	If subZeroKickSnd=0 Then subZeroKickSnd=LoadSound(soundsdir$ + "subzero\subKick.mp3")
 	If subZeroSlideKickSnd=0 Then subZeroSlideKickSnd=LoadSound(soundsdir$ + "subzero\subSlideKick.mp3")
 	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.mp3")
 	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subzero\subPunch2.wav")
 	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.mp3")
-	If subZeroStrongHitSnd=0 Then subZeroStrongHitSnd=LoadSound(soundsdir$ + "subzero\subStrongHit.wav")
 	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subzero\subWind.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.mp3")	
-	If subZeroJumpSnd=0 Then subZeroJumpSnd=LoadSound(soundsdir$ + "subzero\subjump.wav")
-	If subZeroJump2Snd=0 Then subZeroJump2Snd=LoadSound(soundsdir$ + "subzero\subJump2.mp3")
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\mkMaleGrunt1.mp3")
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 	If subZeroCooldown1Snd=0 Then subZeroCooldown1Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown1.mp3")
 	If subZeroCooldown2Snd=0 Then subZeroCooldown2Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown2.mp3")
 EndIf
 
-If n=13 Then	;Broly
-	zDontPickItem(n)=1
-	If brolyPunchSnd=0 Then brolyPunchSnd=LoadSound(soundsdir$ + "Broly/Broly-0065.wav")
-;	If brolyPunchHitSnd=0 Then brolyPunchHitSnd=LoadSound(soundsdir$ + "Broly/Broly-0059.wav")
-	
-    If brolyBallSnd=0 Then brolyBallSnd=LoadSound(soundsdir$ + "broly-1.wav")
-	If brolyBall2Snd=0 Then brolyBall2Snd=LoadSound(soundsdir$ + "broly-2.wav")
-	If brolyBall3Snd=0 Then brolyBall3Snd=LoadSound(soundsdir$ + "broly-3.wav")
-    If brolySnd=0 Then brolySnd=LoadSound(soundsdir$ + "broly-kakaroto.wav")
-	If brolyHitSnd=0 Then brolyHitSnd=LoadSound(soundsdir$ + "broly-hit.wav")
-	If brolyBigHitSnd=0 Then brolyBigHitSnd=LoadSound(soundsdir$ + "broly-bighit.wav")
-	If brolyLaughSnd=0 Then brolyLaughSnd=LoadSound(soundsdir$ + "broly-laugh.wav")
-	If brolyTauntSnd=0 Then brolyTauntSnd=LoadSound(soundsdir$ + "broly-taunt.wav")
-	If brolyOopsSnd=0 Then brolyOopsSnd=LoadSound(soundsdir$ + "broly-oops.wav")
-	If brolyKickSnd=0 Then brolyKickSnd=LoadSound(soundsdir$ + "broly-kick.wav")
-	If brolyNHitSNd=0 Then brolyNHitSNd=LoadSound(soundsdir$ + "broly-nhit.wav")
-	If teleportSnd=0 Then teleportSnd=LoadSound(soundsdir$ + "teleport.wav")
-EndIf
-
-If n=12 Then
-    If sonyaSnd=0 Then sonyaSnd=LoadSound(soundsdir$ + "sonya\sonya-2.wav")
-    If sonyaBallsnd=0 Then sonyaBallsnd=LoadSound(soundsdir$ + "sonya\sonya.wav")
-    If sonyaSpinsnd=0 Then sonyaSpinsnd=LoadSound(soundsdir$ + "sonya\sonya-1.wav")
-	If sonyaUppersnd=0 Then sonyaUppersnd=LoadSound(soundsdir$ + "sonya\sonya-3.wav")
-	If sonyaFlamesnd=0 Then sonyaFlameSnd=LoadSound(soundsdir$ + "sonya\sonya-4.wav")
-	If sonyaFlameHitSnd=0 Then sonyaFlameHitSnd=LoadSound(soundsdir$ + "sonya\sonyaFlameHit.wav")
-	If sonyaBreathSnd=0 Then sonyaBreathSnd=LoadSound(soundsdir$ + "sonya\sonya-5.wav")
-	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "sonya\sonyaDie.wav")
+If n=12 Then	;Scorpion
+	If scorptionGruntSnd=0 Then scorptionGruntSnd=LoadSound(soundsdir$ + "mk\scorptionGrunt.mp3")
+	If scorptionGrunt2Snd=0 Then scorptionGrunt2Snd=LoadSound(soundsdir$ + "mk\scorptionGrunt2.mp3")
+	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\scorpionGrunt.mp3")
+	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 EndIf
 
 If n=11 Then
@@ -3313,14 +3121,6 @@ If n=1 Then
     If uppercutsnd=0 Then uppercutsnd=LoadSound(soundsdir$ + "uppercut.wav")
     If ryuBallsnd=0 Then ryuBallsnd=LoadSound(soundsdir$ + "ryuball.wav")
     If ryuSpinsnd=0 Then ryuSpinsnd=LoadSound(soundsdir$ + "ryuspin.wav")
-EndIf
-
-If n=53 Then	;Broly
-	zDontPickItem(n)=1
-    If brolyBallSnd=0 Then brolyBallSnd=LoadSound(soundsdir$ + "broly-1.wav")
-	If brolyBall2Snd=0 Then brolyBall2Snd=LoadSound(soundsdir$ + "broly-4.wav")
-	If brolyBall3Snd=0 Then brolyBall3Snd=LoadSound(soundsdir$ + "broly-2.wav")
-    If brolySnd=0 Then brolySnd=LoadSound(soundsdir$ + "broly-3.wav")
 EndIf
 
 If n=41 Then 	;Turtle CLoud

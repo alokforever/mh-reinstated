@@ -1,6 +1,5 @@
 Include "wolverine.bb"
-Include "sonya.bb"
-Include "broly.bb"
+Include "scorpion.bb"
 Include "subzero.bb"
 
 Function DoRyu(n)

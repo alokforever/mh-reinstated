@@ -567,9 +567,7 @@ If clickedBut(n) Then
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=12:zThumbNail(clickedBy(n))=butpic(n)
 	Case 13
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
-	Case 14
-		If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
-	
+
 	Case 50 ;Select game mode on vs
 		gamemode=gamemode+1
 		If gamemode >4 Then gamemode=1
