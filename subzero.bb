@@ -213,7 +213,7 @@ Case 15 ;Subzero throw
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=15:zf(n)=3:zx(en)=zx(n)+n2:zy(en)=zy(n)-16:zAni(en)=2:zf(en)=5:zface(en)=dir2
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=15:zf(n)=4:zx(en)=zx(n)+n1:zy(en)=zy(n)-16:zAni(en)=2:zf(en)=5:zface(en)=dir2
 	If zblowseq(n) = f Then
-		If gameSound Then PlaySound subZeroThrowSnd
+		If gameSound Then PlaySound mkThrowSnd
 	EndIf
 	If zBlowSeq(n) => i-3 And zBlowSeq(n) < i Then zani(n)=15:zf(n)=4:zx(en)=zx(n)+n1:zy(en)=zy(n)-15:zAni(en)=2:zf(en)=6:zface(en)=dir2
 	If zBlowSeq(n) = i  Then
@@ -373,7 +373,7 @@ Case 2	;Flying kick
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=8:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=8:zf(n)=2
 	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=8:zf(n)=3
-	If zBlowSeq(n) = b And gameSound=1 Then PlaySound subZeroPunchSnd
+	If zBlowSeq(n) = b And gameSound=1 Then PlaySound mkPunchSnd
 	If zBlowSeq(n) > b And zBlowSeq(n) < c Then
 		zblowpamount(n)=4
 		nn=1
@@ -383,7 +383,7 @@ Case 2	;Flying kick
 		xblow(n,nn)=3: yblow(n,nn)=22:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
-		zBlowSound(n)=subZeroHitSnd
+		zBlowSound(n)=mkHitSnd
 	EndIf
 	If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
 	If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zblowseq(n)=0
@@ -403,7 +403,7 @@ Case 4	;Low kick
 		zHitMode(n)=0:zBlowHold(n)=8
 		movex2(n,zface(n),5+(Abs(zSpeed#(n))/1.5))
 		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
-		zBlowSound(n)=subZeroHitSnd
+		zBlowSound(n)=mkHitSnd
 		zani(n)=9:zf(n)=2
 	EndIf
 	If zBlowSeq(n) >= b And zBlowSeq(n) =< c Then zani(n)=9:zf(n)=1
@@ -429,7 +429,7 @@ Case 5 ; Uppercut
 		zHitSpeed#(n)=1:zHitUpSpeed#(n)=2.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2)
 		zBlowDamage(n)=6:zBLowEffect(n)=1:zBlowImpact(n)=16:zBlowStillTime(n)=10:zBlowBlockTime(n)=20
-		zBlowSound(n)=subZeroHitSnd
+		zBlowSound(n)=mkHitSnd
 		zani(n)=7:zf(n)=3:zantiplat(n)=1
 	EndIf
 	If zBlowSeq(n) > c And zBlowSeq(n) =< d Then
@@ -442,7 +442,7 @@ Case 5 ; Uppercut
 		zHitSpeed#(n)=2:zHitUpSpeed#(n)=4:zHitTime(n)=45
 		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2)
 		zBlowDamage(n)=6:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=20
-		zBlowSound(n)=subZeroHitSnd
+		zBlowSound(n)=mkHitSnd
 		zani(n)=7:zf(n)=3:zantiplat(n)=1
 	EndIf
 	If zy(n) <= zBlowUpLimit(n) Or zHitHead(n)=1 Then zBlowSeq(n)=d
@@ -464,7 +464,7 @@ Case 6	;throwing iten
 	If zBlowSeq(n) => d Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 7	;Sub Zero Freeze Ball
-	a=3:b=7:c=10:d=14:e=17:f=20:g=24:h=28:i=50
+	a=3:b=7:c=10:d=14:e=17:f=20:g=23:h=26:i=50
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0

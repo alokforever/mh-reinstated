@@ -44,7 +44,7 @@ Case 15 ;Scorpion throw
 			zGrabbed(en)=1:zHit(en)=1:zFace(en)=dir
 			zAni(n)=15:zf(n)=1
 			If shotKey(en)=1 Or specialKey(en)=1 Then zLetGoSeq(en)=zLetGoSeq(en)+1
-			If Blockkey(n)=1 Or zLetGoSeq(en) > zLetGoAmount(en) Then 
+			If Blockkey(n)=1 Or zLetGoSeq(en) > zLetGoAmount(en) Then
 				zhit(en)=0:zgrabbedby(en)=0:zgrabbed(en)=0
 				zHitTime(en)=0:zFallTime(en)=0zHitSeq(en)=0
 				zgrabsThis(n)=0
@@ -59,7 +59,7 @@ Case 15 ;Scorpion throw
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=15:zf(n)=4:zx(en)=zx(n)+n2:zy(en)=zy(n)-16:zAni(en)=2:zf(en)=5:zface(en)=dir2
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=15:zf(n)=5:zx(en)=zx(n)+n1:zy(en)=zy(n)-16:zAni(en)=2:zf(en)=5:zface(en)=dir2
 	If zblowseq(n) = f Then
-		If gameSound Then PlaySound subZeroThrowSnd
+		If gameSound Then PlaySound mkThrowSnd
 	EndIf
 	If zBlowSeq(n) => i-3 And zBlowSeq(n) < i Then zani(n)=15:zf(n)=6:zx(en)=zx(n)+n1:zy(en)=zy(n)-15:zAni(en)=2:zf(en)=6:zface(en)=dir2
 	If zBlowSeq(n) = i  Then
@@ -193,20 +193,24 @@ Case 1	;Kick
 	
 	
 Case 2	;Flying Kick
-	a=7:b=35
+	a=5: b=a+5: c=b+8: d=c+10
 	zNoJump(n)=0:ZJUMPING(N)=1
-	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=8:zf(n)=1:zblowAlert(n)=1
-	If zBlowSeq(n) =a Then If gameSound Then PlaySound blowsnd
-	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then
-		zblowpamount(n)=2
-		xblow(n,1)=-3: yblow(n,1)=16:wblow(n,1)=30:hblow(n,1)=1
-		xblow(n,2)=-3: yblow(n,2)=11:wblow(n,2)=30:hblow(n,2)=1
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=8:zf(n)=1
+	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=8:zf(n)=2
+	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=8:zf(n)=3
+	If zBlowSeq(n) = b And gameSound=1 Then PlaySound mkPunchSnd
+	If zBlowSeq(n) > b And zBlowSeq(n) < c Then
+		zblowpamount(n)=4
+		nn=1
+		xblow(n,nn)=19: yblow(n,nn)=-7:wblow(n,nn)=9:hblow(n,nn)=1:nn=nn+1
+		xblow(n,nn)=12: yblow(n,nn)=1:wblow(n,nn)=14:hblow(n,nn)=1:nn=nn+1
+		xblow(n,nn)=16: yblow(n,nn)=14:wblow(n,nn)=20:hblow(n,nn)=1:nn=nn+1
+		xblow(n,nn)=3: yblow(n,nn)=22:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=9:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=15:zBlowBlockTime(n)=25
-		zBlowSound(n)=kicksnd
-		zani(n)=8:zf(n)=2
+		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
+		zBlowSound(n)=mkHitSnd
 	EndIf
-	If zBlowSeq(n) > b Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
+	If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
 	If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zblowseq(n)=0
 
 Case 4	;Low kick
@@ -224,7 +228,7 @@ Case 4	;Low kick
 		xblow(n,1)=0: yblow(n,1)=9:wblow(n,1)=25:hblow(n,1)=1
 		xblow(n,2)=0: yblow(n,2)=5:wblow(n,2)=28:hblow(n,2)=1
 		xblow(n,3)=0: yblow(n,3)=1:wblow(n,3)=28:hblow(n,3)=1
-		zHitMode(n)=0:zBlowHold(n)=0
+		zHitMode(n)=0:zBlowHold(n)=10
 		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
 		zBlowSound(n)=mkKickHitSnd
 		zani(n)=9:zf(n)=6
@@ -294,22 +298,110 @@ Case 6	;throwing iten
 	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=6:zf(n)=2
 	If zBlowSeq(n) => d Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 Case 7	;Scorpion Spear
-	a=7:b=15:c=55
+	a=3:b=6:c=9:d=52:e=100:f=e+50:g=f+4:h=g+4:i=h+4:j=i+36
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
-	If zongnd(n)=0 Then zy(n)=zy(n)-2
-	If zBlowSeq(n) = 1 And gameSound=1 Then PlaySound sonyaballsnd
+	zNoGrav(n)=1
+	Local guardable=0
+
+	If zhit(n)=1 And zBlowSeq(n) > d-15 Then shot(zMyShot(n))=0
+	If zBlowSeq(n) = c And gameSound=1 And (shot(zMyShot(n)) = 0 Or shotOwner(zMyShot(n)) <> n Or shotType(zMyShot(n)) <> 45) Then 
+		PlaySound scorpionSpearSnd
+	End If
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=2
-	If zBlowSeq(n)= b Then 
-		dir=zface(n):y=zy(n)-zheight(n)+20
-		If zface(n)=2 Then x=zx(n)+10
-		If zface(n)=4 Then x=zx(n)-10
-		makeshot(n,61,x,y,dir)
+	If zBlowSeq(n) > b And zBlowSeq(n) < c Then zani(n)=10:zf(n)=3
+	If zBlowSeq(n) > c And zBlowSeq(n) < d Then zani(n)=10:zf(n)=4
+	If zBlowSeq(n) = c Then
+		dir=zface(n):y=zy(n)-zheight(n)+10:y2=y-3
+		If zface(n)=2 Then x=zx(n)+14:x2=x-50
+		If zface(n)=4 Then x=zx(n)-14:x2=x+50
+		If (shot(zMyShot(n)) = 0 Or shotOwner(zMyshot(n)) <> n Or shotType(zMyShot(n)) <> 45)
+			zMyShot(n)=getShot()
+			makeshot(n,45,x,y-5,dir)
+			extraObj(n,x2,0,y2,0,zblowdir(n),61)
+		End If
 	EndIf
-	If zBlowSeq(n) => b And zBlowSeq(n) =< c Then zani(n)=10:zf(n)=3
-	If zBlowSeq(n) > c Then zBlowSeq(n)=0:zBlow(n)=0
+	
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d-7 Then
+		enemyControlInit(n,xShot(zMyShot(n)),yShot(zMyShot(n))-5,10,45,0,guardable)
+		If zControlsThis(n) <> 0 And zBlock(zControlsThis(n))=0 Then
+			If zOnGnd(n)=0 Then 
+				zy(n) = zy(zControlsThis(n))-1
+				zy(zControlsThis(n))=zy(n)
+			End If
+			zBlowSeq(n)=e
+		End If
+	End If
+		If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
+		If zBlowSeq(n) = e+2 Then shot(zMyShot(n))=0
+		zani(n)=10:zf(n)=4
+	End If
+	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then
+		zani(n)=10:zf(n)=5
+		If zBlowSeq(n) = f Then
+			randSeed = Rand(2)
+			If randSeed = 1 And gameSound Then PlaySound scorpionComeHereSnd
+			If randSeed = 2 And gameSound Then PlaySound scorpionGetOverHereSnd
+		End If
+	End If
+	If zBlowSeq(n) >= g And zBlowSeq(n) < h Then
+		zani(zControlsThis(n))=2:zf(zControlsThis(n))=1
+		zani(n)=10:zf(n)=6
+	End If
+	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then
+		zani(zControlsThis(n))=2:zf(zControlsThis(n))=2
+		zani(n)=10:zf(n)=7
+	End If
+	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then
+		zani(zControlsThis(n))=2:zf(zControlsThis(n))=1
+		zani(n)=10:zf(n)=8
+	End If
+	If zBlowSeq(n) >= e And zBlowSeq(n) < j Then
+		en=zControlsThis(n)
+		enemyControlInit(n,zx(n),zy(n),300,40,en,guardable)
+		If zhit(en) And zongnd(en)=1 And zhitseq(en) > 15 Then zBlowSeq(n)=d
+		checkYDist(en,zx(en),zy(en),2)
+		zy(en) = zy(n) 
+		y=zy(n)-zheight(n)+7
+		If zBlowSeq(n) >= e+2 Then
+			If zface(n)=2 Then 
+				x=zx(n)+14
+				For distance=1 To Abs(x-zx(en)) Step 1
+					If Abs(x-zx(en)) >= 37 Then
+						extraObj(n,x+distance-10,0,y,0,zblowdir(n),62)
+					End If
+				Next
+				distance=zx(en)-10
+				extraObj(n,distance,0,y,0,zblowdir(n),103)
+				extraObj(n,distance-13,0,y,0,zblowdir(n),62)
+				extraObj(n,distance-26,0,y,0,zblowdir(n),62)
+			Else If zface(n)=4 Then 
+				x=zx(n)-14
+				For distance=(x-zx(en)) To -1 Step -1
+					If Abs(x-zx(en)) >= 37 Then
+						extraObj(n,x-distance+10,0,y,0,zblowdir(n),62)
+					End If
+				Next
+				distance=zx(en)+10
+				extraObj(n,distance,0,y,0,zblowdir(n),103)
+				extraObj(n,distance+13,0,y,0,zblowdir(n),62)
+				extraObj(n,distance+26,0,y,0,zblowdir(n),62)
+			End If
+		End If
+	End If
+
+	If zBlowSeq(n) >= f And zBlowSeq(n) < j Then
+		zani(zControlsThis(n))=2:zf(zControlsThis(n))=3
+		If Abs(zx(n)-zx(zControlsThis(n))) <= 25 Then zBlowSeq(n)=d
+		If zFace(n)=2 Then moveX(zControlsThis(n),4,3)
+		If zFace(n)=4 Then moveX(zControlsThis(n),2,3)
+	End If
+	
+	If zBlowSeq(n) = j Then zBlowSeq(n)=d
+
+	If zBlowSeq(n) > d And zBlowSeq(n) < e Then zBlowSeq(n)=0:zBlow(n)=0:zNoGrav(n)=0
 
 Case 8	;Dodging
 	zNoMove(n)=1
@@ -317,12 +409,12 @@ Case 8	;Dodging
 	zheight(n)=25
 	a=7:b=15:c=20:d=25:e=30:f=37
 	If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
-	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
-	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=1:moveX(n,zBlowdir(n),2)
-	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),3)
-	If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=5:zf(n)=3:moveX(n,zBlowdir(n),3)
-	If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=5:zf(n)=4:moveX(n,zBlowdir(n),2)
-	If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=10:zf(n)=1:moveX(n,zBlowdir(n),1)
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=1
+	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=3:moveX(n,zBlowdir(n),3)
+	If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=5:zf(n)=4:moveX(n,zBlowdir(n),3)
+	If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=5:zf(n)=5:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=5:zf(n)=6:moveX(n,zBlowdir(n),1)
 
 	If zblowseq(n) > a And zblowseq(n) <= e Then zshield(n)=1
 	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0

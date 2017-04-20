@@ -752,6 +752,8 @@ Function shotData(weaponChosen,n)
 	shotExplosionSound(n)=explodeSnd
 	shotWidth(n)=1
 	shotId(n)=0
+	isShotDisappearOnHit(n)=0
+	shotChunkHitType(n)=0
 
 Select weaponChosen	
 	
@@ -1294,7 +1296,7 @@ Case 30	;Ritcher sword
 	shotSound(n)=mikePunchSnd
 	
 Case 39	;Sub Zero freeze ball
-	shotspeed(n)=3
+	shotspeed(n)=3.5
 	shotsize(n)=40
 	shotheight(n)=3
 	shotWidth(n)=60
@@ -1415,6 +1417,32 @@ Case 44	;Sub Zero ice shower
 	shotPic_(n,1)=shotImage(52)
 	shotSound(n)=subZeroFreeze2Snd
 	
+Case 45 ;Scorpion Spear
+	shotspeed(n)=6
+	shotAcc(n)=0
+	shotsize(n)=17
+	shotheight(n)=7
+	shotSide(n)=shotsize(n)/2
+	shotdamage(n)=6
+	shotHitMode(n)=2
+	shotHitXspeed(n)=4
+	shotHitYspeed(n)=2
+	shotFallTime(n)=0
+	shotDuration(n)=90
+	shotFollowOwner(n)=0
+	shotDrill(n)=0
+	shotImmuneTime(n)=30
+	shotMaxSpeed(n)=shotSpeed(n)
+	shotChunkType(n)=104
+	shotChunkHitType(n)=95
+	shotFramesAmount(n)=2
+	shotPic(n,1)=shotImage(53)
+	shotPic_(n,1)=shotImage(53)
+	shotPic(n,2)=shotImage(54)
+	shotPic_(n,2)=shotImage(54)
+	shotFrameTime(n)=6
+	shotSound(n)=scorpionSpearHitSnd
+	isShotDisappearOnHit(n)=1
 End Select
 
 End Function
@@ -1886,9 +1914,26 @@ Case 60: 		;Whip
 	If chunkSeq(n) > 1 Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 	
 Case 61	;scorpion spear
+	a=3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+3:g=f+72
+	
+	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(83,1):chunkPic_(n)=ptPic_(83,1)
+	If chunkSeq(n) >= a And chunkSeq(n) < b Then chunkPic(n)=ptPic(83,2):chunkPic_(n)=ptPic_(83,2)
+	If chunkSeq(n) >= b And chunkSeq(n) < c Then chunkPic(n)=ptPic(83,3):chunkPic_(n)=ptPic_(83,3)
+	If chunkSeq(n) >= c And chunkSeq(n) < d Then chunkPic(n)=ptPic(83,4):chunkPic_(n)=ptPic_(83,4)
+	If chunkSeq(n) >= d And chunkSeq(n) < e Then chunkPic(n)=ptPic(83,5):chunkPic_(n)=ptPic_(83,5)
+	If chunkSeq(n) >= e And chunkSeq(n) < f Then chunkPic(n)=ptPic(83,6):chunkPic_(n)=ptPic_(83,6)
+	If chunkSeq(n) >= f And chunkSeq(n) < g Then chunkPic(n)=ptPic(83,7):chunkPic_(n)=ptPic_(83,7)
+	If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)+6
+	If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)-6
+	
+	If chunkSeq(n) <= e And zhit(chunkOwner(n))=1 Then chunk(n)=0
 
-Case 62	;
-
+	If chunkSeq(n) >= g Or shot(zMyShot(chunkOwner(n)))=0 Then chunk(n)=0
+	
+Case 62	;scorpion spear rope
+	If chunkSeq(n)=1 Then chunkPic(n)=ptPic(84,1):chunkPic_(n)=ptPic(84,1)
+	
+	If chunkSeq(n) > 1 Or zhit(chunkOwner(n))=1 Then chunk(n)=0
 	
 Case 63:		;pre-freeze ball
 	chunkPic(n)=ptPic(41,1):chunkPic_(n)=ptPic_(41,1)
@@ -2177,7 +2222,25 @@ Case 102: 		;berserker slash2 after-image
 
 	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(82,1):chunkPic_(n)=ptPic_(82,1)
 	
-	If chunkSeq(n) >= a Then chunk(n)=0
+	If chunkSeq(n) >= a Then chunk(n)=0	
+	
+Case 103:		;spear head
+	If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(85,1):chunkPic_(n)=ptPic_(85,1)
+	
+	If chunkSeq(n) > 1 Or zhit(chunkOwner(n))=1 Then chunk(n)=0 
+	
+Case 104:		;spear disappearing
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 6 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,1)
+	If chunkSeq(n) >= 6 And chunkSeq(n) < 10 Then chunkPic(n)=ptPic(86,2):chunkPic_(n)=ptPic_(86,2)
+	If chunkSeq(n) >= 10 And chunkSeq(n) < 16 Then chunkPic(n)=ptPic(86,3):chunkPic_(n)=ptPic_(86,3)
+	If chunkSeq(n) >= 16 And chunkSeq(n) < 19 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,1)
+	If chunkSeq(n) >= 19 And chunkSeq(n) < 22 Then chunkPic(n)=ptPic(86,2):chunkPic_(n)=ptPic_(86,2)
+	If chunkSeq(n) >= 22 And chunkSeq(n) < 25 Then chunkPic(n)=ptPic(86,3):chunkPic_(n)=ptPic_(86,3)
+	If chunkSeq(n) = 25 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,1)
+	If chunkSeq(n) = 26 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,2)
+	If chunkSeq(n) = 27 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,3)
+	
+	If chunkSeq(n) > 27 Then chunk(n)=0
 	
 Default
 	a=5:b=10:c=14	;Blocking
@@ -2803,7 +2866,7 @@ Case 4	;helpers
 End Select
 
 End Function
-;----------------------------- Explosion data-------------------------------------------------------
+;----------------------------- Explosion data------------------------------------
 Function expData(n)
 Select expType(n)
 Case 1
@@ -3018,12 +3081,9 @@ If n=13 Then ;SubZero
 	If subZeroFreeze1Snd=0 Then subZeroFreeze1Snd=LoadSound(soundsdir$ + "subzero\subFreeze1.mp3")
 	If subZeroFreeze2Snd=0 Then subZeroFreeze2Snd=LoadSound(soundsdir$ + "subzero\subFreeze2.mp3")
 	If subZeroFreeze3Snd=0 Then subZeroFreeze3Snd=LoadSound(soundsdir$ + "subzero\subFreeze3.mp3")
-	If subZeroHitSnd=0 Then subZeroHitSnd=LoadSound(soundsdir$ + "subzero\subHit.mp3")
 	If subZeroIceBlastSnd=0 Then subZeroIceBlastSnd=LoadSound(soundsdir$ + "subzero\subIceBlast.wav")
 	If subZeroSlideKickSnd=0 Then subZeroSlideKickSnd=LoadSound(soundsdir$ + "subzero\subSlideKick.mp3")
-	If subZeroPunchSnd=0 Then subZeroPunchSnd=LoadSound(soundsdir$ + "subzero\subPunch.mp3")
 	If subZeroPunch2Snd=0 Then subZeroPunch2Snd=LoadSound(soundsdir$ + "subzero\subPunch2.wav")
-	If subZeroThrowSnd=0 Then subZeroThrowSnd=LoadSound(soundsdir$ + "subzero\subThrow.mp3")
 	If subZeroWindSnd=0 Then subZeroWindSnd=LoadSound(soundsdir$ + "subzero\subWind.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "subzero\subDie.mp3")	
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\mkMaleGrunt1.mp3")
@@ -3035,8 +3095,13 @@ EndIf
 If n=12 Then	;Scorpion
 	If scorptionGruntSnd=0 Then scorptionGruntSnd=LoadSound(soundsdir$ + "mk\scorptionGrunt.mp3")
 	If scorptionGrunt2Snd=0 Then scorptionGrunt2Snd=LoadSound(soundsdir$ + "mk\scorptionGrunt2.mp3")
+	If scorpionSpearSnd=0 Then scorpionSpearSnd=LoadSound(soundsdir$ + "scorpion\scorpionSpear.mp3")
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\scorpionGrunt.mp3")
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
+	If scorpionSpearHitSnd=0 Then scorpionSpearHitSnd=LoadSound(soundsdir$ + "scorpion\scorpionSpearHit.mp3")
+	If scorpionComeHereSnd=0 Then scorpionComeHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionComeHere.wav")
+	If scorpionGetOverHereSnd=0 Then scorpionGetOverHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionGetOverHere.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "scorpion\scorpionDie.mp3")	
 EndIf
 
 If n=11 Then

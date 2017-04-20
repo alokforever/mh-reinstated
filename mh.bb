@@ -188,7 +188,7 @@ Dim TonStatus(100),ToffStatus(100),Tplatx(100),Tplaty(100),Tfollow(100)
 Dim EventAction(100),Tsound(100)
 Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
-Dim xChunk(1500),yChunk(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
+Dim xChunk#(1500),yChunk(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
 Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,15),ptPic_(1500,15),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
 Dim chunkOwner(1500)
 
@@ -223,7 +223,7 @@ Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
-Dim downKeyHit(30)
+Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1977,7 +1977,7 @@ Function selectDraw(n)
 		drawWalkSequence(n):Goto drawZ
 	EndIf
 	
-	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then 
+	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then
 		zani(n)=2:zf(n)=0:Goto drawZ
 		Else
 		
@@ -2610,17 +2610,20 @@ End Function
 Function shots(n)
 
 For nn=1 To shotamount	;shot x shot collision
+	If zhit(shotOwner(nn))=1 And isShotDisappearOnHit(nn)=1 Then 
+		shot(nn)=0
+	End If
 	If shot(nn) And nn<>n Then
 		For q=0 To shotsize(n) Step 2
 			If xshot(n)+q => xshot(nn) And xshot(n)+q =< xshot(nn)+shotsize(nn) And zteam(shotOwner(n)) <> zteam(shotOwner(nn)) Then
 				If yshot(n)-(shotHeight(n)/2) => yshot(nn)-shotheight(nn) And yshot(n)-(shotHeight(n)/2) =< yshot(nn) Then
 					If shotSuper(n)=0 Then
 						shot(n)=0:
-						makeChunk(0,xshot(n),yshot(n),2,shotChunkType(n))
+						makeChunk(0,xshot(n),yshot(n),shotDir(n),shotChunkType(n))
 					EndIf
 					If shotSuper(nn)=0 Then	
 						shot(nn)=0:
-						makeChunk(0,xshot(nn),yshot(nn),2,shotChunkType(nn))
+						makeChunk(0,xshot(nn),yshot(nn),shotDir(n),shotChunkType(nn))
 					EndIf
 					If gamesound Then PlaySound shotSound(n):Exit
 				EndIf
@@ -2636,8 +2639,8 @@ If shotTrailType(n) > 0 Then
 	  If rendert=1 Then makeChunk(0,xShot(n),yshot(n),2,28)
 	Case 2     ;bright dots
 	  If shotCurFrame(n) = 2 And rendert=1 Then
-	  	makeChunk(n,xShot(n)+rand(-3,3),yShot(n)-rand(0,3),shotDir(n),13)
-	  	makeChunk(n,xShot(n)+rand(-3,3),yShot(n)-rand(0,3),shotDir(n),13)
+	  	makeChunk(n,xShot(n)+Rand(-3,3),yShot(n)-Rand(0,3),shotDir(n),13)
+	  	makeChunk(n,xShot(n)+Rand(-3,3),yShot(n)-Rand(0,3),shotDir(n),13)
 	  EndIf
 	
   End Select
@@ -2715,17 +2718,19 @@ Case 2
 		If shothit Then Exit
 	Next 
 	
-	If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
-		handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
-		Goto shotDone
-	EndIf
+	For nn = 1 To zzamount
+		If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
+			handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
+			Goto shotDone
+		EndIf
+	Next
 	For qh=0 To shotHeight(n) Step 6 ;shot x player collision
 	For q=0 To shotsizeL(n) Step 1
 		xAxisShotPos=xshot(n)+q
 		yAxisShotPos=yshot(n)-qh
 		objShotWidth=1
 		objShotHeight=1
-		For nn= 1 To zzamount
+		For nn = 1 To zzamount
 			oldshield = zShield(nn)
 			If shotSuper(n)=1 Then zShield(nn)=0
 			If zShield(nn)=0 And zon(nn)=1 And (teamAttack=1 Or zteam(shotOwner(n)) <> zteam(nn)) Then
@@ -2736,7 +2741,11 @@ Case 2
 					If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 					If Not shotDrill(n) Then shot(n)=0
 					zShotByN(nn)=n : zShotHitSeq(nn,n)=0
-					makechunk(shotDir(n),zx(nn),yShot(n),2,shotChunkType(n))
+					If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
+						makechunk(shotDir(n),zx(nn),yShot(n),2,shotChunkType(n))
+					Else
+						makechunk(shotDir(n),zx(nn),yShot(n),2,shotChunkHitType(n))
+					End If
 					If zblock(nn)=1 Then
 						zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=4:zblowDir(nn)=zface(nn)
 						zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=2
@@ -2800,7 +2809,7 @@ Case 4
 			Else
 				shot(n)=0
 				shotsizeL(n)=q
-				makechunk(shotDir(n),xshot(n)-q,yShot(n),2,shotchunktype(n))
+				makechunk(shotDir(n),xshot(n)-q,yShot(n),4,shotchunktype(n))
 				;If gameSound =1 Then PlaySound shotsound(n)
 				shothit=1
 			EndIf
@@ -2831,7 +2840,7 @@ Case 4
 						If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 						shot(n)=0:
 						shotsizeL(n)=q
-						makechunk(shotDir(n),xshot(n)-q,yShot(n),2,shotChunkType(n))
+						makechunk(shotDir(n),xshot(n)-q,yShot(n),4,shotChunkType(n))
 						;If gameSound =1 Then PlaySound shotsound(n)	
 						shothit=1 
 					EndIf
@@ -2841,10 +2850,12 @@ Case 4
 		If shothit Then Exit
 	Next 
 	
-	If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
-		handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
-		Goto shotDone
-	EndIf
+	For nn = 1 To zzamount
+		If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
+			handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
+			Goto shotDone
+		EndIf
+	Next
 	For qh=0 To shotHeight(n) Step 6
 	For q=0 To shotsizeL(n) Step 1
 		xAxisShotPos=xshot(n)+q
@@ -2863,13 +2874,17 @@ Case 4
 					If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 					If Not shotDrill(n) Then shot(n)=0
 					zShotByN(nn)=n : zShotHitSeq(nn,n)=0
-					makechunk(shotDir(n),zx(nn),yShot(n),2,shotChunkType(n))
+					If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
+						makechunk(shotDir(n),zx(nn),yShot(n),4,shotChunkType(n))
+					Else
+						makechunk(shotDir(n),zx(nn),yShot(n),4,shotChunkHitType(n))
+					End If
 					If zblock(nn)=1 Then
 						zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=2:zblowDir(nn)=zface(nn)
 						zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=4
 						zBLockLife(nn)=zBlockLife(nn)-shotDamage(n)
 						If gameSound Then PlaySound blockedsnd
-						If zBlockLife(nn) <1 Then 
+						If zBlockLife(nn) < 1 Then 
 							zBlock(nn)=0:zBlocked(nn)=0
 							If gameSound Then PlaySound brokensnd
 						EndIf
@@ -2927,7 +2942,7 @@ EndIf
 shotDurationSeq(n)=shotDurationSeq(n)+1
 If shotUturn(n)=1 And shotDurationSeq(n) => shotDuration(n) Then
 		shotDurationSeq(n)=shotDurationSeq(n)-1
-		shotSpeed(n)=shotSpeed(n) - shotAcc(n) 
+		shotSpeed(n)=shotSpeed(n) - shotAcc(n)
 		If shotspeed(n) <= 0 Then 
 			shotDurationSeq(n)=0
 			If shotUturnseq(n) => shotUturnAmount(n) Then
@@ -2936,7 +2951,7 @@ If shotUturn(n)=1 And shotDurationSeq(n) => shotDuration(n) Then
 				shotUturnSeq(n)=shotUturnseq(n)+1
 			EndIf
 			shotDuration(n)=shotDuration2(n)
-			If shotDir(n) =2 Then shotDir(n)=4 Else shotDir(n)=2
+			If shotDir(n) = 2 Then shotDir(n)=4 Else shotDir(n)=2
 		EndIf
 Else	
 	If shotUseAcc(n)=1 Then
@@ -2946,7 +2961,7 @@ Else
 EndIf
 	
 If shotDurationSeq(n) > shotDuration(n) Then
-	shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),2,shotchunktype(n))
+	shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
 EndIf
 End Function
 
@@ -2958,7 +2973,7 @@ For nn=1 To shotAmount
 	If shot(nn) And yShot(nn) > yRect(n) And yShot(nn) < yRect(n)+hRect(n) Then
 		If xShot(nn) > xRect(n) And xShot(nn) < xRect(n)+wRect(n) Then
 			shot(nn)=0
-			makechunk(0,xshot(nn),yShot(nn),2,shotChunkType(nn))
+			makechunk(0,xshot(nn),yShot(nn),shotDir(nn),shotChunkType(nn))
 		EndIf
 	EndIf
 Next
@@ -4188,7 +4203,7 @@ For nn=1 To shotAmount	;object x shot collision
 			If shotSuper(nn)=0 Then 	
 				If shotExplosive(nn) > 0 Then shotexp(nn,xShot(nn),yShot(nn),shotExplosive(nn)):shot(nn)=0
 				shot(nn)=0
-				makechunk(shotDir(nn),xshot(nn),yShot(nn),2,shotChunkType(nn))
+				makechunk(shotDir(nn),xshot(nn),yShot(nn),shotDir(nn),shotChunkType(nn))
 			EndIf
 			Exit
 		EndIf
@@ -6022,7 +6037,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 					If ImageRectCollide(zCurPic(targetPlayer),zx(targetPlayer)-(ImageWidth(zCurPic(targetPlayer))/2)+30,zy(targetPlayer)-ImageHeight(zCurPic(targetPlayer))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
 						If Not shotDrill(projectile) Then shot(projectile)=0
 							zShotByN(targetPlayer)=projectile : zShotHitSeq(targetPlayer,projectile)=0
-							makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile),2,shotChunkType(projectile))
+							makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile),shotDir(projectile),shotChunkType(projectile))
 						If zblock(targetPlayer)=1 And shotHitMode(shotOwner(projectile)) <> 4 Then
 							zBlocked(targetPlayer)=1:zBlockSeq(targetPlayer)=0
 							zBlockTime(targetPlayer)=shotImpact(projectile)*2:zBlockDir(targetPlayer)=2
@@ -6051,7 +6066,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 							zBlow(targetPlayer)=0:zBlowStill(targetPlayer)=0:zHitSeq(targetPlayer)=0
 
 							If shotHitTrail(projectile) > 0 Then zTrail(targetPlayer)=1:zTrailSeq(targetPlayer)=0:zTrailType(targetPlayer)=shotHitTrail(projectile)
-							If gameSound = 1 Then PlaySound shotsound(projectile)	
+							If gameSound = 1 Then PlaySound shotsound(projectile)
 							EndIf
 						If zLife(targetPlayer) < 1 Then zScore(shotOwner(projectile))=zScore(shotOwner(projectile))+1
 						Return
@@ -6285,6 +6300,8 @@ End Function
 Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
 	zControls(n)=0:zControlsThis(n)=0
 	For nn=1 To zzamount
+		If zShield(nn)=1 Then Goto continue
+		If zduck(nn)=1 Then height#=height-5
 		If enemy = 0 Then 
 			en=nn
 		Else 
@@ -6295,6 +6312,7 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
 			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
+					zControls(n)=1
 					initParalysis(n, en, isUnguardable)
 				End If 
 			End If
@@ -6302,10 +6320,12 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
 			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) <= x# And zx(en) >= x#-width# And zy(en) >= y# And zy(en) <= y#+height# Then
+					zControls(n)=1
 					initParalysis(n, en, isUnguardable)
 				End If 
 			End If
 		End Select
+		.continue
 	Next
 End Function
 
@@ -6327,7 +6347,6 @@ Function initNoControl(nn)
 	zBlock(nn)=0:zBlocked(nn)=0
 	zJump(nn)=0:zJump2(nn)=0
 	zNoJump(nn)=1
-	zongnd(nn)=0
 End Function
 
 ;------------- Initialize fight states --------------
@@ -6370,7 +6389,6 @@ Function checkWallJump(n)
 	checkYDist(n,zx(n),zy(n),2)
 	If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
 	If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
-	DebugLog "xDist: " + xDist(n)
 	If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
 		If zBlowSeq(n) < 1 Then
 			zBlow(n)=1:zBlowSeq(n)=0:
@@ -6397,7 +6415,7 @@ End Function
 Function healPlayer(n)
 	zHealSeq(n)=zHealSeq(n)+1
 	If zHealSeq(n) Mod zHealInterval(n) = 0 Then
-		extraObj(n,zx(n),0,zy(n),0,zblowdir(n),93)
+		zTrail(n)=1:zTrailSeq(n)=0:zTrailType(n)=3
 		If gameSound Then PlaySound energySnd
 		If zDamage(n) >= 10 Then
 			zDamage(n)=zDamage(n)-zHealAmount(n)

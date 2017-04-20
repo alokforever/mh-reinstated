@@ -109,13 +109,11 @@ Global subZeroAirSnd
 Global subZeroFreeze1Snd
 Global subZeroFreeze2Snd
 Global subZeroFreeze3Snd
-Global subZeroHitSnd
 Global subZeroIceBlastSnd
 Global subZeroKickSnd
 Global subZeroSlideKickSnd
-Global subZeroPunchSnd
 Global subZeroPunch2Snd
-Global subZeroThrowSnd
+Global mkThrowSnd=LoadSound(soundsdir$ + "mk\mkThrow1.mp3")
 Global mkJumpSnd=LoadSound(soundsdir$ + "mk\mkjump.wav")
 Global mkJump2Snd=LoadSound(soundsdir$ + "mk\mkjump2.mp3")
 Global subZeroCooldown1Snd
@@ -134,8 +132,14 @@ Global mkMaleAgonySnd=LoadSound(soundsdir$ + "mk\mkMaleAgony.mp3")
 Global mkStrongHitSnd=LoadSound(soundsdir$ + "mk\mkStrongHit.wav")
 Global mkKickSnd=LoadSound(soundsdir$ + "mk\mkKick.mp3")
 Global mkKickHitSnd=LoadSound(soundsdir$ + "mk\mkKickHit.mp3")
+Global mkPunchSnd=LoadSound(soundsdir$ + "mk\mkPunch.mp3")
+Global mkHitSnd=LoadSound(soundsdir$ + "mk\mkHit.mp3")
 Global scorpionGruntSnd
 Global scorpionGrunt2Snd
+Global scorpionSpearSnd
+Global scorpionSpearHitSnd
+Global scorpionComeHereSnd
+Global scorpionGetOverHereSnd
 Global subZeroWindSnd
 Global wolverineJumpSnd
 Global wolverineBarrageSnd
