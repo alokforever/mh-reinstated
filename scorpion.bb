@@ -59,7 +59,7 @@ Case 15 ;Scorpion throw
 	If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=15:zf(n)=4:zx(en)=zx(n)+n2:zy(en)=zy(n)-16:zAni(en)=2:zf(en)=5:zface(en)=dir2
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=15:zf(n)=5:zx(en)=zx(n)+n1:zy(en)=zy(n)-16:zAni(en)=2:zf(en)=5:zface(en)=dir2
 	If zblowseq(n) = f Then
-		If gameSound Then PlaySound mkThrowSnd
+		If gameSound Then PlaySound scorpionThrowSnd
 	EndIf
 	If zBlowSeq(n) => i-3 And zBlowSeq(n) < i Then zani(n)=15:zf(n)=6:zx(en)=zx(n)+n1:zy(en)=zy(n)-15:zAni(en)=2:zf(en)=6:zface(en)=dir2
 	If zBlowSeq(n) = i  Then
@@ -146,7 +146,7 @@ Case 12	;Shooting Position
 Case 13 ; item pickup
 	b=2:c=8
 	If zongnd(n)=1 Then zNoMove(n)=1:zNoJump(n)=1
-	If zBlowSeq(n) => 1 And zBlowSeq(n) =< c Then zani(n)=6:zf(n)=5
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< c Then zani(n)=9:zf(n)=3
 	If zBlowSeq(n)= b Then
 		For nn=1 To objAmount
 		If xobj(nn) => zx(n)-14 And xObj(nn) =< zx(n)+14 And objTaken(nn)=0 And objHurt(nn)=0 And obj(nn)=1 Then
@@ -288,22 +288,28 @@ Case 5	;Uppercut
 Case 6	;throwing iten
 	a=2:b=3:c=6:d=8
 	If zongnd(n)=1 Then zNoMove(n)=1:zNoJump(n)=1
-	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
-	If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=6:zf(n)=2
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=2
+	If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=3
 	If zBlowSeq(n)= b Then
 		throwObj(n,zx(n),zy(n)-20,zFace(n))
 		If gameSound Then PlaySound throwsnd
 	EndIf
-	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=6:zf(n)=3
-	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=6:zf(n)=2
+	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=10:zf(n)=4
+	If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=10:zf(n)=2
 	If zBlowSeq(n) => d Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 Case 7	;Scorpion Spear
-	a=3:b=6:c=9:d=52:e=100:f=e+50:g=f+4:h=g+4:i=h+4:j=i+36
+	a=3:b=6:c=9:d=52:e=100:f=e+50:g=f+4:h=g+4:i=h+4:j=i+36:k=j+100:l=k+30
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
 	zNoGrav(n)=1
 	Local guardable=0
+
+	If zBlowSeq(n) = 1 And shot(zMyShot(n))=0 Then zControlsThis(n)=0
+	If zBlowSeq(n)=1 And spellCooldownSeq(n, 1) > 0 Then
+		If gameSound Then PlaySound clockTickSnd
+		zBlowSeq(n)=0:zBlow(n)=0
+	End If
 
 	If zhit(n)=1 And zBlowSeq(n) > d-15 Then shot(zMyShot(n))=0
 	If zBlowSeq(n) = c And gameSound=1 And (shot(zMyShot(n)) = 0 Or shotOwner(zMyShot(n)) <> n Or shotType(zMyShot(n)) <> 45) Then 
@@ -323,10 +329,12 @@ Case 7	;Scorpion Spear
 			extraObj(n,x2,0,y2,0,zblowdir(n),61)
 		End If
 	EndIf
-	
-	If zBlowSeq(n) >= c And zBlowSeq(n) < d-7 Then
-		enemyControlInit(n,xShot(zMyShot(n)),yShot(zMyShot(n))-5,10,45,0,guardable)
-		If zControlsThis(n) <> 0 And zBlock(zControlsThis(n))=0 Then
+
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d-10 Then
+		If zControlsThis(n) <> 0 And shot(zMyShot(n)) = 0 Then zBlowSeq(n)=e
+		If zControlsThis(n) = 0 Then enemyControlInit(n,xShot(zMyShot(n))+5,yShot(zMyShot(n))-10,15,60,0,guardable)
+		If zBlock(zControlsThis(n))=1 Then zBlowSeq(n)=k
+		If zControlsThis(n) <> 0 And zBlock(zControlsThis(n))=0 And shot(zMyShot(n)) = 0 Then 
 			If zOnGnd(n)=0 Then 
 				zy(n) = zy(zControlsThis(n))-1
 				zy(zControlsThis(n))=zy(n)
@@ -360,7 +368,7 @@ Case 7	;Scorpion Spear
 	End If
 	If zBlowSeq(n) >= e And zBlowSeq(n) < j Then
 		en=zControlsThis(n)
-		enemyControlInit(n,zx(n),zy(n),300,40,en,guardable)
+		enemyControlInit(n,zx(en),zy(en),0,0,en,guardable)
 		If zhit(en) And zongnd(en)=1 And zhitseq(en) > 15 Then zBlowSeq(n)=d
 		checkYDist(en,zx(en),zy(en),2)
 		zy(en) = zy(n) 
@@ -394,12 +402,19 @@ Case 7	;Scorpion Spear
 
 	If zBlowSeq(n) >= f And zBlowSeq(n) < j Then
 		zani(zControlsThis(n))=2:zf(zControlsThis(n))=3
-		If Abs(zx(n)-zx(zControlsThis(n))) <= 25 Then zBlowSeq(n)=d
 		If zFace(n)=2 Then moveX(zControlsThis(n),4,3)
 		If zFace(n)=4 Then moveX(zControlsThis(n),2,3)
+		If zBlowSeq(n) = j-1 Or Abs(zx(n)-zx(zControlsThis(n))) <= 25 Then
+			isDizzy(zControlsThis(n))=1
+			freezeVictim(zControlsThis(n), 0)
+			spellCooldownMaxTime(n, 1)=90
+			spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1) 
+			zBlowSeq(n)=d
+		End If
 	End If
 	
 	If zBlowSeq(n) = j Then zBlowSeq(n)=d
+	If zBlowSeq(n) = l Then zBlowSeq(n)=d
 
 	If zBlowSeq(n) > d And zBlowSeq(n) < e Then zBlowSeq(n)=0:zBlow(n)=0:zNoGrav(n)=0
 

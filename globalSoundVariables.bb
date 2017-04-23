@@ -136,6 +136,7 @@ Global mkPunchSnd=LoadSound(soundsdir$ + "mk\mkPunch.mp3")
 Global mkHitSnd=LoadSound(soundsdir$ + "mk\mkHit.mp3")
 Global scorpionGruntSnd
 Global scorpionGrunt2Snd
+Global scorpionThrowSnd
 Global scorpionSpearSnd
 Global scorpionSpearHitSnd
 Global scorpionComeHereSnd

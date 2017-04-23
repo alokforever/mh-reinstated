@@ -224,6 +224,8 @@ Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
+Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30)
+Dim dizzyFrames(30), dizzyFrameSpeed(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -238,6 +240,7 @@ Global cdDir$="gfx\stuff\cd"
 ;Cooldown Icons
 cooldownPic(11, 1)=LoadImage(gfxdir$ + "\cooldown\cd11_1.bmp")
 cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
+cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
 cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
 
 ;Find all mod directories and set their paths/name 
@@ -984,7 +987,7 @@ For n= 1 To zzamount
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
-	If zFrozen(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
+	If zFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
@@ -1013,6 +1016,7 @@ For n= 1 To zzamount
 		If ztrailseq(n) > ztrailtime(n) Then ztrail(n)=0
 	EndIf
 Next
+
 For n=1 To zzamount
         If (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
 		;Add character, add another CASE call to your new function, will probably be 
@@ -1085,6 +1089,8 @@ Next
 For n= 1 To shotamount
 	If shot(n) Then shots(n)
 Next
+
+
 For n= 1 To objAmount
 	If obj(n) Then
 		objs(n)
@@ -1932,6 +1938,10 @@ Function selectDraw(n)
 		drawFrozenState(n)
 		Goto drawZ
 	EndIf
+	If isDizzy(n)=1 Then
+		drawDizzyState(n)
+		Goto drawZ
+	End If
 	If zParalyzed(n) Then
 		Goto drawZ
 	EndIf
@@ -1957,7 +1967,7 @@ Function selectDraw(n)
 		Goto drawZ
 	EndIf
 	
-	If zongnd(n)=0 And zhit(n)=0 Then 	;mid air,,,,,,,
+	If zongnd(n)=0 And zhit(n)=0 Then 	;mid air
 		If isRunning(n) Then depleteStaminaBar(n, 1)
 		zani(n)=4:zf(n)=1:Goto drawZ	
 	End If
@@ -2043,7 +2053,7 @@ If zStone(n)=1 And fightMode=2 Then
 EndIf
 
 If zhit(n)=1 Then
-	If zFrozen(n)=1 Then unFreeze(n)
+	If zFrozen(n)=1 Or isDizzy(n)=1 Then unFreeze(n,zFrozen(n))
 	zhitseq(n)=zhitseq(n)+1 
 	zSuperMove(n)=0
 	If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
@@ -2318,7 +2328,7 @@ If NoUserInput=0 Then
 
 For k= 1 To zzamount
 	If zAI(k)=1 And zon(k)=1 Then
-		If zFrozen(k)=1 Then Goto SkipAI
+		If zFrozen(k)=1 Or isDizzy(k)=1 Then Goto SkipAI
 		If Not zUseSpecialAI(k) Then 
 			AI(k,aiTarget(k))
 		Else
@@ -3685,7 +3695,7 @@ End Function
 ;----------------------Blows-------------------------------------------
 Function Blows(n)
 
-If zFrozen(n)=1 And zHitModeTaken(n) <> 3 Then unFreeze(n)
+If zFrozen(n)=1 And zHitModeTaken(n) <> 3 Then unFreeze(n,zFrozen(n))
 
 For nn=1 To zzamount
 If zImune(nn,n)=1 Then
@@ -4063,7 +4073,7 @@ If shotHitMode(n)=3 Then ; sub zero freeze attacks
 	zFallTime#(nn)=shotFallTime(n)
 	zUpFallSpeed#(nn)=shotHitYspeed(n)
 	zFreezer=n
-	freezeVictim(nn)
+	freezeVictim(nn, 1)
 EndIf
 
 If shotHitMode(n)=0 Then
@@ -5966,18 +5976,22 @@ EndIf
 End Function
 
 ;------------ freeze victim -----------------
-Function freezeVictim(n)
-zNoJump(n)=1
-zgravity(n)=0
-zFrozen(n)=1
+Function freezeVictim(n, mode)
+	Local ice=1
+	zNoJump(n)=1
+	zgravity(n)=0
+	If mode=ice Then zFrozen(n)=1
 End Function
 
 ;------------ unfreeze unit -----------------
-Function unFreeze(n)
-zgravity(n)=3
-zFrozen(n)=0
-cantGetTime(n)=0
-If gameSound Then PlaySound subZeroFreeze3Snd
+Function unFreeze(n, mode)
+	Local ice=1
+	zgravity(n)=3
+	zFrozen(n)=0
+	isDizzy(n)=0
+	cantGetTime(n)=0
+	cantGetDizzyTime(n)=0
+	If gameSound And mode=ice Then PlaySound subZeroFreeze3Snd
 End Function
 
 ;------------ handle sub zero projectile attacks --------------
@@ -6111,9 +6125,47 @@ Function drawFrozenState(unit)
 				EndIf
 			EndIf
 		EndIf
-		If currentFreezeTime(unit) => endFreezeTime(unit) Then cantGetTime(unit)=0:unFreeze(unit):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
+		If currentFreezeTime(unit) => endFreezeTime(unit) Then cantGetTime(unit)=0:unFreeze(unit,1):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
 	Else
 		cantGetTime(unit)=0
+	EndIf
+End Function
+
+;----------------- Draw Dizzy State ------------------------------
+Function drawDizzyState(unit)
+	If isDizzy(unit)=1 Then
+		Local dizzyDuration = 2000 ; in milliseconds
+		currentDizzyTime(unit) = MilliSecs()
+		If cantGetDizzyTime(unit) = 0 Then
+			zHit(unit)=0
+			cantGetDizzyTime(unit) = 1
+			startDizzyTime(unit) = MilliSecs()
+		EndIf
+		endDizzyTime(unit) = startDizzyTime(unit) + dizzyDuration
+		dizzySeq(unit)=dizzySeq(unit)+1
+		Local fallingFrames=3: fallingFrameSpeed=8
+		If currentDizzyTime(unit) =< endDizzyTime(unit) Then
+			If dizzyFrames(unit) > 0 Then
+				For frame=dizzyFrames(unit) To 1 Step -1
+					If (dizzySeq(unit) / dizzyFrameSpeed(unit)) Mod frame = 0 Then
+						zani(unit)=23:zf(unit)=frame
+						If dizzySeq(unit)-1 > dizzyFrames(unit)*dizzyFrameSpeed(unit) Then dizzySeq(unit) = dizzyFrameSpeed(unit)-1
+						Return
+					EndIf			
+				Next
+			Else
+				For frame=fallingFrames To 1 Step -1
+					If (dizzySeq(unit) / fallingFrameSpeed) Mod frame = 0 Then
+						zani(unit)=2:zf(unit)=frame
+						If dizzySeq(unit)-1 > fallingFrames*fallingFrameSpeed Then dizzySeq(unit) = fallingFrameSpeed-1
+						Return
+					EndIf			
+				Next
+			End If
+		EndIf
+		If currentDizzyTime(unit) => endDizzyTime(unit) Then cantGetDizzyTime(unit)=0:unFreeze(unit,0)
+	Else
+		cantGetDizzyTime(unit)=0
 	EndIf
 End Function
 
@@ -6283,7 +6335,8 @@ End Function
 Function clearSubStates()
 	If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
 		For n=1 To zzamount
-			If zFrozen(n)=1 Then unFreeze(n)
+			If zFrozen(n)=1 Then unFreeze(n,1)
+			If isDizzy(n)=1 Then unFreeze(n,0)
 			If wolverineRage(n)=1 Then wolverineRage(n)=0
 		Next
 	EndIf
@@ -6298,7 +6351,7 @@ End Function
 
 ;-------------- Enemy Control Initialization ---------
 Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
-	zControls(n)=0:zControlsThis(n)=0
+	zControls(n)=0:If enemy=0 Then zControlsThis(n)=0
 	For nn=1 To zzamount
 		If zShield(nn)=1 Then Goto continue
 		If zduck(nn)=1 Then height#=height-5
@@ -6380,6 +6433,7 @@ End Function
 ;------------------ Draw Timer ----------------------
 Function drawTimer(curSeq, maxSeq, n, spellId)
 	x=15:y=480
+	DebugLog curGuy(n) + ", " + spellId
 	DrawImage cooldownPic(curGuy(n),spellId),x+((n-1)*160)-20,y-(spellId*9)-20
 	DrawImage timerImage(Int((Float(curSeq)/maxSeq)*90)),x+((n-1)*160)+20,y-(spellId*9)
 End Function

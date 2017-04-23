@@ -59,6 +59,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	isMkCharacter(n)=0
 	canWallJump(n)=0
 	flipFrames(n)=0
+	dizzyFrames(n)=0
+	dizzyFrameSpeed(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -272,6 +274,8 @@ Case 11: ;Wolverine
 	zCharSpeed#(n)=2.5
 	isMale(n)=1
 	canWallJump(n)=1
+	dizzyFrames(n)=7
+	dizzyFrameSpeed(n)=7
 		
 Case 12: ;Scorpion
 	zBlowDist(n,1)=60
@@ -301,6 +305,8 @@ Case 12: ;Scorpion
 	isMkCharacter(n)=1
 	isMale(n)=1
 	flipFrames(n)=6
+	dizzyFrames(n)=8
+	dizzyFrameSpeed(n)=7
 
 Case 13: ;Sub Zero
 	zBlowDist(n,1)=45
@@ -329,6 +335,8 @@ Case 13: ;Sub Zero
 	zCharSpeed#(n)=2
 	isMkCharacter(n)=1
 	isMale(n)=1
+	dizzyFrames(n)=8
+	dizzyFrameSpeed(n)=7
 
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -1423,7 +1431,7 @@ Case 45 ;Scorpion Spear
 	shotsize(n)=17
 	shotheight(n)=7
 	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=6
+	shotdamage(n)=10
 	shotHitMode(n)=2
 	shotHitXspeed(n)=4
 	shotHitYspeed(n)=2
@@ -3001,6 +3009,11 @@ For counter = 1 To 20
 	zpic_(n,22,counter)=LoadImage(gfxdir$ + "combo\zCombo" + counter + "_.bmp")
 Next
 
+For counter = 1 To 15
+	zpic(n,23,counter)=LoadImage(gfxdir$ + "dizzy\zDizzy" + counter + ".bmp")
+	zpic_(n,23,counter)=LoadImage(gfxdir$ + "dizzy\zDizzy" + counter + "_.bmp")
+Next
+
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom
@@ -3093,15 +3106,16 @@ If n=13 Then ;SubZero
 EndIf
 
 If n=12 Then	;Scorpion
-	If scorptionGruntSnd=0 Then scorptionGruntSnd=LoadSound(soundsdir$ + "mk\scorptionGrunt.mp3")
-	If scorptionGrunt2Snd=0 Then scorptionGrunt2Snd=LoadSound(soundsdir$ + "mk\scorptionGrunt2.mp3")
+	If scorpionGruntSnd=0 Then scorpionGruntSnd=LoadSound(soundsdir$ + "mk\scorpionGrunt.mp3")
+	If scorpionGrunt2Snd=0 Then scorpionGrunt2Snd=LoadSound(soundsdir$ + "mk\scorpionGrunt2.mp3")
+	If scorpionThrowSnd=0 Then scorpionThrowSnd=LoadSound(soundsdir$ + "scorpion\scorpionThrow.mp3")
 	If scorpionSpearSnd=0 Then scorpionSpearSnd=LoadSound(soundsdir$ + "scorpion\scorpionSpear.mp3")
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "mk\scorpionGrunt.mp3")
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 	If scorpionSpearHitSnd=0 Then scorpionSpearHitSnd=LoadSound(soundsdir$ + "scorpion\scorpionSpearHit.mp3")
 	If scorpionComeHereSnd=0 Then scorpionComeHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionComeHere.wav")
 	If scorpionGetOverHereSnd=0 Then scorpionGetOverHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionGetOverHere.wav")
-	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "scorpion\scorpionDie.mp3")	
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "scorpion\scorpionDie.mp3")
 EndIf
 
 If n=11 Then
