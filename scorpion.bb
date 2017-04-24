@@ -1,3 +1,31 @@
+Function performSweepKick(n)
+	a=102:b=a+3:c=b+2:d=c+3:e=d+2:f=e+3:g=f+3:h=g+3:i=h+3
+	aa=i+2:bb=aa+3:cc=bb+2:dd=cc+3:ee=dd+2:ff=ee+3:gg=ff+3:hh=gg+3:ii=hh+3
+	endSeq=25
+
+	If (zBlowSeq(n) => 100 And zBlowSeq(n) < a) Or (zBlowSeq(n) => i And zBlowSeq(n) < aa) Then zani(n)=9:zf(n)=1
+	If (zBlowSeq(n) => a And zBlowSeq(n) < b) Or (zBlowSeq(n) => aa And zBlowSeq(n) < bb) Then zani(n)=9:zf(n)=2:moveX(n,zBlowdir(n),1)
+	If (zBlowSeq(n) => b And zBlowSeq(n) < c) Or (zBlowSeq(n) => bb And zBlowSeq(n) < cc) Then zani(n)=9:zf(n)=3:moveX(n,zBlowdir(n),2)
+	If (zBlowSeq(n) => c And zBlowSeq(n) < d) Or (zBlowSeq(n) => cc And zBlowSeq(n) < dd) Then zani(n)=9:zf(n)=4:moveX(n,zBlowdir(n),3)
+	If (zBlowSeq(n) => d And zBlowSeq(n) < e) Or (zBlowSeq(n) => dd And zBlowSeq(n) < ee) Then zani(n)=9:zf(n)=5:moveX(n,zBlowdir(n),3)
+	If (zBlowSeq(n) = d Or zBlowSeq(n) = dd) And gameSound Then PlaySound mkKickSnd
+	If (zBlowSeq(n) => e And zBlowSeq(n) < f) Or (zBlowSeq(n) => ee And zBlowSeq(n) < ff) Then
+		zblowPamount(n)=3
+		xblow(n,1)=0: yblow(n,1)=9:wblow(n,1)=25:hblow(n,1)=1
+		xblow(n,2)=0: yblow(n,2)=5:wblow(n,2)=28:hblow(n,2)=1
+		xblow(n,3)=0: yblow(n,3)=1:wblow(n,3)=28:hblow(n,3)=1
+		zHitMode(n)=0:zBlowHold(n)=10
+		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+		zBlowSound(n)=mkKickHitSnd
+		zani(n)=9:zf(n)=6
+	EndIf
+	If (zBlowSeq(n) => f And zBlowSeq(n) < g) Or (zBlowSeq(n) => ff And zBlowSeq(n) < gg) Then zani(n)=9:zf(n)=7:moveX(n,zBlowdir(n),2)
+	If (zBlowSeq(n) => g And zBlowSeq(n) < h) Or (zBlowSeq(n) => gg And zBlowSeq(n) < hh) Then zani(n)=9:zf(n)=8:moveX(n,zBlowdir(n),1)
+	If (zBlowSeq(n) => h And zBlowSeq(n) < i) Or (zBlowSeq(n) => hh And zBlowSeq(n) < ii) Then zani(n)=9:zf(n)=9
+	If zBlowSeq(n) = ii Then zBlowSeq(n)=endSeq
+
+End Function
+
 Function DoScorpion(n)
 
 zFace(n)=zBlowDir(n)
@@ -217,6 +245,11 @@ Case 4	;Low kick
 	zNoMove(n)=1:zNoJump(n)=1
 	zheight(n)=zduckheight(n)
 	a=2:b=5:c=7:d=10:e=12:f=15:g=18:h=21:i=24
+	aa=100
+	
+	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=aa:downKeyDoubleTap(n)=0
+	If zBlowSeq(n) >= aa Then performSweepKick(n)
+	
 	If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=9:zf(n)=2
 	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=9:zf(n)=3
@@ -236,7 +269,7 @@ Case 4	;Low kick
 	If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=9:zf(n)=7
 	If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=9:zf(n)=8
 	If zBlowSeq(n) => h And zBlowSeq(n) < i Then zani(n)=9:zf(n)=9
-	If zBlowSeq(n) > i Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
+	If zBlowSeq(n) >= i And zBlowSeq(n) < aa Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
 
 Case 5	;Uppercut
 	zNoMove(n)=1
