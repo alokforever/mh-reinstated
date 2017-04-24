@@ -141,6 +141,7 @@ Global scorpionSpearSnd
 Global scorpionSpearHitSnd
 Global scorpionComeHereSnd
 Global scorpionGetOverHereSnd
+Global scorpionTeleportSnd
 Global subZeroWindSnd
 Global wolverineJumpSnd
 Global wolverineBarrageSnd

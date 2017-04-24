@@ -3116,6 +3116,7 @@ If n=12 Then	;Scorpion
 	If scorpionComeHereSnd=0 Then scorpionComeHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionComeHere.wav")
 	If scorpionGetOverHereSnd=0 Then scorpionGetOverHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionGetOverHere.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "scorpion\scorpionDie.mp3")
+	If scorpionTeleportSnd=0 Then scorpionTeleportSnd=LoadSound(soundsdir$ + "scorpion\scorpionTeleport.mp3")
 EndIf
 
 If n=11 Then

@@ -553,7 +553,7 @@ Case 9	;Sub zero freeze ground
 		Else If cdSeed=2 And gameSound And zAI(n)=0 Then
 			PlaySound subZeroCooldown2Snd
 		End If
-		If gameSound Then PlaySound clockTickSnd
+		If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
 		zBlowSeq(n)=0:zBlow(n)=0
 	End If
 			

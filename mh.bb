@@ -6134,7 +6134,7 @@ End Function
 ;----------------- Draw Dizzy State ------------------------------
 Function drawDizzyState(unit)
 	If isDizzy(unit)=1 Then
-		Local dizzyDuration = 2000 ; in milliseconds
+		Local dizzyDuration = 3000 ; in milliseconds
 		currentDizzyTime(unit) = MilliSecs()
 		If cantGetDizzyTime(unit) = 0 Then
 			zHit(unit)=0
