@@ -1431,7 +1431,7 @@ Case 45 ;Scorpion Spear
 	shotsize(n)=17
 	shotheight(n)=7
 	shotSide(n)=shotsize(n)/2
-	shotdamage(n)=10
+	shotdamage(n)=9
 	shotHitMode(n)=2
 	shotHitXspeed(n)=4
 	shotHitYspeed(n)=2
@@ -2249,6 +2249,19 @@ Case 104:		;spear disappearing
 	If chunkSeq(n) = 27 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,3)
 	
 	If chunkSeq(n) > 27 Then chunk(n)=0
+	
+Case 105:		;flame
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 4 Then chunkPic(n)=ptPic(87,1):chunkPic_(n)=ptPic_(87,1)
+	If chunkSeq(n) >= 4 And chunkSeq(n) < 8 Then chunkPic(n)=ptPic(87,2):chunkPic_(n)=ptPic_(87,2)
+	If chunkSeq(n) >= 8 And chunkSeq(n) < 12 Then chunkPic(n)=ptPic(87,3):chunkPic_(n)=ptPic_(87,3)
+	If chunkSeq(n) >= 12 And chunkSeq(n) < 16 Then chunkPic(n)=ptPic(87,4):chunkPic_(n)=ptPic_(87,4)
+	If chunkSeq(n) >= 16 And chunkSeq(n) < 20 Then chunkPic(n)=ptPic(87,5):chunkPic_(n)=ptPic_(87,5)
+	If chunkSeq(n) >= 20 And chunkSeq(n) < 24 Then chunkPic(n)=ptPic(87,6):chunkPic_(n)=ptPic_(87,6)
+	If chunkSeq(n) >= 24 And chunkSeq(n) < 28 Then chunkPic(n)=ptPic(87,7):chunkPic_(n)=ptPic_(87,7)
+	If chunkSeq(n) >= 28 And chunkSeq(n) < 32 Then chunkPic(n)=ptPic(87,8):chunkPic_(n)=ptPic_(87,8)
+	If chunkSeq(n) >= 32 And chunkSeq(n) < 36 Then chunkPic(n)=ptPic(87,9):chunkPic_(n)=ptPic_(87,9)
+	
+	If chunkSeq(n)=36 Or (chunkSeq(n) >= 28 And zhit(chunkOwner(n))=1) Then chunk(n)=0
 	
 Default
 	a=5:b=10:c=14	;Blocking
@@ -3117,6 +3130,8 @@ If n=12 Then	;Scorpion
 	If scorpionGetOverHereSnd=0 Then scorpionGetOverHereSnd=LoadSound(soundsdir$ + "scorpion\scorpionGetOverHere.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "scorpion\scorpionDie.mp3")
 	If scorpionTeleportSnd=0 Then scorpionTeleportSnd=LoadSound(soundsdir$ + "scorpion\scorpionTeleport.mp3")
+	If scorpionBurnSnd=0 Then scorpionBurnSnd=LoadSound(soundsdir$ + "scorpion\scorpionBurn.mp3")
+	If scorpionSkullSnd=0 Then scorpionSkullSnd=LoadSound(soundsdir$ + "scorpion\scorpionSkull.mp3")
 EndIf
 
 If n=11 Then

@@ -1,5 +1,6 @@
 Function performFatalitySuper(n)
 	a=103:b=a+4:c=b+4:d=c+28:e=d+3:f=e+4:g=f+42:h=g+4:i=h+4:j=h+120
+	endSeq=90
 	guardable=0
 	checkDist(n, zx(n), zy(n), zFace(n))
 	If zBlowSeq(n) => 100 And zBlowSeq(n) < a Then 
@@ -47,7 +48,7 @@ Function performFatalitySuper(n)
 		If zBlowSeq(n) = j-60 And gameSound Then PlaySound mkFatality3Snd
 	End If
 	If zBlowSeq(n) = d-1 Then
-		If xDist(n) <= 56 Or zControlsThis(n)=0 Or (zLife(zControlsThis(n)) < 1 And vsMode=0) Or zUngrabable(zControlsThis(n))=1 Then zBlowSeq(n)=90
+		If xDist(n) <= 56 Or zControlsThis(n)=0 Or (zLife(zControlsThis(n)) < 1 And vsMode=0) Or zUngrabable(zControlsThis(n))=1 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n) >= 183 And xDist(n) > 56 Then 
 		enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n),guardable)

@@ -70,6 +70,8 @@ Global zhitwallsnd=LoadSound(soundsdir$ + "zhitwall.wav")
 Global jumpsnd=LoadSound(soundsdir$ + "jump.wav")
 Global floorSlideSnd=LoadSound(soundsDir$ + "floorSlide.wav")
 Global toastySnd=LoadSound(soundsdir$ + "mk\toasty.mp3")
+Global mineDudSnd=LoadSound(soundsdir$ + "minedud.wav")
+Global burnedSnd=LoadSound(soundsdir$ + "burned.wav")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
@@ -134,6 +136,8 @@ Global mkKickSnd=LoadSound(soundsdir$ + "mk\mkKick.mp3")
 Global mkKickHitSnd=LoadSound(soundsdir$ + "mk\mkKickHit.mp3")
 Global mkPunchSnd=LoadSound(soundsdir$ + "mk\mkPunch.mp3")
 Global mkHitSnd=LoadSound(soundsdir$ + "mk\mkHit.mp3")
+Global mkExtraSpecialSnd=LoadSound(soundsdir$ + "mk\mkExtraSpecial.mp3")
+Global mkFriendshipSnd=LoadSound(soundsdir$ + "mk\mkFriendship.mp3")
 Global scorpionGruntSnd
 Global scorpionGrunt2Snd
 Global scorpionThrowSnd
@@ -142,7 +146,9 @@ Global scorpionSpearHitSnd
 Global scorpionComeHereSnd
 Global scorpionGetOverHereSnd
 Global scorpionTeleportSnd
+Global scorpionSkullSnd
 Global subZeroWindSnd
+Global scorpionBurnSnd
 Global wolverineJumpSnd
 Global wolverineBarrageSnd
 Global wolverineSlashSnd, wolverineSlash2Snd, wolverineSlash3Snd, wolverineSlash4Snd

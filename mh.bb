@@ -217,7 +217,7 @@ Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkF
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
-Dim zControls(30), zControlsThis(30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
+Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
@@ -225,7 +225,7 @@ Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30)
-Dim dizzyFrames(30), dizzyFrameSpeed(30)
+Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -746,7 +746,7 @@ Next
 FlushKeys
 
 For n=1 To zzamount
-	zlife(n)=100				;Player's energy
+	zlife(n)=100				;Player's life
 	zHit(n)=0:zHitSeq(n)=0
 	zheight(n)=45				;Player's current height
 	zUpHeight(n)=45
@@ -1161,6 +1161,7 @@ For n= 1 To zzamount
 		zStaminaBar#(n)=zStaminaBar#(n)+0.5
 	End If
 	If healMode(n)=1 Then healPlayer(n)
+	If zBurning (n) > 0 Then burnPlayer(n)
 	If zon(n) Then SelectDraw(n)
 Next
 
@@ -3571,7 +3572,6 @@ flagPic(2)=flag2P
 loadMap()
 For i=1 To zzamount
 	zx(i)=zxStart(i) : zy(i)=zyStart(i)
-	
 Next
 defineStuff()
 xFlagStart(1)=xBase(1):yflagStart(1)=yBase(1)
@@ -6337,6 +6337,7 @@ Function clearSubStates()
 		For n=1 To zzamount
 			If zFrozen(n)=1 Then unFreeze(n,1)
 			If isDizzy(n)=1 Then unFreeze(n,0)
+			If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
 			If wolverineRage(n)=1 Then wolverineRage(n)=0
 		Next
 	EndIf
@@ -6351,29 +6352,38 @@ End Function
 
 ;-------------- Enemy Control Initialization ---------
 Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
-	zControls(n)=0:If enemy=0 Then zControlsThis(n)=0
+	zControls(n)=0
+	If enemy=0 Then zControlsThis(n)=0
 	For nn=1 To zzamount
 		If zShield(nn)=1 Then Goto continue
 		If zduck(nn)=1 Then height#=height-5
+		If curGuy(nn)=49 Then height#=height+20:width#=width+20
 		If enemy = 0 Then 
 			en=nn
 		Else 
 			en=enemy
 		End If
+		unitCounter=1
 		Select zFace(n)
 		Case 2
-			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x+width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(nn) + ", zy(2): " + zy(nn)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) >= x# And zx(en) <= x#+width# And zy(en) >= y# And zy(en) <= y#+height# Then
-					zControls(n)=1
+					While (zControlsThese(n, unitCounter) <> 0) And zControlsThese(n, unitCounter) <> en
+						unitCounter=unitCounter+1
+					Wend
+					zControlsThese(n, unitCounter)=en
 					initParalysis(n, en, isUnguardable)
-				End If 
+				End If
 			End If
 		Case 4
-			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(2) + ", zy(2): " + zy(2)
+			;DebugLog "n: " + n + ", x: " + x + "-" + (x-width) + ", y: " + y + "-" + (y+height) + ", zx(2): " + zx(nn) + ", zy(2): " + zy(nn)
 			If zon(en) And en <> n And zTeam(en) <> zTeam(n) And zControlled(en)=0 Then 
 				If zx(en) <= x# And zx(en) >= x#-width# And zy(en) >= y# And zy(en) <= y#+height# Then
-					zControls(n)=1
+					While (zControlsThese(n, unitCounter) <> 0) And zControlsThese(n, unitCounter) <> en
+						unitCounter=unitCounter+1
+					Wend
+					zControlsThese(n, unitCounter)=en
 					initParalysis(n, en, isUnguardable)
 				End If 
 			End If
@@ -6433,7 +6443,6 @@ End Function
 ;------------------ Draw Timer ----------------------
 Function drawTimer(curSeq, maxSeq, n, spellId)
 	x=15:y=480
-	DebugLog curGuy(n) + ", " + spellId
 	DrawImage cooldownPic(curGuy(n),spellId),x+((n-1)*160)-20,y-(spellId*9)-20
 	DrawImage timerImage(Int((Float(curSeq)/maxSeq)*90)),x+((n-1)*160)+20,y-(spellId*9)
 End Function
@@ -6481,4 +6490,32 @@ Function healPlayer(n)
 	End If
 	
 	If zHealTimes(n)=0 Then healMode(n)=0:zHealSeq(n)=0
+End Function
+
+;---------------- Burn Player ----------------------
+Function burnPlayer(n)
+	zBurnSeq(n)=zBurnSeq(n)+1
+	If zBurnSeq(n) > zBurnDuration(n) Then zBurnSeq(n)=0:zBurning(n)=0
+	zTrail(n)=1:zTrailSeq(n)=0:zTrailType(n)=1
+	If zBurnSeq(n) Mod 50 = 0 Then 
+		zDamage(n)=zDamage(n)+5:zLife(n)=zLife(n)-5
+		If gameSound Then PlaySound burnedSnd
+		If zLife(n) <= 0 And vsMode=0 Then
+			extraObj(n,zx(n),0,zy(n),0,zblowdir(n),16)
+			If gameSound Then PlaySound mineDudSnd
+			killZ(n)
+			zBurnSeq(n)=0:zBurning(n)=0
+		End If
+	End If
+	If zBurnSeq(n) Mod 50 = 0 Or zBurnSeq(n) Mod 51 = 0 Or zBurnSeq(n) Mod 52 = 0 Or zBurnSeq(n) Mod 53 = 0 Then
+		initNoControl(n)
+		zani(n)=2:zf(n)=2
+	End If
+End Function
+
+;---------------- Clear controlled Players --------
+Function clearControlledPlayers(n)
+	For nn=1 To zzamount
+		zControlsThese(n,nn)=0
+	Next
 End Function
