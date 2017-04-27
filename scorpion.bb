@@ -210,7 +210,7 @@ DebugLog "zBlowSeq(n): " + zBlowSeq(n)
 
 Select zCurBlow(n)
 Case 0	;Blocking
-	zNoMove(n)=1:zNoJump(n)=1
+	zNoMove(n)=1:zNoJump(n)=1:zSuperBar(n)=100
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0
@@ -410,7 +410,7 @@ Case 7	;Scorpion Spear
 				zy(zControlsThis(n))=zy(n)
 				If zHeight(zControlsThis(n)) <= 40 Then zy(zControlsThis(n))=zy(n)-20
 			End If
-			isDizzy(zControlsThis(n))=1
+			isDizzy(zControlsThis(n))=1:dizzyDuration(zControlsThis(n))=3000
 			freezeVictim(zControlsThis(n), 0)
 			zBlowSeq(n)=e
 		End If
@@ -480,7 +480,7 @@ Case 7	;Scorpion Spear
 		If zFace(n)=2 Then moveX(zControlsThis(n),4,3)
 		If zFace(n)=4 Then moveX(zControlsThis(n),2,3)
 		If zBlowSeq(n) = j-1 Or Abs(zx(n)-zx(zControlsThis(n))) <= 25 Then
-			isDizzy(zControlsThis(n))=1
+			isDizzy(zControlsThis(n))=1:dizzyDuration(zControlsThis(n))=3000
 			freezeVictim(zControlsThis(n), 0)
 			spellCooldownMaxTime(n, 1)=105
 			spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1)
@@ -684,12 +684,73 @@ Case 13 ; item pickup
 	If zBlowSeq(n) => c Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 Case 14	;Super Special
-	a=5:b=10:c=15:d=55
+	a=4:b=8:c=12:c2=45:d=50:e=100
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	
+	If zOnGnd(n)=0 Then zBlowSeq(n)=d
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then
+		zani(n)=17:zf(n)=1
+		If zBlowSeq(n) = 1 Then
+			clearControlledPlayers(n)
+			If gameSound=1 Then PlaySound mkFatalitySnd
+        	zSuperMove(n)=1:zSuperMoveSeq(n)=0
+		End If
+	End If
+	If zBlowSeq(n) > a And zBlowSeq(n) <= b Then zani(n)=17:zf(n)=2
+	If zBlowSeq(n) > b And zBlowSeq(n) <= c Then zani(n)=17:zf(n)=3
+	If zBlowSeq(n) > c And zBlowSeq(n) <= d Then 
+		zani(n)=17:zf(n)=4
+		If zBlowSeq(n) <= c2 Then
+			If zFace(n)=2 Then xCenter=zx(n)+100
+			If zFace(n)=4 Then xCenter=zx(n)-100
+			enemyControlInit(n,zx(n)+40,zy(n)-60,120,60,0,guardable)
+			unitCounter=1
+			While zControlsThese(n,unitCounter) <> 0
+				en=zControlsThese(n,unitCounter)
+				zani(en)=2:zf(en)=2
+				If zBlowSeq(n)=c2 Then 
+					zBurning(en)=1:zBurnDuration(en)=200
+					blocking=0
+					If blockKey(en)=1 And zCurBlow(en)=0 And zHit(en)=0 And zBlockLife(en) > 0 Then
+						blocking=1
+						zBlockLife(en)=zBlockLife(en)-70
+						If zBlockLife(en) <= 0 Then
+							If gameSound Then PlaySound brokenSnd
+						Else
+							If gameSound Then PlaySound blockedsnd
+						End If				
+					End If
+					If blocking=0 Or zBlockLife(en) <= 0 Then
+						isDizzy(en)=1:dizzyDuration(en)=2000
+						freezeVictim(en, 0)
+						zLife(en)=zLife(en)-70
+						zDamage(en)=zDamage(en)+70
+						If gameSound Then PlaySound scorpionSpearHitSnd
+						If zBlockLife(en) <= 0 Then zBlockLife(en)=zBlockFull(n)
+					End If
+				End If
+				If zx(en) < xCenter Then moveX(en,2,1.2)
+				If zx(en) > xCenter Then moveX(en,4,1.2)
+				If zy(en) < zy(n) Then moveY(en,1.2)
+				If zy(en) > zy(n) Then moveY(en,-1.2)
+				unitCounter=unitCounter+1
+			Wend
+		End If
+	End If
+
+	If zBlowSeq(n) = c Then
+		checkDist(n, zx(n), zy(n), zFace(n))
+		DebugLog "xDist: " + xDist(n)
+		extraObj(n,zx(n),80,zy(n),0,zblowdir(n),106)
+		If gameSound Then PlaySound mkExtraSpecialSnd
+	End If
+
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	
+	If zBlowSeq(n) > d And zBlowSeq(n) < e Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+
 Case 15 ;Scorpion throw
 	a=8: b=15: c=25: d=30: e=35: f=40: g=45: h=50: i=60
 	zNoMove(n)=1:zNoJump(n)=1

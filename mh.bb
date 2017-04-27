@@ -224,7 +224,7 @@ Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
-Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30)
+Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 
@@ -6138,7 +6138,7 @@ End Function
 ;----------------- Draw Dizzy State ------------------------------
 Function drawDizzyState(unit)
 	If isDizzy(unit)=1 Then
-		Local dizzyDuration = 3000 ; in milliseconds
+		Local dizzyDuration = dizzyDuration(unit) ; in milliseconds
 		currentDizzyTime(unit) = MilliSecs()
 		If cantGetDizzyTime(unit) = 0 Then
 			zHit(unit)=0

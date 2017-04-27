@@ -2263,6 +2263,25 @@ Case 105:		;flame
 	
 	If chunkSeq(n)=36 Or (chunkSeq(n) >= 28 And zhit(chunkOwner(n))=1) Then chunk(n)=0
 	
+Case 106:		;hand from hell
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 3 Then chunkPic(n)=ptPic(88,1):chunkPic_(n)=ptPic_(88,1)
+	If chunkSeq(n) >= 4 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(88,2):chunkPic_(n)=ptPic_(88,2)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 9 Then chunkPic(n)=ptPic(88,3):chunkPic_(n)=ptPic_(88,3)
+	If chunkSeq(n) >= 10 And chunkSeq(n) <= 12 Then chunkPic(n)=ptPic(88,4):chunkPic_(n)=ptPic_(88,4)
+	If chunkSeq(n) >= 13 And chunkSeq(n) <= 15 Then chunkPic(n)=ptPic(88,5):chunkPic_(n)=ptPic_(88,5)
+	If chunkSeq(n) >= 16 And chunkSeq(n) <= 18 Then chunkPic(n)=ptPic(88,6):chunkPic_(n)=ptPic_(88,6)
+	If chunkSeq(n) >= 19 And chunkSeq(n) <= 21 Then chunkPic(n)=ptPic(88,7):chunkPic_(n)=ptPic_(88,7)
+	If chunkSeq(n) >= 22 And chunkSeq(n) <= 24 Then chunkPic(n)=ptPic(88,8):chunkPic_(n)=ptPic_(88,8)
+	If chunkSeq(n) >= 25 And chunkSeq(n) <= 27 Then chunkPic(n)=ptPic(88,9):chunkPic_(n)=ptPic_(88,9)
+	If chunkSeq(n) >= 28 And chunkSeq(n) <= 30 Then chunkPic(n)=ptPic(88,10):chunkPic_(n)=ptPic_(88,10)
+	If chunkSeq(n) >= 31 And chunkSeq(n) <= 33 Then chunkPic(n)=ptPic(88,11):chunkPic_(n)=ptPic_(88,11)
+	If chunkSeq(n) >= 34 And chunkSeq(n) <= 36 Then chunkPic(n)=ptPic(88,12):chunkPic_(n)=ptPic_(88,12)
+	If chunkSeq(n) >= 37 And chunkSeq(n) <= 39 Then chunkPic(n)=ptPic(88,13):chunkPic_(n)=ptPic_(88,13)
+	If chunkSeq(n) >= 40 And chunkSeq(n) <= 42 Then chunkPic(n)=ptPic(88,14):chunkPic_(n)=ptPic_(88,14)
+	If chunkSeq(n) >= 43 And chunkSeq(n) <= 45 Then chunkPic(n)=ptPic(88,15):chunkPic_(n)=ptPic_(88,15)
+	
+	If chunkSeq(n)=45 Then chunk(n)=0
+	
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
