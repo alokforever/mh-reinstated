@@ -3727,6 +3727,7 @@ Case 2
 					  n_zani=zani(n) : n_zf=zf(n)
 			          nn_zani=zani(nn) : nn_zf=zf(nn)
 				      nn_curPic=zCurPic(nn)
+					  DebugLog zAni(n) + ", " + zf(n)
 				      DrawImage zCurPic(nn),10,10
 
 					If ImageRectCollide(nn_curPic,xp,yp,0,xb,yb,wBlow(n,bn),hBlow(n,bn)) Then
@@ -6151,7 +6152,7 @@ Function drawDizzyState(unit)
 			If dizzyFrames(unit) > 0 Then
 				For frame=dizzyFrames(unit) To 1 Step -1
 					If (dizzySeq(unit) / dizzyFrameSpeed(unit)) Mod frame = 0 Then
-						zani(unit)=23:zf(unit)=frame
+						If zHit(unit)=0 Then zani(unit)=23:zf(unit)=frame
 						If dizzySeq(unit)-1 > dizzyFrames(unit)*dizzyFrameSpeed(unit) Then dizzySeq(unit) = dizzyFrameSpeed(unit)-1
 						Return
 					EndIf			
@@ -6159,7 +6160,7 @@ Function drawDizzyState(unit)
 			Else
 				For frame=fallingFrames To 1 Step -1
 					If (dizzySeq(unit) / fallingFrameSpeed) Mod frame = 0 Then
-						zani(unit)=2:zf(unit)=frame
+						If zHit(unit)=0 Then zani(unit)=2:zf(unit)=frame
 						If dizzySeq(unit)-1 > fallingFrames*fallingFrameSpeed Then dizzySeq(unit) = fallingFrameSpeed-1
 						Return
 					EndIf			
