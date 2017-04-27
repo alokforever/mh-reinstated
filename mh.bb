@@ -226,6 +226,7 @@ Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHeal
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30)
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30)
+Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1162,6 +1163,7 @@ For n= 1 To zzamount
 	End If
 	If healMode(n)=1 Then healPlayer(n)
 	If zBurning (n) > 0 Then burnPlayer(n)
+	If zComboMode(n)=1 Then handleComboMode(n)
 	If zon(n) Then SelectDraw(n)
 Next
 
@@ -1740,7 +1742,6 @@ EndIf
 closeScreen(Rand(1,4),0)
 
 If mapComplete=1 Then
-	DebugLog "mapComplete: " + zzamount
 	clearSubStates()
     If secretsFound > mapSecret(previousMap) Then
 		mapSecret(previousMap) = secretsFound
@@ -6519,4 +6520,21 @@ Function clearControlledPlayers(n)
 	For nn=1 To zzamount
 		zControlsThese(n,nn)=0
 	Next
+End Function
+
+;----------------- Handle Combo Mode ------------------------------
+Function handleComboMode(n)
+	If zComboMode(n)=1 Then
+		currentComboModeTime(n) = MilliSecs()
+		If cantGetComboModeTime(n) = 0 Then
+			cantGetComboModeTime(n) = 1
+			startComboModeTime(n) = MilliSecs()
+		EndIf
+		endComboModeTime(n) = startComboModeTime(n) + comboModeDuration(n) ; in milliseconds
+		If currentComboModeTime(n) => endComboModeTime(n) Then 
+			cantGetComboModeTime(n)=0:zComboMode(n)=0:comboModeDuration(n)=0
+		End If
+	Else
+		cantGetComboModeTime(n)=0
+	EndIf
 End Function
