@@ -225,7 +225,7 @@ Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
-Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30)
+Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(30)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 
 ;Paths For directories / mods
@@ -629,7 +629,9 @@ EndIf
 Select menuOption
 	Case 1: menu()  ;character Select screen
 	Case 2: mainMenu()  ;main menu, first screen
-			clearSubStates()
+			For i=1 To zzamount
+				clearSubStates(i)
+			Next
 	Case 3: optionsMenu()   ;Options menu
 	Case 4: controlsMenu()   ;Controls menu
 End Select
@@ -1742,7 +1744,9 @@ EndIf
 closeScreen(Rand(1,4),0)
 
 If mapComplete=1 Then
-	clearSubStates()
+	For i=1 To zzamount
+		clearSubStates(i)
+	Next
     If secretsFound > mapSecret(previousMap) Then
 		mapSecret(previousMap) = secretsFound
 	EndIf
@@ -2224,6 +2228,7 @@ EndIf
 End Function
 ;------------- Kill player -----------------------
 Function killZ(n)
+clearSubStates(n)
 If gameMode <> 2 Then
 	zx(n)=zxRespawn(n):zy(n)=zyRespawn(n)
 Else
@@ -2760,6 +2765,7 @@ Case 2
 					Else
 						makechunk(shotDir(n),zx(nn),yShot(n),2,shotChunkHitType(n))
 					End If
+					If doesShotBurn(n) Then zBurning(nn)=1:zBurnDuration(nn)=200
 					If zblock(nn)=1 Then
 						zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=4:zblowDir(nn)=zface(nn)
 						zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=2
@@ -2862,7 +2868,7 @@ Case 4
 			EndIf
 		Next
 		If shothit Then Exit
-	Next 
+	Next
 	
 	For nn = 1 To zzamount
 		If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
@@ -2893,6 +2899,7 @@ Case 4
 					Else
 						makechunk(shotDir(n),zx(nn),yShot(n),4,shotChunkHitType(n))
 					End If
+					If doesShotBurn(n) Then zBurning(nn)=1:zBurnDuration(nn)=200
 					If zblock(nn)=1 Then
 						zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=2:zblowDir(nn)=zface(nn)
 						zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=4
@@ -6336,14 +6343,12 @@ Function depleteStaminaBar(n, amt)
 End Function
 
 ;------------ Clear gameplay sub states ---------------
-Function clearSubStates()
+Function clearSubStates(n)
 	;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
-	For n=1 To zzamount
-		If zFrozen(n)=1 Then unFreeze(n,1)
-		If isDizzy(n)=1 Then unFreeze(n,0)
-		If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
-		If wolverineRage(n)=1 Then wolverineRage(n)=0
-	Next
+	If zFrozen(n)=1 Then unFreeze(n,1)
+	If isDizzy(n)=1 Then unFreeze(n,0)
+	If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
+	If wolverineRage(n)=1 Then wolverineRage(n)=0
 End Function
 
 ;-------------- Draw trailing effects ----------------

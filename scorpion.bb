@@ -1,3 +1,39 @@
+Function performScorpionSuperSpecial2(n)
+	startSeq=100
+	endSeq=90
+	a=startSeq+3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+10:g=f+30:h=g+2:i=h+2:j=i+2:k=j+2:l=k+2:m=l+2
+	
+	If zBlowSeq(n) = startSeq And gameSound Then PlaySound mkExtraSpecialSnd
+	If zBlowSeq(n)=1 And zBlowSeq(n) < a Then zani(n)=18:zf(n)=1
+	If zBlowSeq(n)=a And zBlowSeq(n) < b Then zani(n)=18:zf(n)=2
+	If zBlowSeq(n)=b And zBlowSeq(n) < c Then zani(n)=18:zf(n)=3
+	If zBlowSeq(n)=c And zBlowSeq(n) < d Then zani(n)=18:zf(n)=4
+	If zBlowSeq(n)=d And zBlowSeq(n) < e Then zani(n)=18:zf(n)=5
+	If zBlowSeq(n)=e And zBlowSeq(n) < f Then zani(n)=18:zf(n)=6
+	If zBlowSeq(n)=f And zBlowSeq(n) < g Then zani(n)=18:zf(n)=7
+	If zBlowSeq(n)=f-1 Then
+		If gameSound=1 Then PlaySound mkFatalitySnd
+       	zSuperMove(n)=1:zSuperMoveSeq(n)=0
+	End If
+	If zBlowSeq(n)=f Then
+		If gameSound Then PlaySound scorpionFireballSnd
+		extraObj(n,zx(n),15,zy(n),-20,zblowdir(n),107)
+	End If
+	If zBlowSeq(n)=f+3 Then 
+		If zFace(n)=2 Then makeshot(n,46,zx(n)+15,zy(n)-20,zFace(n))
+		If zFace(n)=4 Then makeshot(n,46,zx(n)-15,zy(n)-20,zFace(n))
+	End If
+	If zBlowSeq(n)=g And zBlowSeq(n) < h Then zani(n)=18:zf(n)=6
+	If zBlowSeq(n)=h And zBlowSeq(n) < i Then zani(n)=18:zf(n)=5
+	If zBlowSeq(n)=i And zBlowSeq(n) < j Then zani(n)=18:zf(n)=4
+	If zBlowSeq(n)=j And zBlowSeq(n) < k Then zani(n)=18:zf(n)=3
+	If zBlowSeq(n)=k And zBlowSeq(n) < l Then zani(n)=18:zf(n)=2
+	If zBlowSeq(n)=l And zBlowSeq(n) < m Then zani(n)=18:zf(n)=1
+	
+	If zBlowSeq(n)=m Then zBlowSeq(n)=endSeq
+
+End Function
+
 Function performSweepKick(n)
 	a=102:b=a+3:c=b+2:d=c+3:e=d+2:f=e+3:g=f+3:h=g+3:i=h+3
 	aa=i+2:bb=aa+3:cc=bb+2:dd=cc+3:ee=dd+2:ff=ee+3:gg=ff+3:hh=gg+3:ii=hh+3
@@ -689,7 +725,10 @@ Case 14	;Super Special
 	zNoJump(n)=1
 	zjump(n)=0
 	
-	If zOnGnd(n)=0 Then zBlowSeq(n)=d
+	If zBlowSeq(n) = 1 And downKey(n) Then zBlowSeq(n)=e
+	If zBlowSeq(n) >= e Then performScorpionSuperSpecial2(n)
+
+	If zBlowSeq(n) < d And zOnGnd(n)=0 Then zBlowSeq(n)=d+1
 	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then
 		zani(n)=17:zf(n)=1
 		If zBlowSeq(n) = 1 Then
@@ -705,7 +744,8 @@ Case 14	;Super Special
 		If zBlowSeq(n) <= c2 Then
 			If zFace(n)=2 Then xCenter=zx(n)+100
 			If zFace(n)=4 Then xCenter=zx(n)-100
-			enemyControlInit(n,zx(n)+40,zy(n)-60,120,60,0,guardable)
+			If zFace(n)=2 Then enemyControlInit(n,zx(n)+40,zy(n)-60,120,60,0,guardable)
+			If zFace(n)=4 Then enemyControlInit(n,zx(n)-40,zy(n)-60,120,60,0,guardable)
 			unitCounter=1
 			While zControlsThese(n,unitCounter) <> 0
 				en=zControlsThese(n,unitCounter)
