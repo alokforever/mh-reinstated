@@ -2211,8 +2211,8 @@ Case 99:		;Ice shower chunk
 	If chunkSeq(n) = 21 Then chunk(n)=0
 
 Case 100:		;Ice shower chunk2
-	If chunkSeq(n) >= 1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(80,1):chunkPic_(n)=ptPic_(80,1)
-	If chunkSeq(n) >= 3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(80,2):chunkPic_(n)=ptPic_(80,2)
+	If chunkSeq(n) >= 1 And chunkSeq(n) < 3 Then chunkPic(n)=ptPic(80,1):chunkPic_(n)=ptPic(80,1)
+	If chunkSeq(n) >= 3 And chunkSeq(n) < 5 Then chunkPic(n)=ptPic(80,2):chunkPic_(n)=ptPic(80,2)
 	
 	If chunkSeq(n) = 5 Then chunk(n)=0
 	
@@ -2230,7 +2230,7 @@ Case 102: 		;berserker slash2 after-image
 
 	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(82,1):chunkPic_(n)=ptPic_(82,1)
 	
-	If chunkSeq(n) >= a Then chunk(n)=0	
+	If chunkSeq(n) >= a Then chunk(n)=0
 	
 Case 103:		;spear head
 	If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(85,1):chunkPic_(n)=ptPic_(85,1)

@@ -1740,6 +1740,8 @@ EndIf
 closeScreen(Rand(1,4),0)
 
 If mapComplete=1 Then
+	DebugLog "mapComplete: " + zzamount
+	clearSubStates()
     If secretsFound > mapSecret(previousMap) Then
 		mapSecret(previousMap) = secretsFound
 	EndIf
@@ -6333,14 +6335,13 @@ End Function
 
 ;------------ Clear gameplay sub states ---------------
 Function clearSubStates()
-	If n > 0 And n < 30 Then ;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
-		For n=1 To zzamount
-			If zFrozen(n)=1 Then unFreeze(n,1)
-			If isDizzy(n)=1 Then unFreeze(n,0)
-			If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
-			If wolverineRage(n)=1 Then wolverineRage(n)=0
-		Next
-	EndIf
+	;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
+	For n=1 To zzamount
+		If zFrozen(n)=1 Then unFreeze(n,1)
+		If isDizzy(n)=1 Then unFreeze(n,0)
+		If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
+		If wolverineRage(n)=1 Then wolverineRage(n)=0
+	Next
 End Function
 
 ;-------------- Draw trailing effects ----------------
