@@ -50,9 +50,14 @@ Function performSweepKick(n)
 		xblow(n,1)=0: yblow(n,1)=9:wblow(n,1)=25:hblow(n,1)=1
 		xblow(n,2)=0: yblow(n,2)=5:wblow(n,2)=28:hblow(n,2)=1
 		xblow(n,3)=0: yblow(n,3)=1:wblow(n,3)=28:hblow(n,3)=1
-		zHitMode(n)=0:zBlowHold(n)=10
-		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
-		zBlowSound(n)=mkKickHitSnd
+		zBlowHold(n)=10:zBlowSound(n)=mkKickHitSnd
+		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+		If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
+			zHitMode(n)=2:zBlowImpact(n)=20:zHitSpeed#(n)=4:zHitUpSpeed#(n)=1.5:zHitTime(n)=50
+		Else
+			zHitMode(n)=0:zBlowImpact(n)=99
+		End If
+		
 		zani(n)=9:zf(n)=6
 	EndIf
 	If (zBlowSeq(n) => f And zBlowSeq(n) < g) Or (zBlowSeq(n) => ff And zBlowSeq(n) < gg) Then zani(n)=9:zf(n)=7:moveX(n,zBlowdir(n),2.4)
@@ -64,7 +69,7 @@ End Function
 
 Function applyScorpionComboHitBox(n, hitMode, damage, hitSnd)
 	zblowPamount(n)=1:nn=1
-	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=36:hblow(n,nn)=22:nn=nn+1
+	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=30:hblow(n,nn)=22:nn=nn+1
 	zHitMode(n)=hitMode:zBlowHold(n)=0
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=12:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
@@ -246,7 +251,7 @@ DebugLog "zBlowSeq(n): " + zBlowSeq(n)
 
 Select zCurBlow(n)
 Case 0	;Blocking
-	zNoMove(n)=1:zNoJump(n)=1:zSuperBar(n)=100
+	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0
@@ -315,7 +320,7 @@ Case 4	;Low kick
 	
 	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=aa:downKeyDoubleTap(n)=0
 	If zBlowSeq(n) >= aa Then performSweepKick(n)
-	
+	If zBlowSeq(n) > 1 And zBlowSeq(n) < aa And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5)
 	If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=9:zf(n)=2
 	If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=9:zf(n)=3
@@ -598,7 +603,7 @@ Case 9	;Teleport punch
 		xblow(n,nn)=15: yblow(n,nn)=21:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=10: yblow(n,nn)=28:wblow(n,nn)=21:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
+		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
 		zBlowSound(n)=mkHitSnd
 	End If
 	If zBlowStill(n)=1 Then
@@ -616,6 +621,7 @@ Case 9	;Teleport punch
 
 Case 10	;Up + Attack
 	a=3: b=6: c=9: d=12: e=20: f=24: g=37: h=44
+	zChunkType(n)=95
 	zNoMove(n)=1
 	zNoJump(n)=1
 	If zBlowSeq(n) = c And gameSound Then PlaySound blow2snd
@@ -744,8 +750,8 @@ Case 14	;Super Special
 		If zBlowSeq(n) <= c2 Then
 			If zFace(n)=2 Then xCenter=zx(n)+100
 			If zFace(n)=4 Then xCenter=zx(n)-100
-			If zFace(n)=2 Then enemyControlInit(n,zx(n)+40,zy(n)-60,120,60,0,guardable)
-			If zFace(n)=4 Then enemyControlInit(n,zx(n)-40,zy(n)-60,120,60,0,guardable)
+			If zFace(n)=2 Then enemyControlInit(n,zx(n)+40,zy(n)-60,100,65,0,guardable)
+			If zFace(n)=4 Then enemyControlInit(n,zx(n)-40,zy(n)-60,100,65,0,guardable)
 			unitCounter=1
 			While zControlsThese(n,unitCounter) <> 0
 				en=zControlsThese(n,unitCounter)
@@ -755,7 +761,7 @@ Case 14	;Super Special
 					blocking=0
 					If blockKey(en)=1 And zCurBlow(en)=0 And zHit(en)=0 And zBlockLife(en) > 0 Then
 						blocking=1
-						zBlockLife(en)=zBlockLife(en)-70
+						zBlockLife(en)=zBlockLife(en)-50
 						If zBlockLife(en) <= 0 Then
 							If gameSound Then PlaySound brokenSnd
 						Else
@@ -765,8 +771,8 @@ Case 14	;Super Special
 					If blocking=0 Or zBlockLife(en) <= 0 Then
 						isDizzy(en)=1:dizzyDuration(en)=2000
 						freezeVictim(en, 0)
-						zLife(en)=zLife(en)-70
-						zDamage(en)=zDamage(en)+70
+						zLife(en)=zLife(en)-50
+						zDamage(en)=zDamage(en)+50
 						If gameSound Then PlaySound scorpionSpearHitSnd
 						If zBlockLife(en) <= 0 Then zBlockLife(en)=zBlockFull(n)
 					End If
@@ -781,8 +787,6 @@ Case 14	;Super Special
 	End If
 
 	If zBlowSeq(n) = c Then
-		checkDist(n, zx(n), zy(n), zFace(n))
-		DebugLog "xDist: " + xDist(n)
 		extraObj(n,zx(n),80,zy(n),0,zblowdir(n),106)
 		If gameSound Then PlaySound mkExtraSpecialSnd
 	End If

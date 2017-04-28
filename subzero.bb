@@ -219,9 +219,9 @@ Case 2	;Flying kick
 Case 4	;Low kick
 	zNoMove(n)=1:zNoJump(n)=1
 	zheight(n)=zduckheight(n)
-	zChunkType(n)=95
+	zChunkType(n)=50
 	a=10: b=20: c=45
-	If zBlowSeq(n) = a+1 And gameSound Then PlaySound subZeroSlideKickSnd
+	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroSlideKickSnd
 	If zSpeed(n) <> 0 Then b=b+(Abs(zSpeed#(n))/2):c=c+(Abs(zSpeed#(n))/2)
 	If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) < a And isRunning(n) Then zBlowSeq(n)=a
@@ -241,7 +241,7 @@ Case 4	;Low kick
 Case 5 ; Uppercut
    	zNoMove(n)=1
 	zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
-	zChunkType(n)=95
+	zChunkType(n)=50
 	a=5: b=a+5: c=b+6: d=c+150 
 	
 	If zBlowSeq(n) =1 Then

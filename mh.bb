@@ -1353,7 +1353,10 @@ Else	;If passed level
 	For n=1 To 4
 		If zon(n)=1 Then alive=alive+1	
 	Next
-	If alive < aliveAmountNeeded Then 
+	If alive < aliveAmountNeeded Then
+		For i=1 To zzamount
+			clearSubStates(i)
+		Next
 		gameDone=1
 		mapRestart=1
 	EndIf
@@ -6344,7 +6347,6 @@ End Function
 
 ;------------ Clear gameplay sub states ---------------
 Function clearSubStates(n)
-	;unfreeze players in case they are frozen by sub zero previously and deactivate wolverine's rage
 	If zFrozen(n)=1 Then unFreeze(n,1)
 	If isDizzy(n)=1 Then unFreeze(n,0)
 	If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
@@ -6406,7 +6408,12 @@ Function initParalysis(n, nn, isUnguardable)
 	zControlsThis(n)=nn
 	If isUnguardable=1 Then zParalyzed(nn)=1:initNoControl(nn)
 	If isUnguardable=0 Then
-		If (zBlowSeq(nn)=0 And zCurBlow(nn)=0) Or (zCurBlow(nn)<>0) Then zParalyzed(nn)=1:initNoControl(nn)
+		If (zBlowSeq(nn)=0 And zCurBlow(nn)=0) Or (zCurBlow(nn)<>0) Then 
+			DebugLog "AAA"
+			zParalyzed(nn)=1:initNoControl(nn)
+		Else
+			DebugLog "BBB"
+		End If			
 	EndIf
 	zControls(n)=1
 End Function
