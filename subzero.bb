@@ -54,8 +54,8 @@ Function performFatalitySuper(n)
 		enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n),guardable)
 		If zBlowSeq(n) = 183 Then
 			If zControlsThis(n) <> 0 Then extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
-			If gameSound And isMale(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
-			If gameSound And isMale(zControlsThis(n))=0 Then PlaySound mkFemaleAgonySnd
+			If gameSound And gender(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
+			If gameSound And gender(zControlsThis(n))=2 Then PlaySound mkFemaleAgonySnd
 			zLife(zControlsThis(n))=zLife(zControlsThis(n))-80
 			zDamage(zControlsThis(n))=zDamage(zControlsThis(n))+80
 		End If
@@ -179,6 +179,7 @@ Case 0	;Blocking
 Case 1	; Kick
 	a=4: b=8: c=12: d=16: e=20: f=24: g=28: h=32: i=36
 	zNoMove(n)=1:zNoJump(n)=1
+	zChunkType(n)=95
 	If zBlowSeq(n) = 1 And isRunning(n) Then zBlowSeq(n)=i:isRunning(n)=0
 	If zBlowSeq(n) >= i Then performSubzeroCombo(n)
 	If zBlowSeq(n) = d And gameSound Then PlaySound mkKickSnd
@@ -401,6 +402,7 @@ Case 10	; Up + Attack
 	a=3: b=6: c=9: d=15: e=24: f=37: g=44
 	zNoMove(n)=1
 	zNoJump(n)=1
+	zChunkType(n)=95
 	If zBlowSeq(n) = c And gameSound Then PlaySound blow2snd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=14:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=14:zf(n)=2

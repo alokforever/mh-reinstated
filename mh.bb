@@ -220,7 +220,7 @@ Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
-Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
+Dim isMkCharacter(30), gender(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
@@ -6041,8 +6041,8 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0,1)
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
-			If zParalyzedSeq(en)=1 And isMale(en)=1 And gameSound Then PlaySound mkSlideCrySnd
-			If zParalyzedSeq(en)=1 And isMale(en)=0 And gameSound Then PlaySound mkSlideCry2Snd
+			If zParalyzedSeq(en)=1 And gender(en)=1 And gameSound Then PlaySound mkSlideCrySnd
+			If zParalyzedSeq(en)=1 And gender(en)=2 And gameSound Then PlaySound mkSlideCry2Snd
 			If zParalyzedSeq(en)>69 Then zParalyzedSeq(en)=0
 			If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 20=0 Then 
 				zani(en)=2:zf(en)=1
