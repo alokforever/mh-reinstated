@@ -246,7 +246,7 @@ Case 4	;Low kick
 	If zBlowSeq(n) >= b And zBlowSeq(n) =< c Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) > c Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1:isRunning(n)=0
 
-Case 5 ; Uppercut
+Case 5 ; Up + Special
    	zNoMove(n)=1
 	zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
 	zChunkType(n)=50
@@ -287,7 +287,6 @@ Case 5 ; Uppercut
 	If zBlowSeq(n) => d Then zani(n)=7:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
 	If zongnd(n)=1 And zBlowSeq(n) => d-2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-	
 Case 6	;throwing iten
 	a=2:b=3:c=6:d=8
 	If zongnd(n)=1 Then zNoMove(n)=1:zNoJump(n)=1

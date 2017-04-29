@@ -807,7 +807,7 @@ For b= 1 To characterAmount ;characters to select
 	;Color 100,100,100:Rect xbut(b),ybut(b),wbut(b),hBut(b),1
 	;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
 	If characterOpen(b)=1 Then
-		If b = 11 Then
+		If b = 11 Or b = 14 Then
 			DrawImage butpic2(b),xbut(b)+1,( ybut(b)-ImageHeight(butpic2(b)) ) +56
 		Else
 			DrawImage butpic2(b),xbut(b)+10,( ybut(b)-ImageHeight(butpic2(b)) ) +56

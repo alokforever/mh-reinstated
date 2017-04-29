@@ -20,9 +20,9 @@ EndIf
 
 curWindowMode = windowMode
 If windowMode = 0 Then
-	Graphics3D 640,480,videoColorDepth,1  ;full screen
+	Graphics 640,480,videoColorDepth,1  ;full screen
 Else
-	Graphics3D 640,480,videoColorDepth,2  ;window
+	Graphics 640,480,videoColorDepth,2  ;window
 EndIf
 
 Const gameVersion$ = "0.96"
@@ -214,7 +214,7 @@ Global menuOption, duringGameMenu
 
 ;zeto's variables
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
-Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30)
+Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30), upKeyHitTimer(30), upKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
@@ -223,10 +223,11 @@ Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91
 Dim isMkCharacter(30), gender(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
-Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
+Dim downKeyHit(30), upKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
+Dim attackMode(30, 5)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -2324,7 +2325,7 @@ Next
 For n=1 To zzamount
 	hitKey(n)=0:upKey(n)=0:leftKey(n)=0:rightKey(n)=0:downKey(n)=0:jumpKey(n)=0:shotKey(n)=0
 	jumpKeyDown(n)=0:runkey(n)=0:blockKey(n)=0:specialkey(n)=0:grabKey(n)=0:superKey(n)=0
-	rightKeyhit(n)=0:leftKeyHit(n)=0:downKeyHit(n)=0:counterkey(n)=0:extraSpecialkey(n)=0
+	rightKeyhit(n)=0:leftKeyHit(n)=0:downKeyHit(n)=0:upKeyHit(n)=0:counterkey(n)=0:extraSpecialkey(n)=0
 	If zBlocked(n) Then zBlock(n)=1:zBlow(n)=1 Else zblock(n)=0
 Next
 If KeyHit(1) Then   ;pause button
@@ -2368,6 +2369,7 @@ Case 0
 	If KeyHit(leftK(n)) Then leftKeyhit(n)=1:hitKey(n)=1
 	If KeyHit(rightK(n)) Then rightKeyhit(n)=1:hitKey(n)=1
 	If KeyHit(downK(n)) Then downKeyHit(n)=1:hitKey(n)=1
+	If KeyHit(upK(n)) Then upKeyHit(n)=1:hitKey(n)=1
 	If KeyHit(specialK(n)) Then specialkey(n)=1:hitKey(n)=1
 	If KeyHit(shotK(n)) Then shotKey(n)=1:hitKey(n)=1
 	If KeyHit(jumpK(n)) Then jumpKey(n)=1 :hitKey(n)=1
@@ -6331,6 +6333,7 @@ Function checkInputs(n)
 	If rightKeyHit(n) Then checkRightKeyHit(n)
 	If leftKeyHit(n) Then checkLeftKeyHit(n)
 	If downKeyHit(n) Then checkDownKeyHit(n)
+	If upKeyHit(n) Then checkUpKeyHit(n)
 End Function
 
 ;----------- Check right key hit ---------------
@@ -6360,6 +6363,17 @@ Function checkDownKeyHit(n)
 		downKeyDoubleTap(n)=0
 	End If
 	downKeyHitTimer(n) = curTime
+End Function
+
+;----------- Check up key hit ---------------
+Function checkUpKeyHit(n)
+	Local quintSec=200, curTime=MilliSecs()
+	If (curTime - upKeyHitTimer(n)) < quintSec Then
+		upKeyDoubleTap(n)=1
+	Else
+		upKeyDoubleTap(n)=0
+	End If
+	upKeyHitTimer(n) = curTime
 End Function
 
 ;------------ Deplete Stamina Bar --------------

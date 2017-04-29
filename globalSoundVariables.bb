@@ -165,5 +165,8 @@ Global wolverineDrillClawSnd, wolverineDrillClawHitSnd
 Global wolverineClawSnd, wolverineClaw2Snd, wolverineLetsGoSnd
 Global wolverineSpellCooldown1Snd, wolverineSpellCooldown2Snd
 Global wolverineSuper3Snd
+Global wonderwomanWH1Snd, wonderwomanWH2Snd
+Global wonderwomanWhWaveSnd
 
+Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1.wav")
 Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")

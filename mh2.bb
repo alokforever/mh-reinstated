@@ -2361,8 +2361,7 @@ Case 108:		;post-fireball
 	
 Case 109:		;WW Dash
 
-	
-	
+
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3052,7 +3051,7 @@ For i=1 To 8
 	zpic_(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + "_.bmp")
 Next
 
-For i=1 To 9
+For i=1 To 20
 	zpic(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + ".bmp")
 	zpic_(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + "_.bmp")
 Next
@@ -3210,6 +3209,9 @@ EndIf
 If n=14 Then ;WonderWoman
 	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wonderwoman\wwDie.wav")
+	If wonderwomanWH1Snd=0 Then wonderwomanWH1Snd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWH1.wav")
+	If wonderwomanWH2Snd=0 Then wonderwomanWH2Snd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWH2.wav")
+	If wonderwomanWhWaveSnd=0 Then wonderwomanWhWaveSnd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWhWave.wav")
 End If
 
 If n=13 Then ;SubZero
