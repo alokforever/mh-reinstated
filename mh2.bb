@@ -337,6 +337,34 @@ Case 13: ;Sub Zero
 	isMale(n)=1
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
+	
+Case 14: ;Wonder Woman
+	zBlowDist(n,1)=45
+	zBlowDist(n,2)=50
+	zBlowDist(n,4)=64
+	zBlowDist(n,5)=48
+	zBlowDist(n,7)=250
+	zBlowDist(n,9)=400	:dangerMove9(n)=1
+	zBlowDist(n,10)=40
+	zBlowDist(n,11)=150
+	zBlowDist(n,14)=600
+	zBlowDist(n,16)=370
+	zxHand(n,0)=17 :zyHand(n,0)=24
+	zxHand(n,1)=12 :zyHand(n,1)=27
+	zxHand(n,2)=-5 :zyHand(n,2)=24
+	zxHand(n,3)=-0 :zyHand(n,3)=23
+	zRollOnImpact(n)=1
+	zJumpSnd(n)=jumpsnd
+	zJumpSnd2(n)=wolverinejumpsnd
+	zStanceFrames(n)=12
+	zStanceSpeed(n)=6
+	zWalkFrames(n)=27
+	zWalkFrameSpeed#(n)=2
+	zRunFrames(n)=11
+	zRunFrameSpeed#(n)=3
+	zCharSpeed#(n)=2
+	dizzyFrames(n)=8
+	dizzyFrameSpeed(n)=7
 
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -2977,7 +3005,7 @@ zpic_(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small_.bmp")
 zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
 zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
 
-For i=0 To 20
+For i=0 To 30
 	zpic(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + ".bmp")
 	zpic_(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + "_.bmp")
 Next
@@ -3199,7 +3227,6 @@ If n=12 Then	;Scorpion
 EndIf
 
 If n=11 Then
-    If wolverineJumpSnd=0 Then wolverineJumpSnd=LoadSound(soundsdir$ + "wolverine\wolverinejump.wav")
 	If wolverineBarrageSnd=0 Then wolverineBarrageSnd=LoadSound(soundsdir$ + "wolverine\berserker_barrage.wav")
 	If wolverineSlashSnd=0 Then wolverineSlashSnd=LoadSound(soundsdir$ + "wolverine\wolverine_slash1.wav")
 	If wolverineSlash2Snd=0 Then wolverineSlash2Snd=LoadSound(soundsdir$ + "wolverine\wolverine_slash2.wav")

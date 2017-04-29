@@ -52,7 +52,7 @@ Next
 
 CloseFile file
 
-End Function 
+End Function
 ;--------- load maps/secret stuff -------
 Function loadMaps()
 
@@ -204,7 +204,7 @@ If vsMode=0 Then
 	sp1=60 : sp2=45
 EndIf
 For n= 1 To 50 ;maxAmap
-  If vsMode=0 Then  ;If adventrure mode
+  If vsMode=0 Then  ;If adventure mode
 	If mapOpen(n)=1 And mapTn(n) <> 0 Then
 		xBut(n)=x:yBut(n)=y:wBut(n)=ImageWidth(mapTn(n)):hBut(n)=ImageHeight(mapTn(n))
 	EndIf
@@ -338,7 +338,7 @@ EndIf
 x=100:y=175
 For i=1 To 4
  If zwason(i)=1 Then
-  drawimage zPic(curGuy(i),1,0),x-40,y-10
+  DrawImage zPic(curGuy(i),1,0),x-40,y-10
   pri x,y, strInfo$(38) + zGotHitsAmount(i)
   If zGotHitsAmount(i)=0 Then pri x+230,y,strInfo$(39)
   y=y+50
@@ -567,6 +567,8 @@ If clickedBut(n) Then
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=12:zThumbNail(clickedBy(n))=butpic(n)
 	Case 13
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
+	Case 14
+		If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
 
 	Case 50 ;Select game mode on vs
 		gamemode=gamemode+1
@@ -595,7 +597,7 @@ If clickedBut(n) Then
 		Select gameMode
 			Case 2
 				flagMaxScore=flagMaxScore+1
-				If flagMaxScore >99 Then flagMaxScore=1
+				If flagMaxScore > 99 Then flagMaxScore=1
 			Case 3
 				flagMaxTime=flagMaxTime+50
 				If flagMaxTime > 1000 Then flagMaxTime=50

@@ -209,7 +209,7 @@ Global gamePaused,b_joyhit,timePassed#, keypressed, keyschosen,pn,ifiniteLives,f
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global characterAmount=13	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
 ;zeto's variables
@@ -242,6 +242,7 @@ Global cdDir$="gfx\stuff\cd"
 cooldownPic(11, 1)=LoadImage(gfxdir$ + "\cooldown\cd11_1.bmp")
 cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
 cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
+cooldownPic(12, 2)=LoadImage(gfxdir$ + "\cooldown\cd12_2.bmp")
 cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
 
 ;Find all mod directories and set their paths/name 
@@ -1039,6 +1040,7 @@ For n=1 To zzamount
 			Case 11:DoWolverine(n)
 			Case 12:DoScorpion(n)
 			Case 13:DoSubZero(n)
+			Case 14:DoWonderWoman(n)
 			Case 30:DoPig(n)
 			Case 31:DoAlien(n)
 			Case 32:DoFootClan(n)
@@ -6340,8 +6342,8 @@ Function checkDownKeyHit(n)
 End Function
 
 ;------------ Deplete Stamina Bar --------------
-Function depleteStaminaBar(n, amt)
-	If zStaminaBar#(n) > 0 Then zStaminaBar#(n)=zStaminaBar#(n)-amt
+Function depleteStaminaBar(n, amt#)
+	If zStaminaBar#(n) > 0 Then zStaminaBar#(n)=zStaminaBar#(n)-amt#
 	If zStaminaBar#(n) <= 0 Then isRunning(n)=0
 End Function
 

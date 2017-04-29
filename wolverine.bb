@@ -163,7 +163,7 @@ Function performWolverineCombo(n)
 	a=64:b=a+4:c=b+11:d=c+4:e=d+5:f=e+5:g=f+4:h=g+4:i=h+11:j=i+3:k=j+3:l=k+4:m=l+4
 	n1=m+3:o=n1+3:p=o+3:q=p+3
 	endSeq=58
-	
+	depleteStaminaBar(n, 1.5)
 	If zBlowSeq(n)>=60 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
 	If zBlowSeq(n) = 1 Then canPerformNextCombo(n)=0
 ;--------------------- animations -----------------------
@@ -245,14 +245,18 @@ Function performWolverineCombo(n)
 	
 	If (zBlowSeq(n)=b+2 Or zBlowSeq(n)=e+2 Or zBlowSeq(n)=h+2 Or zBlowSeq(n)=j+2 Or zBlowSeq(n)=202) And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
-	en=zControlsThis(n)
-	If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
+	unitCounter=1
+	While zControlsThese(n,unitCounter) <> 0
+		en=zControlsThese(n,unitCounter)
+		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
 	
-	If isHitting=1 Then
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-	Else If isHitting=0 And zBlock(en)=0
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-	End If
+		If isHitting=1 Then
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
+		Else
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
+		End If
+		unitCounter=unitCounter+1
+	Wend
 	
 	If zBlowSeq(n) > p And zBlowSeq(n) < 200 Then zControls(n)=0:zBlowSeq(n)=endSeq
 

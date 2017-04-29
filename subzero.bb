@@ -76,6 +76,7 @@ Function performSubzeroCombo(n)
 	a=39:b=a+3:c=b+11:d=c+3:e=d+3:f=e+11:g=f+3:h=g+3:i=h+3
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=32
+	depleteStaminaBar(n, 1.5)
 	If (zBlowSeq(n) <= o+3) Then enemyControlInit(n,zx(n),zy(n)-39,40,39,0,guardable)
 	
 	If zBlowSeq(n)>=36 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
@@ -138,14 +139,18 @@ Function performSubzeroCombo(n)
 	End If
 	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
 ;------ target manipulation --------
-	en=zControlsThis(n)
-	If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
+	unitCounter=1
+	While zControlsThese(n,unitCounter) <> 0
+		en=zControlsThese(n,unitCounter)
+		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
 	
-	If isHitting=1 Then
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-	Else
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-	End If
+		If isHitting=1 Then
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
+		Else
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
+		End If
+		unitCounter=unitCounter+1
+	Wend
 
 	If zBlowSeq(n) = p Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function

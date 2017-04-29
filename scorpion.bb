@@ -51,11 +51,12 @@ Function performSweepKick(n)
 		xblow(n,2)=0: yblow(n,2)=5:wblow(n,2)=28:hblow(n,2)=1
 		xblow(n,3)=0: yblow(n,3)=1:wblow(n,3)=28:hblow(n,3)=1
 		zBlowHold(n)=10:zBlowSound(n)=mkKickHitSnd
-		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+		zBLowEffect(n)=1:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
 		If zBlowSeq(n) >= e And zBlowSeq(n) < f Then
-			zHitMode(n)=2:zBlowImpact(n)=20:zHitSpeed#(n)=4:zHitUpSpeed#(n)=1.5:zHitTime(n)=50
+			zHitMode(n)=2:zBlowImpact(n)=20:zHitSpeed#(n)=3:zHitUpSpeed#(n)=1.5:zHitTime(n)=50
+			zBlowDamage(n)=11
 		Else
-			zHitMode(n)=0:zBlowImpact(n)=99
+			zBlowDamage(n)=12:zHitMode(n)=0:zBlowImpact(n)=99
 		End If
 		
 		zani(n)=9:zf(n)=6
@@ -147,14 +148,18 @@ Function performScorpionCombo1(n)
 	End If
 	If zBlowSeq(n)=o-3 And zControls(n)=0 Then zBlowSeq(n)=endSeq
 ;------ target manipulation --------
-	en=zControlsThis(n)
-	If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
+	unitCounter=1
+	While zControlsThese(n,unitCounter) <> 0
+		en=zControlsThese(n,unitCounter)
+		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
 	
-	If isHitting=1 Then
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-	Else
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-	End If
+		If isHitting=1 Then
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
+		Else
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
+		End If
+		unitCounter=unitCounter+1
+	Wend
 
 	If zBlowSeq(n) = s Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function
@@ -222,14 +227,19 @@ Function performScorpionCombo2(n)
 	End If
 
 ;------ target manipulation --------
-	en=zControlsThis(n)
-	If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
+	unitCounter=1
+	While zControlsThese(n,unitCounter) <> 0
+		en=zControlsThese(n,unitCounter)
+		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
 	
-	If isHitting=1 Then
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-	Else
-		If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-	End If
+		If isHitting=1 Then
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
+		Else
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
+		End If
+		unitCounter=unitCounter+1
+	Wend
+
 	If zBlowSeq(n) = m Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function
 
@@ -270,6 +280,7 @@ Case 1	;Kick
 	End If
 	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then performScorpionCombo2(n)
 	If zBlowSeq(n) >= j Then performScorpionCombo1(n)
+	If zBlowSeq(n) >= i Then depleteStaminaBar(n, 1.5)
 	
 	If zBlowSeq(n) = d And gameSound Then PlaySound mkKick2Snd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1
@@ -365,8 +376,8 @@ Case 5	;Upward Teleport
 		xblow(n,nn)=15: yblow(n,nn)=31:wblow(n,nn)=10:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=10: yblow(n,nn)=36:wblow(n,nn)=10:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=2:zBlowHold(n)=8
-		zFallSpeed(en)=5:zUpFallSpeed(en)=7:zFallTime(en)=80
-		zBlowDamage(n)=5:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
+		zHitSpeed#(n)=5:zHitUpSpeed#(n)=3:zHitTime(n)=40
+		zBlowDamage(n)=5:zBLowEffect(n)=1:zBlowImpact(n)=40:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
 		zBlowSound(n)=mkHitSnd
 	End If
 	
@@ -387,7 +398,8 @@ Case 5	;Upward Teleport
 		xblow(n,nn)=15: yblow(n,nn)=31:wblow(n,nn)=10:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=10: yblow(n,nn)=36:wblow(n,nn)=10:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=2:zBlowHold(n)=8
-		zBlowDamage(n)=8:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
+		zHitSpeed#(n)=5:zHitUpSpeed#(n)=3:zHitTime(n)=40
+		zBlowDamage(n)=6:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
 		zBlowSound(n)=mkHitSnd
 	End If
 
@@ -556,6 +568,12 @@ Case 9	;Teleport punch
 	zNoMove(n)=1
 	zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
 	a=2:b=2:c=6:d=9:e=13:f=21:g=f+15:h=g+8:i=100:j=i+24
+	
+	If zBlowSeq(n)=1 And spellCooldownSeq(n, 2) > 0 Then
+		If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+		zBlowSeq(n)=0:zBlow(n)=0
+	End If
+
 	If zBlowSeq(n) >= 1 And zBlowSeq(n) < a Then zani(n)=1:zf(n)=0
 	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zani(n)=12:zf(n)=1
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zani(n)=12:zf(n)=2
@@ -617,7 +635,12 @@ Case 9	;Teleport punch
 	If zBlowSeq(n) >= i+20 And zBlowSeq(n) < i+24 Then zani(n)=5:zf(n)=6
 	If zBlowSeq(n) = j Then zBlowSeq(n) = h
 	
-	If zBlowSeq(n) = h And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	If zBlowSeq(n) = h-1 Then 
+		spellCooldownMaxTime(n, 2)=25
+		spellCooldownSeq(n, 2)=spellCooldownMaxTime(n, 2)
+	End If
+				
+	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;Up + Attack
 	a=3: b=6: c=9: d=12: e=20: f=24: g=37: h=44
