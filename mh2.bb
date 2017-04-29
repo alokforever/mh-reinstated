@@ -61,6 +61,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	flipFrames(n)=0
 	dizzyFrames(n)=0
 	dizzyFrameSpeed(n)=0
+	duckFrames(n)=0
+	duckFrameSpeed(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -360,11 +362,14 @@ Case 14: ;Wonder Woman
 	zStanceSpeed(n)=6
 	zWalkFrames(n)=27
 	zWalkFrameSpeed#(n)=2
-	zRunFrames(n)=11
+	zRunFrames(n)=7
 	zRunFrameSpeed#(n)=3
 	zCharSpeed#(n)=2
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
+	isMale(n)=0
+	duckFrames(n)=5
+	duckFrameSpeed(n)=5
 
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -2354,6 +2359,10 @@ Case 108:		;post-fireball
 	
 	If chunkSeq(n)=42 Then chunk(n)=0
 	
+Case 109:		;WW Dash
+
+	
+	
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3021,6 +3030,11 @@ Next
 zpic(n,3,1)=LoadImage(gfxdir$ + "zduck.bmp")
 zpic_(n,3,1)=LoadImage(gfxdir$ + "zduck_.bmp")
 
+For i=2 To 10
+	zpic(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + ".bmp")
+	zpic_(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + "_.bmp")
+Next
+
 zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
 zPic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
 For i=2 To 10
@@ -3192,6 +3206,11 @@ If n=42 Then	;Joker
 	Next
 	If jokerSnd=0 Then jokerSnd=LoadSound(soundsdir$ + "joker.wav")
 EndIf
+
+If n=14 Then ;WonderWoman
+	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wonderwoman\wwDie.wav")
+End If
 
 If n=13 Then ;SubZero
 	If subZeroAirSnd=0 Then subZeroAirSnd=LoadSound(soundsdir$ + "subzero\subAir.mp3")

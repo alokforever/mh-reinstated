@@ -443,6 +443,7 @@ Case 7	;Scorpion Spear
 	If zBlowSeq(n) > b And zBlowSeq(n) < c Then zani(n)=10:zf(n)=3
 	If zBlowSeq(n) > c And zBlowSeq(n) < d Then zani(n)=10:zf(n)=4
 	If zBlowSeq(n) = c Then
+		;If spellCooldownSeq(n, 2) > 0 Then spellCooldownSeq(n, 2) = 60
 		dir=zface(n):y=zy(n)-zheight(n)+10:y2=y-3
 		If zface(n)=2 Then x=zx(n)+14:x2=x-50
 		If zface(n)=4 Then x=zx(n)-14:x2=x+50
@@ -535,7 +536,7 @@ Case 7	;Scorpion Spear
 		If zBlowSeq(n) = j-1 Or Abs(zx(n)-zx(zControlsThis(n))) <= 25 Then
 			isDizzy(zControlsThis(n))=1:dizzyDuration(zControlsThis(n))=3000
 			freezeVictim(zControlsThis(n), 0)
-			spellCooldownMaxTime(n, 1)=105
+			spellCooldownMaxTime(n, 1)=120
 			spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1)
 			zComboMode(n)=1
 			comboModeDuration(n)=2000
@@ -590,6 +591,7 @@ Case 9	;Teleport punch
 		xblow(n,nn)=10: yblow(n,nn)=28:wblow(n,nn)=21:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=2:zBlowHold(n)=8
 		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=2:zBlowBlockTime(n)=5
+		zHitSpeed#(n)=3:zHitUpSpeed#(n)=2:zHitTime(n)=40
 		zBlowSound(n)=mkHitSnd
 	End If
 	
@@ -636,7 +638,7 @@ Case 9	;Teleport punch
 	If zBlowSeq(n) = j Then zBlowSeq(n) = h
 	
 	If zBlowSeq(n) = h-1 Then 
-		spellCooldownMaxTime(n, 2)=25
+		spellCooldownMaxTime(n, 2)=40
 		spellCooldownSeq(n, 2)=spellCooldownMaxTime(n, 2)
 	End If
 				

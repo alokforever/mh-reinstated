@@ -55,6 +55,7 @@ Function performFatalitySuper(n)
 		If zBlowSeq(n) = 183 Then
 			If zControlsThis(n) <> 0 Then extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
 			If gameSound And isMale(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd
+			If gameSound And isMale(zControlsThis(n))=0 Then PlaySound mkFemaleAgonySnd
 			zLife(zControlsThis(n))=zLife(zControlsThis(n))-80
 			zDamage(zControlsThis(n))=zDamage(zControlsThis(n))+80
 		End If
@@ -226,10 +227,11 @@ Case 4	;Low kick
 	zheight(n)=zduckheight(n)
 	zChunkType(n)=50
 	a=10: b=20: c=45
-	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroSlideKickSnd
+
 	If zSpeed(n) <> 0 Then b=b+(Abs(zSpeed#(n))/2):c=c+(Abs(zSpeed#(n))/2)
 	If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=9:zf(n)=1
 	If zBlowSeq(n) < a And isRunning(n) Then zBlowSeq(n)=a
+	If zBlowSeq(n) = a And gameSound Then PlaySound subZeroSlideKickSnd
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then 
 		zblowPamount(n)=2:nn=1
 		xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
@@ -325,7 +327,7 @@ Case 7	;Sub Zero Freeze Ball
 	EndIf
 	If zBlowSeq(n) > i Then zBlowSeq(n)=0:zBlow(n)=0
 
-Case 8	;Dodge
+Case 8	;Dodging
 	zheight(n)=zduckHeight(n)
 	zNoMove(n)=1
 	zNoJump(n)=1

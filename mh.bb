@@ -9,7 +9,7 @@ If loadConfig() = False Then
 	gameSound=1
 	gameMusic=1
 	curIdiom=1
-	videoColorDepth=16
+	videoColorDepth=32
 	curModId=1
 EndIf
 
@@ -20,9 +20,9 @@ EndIf
 
 curWindowMode = windowMode
 If windowMode = 0 Then
-	Graphics 640,480,videoColorDepth,1  ;full screen
+	Graphics3D 640,480,videoColorDepth,1  ;full screen
 Else
-	Graphics 640,480,videoColorDepth,2  ;window
+	Graphics3D 640,480,videoColorDepth,2  ;window
 EndIf
 
 Const gameVersion$ = "0.96"
@@ -221,11 +221,11 @@ Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), z
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), isMale(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
-Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30)
+Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
-Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(30)
+Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 
 ;Paths For directories / mods
@@ -1969,7 +1969,11 @@ Function selectDraw(n)
 	End If
 	
 	If zDuck(n)=1 Then
-		zani(n)=3:zf(n)=1
+		If duckFrames(n) > 0 Then
+			drawDuckSequence(n)
+		Else
+			zani(n)=3:zf(n)=1
+		End If
 		If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
 		Goto drawZ		
 	End If			;ducking
@@ -6038,6 +6042,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
 			If zParalyzedSeq(en)=1 And isMale(en)=1 And gameSound Then PlaySound mkSlideCrySnd
+			If zParalyzedSeq(en)=1 And isMale(en)=0 And gameSound Then PlaySound mkSlideCry2Snd
 			If zParalyzedSeq(en)>69 Then zParalyzedSeq(en)=0
 			If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 20=0 Then 
 				zani(en)=2:zf(en)=1
@@ -6273,6 +6278,22 @@ Function drawStanceSequence(n)
 	Next
 End Function
 
+;----------- Draw Duck Sequence --------------
+Function drawDuckSequence(n)
+	If duckSeq(n) < duckFrameSpeed(n) Then 
+		duckSeq(n) = duckFrameSpeed(n)
+	Else
+		duckSeq(n) = duckSeq(n) + 1
+	End If
+	For frame=duckFrames(n) To 1 Step -1
+		If (duckSeq(n) / duckFrameSpeed(n)) Mod frame = 0 Then
+			zani(n)=3:zf(n)=frame
+			If duckSeq(n)-1 > duckFrameSpeed(n)*duckFrameSpeed(n) Then duckSeq(n) = duckFrameSpeed(n)-1
+			Return
+		EndIf			
+	Next
+End Function
+
 ;----------------  Draw Flip Frames ----------------
 Function drawFlipFrames(n)
 	If flipFrames(n)=0 Then
@@ -6359,6 +6380,9 @@ End Function
 Function drawTrailingEffects(n, runSeq)
 	If curGuy(n)=11 Then
 		If runSeq Mod 5 = 0 And Abs(zSpeed#(n)) >= 5 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
+	End If
+	If curGuy(n)=14 Then
+		
 	End If
 End Function
 
