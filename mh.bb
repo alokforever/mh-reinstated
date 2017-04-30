@@ -140,7 +140,7 @@ Dim	rectChunkType(50),rectHitSound(50),zHitByRect(50)
 Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),shotHold(200),shotTrailType(200)
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
 Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200), shotYspeed#(200), shotSound(200)
-Dim shotdamage(200),shotsize(200),shotsizeL(200),shotPic(200,10),shotPic_(200,10),shotImpact(200)
+Dim shotdamage(200),shotsize(200),shotsizeL(200),shotPic(200,10),shotPic_(200,10),shotInvertPic(200,10),shotImpact(200)
 Dim shotImage(100), shotImage_(100), shotHitTrail(200), shotSuper(200), shotBounce(200),shotExplosionSound(200)
 Dim shotHeight(200),shotWidth(200),shotside(200),shotChunkType(200), shotType(200), shotPushForce(200)
 Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200), shotDrill(200),shotDuration2(200)
@@ -227,7 +227,7 @@ Dim downKeyHit(30), upKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(20
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
-Dim attackMode(30, 5), canAirGlide(30)
+Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed(30), isDeflecting(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -992,6 +992,7 @@ For n= 1 To zzamount
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
+	projectileDeflectMode(n)=0:projectileDeflectSpeed(n)=0
 	If zFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
@@ -2789,7 +2790,8 @@ Case 2
 			If Not nn=shotowner(n) Then
 			  If Not (zShotByN(nn) = n And zShotHitSeq(nn, n) < shotImmuneTime(n)) Then	
 				If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then Exit ;Goto shotDone
-				If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
+					If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
+					If projectileDeflectMode(nn)=1 And zFace(nn)=4 Then deflectProjectile(n, nn):Goto shotDone
 					If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 					If Not shotDrill(n) Then shot(n)=0
 					zShotByN(nn)=n : zShotHitSeq(nn,n)=0
@@ -2804,7 +2806,7 @@ Case 2
 						zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=2
 						zBLockLife(nn)=zBlockLife(nn)-shotDamage(n)
 						If gameSound Then PlaySound blockedsnd
-						If zBlockLife(nn) <1 Then
+						If zBlockLife(nn) < 1 Then
 							zBlock(nn)=0:zBlocked(nn)=0
 							If gameSound Then PlaySound brokensnd
 						EndIf
@@ -2909,7 +2911,7 @@ Case 4
 			Goto shotDone
 		EndIf
 	Next
-	For qh=0 To shotHeight(n) Step 6
+	For qh=0 To shotHeight(n) Step 6 ;shot x player collision
 	For q=0 To shotsizeL(n) Step 1
 		xAxisShotPos=xshot(n)+q
 		yAxisShotPos=yshot(n)-qh
@@ -2924,6 +2926,7 @@ Case 4
 			  If Not (zShotByN(nn) = n And zShotHitSeq(nn,n) < shotImmuneTime(n)) Then
 				If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then Goto shotDone
 				If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
+					If projectileDeflectMode(nn)=1 And zFace(nn)=2 Then deflectProjectile(n, nn):Goto shotDone
 					If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 					If Not shotDrill(n) Then shot(n)=0
 					zShotByN(nn)=n : zShotHitSeq(nn,n)=0
@@ -3767,8 +3770,7 @@ Case 2
 					  n_zani=zani(n) : n_zf=zf(n)
 			          nn_zani=zani(nn) : nn_zf=zf(nn)
 				      nn_curPic=zCurPic(nn)
-					  DebugLog zAni(n) + ", " + zf(n)
-				      DrawImage zCurPic(nn),10,10
+					  DrawImage zCurPic(nn),10,10
 
 					If ImageRectCollide(nn_curPic,xp,yp,0,xb,yb,wBlow(n,bn),hBlow(n,bn)) Then
 						zBlowHit(n)=1
@@ -4350,6 +4352,7 @@ Case  2
 			  	
                If (zx(nn) => xObj(n)-(objSide(n)+zside(nn)+5) And zx(nn) =< xObj(n)+(objSide(n)+zside(nn)+5)) And (zy(nn) => yObj(n)-(objHeight(n)+5) And zy(nn) =< (yObj(n)+zHeight(nn)+5)) Then
 				If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xobj(n)-objSide(n)+q,yobj(n)-hh,1,1) Then
+					If projectileDeflectMode(nn)=1 And zFace(nn)=4 Then deflectObject(n, nn):Goto objDone
 					If objExplosive(n) > 0 And objHurt(n)=1 Then
 						objexp(n,xObj(n),yobj(n)+10,objExplosive(n)):objHitSolid(n):obj(n)=0
 						;Goto objDone
@@ -4415,6 +4418,7 @@ Case 4
 			  If nn<>objOwner(n) And objHurt(n) And zShield(nn)=0 And zon(nn)=1 Then
                                 If (zx(nn) => xObj(n)-(objSide(n)+zside(nn)+5) And zx(nn) =< xObj(n)+(objSide(n)+zside(nn)+5)) And (zy(nn) => yObj(n)-(objHeight(n)+5) And zy(nn) =< (yObj(n)+zHeight(nn)+5)) Then
 				If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xobj(n)-objSide(n)+q,yobj(n)-hh,1,1) Then
+					If projectileDeflectMode(nn)=1 And zFace(nn)=2 Then deflectObject(n, nn):Goto objDone
 					If objExplosive(n) > 0 And objHurt(n)=1 Then
 						objexp(n,xObj(n),yobj(n)+10,objExplosive(n)):objHitSolid(n):obj(n)=0
 						;Goto objDone
@@ -6094,6 +6098,10 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 					If Not (zShotByN(targetPlayer) = projectile And zShotHitSeq(targetPlayer, projectile) < shotImmuneTime(projectile)) Then 
 					If teamAttack=0 And zteam(shotOwner(projectile)) = zteam(targetPlayer) Then Return
 					If ImageRectCollide(zCurPic(targetPlayer),zx(targetPlayer)-(ImageWidth(zCurPic(targetPlayer))/2)+30,zy(targetPlayer)-ImageHeight(zCurPic(targetPlayer))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
+						If projectileDeflectMode(targetPlayer)=1 Then
+							If shotDir(projectile)=2 And zFace(targetPlayer)=4 Then deflectProjectile(projectile, targetPlayer):Exit
+							If shotDir(projectile)=4 And zFace(targetPlayer)=2 Then deflectProjectile(projectile, targetPlayer):Exit
+						End If
 						If Not shotDrill(projectile) Then shot(projectile)=0
 							zShotByN(targetPlayer)=projectile : zShotHitSeq(targetPlayer,projectile)=0
 							makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile),shotDir(projectile),shotChunkType(projectile))
@@ -6272,7 +6280,6 @@ End Function
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
 	drawTrailingEffects(n, zRunSeq(n))
-	DebugLog "zStamina: " + zStaminaBar(1) + ", zRunSeq: " + zRunSeq(1)
 	If ((zStaminaBar(n) = 95 And zRunSeq(n)=5) Or (canAirGlide(n) And zRunSeq(n)=1 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
 	If zRunSeq(n) Mod 12 = 0 And gameSound Then PlaySound zRunFootSound(curGuy(n))
 	If zRunFrames(n) <> 0 Then
@@ -6472,10 +6479,7 @@ Function initParalysis(n, nn, isUnguardable)
 	If isUnguardable=1 Then zParalyzed(nn)=1:initNoControl(nn)
 	If isUnguardable=0 Then
 		If (zBlowSeq(nn)=0 And zCurBlow(nn)=0) Or (zCurBlow(nn)<>0) Then 
-			DebugLog "AAA"
 			zParalyzed(nn)=1:initNoControl(nn)
-		Else
-			DebugLog "BBB"
 		End If			
 	EndIf
 	zControls(n)=1
@@ -6615,4 +6619,34 @@ Function handleComboMode(n)
 	Else
 		cantGetComboModeTime(n)=0
 	EndIf
+End Function
+		
+;----------------- Deflect Projectile -------------------
+Function deflectProjectile(shot, newOwner)
+	shotOwner(shot)=newOwner
+	If shotDir(shot)=2 Then 
+		shotDir(shot)=4
+	Else
+		shotDir(shot)=2
+	End If
+	If shotYSpeed(shot) > 0 And shotSpeed(shot)=0 Then 
+		shotPic(shot,1)=shotInvertPic(shot,1)
+		shotPic_(shot,1)=shotInvertPic(shot,1)
+		shotYSpeed(shot)=shotYSpeed(shot)*-1
+	End If
+	shotSpeed(shot)=shotSpeed(shot);*projectileDeflectSpeed(shot)
+	shotUturn(shot)=0
+	shotFollowOwner(shot)=0
+	If shotDuration2(shot) > shotDuration(shot) Then shotDuration(shot)=shotDuration2(shot)
+	isDeflecting(newOwner)=1
+End Function
+
+;----------------- Deflect Object --------------------
+Function deflectObject(obj, newOwner)
+	objOwner(obj)=newOwner
+	If objDir(obj)=2 Then
+		objDir(obj)=4
+	Else
+		objDir(obj)=2
+	End If
 End Function

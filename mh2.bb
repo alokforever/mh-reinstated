@@ -261,10 +261,10 @@ Case 11: ;Wolverine
 	zBlowDist(n,11)=150
 	zBlowDist(n,14)=120
 	zBlowDist(n,16)=550
-	zxHand(n,0)=15 :zyHand(n,0)=21
-	zxHand(n,1)=7 :zyHand(n,1)=23
-	zxHand(n,2)=-11 :zyHand(n,2)=20
-	zxHand(n,3)=-6 :zyHand(n,3)=19
+	zxHand(n,0)=2 :zyHand(n,0)=23
+	zxHand(n,1)=2 :zyHand(n,1)=23
+	zxHand(n,2)=-2 :zyHand(n,2)=23
+	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=jumpsnd
 	zJumpSnd2(n)=wolverinejumpsnd
@@ -291,10 +291,10 @@ Case 12: ;Scorpion
 	zBlowDist(n,11)=150
 	zBlowDist(n,14)=120
 	zBlowDist(n,16)=370
-	zxHand(n,0)=-5 :zyHand(n,0)=21
-	zxHand(n,1)=-5 :zyHand(n,1)=22
-	zxHand(n,2)=-5 :zyHand(n,2)=21
-	zxHand(n,3)=-4 :zyHand(n,3)=21
+	zxHand(n,0)=2 :zyHand(n,0)=23
+	zxHand(n,1)=2 :zyHand(n,1)=23
+	zxHand(n,2)=-2 :zyHand(n,2)=23
+	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=mkJumpSnd
 	zJumpSnd2(n)=mkJump2Snd
@@ -322,10 +322,10 @@ Case 13: ;Sub Zero
 	zBlowDist(n,11)=150
 	zBlowDist(n,14)=600
 	zBlowDist(n,16)=370
-	zxHand(n,0)=17 :zyHand(n,0)=24
-	zxHand(n,1)=12 :zyHand(n,1)=27
-	zxHand(n,2)=-5 :zyHand(n,2)=24
-	zxHand(n,3)=-0 :zyHand(n,3)=23
+	zxHand(n,0)=2 :zyHand(n,0)=23
+	zxHand(n,1)=2 :zyHand(n,1)=23
+	zxHand(n,2)=-2 :zyHand(n,2)=23
+	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=mkJumpSnd
 	zJumpSnd2(n)=mkJump2Snd
@@ -352,10 +352,10 @@ Case 14: ;Wonder Woman
 	zBlowDist(n,11)=150
 	zBlowDist(n,14)=600
 	zBlowDist(n,16)=370
-	zxHand(n,0)=17 :zyHand(n,0)=24
-	zxHand(n,1)=12 :zyHand(n,1)=27
-	zxHand(n,2)=-5 :zyHand(n,2)=24
-	zxHand(n,3)=-0 :zyHand(n,3)=23
+	zxHand(n,0)=2 :zyHand(n,0)=23
+	zxHand(n,1)=2 :zyHand(n,1)=23
+	zxHand(n,2)=-2 :zyHand(n,2)=23
+	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
 	zJumpSnd(n)=jumpsnd
 	zJumpSnd2(n)=wolverinejumpsnd
@@ -1459,6 +1459,7 @@ Case 44	;Sub Zero ice shower
 	shotChunkType(n)=100
 	shotPic(n,1)=shotImage(52)
 	shotPic_(n,1)=shotImage(52)
+	shotInvertPic(n,1)=shotImage_(52)
 	shotSound(n)=subZeroFreeze2Snd
 	
 Case 45 ;Scorpion Spear
@@ -3214,6 +3215,9 @@ If n=14 Then ;WonderWoman
 	If wonderwomanWH1Snd=0 Then wonderwomanWH1Snd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWH1.wav")
 	If wonderwomanWH2Snd=0 Then wonderwomanWH2Snd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWH2.wav")
 	If wonderwomanWhWaveSnd=0 Then wonderwomanWhWaveSnd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWhWave.wav")
+	If wwAegisSnd=0 Then wwAegisSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegis.wav")
+	If wwAegisMetalSnd=0 Then wwAegisMetalSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegisMetal.wav")
+	If wwAegisHitSnd=0 Then wwAegisHitSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegisHit.wav")
 End If
 
 If n=13 Then ;SubZero

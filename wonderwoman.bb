@@ -125,7 +125,7 @@ Case 5	;Up + Special (Warrior's heart)
 Case 6	;throwing iten
 	zBlowSeq(n)=0:zBlow(n)=0
 
-Case 7	;Special (Tears of Amazon)
+Case 7	;Special (Magic Lasso)
 	zBlowSeq(n)=0:zBlow(n)=0
 
 Case 8	;Dodging
@@ -144,8 +144,51 @@ Case 8	;Dodging
 	If zblowseq(n) > a And zblowseq(n) <= e Then zshield(n)=1
 	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0
 
-Case 9	;Down + Special (Projectile deflector)
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+Case 9	;Down + Special (Amazon Aegis (Projectile deflector))
+	zNoMove(n)=1:zNoJump(n)=1
+	a=3:b=a+7:c=b+4:d=c+4:e=d+4:f=e+4:g=f+4:h=g+4:i=h+4:j=i+4:k=j+6:l=k+4
+	aa=100:bb=aa+1:cc=bb+5:dd=cc+5:ee=dd+2:ff=ee+2:gg=ff+2:hh=gg+12:ii=hh+4
+	
+	If zOnGnd(n)=0 Then zy(n)=zy(n)-2
+;---------- Sound effects ----------
+	If zBlowSeq(n) = a And gameSound Then PlaySound wwAegisMetalSnd
+	If zBlowSeq(n) = b And gameSound Then PlaySound wwAegisSnd
+
+;---------- Animation ------------
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=12:zf(n)=1
+	If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) >= c And zBlowSeq(n) <= d Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) >= d And zBlowSeq(n) <= e Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) >= c And zBlowSeq(n) <= f Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) >= d And zBlowSeq(n) <= g Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) >= e And zBlowSeq(n) <= h Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) >= f And zBlowSeq(n) <= i Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) >= g And zBlowSeq(n) <= j Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) >= h And zBlowSeq(n) <= k Then zani(n)=12:zf(n)=4
+	If zBlowSeq(n) >= i And zBlowSeq(n) <= l Then zani(n)=12:zf(n)=1
+	
+	If zBlowSeq(n) >= aa And zBlowSeq(n) <= bb Then zani(n)=12:zf(n)=4
+	If zBlowSeq(n) >= bb And zBlowSeq(n) <= cc Then zani(n)=12:zf(n)=5
+	If zBlowSeq(n) >= cc And zBlowSeq(n) <= dd Then zani(n)=12:zf(n)=6
+	If zBlowSeq(n) >= dd And zBlowSeq(n) <= ee Then zani(n)=12:zf(n)=7
+	If zBlowSeq(n) >= ee And zBlowSeq(n) <= ff Then zani(n)=12:zf(n)=8
+	If zBlowSeq(n) >= ff And zBlowSeq(n) <= gg Then zani(n)=12:zf(n)=7
+	If zBlowSeq(n) >= gg And zBlowSeq(n) <= hh Then zani(n)=12:zf(n)=8
+	If zBlowSeq(n) >= hh And zBlowSeq(n) <= ii Then zani(n)=12:zf(n)=1
+
+	If zBlowSeq(n) > ii Then zBlowSeq(n) = l
+;---------- Special Effect ---------
+	If zBlowSeq(n) >= a And zBlowSeq(n) < j Then 
+		projectileDeflectMode(n)=1:projectileDeflectSpeed(n)=1
+		If isDeflecting(n)=1 Then
+			If gameSound Then PlaySound wwAegisHitSnd
+			isDeflecting(n)=0
+			zBlowSeq(n)=aa
+		End If
+	End If
+
+	If zBlowSeq(n) > l And zBlowSeq(n) < aa Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Kick 
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
@@ -234,13 +277,13 @@ Case 13 ; item pickup
 Case 14	;Super Special
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 15 ;Wolverine throw
+Case 15 ;WW throw
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 16 ;Counter Key (Berserker Rage)
+Case 16 ;Counter Key (Taunt)
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 17 ;Extra special key (Drill Claw)
+Case 17 ;Extra special key (Flight)
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 End Select
