@@ -3218,6 +3218,8 @@ If n=14 Then ;WonderWoman
 	If wwAegisSnd=0 Then wwAegisSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegis.wav")
 	If wwAegisMetalSnd=0 Then wwAegisMetalSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegisMetal.wav")
 	If wwAegisHitSnd=0 Then wwAegisHitSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegisHit.wav")
+	If wwTaunt1Snd=0 Then wwTaunt1Snd=LoadSound(soundsdir$ + "wonderwoman\wwTaunt1.wav")
+	If wwCapeSnd=0 Then wwCapeSnd=LoadSound(soundsdir$ + "wonderwoman\wwCape.wav")
 End If
 
 If n=13 Then ;SubZero

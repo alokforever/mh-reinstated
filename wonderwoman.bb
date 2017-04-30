@@ -90,7 +90,7 @@ Case 5	;Up + Special (Warrior's heart)
 		zBlowBack(n)=1
 		xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=20:hblow(n,nn)=20:nn=nn+1
 		xblow(n,nn)=-10: yblow(n,nn)=50:wblow(n,nn)=20:hblow(n,nn)=20:nn=nn+1
-		xblow(n,nn)=-10: yblow(n,nn)=70:wblow(n,nn)=20:hblow(n,nn)=20:nn=nn+1
+		xblow(n,nn)=-10: yblow(n,nn)=80:wblow(n,nn)=30:hblow(n,nn)=20:nn=nn+1
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=3:zHitUpSpeed#(n)=4.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2)
@@ -100,7 +100,7 @@ Case 5	;Up + Special (Warrior's heart)
 	EndIf
 	If (zBlowSeq(n) > g And zBlowSeq(n) =< i) Or (zBlowSeq(n) > p And zBlowSeq(n) <= r) Or (attackMode(n, 1)=1 And zBlowSeq(n) > ff And zBlowSeq(n) <= hh) Then
 		zBlowPamount(n)=1:nn=1
-		xblow(n,nn)=-27: yblow(n,nn)=73:wblow(n,nn)=68:hblow(n,nn)=17
+		xblow(n,nn)=-27: yblow(n,nn)=80:wblow(n,nn)=68:hblow(n,nn)=25
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=3:zHitUpSpeed#(n)=4.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2)
@@ -281,7 +281,39 @@ Case 15 ;WW throw
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 16 ;Counter Key (Taunt)
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	zNoMove(n)=1:zNoJump(n)=1
+	a=72:b=a+6:c=b+6:d=c+6:e=d+4:f=e+4:g=f+3:h=g+3:i=h+3:j=i+4
+	zani(n)=16
+;---------- Sound effects ------------
+	If zBlowSeq(n)=1 And gameSound Then PlaySound wwTaunt1Snd
+	If (zBlowSeq(n) Mod 50=0 Or zBlowSeq(n)=1) And gameSound Then PlaySound wwCapeSnd
+
+;---------- Animations -------------
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) < a Then
+		If zBlowSeq(n)=1 Then zf(n)=1
+		If zBlowSeq(n) Mod 3 = 0 Then
+			If zf(n)=1 Then 
+				zf(n)=2
+			Else If zf(n)=2 Then
+				zf(n)=3
+			Else If zf(n)=3 Then
+				zf(n)=4
+			Else
+				zf(n)=1
+			End If
+		End If
+	End If
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zf(n)=5
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zf(n)=6
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zf(n)=7
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zf(n)=8
+	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then zf(n)=9
+	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then zf(n)=10
+	If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zf(n)=11
+	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zf(n)=12
+	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zf(n)=13
+	
+	If zBlowSeq(n) = j Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 17 ;Extra special key (Flight)
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
