@@ -63,6 +63,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	dizzyFrameSpeed(n)=0
 	duckFrames(n)=0
 	duckFrameSpeed(n)=0
+	canAirGlide(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -370,6 +371,7 @@ Case 14: ;Wonder Woman
 	gender(n)=2
 	duckFrames(n)=5
 	duckFrameSpeed(n)=5
+	canAirGlide(n)=1
 
 Case 30: ;Pig
 	zBlowDist(n,1)=64

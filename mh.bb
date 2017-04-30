@@ -227,7 +227,7 @@ Dim downKeyHit(30), upKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(20
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
-Dim attackMode(30, 5)
+Dim attackMode(30, 5), canAirGlide(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1981,14 +1981,30 @@ Function selectDraw(n)
 	
 	If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
 		If isRunning(n) Then depleteStaminaBar(n, 1)
+		If isRunning(n) And canAirGlide(n)
+			If zJump2Seq(n)=1 Then zRunSeq(n)=0
+			If zjump2seq(n)>20 Then 
+				zRunSeq(n)=zRunSeq(n)+1:drawRunSequence(n)
+				Goto drawZ
+			End If
+		End If
 		drawFlipFrames(n)
 		Goto drawZ
 	EndIf
 	
 	If zongnd(n)=0 And zhit(n)=0 Then 	;mid air
-		If isRunning(n) Then depleteStaminaBar(n, 1)
+		If isRunning(n) And canAirGlide(n)=1 Then
+			If zJumpSeq(n)=1 Then zRunSeq(n)=0
+			depleteStaminaBar(n, 1)
+			zRunSeq(n)=zRunSeq(n)+1
+			drawRunSequence(n)
+			Goto drawZ
+		Else If isRunning(n) And canAirGlide(n)=0 Then
+			depleteStaminaBar(n, 1)
+		End If
 		zani(n)=4:zf(n)=1:Goto drawZ	
 	End If
+
 	If Not zhit(n) Then ;on ground
 		If zspeed(n) <> 0 Then	;walking
 			If isRunning(n) Then
@@ -2007,7 +2023,7 @@ Function selectDraw(n)
 	
 	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then
 		zani(n)=2:zf(n)=0:Goto drawZ
-		Else
+	Else
 		
 		a=10:b=25:c=35
 		If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
@@ -2442,7 +2458,7 @@ EndIf
 If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
 ;--walking/running/speed/acceleration stuff---------------------------------------------------------------------
 If rightkey(n)=1 Then
-	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n)
+	If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Or canAirGlide(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n)
 	If isRunning(n) Then
 		If zSpeed#(n) > zTopRunningSpeed#(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
 	Else
@@ -2453,7 +2469,7 @@ If rightkey(n)=1 Then
 EndIf
 
 If leftkey(n)=1 Then
-	If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed#(n) - (zTopSpeed(n)*2)) Or zOnGnd(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n)
+	If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed#(n) - (zTopSpeed(n)*2)) Or zOnGnd(n) Or canAirGlide(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n)
 	If isRunning(n) Then
 		If zSpeed#(n) < zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2) Then zSpeed#(n) = zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2)
 	Else
@@ -2600,7 +2616,13 @@ If jumpKey(n)=1 Then    ;jumping
 	If zhit(n)=0 And zBlow(n)=0 And zNoJump(n)=0 Then
 		downKey(n)=0
 		If zjump(n)=0 And zongnd(n)=1 Then
-			If gamesound Then PlaySound zJumpSnd(n)
+			If gamesound Then 
+				If isRunning(n)=1 And canAirGlide(n)=1 Then
+					PlaySound zRunGruntSound(curGuy(n)) 
+				Else
+					PlaySound zJumpSnd(n)
+				End If
+			End If
 			zjump(n)=1:zjumpseq(n)=0:zongnd(n)=0
 			If zblockLife(n) > zblockfull(n) Then zblockLife(n)=zblockfull(n)
 		Else
@@ -6250,7 +6272,8 @@ End Function
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
 	drawTrailingEffects(n, zRunSeq(n))
-	If zStaminaBar(n) = 95 And zRunSeq(n)=5 And gameSound Then PlaySound zRunGruntSound(curGuy(n))
+	DebugLog "zStamina: " + zStaminaBar(1) + ", zRunSeq: " + zRunSeq(1)
+	If ((zStaminaBar(n) = 95 And zRunSeq(n)=5) Or (canAirGlide(n) And zRunSeq(n)=1 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
 	If zRunSeq(n) Mod 12 = 0 And gameSound Then PlaySound zRunFootSound(curGuy(n))
 	If zRunFrames(n) <> 0 Then
 		For frame=zRunFrames(n) To 1 Step -1
@@ -6340,7 +6363,7 @@ End Function
 Function checkRightKeyHit(n)	
 	Local quintSec=200, curTime=MilliSecs()
 	If (curTime - rightKeyHitTimer(n)) < quintSec Then
-		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
+		If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	rightKeyHitTimer(n) = curTime
 End Function
@@ -6349,7 +6372,7 @@ End Function
 Function checkLeftKeyHit(n)
 	Local quintSec=200, curTime=MilliSecs()
 	If (curTime - leftKeyHitTimer(n)) < quintSec Then
-		If zOnGnd(n) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
+		If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
 End Function
@@ -6521,11 +6544,13 @@ Function performDoubleJump(n)
 	If zjump2(n)=0 And noDoubleJump=0 Then
 		zjump2(n)=1:zjump2seq(n)=0
 		zjump(n)=1:zjumpseq(n)=0
-		If gamesound And zJumpSnd2(n) <> 0 Then 
-			PlaySound zJumpSnd2(n)
-		Else
-			PlaySound zJumpSnd(n)
-		EndIf
+		If gamesound Then
+			If zJumpSnd2(n) <> 0 Then 
+				PlaySound zJumpSnd2(n)
+			Else
+				PlaySound zJumpSnd(n)
+			EndIf
+		End If
 	EndIf
 End Function
 

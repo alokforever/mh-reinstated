@@ -85,7 +85,7 @@ Case 5	;Up + Special (Warrior's heart)
 	End If
 
 ;------------ Hit boxes --------------
-	If (zBlowSeq(n) > e And zBlowSeq(n) =< g) Or (zBlowSeq(n) > m And zBlowSeq(n) < o) Or (zBlowSeq(n) > cc And zBlowSeq(n) < ee) Then
+	If (zBlowSeq(n) > e And zBlowSeq(n) =< g) Or (zBlowSeq(n) > m And zBlowSeq(n) < o) Or (attackMode(n, 1)=1 And zBlowSeq(n) > cc And zBlowSeq(n) < ee) Then
 		zblowPamount(n)=3:nn=1
 		zBlowBack(n)=1
 		xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=20:hblow(n,nn)=20:nn=nn+1
@@ -104,7 +104,7 @@ Case 5	;Up + Special (Warrior's heart)
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=3:zHitUpSpeed#(n)=4.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2)
-		zBlowDamage(n)=5:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
+		zBlowDamage(n)=5:zBLowEffect(n)=1:zBlowImpact(n)=15:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
 		zBlowSound(n)=mvcHit1Snd
 		zantiplat(n)=1
 	EndIf
