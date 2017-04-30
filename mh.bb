@@ -3916,7 +3916,7 @@ Case 4
 							calcBlow(nn,n,zHitMode(n),zDamage(nn))
 							Else
 							calcBlow2(nn,n,zHitTime(n))
-						EndIf
+						End If
 					EndIf
 											
 					makechunk(n,zx(nn),zy(n)-yblow(n,bn),4,zChunkType(n))

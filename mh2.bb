@@ -3049,7 +3049,7 @@ For i=1 To 6
 	zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
 Next
 
-For i=1 To 8
+For i=1 To 15
 	zpic(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + ".bmp")
 	zpic_(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + "_.bmp")
 Next
@@ -3220,6 +3220,9 @@ If n=14 Then ;WonderWoman
 	If wwAegisHitSnd=0 Then wwAegisHitSnd=LoadSound(soundsdir$ + "wonderwoman\wwAegisHit.wav")
 	If wwTaunt1Snd=0 Then wwTaunt1Snd=LoadSound(soundsdir$ + "wonderwoman\wwTaunt1.wav")
 	If wwCapeSnd=0 Then wwCapeSnd=LoadSound(soundsdir$ + "wonderwoman\wwCape.wav")
+	If wwShout1Snd=0 Then wwShout1Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout1.wav")
+	If wwShout2Snd=0 Then wwShout2Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout2.wav")
+	If wwShout3Snd=0 Then wwShout3Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout3.wav")
 End If
 
 If n=13 Then ;SubZero

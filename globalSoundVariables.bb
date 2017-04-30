@@ -141,6 +141,7 @@ Global mkPunchSnd=LoadSound(soundsdir$ + "mk\mkPunch.mp3")
 Global mkHitSnd=LoadSound(soundsdir$ + "mk\mkHit.mp3")
 Global mkExtraSpecialSnd=LoadSound(soundsdir$ + "mk\mkExtraSpecial.mp3")
 Global mkFriendshipSnd=LoadSound(soundsdir$ + "mk\mkFriendship.mp3")
+Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 Global scorpionGruntSnd
 Global scorpionGrunt2Snd
 Global scorpionThrowSnd
@@ -168,6 +169,8 @@ Global wolverineSuper3Snd
 Global wonderwomanWH1Snd, wonderwomanWH2Snd, wonderwomanWhWaveSnd
 Global wwAegisSnd, wwAegisMetalSnd, wwAegisHitSnd
 Global wwTaunt1Snd, wwCapeSnd
+Global wwShout1Snd, wwShout2Snd, wwShout3Snd
 
 Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1.wav")
-Global mkFootstepSnd=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
+Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2.wav")
+Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1.wav")
