@@ -3101,7 +3101,7 @@ For i=1 To 3
 	zpic_(n,13,i)=LoadImage(gfxdir$ + "zblock" + i + "_.bmp")
 Next
 
-For counter = 1 To 8
+For counter = 1 To 16
 	zpic(n,14,counter)=LoadImage(gfxdir$ + "zupblow" + counter + ".bmp")
 	zpic_(n,14,counter)=LoadImage(gfxdir$ + "zupblow" + counter + "_.bmp")
 Next
@@ -3222,7 +3222,7 @@ If n=42 Then	;Joker
 EndIf
 
 If n=14 Then ;WonderWoman
-	If zRunGruntSound(n)=0 Then zRunGruntSound(n)=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
+	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "wonderwoman\wwDie.wav")
 	If wonderwomanWH1Snd=0 Then wonderwomanWH1Snd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWH1.wav")
 	If wonderwomanWH2Snd=0 Then wonderwomanWH2Snd=LoadSound(soundsdir$ + "wonderwoman\wonderwomanWH2.wav")

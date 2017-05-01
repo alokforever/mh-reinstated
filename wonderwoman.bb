@@ -53,10 +53,10 @@ Case 1	;Attack
 	
 ;---------- Hit box --------------
 	If zBlowSeq(n) >= d And zBlowSeq(n) < i Then
-		zblowPamount(n)=3:nn=1
+		zblowPamount(n)=2:nn=1
 		xblow(n,nn)=10: yblow(n,nn)=30:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
-		xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
-		xblow(n,nn)=10: yblow(n,nn)=10:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=35:hblow(n,nn)=1:nn=nn+1
+		;xblow(n,nn)=10: yblow(n,nn)=10:wblow(n,nn)=35:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=18:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mvcHit2Snd
@@ -129,6 +129,7 @@ Case 4	;Low kick
 	If zBlowSeq(n) >= i And zBlowSeq(n) <= j Then zf(n)=10
 	If zBlowSeq(n) >= j And zBlowSeq(n) <= k Then zf(n)=11
 
+;---------- Hit box --------------
 	If zBlowSeq(n) => e And zBlowSeq(n) =< g Then
 		zblowPamount(n)=4
 		nn=1
@@ -303,8 +304,50 @@ Case 9	;Down + Special (Amazon Aegis (Projectile deflector))
 
 	If zBlowSeq(n) > l And zBlowSeq(n) < aa Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 10	;High Kick 
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+Case 10	;High Attack
+	zNoMove(n)=1:zNoJump(n)=1
+	a=3:b=a+2:c=b+3:d=c+2:e=d+3:f=e+2:g=f+2:h=g+1:i=h+2:j=i+2:k=j+2:l=k+3:m=l+4:n1=m+5:o=n1+6:p=o+5:q=p+3
+	
+;----------- Sounds ------------
+	randSeed=Rand(3)
+	If zBlowSeq(n)=1 And gameSound Then
+		If randSeed=1 Then PlaySound wwShout1Snd
+		If randSeed=2 Then PlaySound wwShout2Snd
+		If randSeed=3 Then PlaySound wwShout3Snd
+	End If
+	If zBlowSeq(n)=c-1 And gameSound Then PlaySound mvcBlow1Snd
+	
+;---------- Animation ------------	
+	zani(n)=14
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zf(n)=1
+	If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zf(n)=2:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zf(n)=3:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) >= c And zBlowSeq(n) <= d Then zf(n)=4:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) >= d And zBlowSeq(n) <= e Then zf(n)=5:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) >= e And zBlowSeq(n) <= f Then zf(n)=6:moveX(n,zBlowdir(n),1)
+	If zBlowSeq(n) >= f And zBlowSeq(n) <= g Then zf(n)=7
+	If zBlowSeq(n) >= g And zBlowSeq(n) <= h Then zf(n)=8
+	If zBlowSeq(n) >= h And zBlowSeq(n) <= i Then zf(n)=9
+	If zBlowSeq(n) >= i And zBlowSeq(n) <= j Then zf(n)=10
+	If zBlowSeq(n) >= j And zBlowSeq(n) <= k Then zf(n)=11
+	If zBlowSeq(n) >= k And zBlowSeq(n) <= l Then zf(n)=12
+	If zBlowSeq(n) >= l And zBlowSeq(n) <= m Then zf(n)=13
+	If zBlowSeq(n) >= m And zBlowSeq(n) <= n1 Then zf(n)=14
+	If zBlowSeq(n) >= n1 And zBlowSeq(n) <= o Then zf(n)=15
+	If zBlowSeq(n) >= o And zBlowSeq(n) <= p Then zf(n)=16
+	If zBlowSeq(n) >= p And zBlowSeq(n) <= q Then zani(n)=12:zf(n)=1
+
+;---------- Hit box --------------
+	If zBlowSeq(n) => g And zBlowSeq(n) =< n1 Then
+		zblowPamount(n)=2:nn=1
+		xblow(n,nn)=20: yblow(n,nn)=67:wblow(n,nn)=6:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=20: yblow(n,nn)=57:wblow(n,nn)=6:hblow(n,nn)=10:nn=nn+1
+		zHitMode(n)=0:zBlowHold(n)=8
+		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowSound(n)=mvcHit2Snd
+	EndIf
+
+	If zBlowSeq(n) = q Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 Case 11	;club
 	a=12/wolvSpdFctr(n):b=22/wolvSpdFctr(n):c=29/wolvSpdFctr(n):d=50/wolvSpdFctr(n):e=55/wolvSpdFctr(n)

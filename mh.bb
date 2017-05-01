@@ -23,7 +23,7 @@ If windowMode = 0 Then
 	Graphics 640,480,videoColorDepth,1  ;full screen
 Else
 	Graphics 640,480,videoColorDepth,2  ;window
-EndIf
+End If
 
 Const gameVersion$ = "0.96"
 
