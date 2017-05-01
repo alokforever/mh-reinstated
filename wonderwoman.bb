@@ -28,9 +28,7 @@ Case 1	;Attack
 	
 ;----------- Sounds -----------
 	randSeed=Rand(3)
-	DebugLog "rand: " + randSeed
 	If zBlowSeq(n)=1 And gameSound Then
-		DebugLog "AAA"
 		If randSeed=1 Then PlaySound wwShout1Snd
 		If randSeed=2 Then PlaySound wwShout2Snd
 		If randSeed=3 Then PlaySound wwShout3Snd
@@ -64,11 +62,45 @@ Case 1	;Attack
 		zBlowSound(n)=mvcHit2Snd
 	End If
 
-	
 	If zBlowSeq(n) = n1 Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 2	;Flying Kick
-	zBlowSeq(n)=0:zBlow(n)=0
+	zNoJump(n)=0:ZJUMPING(N)=1
+	a=5:b=a+4:c=b+1:d=c+1:e=d+1:f=e+3:g=f+4:h=g+5:i=h+5:j=i+6
+	zNoGrav(n)=1
+;----------- Sounds ------------
+	randSeed=Rand(3)
+	If zBlowSeq(n)=1 And gameSound Then
+		If randSeed=1 Then PlaySound wwShout1Snd
+		If randSeed=2 Then PlaySound wwShout2Snd
+		If randSeed=3 Then PlaySound wwShout3Snd
+	End If
+	If zBlowSeq(n)=c-1 And gameSound Then PlaySound mvcBlow1Snd
+
+;---------- Animation ------------	
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=8:zf(n)=1
+	If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=8:zf(n)=2
+	If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=8:zf(n)=3
+	If zBlowSeq(n) >= c And zBlowSeq(n) <= d Then zani(n)=8:zf(n)=4
+	If zBlowSeq(n) >= d And zBlowSeq(n) <= e Then zani(n)=8:zf(n)=5
+	If zBlowSeq(n) >= e And zBlowSeq(n) <= f Then zani(n)=8:zf(n)=6
+	If zBlowSeq(n) >= f And zBlowSeq(n) <= g Then zani(n)=8:zf(n)=7
+	If zBlowSeq(n) >= g And zBlowSeq(n) <= h Then zani(n)=8:zf(n)=8
+	If zBlowSeq(n) >= h And zBlowSeq(n) <= i Then zani(n)=8:zf(n)=9
+	If zBlowSeq(n) >= i And zBlowSeq(n) <= j Then zani(n)=8:zf(n)=10
+	
+;---------- Hit box --------------
+	If zBlowSeq(n) >= c And zBlowSeq(n) < h Then
+		zblowPamount(n)=3:nn=1
+		xblow(n,nn)=15: yblow(n,nn)=20:wblow(n,nn)=18:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=15: yblow(n,nn)=10:wblow(n,nn)=22:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=15: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=10:nn=nn+1
+		zHitMode(n)=0:zBlowHold(n)=8
+		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowSound(n)=mvcHit2Snd
+	End If
+	
+	If zBlowSeq(n) = j Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 4	;Low kick
 	zBlowSeq(n)=0:zBlow(n)=0
