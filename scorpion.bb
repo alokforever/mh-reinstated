@@ -257,7 +257,7 @@ zBlowSeq(n)=zBlowSeq(n)+1:
 .noBlowSeq1
 zCHunkType(n)=50
 
-DebugLog "zBlowSeq(n): " + zBlowSeq(n)
+;DebugLog "zBlowSeq(n): " + zBlowSeq(n)
 
 Select zCurBlow(n)
 Case 0	;Blocking
@@ -901,7 +901,14 @@ Case 16 ; taunt
 		If zBlowSeq(n) Mod 2 = 0 Then zf(n)=(zBlowSeq(n)-125)/2
 	End If
 	
-	If zBlowSeq(n) = f Then zBlowSeq(n)=0:zBlow(n)=0
+	If zBlowSeq(n) = f Then 
+		If zSuperBar(n)+7 >= 100 Then
+			zSuperBar(n) = 100
+		Else
+			zSuperBar(n)=zSuperBar(n)+7
+		End If
+		zBlowSeq(n)=0:zBlow(n)=0
+	End If
 
 Case 17 ;flame
 	zNoMove(n)=1

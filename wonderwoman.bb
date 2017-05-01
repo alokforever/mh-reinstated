@@ -56,9 +56,9 @@ Case 1	;Attack
 ;---------- Hit box --------------
 	If zBlowSeq(n) >= d And zBlowSeq(n) < i Then
 		zblowPamount(n)=3:nn=1
-		xblow(n,nn)=30: yblow(n,nn)=30:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
-		xblow(n,nn)=30: yblow(n,nn)=20:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
-		xblow(n,nn)=30: yblow(n,nn)=10:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=30:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=10:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=18:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mvcHit2Snd
@@ -327,6 +327,7 @@ Case 16 ;Counter Key (Taunt)
 	zNoMove(n)=1:zNoJump(n)=1
 	a=72:b=a+6:c=b+6:d=c+6:e=d+4:f=e+4:g=f+3:h=g+3:i=h+3:j=i+4
 	zani(n)=16
+	If zOnGnd(n)=0 Then zy(n)=zy(n)-2
 ;---------- Sound effects ------------
 	If zBlowSeq(n)=1 And gameSound Then PlaySound wwTaunt1Snd
 	If (zBlowSeq(n) Mod 50=0 Or zBlowSeq(n)=1) And gameSound Then PlaySound wwCapeSnd
@@ -356,7 +357,14 @@ Case 16 ;Counter Key (Taunt)
 	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zf(n)=12
 	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zf(n)=13
 	
-	If zBlowSeq(n) = j Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	If zBlowSeq(n) = j Then 
+		If zSuperBar(n)+6 >= 100 Then
+			zSuperBar(n) = 100
+		Else
+			zSuperBar(n)=zSuperBar(n)+6
+		End If
+		zBlowSeq(n)=0:zBlow(n)=0
+	End If
 
 Case 17 ;Extra special key (Flight)
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0

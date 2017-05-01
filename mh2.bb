@@ -365,7 +365,7 @@ Case 14: ;Wonder Woman
 	zWalkFrameSpeed#(n)=2
 	zRunFrames(n)=7
 	zRunFrameSpeed#(n)=3
-	zCharSpeed#(n)=2
+	zCharSpeed#(n)=2.5
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
 	gender(n)=2
@@ -1988,12 +1988,24 @@ Case 61	;scorpion spear
 	If chunkSeq(n) >= d And chunkSeq(n) < e Then chunkPic(n)=ptPic(83,5):chunkPic_(n)=ptPic_(83,5)
 	If chunkSeq(n) >= e And chunkSeq(n) < f Then chunkPic(n)=ptPic(83,6):chunkPic_(n)=ptPic_(83,6)
 	If chunkSeq(n) >= f And chunkSeq(n) < g Then chunkPic(n)=ptPic(83,7):chunkPic_(n)=ptPic_(83,7)
+
+	If shotOwner(zMyShot(chunkOwner(n))) <> chunkOwner(n) Then
+		If chunkDir(n)=2 Then 
+			chunkDir(n)=4
+		Else
+			chunkDir(n)=2
+		End If
+		chunkOwner(n)=shotOwner(zMyShot(chunkOwner(n)))
+		shotOwner(zMyShot(chunkOwner(n)))=chunkOwner(n)
+		If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)-100
+		If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)+100
+	End If
 	If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)+6
 	If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)-6
-	
+
 	If chunkSeq(n) <= e And zhit(chunkOwner(n))=1 Then chunk(n)=0
 
-	If chunkSeq(n) >= g Or shot(zMyShot(chunkOwner(n)))=0 Then chunk(n)=0
+	If chunkSeq(n) >= g Or (shot(zMyShot(chunkOwner(n)))=0 And zMyShot(chunkOwner(n))=1) Then chunk(n)=0
 	
 Case 62	;scorpion spear rope
 	If chunkSeq(n)=1 Then chunkPic(n)=ptPic(84,1):chunkPic_(n)=ptPic(84,1)
