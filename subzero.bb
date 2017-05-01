@@ -239,7 +239,7 @@ Case 4	;Low kick
 		xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		movex2(n,zface(n),5+(Abs(zSpeed#(n))/1.5))
-		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
+		zBlowDamage(n)=10:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
 		zBlowSound(n)=mkHitSnd
 		zani(n)=9:zf(n)=2
 	EndIf
