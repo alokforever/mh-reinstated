@@ -213,7 +213,13 @@ Function performWolverineCombo(n)
 ;----------------------- hitboxes -----------------------
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
 		applyWolverineComboHitBox(n, 2, 6, 14, 50, 20, 25, 0)
-		If zOnGnd(zControlsThis(n))=0 Then zy(zControlsThis(n))=zy(n)
+		If zOnGnd(zControlsThis(n))=0 Then 
+			If zheight(zControlsThis(n)) <= 40 Then
+				zy(zControlsThis(n))=zy(n)-20
+			Else
+				zy(zControlsThis(n))=zy(n)
+			End If
+		End If
 		movex2(zControlsThis(n),zface(zControlsThis(n)),-1*(1+(Abs(zSpeed#(n))/1.5)))
 		isHitting=1
 	End If
@@ -427,6 +433,7 @@ Select zCurBlow(n)
 Case 0	;Blocking
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
@@ -535,6 +542,7 @@ Case 4	;Low kick
 	zheight(n)=zduckheight(n)
 	a=7/wolvSpdFctr(n):b=14/wolvSpdFctr(n):c=21/wolvSpdFctr(n):d=28/wolvSpdFctr(n):e=35/wolvSpdFctr(n)
 	:f=40/wolvSpdFctr(n):g=45/wolvSpdFctr(n):h=100
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) = 1 Then
 		If zBlowDir(n)=2 And rightKey(n) Then zBlowSeq(n)=h
 		If zBlowDir(n)=4 And leftKey(n) Then zBlowSeq(n)=h
@@ -557,7 +565,7 @@ Case 4	;Low kick
 	EndIf
 	If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=9:zf(n)=4
 	If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=9:zf(n)=5
-	If zBlowSeq(n) => e And zBlowSeq(n) =< d Then zani(n)=9:zf(n)=6
+	If zBlowSeq(n) => e And zBlowSeq(n) =< f Then zani(n)=9:zf(n)=6
 	If zBlowSeq(n) => f And zBlowSeq(n) =< g Then zani(n)=9:zf(n)=7
 	
 	If zBlowSeq(n) > g And zBlowSeq(n) < h Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
@@ -568,7 +576,8 @@ Case 5	;Uppercut (Tornado claw)
 	a=5/wolvSpdFctr(n):b=10/wolvSpdFctr(n):c=16/wolvSpdFctr(n):d=28/wolvSpdFctr(n):e=30/wolvSpdFctr(n)
 	:f=32/wolvSpdFctr(n):g=34/wolvSpdFctr(n):h=36/wolvSpdFctr(n):i=41/wolvSpdFctr(n):j=43/wolvSpdFctr(n) 
 	:k=45/wolvSpdFctr(n) :l=47/wolvSpdFctr(n) :m=52/wolvSpdFctr(n) :nnn=54/wolvSpdFctr(n) :o=56/wolvSpdFctr(n) 
-	:p=58/wolvSpdFctr(n) :q=63/wolvSpdFctr(n) :r=75/wolvSpdFctr(n) 
+	:p=58/wolvSpdFctr(n) :q=63/wolvSpdFctr(n) :r=75/wolvSpdFctr(n)
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) = 1 Then
 		If gameSound Then PlaySound wolverineTornadoClawSnd
 		zBlowUpLimit(n)=zy(n)-70:zJump(n)=0
@@ -636,6 +645,7 @@ Case 5	;Uppercut (Tornado claw)
 Case 6	;throwing iten
 	a=3:b=6:c=9
 	If zongnd(n)=1 Then zNoMove(n)=1:zNoJump(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n)= b Then
 		throwObj(n,zx(n),zy(n)-20,zFace(n))
 		If gameSound Then PlaySound throwsnd
@@ -688,6 +698,7 @@ Case 8	;Dodging
 	zNoJump(n)=1
 	a=7/wolvSpdFctr(n):b=15/wolvSpdFctr(n):c=20/wolvSpdFctr(n):d=25/wolvSpdFctr(n):e=30/wolvSpdFctr(n)
 	:f=37/wolvSpdFctr(n)
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),2*wolvSpdFctr(n))
@@ -706,6 +717,7 @@ Case 9	; berserker barrage (down special)
 	aa=11/wolvSpdFctr(n):a=21/wolvSpdFctr(n):b=24/wolvSpdFctr(n):c=31/wolvSpdFctr(n):d=34/wolvSpdFctr(n)
 	:e=30/wolvSpdFctr(n):f=39/wolvSpdFctr(n):g=42/wolvSpdFctr(n):h=49/wolvSpdFctr(n):i=52/wolvSpdFctr(n)
 	:j=(i+20):k=500
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=k:downKeyDoubleTap(n)=0
 	If zBlowSeq(n) >= k Then performBerserkerSlash2(n)
 	If isRunning(n) And zBlowSeq(n)=1 Then 
@@ -779,6 +791,7 @@ Case 10	;High Kick
 	zNoJump(n)=1
 	a=6/wolvSpdFctr(n):b=12/wolvSpdFctr(n):c=18/wolvSpdFctr(n):d=22/wolvSpdFctr(n):e=25/wolvSpdFctr(n)
 	:f=28/wolvSpdFctr(n):g=36/wolvSpdFctr(n):h=44/wolvSpdFctr(n)
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=14:zf(n)=1
 	If zBlowSeq(n)= a Then If gameSound Then PlaySound wolverineShout3Snd
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=14:zf(n)=2
@@ -833,6 +846,7 @@ Case 11	;club
 	zNoJump(n)=1
 	extraDraw(n)=1
 	drawObjOnZ(n)=0
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-45:yed(n)=30
 	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-47:yed(n)=25
 	If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
@@ -860,6 +874,7 @@ Case 12	;Shooting Position
 	zNoMove(n)=1:zNoJump(n)=1
 	extraDraw(n)=1:drawObjOnZ(n)=0
 	a=8:b=22:c=28
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zblowSeq(n) =1 Then
 		If shotsfired(zgotobj(n)) < objAmmo(zgotobj(n)) Then	
 			shotsfired(zgotobj(n))=shotsfired(zgotobj(n))+1
@@ -915,6 +930,7 @@ Case 14	;Super Special
 	zNoJump(n)=1
 	zjump(n)=0
 	zNoGrav(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) = 1 And downKey(n) = 1 Then zBlowSeq(n) = 1100
 	If zBlowSeq(n) >= 1100 Then performSuperSpecial2(n)
 	If zBlowSeq(n) = 1 And zOnGnd(n) = 0 Then zBlowSeq(n) = i
@@ -997,6 +1013,7 @@ Case 15 ;Wolverine throw
 	:f=80/wolvSpdFctr(n): g=90/wolvSpdFctr(n): h=100/wolvSpdFctr(n): i=120/wolvSpdFctr(n): j=125/wolvSpdFctr(n):
 	k=130/wolvSpdFctr(n): l=135/wolvSpdFctr(n): m=145/wolvSpdFctr(n): nnn=150/wolvSpdFctr(n)
 	zNoMove(n)=1:zNoJump(n)=1:zNoGrav(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=3:zNoGrav(n)=0
 	If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=12:zf(n)=4:zNoGrav(n)=0
 	If zBlowSeq(n)= a Then
@@ -1078,6 +1095,7 @@ Case 15 ;Wolverine throw
 Case 16 ;Counter Key (Berserker Rage)
 	a=4/wolvSpdFctr(n):b=8/wolvSpdFctr(n):c=12/wolvSpdFctr(n):d=16/wolvSpdFctr(n):e=50/wolvSpdFctr(n)
 	:f=60:g=62:h=63:i=64:j=65:k=67:l=67:m=69:nnn=70:o=75
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	aa=1000
 	zNoMove(n)=1
 	zNoJump(n)=1
@@ -1177,6 +1195,7 @@ Case 17 ;Extra special key (Drill Claw)
 	:u=124 :v=128 :w=132 :x=136 :y=140 
 	:z2=152 :a2=156 :b2=160 :c2=164 :d2=170 
 	:e2=174 
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0

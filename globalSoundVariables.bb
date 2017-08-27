@@ -169,8 +169,10 @@ Global wolverineSuper3Snd
 Global wonderwomanWH1Snd, wonderwomanWH2Snd, wonderwomanWhWaveSnd
 Global wwAegisSnd, wwAegisMetalSnd, wwAegisHitSnd
 Global wwTaunt1Snd, wwCapeSnd
-Global wwShout1Snd, wwShout2Snd, wwShout3Snd
+Global wwShout1Snd, wwShout2Snd, wwShout3Snd, wwShout4Snd, wwGrunt1Snd
+Global wwWhip1Snd, wwWhip2Snd, wwWhipHitSnd, wwLassoSnd
 
 Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1.wav")
 Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2.wav")
 Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1.wav")
+Global mvcCrashSnd=LoadSound(soundsdir$ + "mvc\mvcCrash.wav")

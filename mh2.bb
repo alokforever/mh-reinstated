@@ -373,6 +373,35 @@ Case 14: ;Wonder Woman
 	duckFrameSpeed(n)=5
 	canAirGlide(n)=1
 
+Case 15: ;Juggernaut
+	zBlowDist(n,1)=45
+	zBlowDist(n,2)=50
+	zBlowDist(n,4)=64
+	zBlowDist(n,5)=48
+	zBlowDist(n,7)=250
+	zBlowDist(n,9)=400	:dangerMove9(n)=1
+	zBlowDist(n,10)=40
+	zBlowDist(n,11)=150
+	zBlowDist(n,14)=600
+	zBlowDist(n,16)=370
+	zxHand(n,0)=2 :zyHand(n,0)=23
+	zxHand(n,1)=2 :zyHand(n,1)=23
+	zxHand(n,2)=-2 :zyHand(n,2)=23
+	zxHand(n,3)=-2 :zyHand(n,3)=23
+	zRollOnImpact(n)=1
+	zJumpSnd(n)=jumpsnd
+	zJumpSnd2(n)=wolverinejumpsnd
+	zStanceFrames(n)=7
+	zStanceSpeed(n)=6
+	zWalkFrames(n)=27
+	zWalkFrameSpeed#(n)=2
+	zRunFrames(n)=7
+	zRunFrameSpeed#(n)=3
+	zCharSpeed#(n)=1.7
+	dizzyFrames(n)=8
+	dizzyFrameSpeed(n)=7
+	gender(n)=1
+
 Case 30: ;Pig
 	zBlowDist(n,1)=64
 	zBlowDist(n,2)=60
@@ -1995,17 +2024,25 @@ Case 61	;scorpion spear
 		Else
 			chunkDir(n)=2
 		End If
+		prevShot=zMyShot(chunkOwner(n))
 		chunkOwner(n)=shotOwner(zMyShot(chunkOwner(n)))
 		shotOwner(zMyShot(chunkOwner(n)))=chunkOwner(n)
+		zMyShot(chunkOwner(n))=prevShot
 		If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)-100
 		If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)+100
 	End If
-	If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)+6
-	If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)-6
+
+	If projectileDeflectSpeed#(chunkOwner(n)) = 0 Then
+		If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)+6
+		If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)-6
+	Else	
+		If chunkDir(n)=2 Then xChunk#(n)=xChunk#(n)+(6*projectileDeflectSpeed#(chunkOwner(n)))
+		If chunkDir(n)=4 Then xChunk#(n)=xChunk#(n)-(6*projectileDeflectSpeed#(chunkOwner(n)))
+	End If
 
 	If chunkSeq(n) <= e And zhit(chunkOwner(n))=1 Then chunk(n)=0
 
-	If chunkSeq(n) >= g Or (shot(zMyShot(chunkOwner(n)))=0 And zMyShot(chunkOwner(n))=1) Then chunk(n)=0
+	If chunkSeq(n) >= g Or (shot(zMyShot(chunkOwner(n)))=0) Then chunk(n)=0
 	
 Case 62	;scorpion spear rope
 	If chunkSeq(n)=1 Then chunkPic(n)=ptPic(84,1):chunkPic_(n)=ptPic(84,1)
@@ -2373,6 +2410,38 @@ Case 108:		;post-fireball
 	If chunkSeq(n) >= 40 And chunkSeq(n) <= 42 Then chunkPic(n)=ptPic(90,14):chunkPic_(n)=ptPic_(90,14)
 	
 	If chunkSeq(n)=42 Then chunk(n)=0
+	
+Case 109:		;Caught something with Lasso (Long)
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(91,1):chunkPic_(n)=ptPic_(91,1)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 10 Then chunkPic(n)=ptPic(91,2):chunkPic_(n)=ptPic_(91,2)
+	If chunkSeq(n) >= 11 And chunkSeq(n) <= 14 Then chunkPic(n)=ptPic(91,3):chunkPic_(n)=ptPic_(91,3)
+	If chunkSeq(n) >= 15 And chunkSeq(n) <= 23 Then chunkPic(n)=ptPic(91,4):chunkPic_(n)=ptPic_(91,4)
+	If chunkSeq(n) >= 24 And chunkSeq(n) <= 30 Then chunkPic(n)=ptPic(91,5):chunkPic_(n)=ptPic_(91,5)
+	If chunkSeq(n) >= 31 And chunkSeq(n) <= 36 Then chunkPic(n)=ptPic(91,6):chunkPic_(n)=ptPic_(91,6)
+	If chunkSeq(n) >= 37 And chunkSeq(n) <= 41 Then chunkPic(n)=ptPic(91,7):chunkPic_(n)=ptPic_(91,7)
+	If chunkSeq(n) >= 42 And chunkSeq(n) <= 45 Then chunkPic(n)=ptPic(91,8):chunkPic_(n)=ptPic_(91,8)
+	If chunkSeq(n) >= 46 And chunkSeq(n) <= 53 Then chunkPic(n)=ptPic(91,9):chunkPic_(n)=ptPic_(91,9)
+	If chunkSeq(n) >= 54 And chunkSeq(n) <= 60 Then chunkPic(n)=ptPic(91,10):chunkPic_(n)=ptPic_(91,10)
+	If chunkSeq(n) >= 61 And chunkSeq(n) <= 66 Then chunkPic(n)=ptPic(91,11):chunkPic_(n)=ptPic_(91,11)
+	If chunkSeq(n) >= 67 And chunkSeq(n) <= 71 Then chunkPic(n)=ptPic(91,12):chunkPic_(n)=ptPic_(91,12)
+	
+	If chunkSeq(n)=71 Then chunk(n)=0
+	
+Case 110:		;Caught something with Lasso (short)
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(92,1):chunkPic_(n)=ptPic_(92,1)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 10 Then chunkPic(n)=ptPic(92,2):chunkPic_(n)=ptPic_(92,2)
+	If chunkSeq(n) >= 11 And chunkSeq(n) <= 14 Then chunkPic(n)=ptPic(92,3):chunkPic_(n)=ptPic_(92,3)
+	If chunkSeq(n) >= 15 And chunkSeq(n) <= 23 Then chunkPic(n)=ptPic(92,4):chunkPic_(n)=ptPic_(92,4)
+	If chunkSeq(n) >= 24 And chunkSeq(n) <= 30 Then chunkPic(n)=ptPic(92,5):chunkPic_(n)=ptPic_(92,5)
+	If chunkSeq(n) >= 31 And chunkSeq(n) <= 36 Then chunkPic(n)=ptPic(92,6):chunkPic_(n)=ptPic_(92,6)
+	If chunkSeq(n) >= 37 And chunkSeq(n) <= 41 Then chunkPic(n)=ptPic(92,7):chunkPic_(n)=ptPic_(92,7)
+	If chunkSeq(n) >= 42 And chunkSeq(n) <= 45 Then chunkPic(n)=ptPic(92,8):chunkPic_(n)=ptPic_(92,8)
+	If chunkSeq(n) >= 46 And chunkSeq(n) <= 53 Then chunkPic(n)=ptPic(92,9):chunkPic_(n)=ptPic_(92,9)
+	If chunkSeq(n) >= 54 And chunkSeq(n) <= 60 Then chunkPic(n)=ptPic(91,10):chunkPic_(n)=ptPic_(91,10)
+	If chunkSeq(n) >= 61 And chunkSeq(n) <= 66 Then chunkPic(n)=ptPic(91,11):chunkPic_(n)=ptPic_(91,11)
+	If chunkSeq(n) >= 67 And chunkSeq(n) <= 71 Then chunkPic(n)=ptPic(91,12):chunkPic_(n)=ptPic_(91,12)
+	
+	If chunkSeq(n)=71 Then chunk(n)=0
 	
 Case 109:		;WW Dash
 
@@ -3106,7 +3175,7 @@ For counter = 1 To 16
 	zpic_(n,14,counter)=LoadImage(gfxdir$ + "zupblow" + counter + "_.bmp")
 Next
 
-For counter = 1 To 12
+For counter = 1 To 40
 	zpic(n,15,counter)=LoadImage(gfxdir$ + "zgrab" + counter + ".bmp")
 	zpic_(n,15,counter)=LoadImage(gfxdir$ + "zgrab" + counter + "_.bmp")
 Next
@@ -3235,6 +3304,12 @@ If n=14 Then ;WonderWoman
 	If wwShout1Snd=0 Then wwShout1Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout1.wav")
 	If wwShout2Snd=0 Then wwShout2Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout2.wav")
 	If wwShout3Snd=0 Then wwShout3Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout3.wav")
+	If wwShout4Snd=0 Then wwShout4Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout4.wav")
+	If wwGrunt1Snd=0 Then wwGrunt1Snd=LoadSound(soundsdir$ + "wonderwoman\wwGrunt1.wav")
+	If wwWhip1Snd=0 Then wwWhip1Snd=LoadSound(soundsdir$ + "wonderwoman\wwWhip1.wav")
+	If wwWhip2Snd=0 Then wwWhip2Snd=LoadSound(soundsdir$ + "wonderwoman\wwWhip2.wav")
+	If wwWhipHitSnd=0 Then wwWhipHitSnd=LoadSound(soundsdir$ + "wonderwoman\wwWhipHit.wav")
+	If wwLassoSnd=0 Then wwLassoSnd=LoadSound(soundsdir$ + "wonderwoman\wwLasso.wav")
 End If
 
 If n=13 Then ;SubZero

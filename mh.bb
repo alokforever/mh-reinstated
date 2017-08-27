@@ -65,7 +65,7 @@ Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
 Dim clickedBy(100),butPic(100),butPic2(100),butText$(100),butSeq(100),tpic(100)
-Dim xPointer(10),yPointer(10),zName$(14),zThumbNail(14),mapTn(100)
+Dim xPointer(10),yPointer(10),zName$(15),zThumbNail(15),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(30)
 Dim zx#(30),zy#(30),zdi(30),zface(30),zoldx#(30),zoldy#(30),zWasOn(30),zon(30),prevZOn(30),CurGuy(30),lastZon(30),lastzAI(30)
@@ -75,7 +75,7 @@ Dim zjump(30),zjumpseq(30),zjumplimit(30),zongnd(30),zfallenSeq(30),zFallImpact#
 Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30),zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
 Dim zHitSpeed#(30),zHitUpSpeed#(30),zHitTime#(30),zHitMode(30),zHitModeTaken(30),zBlowUplimit(30)			
 Dim zUpHeight(30),zDuckHeight(30),z(30),zHitHead(30),zIcon(60),zRollOnImpact(30)
-Dim zheight(30),zduck(30),zgravity(30),zSpeed#(30),Zside(30), zxHand(30,20),zyHand(30,20)
+Dim zheight(30),zduck(30),zgravity(30),zSpeed#(30),Zside(30), zxHand(30,40),zyHand(30,40)
 Dim Zrun(30), zCurWeapon(30),dangerMove9(30),dangerMove5(30),zGotObj(30), zLeftCollide(30), zRightCollide(30)
 Dim zLives(30), zJumping(30),zonplat(30),zonThickPlat(30),justMovedByplat(30)
 Dim zantiPlatTime(30),zantiPlatSeq(30),zForceAntiPlat(30)
@@ -209,7 +209,7 @@ Global gamePaused,b_joyhit,timePassed#, keypressed, keyschosen,pn,ifiniteLives,f
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global characterAmount=14	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global characterAmount=15	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
 ;zeto's variables
@@ -227,7 +227,7 @@ Dim downKeyHit(30), upKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(20
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
-Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed(30), isDeflecting(30)
+Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -937,7 +937,7 @@ noAirSpecial=0
 If ScrollMap=0 Then
 	rScrLimit=1040:lScrLimit=-400:uScrLimit=-50000:dScrLimit=540	
 Else
-        If uScrLimit=0 Then uScrLimit=-50000
+    If uScrLimit=0 Then uScrLimit=-50000
 	dScrLimit = yScrCameraBottomLimit+540
 EndIf
 
@@ -992,7 +992,7 @@ For n= 1 To zzamount
 	zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zCharSpeed#(n)
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
-	projectileDeflectMode(n)=0:projectileDeflectSpeed(n)=0
+	projectileDeflectMode(n)=0
 	If zFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
@@ -1043,6 +1043,7 @@ For n=1 To zzamount
 			Case 12:DoScorpion(n)
 			Case 13:DoSubZero(n)
 			Case 14:DoWonderWoman(n)
+			Case 15:DoJuggernaut(n)
 			Case 30:DoPig(n)
 			Case 31:DoAlien(n)
 			Case 32:DoFootClan(n)
@@ -1066,7 +1067,6 @@ For n=1 To zzamount
 			Case 50:DoLaserBeam(n)
 			Case 51:DoGaiden(n)
 			Case 52:DoBag(n)
-
 		End Select
 
 	EndIf
@@ -1380,7 +1380,7 @@ Cls
 
 If quake=1 Then
 	quakeSeq = quakeSeq + 1
-	yqk#=Rand(-1,1)
+	yqk#=Rand(-3,3)
 	If quakeSeq > 8 Then 
 		quake=0
 		yqk#=0
@@ -1805,6 +1805,7 @@ Function checkWhatsOpen()
 		If mapOpen(21)=1 And characterOpen(5)=0 Then characterOpen(5)=1 : response=1
 		If mapOpen(21)=1 And characterOpen(13)=0 Then characterOpen(13)=1 : response=1
 		If mapOpen(21)=1 And characterOpen(14)=0 Then characterOpen(14)=1 : response=1
+		If mapOpen(31)=1 And characterOpen(15)=0 Then characterOpen(15)=1 : response=1
 		If mapOpen(30)=1 And characterOpen(6)=0 Then characterOpen(6)=1 : response=1
 		If mapOpen(44)=1 And characterOpen(7)=0 Then characterOpen(7)=1 : response=1
 		If mapOpen(51)=1 And characterOpen(8)=0 Then characterOpen(8)=1 : response=1
@@ -2446,8 +2447,7 @@ If downKey(n)=1 And zHit(n)=0 And zongnd(n)=1 And zBlow(n)=0 Then
 			zSpeed(n)=0
 			isRunning(n)=0
 		Else
-			If zSpeed#(n) > 0 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
-			If zSpeed#(n) < 0 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
+			decelerate(n)
 		End If
 	End If
 EndIf
@@ -2791,7 +2791,7 @@ Case 2
 			  If Not (zShotByN(nn) = n And zShotHitSeq(nn, n) < shotImmuneTime(n)) Then	
 				If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then Exit ;Goto shotDone
 					If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
-					If projectileDeflectMode(nn)=1 And zFace(nn)=4 Then deflectProjectile(n, nn):Goto shotDone
+					If projectileDeflectMode(nn)=1 And zFace(nn)=4 Then deflectProjectile(n, nn):Exit
 					If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 					If Not shotDrill(n) Then shot(n)=0
 					zShotByN(nn)=n : zShotHitSeq(nn,n)=0
@@ -2926,7 +2926,7 @@ Case 4
 			  If Not (zShotByN(nn) = n And zShotHitSeq(nn,n) < shotImmuneTime(n)) Then
 				If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then Goto shotDone
 				If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
-					If projectileDeflectMode(nn)=1 And zFace(nn)=2 Then deflectProjectile(n, nn):Goto shotDone
+					If projectileDeflectMode(nn)=1 And zFace(nn)=2 Then deflectProjectile(n, nn):Exit
 					If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 					If Not shotDrill(n) Then shot(n)=0
 					zShotByN(nn)=n : zShotHitSeq(nn,n)=0
@@ -6418,6 +6418,7 @@ Function clearSubStates(n)
 	If isDizzy(n)=1 Then unFreeze(n,0)
 	If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
 	If wolverineRage(n)=1 Then wolverineRage(n)=0
+	If projectileDeflectMode(n)=1 Then projectileDeflectMode(n)=0
 End Function
 
 ;-------------- Draw trailing effects ----------------
@@ -6438,7 +6439,7 @@ Function enemyControlInit(n, x#, y#, width#, height#, enemy, isUnguardable)
 		If zShield(nn)=1 Then Goto continue
 		If zduck(nn)=1 Then height#=height-5
 		If curGuy(nn)=49 Then height#=height+20:width#=width+20
-		If enemy = 0 Then 
+		If enemy = 0 Then
 			en=nn
 		Else 
 			en=enemy
@@ -6634,7 +6635,7 @@ Function deflectProjectile(shot, newOwner)
 		shotPic_(shot,1)=shotInvertPic(shot,1)
 		shotYSpeed(shot)=shotYSpeed(shot)*-1
 	End If
-	shotSpeed(shot)=shotSpeed(shot);*projectileDeflectSpeed(shot)
+	shotSpeed(shot)=shotSpeed(shot)*projectileDeflectSpeed#(newOwner)
 	shotUturn(shot)=0
 	shotFollowOwner(shot)=0
 	If shotDuration2(shot) > shotDuration(shot) Then shotDuration(shot)=shotDuration2(shot)
@@ -6649,4 +6650,11 @@ Function deflectObject(obj, newOwner)
 	Else
 		objDir(obj)=2
 	End If
+	isDeflecting(newOwner)=1
+End Function
+
+;----------------- Decelerate -----------------------
+Function decelerate(n)
+	If zSpeed#(n) > 0.1 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
+	If zSpeed#(n) < 0.1 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
 End Function

@@ -569,7 +569,9 @@ If clickedBut(n) Then
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
 	Case 14
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
-
+	Case 15
+		If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
+		
 	Case 50 ;Select game mode on vs
 		gamemode=gamemode+1
 		If gamemode >4 Then gamemode=1
@@ -809,6 +811,8 @@ For b= 1 To characterAmount ;characters to select
 	If characterOpen(b)=1 Then
 		If b = 11 Or b = 14 Then
 			DrawImage butpic2(b),xbut(b)+1,( ybut(b)-ImageHeight(butpic2(b)) ) +56
+		Else If b = 15 Then
+			DrawImage butpic2(b),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b)) ) +56
 		Else
 			DrawImage butpic2(b),xbut(b)+10,( ybut(b)-ImageHeight(butpic2(b)) ) +56
 		EndIf

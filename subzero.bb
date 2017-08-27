@@ -116,7 +116,13 @@ Function performSubzeroCombo(n)
 ;----- hit boxes ------
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
 		applySubZeroComboHitBox(n, 2, 5)
-		If zOnGnd(zControlsThis(n))=0 Then zy(zControlsThis(n))=zy(n)
+		If zOnGnd(zControlsThis(n))=0 Then
+			If zheight(zControlsThis(n)) <= 40
+				zy(zControlsThis(n))=zy(n)-20
+			Else
+				zy(zControlsThis(n))=zy(n)
+			End If
+		End If
 		movex2(zControlsThis(n),zface(zControlsThis(n)),-1*(1+(Abs(zSpeed#(n))/1.5)))
 		isHitting=1
 	End If
@@ -172,6 +178,7 @@ zCHunkType(n)=50
 Select zCurBlow(n)
 Case 0	;Blocking
 	zNoMove(n)=1:zNoJump(n)=1
+	If zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	zBlock(n)=1:zani(n)=13:zf(n)=1	;normal blocking
 	If zblocked(n)=1 Then zani(n)=13:zf(n)=2
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0;:zBlock(n)=0
@@ -180,6 +187,7 @@ Case 1	; Kick
 	a=4: b=8: c=12: d=16: e=20: f=24: g=28: h=32: i=36
 	zNoMove(n)=1:zNoJump(n)=1
 	zChunkType(n)=95
+	
 	If zBlowSeq(n) = 1 And isRunning(n) Then zBlowSeq(n)=i:isRunning(n)=0
 	If zBlowSeq(n) >= i Then performSubzeroCombo(n)
 	If zBlowSeq(n) = d And gameSound Then PlaySound mkKickSnd
@@ -251,7 +259,7 @@ Case 5 ; Up + Special
 	zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
 	zChunkType(n)=50
 	a=5: b=a+5: c=b+6: d=c+150 
-	
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) =1 Then
 		If gameSound Then PlaySound subZeroAirSnd
 		zBlowUpLimit(n)=zy(n)-70:zJump(n)=0
@@ -305,6 +313,7 @@ Case 7	;Sub Zero Freeze Ball
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=2
@@ -332,6 +341,7 @@ Case 8	;Dodging
 	zNoMove(n)=1
 	zNoJump(n)=1
 	a=7:b=15:c=20:d=25:e=30:f=37
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=1:zf(n)=0
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=1:moveX(n,zBlowdir(n),2)
@@ -348,7 +358,7 @@ Case 9	;Sub zero freeze ground
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
-
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zFace(n)=2 Then checkYDist(n,zx(n)+40,zy(n)+6,2)
 	If zFace(n)=4 Then checkYDist(n,zx(n)-40,zy(n)+6,2)
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
@@ -402,6 +412,7 @@ Case 10	; Up + Attack
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zChunkType(n)=95
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) = c And gameSound Then PlaySound blow2snd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=14:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=14:zf(n)=2
@@ -426,6 +437,7 @@ Case 11	;club
 	zNoMove(n)=1
 	zNoJump(n)=1
 	extraDraw(n)=1: drawObjOnZ(n)=0
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-21:yed(n)=24
 	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-22:yed(n)=25
 	If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
@@ -453,6 +465,7 @@ Case 12	;Shooting Position
 	zNoMove(n)=1:zNoJump(n)=1
 	extraDraw(n)=1:drawObjOnZ(n)=0
 	a=8:b=22:c=28
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zblowSeq(n) =1 Then
 		If shotsfired(zgotobj(n)) < objAmmo(zgotobj(n)) Then
 			shotsfired(zgotobj(n))=shotsfired(zgotobj(n))+1
@@ -508,6 +521,7 @@ Case 14	;Super Special (ice spikes)
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zongnd(n)=1 And upKey(n)=1 And zBlowSeq(n)=1 Then zBlowSeq(n)=100
 	If zBlowSeq(n) >= 100 Then performFatalitySuper(n) 
 	If zongnd(n)=0 And downKey(n)=0 Then zy(n)=zy(n)-2
@@ -534,6 +548,7 @@ Case 14	;Super Special (ice spikes)
 Case 15 ;Subzero throw
 	a=8: b=15: c=25: d=30: e=35: f=40: g=45: h=50: i=60
 	zNoMove(n)=1:zNoJump(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=15:zf(n)=1
 	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=15:zf(n)=1
 	If zBlowSeq(n)= a Then
@@ -595,6 +610,7 @@ Case 16: ; ice clone
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	checkYDist(n, zx(n), zy(n), 4)
 	If zHitHead(n)=1 Then zBlowSeq(n)=i:zy(n)=zy(n)+4
 	If zongnd(n) = 0 And zBlowSeq(n) = 1 Then zBlowSeq(n) = j+1
@@ -642,6 +658,7 @@ Case 17: ;Ice shower
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n) >= 0 And zBlowSeq(n) < a Then
 		If zBlowSeq(n) = 1 And gameSound Then PlaySound subZeroFreeze1Snd
