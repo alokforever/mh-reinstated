@@ -228,7 +228,7 @@ Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
-Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30)
+Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -6289,8 +6289,8 @@ Function drawRunSequence(n)
 		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
 			If gameSound Then PlaySound zRunFootSound(curGuy(n))
 			If curGuy(n)=15 Then 
-				If zFace(n)=4 Then extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
-				If zFace(n)=2 Then extraObj(n,zx(n),40,zy(n),2,zblowdir(n),89)
+				If zFace(n)=4 Then extraObj(n,zx(n),0,zy(n),2,zblowdir(n),89)
+				If zFace(n)=2 Then extraObj(n,zx(n),0,zy(n),2,zblowdir(n),89)
 			End If
 		End If
 	End If
