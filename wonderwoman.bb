@@ -153,7 +153,6 @@ Case 5	;Up + Special (Warrior's heart)
 	l=k+2:m=l+2:n1=m+1:o=n1+1:p=o+2:q=p+2:r=q+3:s=r+3
 	aa=s+2:bb=aa+2:cc=bb+2:dd=cc+1:ee=dd+1:ff=ee+2:gg=ff+2:hh=gg+3:ii=hh+3
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-	
 	If zBlowSeq(n)=1 And upKeyDoubleTap(n)=1 Then
 		zBlowUpLimit(n)=zy(n)-80
 		attackMode(n, 1)=1

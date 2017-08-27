@@ -64,6 +64,9 @@ zBlocked(n)=0: aiGetTarget(n):
 	duckFrames(n)=0
 	duckFrameSpeed(n)=0
 	canAirGlide(n)=0
+	zRunFootSoundSeq(n)=0
+	zWalkQuakeSeq1(n)=0
+	zWalkQuakeSeq2(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -279,6 +282,7 @@ Case 11: ;Wolverine
 	canWallJump(n)=1
 	dizzyFrames(n)=7
 	dizzyFrameSpeed(n)=7
+	zRunFootSoundSeq(n)=12
 		
 Case 12: ;Scorpion
 	zBlowDist(n,1)=60
@@ -310,6 +314,7 @@ Case 12: ;Scorpion
 	flipFrames(n)=6
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
+	zRunFootSoundSeq(n)=12
 
 Case 13: ;Sub Zero
 	zBlowDist(n,1)=45
@@ -340,7 +345,8 @@ Case 13: ;Sub Zero
 	gender(n)=1
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
-	
+	zRunFootSoundSeq(n)=12
+
 Case 14: ;Wonder Woman
 	zBlowDist(n,1)=45
 	zBlowDist(n,2)=50
@@ -372,6 +378,7 @@ Case 14: ;Wonder Woman
 	duckFrames(n)=5
 	duckFrameSpeed(n)=5
 	canAirGlide(n)=1
+	zRunFootSoundSeq(n)=12
 
 Case 15: ;Juggernaut
 	zBlowDist(n,1)=45
@@ -389,18 +396,21 @@ Case 15: ;Juggernaut
 	zxHand(n,2)=-2 :zyHand(n,2)=23
 	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
-	zJumpSnd(n)=jumpsnd
+	zJumpSnd(n)=juggJumpSnd
 	zJumpSnd2(n)=wolverinejumpsnd
-	zStanceFrames(n)=7
+	zStanceFrames(n)=8
 	zStanceSpeed(n)=6
-	zWalkFrames(n)=27
-	zWalkFrameSpeed#(n)=2
-	zRunFrames(n)=7
-	zRunFrameSpeed#(n)=3
+	zWalkFrames(n)=16
+	zWalkFrameSpeed#(n)=4
+	zRunFrames(n)=4
+	zRunFrameSpeed#(n)=4
 	zCharSpeed#(n)=1.7
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
 	gender(n)=1
+	zRunFootSoundSeq(n)=18
+	zWalkQuakeSeq1(n)=2
+	zWalkQuakeSeq2(n)=10
 
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -3289,6 +3299,12 @@ If n=42 Then	;Joker
 	Next
 	If jokerSnd=0 Then jokerSnd=LoadSound(soundsdir$ + "joker.wav")
 EndIf
+
+If n=15 Then ;Juggernaut
+	If walkQuakeSnd(n)=0 Then walkQuakeSnd(n)=LoadSound(soundsdir$ + "juggernaut\juggWalk.wav")
+	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "juggernaut\juggDash.wav")
+	If juggJumpSnd=0 Then juggJumpSnd=LoadSound(soundsdir$ + "juggernaut\juggJump.wav")
+End If
 
 If n=14 Then ;WonderWoman
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")

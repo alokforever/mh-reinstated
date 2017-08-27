@@ -176,3 +176,5 @@ Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1.wav")
 Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2.wav")
 Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1.wav")
 Global mvcCrashSnd=LoadSound(soundsdir$ + "mvc\mvcCrash.wav")
+
+Global juggJumpSnd

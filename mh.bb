@@ -228,6 +228,7 @@ Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime
 Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
+Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -792,7 +793,6 @@ For n=1 To zzamount
 	zSuperBar(n)=0
 	zStaminaBar#(n)=100
 	zTrail(n)=0
-	isRunning(n)=0
 	If zon(n) And guyLoaded(curGuy(n))=0 Then loadPics(curGuy(n))
 	If zon(n) Then initZ(n)
 Next
@@ -6265,6 +6265,10 @@ Function drawWalkSequence(n)
 			If (zwalkseq(n) / zWalkFrameSpeed#(n)) Mod frame = 0 Then 
 				If zwalkseq(n) > (frame * 10) + 10 Then zwalkseq(n) = 1:Return
 				zani(n)=1:zf(n)=frame
+				If frame=zWalkQuakeSeq1(n) Or frame=zWalkQuakeSeq2(n) And frame <> 0 Then ;Shake screen
+					quake=1:quakeSeq=0
+					If gameSound Then PlaySound walkQuakeSnd(curGuy(n))
+				End If
 				Return
 			EndIf
 		Next
@@ -6281,7 +6285,15 @@ End Function
 Function drawRunSequence(n)
 	drawTrailingEffects(n, zRunSeq(n))
 	If ((zStaminaBar(n) = 95 And zRunSeq(n)=5) Or (canAirGlide(n) And zRunSeq(n)=1 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
-	If zRunSeq(n) Mod 12 = 0 And gameSound Then PlaySound zRunFootSound(curGuy(n))
+	If zRunFootSoundSeq(n) <> 0 Then
+		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
+			If gameSound Then PlaySound zRunFootSound(curGuy(n))
+			If curGuy(n)=15 Then 
+				If zFace(n)=4 Then extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
+				If zFace(n)=2 Then extraObj(n,zx(n),40,zy(n),2,zblowdir(n),89)
+			End If
+		End If
+	End If
 	If zRunFrames(n) <> 0 Then
 		For frame=zRunFrames(n) To 1 Step -1
 			If (zRunSeq(n) / zRunFrameSpeed#(n)) Mod frame = 0 Then 
@@ -6369,7 +6381,7 @@ End Function
 ;----------- Check right key hit ---------------
 Function checkRightKeyHit(n)	
 	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - rightKeyHitTimer(n)) < quintSec Then
+	If (curTime - rightKeyHitTimer(n)) < quintSec And (curTime - rightKeyHitTimer(n)) > 0 Then
 		If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	rightKeyHitTimer(n) = curTime
@@ -6378,7 +6390,7 @@ End Function
 ;----------- Check left key hit ---------------
 Function checkLeftKeyHit(n)
 	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - leftKeyHitTimer(n)) < quintSec Then
+	If (curTime - leftKeyHitTimer(n)) < quintSec And (curTime - leftKeyHitTimer(n)) > 0 Then
 		If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
@@ -6387,7 +6399,7 @@ End Function
 ;----------- Check down key hit ---------------
 Function checkDownKeyHit(n)
 	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - downKeyHitTimer(n)) < quintSec Then
+	If (curTime - downKeyHitTimer(n)) < quintSec And (curTime - downKeyHitTimer(n)) > 0 Then
 		downKeyDoubleTap(n)=1
 	Else
 		downKeyDoubleTap(n)=0
@@ -6398,7 +6410,7 @@ End Function
 ;----------- Check up key hit ---------------
 Function checkUpKeyHit(n)
 	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - upKeyHitTimer(n)) < quintSec Then
+	If (curTime - upKeyHitTimer(n)) < quintSec And (curTime - upKeyHitTimer(n)) > 0 Then
 		upKeyDoubleTap(n)=1
 	Else
 		upKeyDoubleTap(n)=0
