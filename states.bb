@@ -2455,8 +2455,23 @@ Case 110:		;Caught something with Lasso (short)
 	
 	If chunkSeq(n)=71 Then chunk(n)=0
 	
-Case 109:		;WW Dash
+Case 111:		;WW Dash
 
+
+Case 112: 		;Ground effect 1
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 3 Then chunkPic(n)=ptPic(93,1):chunkPic_(n)=ptPic_(93,1)
+	If chunkSeq(n) >= 4 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(93,2):chunkPic_(n)=ptPic_(93,2)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 9 Then chunkPic(n)=ptPic(93,3):chunkPic_(n)=ptPic_(93,3)
+	If chunkSeq(n) >= 10 And chunkSeq(n) <= 12 Then chunkPic(n)=ptPic(93,4):chunkPic_(n)=ptPic_(93,4)
+	If chunkSeq(n) >= 13 And chunkSeq(n) <= 15 Then chunkPic(n)=ptPic(93,5):chunkPic_(n)=ptPic_(93,5)
+	If chunkSeq(n) >= 16 And chunkSeq(n) <= 18 Then chunkPic(n)=ptPic(93,6):chunkPic_(n)=ptPic_(93,6)
+	If chunkSeq(n) >= 19 And chunkSeq(n) <= 21 Then chunkPic(n)=ptPic(93,7):chunkPic_(n)=ptPic_(93,7)
+	If chunkSeq(n) >= 22 And chunkSeq(n) <= 24 Then chunkPic(n)=ptPic(93,8):chunkPic_(n)=ptPic_(93,8)
+	If chunkSeq(n) >= 25 And chunkSeq(n) <= 27 Then chunkPic(n)=ptPic(93,9):chunkPic_(n)=ptPic_(93,9)
+	If chunkSeq(n) >= 28 And chunkSeq(n) <= 30 Then chunkPic(n)=ptPic(93,10):chunkPic_(n)=ptPic_(93,10)
+	If chunkSeq(n) >= 31 And chunkSeq(n) <= 33 Then chunkPic(n)=ptPic(93,11):chunkPic_(n)=ptPic_(93,11)
+	
+	If chunkSeq(n)=34 Then chunk(n)=0
 
 Default
 	a=5:b=10:c=14	;Blocking
@@ -3309,6 +3324,8 @@ If n=15 Then ;Juggernaut
 	If juggLateralSnd=0 Then juggLateralSnd=LoadSound(soundsdir$ + "juggernaut\juggLateral.wav")
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "juggernaut\juggDie.wav")
 	If juggLateralHitSnd=0 Then juggLateralHitSnd=LoadSound(soundsdir$ + "juggernaut\juggLateralHit.wav")
+	If juggPunchSnd=0 Then juggPunchSnd=LoadSound(soundsdir$ + "juggernaut\juggPunch.wav")
+	If juggPunchGroundSnd=0 Then juggPunchGroundSnd=LoadSound(soundsdir$ + "juggernaut\juggPunchGround.wav")
 End If
 
 If n=14 Then ;WonderWoman
