@@ -72,6 +72,7 @@ Global floorSlideSnd=LoadSound(soundsDir$ + "floorSlide.wav")
 Global toastySnd=LoadSound(soundsdir$ + "mk\toasty.mp3")
 Global mineDudSnd=LoadSound(soundsdir$ + "minedud.wav")
 Global burnedSnd=LoadSound(soundsdir$ + "burned.wav")
+Global quakeSnd=LoadSound(soundsdir$ + "juggernaut\juggWalk.wav")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
@@ -177,4 +178,4 @@ Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2.wav")
 Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1.wav")
 Global mvcCrashSnd=LoadSound(soundsdir$ + "mvc\mvcCrash.wav")
 
-Global juggJumpSnd
+Global juggJumpSnd, juggLateralSnd, juggLateralHitSnd
