@@ -207,7 +207,7 @@ Case 7	; Juggernaut punch (special)
 		xblow(n,nn)=20: yblow(n,nn)=26:wblow(n,nn)=50:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=20: yblow(n,nn)=36:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=2:zBlowHold(n)=10
-		zHitSpeed#(n)=2.5:zHitUpSpeed#(n)=2.5:zHitTime(n)=30
+		zHitSpeed#(n)=5:zHitUpSpeed#(n)=2.5:zHitTime(n)=40
 		zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=35
 		zBlowSound(n)=juggLateralHitSnd
 	End If
@@ -222,7 +222,7 @@ Case 7	; Juggernaut punch (special)
 		xblow(n,nn)=20: yblow(n,nn)=0:wblow(n,nn)=54:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=20: yblow(n,nn)=10:wblow(n,nn)=54:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=2:zBlowHold(n)=10
-		zHitSpeed#(n)=2.5:zHitUpSpeed#(n)=2.5:zHitTime(n)=30
+		zHitSpeed#(n)=5:zHitUpSpeed#(n)=2.5:zHitTime(n)=40
 		zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowStillTime(n)=0:zBlowBlockTime(n)=35
 		zBlowSound(n)=juggLateralHitSnd
 	End If
