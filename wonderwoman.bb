@@ -62,7 +62,7 @@ Case 1	;Attack
 		xblow(n,nn)=10: yblow(n,nn)=30:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
 		xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=35:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=18:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowDamage(n)=18:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mvcHit2Snd
 	End If
 
@@ -100,7 +100,7 @@ Case 2	;Flying Kick
 		xblow(n,nn)=15: yblow(n,nn)=10:wblow(n,nn)=22:hblow(n,nn)=10:nn=nn+1
 		xblow(n,nn)=15: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=10:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=12:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowDamage(n)=12:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mvcHit2Snd
 	End If
 	
@@ -142,7 +142,7 @@ Case 4	;Low kick
 		xblow(n,nn)=0: yblow(n,nn)=12:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=18:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=13:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+		zBlowDamage(n)=13:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
 		zBlowSound(n)=mvcHit2Snd
 	EndIf
 
@@ -212,7 +212,7 @@ Case 5	;Up + Special (Warrior's heart)
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=3:zHitUpSpeed#(n)=4.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2)
-		zBlowDamage(n)=5:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
+		zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
 		zBlowSound(n)=mvcHit1Snd
 		zani(n)=7:zf(n)=6:zantiplat(n)=1
 	EndIf
@@ -222,7 +222,7 @@ Case 5	;Up + Special (Warrior's heart)
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=3:zHitUpSpeed#(n)=4.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2)
-		zBlowDamage(n)=5:zBLowEffect(n)=1:zBlowImpact(n)=15:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
+		zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=15:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
 		zBlowSound(n)=mvcHit1Snd
 		zantiplat(n)=1
 	EndIf
@@ -368,7 +368,7 @@ Case 10	;High Attack
 		xblow(n,nn)=20: yblow(n,nn)=67:wblow(n,nn)=6:hblow(n,nn)=10:nn=nn+1
 		xblow(n,nn)=20: yblow(n,nn)=57:wblow(n,nn)=6:hblow(n,nn)=10:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=15:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mvcHit2Snd
 	EndIf
 
@@ -394,7 +394,7 @@ Case 11	;club
 		xblow(n,nn)=0: yblow(n,nn)=46:wblow(n,nn)=85:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=-5: yblow(n,nn)=56:wblow(n,nn)=77:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=10
-		zBlowDamage(n)=25:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
+		zBlowDamage(n)=25:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
 		zChunkType(n)=5
 		zBlowSound(n)=smashsnd
 		zani(n)=12:zf(n)=3
@@ -576,7 +576,7 @@ Case 15 ;WW throw
 			zBlowBack(n)=1
 			xblow(n,nn)=hitBoxXPos:yblow(n,nn)=hitBoxYPos:wblow(n,nn)=zSide(en)+20:hblow(n,nn)=zHeight(en)+10
 			zHitMode(n)=2:zBlowHold(n)=0:zHitSpeed#(n)=7:zHitUpSpeed#(n)=2:zHitTime(n)=25
-			zBlowDamage(n)=13:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
+			zBlowDamage(n)=13:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 			zBlowSound(n)=RashHitSnd
 			zFallSpeed#(en)=zFallSpeed#(en)*-1
 		Else

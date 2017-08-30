@@ -166,7 +166,7 @@ Dim tileXstart(5,1500), tileYstart(5,1500),tileFollow(5,1500),tileTarget(5,1500)
 Dim xTile2(5,1500),yTile2(5,1500),tileFollowType(5,1500)
 Global colorR,colorG,colorB,bg,bgAmount=5
 
-Dim zBlowBack(30),zBlow(30),zCurBlow(30),zBlowSeq(30),zBlowSeq2(30),zBlowDamage(30),zBlowImpact(30),zBlowStill(30)
+Dim zBlowBack(30),zBlow(30),zCurBlow(30),zBlowSeq(30),zBlowSeq2(30),zBlowDamage(30),zEnemyImmuneTime(30),zBlowStill(30)
 Dim zBlock(30),zBlocked(30),zBlockDir(30),zBlockSpeed#(30),zBlockSeq(30),zBlockTime(30),zBlockLife#(30),zblockfull(30)
 Dim zShot1Pic(30),zShot2Pic(30),zShot1Pic_(30),zShot2Pic_(30)
 
@@ -3788,7 +3788,7 @@ Case 2
 						zxStill#(n)=zx(n):zyStill(n)=zy(n)
 						If zstone(nn)=0 Then zface(nn)=4
 						zblockDir(nn)=2
-						zImune(nn,n)=1:zImuneTo(nn,n)=n:zImuneSeq(nn,n)=0:zImuneTime(nn,n)=zBlowImpact(n)
+						zImune(nn,n)=1:zImuneTo(nn,n)=n:zImuneSeq(nn,n)=0:zImuneTime(nn,n)=zEnemyImmuneTime(n)
 						If zblock(nn)=1 Then
 							If zblowback(n)=1 Then
 								If zx(n) => zx(nn) Then zface(nn)=2:zFallDir(nn)=4:zblockDir(nn)=4
@@ -3879,7 +3879,7 @@ Case 4
 				zxStill#(n)=zx(n):zyStill(n)=zy(n)
 				If zStone(nn)=0 Then zface(nn)=2
 				zblockDir(nn)=4
-				zImune(nn,n)=1:zImuneTo(nn,n)=n:zImuneSeq(nn,n)=0:zImuneTime(nn,n)=zBlowImpact(n)
+				zImune(nn,n)=1:zImuneTo(nn,n)=n:zImuneSeq(nn,n)=0:zImuneTime(nn,n)=zEnemyImmuneTime(n)
 				If zblock(nn)=1 Then
 						If zblowback(n)=1 Then
 							If zx(n) => zx(nn) Then zface(nn)=2:zFallDir(nn)=4:zblockDir(nn)=4
@@ -6281,6 +6281,12 @@ Function drawWalkSequence(n)
 	EndIf
 End Function
 
+Function handleJuggernautRun(n)
+	If zani(n)=21 And zf(n)=4 Then zSpeed#(n)=1:zNoMove(n)=0
+	If zFace(n)=4 Then extraObj(n,zx(n),10,zy(n),2,zblowdir(n),89)
+	If zFace(n)=2 Then extraObj(n,zx(n),-10,zy(n),2,zblowdir(n),89)
+End Function
+
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
 	drawTrailingEffects(n, zRunSeq(n))
@@ -6288,9 +6294,8 @@ Function drawRunSequence(n)
 	If zRunFootSoundSeq(n) <> 0 Then
 		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
 			If gameSound Then PlaySound zRunFootSound(curGuy(n))
-			If curGuy(n)=15 Then ;dust
-				If zFace(n)=4 Then extraObj(n,zx(n),10,zy(n),2,zblowdir(n),89)
-				If zFace(n)=2 Then extraObj(n,zx(n),-10,zy(n),2,zblowdir(n),89)
+			If curGuy(n)=15 Then
+				handleJuggernautRun(n)
 			End If
 		End If
 	End If

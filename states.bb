@@ -405,7 +405,7 @@ Case 15: ;Juggernaut
 	zWalkFrameSpeed#(n)=4
 	zRunFrames(n)=4
 	zRunFrameSpeed#(n)=4
-	zCharSpeed#(n)=1.7
+	zCharSpeed#(n)=2
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
 	gender(n)=1
@@ -3326,6 +3326,8 @@ If n=15 Then ;Juggernaut
 	If juggLateralHitSnd=0 Then juggLateralHitSnd=LoadSound(soundsdir$ + "juggernaut\juggLateralHit.wav")
 	If juggPunchSnd=0 Then juggPunchSnd=LoadSound(soundsdir$ + "juggernaut\juggPunch.wav")
 	If juggPunchGroundSnd=0 Then juggPunchGroundSnd=LoadSound(soundsdir$ + "juggernaut\juggPunchGround.wav")
+	If juggNoManaSnd=0 Then juggNoManaSnd=LoadSound(soundsdir$ + "juggernaut\juggNoMana.mp3")
+	If juggNoMana2Snd=0 Then juggNoMana2Snd=LoadSound(soundsdir$ + "juggernaut\juggNoMana2.mp3")
 End If
 
 If n=14 Then ;WonderWoman

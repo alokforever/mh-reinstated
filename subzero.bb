@@ -21,7 +21,7 @@ Function performFatalitySuper(n)
 		xblow(n,nn)=6: yblow(n,nn)=73:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
 		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
 		zHitMode(n)=2:zBlowHold(n)=0
-		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=35
+		zBlowDamage(n)=14:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=35
 		zHitSpeed#(n)=2.4:zHitUpSpeed#(n)=3.5:zHitTime(n)=90
 		zBlowSound(n)=mkStrongHitSnd
 	End If
@@ -69,7 +69,7 @@ Function applySubZeroComboHitBox(n, hitMode, damage)
 	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=36:hblow(n,nn)=22:nn=nn+1
 	zHitMode(n)=hitMode:zBlowHold(n)=0
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
-	zBlowDamage(n)=damage:zBLowEffect(n)=1:zBlowImpact(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
+	zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 	zBlowSound(n)=mkStrongHitSnd
 End Function
 
@@ -202,7 +202,7 @@ Case 1	; Kick
 		xblow(n,nn)=12: yblow(n,nn)=30:wblow(n,nn)=12:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=6: yblow(n,nn)=28:wblow(n,nn)=9:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=18:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowDamage(n)=18:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mkStrongHitSnd
 	EndIf
 	If zBlowseq(n) > e And zblowseq(n) =< f Then zani(n)=6:zf(n)=4
@@ -225,7 +225,7 @@ Case 2	;Flying kick
 		xblow(n,nn)=16: yblow(n,nn)=14:wblow(n,nn)=20:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=3: yblow(n,nn)=22:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=11:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
+		zBlowDamage(n)=11:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
 		zBlowSound(n)=mkHitSnd
 	EndIf
 	If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
@@ -247,7 +247,7 @@ Case 4	;Low kick
 		xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		movex2(n,zface(n),5+(Abs(zSpeed#(n))/1.5))
-		zBlowDamage(n)=10:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
+		zBlowDamage(n)=10:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=30
 		zBlowSound(n)=mkHitSnd
 		zani(n)=9:zf(n)=2
 	EndIf
@@ -274,7 +274,7 @@ Case 5 ; Up + Special
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=1:zHitUpSpeed#(n)=2.5:zHitTime(n)=20
 		If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2)
-		zBlowDamage(n)=6:zBLowEffect(n)=1:zBlowImpact(n)=16:zBlowStillTime(n)=10:zBlowBlockTime(n)=20
+		zBlowDamage(n)=6:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=10:zBlowBlockTime(n)=20
 		zBlowSound(n)=mkHitSnd
 		zani(n)=7:zf(n)=3:zantiplat(n)=1
 	EndIf
@@ -287,7 +287,7 @@ Case 5 ; Up + Special
 		zHitmode(n)=2:zBlowHold(n)=0
 		zHitSpeed#(n)=2:zHitUpSpeed#(n)=4:zHitTime(n)=45
 		If zBlowStill(n)=0 Then zy(n)=zy(n)-4:moveX(n,zBlowdir(n),2)
-		zBlowDamage(n)=6:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=20
+		zBlowDamage(n)=6:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=20
 		zBlowSound(n)=mkHitSnd
 		zani(n)=7:zf(n)=3:zantiplat(n)=1
 	EndIf
@@ -422,7 +422,7 @@ Case 10	; Up + Attack
 		xblow(n,nn)=6: yblow(n,nn)=70:wblow(n,nn)=13:hblow(n,nn)=15:nn=nn+1
 		xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=13:hblow(n,nn)=17:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
-		zBlowDamage(n)=14:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+		zBlowDamage(n)=14:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mkStrongHitSnd
 		zani(n)=14:zf(n)=4
 	EndIf
@@ -451,7 +451,7 @@ Case 11	;club
 		xblow(n,nn)=0: yblow(n,nn)=46:wblow(n,nn)=70:hblow(n,nn)=1:nn=nn+1
 		xblow(n,nn)=-5: yblow(n,nn)=56:wblow(n,nn)=67:hblow(n,nn)=1:nn=nn+1
 		zHitMode(n)=0 :zBlowHold(n)=10
-		zBlowDamage(n)=25:zBLowEffect(n)=1:zBlowImpact(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
+		zBlowDamage(n)=25:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
 		zChunkType(n)=5
 		zBlowSound(n)=smashsnd
 		zani(n)=10:zf(n)=1
