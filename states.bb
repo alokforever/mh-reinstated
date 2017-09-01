@@ -839,6 +839,7 @@ Function shotData(weaponChosen,n)
 	isShotDisappearOnHit(n)=0
 	shotChunkHitType(n)=0
 	doesShotBurn(n)=0
+	shotGroundType(n)=0
 
 Select weaponChosen	
 	
@@ -1549,8 +1550,54 @@ Case 46	;Scorpion Fireball
 	shotPic_(n,1)=shotImage_(55)
 	shotExplosive(n)=1
 	shotSound(n)=scorpionBurnSnd
-End Select
 
+Case 47 ;Juggernaut Earthquake
+	shotGroundType(n)=1
+	shotspeed(n)=5
+	shotsize(n)=46
+	shotheight(n)=26
+	shotDamage(n)=9
+	shotHitMode(n)=2
+	shotSide(n)=shotsize(n)/2
+	shotImmuneTime(n)=200
+	shotHitXspeed(n)=5
+	shotHitYspeed(n)=2
+	shotFallTime(n)=40
+	shotDuration(n)=40
+	shotMaxSpeed(n)=shotSpeed(n)
+	shotDrill(n)=1
+	shotChunkType(n)=114
+	shotFramesAmount(n)=2
+	shotPic(n,1)=shotImage(56)
+	shotPic_(n,1)=shotImage(56)
+	shotPic(n,2)=shotImage(57)
+	shotPic_(n,2)=shotImage(57)
+	shotFrameTime(n)=2
+	shotSound(n)=juggLateralHitSnd
+
+Case 48 ;Juggernaut Earthquake 2
+	shotGroundType(n)=2
+	shotspeed(n)=0
+	shotYspeed(n)=-4
+	shotsize(n)=61
+	shotWidth(n)=25
+	shotHeight(n)=16
+	shotDamage(n)=11
+	shotHitMode(n)=2
+	shotSide(n)=shotsize(n)/2
+	shotImmuneTime(n)=200
+	shotHitXspeed(n)=5
+	shotHitYspeed(n)=2.5
+	shotFallTime(n)=40
+	shotDuration(n)=2
+	shotMaxSpeed(n)=shotSpeed(n)
+	shotDrill(n)=0
+	shotChunkType(n)=115
+	shotPic(n,1)=shotImage(58)
+	shotPic_(n,1)=shotImage(58)
+	shotSound(n)=juggLateralHitSnd
+
+End Select
 End Function
 ;----------------- Chunks ---------------------------------
 Function chunks(n)
@@ -2473,6 +2520,29 @@ Case 112: 		;Ground effect 1
 	
 	If chunkSeq(n)=34 Then chunk(n)=0
 
+Case 113:		;Earthquake chunk creation
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 2 Then chunkPic(n)=ptPic(94,1):chunkPic_(n)=ptPic_(94,1)
+	If chunkSeq(n) >= 3 And chunkSeq(n) <= 5 Then chunkPic(n)=ptPic(94,2):chunkPic_(n)=ptPic_(94,2)
+	If chunkSeq(n) >= 5 And chunkSeq(n) <= 7 Then chunkPic(n)=ptPic(94,3):chunkPic_(n)=ptPic_(94,3)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 9 Then chunkPic(n)=ptPic(94,4):chunkPic_(n)=ptPic_(94,4)
+	If chunkSeq(n)=10 Then chunk(n)=0
+	
+Case 114:		;Earthquake chunk destruction
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 2 Then chunkPic(n)=ptPic(94,7):chunkPic_(n)=ptPic_(94,7)
+	If chunkSeq(n) >= 3 And chunkSeq(n) <= 5 Then chunkPic(n)=ptPic(94,8):chunkPic_(n)=ptPic_(94,8)
+	If chunkSeq(n) >= 5 And chunkSeq(n) <= 7 Then chunkPic(n)=ptPic(94,9):chunkPic_(n)=ptPic_(94,9)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 9 Then chunkPic(n)=ptPic(94,10):chunkPic_(n)=ptPic_(94,10)
+	If chunkSeq(n) >= 9 And chunkSeq(n) <= 11 Then chunkPic(n)=ptPic(94,11):chunkPic_(n)=ptPic_(94,11)
+	If chunkSeq(n)=12 Then chunk(n)=0
+	
+Case 115:		;Earthquake 2 chunk destruction
+	If chunkSeq(n) >= 1 And chunkSeq(n) <= 3 Then chunkPic(n)=ptPic(95,1):chunkPic_(n)=ptPic_(95,1)
+	If chunkSeq(n) >= 4 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(95,2):chunkPic_(n)=ptPic_(95,2)
+	If chunkSeq(n) >= 7 And chunkSeq(n) <= 10 Then chunkPic(n)=ptPic(95,3):chunkPic_(n)=ptPic_(95,3)
+	If chunkSeq(n) >= 11 And chunkSeq(n) <= 13 Then chunkPic(n)=ptPic(95,4):chunkPic_(n)=ptPic_(95,4)
+	If chunkSeq(n) >= 14 And chunkSeq(n) <= 16 Then chunkPic(n)=ptPic(95,5):chunkPic_(n)=ptPic_(95,5)
+	If chunkSeq(n)=16 Then chunk(n)=0
+
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3328,6 +3398,7 @@ If n=15 Then ;Juggernaut
 	If juggPunchGroundSnd=0 Then juggPunchGroundSnd=LoadSound(soundsdir$ + "juggernaut\juggPunchGround.wav")
 	If juggNoManaSnd=0 Then juggNoManaSnd=LoadSound(soundsdir$ + "juggernaut\juggNoMana.mp3")
 	If juggNoMana2Snd=0 Then juggNoMana2Snd=LoadSound(soundsdir$ + "juggernaut\juggNoMana2.mp3")
+	If juggEarthquakeSnd=0 Then juggEarthquakeSnd=LoadSound(soundsdir$ + "juggernaut\juggEarthquake.wav")
 End If
 
 If n=14 Then ;WonderWoman

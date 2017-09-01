@@ -82,7 +82,7 @@ Dim zantiPlatTime(30),zantiPlatSeq(30),zForceAntiPlat(30)
 Dim zantiPlat(30),zHitByBox(30),zChunkType(30),zAI(30),aiTarget(30),aiCurLevel(30),zblowalert(30)
 Dim aiWalk(30),aiLevel(30),zBlowDist(30,30),NextBlow(30),blockDist(30)
 Dim zTrail(30),zTrailSeq(30),zTrailTime(30),zTrailType(30),zHitHold(30),zBlowHold(30),zHitCount(30)
-Dim xDist(30),yDist(30), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSnd2(30)
+Dim xDist(30),yDist(230), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSnd2(30)
 Dim zSuperMove(30),zSuperMoveSeq(30),zSuperX(30),zSuperY(30),zSuperDir(30),zSuperBar(30)
 Dim zGrabbed(30),zGrabbedBy(30),zGrabs(30),zGrabsThis(30),zGrabSeq(30),zNoAirSpecial(30)
 Dim xOval(30),yOval(30),woval(30),hOval(30), zGrabDist(30),shotFireSound(30)
@@ -225,7 +225,7 @@ Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30),
 Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
 Dim downKeyHit(30), upKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
 Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
-Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200)
+Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200), shotGroundType(200)
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
@@ -2777,11 +2777,20 @@ Case 2
 			Goto shotDone
 		EndIf
 	Next
-	For qh=0 To shotHeight(n) Step 6 ;shot x player collision
+	If shotHeight(n) < 0 Then
+		heightIndex=shotHeight(n):maxHeightIndex=0
+	Else
+		heightIndex=0:maxHeightIndex=shotHeight(n)
+	End If
+	For qh=heightIndex To maxHeightIndex Step 6 ;shot x player collision
 	For q=0 To shotsizeL(n) Step 1
 		xAxisShotPos=xshot(n)+q
 		yAxisShotPos=yshot(n)-qh
-		objShotWidth=1
+		If shotWidth(n) <> 0 Then
+			objShotWidth=shotWidth(n)
+		Else
+			objShotWidth=1
+		End If
 		objShotHeight=1
 		For nn = 1 To zzamount
 			oldshield = zShield(nn)
@@ -2865,7 +2874,7 @@ Case 4
 				shot(n)=0
 				shotsizeL(n)=q
 				makechunk(shotDir(n),xshot(n)-q,yShot(n),4,shotchunktype(n))
-				;If gameSound =1 Then PlaySound shotsound(n)
+				;If gameSound=1 Then PlaySound shotsound(n)
 				shothit=1
 			EndIf
 		EndIf
@@ -2896,7 +2905,7 @@ Case 4
 						shot(n)=0:
 						shotsizeL(n)=q
 						makechunk(shotDir(n),xshot(n)-q,yShot(n),4,shotChunkType(n))
-						;If gameSound =1 Then PlaySound shotsound(n)	
+						;If gameSound=1 Then PlaySound shotsound(n)	
 						shothit=1 
 					EndIf
 				EndIf
@@ -2911,17 +2920,25 @@ Case 4
 			Goto shotDone
 		EndIf
 	Next
-	For qh=0 To shotHeight(n) Step 6 ;shot x player collision
+	If shotHeight(n) < 0 Then
+		heightIndex=shotHeight(n):maxHeightIndex=0
+	Else
+		heightIndex=0:maxHeightIndex=shotHeight(n)
+	End If
+	For qh=heightIndex To maxHeightIndex Step 6 ;shot x player collision
 	For q=0 To shotsizeL(n) Step 1
 		xAxisShotPos=xshot(n)+q
 		yAxisShotPos=yshot(n)-qh
-		objShotWidth=1
+		If shotWidth(n) <> 0 Then
+			objShotWidth=shotWidth(n)
+		Else
+			objShotWidth=1
+		End If
 		objShotHeight=1
 		For nn= 1 To zzamount
 			oldshield = zShield(nn)
 			If shotSuper(n)=1 Then zShield(nn)=0
 			If zShield(nn)=0 And zon(nn)=1 And (teamAttack=1 Or zteam(shotOwner(n)) <> zteam(nn)) Then
-
 			If Not nn=shotowner(n) Then
 			  If Not (zShotByN(nn) = n And zShotHitSeq(nn,n) < shotImmuneTime(n)) Then
 				If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then Goto shotDone
@@ -2975,6 +2992,7 @@ End Select
 
 .shotDone
 ;xShot(n)=oldxshot(n)
+If shotGroundType(n) <> 0 Then handleGroundShotType(n)
 
 Select shotDir(n)
 	Case 2:
@@ -4659,7 +4677,7 @@ For nn=1 To zzamount
 			 If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
 				zHitHead(nn)=1:zJump(nn)=0
 				If platYspeed(n) > 2 Then zy(nn) = (yPlat(n)+platHeight(n))+zHeight(nn)
-				If (zongnd(nn)=1 Or zonplat(nn)=1)And zGrabbed(nn)=0 Then	;crushes player
+				If (zongnd(nn)=1 Or zonplat(nn)=1) And zGrabbed(nn)=0 Then	;crushes player
 					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
 					playDeathSnd(n)
 					zlives(nn)=zlives(nn)-1
@@ -5767,43 +5785,46 @@ End Select
 End Function
 ;--------CHECK VERTICAL PIXEL COLLISION DISTANCE-----------------------------------------------------------
 Function checkYDist(n,x,y,dir)
+	yDist(n)=1000
 
-yDist(n)=1000
-
-Select dir
-Case 2 ;down
-For q=1 To 1000 Step 5
-	If ImageRectCollide(map,0,0,0,y+q,x,1,1) Then
-		yDist(n)=q
-		Goto distChecked
-	EndIf
-	For nn=1 To platAmount
-		If y+q > yplat(nn) And y+q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
-			If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
-				yDist(n)=q
-				Goto distChecked	
-			EndIf
+	Select dir
+	Case 2 ;down
+	For q=1 To 1000 Step 5
+		If ImageRectCollide(map,0,0,0,y+q,x,1,1) Then
+			yDist(n)=q
+			Goto distChecked
 		EndIf
-	Next
-Next
-
-Case 4 ;up
-For q=1 To 1000 Step 5
-	If ImageRectCollide(map,0,0,0,y-q,x,1,1) Then
-		yDist(n)=q
-		Goto distChecked
-	EndIf
-	For nn=1 To platAmount
-		If y-q > yplat(nn) And y-q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
-			If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
-				yDist(n)=q
-				Goto distChecked	
+		For nn=1 To platAmount
+			If platHeight(nn)=0 Then
+				heightAdjustment=7
+			Else
+				heightAdjustment=0
+			End If
+			If y+q > yplat(nn) And y+q < yplat(nn)+platHeight(nn)+heightAdjustment And platWidth(nn)>1 Then
+				If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
+					yDist(n)=q
+					Goto distChecked	
+				EndIf
 			EndIf
-		EndIf
+		Next
 	Next
-Next
 
-End Select
+	Case 4 ;up
+	For q=1 To 1000 Step 5
+		If ImageRectCollide(map,0,0,0,y-q,x,1,1) Then
+			yDist(n)=q
+			Goto distChecked
+		EndIf
+		For nn=1 To platAmount
+			If y-q > yplat(nn) And y-q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
+				If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
+					yDist(n)=q
+					Goto distChecked	
+				EndIf
+			EndIf
+		Next
+	Next
+	End Select
 .distChecked
 
 End Function
@@ -6047,7 +6068,6 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 	Local heightLoop, xAxisShotPos, yAxisShotPos	
 	objShotWidth=shotWidth(projectile)
 	objShotHeight=shotVerticalSize(projectile)
-
 	xAxisShotPos=xShot(projectile)
 	If shotId(projectile)=43 Then
 		yAxisShotPos=yShot(projectile)-40
@@ -6095,8 +6115,8 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 			If shotSuper(projectile)=1 Then zShield(targetPlayer)=0 
 			If zShield(targetPlayer)=0 And zon(targetPlayer)=1 And (teamAttack=1 Or zteam(shotOwner(projectile) <> zteam(targetPlayer))) Then
 				If Not targetPlayer=shotOwner(projectile) Then
-					If Not (zShotByN(targetPlayer) = projectile And zShotHitSeq(targetPlayer, projectile) < shotImmuneTime(projectile)) Then 
-					If teamAttack=0 And zteam(shotOwner(projectile)) = zteam(targetPlayer) Then Return
+					If Not (zShotByN(targetPlayer) = projectile And zShotHitSeq(targetPlayer, projectile) < shotImmuneTime(projectile)) Then
+					If teamAttack=0 And zteam(shotOwner(projectile)) = zteam(targetPlayer) Then Goto shotDone
 					If ImageRectCollide(zCurPic(targetPlayer),zx(targetPlayer)-(ImageWidth(zCurPic(targetPlayer))/2)+30,zy(targetPlayer)-ImageHeight(zCurPic(targetPlayer))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
 						If projectileDeflectMode(targetPlayer)=1 Then
 							If shotDir(projectile)=2 And zFace(targetPlayer)=4 Then deflectProjectile(projectile, targetPlayer):Exit
@@ -6142,6 +6162,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 				EndIf
 			EndIf
 			zShield(targetPlayer)=oldShield
+			.shotDone
 		Next	
 	Next
 	Next
@@ -6282,7 +6303,11 @@ Function drawWalkSequence(n)
 End Function
 
 Function handleJuggernautRun(n)
-	If zani(n)=21 And zf(n)=4 Then zSpeed#(n)=1:zNoMove(n)=0
+	If zani(n)=21 And zf(n)=4 Then
+		zNoMove(n)=0
+		If zFace(n)=2 Then zSpeed#(n)=1
+		If zFace(n)=4 Then zSpeed#(n)=-1
+	End If
 	If zFace(n)=4 Then extraObj(n,zx(n),10,zy(n),2,zblowdir(n),89)
 	If zFace(n)=2 Then extraObj(n,zx(n),-10,zy(n),2,zblowdir(n),89)
 End Function
@@ -6681,5 +6706,27 @@ Function processHeavyCharactersOnAir(n)
 	If zOnGnd(n)=1 And zani(n)=4 And zf(n)=1 And isHeavy(n)=1 Then
 		If gameSound And quake=0 Then PlaySound quakeSnd
 		quake=1:quakeSeq=0
+	End If
+End Function
+
+;------------------- Handle Ground Shot Type ----------------------
+Function handleGroundShotType(n)
+	Local indexAdjustment=30, shotX, downDir=2
+	If shotGroundType(n)=1 Then 
+		If shotDir(n)=2 Then 
+			shotX=xshot(n)+10
+		Else
+			shotX=xshot(n)-10
+		End If
+		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
+		If yDist(n+indexAdjustment) > 6 Then shotDurationSeq(n)=shotDuration(n)+1
+	Else If shotGroundType(n)=2 Then
+		If shotDir(n)=2 Then 
+			shotX=xshot(n)-25
+		Else
+			shotX=xshot(n)+25
+		End If
+		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
+		If yDist(n+indexAdjustment) > 30 Then shot(n)=0
 	End If
 End Function

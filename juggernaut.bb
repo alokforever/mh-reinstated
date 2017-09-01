@@ -84,12 +84,13 @@ Case 5	;UP + SPECIAL (Lateral press)
 
 ;================= Hit boxes ==============
 	If zBlowSeq(n) >= b And zBlowSeq(n) < e Then
+		zblowback(n)=1
 		If zBlowStill(n)=1 Then zBlowSeq(n)=e
 		zblowPamount(n)=3:nn=1
 		xblow(n,nn)=-48: yblow(n,nn)=46:wblow(n,nn)=97:hblow(n,nn)=28:nn=nn+1
 		xblow(n,nn)=-63: yblow(n,nn)=22:wblow(n,nn)=75:hblow(n,nn)=24:nn=nn+1
 		xblow(n,nn)=-63: yblow(n,nn)=5:wblow(n,nn)=75:hblow(n,nn)=10:nn=nn+1
-		zHitmode(n)=2:zBlowHold(n)=1:zHitSpeed#(n)=5:zHitUpSpeed#(n)=3:zHitTime(n)=35:zBlowSound(n)=juggLateralHitSnd
+		zHitmode(n)=2:zBlowHold(n)=1:zHitSpeed#(n)=6:zHitUpSpeed#(n)=3:zHitTime(n)=35:zBlowSound(n)=juggLateralHitSnd
 		zBlowDamage(n)=10:zBLowEffect(n)=1:zEnemyImmuneTime(n)=90:zBlowStillTime(n)=1:zBlowBlockTime(n)=10
 	End If 
 
@@ -140,8 +141,6 @@ Case 7	; Juggernaut punch (special)
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n) = 1 And isRunning(n) And zSuperBar(n) >= 10 Then zSuperBar(n)=zSuperBar(n)-10:zBlowSeq(n)=ex:isRunning(n)=0
 	If zBlowSeq(n) = i+1 Or zBlowSeq(n) = i2+1 Then zBlowSeq(n)=a3
-	If zFace(n)=2 Then checkYDist(n,zx(n)+28,zy(n)+6,2)
-	If zFace(n)=4 Then checkYDist(n,zx(n)-28,zy(n)+6,2)
 ;================= Animation ==============
 	;=========== Normal Punch =============	
 	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=10:zf(n)=1
@@ -190,7 +189,7 @@ Case 7	; Juggernaut punch (special)
 
 ;================= Movement ================
 	If zBlowSeq(n) >= e And zBlowSeq(n) <= f And zOnGnd(n) Then moveX(n, zBlowDir(n), 6)
-	If zBlowSeq(n) >= e2 And zBlowSeq(n) <= f2 And zOnGnd(n) Then moveX(n, zBlowDir(n), 10)
+	If zBlowSeq(n) >= e2 And zBlowSeq(n) <= f2 And zOnGnd(n) Then moveX(n, zBlowDir(n), 12)
 ;===========================================
 
 ;================ Hit boxes ================
@@ -235,7 +234,7 @@ Case 8	;Dodging
 	a=7/wolvSpdFctr(n):b=15/wolvSpdFctr(n):c=20/wolvSpdFctr(n):d=25/wolvSpdFctr(n):e=30/wolvSpdFctr(n)
 	:f=37/wolvSpdFctr(n)
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-	If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
+	If zBlowSeq(n) = a And gameSound=1 Then PlaySound shotwallsnd
 	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=1
 	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),2)
 	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=3:moveX(n,zBlowdir(n),3)
@@ -247,13 +246,69 @@ Case 8	;Dodging
 	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0
 
 Case 9	; Earthquake (down special)
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	zNoMove(n)=1
+	zNoJump(n)=1:zJumping(n)=0:zJump(n)=0
+	a=2:b=a+4:c=b+2:d=c+2:e=d+36:f=e+5:g=f+5
+	ex=1000:a2=ex+2:b2=a2+4:c2=b2+2:d2=c2+2:e2=d2+44:f2=e2+5:g2=f2+5
+	If zOnGnd(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	;If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 And zSuperBar(n) >= 10 Then zSuperBar(n)=zSuperBar(n)-10:zBlowSeq(n)=ex
+	If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=ex
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	If zBlowSeq(n)=1 Then
+		If zFace(n)=2 Then checkYDist(n,zx(n)+40,zy(n)+6,2)
+		If zFace(n)=4 Then checkYDist(n,zx(n)-40,zy(n)+6,2)
+	End If
+;=============== Animation =================
+	If (zBlowSeq(n) >= 1 And zBlowSeq(n) < a) Or (zBlowSeq(n) = ex And zBlowSeq(n) < a2) Then zani(n)=12:zf(n)=1
+	If (zBlowSeq(n) >= a And zBlowSeq(n) < b) Or (zBlowSeq(n) = a2 And zBlowSeq(n) < b2) Then zani(n)=12:zf(n)=2
+	If (zBlowSeq(n) >= b And zBlowSeq(n) < c) Or (zBlowSeq(n) = b2 And zBlowSeq(n) < c2) Then zani(n)=12:zf(n)=3
+	If (zBlowSeq(n) >= c And zBlowSeq(n) < d) Or (zBlowSeq(n) = c2 And zBlowSeq(n) < d2) Then zani(n)=12:zf(n)=4
+	If (zBlowSeq(n) >= d And zBlowSeq(n) < e) Or zBlowSeq(n) >= d2 And zBlowSeq(n) < e2 Then
+		zani(n)=12
+		If zf(n)=5 And (zBlowSeq(n) <> 28 Or zBlowSeq(n) <> 1028) Then 
+			zf(n)=6
+		Else
+			zf(n)=5
+		End If
+	End If
+	If (zBlowSeq(n) >= e And zBlowSeq(n) < f) Or (zBlowSeq(n) = e2 And zBlowSeq(n) < f2) Then zani(n)=12:zf(n)=7
+	If (zBlowSeq(n) >= f And zBlowSeq(n) < g) Or (zBlowSeq(n) = f2 And zBlowSeq(n) < g2) Then zani(n)=12:zf(n)=8
+;===========================================
+
+;================= Sounds ==================
+	If gameSound Then
+		If zBlowSeq(n) = ex+1 Then PlaySound mvcExSnd
+		If zBlowSeq(n) = a Or zBlowSeq(n) = a2 Then PlaySound juggEarthquakeSnd
+		If (zBlowSeq(n) = d+2 Or zBlowSeq(n) = d2+2) And (yDist(n) <= 6 Or zOnGnd(n)=1) Then PlaySound mvcCrash2Snd
+	End If
+;===========================================
+
+;================ Effects ==================
+	If yDist(n) <= 6 Or zOnGnd(n)=1 Then
+		If zBlowSeq(n) = d+2 Or zBlowSeq(n) = d+8 Or zBlowSeq(n) = d+16 Then quake=1:quakeSeq=0
+		If zBlowSeq(n) = d2+2 Or zBlowSeq(n) = d2+8 Or zBlowSeq(n) = d2+16 Then quake=1:quakeSeq=0
+		If zBlowSeq(n) = d+2 Then extraObj(n,zx(n),55,zy(n),3,zblowdir(n),113)
+		If zBlowSeq(n) = d+8  Then
+			dir=zface(n):y=zy(n)-(zheight(n)-44)
+			If zface(n)=2 Then x=zx(n)+38
+			If zface(n)=4 Then x=zx(n)-38
+			makeshot(n,47,x,y,dir)
+		End If
+		If zBlowSeq(n) = d2+8 Or zBlowSeq(n) = d2+24 Or zBlowSeq(n) = d2+40 Then
+			dir=zface(n):y=zy(n)-(zheight(n)-44)
+			If zface(n)=2 Then x=zx(n)+42+((zBlowSeq(n)-1000)*3)
+			If zface(n)=4 Then x=zx(n)-42-((zBlowSeq(n)-1000)*3)
+			makeshot(n,48,x,y,dir)
+		End If
+	End If
+;===========================================
+	If zBlowSeq(n) = g Or zBlowSeq(n) = g2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Punch 
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 Case 11	;club
-	a=12/wolvSpdFctr(n):b=22/wolvSpdFctr(n):c=29/wolvSpdFctr(n):d=50/wolvSpdFctr(n):e=55/wolvSpdFctr(n)
+	a=12:b=22:c=29:d=50:e=55
 	zNoMove(n)=1
 	zNoJump(n)=1
 	extraDraw(n)=1
