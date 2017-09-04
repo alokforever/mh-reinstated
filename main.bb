@@ -71,7 +71,7 @@ Dim tempN#(10), strinfo$(200), characterOpen(30)
 Dim zx#(30),zy#(30),zdi(30),zface(30),zoldx#(30),zoldy#(30),zWasOn(30),zon(30),prevZOn(30),CurGuy(30),lastZon(30),lastzAI(30)
 Dim zxStart(30),zyStart(30),zxRespawn(30),zyRespawn(30),zJump2(30),zjump2seq(30),zFallDir(30),zDeadEvent(30)
 Dim zlife(30),zhit(30),zhitseq(30),Zshield(30),zTempShield(30),Zshieldseq(30),ZshieldedTime(30),zHit2(30)
-Dim zjump(30),zjumpseq(30),zjumplimit(30),zongnd(30),zfallenSeq(30),zFallImpact#(30),zFallSpeed#(30)
+Dim zjump(30),zjumpseq(30),zjumpfallseq(30),zjumplimit(30),zongnd(30),zfallenSeq(30),zFallImpact#(30),zFallSpeed#(30)
 Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30),zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
 Dim zHitSpeed#(30),zHitUpSpeed#(30),zHitTime#(30),zHitMode(30),zHitModeTaken(30),zBlowUplimit(30)			
 Dim zUpHeight(30),zDuckHeight(30),z(30),zHitHead(30),zIcon(60),zRollOnImpact(30)
@@ -216,7 +216,7 @@ Global menuOption, duringGameMenu
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30), upKeyHitTimer(30), upKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
-Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30)
+Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
@@ -2004,7 +2004,11 @@ Function selectDraw(n)
 		Else If isRunning(n) And canAirGlide(n)=0 Then
 			depleteStaminaBar(n, 1)
 		End If
-		zani(n)=4:zf(n)=1:Goto drawZ
+		If hasSpecialAirFrames(n)=1 Then 
+			processOnAirFrames(n):Goto drawZ
+		Else
+			zani(n)=4:zf(n)=1:Goto drawZ
+		End If
 	End If
 	processHeavyCharactersOnAir(n)
 	If Not zhit(n) Then ;on ground
@@ -6303,25 +6307,25 @@ Function drawWalkSequence(n)
 End Function
 
 Function handleJuggernautRun(n)
-	If zani(n)=21 And zf(n)=4 Then
-		zNoMove(n)=0
-		If zFace(n)=2 Then zSpeed#(n)=1
-		If zFace(n)=4 Then zSpeed#(n)=-1
+	If zFace(n)=2 Then 
+		If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=2
+		If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=1
+		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then extraObj(n,zx(n),-10,zy(n),2,zblowdir(n),89)
+	Else
+		If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=-2
+		If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=-1
+		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then extraObj(n,zx(n),10,zy(n),2,zblowdir(n),89)
 	End If
-	If zFace(n)=4 Then extraObj(n,zx(n),10,zy(n),2,zblowdir(n),89)
-	If zFace(n)=2 Then extraObj(n,zx(n),-10,zy(n),2,zblowdir(n),89)
 End Function
 
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
 	drawTrailingEffects(n, zRunSeq(n))
 	If ((zStaminaBar(n) = 95 And zRunSeq(n)=5) Or (canAirGlide(n) And zRunSeq(n)=1 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
+	If curGuy(n)=15 Then handleJuggernautRun(n)
 	If zRunFootSoundSeq(n) <> 0 Then
 		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
 			If gameSound Then PlaySound zRunFootSound(curGuy(n))
-			If curGuy(n)=15 Then
-				handleJuggernautRun(n)
-			End If
 		End If
 	End If
 	If zRunFrames(n) <> 0 Then
@@ -6387,7 +6391,13 @@ Function drawFlipFrames(n)
 			Case (zjump2seq(n)=>17 And zjump2seq(n)=<21):zani(n)=5:zf(n)=6
 		End Select
 	End If
-	If zjump2seq(n)>20 Then zani(n)=4:zf(n)=1
+	If zjump2seq(n)>20 Then 
+		If hasSpecialAirFrames(n)=1 Then
+			processOnAirFrames(n)
+		Else
+			zani(n)=4:zf(n)=1
+		End If
+	End If
 End Function
 
 
@@ -6712,7 +6722,7 @@ End Function
 ;------------------- Handle Ground Shot Type ----------------------
 Function handleGroundShotType(n)
 	Local indexAdjustment=30, shotX, downDir=2
-	If shotGroundType(n)=1 Then 
+	If shotGroundType(n)=1 Then
 		If shotDir(n)=2 Then 
 			shotX=xshot(n)+10
 		Else
@@ -6723,10 +6733,41 @@ Function handleGroundShotType(n)
 	Else If shotGroundType(n)=2 Then
 		If shotDir(n)=2 Then 
 			shotX=xshot(n)-25
-		Else
 			shotX=xshot(n)+25
 		End If
 		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
 		If yDist(n+indexAdjustment) > 30 Then shot(n)=0
+	End If
+End Function
+
+;------------------- Process On Air Frames -----------------------
+Function processOnAirFrames(n)
+	If curGuy(n)=14 And isRunning(n)=0 Then
+		If zjump(n)=0 Then 
+			zJumpFallSeq(n)=zjumpfallseq(n)+1
+			If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 3 Then zani(n)=4:zf(n)=9
+			If zJumpFallSeq(n) >= 3 And zJumpFallSeq(n) < 6 Then zani(n)=4:zf(n)=10
+			If zJumpFallSeq(n) >= 6 And zJumpFallSeq(n) < 9 Then zani(n)=4:zf(n)=11
+			If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 12 Then zani(n)=4:zf(n)=12
+			If zJumpFallSeq(n) >= 12 And zJumpFallSeq(n) < 15 Then zani(n)=4:zf(n)=13
+			If zJumpFallSeq(n) >= 15 And zJumpFallSeq(n) Mod 3 = 0 Then
+				If zf(n)=14 Then  
+					zani(n)=4:zf(n)=15
+				Else If zf(n)=15 Then 
+					zani(n)=4:zf(n)=14
+				Else
+					zani(n)=4:zf(n)=14
+				End If
+			End If
+		Else
+			If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+			If zjumpseq(n)=1 Then zani(n)=4:zf(n)=2
+			If zjumpseq(n)=2 Or zjumpseq(n)=3 Then zani(n)=4:zf(n)=3
+			If (zjumpseq(n) >= 4 Or zjumpseq(n) <= 5) Or (zjumpseq(n) >= 8 Or zjumpseq(n) <= 9) Then zani(n)=4:zf(n)=4
+			If (zjumpseq(n) >= 6 Or zjumpseq(n) <= 7) Or (zjumpseq(n) >= 10 Or zjumpseq(n) <= 11) Then zani(n)=4:zf(n)=5
+			If zjumpseq(n) >= 12 And zjumpseq(n) <= 14 Then zani(n)=4:zf(n)=6
+			If zjumpseq(n) >= 15 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=7
+			If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=8
+		End If
 	End If
 End Function

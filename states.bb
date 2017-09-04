@@ -19,7 +19,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zheight(n)=45				;Player's current height
 	zUpHeight(n)=45
 	zDuckHeight(n)=25
-	zside(n)=9-1 				;Z width size / 2
+	zside(n)=8	 				;Z width size / 2
 	zSpeed#(n)=0				;Player current speed
 	zShieldedTime(n)=150		;Time(frames) player stays invincible when recover
 	zBlockFull(n)=80
@@ -380,6 +380,7 @@ Case 14: ;Wonder Woman
 	duckFrameSpeed(n)=5
 	canAirGlide(n)=1
 	zRunFootSoundSeq(n)=12
+	hasSpecialAirFrames(n)=1
 
 Case 15: ;Juggernaut
 	zBlowDist(n,1)=45
@@ -403,9 +404,9 @@ Case 15: ;Juggernaut
 	zStanceSpeed(n)=6
 	zWalkFrames(n)=16
 	zWalkFrameSpeed#(n)=4
-	zRunFrames(n)=4
+	zRunFrames(n)=6
 	zRunFrameSpeed#(n)=4
-	zCharSpeed#(n)=2
+	zCharSpeed#(n)=3
 	dizzyFrames(n)=8
 	dizzyFrameSpeed(n)=7
 	gender(n)=1
@@ -1585,7 +1586,7 @@ Case 48 ;Juggernaut Earthquake 2
 	shotDamage(n)=11
 	shotHitMode(n)=2
 	shotSide(n)=shotsize(n)/2
-	shotImmuneTime(n)=200
+	shotImmuneTime(n)=15
 	shotHitXspeed(n)=5
 	shotHitYspeed(n)=2.5
 	shotFallTime(n)=40
@@ -3217,9 +3218,9 @@ Next
 
 zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
 zPic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
-For i=2 To 10
-	zpic(n,4,i)=LoadImage(gfxdir$ + "zair" + i + ".bmp")
-	zPic_(n,4,i)=LoadImage(gfxdir$ + "zair" + i + "_.bmp")
+For i=2 To 20
+	zpic(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + ".bmp")
+	zPic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
 Next
 
 For i=1 To 6
