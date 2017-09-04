@@ -6740,34 +6740,62 @@ Function handleGroundShotType(n)
 	End If
 End Function
 
+;--------------- Process Wonder Woman Air Frames -----------------
+Function processWonderWomanAirFrames(n)
+	If zjump(n)=0 Then
+		zJumpFallSeq(n)=zjumpfallseq(n)+1
+		If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 3 Then zani(n)=4:zf(n)=9
+		If zJumpFallSeq(n) >= 3 And zJumpFallSeq(n) < 6 Then zani(n)=4:zf(n)=10
+		If zJumpFallSeq(n) >= 6 And zJumpFallSeq(n) < 9 Then zani(n)=4:zf(n)=11
+		If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 12 Then zani(n)=4:zf(n)=12
+		If zJumpFallSeq(n) >= 12 And zJumpFallSeq(n) < 15 Then zani(n)=4:zf(n)=13
+		If zJumpFallSeq(n) >= 15 And zJumpFallSeq(n) Mod 3 = 0 Then
+			If zf(n)=14 Then  
+				zani(n)=4:zf(n)=15
+			Else If zf(n)=15 Then 
+				zani(n)=4:zf(n)=14
+			Else
+				zani(n)=4:zf(n)=14
+			End If
+		End If
+	Else
+		If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+		If zjumpseq(n)=1 Then zani(n)=4:zf(n)=2
+		If zjumpseq(n)=2 Or zjumpseq(n)=3 Then zani(n)=4:zf(n)=3
+		If (zjumpseq(n) >= 4 And zjumpseq(n) <= 5) Or (zjumpseq(n) >= 8 And zjumpseq(n) <= 9) Then zani(n)=4:zf(n)=4
+		If (zjumpseq(n) >= 6 And zjumpseq(n) <= 7) Or (zjumpseq(n) >= 10 And zjumpseq(n) <= 11) Then zani(n)=4:zf(n)=5
+		If zjumpseq(n) >= 12 And zjumpseq(n) <= 14 Then zani(n)=4:zf(n)=6
+		If zjumpseq(n) >= 15 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=7
+		If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=8
+	End If
+End Function
+
+;---------------- Process Juggernaut Air Frames ------------------
+Function processJuggernautAirFrames(n)
+	If zjump(n)=0 Then
+		zJumpFallSeq(n)=zjumpfallseq(n)+1
+		If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 4 Then zani(n)=4:zf(n)=7
+		If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) Mod 5 = 0 Then
+			If zf(n)=8 Then  
+				zani(n)=4:zf(n)=9
+			Else If zf(n)=15 Then 
+				zani(n)=4:zf(n)=8
+			Else
+				zani(n)=4:zf(n)=8
+			End If
+		End If
+	Else
+		If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+		If zjumpseq(n) >= 0 And zjumpseq(n) <= 3 Then zani(n)=4:zf(n)=2
+		If zjumpseq(n) >= 4 And zjumpseq(n) <= 6 Then zani(n)=4:zf(n)=3
+		If zjumpseq(n) >= 7 And zjumpseq(n) <= 9 Then zani(n)=4:zf(n)=4
+		If zjumpseq(n) >= 10 And zjumpseq(n) <= 13 Then zani(n)=4:zf(n)=5
+		If zjumpseq(n) >= 14 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=6
+		If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=7
+	End If
+End Function
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
-	If curGuy(n)=14 And isRunning(n)=0 Then
-		If zjump(n)=0 Then 
-			zJumpFallSeq(n)=zjumpfallseq(n)+1
-			If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 3 Then zani(n)=4:zf(n)=9
-			If zJumpFallSeq(n) >= 3 And zJumpFallSeq(n) < 6 Then zani(n)=4:zf(n)=10
-			If zJumpFallSeq(n) >= 6 And zJumpFallSeq(n) < 9 Then zani(n)=4:zf(n)=11
-			If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 12 Then zani(n)=4:zf(n)=12
-			If zJumpFallSeq(n) >= 12 And zJumpFallSeq(n) < 15 Then zani(n)=4:zf(n)=13
-			If zJumpFallSeq(n) >= 15 And zJumpFallSeq(n) Mod 3 = 0 Then
-				If zf(n)=14 Then  
-					zani(n)=4:zf(n)=15
-				Else If zf(n)=15 Then 
-					zani(n)=4:zf(n)=14
-				Else
-					zani(n)=4:zf(n)=14
-				End If
-			End If
-		Else
-			If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
-			If zjumpseq(n)=1 Then zani(n)=4:zf(n)=2
-			If zjumpseq(n)=2 Or zjumpseq(n)=3 Then zani(n)=4:zf(n)=3
-			If (zjumpseq(n) >= 4 Or zjumpseq(n) <= 5) Or (zjumpseq(n) >= 8 Or zjumpseq(n) <= 9) Then zani(n)=4:zf(n)=4
-			If (zjumpseq(n) >= 6 Or zjumpseq(n) <= 7) Or (zjumpseq(n) >= 10 Or zjumpseq(n) <= 11) Then zani(n)=4:zf(n)=5
-			If zjumpseq(n) >= 12 And zjumpseq(n) <= 14 Then zani(n)=4:zf(n)=6
-			If zjumpseq(n) >= 15 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=7
-			If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=8
-		End If
-	End If
+	If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
+	If curGuy(n)=15 Then processJuggernautAirFrames(n)
 End Function

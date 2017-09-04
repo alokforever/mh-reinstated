@@ -414,6 +414,7 @@ Case 15: ;Juggernaut
 	zWalkQuakeSeq1(n)=2
 	zWalkQuakeSeq2(n)=10
 	isHeavy(n)=1
+	hasSpecialAirFrames(n)=1
 
 Case 30: ;Pig
 	zBlowDist(n,1)=64
