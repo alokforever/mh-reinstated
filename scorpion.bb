@@ -71,7 +71,7 @@ End Function
 Function applyScorpionComboHitBox(n, hitMode, damage, hitSnd)
 	zblowPamount(n)=1:nn=1
 	xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=30:hblow(n,nn)=22:nn=nn+1
-	zHitMode(n)=hitMode:zBlowHold(n)=0
+	zHitMode(n)=hitMode:zBlowHold(n)=10
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=12:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
 	zBlowSound(n)=hitSnd

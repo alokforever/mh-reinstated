@@ -148,7 +148,7 @@ End Function
 Function applyWolverineComboHitBox(n, hitMode, damage, xPos, yPos, xWidth, yWidth, blowSound)
 	zblowPamount(n)=1:nn=1
 	xblow(n,nn)=xPos:yblow(n,nn)=yPos:wblow(n,nn)=xWidth:hblow(n,nn)=yWidth:nn=nn+1
-	zHitMode(n)=hitMode:zBlowHold(n)=0
+	zHitMode(n)=hitMode:zBlowHold(n)=10
 	zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
 	zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16
 	zBlowStillTime(n)=0:zBlowBlockTime(n)=25

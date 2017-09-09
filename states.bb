@@ -284,6 +284,8 @@ Case 11: ;Wolverine
 	dizzyFrames(n)=7
 	dizzyFrameSpeed(n)=7
 	zRunFootSoundSeq(n)=12
+	duckFrames(n)=7
+	duckFrameSpeed(n)=5
 		
 Case 12: ;Scorpion
 	zBlowDist(n,1)=60

@@ -53,7 +53,7 @@ Global maxVsMap = 20
 Global maxCTFMap = 20
 Global totalSecrets, noAirStrike
 Dim tutorial(10)
-Dim credits$(100), ySpace(100),yCredit(100)
+Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
 Dim cheat(20),cheatSeq(20)
 	
@@ -96,7 +96,7 @@ Dim zLetGoSeq(30), zLetGoAmount(30),zHelper(30), zFlySeq(30), zWalkSeq2(30), zBe
 Dim aiJumpedRand(30),pointerPic(30),drawObjOnZ(30)
 Dim upK(30),leftK(30),rightK(30),downK(30),shotK(30),specialK(30),jumpK(30),blockK(30),grabK(30)
 Dim zMoveSide(30),xblow(30,50),yblow(30,50),wblow(30,50),hblow(30,50),zBlowEffect(30),zBlowStillSeq(30),zBlowStillTime(30)
-Dim zxStill#(30),zyStill(30),zBlowdir(30),zNoJump(30),zNoMove(30),zNoGrav(30),zblowPamount(30),zBlowBlockTime(30),zFrozen(30)
+Dim zxStill#(30),zyStill(30),zBlowdir(30),zNoJump(30),zNoMove(30),zNoGrav(30),zblowPamount(30),zBlowBlockTime(30),isFrozen(30)
 Dim zImuneTo(30,30),zImuneSeq(30,30),zImuneTime(30,30),zImune(30,30)
 Dim hitKey(30),upKey(30),downKey(30),leftKey(30),rightKey(30),shotKey(30),jumpKey(30),jumpKeyDown(30),blockKey(30)
 Dim rightKeyHit(30),leftKeyHit(30),specialkey(30),zController(30),controllerPort(30),grabKey(30),superKey(30),counterkey(30),extraSpecialkey(30)
@@ -993,7 +993,7 @@ For n= 1 To zzamount
 	zLeftCollide(n)=0: zRightCollide(n)=0
 	zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
 	projectileDeflectMode(n)=0
-	If zFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
+	If isFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
 	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
 	
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
@@ -1950,7 +1950,7 @@ EndIf
 End Function
 ;---- DECIDE PLAYER FRAME TO DRAW -------
 Function selectDraw(n)
-	If zFrozen(n) Then 
+	If isFrozen(n) Then 
 		drawFrozenState(n)
 		Goto drawZ
 	EndIf
@@ -2093,7 +2093,7 @@ If zStone(n)=1 And fightMode=2 Then
 EndIf
 
 If zhit(n)=1 Then
-	If zFrozen(n)=1 Or isDizzy(n)=1 Then unFreeze(n,zFrozen(n))
+	If isFrozen(n)=1 Or isDizzy(n)=1 Then unFreeze(n,isFrozen(n))
 	zhitseq(n)=zhitseq(n)+1 
 	zSuperMove(n)=0
 	If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
@@ -2369,7 +2369,7 @@ If NoUserInput=0 Then
 
 For k= 1 To zzamount
 	If zAI(k)=1 And zon(k)=1 Then
-		If zFrozen(k)=1 Or isDizzy(k)=1 Then Goto SkipAI
+		If isFrozen(k)=1 Or isDizzy(k)=1 Then Goto SkipAI
 		If Not zUseSpecialAI(k) Then 
 			AI(k,aiTarget(k))
 		Else
@@ -3763,7 +3763,7 @@ End Function
 ;----------------------Blows-------------------------------------------
 Function Blows(n)
 
-If zFrozen(n)=1 And zHitModeTaken(n) <> 3 Then unFreeze(n,zFrozen(n))
+If isFrozen(n)=1 And zHitModeTaken(n) <> 3 Then unFreeze(n,isFrozen(n))
 
 For nn=1 To zzamount
 If zImune(nn,n)=1 Then
@@ -6053,14 +6053,14 @@ Function freezeVictim(n, mode)
 	Local ice=1
 	zNoJump(n)=1
 	zgravity(n)=0
-	If mode=ice Then zFrozen(n)=1
+	If mode=ice Then isFrozen(n)=1
 End Function
 
 ;------------ unfreeze unit -----------------
 Function unFreeze(n, mode)
 	Local ice=1
 	zgravity(n)=3
-	zFrozen(n)=0
+	isFrozen(n)=0
 	isDizzy(n)=0
 	cantGetTime(n)=0
 	cantGetDizzyTime(n)=0
@@ -6089,7 +6089,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 			xAxisShotPos=xshot(projectile)+50
 		End If
 		yAxisShotPos=yshot(projectile)+40
-		If zHit(zControlsThis(shotOwner(projectile)))=0 And zFrozen(zControlsThis(shotOwner(projectile)))=0 Then
+		If zHit(zControlsThis(shotOwner(projectile)))=0 And isFrozen(zControlsThis(shotOwner(projectile)))=0 Then
 			enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0,1)
 			en=zControlsThis(shotOwner(projectile))
 			zParalyzedSeq(en)=zParalyzedSeq(en)+1
@@ -6177,7 +6177,7 @@ End Function
 
 ;----------------- Draw Frozen State ------------------------------
 Function drawFrozenState(unit)
-	If zFrozen(unit)=1 Then
+	If isFrozen(unit)=1 Then
 		Local freezeDuration = 2700: freezeDurationTillShake = 2000 ; in milliseconds
 		currentFreezeTime(unit) = MilliSecs()
 		If cantGetTime(unit) = 0 Then
@@ -6466,7 +6466,7 @@ End Function
 
 ;------------ Clear gameplay sub states ---------------
 Function clearSubStates(n)
-	If zFrozen(n)=1 Then unFreeze(n,1)
+	If isFrozen(n)=1 Then unFreeze(n,1)
 	If isDizzy(n)=1 Then unFreeze(n,0)
 	If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
 	If wolverineRage(n)=1 Then wolverineRage(n)=0
