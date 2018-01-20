@@ -68,6 +68,7 @@ zBlocked(n)=0: aiGetTarget(n):
 	zWalkQuakeSeq1(n)=0
 	zWalkQuakeSeq2(n)=0
 	isHeavy(n)=0
+	hasSpecialAirFrames(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu

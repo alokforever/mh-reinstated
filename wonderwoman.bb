@@ -282,7 +282,7 @@ Case 9	;Down + Special (Amazon Aegis (Projectile deflector))
 	zNoMove(n)=1:zNoJump(n)=1:ZJUMPING(N)=1
 	a=3:b=a+7:c=b+4:d=c+4:e=d+4:f=e+4:g=f+4:h=g+4:i=h+4:j=i+4:k=j+6:l=k+4
 	aa=100:bb=aa+1:cc=bb+5:dd=cc+5:ee=dd+2:ff=ee+2:gg=ff+2:hh=gg+12:ii=hh+4
-	DebugLog "zBlowSeq: " + zBlowSeq(n) + ", isDeflecting: " + isDeflecting(n)
+
 	If zOnGnd(n)=0 Then zy(n)=zy(n)-2
 
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)

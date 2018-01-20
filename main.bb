@@ -2005,11 +2005,12 @@ Function selectDraw(n)
 		Else If isRunning(n) And canAirGlide(n)=0 Then
 			depleteStaminaBar(n, 1)
 		End If
-		If hasSpecialAirFrames(CurGuy(n))=1 Then 
+		If hasSpecialAirFrames(n)=1 Then 
 			processOnAirFrames(n)
 		Else
 			zani(n)=4:zf(n)=1
 		End If
+		DebugLog "hasSpecialAirFrames: " + hasSpecialAirFrames(n) + ", curGuy: " + curguy(n) + ", n: " + n
 		Goto drawZ
 	End If
 	processHeavyCharactersOnAir(n)
@@ -6777,7 +6778,7 @@ End Function
 ;---------------- Process Juggernaut Air Frames ------------------
 Function processJuggernautAirFrames(n)
 	If zjump(n)=0 Then
-		zJumpFallSeq(n)=zjumpfallseq(n)+1
+		zJumpFallSeq(n)=zJumpFallSeq(n)+1
 		If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 4 Then zani(n)=4:zf(n)=7
 		If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) Mod 5 = 0 Then
 			If zf(n)=8 Then  
@@ -6789,7 +6790,7 @@ Function processJuggernautAirFrames(n)
 			End If
 		End If
 	Else
-		If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+		If zJumpFallSeq(n) <> 0 Then zJumpFallSeq(n)=0
 		If zjumpseq(n) >= 0 And zjumpseq(n) <= 3 Then zani(n)=4:zf(n)=2
 		If zjumpseq(n) >= 4 And zjumpseq(n) <= 6 Then zani(n)=4:zf(n)=3
 		If zjumpseq(n) >= 7 And zjumpseq(n) <= 9 Then zani(n)=4:zf(n)=4
