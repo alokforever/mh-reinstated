@@ -582,11 +582,12 @@ Case 15 ;WW throw
 		Else
 			zImune(en,n)=0:zImuneTo(en,n)=0
 		End If
-		If zBlowSeq(n) >= gg And zOnGnd(en)=1 Then
-			;If gameSound Then PlaySound mvcCrashSnd
-			;quake=1:quakeSeq=0
-			;zDamage(en)=zDamage(en)+15
-			;zLife(en)=zLife(en)-15
+
+		If zBlowSeq(n) = kk And zOnGnd(en)=1 Then
+			If gameSound Then PlaySound mvcCrashSnd
+			quake=1:quakeSeq=0
+			zDamage(en)=zDamage(en)+15
+			zLife(en)=zLife(en)-15
 		End If
 		If zBlowSeq(n) >= bb And zBlowSeq(n) <= cc Then moveX(en, dir, -1*moveFactor)
 		If zBlowSeq(n) >= cc And zBlowSeq(n) <= dd Then moveX(en, dir, 0.5*moveFactor):moveY(en, -1)

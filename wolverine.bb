@@ -84,7 +84,10 @@ Function performBerserkerSlash2(n)
 	End If
 	If zBlowSeq(n) > f And zBlowSeq(n) < g Then zani(n)=17:zf(n)=11
 	
-	If zBlowSeq(n) > g Then zBlowSeq(n)=endSeq
+	If zBlowSeq(n) >= g Then 
+		If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
+		If zOnGnd(n)=0 Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
+	End If
 End Function
 
 Function performGlidingKick(n)
@@ -165,45 +168,42 @@ Function performWolverineCombo(n)
 	endSeq=58
 	depleteStaminaBar(n, 1.5)
 	If zBlowSeq(n)>=60 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
-	If zBlowSeq(n) = 1 Then canPerformNextCombo(n)=0
+
 ;--------------------- animations -----------------------
 	If zBlowSeq(n) >= 60 And zBlowSeq(n) < a Then zani(n)=22:zf(n)=3
 	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then 
 		zani(n)=22:zf(n)=1
-		If zBlowSeq(n) > b+3 And KeyDown(specialK(n))=1 Then zBlowSeq(n)=c
-		If zBlowSeq(n) = c-1 And KeyDown(specialK(n))=0 Then zBlowSeq(n)=endSeq
+		If zBlowSeq(n) > b+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=c
+		If zBlowSeq(n) = c-1 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
 	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=22:zf(n)=5
 	If zBlowSeq(n) >= e And zBlowSeq(n) < f Then 
 		zani(n)=22:zf(n)=6
-		If zBlowSeq(n) > e+3 And KeyDown(blockK(n))=1 Then zBlowSeq(n)=f
-		If zBlowSeq(n) = f-1 And KeyDown(blockK(n))=0 Then zBlowSeq(n)=endSeq
+		If zBlowSeq(n) > e+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=f
+		If zBlowSeq(n) = f-1 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n) >= f And zBlowSeq(n) < g Then zani(n)=22:zf(n)=7
 	If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zani(n)=22:zf(n)=8
 	If zBlowSeq(n) >= h And zBlowSeq(n) < i Then 
 		zani(n)=22:zf(n)=9
-		If zBlowSeq(n) > h+3 And KeyDown(grabK(n))=1 Then canPerformNextCombo(n)=1
-		If zBlowSeq(n) = i-1 And canPerformNextCombo(n)=0 Then zBlowSeq(n)=endSeq
+		If zBlowSeq(n) > h+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=i
+		If zBlowSeq(n) = i-1 Then zBlowSeq(n)=endSeq
 	End If
-	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then 
-		zani(n)=22:zf(n)=10
-		If zBlowSeq(n) = i Then canPerformNextCombo(n)=0
-	End If
+	If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=10
 	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zani(n)=22:zf(n)=11
 	If zBlowSeq(n) >= k And zBlowSeq(n) < l Then zani(n)=22:zf(n)=12
 	If zBlowSeq(n) >= l And zBlowSeq(n) < m Then zani(n)=22:zf(n)=13
 	If zBlowSeq(n) >= m And zBlowSeq(n) < n1 Then zani(n)=22:zf(n)=14
 	If zBlowSeq(n) >= n1 And zBlowSeq(n) < o Then zani(n)=22:zf(n)=15
-	If zBlowSeq(n) >= o And zBlowSeq(n) < p Then zani(n)=22:zf(n)=16
-	If zBlowSeq(n) = p And canPerformNextCombo(n)=1 Then zBlowSeq(n)=200
-	If zBlowSeq(n) > 200 Then performBerserkerSlash(n, 58)	
-		
-	If zBlowSeq(n) > h+3 And KeyDown(grabK(n))=1 Then canPerformNextCombo(n)=1
-	If zBlowSeq(n) > j+3 And KeyDown(shotK(n))=1 Then canPerformNextCombo(n)=1
-	If zBlowSeq(n) = p-1 And KeyDown(shotK(n))=0 Then zBlowSeq(n)=endSeq
+	If zBlowSeq(n) >= o And zBlowSeq(n) < p Then 
+		zani(n)=22:zf(n)=16
+		If zBlowSeq(n) > h+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=200
+		If zBlowSeq(n) = p-1 Then zBlowSeq(n)=endSeq
+	End If
+	If zBlowSeq(n) > 200 Then performBerserkerSlash(n, 58)
+	
 ;--------------------------------------------------------
 	
 ;------------------------ sounds ------------------------
@@ -713,7 +713,7 @@ Case 8	;Dodging
 Case 9	; berserker barrage (down special)
 	zNoMove(n)=0
 	ztopspeed(n)=.5
-	zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
+	zNoJump(n)=1:zJumping(n)=0:zNograv(n)=1
 	aa=11/wolvSpdFctr(n):a=21/wolvSpdFctr(n):b=24/wolvSpdFctr(n):c=31/wolvSpdFctr(n):d=34/wolvSpdFctr(n)
 	:e=30/wolvSpdFctr(n):f=39/wolvSpdFctr(n):g=42/wolvSpdFctr(n):h=49/wolvSpdFctr(n):i=52/wolvSpdFctr(n)
 	:j=(i+20):k=500
@@ -782,7 +782,8 @@ Case 9	; berserker barrage (down special)
 	EndIf
 	If zBlowSeq(n) > i And zBlowSeq(n) < j Then zani(n)=12:zf(n)=7:zNograv(n)=0
 	
-	If zBlowSeq(n) => i And zBlowSeq(n) < k Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5
+	If zBlowSeq(n) => i And zBlowSeq(n) < k-1 Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5
+
 	If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zBlow(n)=0:zblowstill(n)=0
 	If zongnd(n)=1 And zBlowSeq(n) >= j-2 And zBlowSeq(n) < k Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 

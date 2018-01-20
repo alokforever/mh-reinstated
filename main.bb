@@ -205,7 +205,7 @@ Global zzamount,zamountPlaying,flagAmount,itenAmount, shotamount, objAmount,chun
 Global wallAmount,gameDone, aliveAmountNeeded, prevZAmountPlaying,prevZzamount
 Global twoPlayersKeyb,bgColor,maxScore,ScoreDone,showVidMem,level,renderdelay,showBlowArea
 Global xTileImg#,yTileImg#,winner,flagMaxTime,showZColor,teamAttack,gameMode, vsMode 
-Global gamePaused,b_joyhit,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxScore,targetMaxScore
+Global gamePaused,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxScore,targetMaxScore
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
@@ -229,6 +229,7 @@ Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurn
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
+Dim b_XJoyHit(4),b_YJoyHit(4)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -454,8 +455,8 @@ butCPU=LoadImage(gfxdir$ + "butCPU.bmp")
 
 Global objTypeN=19	;Amount of existing objects
 
-Include "menus.bb"	;includes
-Include "states.bb"
+Include "menus.bb"
+Include "attributes.bb"
 Include "moves1.bb"
 Include "moves2.bb"
 
@@ -2004,11 +2005,12 @@ Function selectDraw(n)
 		Else If isRunning(n) And canAirGlide(n)=0 Then
 			depleteStaminaBar(n, 1)
 		End If
-		If hasSpecialAirFrames(n)=1 Then 
-			processOnAirFrames(n):Goto drawZ
+		If hasSpecialAirFrames(CurGuy(n))=1 Then 
+			processOnAirFrames(n)
 		Else
-			zani(n)=4:zf(n)=1:Goto drawZ
+			zani(n)=4:zf(n)=1
 		End If
+		Goto drawZ
 	End If
 	processHeavyCharactersOnAir(n)
 	If Not zhit(n) Then ;on ground
@@ -2405,21 +2407,28 @@ Case 0
 
 Case 1
 	If JoyYDir(controllerPort(n))=-1 Then upKey(n)=1:hitKey(n)=1
+	If JoyYDir(controllerPort(n))=1 Then downKey(n)=1:hitKey(n)=1
 	If JoyXDir(controllerPort(n))=-1 Then leftKey(n)=1:hitKey(n)=1
 	If JoyXDir(controllerPort(n))=1 Then rightKey(n)=1:hitKey(n)=1
-	
-	b_JoyHit = False
-	If JoyX(controllerPort(n)) < -.5 And b_JoyHit = False Then ; Hit Left
-	    leftKeyhit(n)=1 : b_JoyHit = True:hitKey(n)=1
+
+	If JoyX(controllerPort(n)) < -.5 And b_XJoyHit(n) = False Then ; Hit Left
+	    leftKeyhit(n)=1 : b_XJoyHit(n) = True:hitKey(n)=1
 	EndIf
-	If JoyX(controllerPort(n)) > .5 And b_JoyHit = False Then ; Hit Right
-	     rightKeyhit(n)=1 : b_JoyHit = True:hitKey(n)=1
+	If JoyX(controllerPort(n)) > .5 And b_XJoyHit(n) = False Then ; Hit Right
+	     rightKeyhit(n)=1 : b_XJoyHit(n) = True:hitKey(n)=1
 	EndIf
-	If JoyY(controllerPort(n)) > .5 And b_JoyHit = False Then ; Hit Down
-	     downKeyHit(n)=1 : b_JoyHit = True:hitKey(n)=1
+	If JoyY(controllerPort(n)) > .5 And b_YJoyHit(n) = False Then ; Hit Down
+	    downKeyHit(n)=1 : b_YJoyHit(n) = True:hitKey(n)=1
 	EndIf
-	If JoyX(controllerPort(n)) > -.1 And JoyX(controllerPort(n)) < .1 Then b_JoyHit = False ; Reset Flag
-	If JoyYDir(controllerPort(n))=1 Then downkey(n)=1:hitKey(n)=1
+	If JoyY(controllerPort(n)) < -.5 And b_YJoyHit(n) = False Then ; Hit Up
+	     upKeyHit(n)=1 : b_YJoyHit(n) = True:hitKey(n)=1
+	EndIf
+	If JoyX(controllerPort(n)) > -.5 And JoyX(controllerPort(n)) < .5 Then
+		b_XJoyHit(n) = False ; Reset Flag
+	End If
+	If JoyY(controllerPort(n)) > -.5 And JoyY(controllerPort(n)) < .5 Then 
+		b_YJoyHit(n) = False ; Reset Flag
+	End If
 	
 	If JoyHit(specialK(n),controllerPort(n)) Then specialkey(n)=1:hitKey(n)=1
 	If JoyHit(shotK(n),controllerPort(n)) Then shotKey(n)=1:hitKey(n)=1
@@ -4687,7 +4696,6 @@ For nn=1 To zzamount
 					zlives(nn)=zlives(nn)-1
 					killZ(nn)
 					Goto platDone
-					
 				EndIf
 				
 				zUpFallSpeed(nn)=0:zUpFallTime(nn)=0
@@ -6420,8 +6428,8 @@ End Function
 
 ;----------- Check right key hit ---------------
 Function checkRightKeyHit(n)	
-	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - rightKeyHitTimer(n)) < quintSec And (curTime - rightKeyHitTimer(n)) > 0 Then
+	Local quartSec=250, curTime=MilliSecs()
+	If (curTime - rightKeyHitTimer(n)) < quartSec And (curTime - rightKeyHitTimer(n)) > 0 Then
 		If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	rightKeyHitTimer(n) = curTime
@@ -6429,8 +6437,8 @@ End Function
 
 ;----------- Check left key hit ---------------
 Function checkLeftKeyHit(n)
-	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - leftKeyHitTimer(n)) < quintSec And (curTime - leftKeyHitTimer(n)) > 0 Then
+	Local quartSec=250, curTime=MilliSecs()
+	If (curTime - leftKeyHitTimer(n)) < quartSec And (curTime - leftKeyHitTimer(n)) > 0 Then
 		If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
 	End If
 	leftKeyHitTimer(n) = curTime
@@ -6438,8 +6446,8 @@ End Function
 
 ;----------- Check down key hit ---------------
 Function checkDownKeyHit(n)
-	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - downKeyHitTimer(n)) < quintSec And (curTime - downKeyHitTimer(n)) > 0 Then
+	Local quartSec=250, curTime=MilliSecs()
+	If (curTime - downKeyHitTimer(n)) < quartSec And (curTime - downKeyHitTimer(n)) > 0 Then
 		downKeyDoubleTap(n)=1
 	Else
 		downKeyDoubleTap(n)=0
@@ -6449,8 +6457,8 @@ End Function
 
 ;----------- Check up key hit ---------------
 Function checkUpKeyHit(n)
-	Local quintSec=200, curTime=MilliSecs()
-	If (curTime - upKeyHitTimer(n)) < quintSec And (curTime - upKeyHitTimer(n)) > 0 Then
+	Local quartSec=250, curTime=MilliSecs()
+	If (curTime - upKeyHitTimer(n)) < quartSec And (curTime - upKeyHitTimer(n)) > 0 Then
 		upKeyDoubleTap(n)=1
 	Else
 		upKeyDoubleTap(n)=0
@@ -6643,10 +6651,6 @@ Function burnPlayer(n)
 			killZ(n)
 			zBurnSeq(n)=0:zBurning(n)=0
 		End If
-	End If
-	If zBurnSeq(n) Mod 50 = 0 Or zBurnSeq(n) Mod 51 = 0 Or zBurnSeq(n) Mod 52 = 0 Or zBurnSeq(n) Mod 53 = 0 Then
-		initNoControl(n)
-		zani(n)=2:zf(n)=2
 	End If
 End Function
 

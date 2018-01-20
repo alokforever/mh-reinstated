@@ -78,33 +78,33 @@ Function performSubzeroCombo(n)
 	j=i+3:k=j+11:l=k+3:m=l+3:n1=m+3:o=n1+3:p=o+18
 	endSeq=32
 	depleteStaminaBar(n, 1.5)
+
 	If (zBlowSeq(n) <= o+3) Then enemyControlInit(n,zx(n),zy(n)-39,40,39,0,guardable)
-	
 	If zBlowSeq(n)>=36 And zBlowSeq(n) < c Then movex2(n,zface(n),1+(Abs(zSpeed#(n))/1.5))
 	
 ;----- animations -----
 	If zBlowSeq(n)>=36 And zBlowSeq(n) < a Then zani(n)=22:zf(n)=1
 	If zBlowSeq(n)>=a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
-	If zBlowSeq(n)>=b And zBlowSeq(n) < c Then
+	If zBlowSeq(n)>=b And zBlowSeq(n) <= c Then
 		zani(n)=22:zf(n)=3
-		If zBlowSeq(n) > b+3 And KeyDown(specialK(n))=1 Then zBlowSeq(n)=c
-		If zBlowSeq(n) = c-1 And KeyDown(specialK(n))=0 Then zBlowSeq(n)=endSeq
+		If zBlowSeq(n) > b+3 And zBlowSeq(n) < c-1 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=c
+		If zBlowSeq(n) = c-1 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n)>=c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
 	If zBlowSeq(n)>=d And zBlowSeq(n) < e Then zani(n)=22:zf(n)=5
-	If zBlowSeq(n)>=e And zBlowSeq(n) < f Then
+	If zBlowSeq(n)>=e And zBlowSeq(n) <= f Then
 		zani(n)=22:zf(n)=6
-		If zBlowSeq(n) > e+3 And KeyDown(blockK(n))=1 Then zBlowSeq(n)=f
-		If zBlowSeq(n) = f-1 And KeyDown(blockK(n))=0 Then zBlowSeq(n)=endSeq
+		If zBlowSeq(n) > e+3 And zBlowSeq(n) < f-1 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=f
+		If zBlowSeq(n) = f-1 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n)>=f And zBlowSeq(n) < g Then zani(n)=22:zf(n)=7
 	If zBlowSeq(n)>=g And zBlowSeq(n) < h Then zani(n)=22:zf(n)=8
 	If zBlowSeq(n)>=h And zBlowSeq(n) < i Then zani(n)=22:zf(n)=9
 	If zBlowSeq(n)>=i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=10
-	If zBlowSeq(n)>=j And zBlowSeq(n) < k Then 
+	If zBlowSeq(n)>=j And zBlowSeq(n) <= k Then 
 		zani(n)=22:zf(n)=11
-		If zBlowSeq(n) > j+3 And KeyDown(grabK(n))=1 Then zBlowSeq(n)=k
-		If zBlowSeq(n) = k-1 And KeyDown(grabK(n))=0 Then zBlowSeq(n)=endSeq
+		If zBlowSeq(n) > j+3 And zBlowSeq(n) = k-1 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=k
+		If zBlowSeq(n) = k-1 Then zBlowSeq(n)=endSeq
 	End If
 	If zBlowSeq(n)>=k And zBlowSeq(n) < l Then zani(n)=22:zf(n)=7
 	If zBlowSeq(n)>=l And zBlowSeq(n) < m Then zani(n)=22:zf(n)=8
