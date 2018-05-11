@@ -65,7 +65,7 @@ Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
 Dim clickedBy(100),butPic(100),butPic2(100),butText$(100),butSeq(100),tpic(100)
-Dim xPointer(10),yPointer(10),zName$(15),zThumbNail(15),mapTn(100)
+Dim xPointer(10),yPointer(10),zName$(16),zThumbNail(16),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(30)
 Dim zx#(30),zy#(30),zdi(30),zface(30),zoldx#(30),zoldy#(30),zWasOn(30),zon(30),prevZOn(30),CurGuy(30),lastZon(30),lastzAI(30)
@@ -209,7 +209,7 @@ Global gamePaused,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxSco
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global characterAmount=15	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global characterAmount=16	;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
 ;zeto's variables
@@ -229,7 +229,7 @@ Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurn
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
-Dim b_XJoyHit(4),b_YJoyHit(4)
+Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -693,7 +693,7 @@ Else
 EndIf
 
 loadMapTn=1:lastgamemode=gamemode
-;.mtl
+.mtl
 gameStart=0
 
 ;------------------------- menu For stage Select -----------------------------
@@ -1045,6 +1045,7 @@ For n=1 To zzamount
 			Case 13:DoSubZero(n)
 			Case 14:DoWonderWoman(n)
 			Case 15:DoJuggernaut(n)
+			Case 16:DoPiccolo(n)
 			Case 30:DoPig(n)
 			Case 31:DoAlien(n)
 			Case 32:DoFootClan(n)
@@ -1809,6 +1810,7 @@ Function checkWhatsOpen()
 		If mapOpen(31)=1 And characterOpen(15)=0 Then characterOpen(15)=1 : response=1
 		If mapOpen(30)=1 And characterOpen(6)=0 Then characterOpen(6)=1 : response=1
 		If mapOpen(44)=1 And characterOpen(7)=0 Then characterOpen(7)=1 : response=1
+		If mapOpen(50)=1 And characterOpen(16)=0 Then characterOpen(16)=1 : response=1
 		If mapOpen(51)=1 And characterOpen(8)=0 Then characterOpen(8)=1 : response=1
 		
 		If mapOpen(9)=1 Then vsMapOpen(5)=1
@@ -2010,7 +2012,6 @@ Function selectDraw(n)
 		Else
 			zani(n)=4:zf(n)=1
 		End If
-		DebugLog "hasSpecialAirFrames: " + hasSpecialAirFrames(n) + ", curGuy: " + curguy(n) + ", n: " + n
 		Goto drawZ
 	End If
 	processHeavyCharactersOnAir(n)
@@ -2457,12 +2458,7 @@ If downKey(n)=1 And zHit(n)=0 And zongnd(n)=1 And zBlow(n)=0 Then
 	If isRunning(n)=0 Then
 		zSpeed(n)=0
 	Else
-		If zSpeed#(n) < 0.1 And zSpeed#(n) > -0.1 Then
-			zSpeed(n)=0
-			isRunning(n)=0
-		Else
-			decelerate(n)
-		End If
+		decelerate(n)
 	End If
 EndIf
 
@@ -6712,8 +6708,9 @@ End Function
 
 ;----------------- Decelerate ------------------------------------
 Function decelerate(n)
-	If zSpeed#(n) > 0.1 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
-	If zSpeed#(n) < 0.1 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
+	If zSpeed#(n) > 0.2 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
+	If zSpeed#(n) < -0.2 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
+	If Abs(zSpeed#(n)) <= 0.2 Then zSpeed#(n)=0:isRunning(n)=0
 End Function
 
 ;----------------- Process Heavy Characters on Air ----------------

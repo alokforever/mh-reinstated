@@ -419,6 +419,37 @@ Case 15: ;Juggernaut
 	isHeavy(n)=1
 	hasSpecialAirFrames(n)=1
 
+Case 16: ;Piccolo
+	zBlowDist(n,1)=60
+	zBlowDist(n,2)=52
+	zBlowDist(n,4)=53
+	zBlowDist(n,5)=48
+	zBlowDist(n,7)=300
+	zBlowDist(n,9)=90	:dangerMove9(n)=1
+	zBlowDist(n,10)=50
+	zBlowDist(n,11)=150
+	zBlowDist(n,14)=120
+	zBlowDist(n,16)=370
+	zxHand(n,0)=2 :zyHand(n,0)=23
+	zxHand(n,1)=2 :zyHand(n,1)=23
+	zxHand(n,2)=-2 :zyHand(n,2)=23
+	zxHand(n,3)=-2 :zyHand(n,3)=23
+	zRollOnImpact(n)=1
+	;zJumpSnd(n)=mkJumpSnd
+	;zJumpSnd2(n)=mkJump2Snd
+	zStanceFrames(n)=7
+	zStanceSpeed(n)=6
+	;zWalkFrames(n)=9
+	;zWalkFrameSpeed#(n)=4
+	;zRunFrames(n)=11
+	;zRunFrameSpeed#(n)=3.5
+	zCharSpeed#(n)=2
+	gender(n)=1
+	;flipFrames(n)=6
+	;dizzyFrames(n)=8
+	;dizzyFrameSpeed(n)=7
+	;zRunFootSoundSeq(n)=12
+	
 Case 30: ;Pig
 	zBlowDist(n,1)=64
 	zBlowDist(n,2)=60
@@ -3252,7 +3283,7 @@ For i=1 To 16
 	zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
 Next
 
-For i=1 To 20
+For i=1 To 30
 	zpic(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + ".bmp")
 	zpic_(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + "_.bmp")
 Next
@@ -3426,6 +3457,7 @@ If n=14 Then ;WonderWoman
 	If wwWhip2Snd=0 Then wwWhip2Snd=LoadSound(soundsdir$ + "wonderwoman\wwWhip2.wav")
 	If wwWhipHitSnd=0 Then wwWhipHitSnd=LoadSound(soundsdir$ + "wonderwoman\wwWhipHit.wav")
 	If wwLassoSnd=0 Then wwLassoSnd=LoadSound(soundsdir$ + "wonderwoman\wwLasso.wav")
+	If wwFierceAmazonSnd=0 Then wwFierceAmazonSnd=LoadSound(soundsdir$ + "wonderwoman\wwFierceAmazon.wav")
 End If
 
 If n=13 Then ;SubZero

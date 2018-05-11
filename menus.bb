@@ -571,6 +571,8 @@ If clickedBut(n) Then
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
 	Case 15
 		If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
+	Case 16
+		If characterOpen(n)=1 Then curGuy(clickedBy(n))=16:zThumbNail(clickedBy(n))=butpic(n)
 		
 	Case 50 ;Select game mode on vs
 		gamemode=gamemode+1
@@ -1433,13 +1435,12 @@ For n=1 To zzamount
 	jumpKeyDown(n)=0:runkey(n)=0:blockKey(n)=0:specialkey(n)=0
 Next
 
+;If zController(n)=0 Then ;Keyboard
+	xpointer(1)=MouseX()
+	ypointer(1)=MouseY()
+;End If
 
-xpointer(1)=MouseX()
-ypointer(1)=MouseY()
-
-
-
-For n= 2 To zzamount
+For n = 1 To zzamount
 Select zController(n)
 Case 0
 	If KeyDown(upK(n)) Then upKey(n)=1
@@ -1458,12 +1459,16 @@ Case 1
 End Select
 Next
 
-pve=5
+maxPtrSpd=5
 For n=1 To 4
-	If upKey(n)=1 Then ypointer(n)=ypointer(n)-pve
-	If downKey(n)=1 Then ypointer(n)=ypointer(n)+pve
-	If leftKey(n)=1 Then xpointer(n)=xpointer(n)-pve
-	If rightKey(n)=1 Then xpointer(n)=xpointer(n)+pve
+	ptrSeq(n)=ptrSeq(n)+1
+	;If ptrSeq(n) Mod 3 = 0 Then ptrSpeed(n)=ptrSpeed(n)+1
+	;If ptrSpd(n) > maxPtrSpd Then ptrSpd(n)=5
+	
+	If upKey(n)=1 Then ypointer(n)=ypointer(n)-maxPtrSpd
+	If downKey(n)=1 Then ypointer(n)=ypointer(n)+maxPtrSpd
+	If leftKey(n)=1 Then xpointer(n)=xpointer(n)-maxPtrSpd
+	If rightKey(n)=1 Then xpointer(n)=xpointer(n)+maxPtrSpd
 	If shotKey(n)=1 Then clickButton(n)
 
 	If xpointer(n) < 1 Then xpointer(n) = 1

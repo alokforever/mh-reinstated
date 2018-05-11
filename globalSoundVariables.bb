@@ -172,6 +172,7 @@ Global wwAegisSnd, wwAegisMetalSnd, wwAegisHitSnd
 Global wwTaunt1Snd, wwCapeSnd
 Global wwShout1Snd, wwShout2Snd, wwShout3Snd, wwShout4Snd, wwGrunt1Snd
 Global wwWhip1Snd, wwWhip2Snd, wwWhipHitSnd, wwLassoSnd
+Global wwFierceAmazonSnd
 
 Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1.wav")
 Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2.wav")

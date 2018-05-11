@@ -1,3 +1,47 @@
+Function performFierceAmazon(n)
+	zNoMove(n)=0:zNoJump(n)=1:zNoGrav(n)=1
+	a=500:b=506:c=508:d=510:e=531
+	If zBlowSeq(n)=a Then 
+		zy(n)=zy(n)-15
+		extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
+	End If
+;----------- Sounds -----------
+	If zBlowSeq(n)=a+3 And gameSound Then PlaySound wwFierceAmazonSnd
+	If zBlowSeq(n)=a+6 And gameSound Then PlaySound zRunFootSound(curGuy(n))
+	
+;---------- Animation -------------
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=1
+	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zani(n)=10:zf(n)=2
+	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zani(n)=10:zf(n)=3
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then 
+		If zBlowSeq(n) Mod 3 = 0 Then 
+			zani(n)=10:zf(n)=5
+		Else
+			zani(n)=10:zf(n)=4
+		End If
+	End If
+	
+;---------- Movement -------------
+	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then 
+		If zFace(n) = 2 Then zx(n)=zx(n)-2
+		If zFace(n) = 4 Then zx(n)=zx(n)+2
+		zy(n)=zy(n)-1
+	End If
+	If zBlowSeq(n) >= b And zBlowSeq(n) < d Then 
+		If zFace(n) = 2 Then zx(n)=zx(n)-1
+		If zFace(n) = 4 Then zx(n)=zx(n)+1	
+		zy(n)=zy(n)+1
+	End If
+	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then 
+		If zFace(n) = 2 Then zx(n)=zx(n)+6
+		If zFace(n) = 4 Then zx(n)=zx(n)-6
+		zy(n)=zy(n)-1
+	End If
+	
+	If zBlowSeq(n) > e Then zBlowSeq(n) = 400
+
+End Function
+
 Function DoWonderWoman(n)
 
 zFace(n)=zBlowDir(n)
@@ -18,7 +62,7 @@ Select zCurBlow(n)
 Case 0	;Blocking
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
-	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	;If isRunning(n) Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zblocked(n)=1 Then 
 		zani(n)=13:zf(n)=2
 		zBlockSeqStart(n)=zBlockSeq(n)
@@ -30,7 +74,7 @@ Case 1	;Attack
 	zNoMove(n)=1:zNoJump(n)=1
 	a=6:b=a+5:c=b+2:d=c+2:e=d+2:f=e+2:g=f+2:h=g+2:i=h+2:j=i+2:k=j+2:l=k+3
 	m=l+4:n1=m+4
-	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	If isRunning(n) Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 ;----------- Sounds -----------
 	randSeed=Rand(3)
 	If zBlowSeq(n)=1 And gameSound Then
@@ -257,10 +301,15 @@ Case 6	;throwing iten
 	If zBlowSeq(n) => d Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 
-Case 7	;Special (Magic Lasso)
-	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-	zBlowSeq(n)=0:zBlow(n)=0
+Case 7	;Special (THEMYSCIRA FALL / Fierce Amazon)
+	faSeq=500:endSeq=400
+	If zBlowSeq(n)=1 And isRunning(n) Then zBlowSeq(n)=faSeq
+	If zBlowSeq(n) >= faSeq Then performFierceAmazon(n)
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) < 50 Then zani(n)=10:zf(n)=23
 
+	
+	If zBlowSeq(n) = endSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	
 Case 8	;Dodging
 	zNoMove(n)=1
 	zNoJump(n)=1
