@@ -216,6 +216,7 @@ Global menuOption, duringGameMenu
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30), upKeyHitTimer(30), upKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
+Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not return to 1 during running
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200)
@@ -459,6 +460,7 @@ Include "menus.bb"
 Include "attributes.bb"
 Include "moves1.bb"
 Include "moves2.bb"
+Include "animation.bb"
 
 loadData()  ;Loads general maps data
 
@@ -1985,10 +1987,10 @@ Function selectDraw(n)
 	End If			;ducking
 	
 	If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
-		If isRunning(n) Then depleteStaminaBar(n, 1)
 		If isRunning(n) And canAirGlide(n)
 			If zJump2Seq(n)=1 Then zRunSeq(n)=0
 			If zjump2seq(n)>20 Then 
+				zRunSeq2(n)=zRunSeq2(n)+1
 				zRunSeq(n)=zRunSeq(n)+1:drawRunSequence(n)
 				Goto drawZ
 			End If
@@ -2000,12 +2002,10 @@ Function selectDraw(n)
 	If zongnd(n)=0 And zhit(n)=0 Then 	;mid air
 		If isRunning(n) And canAirGlide(n)=1 Then
 			If zJumpSeq(n)=1 Then zRunSeq(n)=0
-			depleteStaminaBar(n, 1)
 			zRunSeq(n)=zRunSeq(n)+1
+			zRunSeq2(n)=zRunSeq2(n)+1
 			drawRunSequence(n)
 			Goto drawZ
-		Else If isRunning(n) And canAirGlide(n)=0 Then
-			depleteStaminaBar(n, 1)
 		End If
 		If hasSpecialAirFrames(n)=1 Then 
 			processOnAirFrames(n)
@@ -2014,20 +2014,27 @@ Function selectDraw(n)
 		End If
 		Goto drawZ
 	End If
-	processHeavyCharactersOnAir(n)
-	If Not zhit(n) Then ;on ground
-		If zspeed(n) <> 0 Then	;walking
+	handleHeavyCharactersOnAir(n)
+	If Not zhit(n) Then ;On ground
+		If zspeed(n) <> 0 Then	;Moving
 			If isRunning(n) Then
+				isRunningFlag(n)=1
 				zRunSeq(n)=zRunSeq(n)+1
-			Else
+				zRunSeq2(n)=zRunSeq2(n)+1
+				drawRunSequence(n):Goto drawZ
+			Else ;Walking
+				zRunSeq(n)=0
 				zwalkseq(n)=zwalkseq(n)+1
 				If zwalkseq(n)=1 Then zStanceSeq(n) = 0
 			End If
-		Else	;not walking/running
+		Else	;Not walking/running
 			zwalkseq(n)=0
 			zRunSeq(n)=0
 		EndIf
-		If isRunning(n) Then drawRunSequence(n):Goto drawZ
+		If isRunning(n)=0 And isRunningFlag(n)=1 Then 
+			processEndRun(n):isRunningFlag(n)=0
+			zRunSeq2(n)=0
+		End If
 		drawWalkSequence(n):Goto drawZ
 	EndIf
 	
@@ -6180,232 +6187,6 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
 
 End Function
 
-;----------------- Draw Frozen State ------------------------------
-Function drawFrozenState(unit)
-	If isFrozen(unit)=1 Then
-		Local freezeDuration = 2700: freezeDurationTillShake = 2000 ; in milliseconds
-		currentFreezeTime(unit) = MilliSecs()
-		If cantGetTime(unit) = 0 Then
-			cantGetTime(unit) = 1
-			startFreezeTime(unit) = MilliSecs()
-		EndIf
-		endFreezeTime(unit) = startFreezeTime(unit) + freezeDuration
-		Local shakeXAxis=2
-		freezeSeq(unit) = freezeSeq(unit) + 1
-		zPrevAni(unit) = zani(unit):zPrevF(unit)=zf(unit)
-		If currentFreezeTime(unit) => startFreezeTime(unit) + freezeDurationTillShake Then
-			If freezeSeq(unit) Mod 4 = 0 Then zx(unit)=zx(unit)-shakeXAxis
-			If freezeSeq(unit) Mod 4 = 1  Then zx(unit)=zx(unit)+shakeXAxis
-		EndIf
-		If currentFreezeTime(unit) =< endFreezeTime(unit) Then
-			If curGuy(unit) = 40 Then 
-				zani(unit)=0:zf(unit)=1
-			Else
-				If zpic(curguy(unit),0,2) <> 0 And zpic_(curguy(unit),0,2) <> 0 Then
-					zani(unit)=0:zf(unit)=2
-				Else
-					zani(unit)=0:zf(unit)=0
-				EndIf
-			EndIf
-		EndIf
-		If currentFreezeTime(unit) => endFreezeTime(unit) Then cantGetTime(unit)=0:unFreeze(unit,1):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
-	Else
-		cantGetTime(unit)=0
-	EndIf
-End Function
-
-;----------------- Draw Dizzy State ------------------------------
-Function drawDizzyState(unit)
-	If isDizzy(unit)=1 Then
-		Local dizzyDuration = dizzyDuration(unit) ; in milliseconds
-		currentDizzyTime(unit) = MilliSecs()
-		If cantGetDizzyTime(unit) = 0 Then
-			zHit(unit)=0
-			cantGetDizzyTime(unit) = 1
-			startDizzyTime(unit) = MilliSecs()
-		EndIf
-		endDizzyTime(unit) = startDizzyTime(unit) + dizzyDuration
-		dizzySeq(unit)=dizzySeq(unit)+1
-		Local fallingFrames=3: fallingFrameSpeed=8
-		If currentDizzyTime(unit) =< endDizzyTime(unit) Then
-			If dizzyFrames(unit) > 0 Then
-				For frame=dizzyFrames(unit) To 1 Step -1
-					If (dizzySeq(unit) / dizzyFrameSpeed(unit)) Mod frame = 0 Then
-						If zHit(unit)=0 Then zani(unit)=23:zf(unit)=frame
-						If dizzySeq(unit)-1 > dizzyFrames(unit)*dizzyFrameSpeed(unit) Then dizzySeq(unit) = dizzyFrameSpeed(unit)-1
-						Return
-					EndIf			
-				Next
-			Else
-				For frame=fallingFrames To 1 Step -1
-					If (dizzySeq(unit) / fallingFrameSpeed) Mod frame = 0 Then
-						If zHit(unit)=0 Then zani(unit)=2:zf(unit)=frame
-						If dizzySeq(unit)-1 > fallingFrames*fallingFrameSpeed Then dizzySeq(unit) = fallingFrameSpeed-1
-						Return
-					EndIf			
-				Next
-			End If
-		EndIf
-		If currentDizzyTime(unit) => endDizzyTime(unit) Then cantGetDizzyTime(unit)=0:unFreeze(unit,0)
-	Else
-		cantGetDizzyTime(unit)=0
-	EndIf
-End Function
-
-;------------ Draw Rage Effect (Wolverine) ------------------------
-Function drawRageEffect(player)	
-	If wolverineRage(player) = 1 Then
-		Local rageDuration = 23000 ; in milliseconds
-		wolvSpdFctr(player) = 2
-		ztopSpeed(player) = ztopSpeed(player) * wolvSpdFctr(player)
-		currentRageTime(player) = MilliSecs()
-		
-		If canGetRageTime(player) = 0 Then
-			canGetRageTime(player) = 1
-			startRageTime(player) = MilliSecs()
-		EndIf
-		endRageTime(player) = startRageTime(player) + rageDuration
-		
-		Local shakeXAxis=4
-		rageSeq(player) = rageSeq(player) + 1
-		If rageSeq(player) Mod 15 = 0 Then extraObj(n,zx(player),0,zy(player),0,zblowdir(player),93)
-
-		If rageSeq(player) Mod 4 = 0 Then zx(player)=zx(player)-shakeXAxis
-		If rageSeq(player) Mod 4 = 1 Then zx(player)=zx(player)+shakeXAxis
-
-		If currentRageTime(player) => endRageTime(player) Then canGetRageTime(player)=0:wolverineRage(player)=0:wolvSpdFctr(player)=1
-	Else
-		ztopSpeed(player) = ztopSpeed(player) / wolvSpdFctr(player)
-		canGetRageTime(unit)=0
-	EndIf
-End Function
-
-;------------ Draw Walk Sequence ----------------
-Function drawWalkSequence(n)
-	If zwalkseq(n) = 0 Then 
-		If zStanceFrames(n) <> 0 Then 
-			drawStanceSequence(n):Return
-		Else
-			zani(n)=1:zf(n)=0
-		EndIf
-		Return
-	EndIf
-	If zWalkFrames(n) <> 0 Then
-		For frame=zWalkFrames(n) To 1 Step -1
-			If (zwalkseq(n) / zWalkFrameSpeed#(n)) Mod frame = 0 Then 
-				If zwalkseq(n) > (frame * 10) + 10 Then zwalkseq(n) = 1:Return
-				zani(n)=1:zf(n)=frame
-				If frame=zWalkQuakeSeq1(n) Or frame=zWalkQuakeSeq2(n) And frame <> 0 Then ;Shake screen
-					quake=1:quakeSeq=0
-					If gameSound Then PlaySound walkQuakeSnd(curGuy(n))
-				End If
-				Return
-			EndIf
-		Next
-	Else
-		If zwalkseq(n) > 40 Then zwalkseq(n)=1:Return
-		If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zani(n)=1:zf(n)=2:Return
-		If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zani(n)=1:zf(n)=3:Return
-		If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Return
-		If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Return
-	EndIf
-End Function
-
-Function handleJuggernautRun(n)
-	If zFace(n)=2 Then 
-		If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=2
-		If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=1
-		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then extraObj(n,zx(n),-10,zy(n),2,zblowdir(n),89)
-	Else
-		If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=-2
-		If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=-1
-		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then extraObj(n,zx(n),10,zy(n),2,zblowdir(n),89)
-	End If
-End Function
-
-;------------ Draw Run Sequence ----------------
-Function drawRunSequence(n)
-	drawTrailingEffects(n, zRunSeq(n))
-	If ((zStaminaBar(n) = 95 And zRunSeq(n)=5) Or (canAirGlide(n) And zRunSeq(n)=1 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
-	If curGuy(n)=15 Then handleJuggernautRun(n)
-	If zRunFootSoundSeq(n) <> 0 Then
-		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
-			If gameSound Then PlaySound zRunFootSound(curGuy(n))
-		End If
-	End If
-	If zRunFrames(n) <> 0 Then
-		For frame=zRunFrames(n) To 1 Step -1
-			If (zRunSeq(n) / zRunFrameSpeed#(n)) Mod frame = 0 Then 
-				If zRunSeq(n) > (frame * 10) + 10 Then zRunSeq(n) = zRunFrameSpeed#(n)-1:Return
-				zani(n)=21:zf(n)=frame
-				depleteStaminaBar(n, 5)
-				Return
-			EndIf
-		Next
-	End If
-End Function
-
-;----------- Draw Stance Sequence --------------
-Function drawStanceSequence(n)
-	If zStanceSeq(n) < zStanceSpeed(n) Then 
-		zStanceSeq(n) = zStanceSpeed(n)
-	Else
-		zStanceSeq(n) = zStanceSeq(n) + 1
-	End If
-	For frame=zStanceFrames(n) To 1 Step -1
-		If (zStanceSeq(n) / zStanceSpeed(n)) Mod frame = 0 Then
-			zani(n)=19:zf(n)=frame
-			If zStanceSeq(n)-1 > zStanceFrames(n)*zStanceSpeed(n) Then zStanceSeq(n) = zStanceSpeed(n)-1
-			Return
-		EndIf			
-	Next
-End Function
-
-;----------- Draw Duck Sequence --------------
-Function drawDuckSequence(n)
-	If duckSeq(n) < duckFrameSpeed(n) Then 
-		duckSeq(n) = duckFrameSpeed(n)
-	Else
-		duckSeq(n) = duckSeq(n) + 1
-	End If
-	For frame=duckFrames(n) To 1 Step -1
-		If (duckSeq(n) / duckFrameSpeed(n)) Mod frame = 0 Then
-			zani(n)=3:zf(n)=frame
-			If duckSeq(n)-1 > duckFrameSpeed(n)*duckFrameSpeed(n) Then duckSeq(n) = duckFrameSpeed(n)-1
-			Return
-		EndIf			
-	Next
-End Function
-
-;----------------  Draw Flip Frames ----------------
-Function drawFlipFrames(n)
-	If flipFrames(n)=0 Then
-		Select True														;Jump flip
-			Case (zjump2seq(n)=>1 And zjump2seq(n)=<5):zani(n)=5:zf(n)=1
-			Case (zjump2seq(n)=>6 And zjump2seq(n)=<10):zani(n)=5:zf(n)=2
-			Case (zjump2seq(n)=>11 And zjump2seq(n)=<15):zani(n)=5:zf(n)=3
-			Case (zjump2seq(n)=>16 And zjump2seq(n)=<20):zani(n)=5:zf(n)=4
-		End Select
-	Else If flipFrames(n)=6 Then
-		Select True														;Jump flip
-			Case (zjump2seq(n)=>1 And zjump2seq(n)=<3):zani(n)=5:zf(n)=1
-			Case (zjump2seq(n)=>3 And zjump2seq(n)=<7):zani(n)=5:zf(n)=2
-			Case (zjump2seq(n)=>7 And zjump2seq(n)=<10):zani(n)=5:zf(n)=3
-			Case (zjump2seq(n)=>10 And zjump2seq(n)=<14):zani(n)=5:zf(n)=4
-			Case (zjump2seq(n)=>14 And zjump2seq(n)=<17):zani(n)=5:zf(n)=5
-			Case (zjump2seq(n)=>17 And zjump2seq(n)=<21):zani(n)=5:zf(n)=6
-		End Select
-	End If
-	If zjump2seq(n)>20 Then 
-		If hasSpecialAirFrames(n)=1 Then
-			processOnAirFrames(n)
-		Else
-			zani(n)=4:zf(n)=1
-		End If
-	End If
-End Function
-
-
 ;----------- Play Death Sound -----------------
 Function playDeathSnd(n)
 	If deathSnd(curguy(n)) Then
@@ -6476,16 +6257,6 @@ Function clearSubStates(n)
 	If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
 	If wolverineRage(n)=1 Then wolverineRage(n)=0
 	If projectileDeflectMode(n)=1 Then projectileDeflectMode(n)=0
-End Function
-
-;-------------- Draw trailing effects ----------------
-Function drawTrailingEffects(n, runSeq)
-	If curGuy(n)=11 Then
-		If runSeq Mod 5 = 0 And Abs(zSpeed#(n)) >= 5 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
-	End If
-	If curGuy(n)=14 Then
-		
-	End If
 End Function
 
 ;-------------- Enemy Control Initialization ---------
@@ -6714,7 +6485,7 @@ Function decelerate(n)
 End Function
 
 ;----------------- Process Heavy Characters on Air ----------------
-Function processHeavyCharactersOnAir(n)	
+Function handleHeavyCharactersOnAir(n)	
 	If zOnGnd(n)=1 And zani(n)=4 And zf(n)=1 And isHeavy(n)=1 Then
 		If gameSound And quake=0 Then PlaySound quakeSnd
 		quake=1:quakeSeq=0
@@ -6738,66 +6509,6 @@ Function handleGroundShotType(n)
 			shotX=xshot(n)+25
 		End If
 		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
-		If yDist(n+indexAdjustment) > 30 Then shot(n)=0
+		If yDist(n+indexAdjustment) > indexAdjustment Then shot(n)=0
 	End If
-End Function
-
-;--------------- Process Wonder Woman Air Frames -----------------
-Function processWonderWomanAirFrames(n)
-	If zjump(n)=0 Then
-		zJumpFallSeq(n)=zjumpfallseq(n)+1
-		If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 3 Then zani(n)=4:zf(n)=9
-		If zJumpFallSeq(n) >= 3 And zJumpFallSeq(n) < 6 Then zani(n)=4:zf(n)=10
-		If zJumpFallSeq(n) >= 6 And zJumpFallSeq(n) < 9 Then zani(n)=4:zf(n)=11
-		If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 12 Then zani(n)=4:zf(n)=12
-		If zJumpFallSeq(n) >= 12 And zJumpFallSeq(n) < 15 Then zani(n)=4:zf(n)=13
-		If zJumpFallSeq(n) >= 15 And zJumpFallSeq(n) Mod 3 = 0 Then
-			If zf(n)=14 Then  
-				zani(n)=4:zf(n)=15
-			Else If zf(n)=15 Then 
-				zani(n)=4:zf(n)=14
-			Else
-				zani(n)=4:zf(n)=14
-			End If
-		End If
-	Else
-		If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
-		If zjumpseq(n)=1 Then zani(n)=4:zf(n)=2
-		If zjumpseq(n)=2 Or zjumpseq(n)=3 Then zani(n)=4:zf(n)=3
-		If (zjumpseq(n) >= 4 And zjumpseq(n) <= 5) Or (zjumpseq(n) >= 8 And zjumpseq(n) <= 9) Then zani(n)=4:zf(n)=4
-		If (zjumpseq(n) >= 6 And zjumpseq(n) <= 7) Or (zjumpseq(n) >= 10 And zjumpseq(n) <= 11) Then zani(n)=4:zf(n)=5
-		If zjumpseq(n) >= 12 And zjumpseq(n) <= 14 Then zani(n)=4:zf(n)=6
-		If zjumpseq(n) >= 15 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=7
-		If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=8
-	End If
-End Function
-
-;---------------- Process Juggernaut Air Frames ------------------
-Function processJuggernautAirFrames(n)
-	If zjump(n)=0 Then
-		zJumpFallSeq(n)=zJumpFallSeq(n)+1
-		If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 4 Then zani(n)=4:zf(n)=7
-		If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) Mod 5 = 0 Then
-			If zf(n)=8 Then  
-				zani(n)=4:zf(n)=9
-			Else If zf(n)=15 Then 
-				zani(n)=4:zf(n)=8
-			Else
-				zani(n)=4:zf(n)=8
-			End If
-		End If
-	Else
-		If zJumpFallSeq(n) <> 0 Then zJumpFallSeq(n)=0
-		If zjumpseq(n) >= 0 And zjumpseq(n) <= 3 Then zani(n)=4:zf(n)=2
-		If zjumpseq(n) >= 4 And zjumpseq(n) <= 6 Then zani(n)=4:zf(n)=3
-		If zjumpseq(n) >= 7 And zjumpseq(n) <= 9 Then zani(n)=4:zf(n)=4
-		If zjumpseq(n) >= 10 And zjumpseq(n) <= 13 Then zani(n)=4:zf(n)=5
-		If zjumpseq(n) >= 14 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=6
-		If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=7
-	End If
-End Function
-;------------------- Process On Air Frames -----------------------
-Function processOnAirFrames(n)
-	If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
-	If curGuy(n)=15 Then processJuggernautAirFrames(n)
 End Function

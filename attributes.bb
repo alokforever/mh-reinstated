@@ -435,20 +435,22 @@ Case 16: ;Piccolo
 	zxHand(n,2)=-2 :zyHand(n,2)=23
 	zxHand(n,3)=-2 :zyHand(n,3)=23
 	zRollOnImpact(n)=1
-	;zJumpSnd(n)=mkJumpSnd
-	;zJumpSnd2(n)=mkJump2Snd
+	zJumpSnd(n)=dbzJmpSnd
+	zJumpSnd2(n)=dbzJmp2Snd
 	zStanceFrames(n)=7
 	zStanceSpeed(n)=6
-	;zWalkFrames(n)=9
-	;zWalkFrameSpeed#(n)=4
-	;zRunFrames(n)=11
-	;zRunFrameSpeed#(n)=3.5
+	zWalkFrames(n)=4
+	zWalkFrameSpeed#(n)=7
+	zRunFrames(n)=1
+	zRunFrameSpeed#(n)=3.5
 	zCharSpeed#(n)=2
 	gender(n)=1
-	;flipFrames(n)=6
+	flipFrames(n)=6
+	canAirGlide(n)=1
 	;dizzyFrames(n)=8
 	;dizzyFrameSpeed(n)=7
 	;zRunFootSoundSeq(n)=12
+	hasSpecialAirFrames(n)=1
 	
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -2578,7 +2580,46 @@ Case 115:		;Earthquake 2 chunk destruction
 	If chunkSeq(n) >= 11 And chunkSeq(n) <= 13 Then chunkPic(n)=ptPic(95,4):chunkPic_(n)=ptPic_(95,4)
 	If chunkSeq(n) >= 14 And chunkSeq(n) <= 16 Then chunkPic(n)=ptPic(95,5):chunkPic_(n)=ptPic_(95,5)
 	If chunkSeq(n)=16 Then chunk(n)=0
+	
+Case 116:		;Dust 2
+	If chunkSeq(n) => 1 And chunkSeq(n) <= 2 Then chunkPic(n)=ptPic(96,1):chunkPic_(n)=ptPic_(96,1)
+	If chunkSeq(n) => 3 And chunkSeq(n) <= 4 Then chunkPic(n)=ptPic(96,2):chunkPic_(n)=ptPic_(96,2)
+	If chunkSeq(n) => 5 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(96,3):chunkPic_(n)=ptPic_(96,3)
+	If chunkSeq(n) => 7 And chunkSeq(n) <= 8 Then chunkPic(n)=ptPic(96,4):chunkPic_(n)=ptPic_(96,4)
+	If chunkSeq(n) => 9 And chunkSeq(n) <= 11 Then chunkPic(n)=ptPic(96,5):chunkPic_(n)=ptPic_(96,5)
+	If chunkSeq(n) => 12 And chunkSeq(n) <= 14 Then chunkPic(n)=ptPic(96,6):chunkPic_(n)=ptPic_(96,6)
+	If chunkSeq(n) => 15 And chunkSeq(n) <= 17 Then chunkPic(n)=ptPic(96,7):chunkPic_(n)=ptPic_(96,7)
+	If chunkSeq(n) => 18 And chunkSeq(n) <= 20 Then chunkPic(n)=ptPic(96,8):chunkPic_(n)=ptPic_(96,8)
+	If chunkSeq(n) => 21 And chunkSeq(n) <= 23 Then chunkPic(n)=ptPic(96,9):chunkPic_(n)=ptPic_(96,9)
+	If chunkSeq(n) => 24 And chunkSeq(n) <= 26 Then chunkPic(n)=ptPic(96,10):chunkPic_(n)=ptPic_(96,10)
+	
+	If chunkSeq(n) = 26 Then chunk(n)=0
 
+Case 117:		;Dust 3
+	If chunkSeq(n) => 1 And chunkSeq(n) <= 3 Then chunkPic(n)=ptPic(97,1):chunkPic_(n)=ptPic_(97,1)
+	If chunkSeq(n) => 4 And chunkSeq(n) <= 6 Then chunkPic(n)=ptPic(97,2):chunkPic_(n)=ptPic_(97,2)
+	If chunkSeq(n) => 7 And chunkSeq(n) <= 9 Then chunkPic(n)=ptPic(97,3):chunkPic_(n)=ptPic_(97,3)
+	If chunkSeq(n) => 10 And chunkSeq(n) <= 12 Then chunkPic(n)=ptPic(97,4):chunkPic_(n)=ptPic_(97,4)
+	If chunkSeq(n) => 13 And chunkSeq(n) <= 15 Then chunkPic(n)=ptPic(97,5):chunkPic_(n)=ptPic_(97,5)
+	If chunkSeq(n) => 16 And chunkSeq(n) <= 18 Then chunkPic(n)=ptPic(97,6):chunkPic_(n)=ptPic_(97,6)
+	If chunkSeq(n) => 19 And chunkSeq(n) <= 21 Then chunkPic(n)=ptPic(97,7):chunkPic_(n)=ptPic_(97,7)
+	If chunkSeq(n) => 22 And chunkSeq(n) <= 24 Then chunkPic(n)=ptPic(97,8):chunkPic_(n)=ptPic_(97,8)
+	If chunkSeq(n) => 25 And chunkSeq(n) <= 27 Then chunkPic(n)=ptPic(97,9):chunkPic_(n)=ptPic_(97,9)
+	If chunkSeq(n) => 28 And chunkSeq(n) <= 30 Then chunkPic(n)=ptPic(97,10):chunkPic_(n)=ptPic_(97,10)
+	If chunkSeq(n) => 30 And chunkSeq(n) <= 33 Then chunkPic(n)=ptPic(97,11):chunkPic_(n)=ptPic_(97,11)
+	
+	If chunkSeq(n) = 26 Then chunk(n)=0
+	
+Case 118:		;Dbz run trail 1
+	If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(98,1):chunkPic_(n)=ptPic_(98,1)
+	
+	If chunkSeq(n) >1 Then chunk(n)=0
+
+Case 119:		;Dbz run trail 2
+	If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(98,2):chunkPic_(n)=ptPic_(98,2)
+	
+	If chunkSeq(n) >1 Then chunk(n)=0
+	
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3422,6 +3463,11 @@ If n=42 Then	;Joker
 	Next
 	If jokerSnd=0 Then jokerSnd=LoadSound(soundsdir$ + "joker.wav")
 EndIf
+
+If n=16 Then ;Piccolo
+	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "piccolo\piccoloDieSnd.wav")
+	If piccoloTaunt1Snd=0 Then piccoloTaunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt1Snd")
+End If
 
 If n=15 Then ;Juggernaut
 	If walkQuakeSnd(n)=0 Then walkQuakeSnd(n)=LoadSound(soundsdir$ + "juggernaut\juggWalk.wav")
