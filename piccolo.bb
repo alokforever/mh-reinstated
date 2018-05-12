@@ -35,19 +35,42 @@ Case 2	;Flying Kick
 Case 4	;Low kick
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 5	;UP + SPECIAL (Lateral press)
+Case 5	;UP + SPECIAL
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 6	;throwing iten
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	a=3:b=6:c=9
+	If zongnd(n)=1 Then zNoMove(n)=1:zNoJump(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	If zBlowSeq(n)= b Then
+		throwObj(n,zx(n),zy(n)-20,zFace(n))
+		If gameSound Then PlaySound throwsnd
+	EndIf
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) => b And zBlowSeq(n) =< c Then zani(n)=12:zf(n)=4
+	If zBlowSeq(n) > c Then zBlowSeq(n)=0:zBlow(n)=0
 
-Case 7	; Juggernaut punch (special)
+Case 7	; Seeking ki blast (special)
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	
 
 Case 8	;Dodging
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	a=7:b=15:c=20:d=25:e=30:f=37
+	zNoMove(n)=1:zNoJump(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
+	If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=1
+	If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=3:moveX(n,zBlowdir(n),3)
+	If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=5:zf(n)=4:moveX(n,zBlowdir(n),3)
+	If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=5:zf(n)=5:moveX(n,zBlowdir(n),2)
+	If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=5:zf(n)=6:moveX(n,zBlowdir(n),1)
 
-Case 9	; Earthquake (down special)
+	If zblowseq(n) > a And zblowseq(n) <= e Then zshield(n)=1
+	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0
+
+Case 9	; Mystic attack (down special)
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Punch 
@@ -142,10 +165,37 @@ Case 14	;Super Special
 Case 15 ;Juggernaut throw
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 16 ;Counter Key (Taunt and Power up)
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+Case 16 ;Taunt Key
+	a=2:b=10:c=20:d=90
+	a2=8:b2=18:c2=48:d2=58:e2=68
+	zNoMove(n)=1:zNoJump(n)=1
+	If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(3)
+;------------ Animation -------------
+	If zTauntSeed(n)=1 Then
+		If zBlowSeq(n)>=1 And zBlowSeq(n)<=a2 Then zani(n)=16:zf(n)=5
+		If zBlowSeq(n)>=a2+1 And zBlowSeq(n)<=b2 Then zani(n)=16:zf(n)=6
+		If zBlowSeq(n)>=b2+1 And zBlowSeq(n)<=c2 Then zani(n)=16:zf(n)=7
+		If zBlowSeq(n)>=c2+1 And zBlowSeq(n)<=d2 Then zani(n)=16:zf(n)=8
+		If zBlowSeq(n)>=d2+1 And zBlowSeq(n)<=e2 Then zani(n)=16:zf(n)=9
+		If zBlowSeq(n)>e2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	Else
+		If zBlowSeq(n)>=1 And zBlowSeq(n)<=a Then zani(n)=16:zf(n)=1
+		If zBlowSeq(n)>=a+1 And zBlowSeq(n)<=b Then zani(n)=16:zf(n)=2
+		If zBlowSeq(n)>=b+1 And zBlowSeq(n)<=c Then zani(n)=16:zf(n)=3
+		If zBlowSeq(n)>=c+1 And zBlowSeq(n)<=d Then zani(n)=16:zf(n)=4
+		If zBlowSeq(n)>d Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	End If
+	
+;------------ Sounds ----------------
+	If zTauntSeed(n)=1 Then 
+		If zBlowSeq(n)=1 And gameSound Then PlaySound piccoloTaunt1Snd
+	Else If zTauntSeed(n)=2 Then 
+		If zBlowSeq(n)=1 And gameSound Then PlaySound piccoloTaunt2Snd
+	Else
+		If zBlowSeq(n)=1 And gameSound Then PlaySound piccoloTaunt3Snd
+	End If
 
-Case 17 ;Extra special key (Drill Claw)
+Case 17 ;Extra special key 
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 End Select

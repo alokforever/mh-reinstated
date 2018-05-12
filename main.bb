@@ -213,6 +213,7 @@ Global characterAmount=16	;Add character, 1=ryu, 2=rash ... change the value fro
 Global menuOption, duringGameMenu
 
 ;zeto's variables
+Dim specialHitFrames(30), hitFrameSpeed(30)
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30), upKeyHitTimer(30), upKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
@@ -2039,15 +2040,17 @@ Function selectDraw(n)
 	EndIf
 	
 	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then
-		zani(n)=2:zf(n)=0:Goto drawZ
+		zani(n)=2:zf(n)=0:Goto drawZ ;fallen
 	Else
-		
-		a=10:b=25:c=35
-		If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
-		If zhitseq(n) > a And zhitseq(n) =< b Then zani(n)=2:zf(n)=2	
-		If zhitseq(n) > b And zhitseq(n) =< c Then zani(n)=2:zf(n)=3
-		If zhitseq(n) > c Then zani(n)=2:zf(n)=4
-		
+		If specialHitFrames(n)=0 Then
+			a=10:b=25:c=35
+			If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
+			If zhitseq(n) > a And zhitseq(n) =< b Then zani(n)=2:zf(n)=2	
+			If zhitseq(n) > b And zhitseq(n) =< c Then zani(n)=2:zf(n)=3
+			If zhitseq(n) > c Then zani(n)=2:zf(n)=4
+		Else
+			processSpecialHitFrames(n)
+		End If
 		Goto drawZ
 	EndIf
 

@@ -185,7 +185,6 @@ Function drawRunSequence(n)
 	If zRunFrames(n) <> 0 Then
 		For frame=zRunFrames(n) To 1 Step -1
 			If (zRunSeq(n) / zRunFrameSpeed#(n)) Mod frame = 0 Then 
-				DebugLog "zRunSeq: " + zRunSeq(n)
 				If zRunSeq(n) > (frame * 10) + 10 Then zRunSeq(n) = zRunFrameSpeed#(n)-1:Return
 				zani(n)=21:zf(n)=frame
 				Return
@@ -347,4 +346,17 @@ End Function
 ;------------------- Process End of Run --------------------------
 Function processEndRun(n)
 	If curGuy(n)=16 Then extraObj(n,zx(n),10,zy(n),2,zFace(n),117)
+End Function
+
+;------------------- Process Special hit frames ------------------
+Function processSpecialHitFrames(n)
+	Local frame, maxHitSeq=35
+	DebugLog "zHitSeq: " + zHitSeq(n)
+	If zhitseq(n) > maxHitSeq Then zani(n)=2:zf(n)=0:Return
+	For frame=specialHitFrames(n) To 1 Step -1
+		If (zhitseq(n) / hitFrameSpeed(n)) Mod frame = 0 Then
+			zani(n)=2:zf(n)=frame
+			Return
+		EndIf			
+	Next
 End Function

@@ -4480,7 +4480,7 @@ Case 10	;High whip
 	If zBlowSeq(n) => f And zBlowSeq(n) =< g Then zani(n)=10:zf(n)=2
 	If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0
 	
-Case 16 ;Counter key
+Case 16 ;Taunt key
 	zBlowSeq(n)=0:zBlow(n)=0
 	
 Case 17 ;Extra special key

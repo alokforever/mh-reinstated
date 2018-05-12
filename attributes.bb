@@ -69,6 +69,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	zWalkQuakeSeq2(n)=0
 	isHeavy(n)=0
 	hasSpecialAirFrames(n)=0
+	specialHitFrames(n)=0
+	hitFrameSpeed(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -451,6 +453,8 @@ Case 16: ;Piccolo
 	;dizzyFrameSpeed(n)=7
 	;zRunFootSoundSeq(n)=12
 	hasSpecialAirFrames(n)=1
+	specialHitFrames(n)=10
+	hitFrameSpeed(n)=4
 	
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -1886,7 +1890,7 @@ Case 40:a=10	;tutorial 1 - double jump
 		chunkWidth(n)=500:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -1907,7 +1911,7 @@ Case 41:a=10	;tutorial 2 - up special
 		chunkWidth(n)=500:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -1929,7 +1933,7 @@ Case 42:a=10	;tutorial 3 - fight
 		chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -1949,7 +1953,7 @@ Case 43:a=10	;tutorial 4 - use switch
 		chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -1971,7 +1975,7 @@ Case 44:a=10	;tutorial 5 - pick up item
 		chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -1992,7 +1996,7 @@ Case 45:a=10	;tutorial 6 - go down from platform
 		chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -2015,7 +2019,7 @@ Case 46:a=10	;tutorial 7 - throw item diagonally
 		chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -2037,7 +2041,7 @@ Case 47:a=10	;tutorial 8 - super special
 		chunkWidth(n)=560:chunkHeight(n)=(25 * ln)
 	EndIf
 	If chunkSeq(n) = 3 Then
-		Delay 1000
+		Delay 500
 		waitInput()
 		chunk(n)=0
 		message=0
@@ -3279,7 +3283,7 @@ Next
 zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
 zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
 
-For i=1 To 7
+For i=1 To 10
 	zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
 	zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
 Next
@@ -3355,8 +3359,8 @@ For counter = 1 To 40
 Next
 
 For counter = 1 To 22
-	zpic(n,16,counter)=LoadImage(gfxdir$ + "counter\zcounter" + counter + ".bmp")
-	zpic_(n,16,counter)=LoadImage(gfxdir$ + "counter\zcounter" + counter + "_.bmp")
+	zpic(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + ".bmp")
+	zpic_(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + "_.bmp")
 Next
 
 For counter = 1 To 20
@@ -3466,7 +3470,9 @@ EndIf
 
 If n=16 Then ;Piccolo
 	If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "piccolo\piccoloDieSnd.wav")
-	If piccoloTaunt1Snd=0 Then piccoloTaunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt1Snd")
+	If piccoloTaunt1Snd=0 Then piccoloTaunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt1Snd.wav")
+	If piccoloTaunt2Snd=0 Then piccoloTaunt2Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt2Snd.wav")
+	If piccoloTaunt3Snd=0 Then piccoloTaunt3Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt3Snd.wav")
 End If
 
 If n=15 Then ;Juggernaut
