@@ -174,7 +174,7 @@ End Function
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
 	drawTrailingEffects(n)
-	If ((zStaminaBar(n) = 95 And zRunSeq(n)=5) Or (canAirGlide(n) And zRunSeq(n)=1 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
+	If (zRunSeq2(n)=5 Or (canAirGlide(n) And zRunSeq2(n)=5 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
 	If zRunFootSoundSeq(n) <> 0 Then
 		If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
 			If gameSound Then PlaySound zRunFootSound(curGuy(n))
@@ -351,7 +351,6 @@ End Function
 ;------------------- Process Special hit frames ------------------
 Function processSpecialHitFrames(n)
 	Local frame, maxHitSeq=35
-	DebugLog "zHitSeq: " + zHitSeq(n)
 	If zhitseq(n) > maxHitSeq Then zani(n)=2:zf(n)=0:Return
 	For frame=specialHitFrames(n) To 1 Step -1
 		If (zhitseq(n) / hitFrameSpeed(n)) Mod frame = 0 Then
@@ -359,4 +358,14 @@ Function processSpecialHitFrames(n)
 			Return
 		EndIf			
 	Next
+End Function
+
+;------------------- Draw Electrocution -----------------------
+Function drawElectrocution(n)
+	zNoMove(n)=1:zNoJump(n)=1
+	x=Rand(-8,8) : y=Rand(-30,-10)
+	If electrocuteSeq(n) Mod 12 = 0 Then makechunk(n,zx(n)+x,(zy(n)+10)+y,zFace(n),31)
+	electrocuteSeq(n)=electrocuteSeq(n)-1
+	If electrocuteSeq(n) Mod 15 = 0 Then zani(n)=2:zf(n)=1
+	If electrocuteSeq(n) Mod 30 = 0 Then zani(n)=2:zf(n)=2
 End Function

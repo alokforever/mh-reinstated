@@ -71,6 +71,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	hasSpecialAirFrames(n)=0
 	specialHitFrames(n)=0
 	hitFrameSpeed(n)=0
+	electrocuteTime(n)=0
+	shotVerticalSize(n)=1
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -444,14 +446,13 @@ Case 16: ;Piccolo
 	zWalkFrames(n)=4
 	zWalkFrameSpeed#(n)=7
 	zRunFrames(n)=1
-	zRunFrameSpeed#(n)=3.5
-	zCharSpeed#(n)=2
+	zRunFrameSpeed#(n)=3
+	zCharSpeed#(n)=4
 	gender(n)=1
 	flipFrames(n)=6
 	canAirGlide(n)=1
-	;dizzyFrames(n)=8
-	;dizzyFrameSpeed(n)=7
-	;zRunFootSoundSeq(n)=12
+	dizzyFrames(n)=4
+	dizzyFrameSpeed(n)=7
 	hasSpecialAirFrames(n)=1
 	specialHitFrames(n)=10
 	hitFrameSpeed(n)=4
@@ -1611,9 +1612,9 @@ Case 47 ;Juggernaut Earthquake
 	shotChunkType(n)=114
 	shotFramesAmount(n)=2
 	shotPic(n,1)=shotImage(56)
-	shotPic_(n,1)=shotImage(56)
+	shotPic_(n,1)=shotImage_(56)
 	shotPic(n,2)=shotImage(57)
-	shotPic_(n,2)=shotImage(57)
+	shotPic_(n,2)=shotImage_(57)
 	shotFrameTime(n)=2
 	shotSound(n)=juggLateralHitSnd
 
@@ -1624,6 +1625,7 @@ Case 48 ;Juggernaut Earthquake 2
 	shotsize(n)=61
 	shotWidth(n)=25
 	shotHeight(n)=16
+	shotVerticalSize(n)=35
 	shotDamage(n)=11
 	shotHitMode(n)=2
 	shotSide(n)=shotsize(n)/2
@@ -1636,8 +1638,37 @@ Case 48 ;Juggernaut Earthquake 2
 	shotDrill(n)=0
 	shotChunkType(n)=115
 	shotPic(n,1)=shotImage(58)
-	shotPic_(n,1)=shotImage(58)
+	shotPic_(n,1)=shotImage_(58)
 	shotSound(n)=juggLateralHitSnd
+	
+Case 49	;Kaikousen
+	shotGroundType(n)=1
+	shotspeed(n)=3
+	shotWidth(n)=40
+	shotsize(n)=40
+	shotheight(n)=37
+	shotDamage(n)=7
+	shotHitMode(n)=2
+	shotSide(n)=shotsize(n)/2
+	shotImmuneTime(n)=100
+	shotHitXspeed(n)=0
+	shotHitYspeed(n)=0
+	shotFallTime(n)=40
+	shotDuration(n)=33
+	shotMaxSpeed(n)=shotSpeed(n)
+	shotDrill(n)=0
+	shotChunkType(n)=121
+	shotFramesAmount(n)=11
+	shotFrameTime(n)=3
+	shotSound(n)=shockSnd
+	electrocuteTime(n)=75
+
+	shotPicIdx=1
+	For shotImg=59 To 69
+		shotPic(n,shotPicIdx)=shotImage(shotImg)
+		shotPic_(n,shotPicIdx)=shotImage_(shotImg)
+		shotPicIdx=shotPicIdx+1
+	Next
 
 End Select
 End Function
@@ -2624,6 +2655,14 @@ Case 119:		;Dbz run trail 2
 	
 	If chunkSeq(n) >1 Then chunk(n)=0
 	
+Case 121:		;Kaikousen
+	a=3:b=6:c=9
+	If chunkSeq(n)>0 And chunkSeq(n)<=a Then chunkPic(n)=ptPic(100,1):chunkPic_(n)=ptPic_(100,1)
+	If chunkSeq(n)>a And chunkSeq(n)<=b Then chunkPic(n)=ptPic(100,2):chunkPic_(n)=ptPic_(100,2)
+	If chunkSeq(n)>b And chunkSeq(n)<=c Then chunkPic(n)=ptPic(100,3):chunkPic_(n)=ptPic_(100,3)
+	
+	If chunkSeq(n) > c Then chunk(n)=0
+	
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3338,7 +3377,7 @@ For i=1 To 2
 	zpic_(n,11,i)=LoadImage(gfxdir$ + "zshot" + i + "_.bmp")
 Next
 
-For i=1 To 9
+For i=1 To 15
 	zpic(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + ".bmp")
 	zpic_(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + "_.bmp")
 Next
@@ -3473,6 +3512,9 @@ If n=16 Then ;Piccolo
 	If piccoloTaunt1Snd=0 Then piccoloTaunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt1Snd.wav")
 	If piccoloTaunt2Snd=0 Then piccoloTaunt2Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt2Snd.wav")
 	If piccoloTaunt3Snd=0 Then piccoloTaunt3Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt3Snd.wav")
+	If piccoloGrunt1Snd=0 Then piccoloGrunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt1Snd.wav")
+	If piccoloKaikousenSnd=0 Then piccoloKaikousenSnd=LoadSound(soundsDir$ + "piccolo\piccoloKaikousenSnd.wav")
+	If piccoloKiSnd=0 Then piccoloKiSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

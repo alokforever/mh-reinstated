@@ -70,8 +70,37 @@ Case 8	;Dodging
 	If zblowseq(n) > a And zblowseq(n) <= e Then zshield(n)=1
 	If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0
 
-Case 9	; Mystic attack (down special)
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+Case 9	; Kaikousen (down special)
+	a=3:b=6:c=9:d=12:e=15:f=18:g=21:h=24:i=27:j=39:k=42:l=45
+	zNoMove(n)=1:zNoJump(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+;------------ Animation ------------
+	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=12:zf(n)=1
+	If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=12:zf(n)=2
+	If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=12:zf(n)=3
+	If zBlowSeq(n) >= c And zBlowSeq(n) <= d Then zani(n)=12:zf(n)=4
+	If zBlowSeq(n) >= d And zBlowSeq(n) <= e Then zani(n)=12:zf(n)=5
+	If zBlowSeq(n) >= e And zBlowSeq(n) <= f Then zani(n)=12:zf(n)=6
+	If zBlowSeq(n) >= f And zBlowSeq(n) <= g Then zani(n)=12:zf(n)=7
+	If zBlowSeq(n) >= g And zBlowSeq(n) <= h Then zani(n)=12:zf(n)=8
+	If zBlowSeq(n) >= h And zBlowSeq(n) <= i Then zani(n)=12:zf(n)=9
+	If zBlowSeq(n) >= i And zBlowSeq(n) <= j Then zani(n)=12:zf(n)=10
+	If zBlowSeq(n) >= j And zBlowSeq(n) <= k Then zani(n)=12:zf(n)=11
+	If zBlowSeq(n) >= k And zBlowSeq(n) <= l Then zani(n)=12:zf(n)=12
+	
+;------------ Sounds ------------
+	If gameSound And zBlowSeq(n) = f Then PlaySound piccoloGrunt1Snd
+	If gameSound And zBlowSeq(n) = g Then PlaySound piccoloKaikousenSnd
+	
+;------------ Effect -------------
+	If zBlowSeq(n)=i Then 
+		y=zy(n)-(zheight(n)-42)
+		If zface(n)=2 Then x=zx(n)+36
+		If zface(n)=4 Then x=zx(n)-100
+		makeshot(n,49,x,y,zface(n))
+	End If
+	
+	If zBlowSeq(n) > l Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Punch 
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
