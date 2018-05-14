@@ -250,6 +250,7 @@ cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
 cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
 cooldownPic(12, 2)=LoadImage(gfxdir$ + "\cooldown\cd12_2.bmp")
 cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
+cooldownPic(16, 1)=LoadImage(gfxdir$ + "\cooldown\cd16_1.bmp")
 
 ;Find all mod directories and set their paths/name 
 setModDirs()
@@ -2047,7 +2048,6 @@ If zBlocked(n) Then
 			Case 4:zx(n)=zx(n)-zBlockSpeed(n)
 			End Select 
 		EndIf
-	
 	If zongnd(n)=0 And zblockseq(n) < zblocktime(n) -5 Then zBlockSeq(n)=zBlockTime(n)-5
 		
 	If zBlockSeq(n) > zBlockTime(n) Then zBlocked(n)=0:zBlockSeq(n)=0::zblowseq(n)=0:zblowstill(n)=0
@@ -2057,12 +2057,7 @@ If zShotHitSeq(n,zShotByN(n)) > 10000 Then zShotHitSeq(n,zShotByN(n))=0:zShotByN
 If zHit(n)=0 And zBlocked(n)=0 Then zHitByRect(n)=0
 
 If zStone(n)=1 And fightMode=2 Then
-	If zLife(n) < 1 Then
-		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-		playDeathSnd(n)
-		zlives(n)=zlives(n)-1
-		killZ(n)
-	EndIf
+	killMan(n)
 EndIf
 
 If zhit(n)=1 Then
@@ -2071,72 +2066,65 @@ If zhit(n)=1 Then
 	zSuperMove(n)=0
 	If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
 			
-		zUpFallspeed#(n)=zUpFallSpeed#(n)-.1
-		If zUpFallSpeed#(n) < 2 Then zUpFallSpeed#(n)=2
-		zFallspeed#(n)=zFallSpeed#(n)-.1
-		If zFallSpeed#(n) < 0 Then zFallSpeed#(n)=0
-		If zongnd(n)=0 Then
-			If zFallDir(n)=4 Then zx(n)=zx(n)-zFallSpeed#(n)
-			If zFallDir(n)=2 Then zx(n)=zx(n)+zFallSpeed#(n)
-		EndIf
+	zUpFallspeed#(n)=zUpFallSpeed#(n)-.1
+	If zUpFallSpeed#(n) < 2 Then zUpFallSpeed#(n)=2
+	zFallspeed#(n)=zFallSpeed#(n)-.1
+	If zFallSpeed#(n) < 0 Then zFallSpeed#(n)=0
+	If zongnd(n)=0 Then
+		If zFallDir(n)=4 Then zx(n)=zx(n)-zFallSpeed#(n)
+		If zFallDir(n)=2 Then zx(n)=zx(n)+zFallSpeed#(n)
+	EndIf
+
+	If (zFallSpeed(n) > 8 Or zUpFallSpeed(n) > 8) And rendert > 1 Then makeChunk(n,zx(n),zy(n),2,16)
+	If zhitseq(n) > 20 Then zhitbybox(n)=0	
+	If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then
+		zy(n)=zy(n)-zUpFallSpeed#(n)
+	EndIf
 		
-		If (zFallSpeed(n) > 8 Or zUpFallSpeed(n) > 8) And rendert > 1 Then makeChunk(n,zx(n),zy(n),2,16)
-		
-		If zhitseq(n) > 20 Then zhitbybox(n)=0
-					
-		If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then
-			zy(n)=zy(n)-zUpFallSpeed#(n)
+	;evasive roll when on ground
+	If blockKey(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) And zRollOnImpact(n)=1 And zongnd(n)=1 And zHitSeq(n) > 20 Then
+		zHitByRect(n)=0
+		zShotByN(n)=0 : zShotHitSeq(n,zShotByN(n))=0
+		zhitbybox(n)=0
+		zhit(n)=0:zhitseq(n)=0
+		zBlockLife(n)=zBlockFull(n):zBouncedgnd(n)=0
+		zCurBlow(n)=8 : zBlow(n)=1 : zBlowSeq(n)=7
+		If gameSound=1 Then PlaySound shotwallsnd
+		If rightKey(n)=1 Then
+			zFace(n)=2:zBlowDir(n)=2
+		Else
+			zFace(n)=4:zBlowDir(n)=4
 		EndIf
-		
-		If fightMode=2 And zFalltime(n) > 15 Then
-			If zLife(n) < 1 Then
-				makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-				playDeathSnd(n)
-				zlives(n)=zlives(n)-1
-				killZ(n)
-			EndIf
-		EndIf
-		
-		;evasive roll when on ground
-		If blockKey(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) And zRollOnImpact(n)=1 And zongnd(n)=1 And zHitSeq(n) > 20 Then
-			zHitByRect(n)=0
-			zShotByN(n)=0 : zShotHitSeq(n,zShotByN(n))=0
-			zhitbybox(n)=0
-			zhit(n)=0:zhitseq(n)=0
-			zBlockLife(n)=zBlockFull(n):zBouncedgnd(n)=0
-			zCurBlow(n)=8 : zBlow(n)=1 : zBlowSeq(n)=7
-			If gameSound=1 Then PlaySound shotwallsnd
-			If rightKey(n)=1 Then
-				zFace(n)=2:zBlowDir(n)=2
-			Else
-				zFace(n)=4:zBlowDir(n)=4
-			EndIf
-		EndIf
-		
-		If zhitSeq(n) > zFallTime#(n) And hitkey(n)=1 Then
-			zHitByRect(n)=0
-			zShotByN(n)=0 : zShotHitSeq(n,zShotByN(n))=0
-			zhitbybox(n)=0
-			zhit(n)=0:zhitseq(n)=0
-			zBlockLife(n)=zBlockFull(n):zBouncedgnd(n)=0
-		EndIf
-		
-		If zhitSeq(n) > 2 And zongnd(n)=1 And zBouncedgnd(n)=0 And zUpFallSpeed#(n) < 2.1 Then 
-			If gameSound=1 Then PlaySound zhitwallsnd
-			If zGotobj(n)>0 Then objhitsolid(zGotobj(n)):zGotobj(n)=0
-			makeChunk(n,zx(n)-10,zy(n),2,16)
-			makeChunk(n,zx(n)+10,zy(n),2,16)
-			zhitbybox(n)=0
-			zBouncedgnd(n)=1
-			zhitSeq(n)=35
-			zFallSpeed#(n)=3
-			zFallTime#(n)=75
-			zUpFallSpeed#(n)=4.5
-			quake=1:quakeSeq=0
-			zHitByRect(n)=0
-		EndIf
-.dontmove
-If zhitseq(n) > 6 Then zHitByRect(n)=0		
+	EndIf
+	
+	If zhitSeq(n) > zFallTime#(n) And hitkey(n)=1 Then
+		zHitByRect(n)=0
+		zShotByN(n)=0 : zShotHitSeq(n,zShotByN(n))=0
+		zhitbybox(n)=0
+		zhit(n)=0:zhitseq(n)=0
+		zBlockLife(n)=zBlockFull(n):zBouncedgnd(n)=0
+	EndIf
+	
+	If fightMode=2 And zFalltime(n) > 15 Then
+		killMan(n)
+	EndIf
+
+	If zhitSeq(n) > 2 And zongnd(n)=1 And zBouncedgnd(n)=0 And zUpFallSpeed#(n) < 2.1 Then 
+		If gameSound=1 Then PlaySound zhitwallsnd
+		If zGotobj(n)>0 Then objhitsolid(zGotobj(n)):zGotobj(n)=0
+		makeChunk(n,zx(n)-10,zy(n),2,16)
+		makeChunk(n,zx(n)+10,zy(n),2,16)
+		zhitbybox(n)=0
+		zBouncedgnd(n)=1
+		zhitSeq(n)=35
+		zFallSpeed#(n)=3
+		zFallTime#(n)=75
+		zUpFallSpeed#(n)=4.5
+		quake=1:quakeSeq=0
+		zHitByRect(n)=0
+	EndIf
+	.dontmove
+	If zhitseq(n) > 6 Then zHitByRect(n)=0		
 EndIf
 
 zShotHitSeq(n,zShotByN(n))=zShotHitSeq(n,zShotByN(n))+1
@@ -4423,10 +4411,7 @@ For nn=1 To zzamount
 				zHitHead(nn)=1:zJump(nn)=0
 				If platYspeed(n) > 2 Then zy(nn) = (yPlat(n)+platHeight(n))+zHeight(nn)
 				If (zongnd(nn)=1 Or zonplat(nn)=1) And zGrabbed(nn)=0 Then	;crushes player
-					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
-					playDeathSnd(n)
-					zlives(nn)=zlives(nn)-1
-					killZ(nn)
+					killMan(n)
 					Goto platDone
 				EndIf
 				
@@ -4454,10 +4439,7 @@ For nn=1 To zzamount
 		       	EndIf
 				
 				If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then	;crushes player
-					makeChunk(nn,zx(nn),zy(nn)-15,2,zDeathChunk(nn))
-					playDeathSnd(n)
-					zlives(nn)=zlives(nn)-1
-					killZ(nn)
+					killMan(n)
 					Goto platDone
 				EndIf
 				
@@ -4938,10 +4920,7 @@ Case 52	;Bag
 ;-----------------------------------
 If zVar1(n)=1 Then 	;If bag has energy limit
 	If zLife(n) < 0 Then
-		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-		playDeathSnd(n)
-		zlives(n)=zlives(n)-1
-		killZ(n)
+		killMan(n)
 	EndIf
 Else
 	zLife(n)=999
@@ -6385,8 +6364,13 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 							If Not zBlock(nn) And shotSuper(n)=0 Then
 								zlife(nn)=zlife(nn)-shotdamage(n)
 								zDamage#(nn)=zDamage#(nn)+shotDamage(n)
+								If zLife(nn) < 1 Then zScore(shotOwner(n))=zScore(shotOwner(n))+1
 								If gameSound =1 Then PlaySound shotsound(n)
-								If electrocuteTime(n) > 0 Then electrocuteSeq(nn)=electrocuteTime(n):isDone=1:Exit
+								If electrocuteTime(n) > 0 Then 
+									electrocuteSeq(nn)=electrocuteTime(n):isDone=1
+									If fightMode=2 And zLife(nn)<1 Then killMan(nn)
+									Exit
+								End If
 								If zStone(nn)=0 Then
 									zFallDir(nn)=dir
 									zface(nn)=oppDir:zjump(nn)=0:zBouncedgnd(nn)=0
@@ -6396,7 +6380,6 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 								EndIf
 								If shotHitTrail(n) > 0 Then zTrail(nn)=1:zTrailSeq(nn)=0:zTrailType(nn)=shotHitTrail(n)							
 							EndIf
-							If zLife(nn) < 1 Then zScore(shotOwner(n))=zScore(shotOwner(n))+1
 							isDone=1:Exit
 						EndIf 
 					EndIf
@@ -6405,4 +6388,13 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 		zShield(nn)=oldShield
 	Next	
 	Return isDone
+End Function
+
+Function killMan(n)
+	If zLife(n) < 1 Then
+		makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
+		playDeathSnd(n)
+		zlives(n)=zlives(n)-1
+		killZ(n)
+	EndIf
 End Function

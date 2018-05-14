@@ -447,7 +447,7 @@ Case 16: ;Piccolo
 	zWalkFrameSpeed#(n)=7
 	zRunFrames(n)=1
 	zRunFrameSpeed#(n)=3
-	zCharSpeed#(n)=4
+	zCharSpeed#(n)=3.5
 	gender(n)=1
 	flipFrames(n)=6
 	canAirGlide(n)=1

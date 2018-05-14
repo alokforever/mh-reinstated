@@ -1,3 +1,7 @@
+Function doMysticAttack(n)
+
+End Function
+
 Function DoPiccolo(n)
 
 zFace(n)=zBlowDir(n)
@@ -19,11 +23,6 @@ Case 0	;Blocking
 	zNoMove(n)=1:zNoJump(n)=1
 	zBlock(n)=1:zani(n)=13:zf(n)=1
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-		If zblocked(n)=1 Then 
-		zani(n)=13:zf(n)=2
-		zBlockSeqStart(n)=zBlockSeq(n)
-	End If
-	If zBlockSeq(n) = zBlockSeqStart(n)+4 Then zani(n)=13:zf(n)=3
 	If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 1	;Normal Punch
@@ -72,34 +71,46 @@ Case 8	;Dodging
 
 Case 9	; Kaikousen (down special)
 	a=3:b=6:c=9:d=12:e=15:f=18:g=21:h=24:i=27:j=39:k=42:l=45
+	a2=100
 	zNoMove(n)=1:zNoJump(n)=1
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	If zBlowSeq(n)=1 And zOnGnd(n)=0 Then zBlowSeq(n)=a2
+	If zBlowSeq(n) >= a2 Then doMysticAttack(n)
+	
+	If zBlowSeq(n) <= l Then
+		If zBlowSeq(n)=1 And spellCooldownSeq(n, 1) > 0 Then
+			If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+			zBlowSeq(n)=0:zBlow(n)=0
+		End If
 ;------------ Animation ------------
-	If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=12:zf(n)=1
-	If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=12:zf(n)=2
-	If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=12:zf(n)=3
-	If zBlowSeq(n) >= c And zBlowSeq(n) <= d Then zani(n)=12:zf(n)=4
-	If zBlowSeq(n) >= d And zBlowSeq(n) <= e Then zani(n)=12:zf(n)=5
-	If zBlowSeq(n) >= e And zBlowSeq(n) <= f Then zani(n)=12:zf(n)=6
-	If zBlowSeq(n) >= f And zBlowSeq(n) <= g Then zani(n)=12:zf(n)=7
-	If zBlowSeq(n) >= g And zBlowSeq(n) <= h Then zani(n)=12:zf(n)=8
-	If zBlowSeq(n) >= h And zBlowSeq(n) <= i Then zani(n)=12:zf(n)=9
-	If zBlowSeq(n) >= i And zBlowSeq(n) <= j Then zani(n)=12:zf(n)=10
-	If zBlowSeq(n) >= j And zBlowSeq(n) <= k Then zani(n)=12:zf(n)=11
-	If zBlowSeq(n) >= k And zBlowSeq(n) <= l Then zani(n)=12:zf(n)=12
+		If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=12:zf(n)=1
+		If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=12:zf(n)=2
+		If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=12:zf(n)=3
+		If zBlowSeq(n) >= c And zBlowSeq(n) <= d Then zani(n)=12:zf(n)=4
+		If zBlowSeq(n) >= d And zBlowSeq(n) <= e Then zani(n)=12:zf(n)=5
+		If zBlowSeq(n) >= e And zBlowSeq(n) <= f Then zani(n)=12:zf(n)=6
+		If zBlowSeq(n) >= f And zBlowSeq(n) <= g Then zani(n)=12:zf(n)=7
+		If zBlowSeq(n) >= g And zBlowSeq(n) <= h Then zani(n)=12:zf(n)=8
+		If zBlowSeq(n) >= h And zBlowSeq(n) <= i Then zani(n)=12:zf(n)=9
+		If zBlowSeq(n) >= i And zBlowSeq(n) <= j Then zani(n)=12:zf(n)=10
+		If zBlowSeq(n) >= j And zBlowSeq(n) <= k Then zani(n)=12:zf(n)=11
+		If zBlowSeq(n) >= k And zBlowSeq(n) <= l Then zani(n)=12:zf(n)=12
 	
 ;------------ Sounds ------------
-	If gameSound And zBlowSeq(n) = f Then PlaySound piccoloGrunt1Snd
-	If gameSound And zBlowSeq(n) = g Then PlaySound piccoloKaikousenSnd
+		If gameSound And zBlowSeq(n) = f Then PlaySound piccoloGrunt1Snd
+		If gameSound And zBlowSeq(n) = g Then PlaySound piccoloKaikousenSnd
 	
 ;------------ Effect -------------
-	If zBlowSeq(n)=i Then 
-		y=zy(n)-(zheight(n)-42)
-		If zface(n)=2 Then x=zx(n)+36
-		If zface(n)=4 Then x=zx(n)-100
-		makeshot(n,49,x,y,zface(n))
+		If zBlowSeq(n)=i Then 
+			y=zy(n)-(zheight(n)-42)
+			If zface(n)=2 Then x=zx(n)+36
+			If zface(n)=4 Then x=zx(n)-100
+			makeshot(n,49,x,y,zface(n))
+			spellCooldownMaxTime(n, 1)=100
+			spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1) 
+		End If
 	End If
-	
+
 	If zBlowSeq(n) > l Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Punch 
@@ -198,6 +209,7 @@ Case 16 ;Taunt Key
 	a=2:b=10:c=20:d=90
 	a2=8:b2=18:c2=48:d2=58:e2=68
 	zNoMove(n)=1:zNoJump(n)=1
+	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(3)
 ;------------ Animation -------------
 	If zTauntSeed(n)=1 Then
