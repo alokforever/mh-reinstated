@@ -64,8 +64,9 @@ Case 7	; Seeking ki blast (special)
 	If zBlowSeq(n)>d And zBlowSeq(n)<=e Then zani(n)=12:zf(n)=12
 
 	If zBlowSeq(n)=a Then 
-		extraObj(n,zx(n),5,zy(n),-20,zFace(n),123)
-	End If
+		If zFace(n)=2 Then x=zx(n)+5
+		If zFace(n)=4 Then x=zx(n)-5
+		extraObj(n,x,0,y,0,zFace(n),122)
 	If zBlowSeq(n)=b Then 
 		y=zy(n)-zheight(n)+20
 		If zFace(n)=2 Then x=zx(n)+30

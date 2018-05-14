@@ -1670,6 +1670,31 @@ Case 49	;Kaikousen
 		shotPicIdx=shotPicIdx+1
 	Next
 
+Case 50	;Kiryoku-ryuu
+	shotspeed(n)=3.5
+	shotWidth(n)=20
+	shotsize(n)=20
+	shotheight(n)=20
+	shotDamage(n)=5
+	shotHitMode(n)=2
+	shotSide(n)=shotsize(n)/2
+	shotImmuneTime(n)=50
+	shotHitXspeed(n)=3
+	shotHitYspeed(n)=2
+	shotFallTime(n)=40
+	shotDuration(n)=200
+	shotMaxSpeed(n)=shotSpeed(n)
+	shotDrill(n)=0
+	shotChunkType(n)=122
+	shotFramesAmount(n)=2
+	shotFrameTime(n)=2
+	shotSound(n)=dbzKiHitSnd
+
+	shotPic(n,1)=shotImage(70)
+	shotPic_(n,1)=shotImage(70)
+	shotPic(n,2)=shotImage(71)
+	shotPic_(n,2)=shotImage_(71)
+	
 End Select
 End Function
 ;----------------- Chunks ---------------------------------
@@ -2663,6 +2688,31 @@ Case 121:		;Kaikousen
 	
 	If chunkSeq(n) > c Then chunk(n)=0
 	
+Case 122:		;Kiryoku-ryuu explosion
+	a=1:b=2:endSeq=24
+	If chunkSeq(n)>0 And chunkSeq(n)<=a Then chunkPic(n)=ptPic(101,1):chunkPic_(n)=ptPic_(101,1)
+	If chunkSeq(n)>a And chunkSeq(n)<=b Then chunkPic(n)=ptPic(101,2):chunkPic_(n)=ptPic_(101,2)
+	
+	idx2=2:picIdx=3
+	For idx=5 To endSeq Step 3
+		If chunkSeq(n)>idx2 And chunkSeq(n)<=idx Then chunkPic(n)=ptPic(101,picIdx):chunkPic_(n)=ptPic_(101,picIdx)
+		idx2=idx:picIdx=picIdx+1
+	Next
+	
+	If chunkSeq(n) > endSeq Then chunk(n)=0
+	
+Case 123:		;Pre-Kiryoku-ryuu
+	endSeq=12
+	
+	picIdx=1
+	For idx=1 To endSeq
+		If chunkSeq(n)=idx Then chunkPic(n)=ptPic(102,picIdx):chunkPic_(n)=ptPic(102,picIdx)
+		picIdx=picIdx+1
+		If picIdx=9 Then picIdx=1
+	Next
+
+	If chunkSeq(n) > endSeq Then chunk(n)=0
+
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)

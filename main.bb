@@ -5964,6 +5964,7 @@ Function clearSubStates(n)
 	If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
 	If wolverineRage(n)=1 Then wolverineRage(n)=0
 	If projectileDeflectMode(n)=1 Then projectileDeflectMode(n)=0
+	If electrocuteSeq(n)>0 Then electrocuteSeq(n)=0
 	refreshCooldown(n)
 End Function
 
@@ -6275,13 +6276,14 @@ Function handleShotWallCollision(n, adj)
 			shotsizeL(n)=adj
 			makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,1)
 			If shotDir(n)=2 Then shotDir(n)=4 Else shotDir(n)=2
+			If gameSound Then PlaySound zhitwallSnd
 		Else
 			shot(n)=0
 			shotsizeL(n)=adj
 			makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,shotChunkType(n))
 			shotHit=1
+			If gameSound Then PlaySound shotsound(n)
 		EndIf
-		If gameSound Then PlaySound zHitWallSnd
 	EndIf
 	Return shotHit
 End Function
@@ -6302,7 +6304,7 @@ Function handleShotPlatCollision(n, adj)
 				If shotBounce(n)=1 Then
 					shotsizeL(n)=adj
 					makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,1)
-					If gameSound =1 Then PlaySound zhitwallSnd
+					If gameSound Then PlaySound zhitwallSnd
 					If xShot(n) =< xPlat(nn)+(platWidth(nn)/2) Then
 						xShot(n)=xPlat(nn) : shotDir(n)=4
 					Else
@@ -6315,6 +6317,7 @@ Function handleShotPlatCollision(n, adj)
 					shotsizeL(n)=adj
 					makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,shotChunkType(n))
 					shotHit=1
+					If gameSound Then PlaySound shotsound(n)
 				EndIf
 			EndIf
 		EndIf
@@ -6365,9 +6368,10 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 								zlife(nn)=zlife(nn)-shotdamage(n)
 								zDamage#(nn)=zDamage#(nn)+shotDamage(n)
 								If zLife(nn) < 1 Then zScore(shotOwner(n))=zScore(shotOwner(n))+1
-								If gameSound =1 Then PlaySound shotsound(n)
+								If gameSound Then PlaySound shotsound(n)
 								If electrocuteTime(n) > 0 Then 
 									electrocuteSeq(nn)=electrocuteTime(n):isDone=1
+									electrocuteTime(n)=0
 									If fightMode=2 And zLife(nn)<1 Then killMan(nn)
 									Exit
 								End If
