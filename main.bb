@@ -137,6 +137,7 @@ Dim rectHit(50),zGotRect(30),rectOwner(50),xRect(50),yRect(50),rectDir(50),wRect
 Dim	RectHitMode(50),rectDamage(50),rectHitHold(50),rectXHitSpeed(50),rectYHitSpeed(50)
 Dim	rectChunkType(50),rectHitSound(50),zHitByRect(50)
 
+Global seekTypeSemi=1, seekTypeFull=2, seekTypeNone=0 ; shot seek types
 Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),shotHold(200),shotTrailType(200)
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
 Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200), shotYspeed#(200), shotSound(200)
@@ -221,7 +222,7 @@ Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrame
 Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not return to 1 during running
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
-Dim shotVerticalSize(200), shotId(200)
+Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), gender(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
@@ -2727,6 +2728,7 @@ End Select
 .shotDone
 If shotGroundType(n) <> 0 Then handleGroundShotType(n)
 
+If shotSeekType(n) <> 0 Then handleShotSeeking(n)
 Select shotDir(n)
 	Case 2:
 		xshot(n)=xshot(n)+shotspeed(n)
@@ -6401,4 +6403,36 @@ Function killMan(n)
 		zlives(n)=zlives(n)-1
 		killZ(n)
 	EndIf
+End Function
+
+Function handleShotSeeking(n)
+	nn=getNearestEnemy(n)
+	Local adjHeight=(zHeight(nn)/2)
+	If shotSeekType(n)=1
+		If ((yShot(n) < zy(nn)) And (zy(nn)-yShot(n) <= 100) And (Abs(xShot(n)-zx(nn))<80))
+			If yShot(n) < (zy(nn)-adjHeight) Then yShot(n)=yShot(n)+shotSeekSpeed(n)
+		Else If ((yShot(n) > zy(nn)) And (yShot(n)-zy(nn) <= 100) And (Abs(xShot(n)-zx(nn))<80))
+			If yShot(n) > (zy(nn)-adjHeight) Then yShot(n)=yShot(n)-shotSeekSpeed(n)
+		End If			
+	Else If shotSeekType(n)=2 Then
+		
+	End If
+End Function
+
+Function getNearestEnemy(n)
+	If zzamount=1 Then Return 1
+	Local nearest=1, newDist=9999
+	For nn=1 To zzamount
+		If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) Then 
+			enHeightadj=(zHeight(nn)/2)
+			xDistance=abs(xShot(n)-zx(nn))
+			yDistance=abs(yShot(n)-(zy(nn)-enHeightadj))
+			dist=sqr(xDistance+yDistance)
+			If dist < newDist Then nearest = nn:newDist=dist
+		Else
+			Goto done
+		End If
+		.done
+	Next
+	Return nearest
 End Function

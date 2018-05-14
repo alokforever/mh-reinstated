@@ -73,6 +73,8 @@ zBlocked(n)=0: aiGetTarget(n):
 	hitFrameSpeed(n)=0
 	electrocuteTime(n)=0
 	shotVerticalSize(n)=1
+	shotSeekType(n)=shotSeekNone
+	shotSeekSpeed(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -1671,7 +1673,7 @@ Case 49	;Kaikousen
 	Next
 
 Case 50	;Kiryoku-ryuu
-	shotspeed(n)=3.5
+	shotspeed#(n)=3
 	shotWidth(n)=20
 	shotsize(n)=20
 	shotheight(n)=20
@@ -1683,13 +1685,14 @@ Case 50	;Kiryoku-ryuu
 	shotHitYspeed(n)=2
 	shotFallTime(n)=40
 	shotDuration(n)=200
-	shotMaxSpeed(n)=shotSpeed(n)
+	shotMaxSpeed(n)=shotSpeed#(n)
 	shotDrill(n)=0
 	shotChunkType(n)=122
 	shotFramesAmount(n)=2
 	shotFrameTime(n)=2
 	shotSound(n)=dbzKiHitSnd
-
+	shotSeekType(n)=seekTypeSemi
+	shotSeekSpeed(n)=2
 	shotPic(n,1)=shotImage(70)
 	shotPic_(n,1)=shotImage(70)
 	shotPic(n,2)=shotImage(71)
