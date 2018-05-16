@@ -67,7 +67,7 @@ Case 7	; Seeking ki blast (special)
 		extraObj(n,zx(n),5,zy(n),-20,zFace(n),123)
 	End If
 	If zBlowSeq(n)=b Then 
-		y=zy(n)-zheight(n)+20
+		y=zy(n)-zheight(n)+30
 		If zFace(n)=2 Then x=zx(n)+30
 		If zFace(n)=4 Then x=zx(n)-30
 		makeshot(n,50,x,y,zface(n))

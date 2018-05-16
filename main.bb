@@ -6349,7 +6349,7 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 							If projectileDeflectMode(nn)=1 And zFace(nn)=oppDir Then deflectProjectile(n, nn):Exit
 							If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
 							If Not shotDrill(n) Then shot(n)=0
-							zShotByN(nn)=n : zShotHitSeq(nn,n)=0
+							zShotByN(nn)=n:zShotHitSeq(nn,n)=0
 							If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
 								makechunk(shotDir(n),zx(nn),yShot(n),dir,shotChunkType(n))
 							Else
@@ -6372,10 +6372,9 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 								If zLife(nn) < 1 Then zScore(shotOwner(n))=zScore(shotOwner(n))+1
 								If gameSound Then PlaySound shotsound(n)
 								If electrocuteTime(n) > 0 Then 
-									electrocuteSeq(nn)=electrocuteTime(n):isDone=1
+									If electrocuteSeq(nn)=0 Then electrocuteSeq(nn)=electrocuteTime(n)
 									electrocuteTime(n)=0
-									If fightMode=2 And zLife(nn)<1 Then killMan(nn)
-									Exit
+									If fightMode=2 And zLife(nn)<1 Then killMan(nn):isDone=1:Exit
 								End If
 								If zStone(nn)=0 Then
 									zFallDir(nn)=dir
@@ -6407,14 +6406,18 @@ End Function
 
 Function handleShotSeeking(n)
 	nn=getNearestEnemy(n)
-	Local adjHeight=(zHeight(nn)/2)
-	If shotSeekType(n)=1
-		If ((yShot(n) < zy(nn)) And (zy(nn)-yShot(n) <= 100) And (Abs(xShot(n)-zx(nn))<80))
-			If yShot(n) < (zy(nn)-adjHeight) Then yShot(n)=yShot(n)+shotSeekSpeed(n)
-		Else If ((yShot(n) > zy(nn)) And (yShot(n)-zy(nn) <= 100) And (Abs(xShot(n)-zx(nn))<80))
-			If yShot(n) > (zy(nn)-adjHeight) Then yShot(n)=yShot(n)-shotSeekSpeed(n)
+	Local adjHt
+	If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
+	If zheight(nn)=40 Then adjHt=0
+	If shotSeekType(n)=seekTypeSemi
+		DebugLog "Abs(zy - yShot): " + Abs(zy(nn)-yShot(n))
+		DebugLog "yShot: " + yShot(n) + ", zy(nn)-adjHt: " + (zy(nn)-adjHt)
+		If ((yShot(n) < (zy(nn)-adjHt)) And (Abs(zy(nn)-adjHt-yShot(n)) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
+			yShot(n)=yShot(n)+shotSeekSpeed(n)
+		Else If ((yShot(n) > (zy(nn)-adjHt)) And (Abs(yShot(n)-zy(nn)-adjHt) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
+			yShot(n)=yShot(n)-shotSeekSpeed(n)
 		End If			
-	Else If shotSeekType(n)=2 Then
+	Else If shotSeekType(n)=seekTypeFull Then
 		
 	End If
 End Function

@@ -71,10 +71,6 @@ zBlocked(n)=0: aiGetTarget(n):
 	hasSpecialAirFrames(n)=0
 	specialHitFrames(n)=0
 	hitFrameSpeed(n)=0
-	electrocuteTime(n)=0
-	shotVerticalSize(n)=1
-	shotSeekType(n)=shotSeekNone
-	shotSeekSpeed(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -885,6 +881,10 @@ Function shotData(weaponChosen,n)
 	shotChunkHitType(n)=0
 	doesShotBurn(n)=0
 	shotGroundType(n)=0
+	electrocuteTime(n)=0
+	shotSeekType(n)=shotSeekNone
+	shotVerticalSize(n)=1
+	shotSeekSpeed(n)=0
 
 Select weaponChosen	
 	
@@ -1625,15 +1625,15 @@ Case 48 ;Juggernaut Earthquake 2
 	shotspeed(n)=0
 	shotYspeed(n)=-4
 	shotsize(n)=61
-	shotWidth(n)=25
-	shotHeight(n)=16
+	shotWidth(n)=65
+	shotHeight(n)=35
 	shotVerticalSize(n)=35
 	shotDamage(n)=11
 	shotHitMode(n)=2
 	shotSide(n)=shotsize(n)/2
-	shotImmuneTime(n)=15
-	shotHitXspeed(n)=5
-	shotHitYspeed(n)=2.5
+	shotImmuneTime(n)=5
+	shotHitXspeed(n)=5.3
+	shotHitYspeed(n)=2.3
 	shotFallTime(n)=40
 	shotDuration(n)=2
 	shotMaxSpeed(n)=shotSpeed(n)
@@ -1656,7 +1656,7 @@ Case 49	;Kaikousen
 	shotHitXspeed(n)=0
 	shotHitYspeed(n)=0
 	shotFallTime(n)=40
-	shotDuration(n)=33
+	shotDuration(n)=66
 	shotMaxSpeed(n)=shotSpeed(n)
 	shotDrill(n)=0
 	shotChunkType(n)=121
