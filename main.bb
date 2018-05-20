@@ -1,3 +1,5 @@
+
+
 Include "globalSoundVariables.bb"
 Include "constants.bb"
 
@@ -82,7 +84,7 @@ Dim zantiPlatTime(30),zantiPlatSeq(30),zForceAntiPlat(30)
 Dim zantiPlat(30),zHitByBox(30),zChunkType(30),zAI(30),aiTarget(30),aiCurLevel(30),zblowalert(30)
 Dim aiWalk(30),aiLevel(30),zBlowDist(30,30),NextBlow(30),blockDist(30)
 Dim zTrail(30),zTrailSeq(30),zTrailTime(30),zTrailType(30),zHitHold(30),zBlowHold(30),zHitCount(30)
-Dim xDist(30),yDist(230), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSnd2(30)
+Dim xDist(30),yDist(30), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSnd2(30)
 Dim zSuperMove(30),zSuperMoveSeq(30),zSuperX(30),zSuperY(30),zSuperDir(30),zSuperBar(30)
 Dim zGrabbed(30),zGrabbedBy(30),zGrabs(30),zGrabsThis(30),zGrabSeq(30),zNoAirSpecial(30)
 Dim xOval(30),yOval(30),woval(30),hOval(30), zGrabDist(30),shotFireSound(30)
@@ -222,7 +224,7 @@ Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrame
 Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not return to 1 during running
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
-Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed(200)
+Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed(200), shotGroundXDestroy(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), gender(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
@@ -6219,7 +6221,7 @@ Function handleGroundShotType(n)
 		If shotDir(n)=2 Then 
 			shotX=xshot(n)+10
 		Else
-			shotX=xshot(n)-10
+			shotX=xshot(n)+shotGroundXDestroy(n)
 		End If
 		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
 		If yDist(n+indexAdjustment) > 10 Then shotDurationSeq(n)=shotDuration(n)+1
@@ -6374,7 +6376,8 @@ Function handleShotPlayerCollision(n, hAdj, wAdj, dir)
 								If electrocuteTime(n) > 0 Then 
 									If electrocuteSeq(nn)=0 Then electrocuteSeq(nn)=electrocuteTime(n)
 									electrocuteTime(n)=0
-									If fightMode=2 And zLife(nn)<1 Then killMan(nn):isDone=1:Exit
+									If fightMode=2 And zLife(nn)<1 Then killMan(nn)
+									isDone=1:Exit
 								End If
 								If zStone(nn)=0 Then
 									zFallDir(nn)=dir
@@ -6410,8 +6413,6 @@ Function handleShotSeeking(n)
 	If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
 	If zheight(nn)=40 Then adjHt=0
 	If shotSeekType(n)=seekTypeSemi
-		DebugLog "Abs(zy - yShot): " + Abs(zy(nn)-yShot(n))
-		DebugLog "yShot: " + yShot(n) + ", zy(nn)-adjHt: " + (zy(nn)-adjHt)
 		If ((yShot(n) < (zy(nn)-adjHt)) And (Abs(zy(nn)-adjHt-yShot(n)) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
 			yShot(n)=yShot(n)+shotSeekSpeed(n)
 		Else If ((yShot(n) > (zy(nn)-adjHt)) And (Abs(yShot(n)-zy(nn)-adjHt) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then

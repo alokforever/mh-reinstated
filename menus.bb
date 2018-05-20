@@ -1440,7 +1440,7 @@ Next
 	ypointer(1)=MouseY()
 ;End If
 
-For n = 1 To zzamount
+For n = 2 To zzamount
 Select zController(n)
 Case 0
 	If KeyDown(upK(n)) Then upKey(n)=1
@@ -1459,16 +1459,12 @@ Case 1
 End Select
 Next
 
-maxPtrSpd=5
+pve=5
 For n=1 To 4
-	ptrSeq(n)=ptrSeq(n)+1
-	;If ptrSeq(n) Mod 3 = 0 Then ptrSpeed(n)=ptrSpeed(n)+1
-	;If ptrSpd(n) > maxPtrSpd Then ptrSpd(n)=5
-	
-	If upKey(n)=1 Then ypointer(n)=ypointer(n)-maxPtrSpd
-	If downKey(n)=1 Then ypointer(n)=ypointer(n)+maxPtrSpd
-	If leftKey(n)=1 Then xpointer(n)=xpointer(n)-maxPtrSpd
-	If rightKey(n)=1 Then xpointer(n)=xpointer(n)+maxPtrSpd
+	If upKey(n)=1 Then ypointer(n)=ypointer(n)-pve
+	If downKey(n)=1 Then ypointer(n)=ypointer(n)+pve
+	If leftKey(n)=1 Then xpointer(n)=xpointer(n)-pve
+	If rightKey(n)=1 Then xpointer(n)=xpointer(n)+pve
 	If shotKey(n)=1 Then clickButton(n)
 
 	If xpointer(n) < 1 Then xpointer(n) = 1

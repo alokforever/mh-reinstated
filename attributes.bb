@@ -885,6 +885,7 @@ Function shotData(weaponChosen,n)
 	shotSeekType(n)=shotSeekNone
 	shotVerticalSize(n)=1
 	shotSeekSpeed(n)=0
+	shotGroundXDestroy(n)=0
 
 Select weaponChosen	
 	
@@ -1619,6 +1620,7 @@ Case 47 ;Juggernaut Earthquake
 	shotPic_(n,2)=shotImage_(57)
 	shotFrameTime(n)=2
 	shotSound(n)=juggLateralHitSnd
+	shotGroundXDestroy(n)=-10
 
 Case 48 ;Juggernaut Earthquake 2
 	shotGroundType(n)=2
@@ -1664,6 +1666,7 @@ Case 49	;Kaikousen
 	shotFrameTime(n)=3
 	shotSound(n)=shockSnd
 	electrocuteTime(n)=75
+	shotGroundXDestroy(n)=50
 
 	shotPicIdx=1
 	For shotImg=59 To 69
