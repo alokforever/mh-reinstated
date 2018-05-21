@@ -329,10 +329,10 @@ Function processPiccoloAirFrames(n)
 	Else ;Jump start
 		If zJumpFallSeq(n) <> 0 Then zJumpFallSeq(n)=0
 		If zJumpSeq(n) = 1 Then extraObj(n,zx(n),10,zy(n),2,zFace(n),117)
-		If zJumpSeq(n) >= 0 And zJumpSeq(n) <= 2 Then zani(n)=4:zf(n)=2
-		If zJumpSeq(n) >= 2 And zJumpSeq(n) <= 7 Then zani(n)=4:zf(n)=3
-		If zJumpSeq(n) >= 7 And zJumpSeq(n) <= 10 Then zani(n)=4:zf(n)=4
-		If zJumpSeq(n) >= 10 And zJumpSeq(n) <= 20 Then zani(n)=4:zf(n)=5
+		If zJumpSeq(n) > 0 And zJumpSeq(n) <= 2 Then zani(n)=4:zf(n)=2
+		If zJumpSeq(n) > 2 And zJumpSeq(n) <= 7 Then zani(n)=4:zf(n)=3
+		If zJumpSeq(n) > 7 And zJumpSeq(n) <= 10 Then zani(n)=4:zf(n)=4
+		If zJumpSeq(n) > 10 And zJumpSeq(n) <= 20 Then zani(n)=4:zf(n)=5
 	End If
 End Function
 

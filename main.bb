@@ -1,5 +1,6 @@
 
 
+
 Include "globalSoundVariables.bb"
 Include "constants.bb"
 
@@ -127,11 +128,11 @@ Dim taniBgSel(200),taniNSel(200)
 
 ;sa= safe Area For AI
 ;da= danger/jumping area For AI
-Dim saX(50),saY(50),saW(50),saH(50),saX2(50),saY2(50)
-Dim saLLimit(50),saRlimit(50),dangerArea(50),fleeDir(50),edges(50),samovedBy(50)
-Dim saAN(50),daAN(50)
-Dim daX2(50),daY2(50),daX(50),daY(50),daW(50),daH(50),daType(50) ;type 1=danger , 2=jump
-Dim daLLimit(50),daRlimit(50),dfleeDir(50),daTargetH(50),damovedBy(50)
+Dim saX(100),saY(100),saW(100),saH(100),saX2(100),saY2(100)
+Dim saLLimit(100),saRlimit(100),dangerArea(100),fleeDir(100),edges(100),samovedBy(100)
+Dim saAN(100),daAN(100)
+Dim daX2(100),daY2(100),daX(100),daY(100),daW(100),daH(100),daType(100) ;type 1=danger , 2=jump
+Dim daLLimit(100),daRlimit(100),dfleeDir(100),daTargetH(100),damovedBy(100)
 Global areaMoves, saAreaMovesAmount,daAreaMovesAmount
 
 Global rectAmount
@@ -5512,6 +5513,7 @@ End Select
 End Function
 ;--------CHECK VERTICAL PIXEL COLLISION DISTANCE-----------------------------------------------------------
 Function checkYDist(n,x,y,dir)
+	DebugLog "n: " + n
 	yDist(n)=1000
 
 	Select dir
@@ -6207,8 +6209,8 @@ Function decelerate(n)
 End Function
 
 ;----------------- Process Heavy Characters on Air ----------------
-Function handleHeavyCharactersOnAir(n)	
-	If zOnGnd(n)=1 And zani(n)=4 And zf(n)=1 And isHeavy(n)=1 Then
+Function handleHeavyCharactersOnAir(n)
+	If zOnGnd(n)=1 And zani(n)=4 And isHeavy(n)=1 Then
 		If gameSound And quake=0 Then PlaySound quakeSnd
 		quake=1:quakeSeq=0
 	End If
@@ -6216,23 +6218,23 @@ End Function
 
 ;------------------- Handle Ground Shot Type ----------------------
 Function handleGroundShotType(n)
-	Local indexAdjustment=30, shotX, downDir=2
+	Local shotX, downDir=2
 	If shotGroundType(n)=1 Then
 		If shotDir(n)=2 Then 
 			shotX=xshot(n)+10
 		Else
 			shotX=xshot(n)+shotGroundXDestroy(n)
 		End If
-		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
-		If yDist(n+indexAdjustment) > 10 Then shotDurationSeq(n)=shotDuration(n)+1
+		checkYDist(n,shotX,yshot(n),downDir)
+		If yDist(n) > 10 Then shotDurationSeq(n)=shotDuration(n)+1
 	Else If shotGroundType(n)=2 Then
 		If shotDir(n)=2 Then 
 			shotX=xshot(n)-25
 		Else
 			shotX=xshot(n)+25
 		End If
-		checkYDist(n+indexAdjustment,shotX,yshot(n),downDir)
-		If yDist(n+indexAdjustment) > indexAdjustment Then shot(n)=0
+		checkYDist(n,shotX,yshot(n),downDir)
+		If yDist(n) > 30 Then shot(n)=0
 	End If
 End Function
 

@@ -2719,6 +2719,13 @@ Case 123:		;Pre-Kiryoku-ryuu
 
 	If chunkSeq(n) > endSeq Then chunk(n)=0
 
+Case 124: 		;jumping knee list
+	a=12
+
+	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(99,1):chunkPic_(n)=ptPic_(99,1)
+	
+	If chunkSeq(n) >= a Then chunk(n)=0
+	
 Default
 	a=5:b=10:c=14	;Blocking
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3571,6 +3578,9 @@ If n=16 Then ;Piccolo
 	If piccoloGrunt1Snd=0 Then piccoloGrunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt1Snd.wav")
 	If piccoloKaikousenSnd=0 Then piccoloKaikousenSnd=LoadSound(soundsDir$ + "piccolo\piccoloKaikousenSnd.wav")
 	If piccoloKiSnd=0 Then piccoloKiSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiSnd.wav")
+	If piccoloUpSpecialBlowSnd=0 Then piccoloUpSpecialBlowSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialBlowSnd.wav")
+	If piccoloUpSpecialSnd=0 Then piccoloUpSpecialSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialSnd.wav")
+	If dbzKneeHitSnd=0 Then dbzKneeHitSnd=LoadSound(soundsDir$ + "dbz\dbzKneeHitSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

@@ -127,7 +127,7 @@ maxAmap = ReadInt (file)
 maxVsMap = ReadInt (file)
 maxCTFMap = ReadInt (file)
 lastAmap = ReadInt (file)
-
+DebugLog "maxVsMap: " + maxVsMap
 CloseFile file
 
 End Function 
@@ -334,7 +334,7 @@ Else
 		EndIf
 	End Select
 EndIf
-
+DebugLog "START"
 x=100:y=175
 For i=1 To 4
  If zwason(i)=1 Then
@@ -354,7 +354,7 @@ waitInput()
 closeScreen(Rand(1,4),0)
 
 FreeImage statsImg
-
+DebugLog "END"
 End Function 
 ;--------- wait any key/joy button to be pressed ----------
 Function waitInput()
