@@ -3581,6 +3581,7 @@ If n=16 Then ;Piccolo
 	If piccoloUpSpecialBlowSnd=0 Then piccoloUpSpecialBlowSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialBlowSnd.wav")
 	If piccoloUpSpecialSnd=0 Then piccoloUpSpecialSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialSnd.wav")
 	If dbzKneeHitSnd=0 Then dbzKneeHitSnd=LoadSound(soundsDir$ + "dbz\dbzKneeHitSnd.wav")
+	If piccoloFollowUpHitSnd=0 Then piccoloFollowUpHitSnd=LoadSound(soundsDir$ + "piccolo\piccoloFollowUpHitSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

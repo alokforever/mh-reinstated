@@ -191,4 +191,4 @@ Global dbzKiHitSnd=LoadSound(soundsDir$ + "dbz\dbzKiHitSnd.wav")
 
 Global piccoloDieSnd, piccoloTaunt1Snd, piccoloTaunt2Snd, piccoloTaunt3Snd
 Global piccoloGrunt1Snd, piccoloKaikousenSnd, piccoloKiSnd, piccoloUpSpecialBlowSnd
-Global piccoloUpSpecialSnd, dbzKneeHitSnd
+Global piccoloUpSpecialSnd, dbzKneeHitSnd, piccoloFollowUpHitSnd

@@ -1,6 +1,3 @@
-
-
-
 Include "globalSoundVariables.bb"
 Include "constants.bb"
 
@@ -75,8 +72,8 @@ Dim zx#(30),zy#(30),zdi(30),zface(30),zoldx#(30),zoldy#(30),zWasOn(30),zon(30),p
 Dim zxStart(30),zyStart(30),zxRespawn(30),zyRespawn(30),zJump2(30),zjump2seq(30),zFallDir(30),zDeadEvent(30)
 Dim zlife(30),zhit(30),zhitseq(30),Zshield(30),zTempShield(30),Zshieldseq(30),ZshieldedTime(30),zHit2(30)
 Dim zjump(30),zjumpseq(30),zjumpfallseq(30),zjumplimit(30),zongnd(30),zfallenSeq(30),zFallImpact#(30),zFallSpeed#(30)
-Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30),zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
-Dim zHitSpeed#(30),zHitUpSpeed#(30),zHitTime#(30),zHitMode(30),zHitModeTaken(30),zBlowUplimit(30)			
+Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30), zDownFallSpeed#(30), zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
+Dim zHitSpeed#(30),zHitUpSpeed#(30),zHitDownSpeed#(30),zHitTime#(30),zHitMode(30),zHitModeTaken(30),zBlowUplimit(30)			
 Dim zUpHeight(30),zDuckHeight(30),z(30),zHitHead(30),zIcon(60),zRollOnImpact(30)
 Dim zheight(30),zduck(30),zgravity(30),zSpeed#(30),Zside(30), zxHand(30,40),zyHand(30,40)
 Dim Zrun(30), zCurWeapon(30),dangerMove9(30),dangerMove5(30),zGotObj(30), zLeftCollide(30), zRightCollide(30)
@@ -218,11 +215,11 @@ Global characterAmount=16	;Add character, 1=ryu, 2=rash ... change the value fro
 Global menuOption, duringGameMenu
 
 ;zeto's variables
-Dim specialHitFrames(30), hitFrameSpeed(30), electrocuteSeq(30)
+Dim specialHitFrames(30), hitFrameSpeed(30), electrocuteSeq(30), isMoveHit(30)
 Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
 Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30), upKeyHitTimer(30), upKeyDoubleTap(30)
 Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
-Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not return to 1 during running
+Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
 Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed(200), shotGroundXDestroy(200)
@@ -2081,9 +2078,12 @@ If zhit(n)=1 Then
 
 	If (zFallSpeed(n) > 8 Or zUpFallSpeed(n) > 8) And rendert > 1 Then makeChunk(n,zx(n),zy(n),2,16)
 	If zhitseq(n) > 20 Then zhitbybox(n)=0	
-	If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then
-		zy(n)=zy(n)-zUpFallSpeed#(n)
-	EndIf
+	If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then zy(n)=zy(n)-zUpFallSpeed#(n)
+	
+	zDownFallSpeed#(n)=zDownFallSpeed#(n)-.1
+	DebugLog "zUpFallspeed#(n): " + zUpFallspeed#(n)
+	If zDownFallSpeed#(n) < 0 Then zDownFallSpeed#(n)=0
+	If zhitseq(n) < zFallTime#(n) And zDownFallSpeed#(n) > 0 Then zy(n)=zy(n)+zDownFallSpeed#(n)
 		
 	;evasive roll when on ground
 	If blockKey(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) And zRollOnImpact(n)=1 And zongnd(n)=1 And zHitSeq(n) > 20 Then
@@ -2113,7 +2113,7 @@ If zhit(n)=1 Then
 		killMan(n)
 	EndIf
 
-	If zhitSeq(n) > 2 And zongnd(n)=1 And zBouncedgnd(n)=0 And zUpFallSpeed#(n) < 2.1 Then 
+	If zhitSeq(n) > 2 And zongnd(n)=1 And zBouncedgnd(n)=0 And (zUpFallSpeed#(n) < 2.1 Or zDownFallSpeed#(n) > 2.1) Then 
 		If gameSound=1 Then PlaySound zhitwallsnd
 		If zGotobj(n)>0 Then objhitsolid(zGotobj(n)):zGotobj(n)=0
 		makeChunk(n,zx(n)-10,zy(n),2,16)
@@ -2124,6 +2124,7 @@ If zhit(n)=1 Then
 		zFallSpeed#(n)=3
 		zFallTime#(n)=75
 		zUpFallSpeed#(n)=4.5
+		zDownFallSpeed#(n)=0
 		quake=1:quakeSeq=0
 		zHitByRect(n)=0
 	EndIf
@@ -3579,7 +3580,7 @@ Case 2
 							
 								If zHitMode(n)=0 Or zHitMode(n)=1 Then
 									calcBlow(nn,n,zHitMode(n),zDamage(nn))
-									Else
+								Else
 									calcBlow2(nn,n,zHitTime(n))
 								EndIf
 							EndIf
@@ -3670,7 +3671,7 @@ Case 4
 					
 						If zHitMode(n)=0 Or zHitMode(n)=1 Then
 							calcBlow(nn,n,zHitMode(n),zDamage(nn))
-							Else
+						Else
 							calcBlow2(nn,n,zHitTime(n))
 						End If
 					EndIf
@@ -3788,6 +3789,7 @@ zFallSpeed#(nn)=zhitSpeed#(n)
 If zFallSpeed#(nn) > 14 Then zFallSpeed#(nn)=14
 zFallTime#(nn)=HitTime
 zUpFallSpeed#(nn)=zHitUpSpeed#(n)
+zDownFallSpeed#(nn)=zHitDownSpeed#(n)
 zUpFallSpeed#(nn)=zUpFallSpeed#(nn)+3
 If zGotobj(nn)>0 Then
 	objLife(zgotObj(nn))=objLife(zgotObj(nn))-4
