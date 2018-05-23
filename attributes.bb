@@ -1665,7 +1665,7 @@ Case 49	;Kaikousen
 	shotFramesAmount(n)=11
 	shotFrameTime(n)=3
 	shotSound(n)=shockSnd
-	electrocuteTime(n)=75
+	electrocuteTime(n)=85
 	shotGroundXDestroy(n)=50
 
 	shotPicIdx=1

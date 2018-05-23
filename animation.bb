@@ -362,7 +362,7 @@ End Function
 
 ;------------------- Draw Electrocution -----------------------
 Function drawElectrocution(n)
-	zNoMove(n)=1:zNoJump(n)=1
+	zNoMove(n)=1:zNoJump(n)=1:zBlow(n)=0
 	zBlow(n)=0:zBlowStill(n)=0:zHitSeq(n)=0
 	x=Rand(-8,8) : y=Rand(-30,-10)
 	If electrocuteSeq(n) Mod 12 = 0 Then makechunk(n,zx(n)+x,(zy(n)+10)+y,zFace(n),31)

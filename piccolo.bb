@@ -4,7 +4,7 @@ Function performFollowUpKneeHit(n)
 	If zBlowSeq(n) >= seq1 Then 
 		zNoGrav(n)=0
 		moveX(n,zBlowdir(n),2)
-		zy(n)=zy(n)-3
+		zy(n)=zy(n)-2
 	End If
 ;--------- Animation ----------
 	If zBlowSeq(n) > seq0 And zBlowSeq(n) <= seq1 Then zani(n)=7:zf(n)=7
@@ -20,10 +20,11 @@ Function performFollowUpKneeHit(n)
 ;--------- Hit box ----------
 	If zBlowSeq(n)>seq5 And zBlowSeq(n)<seq6 Then
 		zblowPamount(n)=4:nn=1
-		xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=40:hblow(n,nn)=20:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=30:wblow(n,nn)=40:hblow(n,nn)=20:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=40:hblow(n,nn)=20:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=70:wblow(n,nn)=40:hblow(n,nn)=20:nn=nn+1
+		zBlowBack(n)=1
+		xblow(n,nn)=-10: yblow(n,nn)=10:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
+		xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
+		xblow(n,nn)=-10: yblow(n,nn)=50:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
+		xblow(n,nn)=-10: yblow(n,nn)=70:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
 		zHitmode(n)=2:zBlowHold(n)=8:zBlowStillTime(n)=6
 		zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=40
 		zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowBlockTime(n)=40
@@ -72,8 +73,7 @@ Case 5	;UP + SPECIAL (jumping knee list)
 	seq1=100:endSeq=seq1+200
 	zNoMove(n)=1:zNoGrav(n)=1
 	zNoJump(n)=1:zJumping(n)=0
-	If zBlowSeq(n)=1 Then zBlowUpLimit(n)=zy(n)-80:zJump(n)=0:isMoveHit(n)=0
-	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	If zBlowSeq(n)=1 Then zBlowUpLimit(n)=zy(n)-70:zJump(n)=0:isMoveHit(n)=0
 ;--------- animation -----------
 	If zBlowSeq(n)>0 And zBlowSeq(n)<=a Then zani(n)=7:zf(n)=1
 	If zBlowSeq(n)>a And zBlowSeq(n)<=b Then zani(n)=7:zf(n)=2
@@ -95,19 +95,21 @@ Case 5	;UP + SPECIAL (jumping knee list)
 	If zBlowSeq(n)=f And gameSound Then PlaySound piccoloUpSpecialBlowSnd
 ;--------- hitbox ------------
 	If zBlowSeq(n) > f And zBlowSeq(n) =< g Then
-		zblowPamount(n)=3:nn=1
-		xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=18:hblow(n,nn)=20:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=18:hblow(n,nn)=20:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=18:hblow(n,nn)=20:nn=nn+1
+		zblowPamount(n)=5:nn=1
+		xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=55:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=60:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
 		zHitmode(n)=2:zBlowHold(n)=6:zBlowStillTime(n)=6
-		zHitSpeed#(n)=3.7:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
+		zHitSpeed#(n)=4:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
 		zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=12:zBlowBlockTime(n)=40
 		zBlowSound(n)=dbzKneeHitSnd
 		zani(n)=7:zf(n)=6:zantiplat(n)=1
 		If zBlowStill(n)=1 Then isMoveHit(n)=1
 	EndIf
 	
-	If zy(n) <= zBlowUpLimit(n)-15 Or zHitHead(n)=1 Then zBlowSeq(n)=endSeq
+	If zy(n) <= zBlowUpLimit(n)-15 Then zBlowSeq(n)=endSeq
 
 	If zBlowSeq(n) = g And isMoveHit(n)=0 Then zBlowSeq(n)=endSeq
 
@@ -322,6 +324,7 @@ Case 16 ;Taunt Key
 	zNoMove(n)=1:zNoJump(n)=1
 	If zongnd(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(3)
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 ;------------ Animation -------------
 	If zTauntSeed(n)=1 Then
 		If zBlowSeq(n)>=1 And zBlowSeq(n)<=a2 Then zani(n)=16:zf(n)=5

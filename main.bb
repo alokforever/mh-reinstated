@@ -1932,7 +1932,6 @@ End Function
 ;---- DECIDE PLAYER FRAME TO DRAW -------
 Function selectDraw(n)
 	If handleStatusEffects(n)=1 Then Goto drawZ
-
 	If zBlow(n)=1 Or zGrabbed(n)=1 Then 
 		If zCurBlow(n)=5 Then isRunning(n)=0
 		Goto drawZ
@@ -2081,7 +2080,6 @@ If zhit(n)=1 Then
 	If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then zy(n)=zy(n)-zUpFallSpeed#(n)
 	
 	zDownFallSpeed#(n)=zDownFallSpeed#(n)-.1
-	DebugLog "zUpFallspeed#(n): " + zUpFallspeed#(n)
 	If zDownFallSpeed#(n) < 0 Then zDownFallSpeed#(n)=0
 	If zhitseq(n) < zFallTime#(n) And zDownFallSpeed#(n) > 0 Then zy(n)=zy(n)+zDownFallSpeed#(n)
 		
@@ -5515,7 +5513,6 @@ End Select
 End Function
 ;--------CHECK VERTICAL PIXEL COLLISION DISTANCE-----------------------------------------------------------
 Function checkYDist(n,x,y,dir)
-	DebugLog "n: " + n
 	yDist(n)=1000
 
 	Select dir
@@ -6413,9 +6410,9 @@ End Function
 
 Function handleShotSeeking(n)
 	nn=getNearestEnemy(n)
-	Local adjHt
-	If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
-	If zheight(nn)=40 Then adjHt=0
+	Local adjHt	If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
+	If zheight(nn)=40 Then adjHt=8
+
 	If shotSeekType(n)=seekTypeSemi
 		If ((yShot(n) < (zy(nn)-adjHt)) And (Abs(zy(nn)-adjHt-yShot(n)) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
 			yShot(n)=yShot(n)+shotSeekSpeed(n)
