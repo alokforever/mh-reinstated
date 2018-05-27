@@ -21,7 +21,7 @@ Function performFollowUpKneeHit(n)
 	If zBlowSeq(n)>seq5 And zBlowSeq(n)<seq6 Then
 		zblowPamount(n)=4:nn=1
 		zBlowBack(n)=1
-		xblow(n,nn)=-10: yblow(n,nn)=10:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
+		xblow(n,nn)=-10: yblow(n,nn)=10:wblow(n,nn)=55:hblow(n,nn)=25:nn=nn+1
 		xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
 		xblow(n,nn)=-10: yblow(n,nn)=50:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
 		xblow(n,nn)=-10: yblow(n,nn)=70:wblow(n,nn)=55:hblow(n,nn)=20:nn=nn+1
@@ -32,8 +32,33 @@ Function performFollowUpKneeHit(n)
 	End If
 End Function
 
-Function doMysticAttack(n)
-
+Function doBuukuKyaku(n)
+	a1=100:b1=102:c1=105:d1=110
+	a2=10000:b2=10004:c2=b2+5:d2=c2+3
+	endSeq=95
+	If downKey(n)=0 And zBlowSeq(n) < a2 Then zBlowSeq(n)=a2
+	If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
+;-------- Animation ---------
+	If zBlowSeq(n) > a1 And zBlowSeq(n) <= b1 Then zani(n)=12:zf(n)=13
+	If zBlowSeq(n) > b1 And zBlowSeq(n) <= c1 Then zani(n)=12:zf(n)=14
+	If zBlowSeq(n) > c1 And zBlowSeq(n) <= d1 Then zani(n)=12:zf(n)=19
+	If zBlowSeq(n) > d1 Then
+		If zBlowSeq(n) Mod 2 = 0 Then zani(n)=12:zf(n)=15
+		If zBlowSeq(n) Mod 4 = 0 Then zani(n)=12:zf(n)=16
+	End If
+	
+	If zBlowSeq(n) > a2 And zBlowSeq(n) <= b2 Then zani(n)=12:zf(n)=14
+	If zBlowSeq(n) > b2 And zBlowSeq(n) <= c2 Then zani(n)=12:zf(n)=13
+	If zBlowSeq(n) > c2 And zBlowSeq(n) <= d2 Then zani(n)=5:zf(n)=2
+	If zBlowSeq(n) > d2 Then zBlowSeq(n)=endSeq
+	
+;----------- Sound -----------
+	If zBlowSeq(n)=a1 And gameSound Then PlaySound piccoloBuukuKyakuSnd
+	If zBlowSeq(n)=b1 And gameSound Then PlaySound piccoloGrunt1Snd
+	
+;--------- Movement ---------
+	If zBlowSeq(n) < a2 Then moveX(n,zBlowdir(n),4.5):moveY(n,2.5)
+	
 End Function
 
 Function DoPiccolo(n)
@@ -89,24 +114,26 @@ Case 5	;UP + SPECIAL (jumping knee list)
 	If zBlowSeq(n)>h And zBlowSeq(n)<=i Then zani(n)=7:zf(n)=9
 
 ;--------- movement ----------
-	If zBlowSeq(n)>f And zBlowSeq(n) < g And zBlowStill(n)=0 Then moveX(n,zBlowdir(n),4.5):moveY(n,-5)
+	If zBlowSeq(n)>f And zBlowSeq(n)<g And zBlowStill(n)=0 And zHitHead(n)=0 Then moveX(n,zBlowdir(n),4.5):moveY(n,-5)
 ;--------- Sounds ------------
 	If zBlowSeq(n)=e And gameSound Then PlaySound piccoloUpSpecialSnd
 	If zBlowSeq(n)=f And gameSound Then PlaySound piccoloUpSpecialBlowSnd
 ;--------- hitbox ------------
 	If zBlowSeq(n) > f And zBlowSeq(n) =< g Then
 		zblowPamount(n)=5:nn=1
-		xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
 		xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=55:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
-		xblow(n,nn)=0: yblow(n,nn)=60:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=55:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=0: yblow(n,nn)=60:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
 		zHitmode(n)=2:zBlowHold(n)=6:zBlowStillTime(n)=6
 		zHitSpeed#(n)=4:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
-		zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=12:zBlowBlockTime(n)=40
+		zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=11:zBlowBlockTime(n)=40
 		zBlowSound(n)=dbzKneeHitSnd
 		zani(n)=7:zf(n)=6:zantiplat(n)=1
 		If zBlowStill(n)=1 Then isMoveHit(n)=1
+		If zBlowSeq(n) >= 27 And zBlowSeq(n) < 32 Then zHitUpSpeed#(n)=2
+		If zBlowSeq(n) >= 32 Then zHitSpeed#(n)=3:zHitUpSpeed#(n)=2
 	EndIf
 	
 	If zy(n) <= zBlowUpLimit(n)-15 Then zBlowSeq(n)=endSeq
@@ -141,7 +168,7 @@ Case 7	; Seeking ki blast (special)
 	a=3:b=15:c=45:d=48:e=51
 	zNoMove(n)=1:zNoJump(n)=1:zjump(n)=0
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-	If zongnd(n)=0 Then zy(n)=zy(n)-2
+	If zongnd(n)=0 And canAirGlideUp(n)=0 Then zy(n)=zy(n)-2
 
 ;----------- Animation -------------
 	If zBlowSeq(n)>0 And zBlowSeq(n)<=a Then zani(n)=10:zf(n)=1
@@ -184,12 +211,11 @@ Case 8	;Dodging
 
 Case 9	; Kaikousen (down special)
 	a=3:b=6:c=9:d=12:e=15:f=18:g=21:h=24:i=27:j=39:k=42:l=45
-	a2=100
+	a2=100:
 	zNoMove(n)=1:zNoJump(n)=1
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	If zBlowSeq(n)=1 And zOnGnd(n)=0 Then zBlowSeq(n)=a2
-	If zBlowSeq(n) >= a2 Then doMysticAttack(n)
-	
+	If zBlowSeq(n) > a2 Then doBuukuKyaku(n)
 	If zBlowSeq(n) <= l Then
 		If zBlowSeq(n)=1 And spellCooldownSeq(n, 1) > 0 Then
 			If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
@@ -224,7 +250,7 @@ Case 9	; Kaikousen (down special)
 		End If
 	End If
 
-	If zBlowSeq(n) > l Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+	If zBlowSeq(n) > l And zBlowSeq(n) < a2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Punch 
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
@@ -322,7 +348,7 @@ Case 16 ;Taunt Key
 	a=2:b=10:c=20:d=90
 	a2=8:b2=18:c2=48:d2=58:e2=68
 	zNoMove(n)=1:zNoJump(n)=1
-	If zongnd(n)=0 Then zy(n)=zy(n)-2
+	If zongnd(n)=0 And canAirGlideUp(n)=0 Then zy(n)=zy(n)-2
 	If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(3)
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 ;------------ Animation -------------

@@ -3440,7 +3440,7 @@ For i=1 To 2
 	zpic_(n,11,i)=LoadImage(gfxdir$ + "zshot" + i + "_.bmp")
 Next
 
-For i=1 To 15
+For i=1 To 20
 	zpic(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + ".bmp")
 	zpic_(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + "_.bmp")
 Next
@@ -3582,6 +3582,7 @@ If n=16 Then ;Piccolo
 	If piccoloUpSpecialSnd=0 Then piccoloUpSpecialSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialSnd.wav")
 	If dbzKneeHitSnd=0 Then dbzKneeHitSnd=LoadSound(soundsDir$ + "dbz\dbzKneeHitSnd.wav")
 	If piccoloFollowUpHitSnd=0 Then piccoloFollowUpHitSnd=LoadSound(soundsDir$ + "piccolo\piccoloFollowUpHitSnd.wav")
+	If piccoloBuukuKyakuSnd=0 Then piccoloBuukuKyakuSnd=LoadSound(soundsDir$ + "piccolo\piccoloBuukuKyakuSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut
@@ -3635,6 +3636,7 @@ If n=13 Then ;SubZero
 	If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "mk\mkFootstep.mp3")
 	If subZeroCooldown1Snd=0 Then subZeroCooldown1Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown1.mp3")
 	If subZeroCooldown2Snd=0 Then subZeroCooldown2Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown2.mp3")
+	If scorpionSkullSnd=0 Then scorpionSkullSnd=LoadSound(soundsdir$ + "scorpion\scorpionSkull.mp3")
 EndIf
 
 If n=12 Then	;Scorpion

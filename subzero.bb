@@ -1,3 +1,34 @@
+Function doSubZeroTaunt(n)
+	startSeq=100:a=115:b=a+84:c=b+8:d=c+32:e=d+22:f=e+20
+	If zOnGnd(n)=0 Then zy(n)=zy(n)-2
+	zani(n)=16
+	If zBlowSeq(n)=a And gameSound Then PlaySound mkFriendshipSnd
+	If zBlowSeq(n)>startSeq And zBlowSeq(n) <= a Then zf(n)=6
+	If zBlowSeq(n) > a And zBlowSeq(n) <= b Then
+		If zBlowSeq(n) Mod 4 = 0 Then zf(n)=7
+		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=8
+		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=9
+	End If
+	If zBlowSeq(n) > b And zBlowSeq(n) <= c Then zf(n)=10
+	If zBlowSeq(n) > c And zBlowSeq(n) <= d Then zf(n)=11
+
+	If zBlowSeq(n) > d And zBlowSeq(n) <= e Then
+		If zBlowSeq(n)=d And gameSound Then PlaySound scorpionSkullSnd
+		If zBlowSeq(n) Mod 2 = 0 Then zf(n)=((zBlowSeq(n)-225)/2)+5
+		DebugLog "zf: " + zf(n)
+		If zf(n)>18 Then zf(n)=18
+	End If
+	
+	If zBlowSeq(n) = f Then 
+		If zSuperBar(n)+7 >= 100 Then
+			zSuperBar(n) = 100
+		Else
+			zSuperBar(n)=zSuperBar(n)+7
+		End If
+		zBlowSeq(n)=0:zBlow(n)=0
+	End If
+End Function
+
 Function performFatalitySuper(n)
 	a=103:b=a+4:c=b+4:d=c+28:e=d+3:f=e+4:g=f+42:h=g+4:i=h+4:j=h+120
 	endSeq=90
@@ -607,9 +638,12 @@ Case 15 ;Subzero throw
 	
 Case 16: ; ice clone
 	a=3:b=6:c=9:d=11:e=13:f=16:g=19:h=22:i=25:j=28
+	a2=100
 	zNoMove(n)=1
 	zNoJump(n)=1
 	zjump(n)=0
+	If zBlowSeq(n)=1 And downKey(n) Then zBlowSeq(n)=a2
+	If zBlowSeq(n)>=a2 Then doSubZeroTaunt(n)
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	checkYDist(n, zx(n), zy(n), 4)
 	If zHitHead(n)=1 Then zBlowSeq(n)=i:zy(n)=zy(n)+4
@@ -651,7 +685,7 @@ Case 16: ; ice clone
 		EndIf
 	EndIf
 	
-	If zBlowSeq(n) > j Then zBlowSeq(n)=0:zBlow(n)=0
+	If zBlowSeq(n) > j And zBlowSeq(n) < a2 Then zBlowSeq(n)=0:zBlow(n)=0
 	
 Case 17: ;Ice shower
 	a=3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+23
