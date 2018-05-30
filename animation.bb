@@ -180,6 +180,7 @@ Function drawRunSequence(n)
 			If gameSound Then PlaySound zRunFootSound(curGuy(n))
 		End If
 	End If
+	If curGuy(n)=14 And zRunSeq2(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
 	If curGuy(n)=15 Then handleJuggernautRun(n)
 	If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then Return
 	If zRunFrames(n) <> 0 Then

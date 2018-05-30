@@ -155,6 +155,7 @@ Global scorpionSkullSnd
 Global scorpionFireballSnd
 Global subZeroWindSnd
 Global scorpionBurnSnd
+Global mkFriendShipAgainSnd
 Global wolverineJumpSnd=LoadSound(soundsdir$ + "wolverine\wolverinejump.wav")
 Global wolverineBarrageSnd
 Global wolverineSlashSnd, wolverineSlash2Snd, wolverineSlash3Snd, wolverineSlash4Snd

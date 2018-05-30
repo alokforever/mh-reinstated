@@ -399,7 +399,7 @@ For n=1 To 100   ;load shots
 	shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
 Next
 
-For n=1 To 103   ; load chunks
+For n=1 To 200   ; load chunks
 	For nn=1 To 15
 		ptPic(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+ ".bmp" )
 		ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
@@ -975,7 +975,8 @@ For n= 1 To zzamount
 	projectileDeflectMode(n)=0
 	If electrocuteSeq(n) <> 0 Then drawElectrocution(n)
 	If isFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
-	If zCanFly(n)=1 Or canAirGlideUp(n) Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
+	If zCanFly(n)=1  Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
+	If canAirGlideUp(n) Then zNoGrav(n)=1
 	
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
 		zantiPlat(n)=1
@@ -1503,7 +1504,6 @@ For n=1 To 4
 x=x+155
 Next
 
-
 For n=1 To zzamount		;Draws big pictures of characters when performing super special move
 	If zSuperMove(n) And zhit(n)=0 Then
 		If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
@@ -1969,7 +1969,7 @@ Function selectDraw(n)
 			If zJump(n) Then canAirGlideUp(n)=1
 			drawRunSequence(n)
 			If canAirGlideUp(n)=1 Then 
-				If zRunSeq2(n) < zJumpLimit(n)*3 Then moveY(n,-1)
+				If (zRunSeq2(n) < zJumpLimit(n)*3) And zHitHead(n)=0 Then moveY(n,-1)
 			End If
 			Goto drawZ
 		End If

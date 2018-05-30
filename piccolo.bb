@@ -36,6 +36,7 @@ Function doBuukuKyaku(n)
 	a1=100:b1=102:c1=105:d1=110
 	a2=10000:b2=10004:c2=b2+5:d2=c2+3
 	endSeq=95
+	zNoMove(n)=1
 	If downKey(n)=0 And zBlowSeq(n) < a2 Then zBlowSeq(n)=a2
 	If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
 ;-------- Animation ---------
@@ -51,13 +52,27 @@ Function doBuukuKyaku(n)
 	If zBlowSeq(n) > b2 And zBlowSeq(n) <= c2 Then zani(n)=12:zf(n)=13
 	If zBlowSeq(n) > c2 And zBlowSeq(n) <= d2 Then zani(n)=5:zf(n)=2
 	If zBlowSeq(n) > d2 Then zBlowSeq(n)=endSeq
+
+;-------- Hitboxes ----------
+	If zBlowSeq(n) > d1 And zBlowSeq(n)<=a2 Then 
+		zblowPamount(n)=4:nn=1
+		zBlowBack(n)=1
+		xblow(n,nn)=10: yblow(n,nn)=27:wblow(n,nn)=9:hblow(n,nn)=7:nn=nn+1
+		xblow(n,nn)=18: yblow(n,nn)=20:wblow(n,nn)=8:hblow(n,nn)=7:nn=nn+1
+		xblow(n,nn)=26: yblow(n,nn)=13:wblow(n,nn)=7:hblow(n,nn)=7:nn=nn+1
+		xblow(n,nn)=31: yblow(n,nn)=7:wblow(n,nn)=7:hblow(n,nn)=12:nn=nn+1
+		zHitmode(n)=2:zBlowHold(n)=15:zBlowStillTime(n)=6
+		zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=2:zHitTime(n)=20
+		zBlowDamage(n)=3:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowBlockTime(n)=40
+		zBlowSound(n)=dbzKneeHitSnd
+	End If
 	
 ;----------- Sound -----------
 	If zBlowSeq(n)=a1 And gameSound Then PlaySound piccoloBuukuKyakuSnd
 	If zBlowSeq(n)=b1 And gameSound Then PlaySound piccoloGrunt1Snd
 	
 ;--------- Movement ---------
-	If zBlowSeq(n) < a2 Then moveX(n,zBlowdir(n),4.5):moveY(n,2.5)
+	If zBlowSeq(n) >= d1 And zBlowSeq(n) < a2 Then moveX(n,zBlowdir(n),4.5):;moveY(n,2.5)
 	
 End Function
 
@@ -341,7 +356,7 @@ Case 13 ; item pickup
 Case 14	;Super Special
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 15 ;Juggernaut throw
+Case 15 ;Piccolo throw
 	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 16 ;Taunt Key

@@ -384,7 +384,6 @@ Case 14: ;Wonder Woman
 	duckFrames(n)=5
 	duckFrameSpeed(n)=5
 	canAirGlide(n)=1
-	zRunFootSoundSeq(n)=12
 	hasSpecialAirFrames(n)=1
 
 Case 15: ;Juggernaut
@@ -2719,12 +2718,21 @@ Case 123:		;Pre-Kiryoku-ryuu
 
 	If chunkSeq(n) > endSeq Then chunk(n)=0
 
-Case 124: 		;jumping knee list
+Case 124: 		;jumping knee lift
 	a=12
 
 	If chunkSeq(n) >= 1 And chunkSeq(n) < a Then chunkPic(n)=ptPic(99,1):chunkPic_(n)=ptPic_(99,1)
-	
 	If chunkSeq(n) >= a Then chunk(n)=0
+	
+Case 125:		;Buy a subzero doll
+	a=1
+	If chunkSeq(n)=a Then chunkPic(n)=ptPic(103,1):chunkPic_(n)=ptPic(103,1)
+	If chunkSeq(n) > a Then chunk(n)=0
+	
+Case 126:		;Buy a scorpion doll
+	a=1
+	If chunkSeq(n)=a Then chunkPic(n)=ptPic(104,1):chunkPic_(n)=ptPic(104,1)
+	If chunkSeq(n)>a Then chunk(n)=0
 	
 Default
 	a=5:b=10:c=14	;Blocking
@@ -3637,6 +3645,7 @@ If n=13 Then ;SubZero
 	If subZeroCooldown1Snd=0 Then subZeroCooldown1Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown1.mp3")
 	If subZeroCooldown2Snd=0 Then subZeroCooldown2Snd=LoadSound(soundsdir$ + "subzero\subzeroCooldown2.mp3")
 	If scorpionSkullSnd=0 Then scorpionSkullSnd=LoadSound(soundsdir$ + "scorpion\scorpionSkull.mp3")
+	If mkFriendShipAgainSnd=0 Then mkFriendShipAgainSnd=LoadSound(soundsdir$ + "mk\mkFriendShipAgain.wav")
 EndIf
 
 If n=12 Then	;Scorpion

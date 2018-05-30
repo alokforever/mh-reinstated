@@ -901,35 +901,46 @@ Case 15 ;Scorpion throw
 
 Case 16 ; taunt
 	a=15:b=a+84:c=b+8:d=c+32:e=d+22:f=e+20
+	a2=15:b2=23:c2=31:d2=130
 	zNoMove(n)=1
 	zNoJump(n)=1:zJump(n)=0
 	If zOnGnd(n)=0 Then zy(n)=zy(n)-2
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 	zani(n)=16
-	If zBlowSeq(n)=a And gameSound Then PlaySound mkFriendshipSnd
-	If zBlowSeq(n)=1 And zBlowSeq(n) < a Then zf(n)=1
-	If zBlowSeq(n) >= a And zBlowSeq(n) < b Then
-		If zBlowSeq(n) Mod 4 = 0 Then zf(n)=2
-		If zBlowSeq(n) Mod 8 = 0 Then zf(n)=3
-		If zBlowSeq(n) Mod 12 = 0 Then zf(n)=4
-	End If
-	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then zf(n)=5
-	If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zf(n)=6
+	If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(2)
+	If zTauntSeed(n)=1 Then
+		superbarGain=7
+		If zBlowSeq(n)=a And gameSound Then PlaySound mkFriendshipSnd
+		If zBlowSeq(n)>0 And zBlowSeq(n) <= a Then zf(n)=1
+		If zBlowSeq(n) > a And zBlowSeq(n) <= b Then
+			If zBlowSeq(n) Mod 4 = 0 Then zf(n)=2
+			If zBlowSeq(n) Mod 8 = 0 Then zf(n)=3
+			If zBlowSeq(n) Mod 12 = 0 Then zf(n)=4
+		End If
+		If zBlowSeq(n) > b And zBlowSeq(n) <= c Then zf(n)=5
+		If zBlowSeq(n) > c And zBlowSeq(n) <= d Then zf(n)=6
 
-	If zBlowSeq(n) >= d And zBlowSeq(n) < e Then
-		If zBlowSeq(n)=d And gameSound Then PlaySound scorpionSkullSnd
-		If zBlowSeq(n) Mod 2 = 0 Then zf(n)=(zBlowSeq(n)-125)/2
+		If zBlowSeq(n) > d And zBlowSeq(n) <= e Then
+			If zBlowSeq(n)=d+1 And gameSound Then PlaySound scorpionSkullSnd
+			If zBlowSeq(n) Mod 2 = 0 Then zf(n)=(zBlowSeq(n)-125)/2
+		End If
+	Else ;Buy a Scorpion doll taunt
+		superbarGain=5
+		If zBlowSeq(n)>a2 Then extraObj(n,zx(n),5,zy(n),-80,zblowdir(n),126)
+		If zBlowSeq(n)=a2 And gameSound Then PlaySound mkFriendShipAgainSnd
+		If zBlowSeq(n)>0 And zBlowSeq(n)<=a2 Then zf(n)=1
+		If zBlowSeq(n)>a2 And zBlowSeq(n)<=b2 Then zf(n)=18
+		If zBlowSeq(n)>b2 And zBlowSeq(n)<=c2 Then zf(n)=19
+		If zBlowSeq(n)>c2 And zBlowSeq(n)<=d2 Then zf(n)=20
 	End If
-	
-	If zBlowSeq(n) = f Then 
-		If zSuperBar(n)+7 >= 100 Then
+	If (zBlowSeq(n)=f And zTauntSeed(n)=1) Or (zBlowSeq(n)=d2 And zTauntSeed(n)=2) Then 
+		If zSuperBar(n)+superbarGain > 100 Then
 			zSuperBar(n) = 100
 		Else
-			zSuperBar(n)=zSuperBar(n)+7
+			zSuperBar(n)=zSuperBar(n)+superbarGain
 		End If
 		zBlowSeq(n)=0:zBlow(n)=0
 	End If
-
 Case 17 ;flame
 	zNoMove(n)=1
 	zNoJump(n)=1:zjump(n)=0
