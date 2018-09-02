@@ -368,7 +368,7 @@ Case 9	; Kaikousen (down special) / BuukuKyaku
 	If zBlowSeq(n) > l And zBlowSeq(n) < a2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10	;High Punch
-	seq1=4:seq2=seq1+2:seq3=seq2+2:seq4=seq3+10:seq5=seq4+3:seq6=seq5+3:seq7=seq6+300
+	seq1=4:seq2=seq1+2:seq3=seq2+2:seq4=seq3+10:seq5=seq4+3:seq6=seq5+3:seq7=seq6+3
 	zNoMove(n)=1
 	zNoJump(n)=1
 	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)

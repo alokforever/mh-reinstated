@@ -976,8 +976,8 @@ For n= 1 To zzamount
 	If electrocuteSeq(n) <> 0 Then drawElectrocution(n)
 	If isFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
 	If zCanFly(n)=1  Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
-	If canAirGlideUp(n) Then zNoGrav(n)=1
-	
+	If canAirGlideUp(n) And (leftKey(n)=1 Or rightKey(n)=1) Then zNoGrav(n)=1
+
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
 		zantiPlat(n)=1
 		zantiPlatSeq(n)=zantiPlatSeq(n)+1
