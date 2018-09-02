@@ -3584,6 +3584,10 @@ If n=16 Then ;Piccolo
 	If piccoloTaunt2Snd=0 Then piccoloTaunt2Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt2Snd.wav")
 	If piccoloTaunt3Snd=0 Then piccoloTaunt3Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt3Snd.wav")
 	If piccoloGrunt1Snd=0 Then piccoloGrunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt1Snd.wav")
+	If piccoloGrunt2Snd=0 Then piccoloGrunt2Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt2Snd.wav")
+	If piccoloGrunt3Snd=0 Then piccoloGrunt3Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt3Snd.wav")
+	If piccoloGrunt4Snd=0 Then piccoloGrunt4Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt4Snd.wav")
+	If piccoloGrunt5Snd=0 Then piccoloGrunt5Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt5Snd.wav")
 	If piccoloKaikousenSnd=0 Then piccoloKaikousenSnd=LoadSound(soundsDir$ + "piccolo\piccoloKaikousenSnd.wav")
 	If piccoloKiSnd=0 Then piccoloKiSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiSnd.wav")
 	If piccoloUpSpecialBlowSnd=0 Then piccoloUpSpecialBlowSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialBlowSnd.wav")
@@ -3591,7 +3595,6 @@ If n=16 Then ;Piccolo
 	If dbzKneeHitSnd=0 Then dbzKneeHitSnd=LoadSound(soundsDir$ + "dbz\dbzKneeHitSnd.wav")
 	If piccoloFollowUpHitSnd=0 Then piccoloFollowUpHitSnd=LoadSound(soundsDir$ + "piccolo\piccoloFollowUpHitSnd.wav")
 	If piccoloBuukuKyakuSnd=0 Then piccoloBuukuKyakuSnd=LoadSound(soundsDir$ + "piccolo\piccoloBuukuKyakuSnd.wav")
-	If piccoloSonicSlashSnd=0 Then piccoloSonicSlashSnd=LoadSound(soundsDir$ + "piccolo\piccoloSonicSlashSnd.wav")
 	If dbzSuperKickSnd=0 Then dbzSuperKickSnd=LoadSound(soundsDir$ + "dbz\dbzSuperKickSnd.wav")
 End If
 

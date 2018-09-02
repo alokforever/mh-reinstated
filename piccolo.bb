@@ -14,7 +14,7 @@ Function doSonicSlash(n)
 	If zBlowSeq(n)>=seq7 And zBlowSeq(n) < seq8 Then zani(n)=18:zf(n)=8
 	
 ;--------- Sounds -----------
-	If zBlowSeq(n)=seq3 And gameSound Then PlaySound piccoloSonicSlashSnd
+	If zBlowSeq(n)=seq3 And gameSound Then PlaySound piccoloGrunt2Snd
 	
 ;-------- Movement ----------
 	If zBlowSeq(n)>=startSeq And zBlowSeq(n) < seq2 Then moveX(n,zBlowdir(n),8)
@@ -367,8 +367,39 @@ Case 9	; Kaikousen (down special) / BuukuKyaku
 
 	If zBlowSeq(n) > l And zBlowSeq(n) < a2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 10	;High Punch 
-	zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+Case 10	;High Punch
+	seq1=4:seq2=seq1+2:seq3=seq2+2:seq4=seq3+10:seq5=seq4+3:seq6=seq5+3:seq7=seq6+300
+	zNoMove(n)=1
+	zNoJump(n)=1
+	If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+	
+;------------ Animation ------------
+	If zBlowSeq(n) > 0 And zBlowSeq(n) < seq1 Then zani(n)=14:zf(n)=1
+	If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq2 Then zani(n)=14:zf(n)=2
+	If zBlowSeq(n) > seq2 And zBlowSeq(n) < seq3 Then zani(n)=14:zf(n)=3
+	If zBlowSeq(n) > seq3 And zBlowSeq(n) < seq4 Then zani(n)=14:zf(n)=4
+	If zBlowSeq(n) > seq4 And zBlowSeq(n) < seq5 Then zani(n)=14:zf(n)=5
+	If zBlowSeq(n) > seq5 And zBlowSeq(n) < seq6 Then zani(n)=14:zf(n)=6
+	If zBlowSeq(n) > seq6 And zBlowSeq(n) < seq7 Then zani(n)=14:zf(n)=7
+	
+;--------- Hit box ----------
+	If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq4 Then
+		zblowPamount(n)=5:nn=1
+		xblow(n,nn)=25: yblow(n,nn)=60:wblow(n,nn)=10:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=20: yblow(n,nn)=50:wblow(n,nn)=10:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=15: yblow(n,nn)=45:wblow(n,nn)=10:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=5: yblow(n,nn)=35:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+		zHitmode(n)=0:zBlowHold(n)=8:zBlowStillTime(n)=6
+		zHitSpeed#(n)=4:zHitUpSpeed#(n)=5:zHitTime(n)=40
+		zBlowDamage(n)=14:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowBlockTime(n)=40
+		zBlowSound(n)=dbzHit1Snd
+	End If
+
+;------------ Sounds ----------------
+	If zBlowSeq(n)=1 And gameSound Then PlaySound piccoloGrunt3Snd
+	
+	If zBlowSeq(n)=seq7 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 	
 Case 11	;club
 	a=12:b=22:c=29:d=50:e=55

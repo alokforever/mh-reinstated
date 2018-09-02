@@ -140,9 +140,9 @@ Case 2	;Flying Kick
 ;---------- Hit box --------------
 	If zBlowSeq(n) >= c And zBlowSeq(n) < h Then
 		zblowPamount(n)=3:nn=1
-		xblow(n,nn)=15: yblow(n,nn)=20:wblow(n,nn)=18:hblow(n,nn)=10:nn=nn+1
-		xblow(n,nn)=15: yblow(n,nn)=10:wblow(n,nn)=22:hblow(n,nn)=10:nn=nn+1
-		xblow(n,nn)=15: yblow(n,nn)=5:wblow(n,nn)=25:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=5: yblow(n,nn)=30:wblow(n,nn)=18:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=22:hblow(n,nn)=10:nn=nn+1
+		xblow(n,nn)=15: yblow(n,nn)=15:wblow(n,nn)=25:hblow(n,nn)=5:nn=nn+1
 		zHitMode(n)=0:zBlowHold(n)=8
 		zBlowDamage(n)=12:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
 		zBlowSound(n)=mvcHit2Snd
