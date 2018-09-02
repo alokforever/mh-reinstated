@@ -2004,7 +2004,7 @@ Function selectDraw(n)
 		drawWalkSequence(n):Goto drawZ
 	EndIf
 	
-	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then
+	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 And zHitHold(n)=0 Then
 		zani(n)=2:zf(n)=0:Goto drawZ ;fallen
 	Else
 		If specialHitFrames(n)=0 Then
@@ -3514,23 +3514,22 @@ If zBlow(n)=1 And zBlowEffect(n) =1 Then
 
 Select zblowdir(n)
 Case 2
-	For nn = 1 To zzamount
-		
+	For nn = 1 To zzamount	
 		If zShield(nn)=0 And zon(nn)=1 Then 
 		If Not nn=n Then
 			If teamAttack=0 And (zteam(n) = zteam(nn)) Then Goto tryz1
 			If zx(nn) < zx(n)-10 And zBlowBack(n)=0 Then Goto tryz1
 			If Not zImune(nn,n)=1 And zImuneTo(nn,n)=n Then 
 				For bn=1 To zblowPamount(n)
-					yp=Int(zy(nn)-ImageHeight(zCurPic(nn))+1)
 					xp=Int(zx(nn)-(ImageWidth(zCurPic(nn))/2))
-					yb=Int(zy(n)-yBlow(n,bn))
+					yp=Int(zy(nn)-ImageHeight(zCurPic(nn))+1)
 					xb=Int(zx(n)+xBlow(n,bn))
-					 If zCurPic(nn) = 0 Then RuntimeError "nn="+nn
-					  n_zani=zani(n) : n_zf=zf(n)
-			          nn_zani=zani(nn) : nn_zf=zf(nn)
-				      nn_curPic=zCurPic(nn)
-					  DrawImage zCurPic(nn),10,10
+					yb=Int(zy(n)-yBlow(n,bn))
+					If zCurPic(nn) = 0 Then RuntimeError "nn="+nn
+					n_zani=zani(n) : n_zf=zf(n)
+			        nn_zani=zani(nn) : nn_zf=zf(nn)
+				    nn_curPic=zCurPic(nn)
+					DrawImage zCurPic(nn),10,10
 
 					If ImageRectCollide(nn_curPic,xp,yp,0,xb,yb,wBlow(n,bn),hBlow(n,bn)) Then
 						zBlowHit(n)=1
@@ -3588,7 +3587,7 @@ Case 2
 								EndIf
 							EndIf
 													
-							makechunk(n,zx(nn),zy(n)-yblow(n,bn),2,zChunkType(n))
+							makechunk(n,zx(nn)-xblow(n,bn),zy(n)-yblow(n,bn),2,zChunkType(n))
 							If zLife(nn) < 1 Then zScore(n)=zScore(n)+1
 							If gameSound =1 Then PlaySound zBlowSound(n)
 						EndIf
@@ -3679,7 +3678,7 @@ Case 4
 						End If
 					EndIf
 											
-					makechunk(n,zx(nn),zy(n)-yblow(n,bn),4,zChunkType(n))
+					makechunk(n,zx(nn)-xblow(n,bn),zy(n)-yblow(n,bn),4,zChunkType(n))
 					If zLife(nn) < 1 Then zScore(n)=zScore(n)+1
 					If gameSound =1 Then PlaySound zBlowSound(n)
 				EndIf
@@ -3718,9 +3717,9 @@ End Function
 Function calcBlow(nn,n,hitMode,damage)
 initFightStates(nn)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
+zHitModeTaken(nn)=HitMode
+zhit(nn)=1:zHitSeq(nn)=0
 If fightMode=1 Then
-	zHitModeTaken(nn)=HitMode
-	zhit(nn)=1:zHitSeq(nn)=0
 	If hitmode=1 Then zFallSpeed(nn)=2 Else zFallSpeed#(nn)=damage/10
 	If zFallSpeed#(nn) < 1 Then zFallSpeed#(nn)=1
 	If zFallSpeed#(nn) > 23 Then zFallSpeed#(nn)=23
@@ -3747,13 +3746,10 @@ If fightMode=1 Then
 	zFallDir(nn)=0
 	EndIf
 Else
-	zHitModeTaken(nn)=HitMode
-	zhit(nn)=1:zHitSeq(nn)=0
 	zFallSpeed#(nn)=5
 	zFallTime#(nn)=50
 	zUpFallSpeed#(nn)=2
 	zUpFallSpeed#(nn)=zUpFallSpeed#(nn)+3
-	
 EndIf
 
 
@@ -4454,10 +4450,9 @@ For nn=1 To zzamount
 				EndIf
 				
 				If zhit(nn)=1 And zHitSeq(nn) > 2 And zongnd(nn)=0 And hitAlready=0 Then
-                                        hitAlready=1
+                    hitAlready=1
 					Select zFalldir(nn)
 						Case 4
-							
 							If platXDir(n) = 0 Or platXspeed(n) < .5 And zhithead(nn)=0 Then
 							;If platXspeed(n) < 1 Then
 								quake=1:quakeSeq=0

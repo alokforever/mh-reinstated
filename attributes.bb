@@ -1782,7 +1782,7 @@ Case 10: a=3:b=6:c=9		;M vs C hit
 	If chunkSeq(n) > b And chunkSeq(n) =< c Then chunkPic(n)= ptPic(cc,3) :chunkPic_(n)=ptPic(cc,3)
 	If chunkSeq(n) > c Then chunk(n)=0
 
-Case 11: a=10:b=25:c=35		;vulcano explosion
+Case 11: a=10:b=25:c=35		;volcano explosion
 	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(cc,1):chunkPic_(n)=ptPic(cc,1)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(cc,2):chunkPic_(n)=ptPic(cc,2)
 	If chunkSeq(n) > b And chunkSeq(n) =< c Then chunkPic(n)=ptPic(cc,2):chunkPic_(n)=ptPic(cc,2)
@@ -3448,7 +3448,7 @@ For i=1 To 2
 	zpic_(n,11,i)=LoadImage(gfxdir$ + "zshot" + i + "_.bmp")
 Next
 
-For i=1 To 20
+For i=1 To 21
 	zpic(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + ".bmp")
 	zpic_(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + "_.bmp")
 Next
@@ -3591,6 +3591,8 @@ If n=16 Then ;Piccolo
 	If dbzKneeHitSnd=0 Then dbzKneeHitSnd=LoadSound(soundsDir$ + "dbz\dbzKneeHitSnd.wav")
 	If piccoloFollowUpHitSnd=0 Then piccoloFollowUpHitSnd=LoadSound(soundsDir$ + "piccolo\piccoloFollowUpHitSnd.wav")
 	If piccoloBuukuKyakuSnd=0 Then piccoloBuukuKyakuSnd=LoadSound(soundsDir$ + "piccolo\piccoloBuukuKyakuSnd.wav")
+	If piccoloSonicSlashSnd=0 Then piccoloSonicSlashSnd=LoadSound(soundsDir$ + "piccolo\piccoloSonicSlashSnd.wav")
+	If dbzSuperKickSnd=0 Then dbzSuperKickSnd=LoadSound(soundsDir$ + "dbz\dbzSuperKickSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

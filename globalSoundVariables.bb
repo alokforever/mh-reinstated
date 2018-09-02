@@ -189,8 +189,9 @@ Global dbzJmpSnd=LoadSound(soundsDir$ + "dbz\dbzJmpSnd.wav")
 Global dbzJmp2Snd=LoadSound(soundsDir$ + "dbz\dbzJmp2Snd.wav")
 Global dbzGlideSnd=LoadSound(soundsDir$ + "dbz\dbzGlideSnd.wav")
 Global dbzKiHitSnd=LoadSound(soundsDir$ + "dbz\dbzKiHitSnd.wav")
+Global dbzSuperKickSnd
 
 Global piccoloDieSnd, piccoloTaunt1Snd, piccoloTaunt2Snd, piccoloTaunt3Snd
 Global piccoloGrunt1Snd, piccoloKaikousenSnd, piccoloKiSnd, piccoloUpSpecialBlowSnd
 Global piccoloUpSpecialSnd, dbzKneeHitSnd, piccoloFollowUpHitSnd
-Global piccoloBuukuKyakuSnd
+Global piccoloBuukuKyakuSnd, piccoloSonicSlashSnd
