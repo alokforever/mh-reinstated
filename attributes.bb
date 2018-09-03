@@ -3588,6 +3588,8 @@ If n=16 Then ;Piccolo
 	If piccoloGrunt3Snd=0 Then piccoloGrunt3Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt3Snd.wav")
 	If piccoloGrunt4Snd=0 Then piccoloGrunt4Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt4Snd.wav")
 	If piccoloGrunt5Snd=0 Then piccoloGrunt5Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt5Snd.wav")
+	If piccoloGrunt6Snd=0 Then piccoloGrunt6Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt6Snd.wav")
+	If piccoloGrunt7Snd=0 Then piccoloGrunt7Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt7Snd.wav")
 	If piccoloKaikousenSnd=0 Then piccoloKaikousenSnd=LoadSound(soundsDir$ + "piccolo\piccoloKaikousenSnd.wav")
 	If piccoloKiSnd=0 Then piccoloKiSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiSnd.wav")
 	If piccoloUpSpecialBlowSnd=0 Then piccoloUpSpecialBlowSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialBlowSnd.wav")
