@@ -234,7 +234,7 @@ Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboM
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
-Dim canAirGlideUp(30)
+Dim canAirGlideUp(30), zBlowType(30), zHitType(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -975,8 +975,10 @@ For n= 1 To zzamount
 	projectileDeflectMode(n)=0
 	If electrocuteSeq(n) <> 0 Then drawElectrocution(n)
 	If isFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
-	If zCanFly(n)=1  Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
-	If canAirGlideUp(n) And (leftKey(n)=1 Or rightKey(n)=1) Then zNoGrav(n)=1
+	If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
+	If canAirGlideUp(n) Then
+		If (leftKey(n)=1 Or rightKey(n)=1) And downKey(n)=0 Then zNoGrav(n)=1
+	End If
 
 	If zForceAntiPlat(n)=1 Then ;For when going down from plataform
 		zantiPlat(n)=1
@@ -2006,6 +2008,9 @@ Function selectDraw(n)
 	
 	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 And zHitHold(n)=0 Then
 		zani(n)=2:zf(n)=0:Goto drawZ ;fallen
+	Else If zHitType(n)=1 Then
+		hitRandSeed = Rand(3)
+		zani(n)=2:zf(n)=hitRandSeed
 	Else
 		If specialHitFrames(n)=0 Then
 			a=10:b=25:c=35
@@ -3512,6 +3517,7 @@ Next
 
 If zBlow(n)=1 And zBlowEffect(n) =1 Then 
 
+; TO DO: Refactor
 Select zblowdir(n)
 Case 2
 	For nn = 1 To zzamount	
@@ -3579,6 +3585,7 @@ Case 2
 								
 								zjump(nn)=0:zBouncedgnd(nn)=0
 								zHitHold(nn)=zBlowHold(n)
+								zHitType(nn)=zBlowType(n)
 							
 								If zHitMode(n)=0 Or zHitMode(n)=1 Then
 									calcBlow(nn,n,zHitMode(n),zDamage(nn))
@@ -3601,8 +3608,7 @@ Case 2
 	Next
 		
 Case 4
-	For nn= 1 To zzamount
-		
+	For nn = 1 To zzamount
 		If zShield(nn)=0 And zon(nn)=1 Then
 		If Not nn=n Then
 		If teamAttack=0 And (zteam(n) = zteam(nn)) Then Goto tryz2
@@ -3670,6 +3676,7 @@ Case 4
 						
 						zjump(nn)=0:zBouncedgnd(nn)=0
 						zHitHold(nn)=zBlowHold(n)
+						zHitType(nn)=zBlowType(n)
 					
 						If zHitMode(n)=0 Or zHitMode(n)=1 Then
 							calcBlow(nn,n,zHitMode(n),zDamage(nn))
