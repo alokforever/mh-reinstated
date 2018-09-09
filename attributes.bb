@@ -3433,7 +3433,7 @@ For i=1 To 20
 	zpic_(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + "_.bmp")
 Next
 
-For i=1 To 16
+For i=1 To 30
 	zpic(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + ".bmp")
 	zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
 Next
@@ -3590,6 +3590,7 @@ If n=16 Then ;Piccolo
 	If piccoloGrunt5Snd=0 Then piccoloGrunt5Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt5Snd.wav")
 	If piccoloGrunt6Snd=0 Then piccoloGrunt6Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt6Snd.wav")
 	If piccoloGrunt7Snd=0 Then piccoloGrunt7Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt7Snd.wav")
+	If piccoloGrunt8Snd=0 Then piccoloGrunt8Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt8Snd.wav")
 	If piccoloKaikousenSnd=0 Then piccoloKaikousenSnd=LoadSound(soundsDir$ + "piccolo\piccoloKaikousenSnd.wav")
 	If piccoloKiSnd=0 Then piccoloKiSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiSnd.wav")
 	If piccoloUpSpecialBlowSnd=0 Then piccoloUpSpecialBlowSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialBlowSnd.wav")

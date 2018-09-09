@@ -73,6 +73,7 @@ Global toastySnd=LoadSound(soundsdir$ + "mk\toasty.mp3")
 Global mineDudSnd=LoadSound(soundsdir$ + "minedud.wav")
 Global burnedSnd=LoadSound(soundsdir$ + "burned.wav")
 Global quakeSnd=LoadSound(soundsdir$ + "juggernaut\juggWalk.wav")
+Global pullSnd=LoadSound(soundsdir$ + "pullSnd.wav")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
@@ -195,7 +196,7 @@ Global dbzHit2Snd=LoadSound(soundsDir$ + "dbz\dbzHit2Snd.wav")
 
 Global piccoloDieSnd, piccoloTaunt1Snd, piccoloTaunt2Snd, piccoloTaunt3Snd
 Global piccoloGrunt1Snd, piccoloGrunt2Snd, piccoloGrunt3Snd, piccoloGrunt4Snd, piccoloGrunt5Snd
-Global piccoloGrunt6Snd, piccoloGrunt7Snd
+Global piccoloGrunt6Snd, piccoloGrunt7Snd, piccoloGrunt8Snd
 Global piccoloKaikousenSnd, piccoloKiSnd, piccoloUpSpecialBlowSnd
 Global piccoloUpSpecialSnd, dbzKneeHitSnd, piccoloFollowUpHitSnd
 Global piccoloBuukuKyakuSnd

@@ -124,13 +124,7 @@ Function performScorpionCombo1(n)
 ;----- hit boxes ------
 	If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
 		applyScorpionComboHitBox(n, 2, 5, scorpionSpearHitSnd)
-		If zOnGnd(zControlsThis(n))=0 Then 
-			If zheight(zControlsThis(n)) <= 40 Then
-				zy(zControlsThis(n))=zy(n)-20
-			Else
-				zy(zControlsThis(n))=zy(n)
-			End If
-		End If
+		alignVerticalPosOfTarget(n)
 		If zComboMode(n)=0 movex2(zControlsThis(n),zface(zControlsThis(n)),-1*(1+(Abs(zSpeed#(n))/1.5)))
 		isHitting=1
 	End If
@@ -153,19 +147,8 @@ Function performScorpionCombo1(n)
 		isHitting=1
 	End If
 	If zBlowSeq(n)=o-3 And zControls(n)=0 Then zBlowSeq(n)=endSeq
-;------ target manipulation --------
-	unitCounter=1
-	While zControlsThese(n,unitCounter) <> 0
-		en=zControlsThese(n,unitCounter)
-		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
-	
-		If isHitting=1 Then
-			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-		Else
-			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-		End If
-		unitCounter=unitCounter+1
-	Wend
+
+	controlTargets(n)
 
 	If zBlowSeq(n) = s Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function
@@ -258,6 +241,7 @@ End Function
 
 Function DoScorpion(n)
 
+If zBlowSeq(n)=0 Then clearControlledPlayers(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
 	If zBlowStill(n)=1 Then

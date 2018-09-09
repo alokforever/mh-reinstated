@@ -42,7 +42,6 @@ Const gameVersion$ = "0.96"
 ;Richter Belmont added
 ;option to turn items on/off on versus mode
 
-
 AppTitle "MultiHero"
 SeedRnd (MilliSecs())
 
@@ -234,7 +233,7 @@ Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboM
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
-Dim canAirGlideUp(30), zBlowType(30), zHitType(30)
+Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -2005,12 +2004,11 @@ Function selectDraw(n)
 		End If
 		drawWalkSequence(n):Goto drawZ
 	EndIf
-	
-	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 And zHitHold(n)=0 Then
+
+	If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then
 		zani(n)=2:zf(n)=0:Goto drawZ ;fallen
 	Else If zHitType(n)=1 Then
-		hitRandSeed = Rand(3)
-		zani(n)=2:zf(n)=hitRandSeed
+		doStationaryHitSequence(n)
 	Else
 		If specialHitFrames(n)=0 Then
 			a=10:b=25:c=35
@@ -2076,6 +2074,7 @@ If zhit(n)=1 Then
 	zSuperMove(n)=0
 	If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
 			
+	zHitType(n)=0:zHitTypeModulo(n)=0
 	zUpFallspeed#(n)=zUpFallSpeed#(n)-.1
 	If zUpFallSpeed#(n) < 2 Then zUpFallSpeed#(n)=2
 	zFallspeed#(n)=zFallSpeed#(n)-.1
@@ -2567,7 +2566,6 @@ If specialKey(n)=1 And (zhit(n)=0 And zBlow(n)=0) Then
   EndIf	
 	
 EndIf
-
 
 If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then	
 	If zongnd(n)=0 Then
@@ -3586,7 +3584,7 @@ Case 2
 								zjump(nn)=0:zBouncedgnd(nn)=0
 								zHitHold(nn)=zBlowHold(n)
 								zHitType(nn)=zBlowType(n)
-							
+								zHitTypeModulo(nn)=zBlowTypeModulo(n)
 								If zHitMode(n)=0 Or zHitMode(n)=1 Then
 									calcBlow(nn,n,zHitMode(n),zDamage(nn))
 								Else
@@ -3677,7 +3675,7 @@ Case 4
 						zjump(nn)=0:zBouncedgnd(nn)=0
 						zHitHold(nn)=zBlowHold(n)
 						zHitType(nn)=zBlowType(n)
-					
+						zHitTypeModulo(nn)=zBlowTypeModulo(n)
 						If zHitMode(n)=0 Or zHitMode(n)=1 Then
 							calcBlow(nn,n,zHitMode(n),zDamage(nn))
 						Else
@@ -6051,6 +6049,7 @@ Function initFightStates(nn)
 	zgrabs(nn)=0:zGrabsThis(nn)=0
 	zControls(nn)=0:zControlsThis(nn)=0
 	zblock(nn)=0:zBlocked(nn)=0
+	clearControlledPlayers(nn)
 End Function
 
 ;---------------- Refresh Cooldown ---------------
@@ -6158,6 +6157,7 @@ Function clearControlledPlayers(n)
 	For nn=1 To zzamount
 		zControlsThese(n,nn)=0
 	Next
+	zControlsThis(n)=0
 End Function
 
 ;----------------- Handle Combo Mode ------------------------------
@@ -6452,4 +6452,44 @@ Function getNearestEnemy(n)
 		.done
 	Next
 	Return nearest
+End Function
+
+Function controlTargets(n)
+	unitCounter=1
+	While zControlsThese(n,unitCounter) <> 0
+		en=zControlsThese(n,unitCounter)
+		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
+	
+		If isHitting=1 Then
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
+		Else
+			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
+		End If
+		unitCounter=unitCounter+1
+	Wend
+End Function
+
+Function alignVerticalPosOfTarget(n)
+	If zOnGnd(zControlsThis(n))=0 Then 
+		If zheight(zControlsThis(n)) <= 40 Then
+			zy(zControlsThis(n))=zy(n)-20
+		Else
+			zy(zControlsThis(n))=zy(n)
+		End If
+	End If
+End Function
+
+Function doStationaryHitSequence(n)
+If zHitSeq(n)=1 Then zani(n)=2:zf(n)=1
+	If zHitTypeModulo(n) > 0 Then
+		If zHitSeq(n) Mod zHitTypeModulo(n) = 0 Then 
+			If zf(n) = 1 Then
+				zani(n)=2:zf(n)=2
+			Else If zf(n) = 2 Then
+				zani(n)=2:zf(n)=3
+			Else
+				zani(n)=2:zf(n)=1
+			End If
+		End If
+	End If
 End Function

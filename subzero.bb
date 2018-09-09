@@ -188,25 +188,15 @@ Function performSubzeroCombo(n)
 		isHitting=1
 	End If
 	If zBlowSeq(n)=o And zControls(n)=0 Then zBlowSeq(n)=endSeq
-;------ target manipulation --------
-	unitCounter=1
-	While zControlsThese(n,unitCounter) <> 0
-		en=zControlsThese(n,unitCounter)
-		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
-	
-		If isHitting=1 Then
-			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-		Else
-			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-		End If
-		unitCounter=unitCounter+1
-	Wend
+
+	controlTargets(n)
 
 	If zBlowSeq(n) = p Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function
 
 Function DoSubZero(n)
 
+If zBlowSeq(n)=0 Then clearControlledPlayers(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
 	If zBlowStill(n)=1 Then

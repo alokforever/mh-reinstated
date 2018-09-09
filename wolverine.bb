@@ -251,18 +251,7 @@ Function performWolverineCombo(n)
 	
 	If (zBlowSeq(n)=b+2 Or zBlowSeq(n)=e+2 Or zBlowSeq(n)=h+2 Or zBlowSeq(n)=j+2 Or zBlowSeq(n)=202) And zControls(n)=0 Then zBlowSeq(n)=endSeq
 
-	unitCounter=1
-	While zControlsThese(n,unitCounter) <> 0
-		en=zControlsThese(n,unitCounter)
-		If zBlowSeq(en)=0 And zCurBlow(en)=0 Then zNoGrav(en)=1:zantiPlat(en)=1
-	
-		If isHitting=1 Then
-			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=3
-		Else
-			If zParalyzed(en)=1 Then zani(en)=2:zf(en)=1
-		End If
-		unitCounter=unitCounter+1
-	Wend
+	controlTargets(n)
 	
 	If zBlowSeq(n) > p And zBlowSeq(n) < 200 Then zControls(n)=0:zBlowSeq(n)=endSeq
 
@@ -414,7 +403,7 @@ Function performBerserkerSlash(n, endSeq)
 End Function
 
 Function DoWolverine(n)
-
+If zBlowSeq(n)=0 Then clearControlledPlayers(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
 
