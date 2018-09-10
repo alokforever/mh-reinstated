@@ -50,7 +50,7 @@ Global maxAmap = 100
 Global lastAmap = 50    ;beat this map to beat the game
 Global maxVsMap = 20
 Global maxCTFMap = 20
-Global totalSecrets, noAirStrike
+Global totalSecrets, noAirStrike, isSuperMove
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -221,7 +221,7 @@ Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrame
 Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
 Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
-Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed(200), shotGroundXDestroy(200)
+Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
 Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
 Dim isMkCharacter(30), gender(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
 Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
@@ -234,6 +234,8 @@ Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDef
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
 Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
+Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
+Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -299,8 +301,6 @@ For i=1 To characterAmount
 Next
 
 gfxdir$="gfx\stuff\"
-
-
 
 ;**** Objects ******
 ;Loads cement club images
@@ -453,7 +453,6 @@ timePassed= MilliSecs() + milli
 
 loadkeys()	;loads keys configuration from keys.cfg
 
-
 butNA=LoadImage(gfxdir$ + "butNA.bmp")
 butHum=LoadImage(gfxdir$ + "butHum.bmp")
 butCPU=LoadImage(gfxdir$ + "butCPU.bmp")
@@ -475,7 +474,6 @@ checkWhatsOpen()
 curModId = oldModId
 loadMaps()  ;Loads the maps from the last used mod 
 
-
 idioms(curIdiom)
 
 zzamount=4	;test
@@ -493,7 +491,6 @@ Next
 For n=5 To 30
 	zai(n)=1
 Next
-
 
 gameLives=5
 flagMaxScore=3
@@ -703,6 +700,7 @@ If gameStart=2 Then
 EndIf
 
 ;-----------Load map--------------------------------
+isSuperMove=0
 fontType=1
 For n=1 To 4
 	prevZOn(n)=zon(n)
@@ -1145,15 +1143,19 @@ For n=1 To Famount
 Next
 
 For n= 1 To zzamount
-	If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
-	checkInputs(n)
-	If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
-		zStaminaBar#(n)=zStaminaBar#(n)+0.5
+	If isSuperMove=0 Or (isSuperMove=1 And zSuperMove(n)=1) Then
+		If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
+		checkInputs(n)
+		If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
+			zStaminaBar#(n)=zStaminaBar#(n)+0.5
+		End If
+		If healMode(n)=1 Then healPlayer(n)
+		If zBurning (n) > 0 Then burnPlayer(n)
+		If zComboMode(n)=1 Then handleComboMode(n)
+		If zon(n) Then SelectDraw(n)
+	Else
+		initNoControl(n)
 	End If
-	If healMode(n)=1 Then healPlayer(n)
-	If zBurning (n) > 0 Then burnPlayer(n)
-	If zComboMode(n)=1 Then handleComboMode(n)
-	If zon(n) Then SelectDraw(n)
 Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
@@ -1187,9 +1189,7 @@ If scrollMap=1 Then
 			    zlives(n)=zlives(n)-1
 				killZ(n)
 			EndIf
-
 		EndIf
-			
 	Next
 	scrollxSpeed=0
 	scrollySpeed=0
@@ -1310,7 +1310,6 @@ If vsMode=1 Then
 	Case 2
 		If teamScore(1) => flagMaxScore Then winner=1:ScoreDone=1:gameDone=1
 		If teamScore(2) => flagMaxScore Then winner=2:ScoreDone=1:gameDone=1
-		
 	Case 3
 		For n=1 To zzamount
 			If zflagTime(n) => FlagMaxTime And zon(n) > 0 Then winner=n:scoreDone=1:gameDone=1
@@ -1375,14 +1374,6 @@ For b=0 To 2
 		DrawImage tilePic(b,i), xTile(b,i)+xqk-xscr, yTile(b,i)+yqk-yscr
 	Next
 Next
-
-;If flagamount=2
-;	y=17
-;	Color 255,0,0:Rect 5,y,20,14,1
-;	pri 5,y, teamScore(1)
-;	Color 0,255,0:Rect 615,y,20,14,1
-;	pri 617,y, teamScore(2)
-;EndIf
 
 For n = 1 To flagamount
 	DrawImage flagPic(n),xFlag(n)-xscr,(yFlag(n)-32)-yscr
@@ -1505,50 +1496,59 @@ For n=1 To 4
 x=x+155
 Next
 
+superBarDispTime=50
 For n=1 To zzamount		;Draws big pictures of characters when performing super special move
 	If zSuperMove(n) And zhit(n)=0 Then
 		If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
-			DrawImage ptPic(23,1), (zx(n)+Rand(-50,50))-xscr,(zy(n)+Rand(-50,50))-yscr
-			Color 255,255,255
-			;Oval xOval(n)-xscr,yOval(n)-yscr,wOval(n),hOval(n),0
-			Color 0,0,230
-			;Oval (xOval(n)-50)-xscr,(yOval(n)-50)-yscr,wOval(n)+100,hOval(n)+100,0
-			;Oval (xOval(n)-100)-xscr,(yOval(n)-100)-yscr,wOval(n)+200,hOval(n)+200,0
+			If zSuperMoveSeq(n) < superBarDispTime Then
+				DrawImage ptPic(23,1), (zx(n)+Rand(-50,50))-xscr,(zy(n)+Rand(-50,50))-yscr
+				Color 255,255,255
+				;Oval xOval(n)-xscr,yOval(n)-yscr,wOval(n),hOval(n),0
+				Color 0,0,230
+				;Oval (xOval(n)-50)-xscr,(yOval(n)-50)-yscr,wOval(n)+100,hOval(n)+100,0
+				;Oval (xOval(n)-100)-xscr,(yOval(n)-100)-yscr,wOval(n)+200,hOval(n)+200,0
+			End If
 		EndIf
 		xOval(n)=xOval(n)+20:yOval(n)=yOval(n)+20
 		wOval(n)=wOval(n)-40:hOval(n)=hOval(n)-40
 		zSuperMoveSeq(n)=zSuperMoveSeq(n)+1
+		
 		If zSuperMoveSeq(n)=1 Then 
 			xOval(n)=zx(n)-400 : yOval(n)=zy(n)-(400+10)
 			wOval(n)=800 : hOval(n)=800
 			If zFace(n)=2 Then
-				zSuperX(n)=0   - ImageWidth(zpic(curGuy(n),20,1)) : zSuperDir(n)=2
+				zSuperX(n)=0 - ImageWidth(zpic(curGuy(n),20,1)) : zSuperDir(n)=2
 			Else
 				zSuperX(n)=640 : zSuperDir(n)=4
 			EndIf
 			If zy(n)-yscr > 240 Then zSuperY(n)=100 Else zSuperY(n)=250
+			isSuperMove=1
 		EndIf
-		a=15 : b=30 : c=50
+		a=15 : b=30 : c=superMoveMaxSeq(n)
 		Select zSuperDir(n)
 		Case 2
 			If zSuperMoveSeq(n) > 0 And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)+20
 			If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
 			If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)-20
-			If zSuperMoveSeq(n) > c Then zSuperMove(n)=0:zSuperBar(n)=0
 		Case 4
 			If zSuperMoveSeq(n) > 0 And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)-20
 			If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
 			If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)+20
-			If zSuperMoveSeq(n) > c Then zSuperMove(n)=0:zSuperBar(n)=0
-		End Select						
-		y=zSuperY(n)
-		For i=0 To 110 Step 10
-			Color 0,0,Rand(80,200)
-			Rect 0,y,640,10,1
-			y=y+10
-		Next
-		DrawImage zPic(curGuy(n),20,1),zSuperX(n),zSuperY(n)
+		End Select
 		
+		If zSuperMoveSeq(n) > c Then zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0
+		
+		If zSuperMove(n) And zSuperMoveSeq(n) < superBarDispTime Then
+			y=zSuperY(n)
+			For i=0 To 110 Step 10
+				Color 0,0,Rand(80,200)
+				Rect 0,y,640,10,1
+				y=y+10
+			Next
+			
+			If zSuperDir(n)=2 Then DrawImage zPic(curGuy(n),20,1),zSuperX(n),zSuperY(n)
+			If zSuperDir(n)=4 Then DrawImage zPic_(curGuy(n),20,1),zSuperX(n),zSuperY(n)
+		End If
 	EndIf
 Next
 
@@ -1654,9 +1654,6 @@ If renderDelay Then Delay 50
 ;Until MilliSecs() => timePassed
 ;timePassed = MilliSecs() + milli
 
-
-
-
 rendert=rendert+1
 Select renderFreq
 Case 1
@@ -1719,7 +1716,10 @@ ClsColor colorR,colorG,colorB
 EndIf
 
 For n=1 To zzamount
-	If zSupermove(n) And zon(n) Then Goto renderOnly
+	If zSupermove(n) And zon(n) Then 
+		If zSuperMoveSeq(n) <= superBarDispTime Goto renderOnly
+		;If zSuperMoveSeq(n) > zSuperMoveSeq(n) 
+	End If
 Next
 
 Wend	;******* ENDS MAIN LOOP + GAME RENDER LOOP **********
@@ -1908,7 +1908,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
 			shotDrill(nn)=facLives(n,curF(n))
 			shotOwner(nn)=facTeam(n,curF(n))
 									
-			If facDeadEvent(n,curF(n)) > 0 Then shotSpeed(nn)=facDeadEvent(n,curF(n))
+			If facDeadEvent(n,curF(n)) > 0 Then shotSpeed#(nn)=facDeadEvent(n,curF(n))
 			If facLife(n,curF(n)) > 0 Then shotHitYspeed(nn)=facLife(n,curF(n))
 			If facDamage(n,curF(n)) > 0 Then shotDamage(nn)=facDamage(n,curF(n))
 			shot(nn)=1
@@ -2637,6 +2637,21 @@ Next
 		
 End Function
 
+Function getShots(n)
+shotIndex=0
+For i=1 To 200
+	If shot(i)=1 Then
+		If shotOwner(shot(i))=1 Then
+			myShots(n,shotIndex)=i
+			shotIndex=shotIndex+1
+		End If
+	Else
+		Goto EndLoop
+	End If
+Next
+.EndLoop
+End Function
+
 ;--------SHOTS---------------------------------------------------------------------------------
 Function shots(n)
 
@@ -2679,8 +2694,8 @@ EndIf
 
 Select shotDir(n)
 Case 2
-	shotsizeL(n)=shotspeed(n)
-	For q=0 To shotspeed(n) Step 2
+	shotsizeL(n)=shotspeed#(n)
+	For q=0 To shotspeed#(n) Step 2
 		shothit = handleShotWallCollision(n, q) ;shot x wall collision
 		shothit = handleShotPlatCollision(n, q) ;shot x plat collision
 		If shothit Then Exit
@@ -2708,8 +2723,8 @@ Case 2
 	If xshot(n) > rscrlimit Then shot(n)=0
 
 Case 4
-	shotsizeL(n)=shotspeed(n)
-	For q=0 To shotspeed(n) Step 1 
+	shotsizeL(n)=shotspeed#(n)
+	For q=0 To shotspeed#(n) Step 1 
 		shothit = handleShotWallCollision(n, q*(-1)) ;shot x wall collision
 		shothit = handleShotPlatCollision(n, q*(-1)) ;shot x plat collision
 		If shothit Then Exit
@@ -2741,11 +2756,11 @@ If shotGroundType(n) <> 0 Then handleGroundShotType(n)
 If shotSeekType(n) <> 0 Then handleShotSeeking(n)
 Select shotDir(n)
 	Case 2:
-		xshot(n)=xshot(n)+shotspeed(n)
+		xshot(n)=xshot(n)+shotspeed#(n)
 	Case 4:
-		xshot(n)=xshot(n)-shotspeed(n)
+		xshot(n)=xshot(n)-shotspeed#(n)
 End Select
-yShot(n)=yShot(n)+shotYspeed(n)
+yShot(n)=yShot(n)+shotYspeed#(n)
 
 If shotFollowOwner(n) Then 
 	If yShot(n) > zy(shotOwner(n))-20 Then yShot(n)=yShot(n)-1
@@ -2759,29 +2774,39 @@ If shotFrameSeq(n) > shotFrameTime(n) Then
 	If shotCurFrame(n) > shotFramesAmount(n) Then shotCurFrame(n)=1
 EndIf
 
+If shotDurationSeq(n)=0 Then shotStopSeq(n)=0
 shotDurationSeq(n)=shotDurationSeq(n)+1
-If shotUturn(n)=1 And shotDurationSeq(n) => shotDuration(n) Then
-		shotDurationSeq(n)=shotDurationSeq(n)-1
-		shotSpeed(n)=shotSpeed(n) - shotAcc(n)
-		If shotspeed(n) <= 0 Then 
-			shotDurationSeq(n)=0
-			If shotUturnseq(n) => shotUturnAmount(n) Then
-				shotUturn(n)=0
-			Else
-				shotUturnSeq(n)=shotUturnseq(n)+1
-			EndIf
-			shotDuration(n)=shotDuration2(n)
-			If shotDir(n) = 2 Then shotDir(n)=4 Else shotDir(n)=2
+If shotUturn(n)=1 And shotDurationSeq(n) >= shotDuration(n) Then
+	shotDurationSeq(n)=shotDurationSeq(n)-1
+	shotSpeed#(n)=shotSpeed#(n) - shotAcc(n)
+	If shotspeed#(n) <= 0 Then 
+		shotDurationSeq(n)=0
+		If shotUturnseq(n) => shotUturnAmount(n) Then
+			shotUturn(n)=0
+		Else
+			shotUturnSeq(n)=shotUturnseq(n)+1
 		EndIf
+		shotDuration(n)=shotDuration2(n)
+	If shotDir(n) = 2 Then shotDir(n)=4 Else shotDir(n)=2
+EndIf
 Else	
 	If shotUseAcc(n)=1 Then
-		shotSpeed(n)=shotSpeed(n) + shotAcc(n)
-		If shotSpeed(n) > shotmaxSpeed(n) Then shotspeed(n)=shotMaxSpeed(n)
+		shotSpeed#(n)=shotSpeed#(n) + shotAcc(n)
+		If shotSpeed#(n) > shotmaxSpeed(n) Then shotspeed#(n)=shotMaxSpeed(n)
 	EndIf
 EndIf
 	
 If shotDurationSeq(n) > shotDuration(n) Then
-	shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
+	If shotStopDuration(n) = 0 Then
+		shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
+	Else
+		If shotDurationSeq(n)=shotDuration(n)+1 Then shotSpeed#(n)=0:shotYspeed#(n)=0
+		shotStopSeq(n)=shotStopSeq(n)+1
+		
+		If shotStopSeq(n) > shotStopDuration(n) Then 
+			shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
+		End If
+	End If
 EndIf
 End Function
 
@@ -4323,12 +4348,13 @@ Function plat(n)
 
 For n=1 To platAmount
 
-
 p=platCurPoint(n)
 If platSpecial(n)=0 Then platXDir(n)=0:platYDir(n)=0
 xOldplat(n)=xplat(n)
 
-If (platUseTrigger(n) And eventN(platEventN(n))=1) Or platSpecial(n)=1 Then Goto skipPlatMove
+If (platUseTrigger(n) And eventN(platEventN(n))=1) Or platSpecial(n)=1 Then 
+	Goto skipPlatMove
+End If
 
 If xPlat(n) < xPlatPoint(n,p) And xplatDest(n)=0 Then
 	xplat(n)=xPlat(n)+platXSpeed(n)
@@ -4353,7 +4379,6 @@ Else
 		platyDir(n)=1
 		If yPlat(n) =< yPlatPoint(n,p) Then yplatDest(n)=1
 	EndIf
-
 EndIf
 If yPlat(n)=yPlatPoint(n,p) Then yplatDEst(n)=1
 
@@ -6427,12 +6452,22 @@ Function handleShotSeeking(n)
 
 	If shotSeekType(n)=seekTypeSemi
 		If ((yShot(n) < (zy(nn)-adjHt)) And (Abs(zy(nn)-adjHt-yShot(n)) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
-			yShot(n)=yShot(n)+shotSeekSpeed(n)
+			yShot(n)=yShot(n)+shotSeekSpeed#(n)
 		Else If ((yShot(n) > (zy(nn)-adjHt)) And (Abs(yShot(n)-zy(nn)-adjHt) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
-			yShot(n)=yShot(n)-shotSeekSpeed(n)
+			yShot(n)=yShot(n)-shotSeekSpeed#(n)
 		End If			
-	Else If shotSeekType(n)=seekTypeFull Then
+	Else If (shotSeekType(n)=seekTypeFull) And (nn <> shotOwner(n))Then
+		If yShot(n) < (zy(nn)-adjHt) Then
+			yShot(n)=yShot(n)+shotSeekSpeed#(n)
+		Else If yShot(n) > (zy(nn)-adjHt) Then
+			yShot(n)=yShot(n)-shotSeekSpeed#(n)
+		End If
 		
+		If xShot(n) < zx(nn) Then
+			xShot(n)=xShot(n)+shotSeekSpeed#(n)
+		Else If xShot(n) > zx(nn) Then
+			xShot(n)=xShot(n)-shotSeekSpeed#(n)
+		End If
 	End If
 End Function
 

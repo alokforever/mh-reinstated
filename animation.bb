@@ -368,6 +368,15 @@ Function drawElectrocution(n)
 	x=Rand(-8,8) : y=Rand(-30,-10)
 	If electrocuteSeq(n) Mod 12 = 0 Then makechunk(n,zx(n)+x,(zy(n)+10)+y,zFace(n),31)
 	electrocuteSeq(n)=electrocuteSeq(n)-1
-	If electrocuteSeq(n) Mod 15 = 0 Then zani(n)=2:zf(n)=1
-	If electrocuteSeq(n) Mod 30 = 0 Then zani(n)=2:zf(n)=2
+	If electrocuteFrames(n)=0 Then
+		If electrocuteSeq(n) Mod 15 = 0 Then zani(n)=2:zf(n)=1
+		If electrocuteSeq(n) Mod 30 = 0 Then zani(n)=2:zf(n)=2
+	Else
+		For frame=electrocuteFrames(n) To 1 Step -1
+			If (electrocuteSeq(n) / electrocuteFrameSpd(n)) Mod frame = 0 Then
+				zani(n)=24:zf(n)=frame
+				Return
+			EndIf			
+		Next
+	End If
 End Function

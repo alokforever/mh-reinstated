@@ -71,6 +71,10 @@ zBlocked(n)=0: aiGetTarget(n):
 	hasSpecialAirFrames(n)=0
 	specialHitFrames(n)=0
 	hitFrameSpeed(n)=0
+	superMoveMaxSeq(n)=50
+	superPicNum(n)=1
+	electrocuteFrames(n)=0
+	electrocuteFrameSpd(n)=0
 
 Select curGuy(n)	;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -385,6 +389,9 @@ Case 14: ;Wonder Woman
 	duckFrameSpeed(n)=5
 	canAirGlide(n)=1
 	hasSpecialAirFrames(n)=1
+	superPicNum(n)=2
+	electrocuteFrames(n)=3
+	electrocuteFrameSpd(n)=2
 
 Case 15: ;Juggernaut
 	zBlowDist(n,1)=45
@@ -453,6 +460,7 @@ Case 16: ;Piccolo
 	hasSpecialAirFrames(n)=1
 	specialHitFrames(n)=10
 	hitFrameSpeed(n)=4
+	superMoveMaxSeq(n)=211
 	
 Case 30: ;Pig
 	zBlowDist(n,1)=64
@@ -883,8 +891,9 @@ Function shotData(weaponChosen,n)
 	electrocuteTime(n)=0
 	shotSeekType(n)=shotSeekNone
 	shotVerticalSize(n)=1
-	shotSeekSpeed(n)=0
+	shotSeekSpeed#(n)=0
 	shotGroundXDestroy(n)=0
+	shotStopDuration(n)=0
 
 Select weaponChosen	
 	
@@ -1694,12 +1703,39 @@ Case 50	;Kiryoku-ryuu
 	shotFrameTime(n)=2
 	shotSound(n)=dbzKiHitSnd
 	shotSeekType(n)=seekTypeSemi
-	shotSeekSpeed(n)=2
+	shotSeekSpeed#(n)=2
 	shotPic(n,1)=shotImage(70)
 	shotPic_(n,1)=shotImage(70)
 	shotPic(n,2)=shotImage(71)
 	shotPic_(n,2)=shotImage_(71)
 	
+Case 51 ;Makuuhouidan
+	xSpdRand#=rand(40)
+	durationRand#=rand(8)
+	shotspeed#(n)=3+(xSpdRand#/10.0)
+	shotYspeed#(n)=-6
+	shotWidth(n)=20
+	shotsize(n)=20
+	shotheight(n)=20
+	shotDamage(n)=12
+	shotHitMode(n)=2
+	shotSide(n)=shotsize(n)/2
+	shotImmuneTime(n)=50
+	shotHitXspeed(n)=4
+	shotHitYspeed(n)=2
+	shotFallTime(n)=60
+	shotDuration(n)=20+durationRand
+	shotStopDuration(n)=200
+	shotMaxSpeed(n)=shotSpeed#(n)
+	shotDrill(n)=0
+	shotChunkType(n)=122
+	shotFramesAmount(n)=2
+	shotFrameTime(n)=2
+	shotSound(n)=piccoloMakuuSnd
+	shotPic(n,1)=shotImage(70)
+	shotPic_(n,1)=shotImage(70)
+	shotPic(n,2)=shotImage(71)
+	shotPic_(n,2)=shotImage_(71)
 End Select
 End Function
 ;----------------- Chunks ---------------------------------
@@ -3378,6 +3414,9 @@ gfxdir$="gfx\" + n + "\"
 guyLoaded(n)=1
 
 zpic(n,20,1)=LoadImage(gfxdir$ + "zSuperPic.bmp")
+zpic(n,20,2)=LoadImage(gfxdir$ + "zSuperPic2.bmp")
+zpic_(n,20,1)=LoadImage(gfxdir$ + "zSuperPic_.bmp")
+zpic_(n,20,2)=LoadImage(gfxdir$ + "zSuperPic2_.bmp")
 zpic(n,0,0)=LoadImage(gfxStuffDir$ + "frozen.bmp")
 zpic_(n,0,0)=LoadImage(gfxStuffDir$ + "frozen_.bmp")
 zpic(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small.bmp")
@@ -3503,6 +3542,11 @@ For counter = 1 To 15
 	zpic_(n,23,counter)=LoadImage(gfxdir$ + "dizzy\zDizzy" + counter + "_.bmp")
 Next
 
+For counter = 1 To 4
+	zpic(n,24,counter)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + counter + ".bmp")
+	zpic_(n,24,counter)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + counter + "_.bmp")
+Next
+
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom
@@ -3591,6 +3635,7 @@ If n=16 Then ;Piccolo
 	If piccoloGrunt6Snd=0 Then piccoloGrunt6Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt6Snd.wav")
 	If piccoloGrunt7Snd=0 Then piccoloGrunt7Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt7Snd.wav")
 	If piccoloGrunt8Snd=0 Then piccoloGrunt8Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt8Snd.wav")
+	If piccoloGrunt9Snd=0 Then piccoloGrunt9Snd=LoadSound(soundsDir$ + "piccolo\piccoloGrunt9Snd.wav")
 	If piccoloKaikousenSnd=0 Then piccoloKaikousenSnd=LoadSound(soundsDir$ + "piccolo\piccoloKaikousenSnd.wav")
 	If piccoloKiSnd=0 Then piccoloKiSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiSnd.wav")
 	If piccoloUpSpecialBlowSnd=0 Then piccoloUpSpecialBlowSnd=LoadSound(soundsDir$ + "piccolo\piccoloUpSpecialBlowSnd.wav")
@@ -3599,6 +3644,11 @@ If n=16 Then ;Piccolo
 	If piccoloFollowUpHitSnd=0 Then piccoloFollowUpHitSnd=LoadSound(soundsDir$ + "piccolo\piccoloFollowUpHitSnd.wav")
 	If piccoloBuukuKyakuSnd=0 Then piccoloBuukuKyakuSnd=LoadSound(soundsDir$ + "piccolo\piccoloBuukuKyakuSnd.wav")
 	If dbzSuperKickSnd=0 Then dbzSuperKickSnd=LoadSound(soundsDir$ + "dbz\dbzSuperKickSnd.wav")
+	If dbzChargeSnd=0 Then dbzChargeSnd=LoadSound(soundsDir$ + "dbz\dbzChargeSnd.wav")
+	If piccoloKiCtrlSnd=0 Then piccoloKiCtrlSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiCtrlSnd.wav")
+	If piccoloKutabare1Snd=0 Then piccoloKutabare1Snd=LoadSound(soundsDir$ + "piccolo\piccoloKutabare1Snd.wav")
+	If piccoloKutabare2Snd=0 Then piccoloKutabare2Snd=LoadSound(soundsDir$ + "piccolo\piccoloKutabare2Snd.wav")
+	If piccoloMakuuSnd=0 Then piccoloMakuuSnd=LoadSound(soundsDir$ + "piccolo\piccoloMakuuSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

@@ -4363,7 +4363,7 @@ Case 7	;Ritcher cross
 	If zBlowSeq(n) > f And zBlowSeq(n) <= g Then zani(n)=6:zf(n)=7
 
 	If zBlowSeq(n)= e Then
-		If shot(zMyShot(n)) =0 Or shotOwner(zMyshot(n)) <> n Or shotType(zMyShot(n)) <> 29 Then
+		If shot(zMyShot(n)) = 0 Or shotOwner(zMyshot(n)) <> n Or shotType(zMyShot(n)) <> 29 Then
 			zMyShot(n)=getShot()
 			dir=zface(n):y=zy(n)-25
 			If zface(n)=2 Then x=zx(n)+10
