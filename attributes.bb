@@ -882,6 +882,7 @@ Function shotData(weaponChosen,n)
 	shotHold(n)=8
 	shotExplosive(n)=0
 	shotExplosionSound(n)=explodeSnd
+	shotExplodeChunk(n)=4
 	shotWidth(n)=1
 	shotId(n)=0
 	isShotDisappearOnHit(n)=0
@@ -1717,7 +1718,7 @@ Case 51 ;Makuuhouidan
 	shotWidth(n)=20
 	shotsize(n)=20
 	shotheight(n)=20
-	shotDamage(n)=12
+	shotDamage(n)=11
 	shotHitMode(n)=2
 	shotSide(n)=shotsize(n)/2
 	shotImmuneTime(n)=50
@@ -1728,9 +1729,11 @@ Case 51 ;Makuuhouidan
 	shotStopDuration(n)=200
 	shotMaxSpeed(n)=shotSpeed#(n)
 	shotDrill(n)=0
-	shotChunkType(n)=122
 	shotFramesAmount(n)=2
 	shotFrameTime(n)=2
+	shotExplosive(n)=2
+	shotExplosionSound(n)=piccoloMakuuSnd
+	shotExplodeChunk(n)=122
 	shotSound(n)=piccoloMakuuSnd
 	shotPic(n,1)=shotImage(70)
 	shotPic_(n,1)=shotImage(70)
@@ -2769,10 +2772,30 @@ Case 126:		;Buy a scorpion doll
 	a=1
 	If chunkSeq(n)=a Then chunkPic(n)=ptPic(104,1):chunkPic_(n)=ptPic(104,1)
 	If chunkSeq(n)>a Then chunk(n)=0
+
+Case 127:		;Charge (dbz)
+	seq1=3
+	endSeq=16
+	
+	If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then 
+		chunkPic(n)=ptPic(105,1):chunkPic_(n)=ptPic(105,1)
+	Else
+		chunkPic(n)=ptPic(105,chunkSeq(n)-2):chunkPic_(n)=ptPic(105,chunkSeq(n)-2)	
+	End If
+		
+	If chunkSeq(n) > endSeq Then chunk(n)=0
+	
+Case 128:		;Pre-makuuhouidan
+	seq1=3
+	If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then
+		chunkPic(n)=ptPic(102,3):chunkPic_(n)=ptPic(102,3)
+	End If
+	
+	If chunkSeq(n) > seq1 Then chunk(n)=0
 	
 Default
 	a=5:b=10:c=14	;Blocking
-	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)= ptPic(3,1):chunkPic_(n)= ptPic(3,1)
+	If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
 	If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)= ptPic(1,2):chunkPic_(n)= ptPic(1,2)
 	If chunkSeq(n) > b And chunkSeq(n) =< c Then chunkPic(n)= ptPic(1,3):chunkPic_(n)= ptPic(1,3)
 	If chunkSeq(n) > c Then chunk(n)=0
@@ -3402,10 +3425,15 @@ Case 1
 	expHeight(n)=40
 	expSide(n)=20
 	expImpact(n)=50
-	explosionSound(n)=explodeSnd
 
+Case 2
+	expDamage(n)=0
+	expHeight(n)=40
+	expSide(n)=20
+	expImpact(n)=50
 End Select
 
+explosionSound(n)=shotExplosionSound(n)
 End Function
 ;------------------Load sprites ------------------------------------
 Function loadPics(n)

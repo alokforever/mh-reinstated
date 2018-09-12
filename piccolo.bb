@@ -460,7 +460,7 @@ Function doMakuuHouidan(n)
 	seq15=seq14+4:seq16=seq15+4:seq17=seq16+4:seq18=seq17+3
 	endSeq=900
 	zNoMove(n)=1:zNoJump(n)=1
-	If zongnd(n)=0 Then zy(n)=zy(n)-2
+	zNoGrav(n)=1
 	
 ;--------- Animation -----------
 	If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=18:zf(n)=8
@@ -479,8 +479,14 @@ Function doMakuuHouidan(n)
 			If zani(n)=18 And zF(n)=8 Then 
 				seqMod1=zBlowSeq(n)+4
 				seqMod2=zBlowSeq(n)-5
-				If (seqMod1 Mod 22 = 0) Then zAni(n)=10:zf(n)=2 ;2
-				If (seqMod2 Mod 22 = 0) Then zAni(n)=18:zf(n)=12 ;4
+				If (seqMod1 Mod 22 = 0) Then ;2
+					zAni(n)=10:zf(n)=2
+					extraObj(n,zx(n),5,zy(n),-20,zFace(n),128)
+				End If
+				If (seqMod2 Mod 22 = 0) Then ;4
+					zAni(n)=18:zf(n)=12
+					extraObj(n,zx(n),-8,zy(n),-29,zFace(n),128)
+				End If
 			Else If zani(n)=10 And zF(n)=2 Then
 				seqMod=zBlowSeq(n)-1
 				If (seqMod Mod 22=0) Then zAni(n)=10:zf(n)=3 ;3
@@ -529,6 +535,17 @@ Function doMakuuHouidan(n)
 	End If
 	
 	If zBlowSeq(n)=seq13+1 Then getShots(n):doApplySeekingBalls(n)
+	
+;----------- Chunks ------------
+	If zBlowSeq(n)=seq3+1 Then 
+		If zFace(n)=2 Then makechunk(n,zx(n)+7,zy(n)+4,zFace(n),127)
+		If zFace(n)=4 Then makechunk(n,zx(n)-7,zy(n)+4,zFace(n),127)
+	End If
+	
+	If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq8 Then 
+		extraObj(n,zx(n),21,zy(n),-15,zFace(n),128)
+		extraObj(n,zx(n),-8,zy(n),-15,zFace(n),128)
+	End If
 	
 ;-------------------------------
 		
@@ -591,9 +608,9 @@ Case 1	;Normal Punch
 ;--------- Hit box ----------
 	If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then
 		zblowPamount(n)=3:nn=1
-		xblow(n,nn)=3: yblow(n,nn)=35:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
-		xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=25:hblow(n,nn)=5:nn=nn+1
-		xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=25:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=3: yblow(n,nn)=35:wblow(n,nn)=25:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=30:hblow(n,nn)=5:nn=nn+1
+		xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=30:hblow(n,nn)=5:nn=nn+1
 		zHitmode(n)=0:zBlowHold(n)=8:zBlowStillTime(n)=6
 		zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
 		zBlowDamage(n)=17:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
@@ -956,7 +973,6 @@ Case 14	;Super Special
 	choubakuretsuSeq=2000
 	If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n) = makuuhoidanSeq
 	If zBlowSeq(n) >= makuuhoidanSeq And zBlowSeq(n) < choubakuretsuSeq Then doMakuuHouidan(n)
-	
 	
 	If zBlowSeq(n)=endSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 

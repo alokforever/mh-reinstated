@@ -235,7 +235,7 @@ Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(3
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
 Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
 Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
-Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200)
+Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1064,7 +1064,7 @@ For n= 1 To zzamount
 	If zon(n) > 0 Then blows(n)
 Next
 For n=1 To zzamount
-	If zHit(n) =1  Then zBlow(n)=0:zBlowStill(n)=0:isRunning(n)=0
+	If zHit(n) =1 Then zBlow(n)=0:zBlowStill(n)=0:isRunning(n)=0
 Next
 
 stages();Special stuff that goes on the current map
@@ -1160,7 +1160,7 @@ Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
 If chunkAMount < 0 Then chunkAMount=0
-For n= 1 To chunkAmount
+For n = 1 To chunkAmount
 	If chunk(n) Then chunks(n)
 Next
 
@@ -2071,6 +2071,7 @@ EndIf
 If zhit(n)=1 Then
 	If isFrozen(n)=1 Or isDizzy(n)=1 Then unFreeze(n,isFrozen(n))
 	zhitseq(n)=zhitseq(n)+1 
+	If zSuperMove(n)=1 And isSuperMove=1 Then isSuperMove=0
 	zSuperMove(n)=0
 	If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
 			
@@ -2639,14 +2640,12 @@ End Function
 
 Function getShots(n)
 shotIndex=0
-For i=1 To 200
+For i=1 To shotAmount
 	If shot(i)=1 Then
-		If shotOwner(shot(i))=1 Then
+		If shotOwner(i)=n Then
 			myShots(n,shotIndex)=i
 			shotIndex=shotIndex+1
 		End If
-	Else
-		Goto EndLoop
 	End If
 Next
 .EndLoop
@@ -4736,15 +4735,9 @@ End Function
 
 ;---------------------- Shot explodes --------------------------------
 Function shotExp(n,x,y,kind)
-
-Select kind
-Case 1	;shot explosion
 	makeExp(n,x,y,kind)
-	makeChunk(n,x,y,2,4)
 	If gamesound Then PlaySound shotExplosionSound(n)
-
-End Select
-
+	makeChunk(n,x,y,shotDir(n),shotExplodeChunk(n))
 End Function
 
 ;-------------- Special A.I. -------------------------
