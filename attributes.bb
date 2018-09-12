@@ -1744,6 +1744,7 @@ End Function
 ;----------------- Chunks ---------------------------------
 Function chunks(n)
 
+isChunkRenderLowPrio(n)=0
 chunkSeq(n)=chunkSeq(n)+1
 cc=chunkType(n)
 Select chunkType(n)
@@ -2774,6 +2775,7 @@ Case 126:		;Buy a scorpion doll
 	If chunkSeq(n)>a Then chunk(n)=0
 
 Case 127:		;Charge (dbz)
+	isChunkRenderLowPrio(n)=1
 	seq1=3
 	endSeq=16
 	
@@ -2788,7 +2790,7 @@ Case 127:		;Charge (dbz)
 Case 128:		;Pre-makuuhouidan
 	seq1=3
 	If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then
-		chunkPic(n)=ptPic(102,3):chunkPic_(n)=ptPic(102,3)
+		chunkPic(n)=ptPic(102,1):chunkPic_(n)=ptPic(102,1)
 	End If
 	
 	If chunkSeq(n) > seq1 Then chunk(n)=0

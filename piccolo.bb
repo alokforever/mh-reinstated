@@ -531,6 +531,7 @@ Function doMakuuHouidan(n)
 			If zFace(n)=2 Then x=zx(n)+30
 			If zFace(n)=4 Then x=zx(n)-30
 			makeshot(n,51,x,y,zface(n))
+			zSuperBar(n)=zSuperBar(n)-11
 		End If
 	End If
 	

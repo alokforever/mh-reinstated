@@ -236,6 +236,7 @@ Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
 Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
 Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
 Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
+Dim isChunkRenderLowPrio(1500)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1008,9 +1009,9 @@ For n=1 To zzamount
         If (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
 		;Add character, add another CASE call to your new function, will probably be 
 		;something like: CASE 11:DoGuyNameHere(n)
-		Select curguy(n)	
-		
-			Case 1:doRyu(n)
+		Select curguy(n)
+			
+			Case 1:DoRyu(n)
 			Case 2:DoRash(n)
 			Case 3:DoSpiderMan(n)
 			Case 4:DoMario(n)
@@ -1142,7 +1143,7 @@ For n=1 To Famount
 	If eventN(Fevent(n))=1 And Fon(n) Then factory(n)
 Next
 
-For n= 1 To zzamount
+For n = 1 To zzamount
 	If isSuperMove=0 Or (isSuperMove=1 And zSuperMove(n)=1) Then
 		If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
 		checkInputs(n)
@@ -1153,15 +1154,13 @@ For n= 1 To zzamount
 		If zBurning (n) > 0 Then burnPlayer(n)
 		If zComboMode(n)=1 Then handleComboMode(n)
 		If zon(n) Then SelectDraw(n)
-	Else
-		initNoControl(n)
 	End If
 Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
 If chunkAMount < 0 Then chunkAMount=0
 For n = 1 To chunkAmount
-	If chunk(n) Then chunks(n)
+	If chunk(n) And (isSuperMove=0 Or (isSuperMove=1 And chunkOwner(n)=1)) Then chunks(n)
 Next
 
 If scrollMap=1 Then
@@ -1390,6 +1389,10 @@ For i=1 To triggerAmount
 	EndIf
 Next
 
+For n = 1 To chunkAmount
+	If isChunkRenderLowPrio(n)=1 Then renderChunks(n)
+Next
+
 For n=1 To zzamount
 	If zon(n) > 0 Then renderZ(n)
 Next
@@ -1425,30 +1428,8 @@ For n = 1 To shotamount
 	EndIf
 Next
 
-For n= 1 To chunkAmount
-  If chunk(n) = 1 Then
-	Local yImageHeight,xImageHeight
-	yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
-	xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
-	;Select chunkCategory(n)
-	;Case 1	;normal chunks
-	  Select chunkDir(n)
-		Case 0:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr
-		Case 2:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
-		Case 4:DrawImage chunkPic_(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
-	  End Select
-	;Case 2	;text messages
-;
-;	  yChunk(n) = textBox(chunkWidth(n),chunkHeight(n))
-;	  y=0
- ;	  For i=1 To chunkLines(n)
-;		;fontType=2
-;		pri priW(chunkStr$(n,i)), yChunk(n)+5+y, chunkStr$(n,i)
-;		;fontType=1
-;		y=y+22
-;	  Next
-;	End Select
-  EndIf
+For n = 1 To chunkAmount
+	If isChunkRenderLowPrio(n)=0 Then renderChunks(n)
 Next
 
 For b=3 To 5
@@ -2259,7 +2240,6 @@ EndIf
 
 End Function
 
-
 ;--------RENDER Z---------------------------------------------------------------------------------
 Function renderZ(n)
 
@@ -2311,6 +2291,34 @@ EndIf
 
 End Function
 
+;--------Draw Chunks----------------------------------------------------------------------------------
+Function renderChunks(n)
+
+  If chunk(n) = 1 And (isSuperMove=0 Or (isSuperMove=1 And chunkOwner(n)=1)) Then
+	Local yImageHeight,xImageHeight
+	yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
+	xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
+	;Select chunkCategory(n)
+	;Case 1	;normal chunks
+	  Select chunkDir(n)
+		Case 0:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr
+		Case 2:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
+		Case 4:DrawImage chunkPic_(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
+	  End Select
+	;Case 2	;text messages
+;
+;	  yChunk(n) = textBox(chunkWidth(n),chunkHeight(n))
+;	  y=0
+ ;	  For i=1 To chunkLines(n)
+;		;fontType=2
+;		pri priW(chunkStr$(n,i)), yChunk(n)+5+y, chunkStr$(n,i)
+;		;fontType=1
+;		y=y+22
+;	  Next
+;	End Select
+  EndIf
+
+End Function
 
 ;--------KEY INPUTS-----------------------------------------------------------------------------------
 Function Getinput()
@@ -2490,7 +2498,7 @@ EndIf
 If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then 
 	If zhit(n)=0 And zongnd(n)=1 And zBlow(n)=1 And zCurBlow(n)=0 And zBlocked(n)=0 Then
 		If leftKeyhit(n) Then zFace(n)=4 Else zFace(n)=2
-		zBlow(n)=1:zBlowSeq(n)=0	
+		zBlow(n)=1:zBlowSeq(n)=0
 		zCurBlow(n)=8:zBlowDir(n)=zFace(n)  ;Dodge move
 	EndIf
 EndIf
@@ -2654,6 +2662,7 @@ End Function
 ;--------SHOTS---------------------------------------------------------------------------------
 Function shots(n)
 
+If isSuperMove And zSuperMove(shotOwner(n))=0 Then Goto endShotProcess
 For nn=1 To shotamount	;shot x shot collision
 	If zhit(shotOwner(nn))=1 And isShotDisappearOnHit(nn)=1 Then 
 		shot(nn)=0
@@ -2807,6 +2816,7 @@ If shotDurationSeq(n) > shotDuration(n) Then
 		End If
 	End If
 EndIf
+.endShotProcess
 End Function
 
 
@@ -4350,6 +4360,8 @@ For n=1 To platAmount
 p=platCurPoint(n)
 If platSpecial(n)=0 Then platXDir(n)=0:platYDir(n)=0
 xOldplat(n)=xplat(n)
+
+If isSuperMove Then Goto skipPlatMove
 
 If (platUseTrigger(n) And eventN(platEventN(n))=1) Or platSpecial(n)=1 Then 
 	Goto skipPlatMove
