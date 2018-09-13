@@ -1,5 +1,4 @@
 Include "globalSoundVariables.bb"
-Include "constants.bb"
 
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
@@ -1081,7 +1080,7 @@ For n= 1 To shotamount
 Next
 
 For n= 1 To objAmount
-    If obj(n) Then
+    If obj(n) And isSuperMove=0 Then
         objs(n)
         objFrameSeq(n) = objFrameSeq(n) + 1
         If objFrameSeq(n) > objFrameTime(n) Then
@@ -1154,8 +1153,8 @@ For n = 1 To zzamount
         If zBurning (n) > 0 Then burnPlayer(n)
         If zComboMode(n)=1 Then handleComboMode(n)
     End If
-	
-	If zon(n) Then SelectDraw(n)
+
+    If zon(n) Then SelectDraw(n)
 Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
@@ -1172,9 +1171,9 @@ If scrollMap=1 Then
     zDown=0
     moved=0
     For n=1 To 4
-        If zon(n)=1 Then            
+        If zon(n)=1 Then
             If zx(n) > xscr+440 Then zRight=1
-            If zx(n) < xscr+200 Then zLeft=1        
+            If zx(n) < xscr+200 Then zLeft=1
             If zy(n) > yScr+400 Then zDown=1
             If zy(n) < yScr+200 Then zTop=1
             
@@ -1283,7 +1282,6 @@ For n=1 To tileAmount(i)
     
     xTile(i,n)=xTile(i,n) + tileXspeed(i,n)
      yTile(i,n)=yTile(i,n) + tileYspeed(i,n)
-    
 Next
 Next
 
@@ -1416,7 +1414,7 @@ For n = 1 To objAmount
 Next
 
 For n= 1 To boxAmount
-    If drawbox(n) Then renderBoxes(n)
+    If drawbox(n) And isSuperMove=0 Then renderBoxes(n)
 Next
 
 ;draw bullets/shots
