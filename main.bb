@@ -236,7 +236,7 @@ Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
 Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
 Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
 Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
-Dim isChunkRenderLowPrio(1500)
+Dim isChunkRenderLowPrio(1500), shotExplosiveDamage(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1006,7 +1006,7 @@ For n= 1 To zzamount
 Next
 
 For n=1 To zzamount
-        If isCharacterActive(n) And (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
+        If isActiveCharacter(n) And (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
         ;Add character, add another CASE call to your new function, will probably be 
         ;something like: CASE 11:DoGuyNameHere(n)
         Select curguy(n)
@@ -1144,7 +1144,7 @@ For n=1 To Famount
 Next
 
 For n = 1 To zzamount
-    If isCharacterActive(n) Then
+    If isActiveCharacter(n) Then
         If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
         checkInputs(n)
         If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
@@ -1755,7 +1755,7 @@ Goto menuStart
 End
 
 ;------- Checker if character can perform action ---------
-Function isCharacterActive(n)
+Function isActiveCharacter(n)
     If isSuperMove=0 Or (isSuperMove=1 And zSuperMove(n)=1) Then
         return 1
     Else
@@ -2360,7 +2360,7 @@ If NoUserInput=0 Then
 
 For k= 1 To zzamount
     If zAI(k)=1 And zon(k)=1 Then
-        If isFrozen(k)=1 Or isDizzy(k)=1 Then Goto SkipAI
+        If isFrozen(k)=1 Or isDizzy(k)=1 Or isActiveCharacter(k)=0 Then Goto SkipAI
         If Not zUseSpecialAI(k) Then 
             AI(k,aiTarget(k))
         Else
