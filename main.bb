@@ -1006,7 +1006,7 @@ For n= 1 To zzamount
 Next
 
 For n=1 To zzamount
-        If (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
+        If isCharacterActive(n) And (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
         ;Add character, add another CASE call to your new function, will probably be 
         ;something like: CASE 11:DoGuyNameHere(n)
         Select curguy(n)
@@ -1144,7 +1144,7 @@ For n=1 To Famount
 Next
 
 For n = 1 To zzamount
-    If isSuperMove=0 Or (isSuperMove=1 And zSuperMove(n)=1) Then
+    If isCharacterActive(n) Then
         If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
         checkInputs(n)
         If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
@@ -1153,8 +1153,9 @@ For n = 1 To zzamount
         If healMode(n)=1 Then healPlayer(n)
         If zBurning (n) > 0 Then burnPlayer(n)
         If zComboMode(n)=1 Then handleComboMode(n)
-        If zon(n) Then SelectDraw(n)
     End If
+	
+	If zon(n) Then SelectDraw(n)
 Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
@@ -1699,7 +1700,6 @@ EndIf
 For n=1 To zzamount
     If zSupermove(n) And zon(n) Then 
         If zSuperMoveSeq(n) <= superBarDispTime Goto renderOnly
-        ;If zSuperMoveSeq(n) > zSuperMoveSeq(n) 
     End If
 Next
 
@@ -1753,6 +1753,16 @@ EndIf
 If menuOption=2 Then menuOption=2 Else menuOption = 1
 Goto menuStart
 End
+
+;------- Checker if character can perform action ---------
+Function isCharacterActive(n)
+    If isSuperMove=0 Or (isSuperMove=1 And zSuperMove(n)=1) Then
+        return 1
+    Else
+        return 0
+    End If
+End Function
+
 ;---------- check what characters are open ---------------
 Function checkWhatsOpen()
  
@@ -2258,7 +2268,6 @@ If scrollMap=0 Then
         EndIf
     EndIf
 EndIf
-
 
 ;If zCurPic(n) <> 0 Then     ;test
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
@@ -6059,7 +6068,7 @@ Function initParalysis(n, nn, isUnguardable)
     If isUnguardable=0 Then
         If (zBlowSeq(nn)=0 And zCurBlow(nn)=0) Or (zCurBlow(nn)<>0) Then 
             zParalyzed(nn)=1:initNoControl(nn)
-        End If            
+        End If
     EndIf
     zControls(n)=1
 End Function
@@ -6070,6 +6079,12 @@ Function initNoControl(nn)
     zBlow(nn)=0:zBlowEffect(nn)=0
     zBlock(nn)=0:zBlocked(nn)=0
     zJump(nn)=0:zJump2(nn)=0
+    zNoJump(nn)=1
+End Function
+
+;------- Initialize no movement of character --------
+Function initNoMove(nn)
+    zNoMove(nn)=1
     zNoJump(nn)=1
 End Function
 
