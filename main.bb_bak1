@@ -2075,6 +2075,7 @@ If zhit(n)=1 Then
     If zongnd(n)=0 Then
         If zFallDir(n)=4 Then zx(n)=zx(n)-zFallSpeed#(n)
         If zFallDir(n)=2 Then zx(n)=zx(n)+zFallSpeed#(n)
+        If n = 2 Then DebugLog "n: " + n + ", zFallDir: " + zFallDir(n) + ", zx: " + zx(n) + ", zFallSpeed: " + zFallSpeed(2)
     EndIf
 
     If (zFallSpeed(n) > 8 Or zUpFallSpeed(n) > 8) And rendert > 1 Then makeChunk(n,zx(n),zy(n),2,16)
@@ -3705,7 +3706,7 @@ Case 4
                             If gameSOund=1 Then PlaySound blockedsnd
                         EndIf
                 EndIf
-                If zblock(nn)=0 Then
+                If zblock(nn)=0 Then 
                     zlife(nn)=zlife(nn)-zBlowDamage(n)
                     zDamage#(nn)=zDamage#(nn)+zBlowDamage(n)
                     zhitbybox(nn)=0
@@ -4703,11 +4704,14 @@ Function explo(n)
 
 For nn=1 To zzamount
     If zx(nn)+zside(nn) >= xExp(n)-expSide(n) And zx(nn)-zside(nn) <= xExp(n)+expSide(n) And zon(nn)=1 Then
-    If zy(nn) > yExp(n)-expHeight(n) And zy(nn)-ImageHeight(zCurPic(nn)) < yExp(n)+expHeight(n) And zshield(nn)=0 Then
+    drawTestBox(nn, (zx(nn)-zside(nn)), zy(nn), zHeight(nn), (zside(nn)*2))
+    DebugLog "expHeight(n): " + expHeight(n)
+    drawTestBox(n, (xExp(n)-expSide(n)), yExp(n), expHeight(n), (expSide(n)*2))
+    If zy(nn) > yExp(n)-expHeight(n) And zy(nn)-zheight(nn) < yExp(n) And zshield(nn)=0 Then
         If zshield(nn)=0 Then
-            If zStone(nn)=0 Then
+            If zStone(nn)=0 Then 
                 If zx(nn) >= xExp(n) Then zface(nn)=4:zFallDir(nn)=2:zblockDir(nn)=2
-                If zx(nn) <= xExp(n) Then zface(nn)=2:zFallDir(nn)=4:zBlockDir(nn)=4
+                If zx(nn) >= xExp(n) Then zface(nn)=2:zFallDir(nn)=4:zBlockDir(nn)=4
             EndIf
 
             If zblock(nn)=1 Then
@@ -6282,7 +6286,7 @@ Function handleGroundShotType(n)
             shotX=xshot(n)+shotGroundXDestroy(n)
         End If
         checkYDist(n,shotX,yshot(n),downDir)
-        If yDist(n) > 10 Then shot(n)=0
+        If yDist(n) > 10 Then shotDurationSeq(n)=shotDuration(n)+1
     Else If shotGroundType(n)=2 Then
         If shotDir(n)=2 Then 
             shotX=xshot(n)-25
@@ -6394,8 +6398,7 @@ End Function
 ;------------------------ handle shot x player collision -------------------------
 Function handleShotPlayerCollision(n, hAdj, wAdj)
     Local oppDir, xAxisShotPos, yAxisShotPos, objShotWidth, objShotHeight
-    Local dir, isDone=0
-    dir = shotDir(n)
+    Local isDone=0
     If shotDir(n)=2 Then oppDir=4
     If shotDir(n)=4 Then oppDir=2
 

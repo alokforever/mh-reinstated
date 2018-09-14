@@ -276,6 +276,7 @@ Case 11: ;Wolverine
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
+    zSide(n)=12
     zRollOnImpact(n)=1
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
@@ -309,6 +310,8 @@ Case 12: ;Scorpion
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
+    zheight(n)=53
+    zUpHeight(n)=53
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
@@ -341,6 +344,8 @@ Case 13: ;Sub Zero
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
+    zheight(n)=53
+    zUpHeight(n)=53
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
@@ -372,6 +377,9 @@ Case 14: ;Wonder Woman
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
+    zSide(n)=11
+    zheight(n)=50
+    zUpHeight(n)=50
     zRollOnImpact(n)=1
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
@@ -404,6 +412,9 @@ Case 15: ;Juggernaut
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
     zBlowDist(n,16)=370
+    zSide(n)=16
+    zheight(n)=56
+    zUpHeight(n)=56
     zxHand(n,0)=2 :zyHand(n,0)=23
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
@@ -442,6 +453,8 @@ Case 16: ;Piccolo
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
+    zheight(n)=54
+    zUpHeight(n)=54
     zRollOnImpact(n)=1
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
@@ -883,6 +896,9 @@ Function shotData(weaponChosen,n)
     shotExplosive(n)=0
     shotExplosiveDamage(n)=0
     shotExplosionSound(n)=explodeSnd
+    shotExplosiveSide(n)=20
+    shotExplosiveHeight(n)=40
+    shotExpImpact(n)=50
     shotExplodeChunk(n)=4
     shotWidth(n)=1
     shotId(n)=0
@@ -897,7 +913,7 @@ Function shotData(weaponChosen,n)
     shotGroundXDestroy(n)=0
     shotStopDuration(n)=0
 
-Select weaponChosen    
+Select weaponChosen
     
 Case 5    ;ryu ball
     shotspeed(n)=3
@@ -1720,10 +1736,9 @@ Case 51 ;Makuuhouidan
     shotsize(n)=20
     shotheight(n)=20
     shotDamage(n)=5
-    shotExplosiveDamage(n)=6
     shotHitMode(n)=2
     shotSide(n)=shotsize(n)/2
-    shotImmuneTime(n)=50
+    shotImmuneTime(n)=1
     shotHitXspeed(n)=4
     shotHitYspeed(n)=2
     shotFallTime(n)=60
@@ -1734,6 +1749,9 @@ Case 51 ;Makuuhouidan
     shotFramesAmount(n)=2
     shotFrameTime(n)=2
     shotExplosive(n)=2
+    shotExplosiveDamage(n)=6
+    shotExplosiveSide(n)=40
+    shotExplosiveHeight(n)=20
     shotExplosionSound(n)=piccoloMakuuSnd
     shotExplodeChunk(n)=122
     shotSound(n)=piccoloMakuuSnd
@@ -2797,6 +2815,12 @@ Case 128:        ;Pre-makuuhouidan
     
     If chunkSeq(n) > seq1 Then chunk(n)=0
     
+Case 129:        ;Box test
+    a=10000            ;bright dot
+    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,1):chunkPic_(n)=ptPic(13,1)
+    If chunkSeq(n) > a Then chunk(n)=0
+
+
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3432,9 +3456,9 @@ Case 1
 
 Case 2
     expDamage(n)=shotExplosiveDamage(n)
-    expHeight(n)=40
-    expSide(n)=20
-    expImpact(n)=50
+    expHeight(n)=shotExplosiveHeight(n)
+    expSide(n)=shotExplosiveSide(n)
+    expImpact(n)=shotExpImpact(n)
 End Select
 
 explosionSound(n)=shotExplosionSound(n)

@@ -258,7 +258,7 @@ Function doFollowUpCombo(n, mode)
     blowType=1
     zNoGrav(n)=1
     If mode = 0 Then tempZani=9:zf1=18:zf2=19:enemyPullSpd=1.5
-    If mode = 1 Then tempZani=18:zf1=31:zf2=26:enemyPullSpd=2.8
+    If mode = 1 Then tempZani=18:zf1=31:zf2=26:enemyPullSpd=2.9
     If zBlowSeq(n) > seq15 And zBlowSeq(n) <= seq16 Then hitMode=0:blowHold=3:blowType=0
     
 ;--------- Animation -----------
@@ -725,11 +725,12 @@ Case 5    ;UP + SPECIAL (jumping knee list)
     If zBlowSeq(n)=f And gameSound Then PlaySound piccoloUpSpecialBlowSnd
 ;--------- hitbox ------------
     If zBlowSeq(n) > f And zBlowSeq(n) =< g Then
-        zblowPamount(n)=5:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=55:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+        zblowPamount(n)=6:nn=1
+        xblow(n,nn)=0: yblow(n,nn)=25:wblow(n,nn)=15:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=32:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=39:wblow(n,nn)=18:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=46:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=53:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=0: yblow(n,nn)=60:wblow(n,nn)=26:hblow(n,nn)=5:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=6:zBlowStillTime(n)=6
         zHitSpeed#(n)=4:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
@@ -844,7 +845,7 @@ Case 9    ; Kaikousen (down special) / BuukuKyaku
     
 ;------------ Effect -------------
         If zBlowSeq(n)=i Then 
-            y=zy(n)-(zheight(n)-42)
+            y=zy(n)-(zheight(n)-51)
             If zface(n)=2 Then x=zx(n)+36
             If zface(n)=4 Then x=zx(n)-100
             makeshot(n,49,x,y,zface(n))
@@ -970,10 +971,10 @@ Case 13 ; item pickup
 
 Case 14    ;Super Special
     endSeq=900
-    makuuhoidanSeq=1000
+    makuuhouidanSeq=1000
     choubakuretsuSeq=2000
-    If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n) = makuuhoidanSeq
-    If zBlowSeq(n) >= makuuhoidanSeq And zBlowSeq(n) < choubakuretsuSeq Then doMakuuHouidan(n)
+    If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n) = makuuhouidanSeq
+    If zBlowSeq(n) >= makuuhouidanSeq And zBlowSeq(n) < choubakuretsuSeq Then doMakuuHouidan(n)
     
     If zBlowSeq(n)=endSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
