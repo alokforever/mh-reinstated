@@ -473,7 +473,6 @@ Case 16: ;Piccolo
     hasSpecialAirFrames(n)=1
     specialHitFrames(n)=10
     hitFrameSpeed(n)=4
-    superMoveMaxSeq(n)=211
     
 Case 30: ;Pig
     zBlowDist(n,1)=64
@@ -2794,7 +2793,7 @@ Case 126:        ;Buy a scorpion doll
     If chunkSeq(n)=a Then chunkPic(n)=ptPic(104,1):chunkPic_(n)=ptPic(104,1)
     If chunkSeq(n)>a Then chunk(n)=0
 
-Case 127:        ;Charge (dbz)
+Case 127:        ;Charge start (dbz)
     isChunkRenderLowPrio(n)=1
     seq1=3
     endSeq=16
@@ -2806,8 +2805,21 @@ Case 127:        ;Charge (dbz)
     End If
         
     If chunkSeq(n) > endSeq Then chunk(n)=0
+
+Case 128:        ;Charge continued (dbz)
+    isChunkRenderLowPrio(n)=1
+    seq1=1:seq2=2:seq3=3:seq4=4:seq5=5:seq6=6
     
-Case 128:        ;Pre-makuuhouidan
+    If chunkSeq(n) = seq1 Then chunkPic(n)=ptPic(106,1):chunkPic_(n)=ptPic_(106,1)
+    If chunkSeq(n) = seq2 Then chunkPic(n)=ptPic_(106,1):chunkPic_(n)=ptPic(106,1)
+    If chunkSeq(n) = seq3 Then chunkPic(n)=ptPic(106,1):chunkPic_(n)=ptPic_(106,1)
+    If chunkSeq(n) = seq4 Then chunkPic(n)=ptPic(106,2):chunkPic_(n)=ptPic_(106,2)
+    If chunkSeq(n) = seq5 Then chunkPic(n)=ptPic_(106,2):chunkPic_(n)=ptPic(106,2)
+    If chunkSeq(n) = seq6 Then chunkPic(n)=ptPic(106,3):chunkPic_(n)=ptPic_(106,3)
+    
+    If chunkSeq(n) > seq6 Then chunk(n)=0
+    
+Case 129:        ;Pre-makuuhouidan
     seq1=3
     If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then
         chunkPic(n)=ptPic(102,1):chunkPic_(n)=ptPic(102,1)
@@ -2815,12 +2827,52 @@ Case 128:        ;Pre-makuuhouidan
     
     If chunkSeq(n) > seq1 Then chunk(n)=0
     
-Case 129:        ;Box test
+Case 130:        ;Box test
     a=10000            ;bright dot
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,1):chunkPic_(n)=ptPic(13,1)
     If chunkSeq(n) > a Then chunk(n)=0
-
-
+    
+Case 131:        ;Pre-makankousappou (ground)
+    a=2:b=4
+    If chunkSeq(n) > 0 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(107,1):chunkPic_(n)=ptPic_(107,1)
+    If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(107,2):chunkPic_(n)=ptPic_(107,2)
+    
+    If chunkSeq(n) > b Then chunk(n)=0
+    
+Case 132:        ;Makankousappou base (ground)
+    If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(107,3):chunkPic_(n)=ptPic_(107,3)
+    
+    If chunkSeq(n) > 1 Then chunk(n)=0
+    
+Case 133:        ;Makankousappou 1st part A (ground)
+    a=2
+    If chunkSeq(n) <= a Then chunkPic(n)=ptPic(107,4):chunkPic_(n)=ptPic_(107,4)
+    
+    If chunkSeq(n) > a Then chunk(n)=0
+    
+Case 134:        ;Makankousappou 2nd part A (ground)
+    a=2
+    If chunkSeq(n) <= a Then chunkPic(n)=ptPic(107,5):chunkPic_(n)=ptPic_(107,5)
+    
+    If chunkSeq(n) > a Then chunk(n)=0
+    
+Case 135:        ;Makankousappou 1st part B (ground)
+    a=2
+    If chunkSeq(n) <= a Then chunkPic(n)=ptPic(107,6):chunkPic_(n)=ptPic_(107,6)
+    
+    If chunkSeq(n) > a Then chunk(n)=0
+    
+Case 136:        ;Makankousappou 2nd part B (ground)
+    a=2
+    If chunkSeq(n) <= a Then chunkPic(n)=ptPic(107,7):chunkPic_(n)=ptPic_(107,7)
+    
+    If chunkSeq(n) > a Then chunk(n)=0
+    
+Case 137:        ;Makankousappou impact (ground)
+    If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(107,6):chunkPic_(n)=ptPic_(107,8)
+    
+    If chunkSeq(n) > 1 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3701,10 +3753,15 @@ If n=16 Then ;Piccolo
     If piccoloBuukuKyakuSnd=0 Then piccoloBuukuKyakuSnd=LoadSound(soundsDir$ + "piccolo\piccoloBuukuKyakuSnd.wav")
     If dbzSuperKickSnd=0 Then dbzSuperKickSnd=LoadSound(soundsDir$ + "dbz\dbzSuperKickSnd.wav")
     If dbzChargeSnd=0 Then dbzChargeSnd=LoadSound(soundsDir$ + "dbz\dbzChargeSnd.wav")
+    If dbzAuraSnd=0 Then dbzAuraSnd=LoadSound(soundsDir$ + "dbz\dbzAuraSnd.wav")
+    If dbzHyperSnd=0 Then dbzHyperSnd=LoadSound(soundsDir$ + "dbz\dbzHyperSnd.wav")
+    If dbzPierceSnd=0 Then dbzPierceSnd=LoadSound(soundsDir$ + "dbz\dbzPierceSnd.wav")
+    If dbzKiHyperAttackSnd=0 Then dbzKiHyperAttackSnd=LoadSound(soundsDir$ + "dbz\dbzKiHyperAttackSnd.wav")
     If piccoloKiCtrlSnd=0 Then piccoloKiCtrlSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiCtrlSnd.wav")
     If piccoloKutabare1Snd=0 Then piccoloKutabare1Snd=LoadSound(soundsDir$ + "piccolo\piccoloKutabare1Snd.wav")
     If piccoloKutabare2Snd=0 Then piccoloKutabare2Snd=LoadSound(soundsDir$ + "piccolo\piccoloKutabare2Snd.wav")
     If piccoloMakuuSnd=0 Then piccoloMakuuSnd=LoadSound(soundsDir$ + "piccolo\piccoloMakuuSnd.wav")
+    If piccoloMakkankousappouSnd=0 Then piccoloMakkankousappouSnd=LoadSound(soundsDir$ + "piccolo\piccoloMakkankousappouSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

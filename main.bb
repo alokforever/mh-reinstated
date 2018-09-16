@@ -5533,7 +5533,7 @@ For q=1 To 600 Step 5
         If x+q > xplat(nn) And x+q < xplat(nn)+platWidth(nn) And platHeight(nn)>1 Then
             If y > yplat(nn) And y < yplat(nn)+platHeight(nn) Then
                 xDist(n)=q
-                Goto distChecked    
+                Goto distChecked
             EndIf
         EndIf
     Next
@@ -5549,7 +5549,7 @@ For q=1 To 600 Step 5
         If x-q > xplat(nn) And x-q < xplat(nn)+platWidth(nn) And platHeight(nn)>1 Then
             If y > yplat(nn) And y < yplat(nn)+platHeight(nn) Then
                 xDist(n)=q
-                Goto distChecked    
+                Goto distChecked
             EndIf
         EndIf
     Next
@@ -6556,21 +6556,21 @@ End Function
 
 Function drawTestBox(n, x, y, height, width)
     For up=1 To height
-        extraObj(n,x,0,y-up,0,2,129)
+        extraObj(n,x,0,y-up,0,2,130)
     Next
     
     For right=1 To width
-        extraObj(n,x+right,0,y,0,2,129)
+        extraObj(n,x+right,0,y,0,2,130)
     Next
 
     x2=x+width
     y2=y-height
 
     For down=1 To height
-        extraObj(n,x2,0,y2+down,0,2,129)
+        extraObj(n,x2,0,y2+down,0,2,130)
     Next
     
     For left=1 To width
-        extraObj(n,x2-left,0,y2,0,2,129)
+        extraObj(n,x2-left,0,y2,0,2,130)
     Next
 End Function

@@ -165,6 +165,7 @@ Function doBuukuKyaku(n)
             zBlowSeq(n)=a3:zy(n)=zy(n)+10
             If zFace(n)=2 Then zx(n)=zx(n)+15
             If zFace(n)=4 Then zx(n)=zx(n)-15
+            zSpeed#(n)=0
         End If
     End If
     
@@ -481,11 +482,11 @@ Function doMakuuHouidan(n)
                 seqMod2=zBlowSeq(n)-5
                 If (seqMod1 Mod 22 = 0) Then ;2
                     zAni(n)=10:zf(n)=2
-                    extraObj(n,zx(n),5,zy(n),-20,zFace(n),128)
+                    extraObj(n,zx(n),5,zy(n),-20,zFace(n),129)
                 End If
                 If (seqMod2 Mod 22 = 0) Then ;4
                     zAni(n)=18:zf(n)=12
-                    extraObj(n,zx(n),-8,zy(n),-29,zFace(n),128)
+                    extraObj(n,zx(n),-8,zy(n),-29,zFace(n),129)
                 End If
             Else If zani(n)=10 And zF(n)=2 Then
                 seqMod=zBlowSeq(n)-1
@@ -512,10 +513,10 @@ Function doMakuuHouidan(n)
     If zBlowSeq(n) > seq17 And zBlowSeq(n) <= seq18 Then zani(n)=18:zF(n)=8
     
 ;--------- Sounds --------------
-    If zBlowSeq(n) = seq4 And gameSound Then PlaySound piccoloGrunt9Snd    
-    If zBlowSeq(n) = seq4 And gameSound Then PlaySound dbzChargeSnd    
-    If zBlowSeq(n) = seq11 And gameSound Then PlaySound piccoloKiCtrlSnd    
-    If zBlowSeq(n) = seq13 And gameSound Then PlaySound piccoloKutabare2Snd    
+    If zBlowSeq(n) = seq4 And gameSound Then PlaySound piccoloGrunt9Snd
+    If zBlowSeq(n) = seq4 And gameSound Then PlaySound dbzChargeSnd
+    If zBlowSeq(n) = seq11 And gameSound Then PlaySound piccoloKiCtrlSnd
+    If zBlowSeq(n) = seq13 And gameSound Then PlaySound piccoloKutabare2Snd
     If (zani(n)=10 And zF(n)=3) Or (zani(n)=17 And zF(n)=5) Then 
         If ((zBlowSeq(n)-1) Mod 22=0) Or ((zBlowSeq(n)+10) Mod 22=0) Then
             If gameSound Then PlaySound piccoloKiSnd
@@ -523,7 +524,7 @@ Function doMakuuHouidan(n)
     End If
     
 ;--------- Effects -------------
-    If zBlowSeq(n) = seq8 Then zSuperMove(n)=1:zSuperMoveSeq(n)=0
+    If zBlowSeq(n) = seq8 Then zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=211
     
     If (zani(n)=10 And zF(n)=3) Or (zani(n)=17 And zF(n)=5) Then 
         If ((zBlowSeq(n)-1) Mod 22=0) Or ((zBlowSeq(n)+10) Mod 22=0) Then
@@ -538,14 +539,14 @@ Function doMakuuHouidan(n)
     If zBlowSeq(n)=seq13+1 Then getShots(n):doApplySeekingBalls(n)
     
 ;----------- Chunks ------------
-    If zBlowSeq(n)=seq3+1 Then 
+    If zBlowSeq(n)=seq3+1 Then ;seq 1019
         If zFace(n)=2 Then makechunk(n,zx(n)+7,zy(n)+4,zFace(n),127)
         If zFace(n)=4 Then makechunk(n,zx(n)-7,zy(n)+4,zFace(n),127)
     End If
     
     If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq8 Then 
-        extraObj(n,zx(n),21,zy(n),-15,zFace(n),128)
-        extraObj(n,zx(n),-8,zy(n),-15,zFace(n),128)
+        extraObj(n,zx(n),21,zy(n),-15,zFace(n),129)
+        extraObj(n,zx(n),-8,zy(n),-15,zFace(n),129)
     End If
     
 ;-------------------------------
@@ -559,6 +560,157 @@ Function doApplySeekingBalls(n)
         shotDuration(myShots(n, i))=200
         shotSeekType(myShots(n, i))=seekTypeFull
         shotSeekSpeed#(myShots(n, i))=3.5
+    Next
+End Function
+
+Function doMakankousappou(n)
+    seqStart=0:seq1=seqStart+3:seq2=seq1+5:seq3=seq2+10:seq4=seq3+3:seq5=seq4+25 ;46
+    seq6=seq5+3:seq7=seq6+3:seq8=seq7+29 ;81
+    seq9=seq8+1:seq10=seq9+3:seq11=seq10+3:seq12=seq11+3:seq13=seq12+3 ;94
+    seq14=seq13+33 ;127
+    seq15=seq14+3:seq16=seq15+3:seq17=seq16+3:seq18=seq17+5:seq19=seq18+24
+    seq20=seq19+34:seq21=seq20+3:seq22=seq21+3
+    
+    zNoMove(n)=1:zNoJump(n)=1
+    zNoGrav(n)=1
+    endSeq=900
+    
+;--------- Animation -----------
+    If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=18:zf(n)=11
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=17:zf(n)=1
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=17:zf(n)=2
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=17:zf(n)=4
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=17:zf(n)=3
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=17:zf(n)=4
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then zani(n)=17:zf(n)=11
+    
+    If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq8 And zAni(n)=17 Then
+        If ((zBlowSeq(n)+2) Mod 6 = 0) And zF(n)=13 Then 
+            zF(n)=11 ;1
+        Else If ((zBlowSeq(n)+1) Mod 6 = 0) And zF(n)=11 Then 
+            zF(n)=12 ;2
+        Else If ((zBlowSeq(n)+0) Mod 6 = 0) And zF(n)=12 Then 
+            zF(n)=13 ;3
+        Else If ((zBlowSeq(n)-1) Mod 6 = 0) And zF(n)=13 Then 
+            zF(n)=4  ;4
+        Else If ((zBlowSeq(n)-2) Mod 6 = 0) And zF(n)=4  Then 
+            zF(n)=12 ;5
+        Else If ((zBlowSeq(n)-3) Mod 6 = 0) And zF(n)=12 Then 
+            zF(n)=13 ;6
+        End If
+    End If
+    
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq9 Then zani(n)=17:zf(n)=11
+    If zBlowSeq(n) > seq9 And zBlowSeq(n) <= seq10 Then zani(n)=18:zf(n)=11
+    If zBlowSeq(n) > seq10 And zBlowSeq(n) <= seq11 Then zani(n)=18:zf(n)=12
+    If zBlowSeq(n) > seq11 And zBlowSeq(n) <= seq12 Then zani(n)=12:zf(n)=1
+    If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 Then zani(n)=12:zf(n)=2
+
+    If zBlowSeq(n) > seq13 And zBlowSeq(n) <= seq14 And zAni(n)=12 Then
+        If ((zBlowSeq(n)+1) Mod 4 = 0) And zF(n)=4 Then 
+            zf(n)=3 ;1
+        Else If ((zBlowSeq(n)+0) Mod 4 = 0) And zF(n)=3 Then 
+            zF(n)=4 ;2
+        Else If ((zBlowSeq(n)-1) Mod 4 = 0) And zF(n)=4 Then 
+            zf(n)=5 ;3
+        Else If ((zBlowSeq(n)-2) Mod 4 = 0) And zF(n)=5 Then 
+            zf(n)=4 ;4
+        End If
+    End If
+    
+    If zBlowSeq(n) > seq14 And zBlowSeq(n) <= seq15 Then zani(n)=17:zf(n)=14
+    If zBlowSeq(n) > seq15 And zBlowSeq(n) <= seq16 Then zani(n)=17:zf(n)=15
+    If zBlowSeq(n) > seq16 And zBlowSeq(n) <= seq17 Then zani(n)=17:zf(n)=16
+    If zBlowSeq(n) > seq17 And zBlowSeq(n) <= seq18 Then zani(n)=17:zf(n)=17
+    If zBlowSeq(n) > seq18 And zBlowSeq(n) <= seq19 Then zani(n)=17:zf(n)=18
+    If zBlowSeq(n) > seq19 And zBlowSeq(n) <= seq20 Then zani(n)=17:zf(n)=18
+    If zBlowSeq(n) > seq20 And zBlowSeq(n) <= seq21 Then zani(n)=18:zf(n)=12
+    If zBlowSeq(n) > seq21 And zBlowSeq(n) <= seq22 Then zani(n)=18:zf(n)=11
+    
+;--------- Sounds --------------
+    If zBlowSeq(n) = seq7+1 And gameSound Then 
+        PlaySound piccoloGrunt9Snd
+        PlaySound dbzChargeSnd
+        PlaySound dbzAuraSnd
+    End If
+    
+    If zBlowSeq(n) = seq7 And gameSound Then PlaySound dbzHyperSnd
+    If zBlowSeq(n) = seq13+1 And gameSound Then PlaySound piccoloMakkankousappouSnd
+    If zBlowSeq(n) = seq15+1 And gameSound Then PlaySound dbzKiHyperAttackSnd
+    
+;----------- Chunks ------------
+    If zBlowSeq(n)=seq3+1 Then ;seq 1019
+        If zFace(n)=2 Then makechunk(n,zx(n)+7,zy(n)+4,zFace(n),127)
+        If zFace(n)=4 Then makechunk(n,zx(n)-7,zy(n)+4,zFace(n),127)
+    End If
+    
+    If zBlowSeq(n) = seq17+1 Then 
+        If zFace(n)=2 Then makechunk(n,zx(n)+76,zy(n)-29,zFace(n),131)
+        If zFace(n)=4 Then makechunk(n,zx(n)-76,zy(n)-29,zFace(n),131)
+    End If
+
+;---------- Effects ------------
+    If zBlowSeq(n) = seq8 Then 
+        checkDist(n,zx(n),zy(n)-23,zFace(n))
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=108
+    End If
+    
+    If zBlowSeq(n) > seq17+4 And zBlowSeq(n) <= seq20 Then
+        If rendert = 2 Then checkDist(n,zx(n),zy(n)-23,zFace(n))
+        
+        If zBlowSeq(n) Mod 3 = 0 And zBlowSeq(n) Mod 2 = 0 Then drawWavePart1(n)
+        If zBlowSeq(n) Mod 3 = 0 And zBlowSeq(n) Mod 2 = 1 Then drawWavePart2(n)
+        
+        If zBlowSeq(n) < seq22-15 Then hm=2 Else hm=0
+        
+        If zface(n)=2 Then
+            makeRectHit(n,zx(n)+61,zy(n)-32,xDist(n),7,zFace(n),hm,2,.5,14,6,17,dbzPierceSnd)
+            If zBlowSeq(n) Mod 24=0 Then makeChunk(n,zx(n) + xDist(n)-5, zy(n)-24,2,122)
+            makechunk(n,zx(n)+53,zy(n)-32,zFace(n),132)
+        Else
+            makeRectHit(n,zx(n)-(xDist(n)+61),zy(n)-32,xDist(n),7,zFace(n),hm,2,.5,14,6,14,dbzPierceSnd)
+            If zBlowSeq(n) Mod 24=0 Then makeChunk(n,zx(n) - xDist(n)-5, zy(n)-24,4,122)
+            makechunk(n,zx(n)-53,zy(n)-32,zFace(n),132)
+        EndIf
+    End If
+    
+    If zBlowSeq(n) > seq22 Then zBlowSeq(n)=endSeq
+    
+End Function
+
+Function drawWavePart1(n)
+    For x=1 To (xDist(n)-57) Step 8
+        If zFace(n)=2 Then
+            makeChunk(n,Int(zx(n)) + x +60, zy(n)-32,2,133)
+        Else
+            makeChunk(n,Int((zx(n))- x)-60, zy(n)-32,2,133)
+        EndIf
+    Next
+        
+    For x=4 To (xDist(n)-57) Step 8
+        If zFace(n)=2 Then
+            makeChunk(n,Int(zx(n)) + x +60, zy(n)-32,2,134)
+        Else
+            makeChunk(n,Int((zx(n))- x)-60, zy(n)-32,2,134)
+        EndIf
+    Next
+End Function
+
+Function drawWavePart2(n)
+    For x=1 To (xDist(n)-57) Step 8
+        If zFace(n)=2 Then
+            makeChunk(n,Int(zx(n)) + x +60, zy(n)-32,2,135)
+        Else
+            makeChunk(n,Int((zx(n))- x)-60, zy(n)-32,2,135)
+        EndIf
+    Next
+        
+    For x=5 To (xDist(n)-57) Step 8
+        If zFace(n)=2 Then
+            makeChunk(n,Int(zx(n)) + x +60, zy(n)-32,2,136)
+        Else
+            makeChunk(n,Int((zx(n))- x)-60, zy(n)-32,2,136)
+        EndIf
     Next
 End Function
 
@@ -976,8 +1128,12 @@ Case 14    ;Super Special
     If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n) = makuuhouidanSeq
     If zBlowSeq(n) >= makuuhouidanSeq And zBlowSeq(n) < choubakuretsuSeq Then doMakuuHouidan(n)
     
-    If zBlowSeq(n)=endSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-
+    If zBlowSeq(n) < endSeq Then doMakankousappou(n)
+    
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n) < makuuhouidanSeq Then 
+        zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    End If
+    
 Case 15 ;Piccolo throw
     sonicSlashSeqStart=1000
     endSeq=2000

@@ -4500,9 +4500,9 @@ End Function
 Function extraObj(player,xAxis,xx,yAxis,yy,dir,kind)
 
 If dir = 2 Then
- makechunk(player,xAxis+xx,yAxis+yy,dir,kind)
+    makechunk(player,xAxis+xx,yAxis+yy,dir,kind)
 Else
- makechunk(player,xAxis-xx,yAxis+yy,dir,kind)
+    makechunk(player,xAxis-xx,yAxis+yy,dir,kind)
 EndIf
 
 End Function
