@@ -145,7 +145,6 @@ Dim shotHeight(200),shotWidth(200),shotside(200),shotChunkType(200), shotType(20
 Dim justShot(200),shotSeq(200),shotDuration(200),shotDurationSeq(200), shotDrill(200),shotDuration2(200)
 Dim shotAcc#(200),shotMaxSpeed#(200),shotUturn(200),shotReturnOnHit(200), shotFollowOwner(200),shotUturnseq(200)
 Dim shotFramesAmount(200), shotCurFrame(200), shotFrameSeq(200), shotFrameTime(200),shotImmuneTime(200),shotUturnAmount(200)
-Dim electrocuteTime(200)
 
 Dim ObjType(400),objThrow(400),objHurt(400),objId(400),objHitSound(400)
 Dim xobj#(400),yobj#(400),obj(400),objdir(400),objowner(400), objXspeed#(400),objYSpeed#(400),objAmmo(400)
@@ -231,12 +230,13 @@ Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurn
 Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
 Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
 Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
-Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4)
+Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4), electrocuteTime(200)
 Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
 Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
 Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
-Dim isChunkRenderLowPrio(1500)
+Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX(1500), chunkOwnerY(1500)
+Dim superMovePortraitSeqStart(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -315,25 +315,25 @@ epic_(1,3)=LoadImage(gfxdir$ + "obj\obj6_3_.bmp")
 epic_(1,4)=LoadImage(gfxdir$ + "obj\obj6_4_.bmp")
 
 ;Loads gun images
-epic(2,1)=LoadImage(gfxdir$ + "obj\obj7_1.bmp")    
+epic(2,1)=LoadImage(gfxdir$ + "obj\obj7_1.bmp")
 epic(2,2)=LoadImage(gfxdir$ + "obj\obj7_2.bmp")
 epic_(2,1)=LoadImage(gfxdir$ + "obj\obj7_1_.bmp")
 epic_(2,2)=LoadImage(gfxdir$ + "obj\obj7_2_.bmp")
 
 ;Loads bazooka images
-epic(3,1)=LoadImage(gfxdir$ + "obj\obj10_1.bmp")    
+epic(3,1)=LoadImage(gfxdir$ + "obj\obj10_1.bmp")
 epic(3,2)=LoadImage(gfxdir$ + "obj\obj10_2.bmp")
 epic_(3,1)=LoadImage(gfxdir$ + "obj\obj10_1_.bmp")
 epic_(3,2)=LoadImage(gfxdir$ + "obj\obj10_2_.bmp")
 
 ;Loads ray gun images
-epic(4,1)=LoadImage(gfxdir$ + "obj\obj11_1.bmp")    
+epic(4,1)=LoadImage(gfxdir$ + "obj\obj11_1.bmp")
 epic(4,2)=LoadImage(gfxdir$ + "obj\obj11_2.bmp")
 epic_(4,1)=LoadImage(gfxdir$ + "obj\obj11_1_.bmp")
 epic_(4,2)=LoadImage(gfxdir$ + "obj\obj11_2_.bmp")
 
 ;Loads hammer images
-epic(5,1)=LoadImage(gfxdir$ + "obj\obj13_1.bmp")    
+epic(5,1)=LoadImage(gfxdir$ + "obj\obj13_1.bmp")
 epic(5,2)=LoadImage(gfxdir$ + "obj\obj13_2.bmp")
 epic(5,3)=LoadImage(gfxdir$ + "obj\obj13_3.bmp")
 epic(5,4)=LoadImage(gfxdir$ + "obj\obj13_4.bmp")
@@ -343,31 +343,31 @@ epic_(5,3)=LoadImage(gfxdir$ + "obj\obj13_3_.bmp")
 epic_(5,4)=LoadImage(gfxdir$ + "obj\obj13_4_.bmp")
 
 ;Loads dragon fire balls images
-epic(6,1)=LoadImage(gfxdir$ + "obj\obj14_1.bmp")    
+epic(6,1)=LoadImage(gfxdir$ + "obj\obj14_1.bmp")
 epic(6,2)=LoadImage(gfxdir$ + "obj\obj14_2.bmp")
 epic_(6,1)=LoadImage(gfxdir$ + "obj\obj14_1_.bmp")
 epic_(6,2)=LoadImage(gfxdir$ + "obj\obj14_2_.bmp")
 
 ;Loads flying bat
-epic(7,1)=LoadImage(gfxdir$ + "obj\obj12_1.bmp")    
+epic(7,1)=LoadImage(gfxdir$ + "obj\obj12_1.bmp")
 epic(7,2)=LoadImage(gfxdir$ + "obj\obj12_2.bmp")
 epic_(7,1)=LoadImage(gfxdir$ + "obj\obj12_1_.bmp")
 epic_(7,2)=LoadImage(gfxdir$ + "obj\obj12_2_.bmp")
 
 ;loads big rocks
-epic(8,1)=LoadImage(gfxdir$ + "obj\obj16_1.bmp")    
+epic(8,1)=LoadImage(gfxdir$ + "obj\obj16_1.bmp")
 epic(8,2)=LoadImage(gfxdir$ + "obj\obj16_2.bmp")
 epic(8,3)=LoadImage(gfxdir$ + "obj\obj16_3.bmp")
 epic(8,4)=LoadImage(gfxdir$ + "obj\obj16_4.bmp")
 
 ;loads little rocks
-epic(9,1)=LoadImage(gfxdir$ + "obj\obj17_1.bmp")    
+epic(9,1)=LoadImage(gfxdir$ + "obj\obj17_1.bmp")
 epic(9,2)=LoadImage(gfxdir$ + "obj\obj17_2.bmp")
 epic(9,3)=LoadImage(gfxdir$ + "obj\obj17_3.bmp")
 epic(9,4)=LoadImage(gfxdir$ + "obj\obj17_4.bmp")
 
 ;loads little lava rocks
-epic(10,1)=LoadImage(gfxdir$ + "obj\obj18_1.bmp")    
+epic(10,1)=LoadImage(gfxdir$ + "obj\obj18_1.bmp")
 epic(10,2)=LoadImage(gfxdir$ + "obj\obj18_2.bmp")
 epic(10,3)=LoadImage(gfxdir$ + "obj\obj18_3.bmp")
 epic(10,4)=LoadImage(gfxdir$ + "obj\obj18_4.bmp")
@@ -395,7 +395,7 @@ Global controllerPic=LoadImage(gfxdir$ + "controller.bmp")
 Global keyboardPic=LoadImage(gfxdir$ + "keyboard.bmp")
 
 For n=1 To 100   ;load shots
-    shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")    
+    shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")
     shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
 Next
 
@@ -407,7 +407,7 @@ For n=1 To 200   ; load chunks
 Next
 
 For n=0 To 90 Step 1
-    timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")    
+    timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")
 Next 
 
 Dim letter(20,100), letterWidth(20,100)    
@@ -1474,7 +1474,7 @@ For n=1 To 4
     Color 74,35,90
     Rect x,y+25,(zBlockLife(n)*1.28),4,1
     Color 120,120,120
-    Rect x,y+15,100,4,0     
+    Rect x,y+15,100,4,0
  EndIf
 x=x+155
 Next
@@ -1482,21 +1482,19 @@ Next
 superBarDispTime=50
 For n=1 To zzamount        ;Draws big pictures of characters when performing super special move
     If zSuperMove(n) And zhit(n)=0 Then
-        If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
-            If zSuperMoveSeq(n) < superBarDispTime Then
-                DrawImage ptPic(23,1), (zx(n)+Rand(-50,50))-xscr,(zy(n)+Rand(-50,50))-yscr
-                Color 255,255,255
-                ;Oval xOval(n)-xscr,yOval(n)-yscr,wOval(n),hOval(n),0
-                Color 0,0,230
-                ;Oval (xOval(n)-50)-xscr,(yOval(n)-50)-yscr,wOval(n)+100,hOval(n)+100,0
-                ;Oval (xOval(n)-100)-xscr,(yOval(n)-100)-yscr,wOval(n)+200,hOval(n)+200,0
-            End If
-        EndIf
-        xOval(n)=xOval(n)+20:yOval(n)=yOval(n)+20
-        wOval(n)=wOval(n)-40:hOval(n)=hOval(n)-40
+        If zSuperMoveSeq(n)=1 Then isSuperMove=1
         zSuperMoveSeq(n)=zSuperMoveSeq(n)+1
         
-        If zSuperMoveSeq(n)=1 Then 
+        If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
+            If shouldShowSuperPortrait(n) > 0 Then showDancingCircles(n)
+        EndIf
+        
+        If shouldShowSuperPortrait(n) > 0 Then 
+            xOval(n)=xOval(n)+20:yOval(n)=yOval(n)+20
+            wOval(n)=wOval(n)-40:hOval(n)=hOval(n)-40
+        End If
+        
+        If (shouldShowSuperPortrait(n)=1 And zSuperMoveSeq(n)=1) Or (shouldShowSuperPortrait(n)=2 And zSuperMoveSeq(n)=superMovePortraitSeqStart(n)) Then 
             xOval(n)=zx(n)-400 : yOval(n)=zy(n)-(400+10)
             wOval(n)=800 : hOval(n)=800
             If zFace(n)=2 Then
@@ -1505,12 +1503,12 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
                 zSuperX(n)=640 : zSuperDir(n)=4
             EndIf
             If zy(n)-yscr > 240 Then zSuperY(n)=100 Else zSuperY(n)=250
-            isSuperMove=1
         EndIf
-        a=15 : b=30 : c=superMoveMaxSeq(n)
+            
+        a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
         Select zSuperDir(n)
         Case 2
-            If zSuperMoveSeq(n) > 0 And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)+20
+            If zSuperMoveSeq(n) > superMovePortraitSeqStart(n) And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)+20
             If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
             If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)-20
         Case 4
@@ -1521,7 +1519,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
         
         If zSuperMoveSeq(n) > c Then zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0
         
-        If zSuperMove(n) And zSuperMoveSeq(n) < superBarDispTime Then
+        If shouldShowSuperPortrait(n) > 0 Then 
             y=zSuperY(n)
             For i=0 To 110 Step 10
                 Color 0,0,Rand(80,200)
@@ -1700,7 +1698,7 @@ EndIf
 
 For n=1 To zzamount
     If zSupermove(n) And zon(n) Then 
-        If zSuperMoveSeq(n) <= superBarDispTime Goto renderOnly
+        If shouldShowSuperPortrait(n)=1 Goto renderOnly
     End If
 Next
 
@@ -1754,6 +1752,31 @@ EndIf
 If menuOption=2 Then menuOption=2 Else menuOption = 1
 Goto menuStart
 End
+
+; Return 0 if it's not the time for showing the Super Portrait
+; Return 1 if there is no custom timing for displaying Super Portrait
+; Return 2 if there is a special timing for displaying Super Portrait
+Function shouldShowSuperPortrait(n)
+    Local returnVal=0, superBarDispTime=50
+    
+    If superMovePortraitSeqStart(n)=0 Then
+        If zSuperMoveSeq(n) < superBarDispTime Then returnVal=1
+    Else If superMovePortraitSeqStart(n) > 0 Then
+        If zSuperMoveSeq(n) >= superMovePortraitSeqStart(n) Then
+            If zSuperMoveSeq(n) < superMovePortraitSeqStart(n) + superBarDispTime Then 
+                returnVal=2
+            End If
+        End If
+    End If
+    
+    return returnVal
+End Function
+
+Function showDancingCircles(n)
+    DrawImage ptPic(23,1), (zx(n)+Rand(-50,50))-xscr,(zy(n)+Rand(-50,50))-yscr
+    Color 255,255,255
+    Color 0,0,230
+End Function
 
 ;------- Checker if character can perform action ---------
 Function isActiveCharacter(n)
@@ -2308,6 +2331,17 @@ Function renderChunks(n)
     Local yImageHeight,xImageHeight
     yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
     xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
+    If chunkFollowOwner(n)=1 Then
+        If chunkOwnerX(n) <> zx(chunkOwner(n)) Then 
+            xChunk(n) = xChunk(n) - (chunkOwnerX(n) - zx(chunkOwner(n)))
+            chunkOwnerX(n) = zx(chunkOwner(n))
+        End If
+
+        If chunkOwnerY(n) <> zy(chunkOwner(n)) Then 
+            yChunk(n) = yChunk(n) - (chunkOwnerY(n) - zy(chunkOwner(n)))
+            chunkOwnerY(n) = zy(chunkOwner(n))
+        End If
+    End If
     ;Select chunkCategory(n)
     ;Case 1    ;normal chunks
       Select chunkDir(n)
@@ -3135,6 +3169,7 @@ For i=1 To 1500
             chunkDir(i)=dir
             chunk(i)=1:chunkType(i)=kind
             xChunk(i)=x:yChunk(i)=y
+            chunkOwnerX(i)=zx(n):chunkOwnerY(i)=zy(n)
             chunkCategory(i)=1
         Exit
     EndIf    

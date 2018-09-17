@@ -1690,7 +1690,7 @@ Case 49    ;Kaikousen
     shotFramesAmount(n)=11
     shotFrameTime(n)=3
     shotSound(n)=shockSnd
-    electrocuteTime(n)=85
+    electrocuteTime(n)=95
     shotGroundXDestroy(n)=50
 
     shotPicIdx=1
@@ -2795,6 +2795,7 @@ Case 126:        ;Buy a scorpion doll
 
 Case 127:        ;Charge start (dbz)
     isChunkRenderLowPrio(n)=1
+    chunkFollowOwner(n)=1
     seq1=3
     endSeq=16
     
@@ -2808,6 +2809,7 @@ Case 127:        ;Charge start (dbz)
 
 Case 128:        ;Charge continued (dbz)
     isChunkRenderLowPrio(n)=1
+    chunkFollowOwner(n)=1
     seq1=1:seq2=2:seq3=3:seq4=4:seq5=5:seq6=6
     
     If chunkSeq(n) = seq1 Then chunkPic(n)=ptPic(106,1):chunkPic_(n)=ptPic_(106,1)
