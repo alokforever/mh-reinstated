@@ -6175,9 +6175,10 @@ End Function
 ;------------------ Check Wall Jump -----------------
 Function checkWallJump(n)    
     checkYDist(n,zx(n),zy(n),2)
+    DebugLog "xDist: " + xDist(n)
     If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
     If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
-    If yDist(n) > 7 And xDist(n)<=11 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
+    If yDist(n) > 7 And xDist(n)<=16 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then
         If zBlowSeq(n) < 1 Then
             zBlow(n)=1:zBlowSeq(n)=0:
             zCurBlow(n)=18:zBlowDir(n)=zFace(n)
@@ -6609,3 +6610,4 @@ Function drawTestBox(n, x, y, height, width)
         extraObj(n,x2-left,0,y2,0,2,130)
     Next
 End Function
+
