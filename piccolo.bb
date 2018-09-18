@@ -675,8 +675,8 @@ Function doMakankousappou(n)
     
 ;----------- Chunks ------------
     If zBlowSeq(n)=seq3+1 Then ;seq 1019
-        If zFace(n)=2 Then makechunk(n,zx(n)+7,zy(n)+4,zFace(n),127)
-        If zFace(n)=4 Then makechunk(n,zx(n)-7,zy(n)+4,zFace(n),127)
+        If zFace(n)=2 Then makechunk(n,zx(n)+5,zy(n)+4,zFace(n),127)
+        If zFace(n)=4 Then makechunk(n,zx(n)-5,zy(n)+4,zFace(n),127)
     End If
     
     If zBlowSeq(n) = seq17+1 Then 

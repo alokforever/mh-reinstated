@@ -187,7 +187,7 @@ Dim TonStatus(100),ToffStatus(100),Tplatx(100),Tplaty(100),Tfollow(100)
 Dim EventAction(100),Tsound(100)
 Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
-Dim xChunk#(1500),yChunk(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
+Dim xChunk#(1500),yChunk#(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
 Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,15),ptPic_(1500,15),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
 Dim chunkOwner(1500)
 
@@ -235,7 +235,7 @@ Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTyp
 Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
 Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
-Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX(1500), chunkOwnerY(1500)
+Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
 Dim superMovePortraitSeqStart(30)
 
 ;Paths For directories / mods
@@ -2332,14 +2332,14 @@ Function renderChunks(n)
     yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
     xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
     If chunkFollowOwner(n)=1 Then
-        If chunkOwnerX(n) <> zx(chunkOwner(n)) Then 
-            xChunk(n) = xChunk(n) - (chunkOwnerX(n) - zx(chunkOwner(n)))
-            chunkOwnerX(n) = zx(chunkOwner(n))
+        If chunkOwnerX#(n) <> zx#(chunkOwner(n)) Then 
+            xChunk#(n) = xChunk#(n) - (chunkOwnerX#(n) - zx#(chunkOwner(n)))
+            chunkOwnerX#(n) = zx#(chunkOwner(n))
         End If
-
-        If chunkOwnerY(n) <> zy(chunkOwner(n)) Then 
-            yChunk(n) = yChunk(n) - (chunkOwnerY(n) - zy(chunkOwner(n)))
-            chunkOwnerY(n) = zy(chunkOwner(n))
+DebugLog "chunkOwnerX(n): " + chunkOwnerX(n) + ", zx(chunkOwner(n)): " + zx(chunkOwner(n))
+        If chunkOwnerY#(n) <> zy#(chunkOwner(n)) Then 
+            yChunk#(n) = yChunk#(n) - (chunkOwnerY#(n) - zy#(chunkOwner(n)))
+            chunkOwnerY#(n) = zy#(chunkOwner(n))
         End If
     End If
     ;Select chunkCategory(n)
@@ -3169,7 +3169,7 @@ For i=1 To 1500
             chunkDir(i)=dir
             chunk(i)=1:chunkType(i)=kind
             xChunk(i)=x:yChunk(i)=y
-            chunkOwnerX(i)=zx(n):chunkOwnerY(i)=zy(n)
+            chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
             chunkCategory(i)=1
         Exit
     EndIf    
