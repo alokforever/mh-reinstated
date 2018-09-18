@@ -214,6 +214,43 @@ Function doLongKick(n)
     If zBlowSeq(n)=seq9 Then zBlowSeq(n)=seqEnd
 End Function
 
+Function doChop(n)
+    seqStart=300:seq1=seqStart+3:seq2=seq1+6:seq3=seq2+3:seq4=seq3+3:seq5=seq4+6:seq6=seq5+3
+    seq7=seq6+3
+    seqEnd=50
+    
+;--------- Animation -----------
+    If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=4:zf(n)=4
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=8:zf(n)=6
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=8:zf(n)=7
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=8:zf(n)=8
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=8:zf(n)=9
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=4:zf(n)=4
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then zani(n)=4:zf(n)=6
+    
+;--------- Hit box ----------
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq4 Then
+        zblowPamount(n)=8:nn=1
+        xblow(n,nn)=11: yblow(n,nn)=54:wblow(n,nn)=5:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=49:wblow(n,nn)=8:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=44:wblow(n,nn)=11:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=39:wblow(n,nn)=14:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=34:wblow(n,nn)=17:hblow(n,nn)=7:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=27:wblow(n,nn)=17:hblow(n,nn)=6:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=21:wblow(n,nn)=17:hblow(n,nn)=3:nn=nn+1
+        xblow(n,nn)=11 yblow(n,nn)=17:wblow(n,nn)=14:hblow(n,nn)=3:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=8:zBlowStillTime(n)=6
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=4:zHitTime(n)=40
+        zBlowDamage(n)=16:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=dbzHit2Snd
+    End If
+    
+;--------- Sounds --------------
+    If zBlowSeq(n) = seq2 And gameSound Then PlaySound piccoloGrunt7Snd
+    
+    If zBlowSeq(n)=seq7 Then zBlowSeq(n)=seqEnd
+End Function
+
 Function doPummel(n)
     seqStart=200:seq1=seqStart+3:seq2=seq1+7:seq3=seq2+4:seq4=seq3+10:
     seq5=seq4+6:seq6=seq5+3:seq7=seq6+3
@@ -812,11 +849,14 @@ Case 2    ;Flying Kick
     seq1=2:seq2=seq1+5:seq3=seq2+3:seq4=seq3+10:seq5=seq4+5:seq6=seq5+4
     flyKick2Seq=100
     pummelSeq=200
+    chopSeq=300
     endSeq=50
     If zBlowSeq(n)=1 And downKey(n)=1 Then zBlowSeq(n)=pummelSeq
+    If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n)=chopSeq
     If zBlowSeq(n)=1 And (leftKey(n)=1 Or RightKey(n)=1) Then zBlowSeq(n)=flyKick2Seq
     If zBlowSeq(n) >= flyKick2Seq Then doFlyKick2(n)
     If zBlowSeq(n) >= pummelSeq Then doPummel(n)
+    If zBlowSeq(n) >= chopSeq Then doChop(n)
     
 ;--------- Animation -----------
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=8:zf(n)=1
