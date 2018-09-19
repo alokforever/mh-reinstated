@@ -422,13 +422,13 @@ Function doClawAttack(n)
         xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=37:hblow(n,nn)=1:nn=nn+5
         xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=37:hblow(n,nn)=1:nn=nn+5
         xblow(n,nn)=0: yblow(n,nn)=15:wblow(n,nn)=37:hblow(n,nn)=1:nn=nn+5
-        zHitMode(n)=0:zBlowHold(n)=0
-        zBlowDamage(n)=12:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
+        zHitMode(n)=0:zBlowHold(n)=3
+        zBlowDamage(n)=12:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=3:zBlowBlockTime(n)=25
         zBlowSound(n)=slashSnd
         If zBlowSeq(n) = c2 Then zani(n)=8:zf(n)=8
         If zBlowSeq(n) = d2 Then zani(n)=8:zf(n)=9
         If zBlowSeq(n) = e2 Then zani(n)=8:zf(n)=10
-        EndIf
+    EndIf
     If zBlowSeq(n) > f2 And zBlowSeq(n) =< g2 Then zani(n)=8:zf(n)=11
     If zBlowSeq(n) > g2 And zBlowSeq(n) =< h2 Then zani(n)=8:zf(n)=12
     If zBlowSeq(n) > h2 And zBlowSeq(n) =< i2 Then zani(n)=8:zf(n)=13

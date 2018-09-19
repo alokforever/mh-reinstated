@@ -889,11 +889,11 @@ For b=0 To bgAmount
     Next
 Next
 
-If curMap <> mapN Then End
+;If curMap <> mapN Then End
 
 For n=1 To zzamount
     zWasOn(n) = zon(n)
-    zx(n)=zxStart(n):zy(n)=zyStart(n)        
+    zx(n)=zxStart(n):zy(n)=zyStart(n)
     zGotHitsAmount(n)=0
     If ifiniteLives=1 Then zLives(n)=0 Else zlives(n)=gameLives
 Next
@@ -2332,11 +2332,11 @@ Function renderChunks(n)
     yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
     xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
     If chunkFollowOwner(n)=1 Then
+        chunkFollowOwner(n)=0
         If chunkOwnerX#(n) <> zx#(chunkOwner(n)) Then 
             xChunk#(n) = xChunk#(n) - (chunkOwnerX#(n) - zx#(chunkOwner(n)))
             chunkOwnerX#(n) = zx#(chunkOwner(n))
         End If
-DebugLog "chunkOwnerX(n): " + chunkOwnerX(n) + ", zx(chunkOwner(n)): " + zx(chunkOwner(n))
         If chunkOwnerY#(n) <> zy#(chunkOwner(n)) Then 
             yChunk#(n) = yChunk#(n) - (chunkOwnerY#(n) - zy#(chunkOwner(n)))
             chunkOwnerY#(n) = zy#(chunkOwner(n))
@@ -6175,7 +6175,6 @@ End Function
 ;------------------ Check Wall Jump -----------------
 Function checkWallJump(n)    
     checkYDist(n,zx(n),zy(n),2)
-    DebugLog "xDist: " + xDist(n)
     If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
     If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
     If yDist(n) > 7 And xDist(n)<=16 And ((zFace(n)=4 And leftKey(n)) Or (zFace(n)=2 And rightKey(n))) And jumpKey(n) Then

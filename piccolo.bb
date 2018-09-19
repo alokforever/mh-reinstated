@@ -803,7 +803,7 @@ zchunkType(n)=20
 
 Select zCurBlow(n)
 Case 0    ;Blocking
-    zSuperBar(n)=100
+    ;zSuperBar(n)=100
     zNoMove(n)=1:zNoJump(n)=1
     zBlock(n)=1:zani(n)=13:zf(n)=1
     If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
