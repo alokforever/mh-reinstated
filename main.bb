@@ -2019,23 +2019,25 @@ Function selectDraw(n)
         End If
         drawWalkSequence(n):Goto drawZ
     EndIf
-
-    If zhit(n) And zongnd(n)=1 And zhitseq(n) > 15 Then
-        zani(n)=2:zf(n)=0:Goto drawZ ;fallen
-    Else If zHitType(n)=1 Then
-        doStationaryHitSequence(n)
-    Else
-        If specialHitFrames(n)=0 Then
-            a=10:b=25:c=35
-            If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
-            If zhitseq(n) > a And zhitseq(n) =< b Then zani(n)=2:zf(n)=2    
-            If zhitseq(n) > b And zhitseq(n) =< c Then zani(n)=2:zf(n)=3
-            If zhitseq(n) > c Then zani(n)=2:zf(n)=4
+    
+    If zhit(n) Then
+        If zongnd(n)=1 And zhitseq(n) > 15 Then
+            zani(n)=2:zf(n)=0:Goto drawZ ;fallen
+        Else If zHitType(n)=1 Then
+            doStationaryHitSequence(n)
         Else
-            processSpecialHitFrames(n)
-        End If
-        Goto drawZ
-    EndIf
+            If specialHitFrames(n)=0 Then
+                a=10:b=25:c=35
+                If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
+                If zhitseq(n) > a And zhitseq(n) =< b Then zani(n)=2:zf(n)=2
+                If zhitseq(n) > b And zhitseq(n) =< c Then zani(n)=2:zf(n)=3
+                If zhitseq(n) > c Then zani(n)=2:zf(n)=4
+            Else
+                processSpecialHitFrames(n)
+            End If
+            Goto drawZ
+        EndIf
+    End If
 
     If zani(n)=0 Then zani(n)=4 : zf(n)=1
     
