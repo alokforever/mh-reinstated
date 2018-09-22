@@ -314,27 +314,27 @@ Case 11    ;club
     extraDraw(n)=1
     drawObjOnZ(n)=0
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-45:yed(n)=30
-    If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-47:yed(n)=25
+    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=3 :eAni(n)=1:ef(n)=2:xed(n)=-42:yed(n)=50
+    If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=4 :eAni(n)=1:ef(n)=2:xed(n)=30:yed(n)=36
     If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
     If zBlowSeq(n) => b And zBlowSeq(n) =< c Then
         zblowPamount(n)=6
         nn=6
-        xblow(n,nn)=40: yblow(n,nn)=4:wblow(n,nn)=42:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=26:wblow(n,nn)=98:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=16:wblow(n,nn)=98:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=36:wblow(n,nn)=95:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=46:wblow(n,nn)=85:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=68: yblow(n,nn)=4:wblow(n,nn)=42:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=28: yblow(n,nn)=26:wblow(n,nn)=98:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=28: yblow(n,nn)=16:wblow(n,nn)=98:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=28: yblow(n,nn)=36:wblow(n,nn)=95:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=28: yblow(n,nn)=46:wblow(n,nn)=85:hblow(n,nn)=1:nn=nn+1
         xblow(n,nn)=-5: yblow(n,nn)=56:wblow(n,nn)=77:hblow(n,nn)=1:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=10
         zBlowDamage(n)=25:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
         zChunkType(n)=5
         zBlowSound(n)=smashsnd
-        zani(n)=12:zf(n)=3
-        eAni(n)=1:ef(n)=3:xED(n)=65:yed(n)=20
+        zani(n)=12:zf(n)=5
+        eAni(n)=1:ef(n)=3:xED(n)=85:yed(n)=-5
     EndIf
-    If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=12:zf(n)=3 :eAni(n)=1:ef(n)=4:xed(n)=65:yed(n)=20
-    If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=12:zf(n)=2 :eAni(n)=1:ef(n)=2:xed(n)=-25:yed(n)=22
+    If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=12:zf(n)=5 :eAni(n)=1:ef(n)=4:xed(n)=85:yed(n)=-5
+    If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=12:zf(n)=5 :eAni(n)=1:ef(n)=4:xed(n)=85:yed(n)=-5
     If zBlowSeq(n) > e Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 12    ;Shooting Position
@@ -359,12 +359,12 @@ Case 12    ;Shooting Position
     EndIf
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then 
         If zBlowDir(n)=2 Then dir=4 Else dir=2
-        zani(n)=12:zf(n)=7
-        eAni(n)=zCurWeapon(n):ef(n)=1:xED(n)=5:yed(n)=23
+        zani(n)=12:zf(n)=1
+        eAni(n)=zCurWeapon(n):ef(n)=1:xED(n)=50:yed(n)=38
         zDuck(n)=0 : moveX(n,dir,zPushedForce(n))
     EndIf
-    If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=7:eAni(n)=zCurWeapon(n):ef(n)=2:xED(n)=5:yed(n)=23
-    If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=12:zf(n)=7:eAni(n)=zCurWeapon(n):ef(n)=1:xED(n)=5:yed(n)=22
+    If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=1:eAni(n)=zCurWeapon(n):ef(n)=2:xED(n)=50:yed(n)=38
+    If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=12:zf(n)=1:eAni(n)=zCurWeapon(n):ef(n)=1:xED(n)=50:yed(n)=38
     If zBlowSeq(n) > c Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 13 ; item pickup

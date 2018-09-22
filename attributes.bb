@@ -284,6 +284,15 @@ Case 11: ;Wolverine
     zStanceFrames(n)=17
     zStanceSpeed(n)=3
     zWalkFrameSpeed#(n)=3
+    
+    For iter=0 To zStanceFrames(n)
+        zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
+    Next
+    
+    For iter=0 To zWalkFrames(n)
+        zxHand(n,iter)=-2 :zyHand(n,iter)=23
+    Next
+    
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zCharSpeed#(n)=2.5
@@ -319,6 +328,15 @@ Case 12: ;Scorpion
     zStanceSpeed(n)=5
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=4
+    
+    For iter=0 To zStanceFrames(n)
+        zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
+    Next
+    
+    For iter=0 To zWalkFrames(n)
+        zxHand(n,iter)=-2 :zyHand(n,iter)=23
+    Next
+    
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
     zCharSpeed#(n)=2
@@ -353,6 +371,15 @@ Case 13: ;Sub Zero
     zStanceSpeed(n)=5
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=4
+    
+    For iter=0 To zStanceFrames(n)
+        zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
+    Next
+
+    For iter=0 To zWalkFrames(n)
+        zxHand(n,iter)=-2 :zyHand(n,iter)=23
+    Next
+    
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
     zCharSpeed#(n)=2
@@ -373,10 +400,6 @@ Case 14: ;Wonder Woman
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
     zBlowDist(n,16)=370
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zSide(n)=11
     zheight(n)=50
     zUpHeight(n)=50
@@ -386,6 +409,15 @@ Case 14: ;Wonder Woman
     zStanceFrames(n)=12
     zStanceSpeed(n)=6
     zWalkFrames(n)=27
+    
+    For iter=0 To zWalkFrames(n)
+        zxHand(n,iter)=-8 :zyHand(n,iter)=32
+    Next
+    
+    For iter=0 To zStanceFrames(n)
+        zStanceObjX(n,iter)=-8 :zStanceObjY(n,iter)=24
+    Next
+    
     zWalkFrameSpeed#(n)=2
     zRunFrames(n)=7
     zRunFrameSpeed#(n)=3
@@ -415,10 +447,6 @@ Case 15: ;Juggernaut
     zSide(n)=16
     zheight(n)=56
     zUpHeight(n)=56
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zRollOnImpact(n)=1
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
@@ -426,6 +454,15 @@ Case 15: ;Juggernaut
     zStanceSpeed(n)=6
     zWalkFrames(n)=16
     zWalkFrameSpeed#(n)=4
+    
+    For iter=0 To zWalkFrames(n)
+        zxHand(n,iter)=-6 :zyHand(n,iter)=9
+    Next
+    
+    For iter=0 To zStanceFrames(n)
+        zStanceObjX(n,iter)=0 :zStanceObjY(n,iter)=25
+    Next
+    
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4
     zCharSpeed#(n)=3
@@ -449,16 +486,21 @@ Case 16: ;Piccolo
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
     zBlowDist(n,16)=370
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
+    zxHand(n,0)=14 :zyHand(n,0)=36
+    zxHand(n,1)=14 :zyHand(n,1)=36
+    zxHand(n,2)=15 :zyHand(n,2)=36
+    zxHand(n,3)=15 :zyHand(n,3)=36    
     zheight(n)=54
     zUpHeight(n)=54
     zRollOnImpact(n)=1
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
     zStanceFrames(n)=7
+    
+    For iter=0 To zStanceFrames(n)
+        zStanceObjX(n,iter)=15 :zStanceObjY(n,iter)=36
+    Next
+    
     zStanceSpeed(n)=6
     zWalkFrames(n)=4
     zWalkFrameSpeed#(n)=7

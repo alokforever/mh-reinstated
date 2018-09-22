@@ -73,7 +73,7 @@ Dim zjump(30),zjumpseq(30),zjumpfallseq(30),zjumplimit(30),zongnd(30),zfallenSeq
 Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30), zDownFallSpeed#(30), zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
 Dim zHitSpeed#(30),zHitUpSpeed#(30),zHitDownSpeed#(30),zHitTime#(30),zHitMode(30),zHitModeTaken(30),zBlowUplimit(30)            
 Dim zUpHeight(30),zDuckHeight(30),zHitHead(30),zIcon(60),zRollOnImpact(30)
-Dim zheight(30),zduck(30),zgravity(30),zSpeed#(30),zSide(30), zxHand(30,40),zyHand(30,40)
+Dim zheight(30),zduck(30),zgravity(30),zSpeed#(30),zSide(30),zxHand(30,40),zyHand(30,40)
 Dim Zrun(30), zCurWeapon(30),dangerMove9(30),dangerMove5(30),zGotObj(30), zLeftCollide(30), zRightCollide(30)
 Dim zLives(30), zJumping(30),zonplat(30),zonThickPlat(30),justMovedByplat(30)
 Dim zantiPlatTime(30),zantiPlatSeq(30),zForceAntiPlat(30)
@@ -236,7 +236,7 @@ Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFram
 Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
-Dim superMovePortraitSeqStart(30)
+Dim superMovePortraitSeqStart(30), zStanceObjX(30,40), zStanceObjY(30,40)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -2304,9 +2304,12 @@ EndIf
 If zGotObj(n) <> 0 Then
     If drawObjOnZ(n)=1 Then
         If zani(n)=1 Then
-            xED(n)=(zxHand(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zyHand(n,zf(n)) + yObjHand(zGotObj(n)))
+            If zWalkFrames(n)>0 Then zfHand=zf(n)-1 Else zfHand=zf(n)
+            xED(n)=(zxHand(n,zfHand) + xObjHand(zGotObj(n))): yED(n)=(zyHand(n,zfHand) + yObjHand(zGotObj(n)))
+        Else If zani(n)=19 Then
+            xED(n)=(zStanceObjX(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zStanceObjY(n,zf(n)) + yObjHand(zGotObj(n)))
         Else
-            xED(n)=3:yED(n)=15
+            xED(n)=3:yED(n)=zHeight(n)/2
         EndIf
         Select zFace(n)
             Case 2:DrawImage objPic(zGotObj(n),objCurFrame(zGotObj(n))),((zx(n)-(ImageWidth (objpic(zGotObj(n),objCurFrame(zGotObj(n))))/2)) + xED(n))-xscr, ((zy(n)-ImageHeight(objPic(zGotObj(n),objCurFrame(zGotObj(n))))) -yED(n))-yscr
@@ -4799,7 +4802,7 @@ For i=1 To expAmount
         expData(i)
         xExp(i)=x:yExp(i)=y
         Exit
-    EndIf    
+    EndIf
 Next
 
 End Function
