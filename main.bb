@@ -3674,8 +3674,12 @@ Case 2
                                     calcBlow2(nn,n,zHitTime(n))
                                 EndIf
                             EndIf
-                                                    
-                            makechunk(n,zx(nn)-xblow(n,bn),zy(n)-yblow(n,bn),2,zChunkType(n))
+
+                            p2zx=zx(nn)
+                            p2zy=zy(nn)-(ImageHeight(zCurPic(nn))/2)
+                            chunkXLoc=xb+((p2zx-xb)/2)
+                            chunkYLoc=yb+((p2zy-yb)/2)
+                            makechunk(n,chunkXLoc,chunkYLoc,2,zChunkType(n))
                             If zLife(nn) < 1 Then zScore(n)=zScore(n)+1
                             If gameSound =1 Then PlaySound zBlowSound(n)
                         EndIf
@@ -3765,8 +3769,12 @@ Case 4
                             calcBlow2(nn,n,zHitTime(n))
                         End If
                     EndIf
-                                            
-                    makechunk(n,zx(nn)-xblow(n,bn),zy(n)-yblow(n,bn),4,zChunkType(n))
+
+                    p2zx=zx(nn)
+                    p2zy=zy(nn)-(ImageHeight(zCurPic(nn))/2)
+                    chunkXLoc=xb+((p2zx-xb)/2)
+                    chunkYLoc=yb+((p2zy-yb)/2)
+                    makechunk(n,chunkXLoc,chunkYLoc,2,zChunkType(n))
                     If zLife(nn) < 1 Then zScore(n)=zScore(n)+1
                     If gameSound =1 Then PlaySound zBlowSound(n)
                 EndIf

@@ -441,6 +441,7 @@ Function doHighExtendingPunch(n)
         unitCounter=1
         While zControlsThese(n,unitCounter) <> 0
             en=zControlsThese(n,unitCounter)
+            If zBlock(en)=1 Then clearControlledPlayers(n):Goto skipPull
             zani(en)=2:zf(en)=2
             If zBlowSeq(n) = seq8 And isMoveHit(n)=1 Then
                 If zControlsThis(n) <> 0 Then 
@@ -452,6 +453,7 @@ Function doHighExtendingPunch(n)
             If zFace(n) = 4 Then zx(en)=zx(n)-78
             unitCounter=unitCounter+1
         Wend
+        .skipPull
     End If
     
     If zBlowSeq(n) > seq12 And zBlowSeq(n) < followUpComboSeq Then 

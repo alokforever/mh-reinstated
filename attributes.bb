@@ -345,7 +345,7 @@ Case 13: ;Sub Zero
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
     zheight(n)=53
-    zUpHeight(n)=53
+    ;zUpHeight(n)=53
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
@@ -2831,7 +2831,7 @@ Case 129:        ;Pre-makuuhouidan
     
 Case 130:        ;Box test
     a=10000            ;bright dot
-    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,1):chunkPic_(n)=ptPic(13,1)
+    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(15,3):chunkPic_(n)=ptPic(15,3)
     If chunkSeq(n) > a Then chunk(n)=0
     
 Case 131:        ;Pre-makankousappou (ground)
