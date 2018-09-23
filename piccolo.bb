@@ -333,7 +333,6 @@ Function doFollowUpCombo(n, mode)
     If mode = 0 Then tempZani=9:zf1=18:zf2=19:enemyPullSpd=1.5
     If mode = 1 Then tempZani=18:zf1=31:zf2=26:enemyPullSpd=2.9
     If zBlowSeq(n) > seq15 And zBlowSeq(n) <= seq16 Then hitMode=0:blowHold=3:blowType=0
-    
 ;--------- Animation -----------
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=tempZani:zf(n)=zf1
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=tempZani:zf(n)=zf2
@@ -400,7 +399,7 @@ Function doHighExtendingPunch(n)
     followUpComboSeq=2000
     If zBlowSeq(n) >= followUpComboSeq Then doFollowUpCombo(n, 1)
     If zBlowSeq(n) = startSeq Then isMoveHit(n)=0
-    
+
 ;--------- Animation -----------
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=6:zf(n)=1
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=18:zf(n)=12
@@ -788,6 +787,61 @@ Function drawWavePart2(n)
     Next
 End Function
 
+Function doGohanCounter(n)
+    seqStart=3000:seq1=seqStart+4:seq2=seq1+1:seq3=seq2+1:seq4=seq3+1:seq5=seq4+1:seq6=seq5+1:seq7=seq6+1
+    seq8=seq7+3:seq9=seq8+1:seq10=seq9+9:seq11=seq10+3:seq12=seq11+3:seq13=seq12+4:seq14=seq13+2
+    seq15=seq14+2:seq16=seq15+2
+    seq17=seq16+4:seq18=seq17+20:seq19=seq18+6:seq20=seq19+3
+    endSeq=50
+    
+;--------- Animation -----------
+    If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=18:zf(n)=32
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=18:zf(n)=33
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=18:zf(n)=32
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=18:zf(n)=33
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=18:zf(n)=32
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=18:zf(n)=33
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then zani(n)=18:zf(n)=32
+    If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq8 Then zani(n)=18:zf(n)=33
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq9 Then zani(n)=18:zf(n)=34
+    If zBlowSeq(n) > seq9 And zBlowSeq(n) <= seq10 Then zani(n)=18:zf(n)=35
+    If zBlowSeq(n) > seq10 And zBlowSeq(n) <= seq11 Then zani(n)=18:zf(n)=35
+    If zBlowSeq(n) > seq11 And zBlowSeq(n) <= seq12 Then zani(n)=18:zf(n)=33
+    If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 Then zani(n)=12:zf(n)=13
+    If zBlowSeq(n) > seq13 And zBlowSeq(n) <= seq14 Then zani(n)=4:zf(n)=4
+    If zBlowSeq(n) > seq14 And zBlowSeq(n) <= seq15 Then zani(n)=4:zf(n)=6
+    If zBlowSeq(n) > seq15 And zBlowSeq(n) <= seq16 Then zani(n)=18:zf(n)=37
+    If zBlowSeq(n) > seq16 And zBlowSeq(n) <= seq17 Then zani(n)=16:zf(n)=6
+    If zBlowSeq(n) > seq17 And zBlowSeq(n) <= seq18 Then zani(n)=16:zf(n)=7
+    If zBlowSeq(n) > seq18 And zBlowSeq(n) <= seq19 Then zani(n)=16:zf(n)=8
+    If zBlowSeq(n) > seq19 And zBlowSeq(n) <= seq20 Then zani(n)=16:zf(n)=9
+    
+;----------- Sounds -------------
+    If zBlowSeq(n) = seqStart+1 And gameSound Then PlaySound dbzTeleSnd
+    If zBlowSeq(n) = seq17+1 And gameSound Then PlaySound piccoloGohanSnd
+    If zBlowSeq(n) = seq18 And gameSound Then PlaySound dbzTeleSnd
+    If zBlowSeq(n) = seq20 And gameSound Then PlaySound piccoloGohanHaSnd
+    
+;--------- Hit box ----------
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq10 Then
+        zblowPamount(n)=3:nn=1
+        xblow(n,nn)=3: yblow(n,nn)=35:wblow(n,nn)=35:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
+        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=4:zHitTime(n)=90
+        zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
+        zBlowSound(n)=dbzHit3Snd
+    End If
+    
+;----------- Effects ------------
+    If zFace(n)=2 Then face=4:x=zx(n)+130
+    If zFace(n)=4 Then face=2:x=zx(n)-130
+    If zBlowSeq(n) = seq18 Then makechunk(n,x,zy(n)-35,face,138)
+
+    If zBlowSeq(n) >= seq20 Then zBlowSeq(n)=endSeq
+End Function
+
 Function DoPiccolo(n)
 If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 If zBlowSeq(n)=0 Then clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
@@ -808,7 +862,12 @@ Case 0    ;Blocking
     ;zSuperBar(n)=100
     zNoMove(n)=1:zNoJump(n)=1
     zBlock(n)=1:zani(n)=13:zf(n)=1
-    If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
+    
+    If zBlocked(n)=1 And KeyDown(grabK(n))=1 Then 
+        isCounterAttack(n)=1:zBlowSeq(n)=0:zBlow(n)=0:zBlocked(n)=0
+    End If
+    
+    If blockKey(n)=0 And zBlocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 1    ;Normal Punch
     seq1=3:seq2=seq1+3:seq3=seq2+2:seq4=seq3+7:seq5=seq4+2:seq6=seq5+5:seq7=seq6+3
@@ -1264,12 +1323,23 @@ Case 17 ;Extra special key
     zNoMove(n)=1:zNoJump(n)=1
     seqStart=100:endSeq=50
     comboSeq=2000
-    If zBlowSeq(n)=1 Then zBlowSeq(n)=seqStart
+    gohanSeq=3000
+    
+    If zBlowSeq(n)=1 Then
+        If isCounterAttack(n)=1 Then
+            zBlowSeq(n)=gohanSeq:isCounterAttack(n)=0
+        Else
+            zBlowSeq(n)=seqStart
+        End If
+    End If
+
     If zBlowSeq(n) >= seqStart And zBlowSeq(n) < comboSeq Then doHighExtendingPunch(n)
-    If zBlowSeq(n) >= comboSeq Then doFollowUpCombo(n, 1)
+    If zBlowSeq(n) >= comboSeq And zBlowSeq(n) < gohanSeq Then doFollowUpCombo(n, 1)
+    If zBlowSeq(n) >= gohanSeq Then doGohanCounter(n)
     
-    If zBlowSeq(n)=endSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-    
+    If zBlowSeq(n) > 1 And zBlowSeq(n) < seqStart Then 
+        zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zCurBlow(n)=0
+    End If
 End Select
 
 End Function

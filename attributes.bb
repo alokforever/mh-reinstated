@@ -889,6 +889,9 @@ Case 52: ;punching bag
     zAcc(n)=0
     zUseSpecialAI(n)=1
     zHelper(n)=1
+    
+Case 53: ;Gohan helper
+    
 
 End Select
 
@@ -2873,7 +2876,7 @@ Case 129:        ;Pre-makuuhouidan
     
 Case 130:        ;Box test
     a=10000            ;bright dot
-    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(15,3):chunkPic_(n)=ptPic(15,3)
+    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,3):chunkPic_(n)=ptPic(13,3)
     If chunkSeq(n) > a Then chunk(n)=0
     
 Case 131:        ;Pre-makankousappou (ground)
@@ -2916,6 +2919,25 @@ Case 137:        ;Makankousappou impact (ground)
     If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(107,6):chunkPic_(n)=ptPic_(107,8)
     
     If chunkSeq(n) > 1 Then chunk(n)=0
+    
+Case 138:        ;Gohan
+    seq1=6:seq2=seq1+1:seq3=seq2+1:seq4=seq3+1:seq5=seq4+1
+    seq6=seq5+10:seq7=seq6+1
+    
+    If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
+    If chunkSeq(n) > seq1 And chunkSeq(n) <= seq2 Then chunkPic(n)=ptPic(108,1):chunkPic_(n)=ptPic_(108,1)
+    If chunkSeq(n) > seq2 And chunkSeq(n) < seq3 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
+    If chunkSeq(n) > seq3 And chunkSeq(n) < seq4 Then chunkPic(n)=ptPic(108,2):chunkPic_(n)=ptPic_(108,2)
+    If chunkSeq(n) > seq4 And chunkSeq(n) < seq5 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
+    
+    If chunkSeq(n) > seq5 And chunkSeq(n) < seq6 Then
+        If chunkSeq(n) Mod 2 = 1 Then chunkPic(n)=ptPic(108,1):chunkPic_(n)=ptPic_(108,1)
+        If chunkSeq(n) Mod 2 = 0 Then chunkPic(n)=ptPic(108,3):chunkPic_(n)=ptPic_(108,3)
+    End If
+    
+    If chunkSeq(n) > seq6 And chunkSeq(n) < seq7 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
+    
+    If chunkSeq(n) >= seq7 Then chunk(n)=0
     
 Default
     a=5:b=10:c=14    ;Blocking
@@ -3801,11 +3823,16 @@ If n=16 Then ;Piccolo
     If dbzHyperSnd=0 Then dbzHyperSnd=LoadSound(soundsDir$ + "dbz\dbzHyperSnd.wav")
     If dbzPierceSnd=0 Then dbzPierceSnd=LoadSound(soundsDir$ + "dbz\dbzPierceSnd.wav")
     If dbzKiHyperAttackSnd=0 Then dbzKiHyperAttackSnd=LoadSound(soundsDir$ + "dbz\dbzKiHyperAttackSnd.wav")
+    If dbzSuperSpeedSnd=0 Then dbzSuperSpeedSnd=LoadSound(soundsDir$ + "dbz\dbzSuperSpeedSnd.wav")
+    If dbzTeleSnd=0 Then dbzTeleSnd=LoadSound(soundsDir$ + "dbz\dbzTeleSnd.wav")
     If piccoloKiCtrlSnd=0 Then piccoloKiCtrlSnd=LoadSound(soundsDir$ + "piccolo\piccoloKiCtrlSnd.wav")
     If piccoloKutabare1Snd=0 Then piccoloKutabare1Snd=LoadSound(soundsDir$ + "piccolo\piccoloKutabare1Snd.wav")
     If piccoloKutabare2Snd=0 Then piccoloKutabare2Snd=LoadSound(soundsDir$ + "piccolo\piccoloKutabare2Snd.wav")
     If piccoloMakuuSnd=0 Then piccoloMakuuSnd=LoadSound(soundsDir$ + "piccolo\piccoloMakuuSnd.wav")
     If piccoloMakkankousappouSnd=0 Then piccoloMakkankousappouSnd=LoadSound(soundsDir$ + "piccolo\piccoloMakkankousappouSnd.wav")
+    If piccoloGohanSnd=0 Then piccoloGohanSnd=LoadSound(soundsDir$ + "piccolo\piccoloGohanSnd.wav")
+    If piccoloGohanHaSnd=0 Then piccoloGohanHaSnd=LoadSound(soundsDir$ + "piccolo\piccoloGohanHaSnd.wav")
+    If piccoloGohanYahaSnd=0 Then piccoloGohanYahaSnd=LoadSound(soundsDir$ + "piccolo\piccoloGohanYahaSnd.wav")
 End If
 
 If n=15 Then ;Juggernaut

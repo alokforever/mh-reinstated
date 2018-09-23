@@ -97,7 +97,7 @@ Dim zMoveSide(30),xblow(30,50),yblow(30,50),wblow(30,50),hblow(30,50),zBlowEffec
 Dim zxStill#(30),zyStill(30),zBlowdir(30),zNoJump(30),zNoMove(30),zNoGrav(30),zblowPamount(30),zBlowBlockTime(30),isFrozen(30)
 Dim zImuneTo(30,30),zImuneSeq(30,30),zImuneTime(30,30),zImune(30,30)
 Dim hitKey(30),upKey(30),downKey(30),leftKey(30),rightKey(30),shotKey(30),jumpKey(30),jumpKeyDown(30),blockKey(30)
-Dim rightKeyHit(30),leftKeyHit(30),specialkey(30),zController(30),controllerPort(30),grabKey(30),superKey(30),counterkey(30),extraSpecialkey(30)
+Dim rightKeyHit(30),leftKeyHit(30),specialkey(30),zController(30),controllerPort(30),grabKey(30),superKey(30),tauntKey(30),extraSpecialkey(30)
 Dim runkey(30),zDacc#(30),zAcc#(30),zTopSpeed#(30),zDtopSpeed#(30)
 
 Dim zpic(200,50,50),zpic_(200,50,50)
@@ -236,7 +236,7 @@ Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFram
 Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
-Dim superMovePortraitSeqStart(30), zStanceObjX(30,40), zStanceObjY(30,40)
+Dim superMovePortraitSeqStart(30), zStanceObjX(30,40), zStanceObjY(30,40), isCounterAttack(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -999,7 +999,6 @@ For n= 1 To zzamount
             Case 2:zTrailTime(n)=20 : makechunk(n,zx(n)+x,zy(n)+y,zFace(n),29)    ;rising little smoke
             Case 3:zTrailTime(n)=20 : makechunk(n,zx(n)+x,zy(n)+y,zFace(n),13)    ;bright dots
             Case 4:zTrailTime(n)=15 : makechunk(n,zx(n)+x,(zy(n)+10)+y,zFace(n),31)    ;electrified
-                        
         End Select
         If ztrailseq(n) > ztrailtime(n) Then ztrail(n)=0
     EndIf
@@ -1010,7 +1009,6 @@ For n=1 To zzamount
         ;Add character, add another CASE call to your new function, will probably be 
         ;something like: CASE 11:DoGuyNameHere(n)
         Select curguy(n)
-            
             Case 1:DoRyu(n)
             Case 2:DoRash(n)
             Case 3:DoSpiderMan(n)
@@ -1051,7 +1049,6 @@ For n=1 To zzamount
             Case 51:DoGaiden(n)
             Case 52:DoBag(n)
         End Select
-
     EndIf
 
     zBlowHit(n)=0
@@ -1338,7 +1335,7 @@ If vsMode=1 Then
 Else    ;If passed level
     alive=0
     For n=1 To 4
-        If zon(n)=1 Then alive=alive+1    
+        If zon(n)=1 Then alive=alive+1
     Next
     If alive < aliveAmountNeeded Then
         For i=1 To zzamount
@@ -2154,7 +2151,7 @@ If zhit(n)=1 Then
         zHitByRect(n)=0
     EndIf
     .dontmove
-    If zhitseq(n) > 6 Then zHitByRect(n)=0        
+    If zhitseq(n) > 6 Then zHitByRect(n)=0
 EndIf
 
 zShotHitSeq(n,zShotByN(n))=zShotHitSeq(n,zShotByN(n))+1
@@ -2314,7 +2311,6 @@ If zGotObj(n) <> 0 Then
         Select zFace(n)
             Case 2:DrawImage objPic(zGotObj(n),objCurFrame(zGotObj(n))),((zx(n)-(ImageWidth (objpic(zGotObj(n),objCurFrame(zGotObj(n))))/2)) + xED(n))-xscr, ((zy(n)-ImageHeight(objPic(zGotObj(n),objCurFrame(zGotObj(n))))) -yED(n))-yscr
             Case 4:DrawImage objPic_(zGotObj(n),objCurFrame(zGotObj(n))),((zx(n)-(ImageWidth (objpic_(zGotObj(n),objCurFrame(zGotObj(n))))/2)) - xED(n))-xscr, ((zy(n)-ImageHeight(objpic_(zGotObj(n),objCurFrame(zGotObj(n))))) -yED(n))-yscr
-
         End Select
     EndIf
     drawObjOnZ(n)=1
@@ -2378,7 +2374,7 @@ Next
 For n=1 To zzamount
     hitKey(n)=0:upKey(n)=0:leftKey(n)=0:rightKey(n)=0:downKey(n)=0:jumpKey(n)=0:shotKey(n)=0
     jumpKeyDown(n)=0:runkey(n)=0:blockKey(n)=0:specialkey(n)=0:grabKey(n)=0:superKey(n)=0
-    rightKeyhit(n)=0:leftKeyHit(n)=0:downKeyHit(n)=0:upKeyHit(n)=0:counterkey(n)=0:extraSpecialkey(n)=0
+    rightKeyhit(n)=0:leftKeyHit(n)=0:downKeyHit(n)=0:upKeyHit(n)=0:tauntKey(n)=0:extraSpecialkey(n)=0
     If zBlocked(n) Then zBlock(n)=1:zBlow(n)=1 Else zblock(n)=0
 Next
 If KeyHit(1) Then   ;pause button
@@ -2410,7 +2406,7 @@ For k= 1 To zzamount
     EndIf
 Next
     
-For n = 1 To zzamount        
+For n = 1 To zzamount
 
 If Not zai(n) Then 
 Select zController(n)
@@ -2431,8 +2427,9 @@ Case 0
     If KeyDown(blockK(n)) Then blockKey(n)=1:hitKey(n)=1
     ;If shotkey(n)=1 And blockkey(n)=1 Then  grabKey(n)=1
     If blockKey(n)=1 And specialKey(n)=1 Then superKey(n)=1
-    If blockKey(n)=1 And shotkey(n)=1 Then counterKey(n)=1
+    If blockKey(n)=1 And shotkey(n)=1 Then tauntKey(n)=1
     If blockKey(n)=1 And grabKey(n)=1 Then extraSpecialkey(n)=1:grabKey(n)=0
+    If isCounterAttack(n)=1 Then extraSpecialkey(n)=1
 
 Case 1
     If JoyYDir(controllerPort(n))=-1 Then upKey(n)=1:hitKey(n)=1
@@ -2467,8 +2464,8 @@ Case 1
     If JoyDown(blockK(n),controllerPort(n)) Then blockKey(n)=1:hitKey(n)=1
     ;If shotkey(n) And blockkey(n) Then grabKey(n)=1:hitKey(n)=1
     If blockKey(n)=1 And specialKey(n)=1 Then superKey(n)=1
-    If blockKey(n)=1 And shotkey(n)=1 Then counterKey(n)=1
-    If blockKey(n)=1 And grabkey(n)=1 Then extraSpecialKey(n)=1::grabKey(n)=0
+    If blockKey(n)=1 And shotkey(n)=1 Then tauntKey(n)=1
+    If blockKey(n)=1 And grabkey(n)=1 Then extraSpecialKey(n)=1:grabKey(n)=0
 
 End Select
 EndIf
@@ -2549,8 +2546,7 @@ EndIf
 If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then 
     If zhit(n)=0 And zongnd(n)=1 And zBlow(n)=1 And zCurBlow(n)=0 And zBlocked(n)=0 Then
         If leftKeyhit(n) Then zFace(n)=4 Else zFace(n)=2
-        zBlow(n)=1:zBlowSeq(n)=0
-        zCurBlow(n)=8:zBlowDir(n)=zFace(n)  ;Dodge move
+        doBlow(n, 8)    ;Dodge move
     EndIf
 EndIf
 ;------------------------------------------------------------------------------------------------------
@@ -2560,7 +2556,7 @@ If shotKey(n) And downkey(n)=0 And upkey(n)=0 And zblow(n)=0 And zHit(n)=0 And z
     For nn=1 To objAmount
         If xobj(nn) => zx(n)-14 And xObj(nn) =< zx(n)+14 And objTaken(nn)=0 And objHurt(nn)=0 And obj(nn)=1 Then
             If yobj(nn) => zy(n) -20 And yobj(nn) =< zy(n) +3 Then 
-                zblow(n)=1:zblowseq(n)=0:zCurBlow(n)=13:zBlowDir(n)=zFace(n)
+                doBlow(n, 13)
             EndIf
         EndIf
     Next
@@ -2593,10 +2589,10 @@ EndIf
 If superKey(n)=1 And zhit(n)=0 And zBLocked(n)=0 And (zCurBlow(n) < 1 Or zBlow(n)=0) And zSuperBar(n) => 100 Then
     zBlow(n)=1:zBlowSeq(n)=0:zBlowseq2(n)=0:remImune(n)
     zCurBlow(n)=14:zBlowDir(n)=zFace(n)
-    Goto noShot    
+    Goto noShot
 EndIf
 
-If counterKey(n)=1 And zhit(n)=0 And zBLocked(n)=0 And (zCurBlow(n) < 1 Or zBlow(n)=0) Then
+If tauntKey(n)=1 And zhit(n)=0 And zBLocked(n)=0 And (zCurBlow(n) < 1 Or zBlow(n)=0) Then
     zBlow(n)=1:zBlowSeq(n)=0:zBlowseq2(n)=0:remImune(n)
     zCurBlow(n)=16:zBlowDir(n)=zFace(n)
 EndIf
@@ -2608,40 +2604,39 @@ EndIf
 
 If specialKey(n)=1 And (zhit(n)=0 And zBlow(n)=0) Then
     
-  If Not (noAirSpecial=1 And zongnd(n)=0) Then    
+  If Not (noAirSpecial=1 And zongnd(n)=0) Then
     If upKey(n)=1 Then
         zBlow(n)=1:zBlowSeq(n)=0:zBlowseq2(n)=0:remImune(n)
         zCurBlow(n)=5:zBlowDir(n)=zFace(n)
-        Goto noShot    
+        Goto noShot
     EndIf
     If downKey(n)=1 Then
         zBlow(n)=1:zBlowSeq(n)=0:zBlowseq2(n)=0:remImune(n)
         zCurBlow(n)=9:zBlowDir(n)=zFace(n)
-        Goto noShot    
+        Goto noShot
     EndIf
 
         zBlow(n)=1:zBlowSeq(n)=0:zBlowseq2(n)=0:remImune(n)
         zCurBlow(n)=7:zBlowDir(n)=zFace(n)
-        Goto noShot    
-  EndIf    
-    
+        Goto noShot
+  EndIf
 EndIf
 
-If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then    
+If shotKey(n)=1 And zhit(n)=0 And zBlow(n)=0 Then
     If zongnd(n)=0 Then
         zBlow(n)=1:zBlowSeq(n)=0:remImune(n)
         zCurBlow(n)=2:zBlowDir(n)=zFace(n)
-        Goto noShot    
+        Goto noShot
     EndIf
     If zongnd(n)=1 And upKey(n)=1 Then
         zBlow(n)=1:zBlowSeq(n)=0:remImune(n)
         zCurBlow(n)=10:zBlowDir(n)=zFace(n)
-        Goto noShot    
+        Goto noShot
     EndIf
     If zongnd(n)=1 And downKey(n)=1 Then
         zBlow(n)=1:zBlowSeq(n)=0:remImune(n)
         zCurBlow(n)=4:zBlowDir(n)=zFace(n)
-        Goto noShot    
+        Goto noShot
     EndIf
     If zongnd(n)=1 Then
         zBlow(n)=1:zBlowSeq(n)=0:remImune(n)
@@ -5359,7 +5354,7 @@ If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (70+yRange
     If (zongnd(n)=1 And onEdge2=0 And curArea > 0) Or (zongnd(n)=0 And dangerMove5(n)=0 And curArea > 0) Then
 
         If zNoAirSpecial(n)=0 Then
-            counterkey(n)=1:Goto aidone
+            tauntKey(n)=1:Goto aidone
         Else
             If curGuy(n) = 13 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
         EndIf
@@ -6623,3 +6618,7 @@ Function drawTestBox(n, x, y, height, width)
     Next
 End Function
 
+Function doBlow(n, blowId)
+    zBlow(n)=1:zBlowSeq(n)=0
+    zCurBlow(n)=blowId:zBlowDir(n)=zFace(n)
+End Function

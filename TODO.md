@@ -3,7 +3,6 @@
 9/19/18
 general:
 1. AI
-item pickup positioning
 Wonderwoman projectile deflect reaction to scorpion spear (facing right)
 
 character-specific:
