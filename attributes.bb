@@ -891,7 +891,15 @@ Case 52: ;punching bag
     zHelper(n)=1
     
 Case 53: ;Gohan helper
-    
+    zDuckHeight(n)=zUpHeight(n)
+    zSide(n)=50
+    zDontPickItem(n)=1
+    zDtopSpeed(n)=3
+    zTopSpeed(n)=zDtopSpeed(n)
+    zUngrabable(n)=1
+    zAcc(n)=.1
+    zUseSpecialAI(n)=1
+    zCanFly(n)=1
 
 End Select
 
@@ -2923,6 +2931,7 @@ Case 137:        ;Makankousappou impact (ground)
 Case 138:        ;Gohan
     seq1=6:seq2=seq1+1:seq3=seq2+1:seq4=seq3+1:seq5=seq4+1
     seq6=seq5+10:seq7=seq6+1
+    owner=chunkOwner(n)
     
     If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
     If chunkSeq(n) > seq1 And chunkSeq(n) <= seq2 Then chunkPic(n)=ptPic(108,1):chunkPic_(n)=ptPic_(108,1)
@@ -2936,6 +2945,12 @@ Case 138:        ;Gohan
     End If
     
     If chunkSeq(n) > seq6 And chunkSeq(n) < seq7 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
+    
+    If chunkSeq(n) = seq7-1 Then
+        If zFace(owner)=2 Then face=4
+        If zFace(owner)=4 Then face=2
+        spawnHelper(owner, zx(owner), zy(owner)-35, face)
+    End If
     
     If chunkSeq(n) >= seq7 Then chunk(n)=0
     

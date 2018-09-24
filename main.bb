@@ -237,6 +237,7 @@ Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
 Dim superMovePortraitSeqStart(30), zStanceObjX(30,40), zStanceObjY(30,40), isCounterAttack(30)
+Dim isHelperAttackDone(30), helperOwner(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1048,6 +1049,7 @@ For n=1 To zzamount
             Case 50:DoLaserBeam(n)
             Case 51:DoGaiden(n)
             Case 52:DoBag(n)
+            Case 53:DoGohanHelper(n)
         End Select
     EndIf
 
@@ -1139,6 +1141,8 @@ Next
 For n=1 To Famount
     If eventN(Fevent(n))=1 And Fon(n) Then factory(n)
 Next
+
+DebugLog "zzamount: " + zzamount
 
 For n = 1 To zzamount
     If isActiveCharacter(n) Then
@@ -2293,6 +2297,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
+    If n=3 Then DebugLog "zf: " + zf(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -5022,7 +5027,24 @@ Else
     zLife(n)=999
 EndIf
 
+;-----------------------------------
+Case 53    ;Gohan Helper
+;-----------------------------------
 
+If zon(aitarget(n))=0 Then aigettarget(n)
+
+;flies to the target
+If zx(nn) => zx(n)+2 Then rightkey(n)=1
+If zx(nn) =< zx(n)-2 Then leftKey(n)=1
+If zy(nn) >= zy(n) Then zy(n)=zy(n)-1.5
+If zy(nn) <= zy(n) Then zy(n)=zy(n)+1.5
+
+;aim on closest enemy
+If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
+    If zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+70 And zy(nn) = zy(n) Then
+        shotKey(n)=1
+    EndIf
+EndIf
 
 End Select
 .aiDone1
@@ -6621,4 +6643,14 @@ End Function
 Function doBlow(n, blowId)
     zBlow(n)=1:zBlowSeq(n)=0
     zCurBlow(n)=blowId:zBlowDir(n)=zFace(n)
+End Function
+
+Function spawnHelper(n, x, y, face)
+    zzamount=zzamount+1
+    zx(zzamount)=x:zy(zzamount)=y
+    zFace(zzamount)=face
+    zLife(zzamount)=20
+    zTeam(zzamount)=zTeam(n)
+    zon(zzamount)=1
+    DebugLog "Tangina: " + zzamount
 End Function
