@@ -1319,7 +1319,7 @@ Case 22    ;predator disc
     shotHitYspeed(n)=2
     shotFallTime(n)=40
     shotDuration(n)=30
-    shotDuration2(n)=52 ; 52
+    shotDuration2(n)=52
     shotFollowOwner(n)=1
     shotBounce(n)=1
     shotUseAcc(n)=1
@@ -2949,7 +2949,7 @@ Case 138:        ;Gohan
     If chunkSeq(n) = seq7-1 Then
         If zFace(owner)=2 Then face=4
         If zFace(owner)=4 Then face=2
-        spawnHelper(owner, zx(owner), zy(owner)-35, face)
+        spawnHelper(owner, zx(owner), zy(owner)-35, face, 53)
     End If
     
     If chunkSeq(n) >= seq7 Then chunk(n)=0

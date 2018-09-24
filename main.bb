@@ -2297,7 +2297,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    If n=3 Then DebugLog "zf: " + zf(n)
+    If n=3 Then DebugLog "curGuy(n): " + curGuy(n) + "zani: " + zani(n) + ", zf: " + zf(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -5855,7 +5855,7 @@ For n=0 To characterAmount
     Next
 Next
 
-For n=30 To 52    ;add character
+For n=30 To 53    ;add character
     guyLoaded(n)=0
     For n1=0 To 50
         For n2=0 To 50
@@ -6645,12 +6645,16 @@ Function doBlow(n, blowId)
     zCurBlow(n)=blowId:zBlowDir(n)=zFace(n)
 End Function
 
-Function spawnHelper(n, x, y, face)
+Function spawnHelper(n, x, y, face, guy)
     zzamount=zzamount+1
     zx(zzamount)=x:zy(zzamount)=y
     zFace(zzamount)=face
     zLife(zzamount)=20
     zTeam(zzamount)=zTeam(n)
     zon(zzamount)=1
-    DebugLog "Tangina: " + zzamount
+    zani(zzamount)=1:zf(n)=0
+    curguy(zzamount)=guy
+    zcurpic(zzamount)=noPic
+    zLives(zzamount)=0
+    ;zIcon(zzamount)=
 End Function
