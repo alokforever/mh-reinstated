@@ -792,7 +792,6 @@ Case 45    ;bombing ship
     If gamesound Then PlaySound flyBySnd
     zBlowSeq2(n)=0
     zCanFly(n)=1
-    zUseSpecialAI(n)=1
 
 Case 46    ;Ray balls
     zUpHeight(n)=20
@@ -891,6 +890,8 @@ Case 52: ;punching bag
     zHelper(n)=1
     
 Case 53: ;Gohan helper
+    DebugLog "AAA"
+    zUpHeight(n)=65
     zDuckHeight(n)=zUpHeight(n)
     zSide(n)=50
     zDontPickItem(n)=1
@@ -900,7 +901,7 @@ Case 53: ;Gohan helper
     zAcc(n)=.1
     zUseSpecialAI(n)=1
     zCanFly(n)=1
-
+    
 End Select
 
 
@@ -2947,9 +2948,10 @@ Case 138:        ;Gohan
     If chunkSeq(n) > seq6 And chunkSeq(n) < seq7 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
     
     If chunkSeq(n) = seq7-1 Then
-        If zFace(owner)=2 Then face=4
-        If zFace(owner)=4 Then face=2
-        spawnHelper(owner, zx(owner), zy(owner)-35, face, 53)
+        y=zy(owner)-35
+        If zFace(owner)=2 Then face=4:x=zx(n)+130
+        If zFace(owner)=4 Then face=2:x=zx(n)-130
+        spawnHelper(owner, x, y, face, 53)
     End If
     
     If chunkSeq(n) >= seq7 Then chunk(n)=0
@@ -3636,6 +3638,7 @@ Next
 
 zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
 zPic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
+
 For i=2 To 20
     zpic(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + ".bmp")
     zPic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")

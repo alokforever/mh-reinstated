@@ -524,7 +524,6 @@ If justIntroduced=1 Then    ;the menu music is loaded For sure, just play
         StopChannel chMusic
         LoopSound music
         chMusic=PlaySound(music)
-        
       EndIf
     justIntroduced=0
 Else
@@ -823,6 +822,7 @@ If gamemode=2 Then setPos_ctf Else setpos   ;Load map definitions
 If guyLoaded(43)=0 Then loadPics(43)
 If guyLoaded(45)=0 Then loadPics(45)
 If guyLoaded(46)=0 Then loadPics(46)
+If guyLoaded(53)=0 Then loadPics(53)
 
 For i=1 To Famount    ;loads character For factory If not done yet
     For ii=1 To FfacAmount(i)
@@ -1141,8 +1141,6 @@ Next
 For n=1 To Famount
     If eventN(Fevent(n))=1 And Fon(n) Then factory(n)
 Next
-
-DebugLog "zzamount: " + zzamount
 
 For n = 1 To zzamount
     If isActiveCharacter(n) Then
@@ -2297,7 +2295,6 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    If n=3 Then DebugLog "curGuy(n): " + curGuy(n) + "zani: " + zani(n) + ", zf: " + zf(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -5030,18 +5027,18 @@ EndIf
 ;-----------------------------------
 Case 53    ;Gohan Helper
 ;-----------------------------------
-
 If zon(aitarget(n))=0 Then aigettarget(n)
-
 ;flies to the target
-If zx(nn) => zx(n)+2 Then rightkey(n)=1
-If zx(nn) =< zx(n)-2 Then leftKey(n)=1
-If zy(nn) >= zy(n) Then zy(n)=zy(n)-1.5
-If zy(nn) <= zy(n) Then zy(n)=zy(n)+1.5
+If zx(nn) >= zx(n)+2 Then rightkey(n)=1
+If zx(nn) <= zx(n)-2 Then leftKey(n)=1
+If zy(n) >= zy(nn) Then zy(n)=zy(n)-3
+If zy(n) <= zy(nn) Then zy(n)=zy(n)+3
 
 ;aim on closest enemy
 If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
-    If zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+70 And zy(nn) = zy(n) Then
+    DebugLog "CCC"
+    If zx(nn) >= zx(n)-70 And zx(nn) <= zx(n)+70 And (zy(nn)-zy(n)) < 20 Then
+        DebugLog "BBB"
         shotKey(n)=1
     EndIf
 EndIf
@@ -6647,14 +6644,16 @@ End Function
 
 Function spawnHelper(n, x, y, face, guy)
     zzamount=zzamount+1
+    zAI(zzamount)=1
     zx(zzamount)=x:zy(zzamount)=y
     zFace(zzamount)=face
-    zLife(zzamount)=20
+    ;zLife(zzamount)=20
     zTeam(zzamount)=zTeam(n)
     zon(zzamount)=1
-    zani(zzamount)=1:zf(n)=0
+    zani(zzamount)=1:zf(n)=1
     curguy(zzamount)=guy
     zcurpic(zzamount)=noPic
     zLives(zzamount)=0
-    ;zIcon(zzamount)=
+    zDamage(zzamount)=999
+    initZ(zzamount)
 End Function

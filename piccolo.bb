@@ -398,7 +398,6 @@ Function doHighExtendingPunch(n)
     guardable=0
     followUpComboSeq=2000
     If zBlowSeq(n) >= followUpComboSeq Then doFollowUpCombo(n, 1)
-    If zBlowSeq(n) = startSeq Then isMoveHit(n)=0
 
 ;--------- Animation -----------
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=6:zf(n)=1
@@ -468,8 +467,7 @@ Function doLowExtendingPunch(n)
     guardable=0
     followUpComboSeq=2000
     If zBlowSeq(n) >= followUpComboSeq Then doFollowUpCombo(n, 0)
-    If zBlowSeq(n) = startSeq Then isMoveHit(n)=0
-    
+
 ;--------- Animation -----------
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=9:zf(n)=10
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=9:zf(n)=11
@@ -829,15 +827,18 @@ Function doGohanCounter(n)
         xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
-        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=4:zHitTime(n)=90
+        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=4:zHitTime(n)=180
         zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
         zBlowSound(n)=dbzHit3Snd
+        If zBlowStill(n)=1 Then isMoveHit(n)=1
     End If
     
 ;----------- Effects ------------
     If zFace(n)=2 Then face=4:x=zx(n)+130
     If zFace(n)=4 Then face=2:x=zx(n)-130
-    If zBlowSeq(n) = seq18 Then makechunk(n,x,zy(n)-35,face,138)
+    If zBlowSeq(n) = seq18 And isMoveHit(n)=1 Then 
+        makechunk(n,x,zy(n)-35,face,138)
+    End If
 
     If zBlowSeq(n) >= seq20 Then zBlowSeq(n)=endSeq
 End Function
@@ -994,7 +995,7 @@ Case 5    ;UP + SPECIAL (jumping knee lift)
     seq1=100:endSeq=seq1+200
     zNoMove(n)=1:zNoGrav(n)=1
     zNoJump(n)=1:zJumping(n)=0
-    If zBlowSeq(n)=1 Then zBlowUpLimit(n)=zy(n)-70:zJump(n)=0:isMoveHit(n)=0
+    If zBlowSeq(n)=1 Then zBlowUpLimit(n)=zy(n)-70:zJump(n)=0
 ;--------- Animation -----------
     If zBlowSeq(n)>0 And zBlowSeq(n)<=a Then zani(n)=7:zf(n)=1
     If zBlowSeq(n)>a And zBlowSeq(n)<=b Then zani(n)=7:zf(n)=2
