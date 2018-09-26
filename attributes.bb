@@ -890,17 +890,17 @@ Case 52: ;punching bag
     zHelper(n)=1
     
 Case 53: ;Gohan helper
-    DebugLog "AAA"
     zUpHeight(n)=65
     zDuckHeight(n)=zUpHeight(n)
     zSide(n)=50
     zDontPickItem(n)=1
-    zDtopSpeed(n)=3
+    zDtopSpeed(n)=8
     zTopSpeed(n)=zDtopSpeed(n)
     zUngrabable(n)=1
     zAcc(n)=.1
     zUseSpecialAI(n)=1
     zCanFly(n)=1
+    hasSpecialAirFrames(n)=1
     
 End Select
 

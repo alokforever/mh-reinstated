@@ -237,7 +237,7 @@ Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
 Dim superMovePortraitSeqStart(30), zStanceObjX(30,40), zStanceObjY(30,40), isCounterAttack(30)
-Dim isHelperAttackDone(30), helperOwner(30)
+Dim isHelperAttackDone(30), helperOwner(30), helperSeq(30)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -5027,22 +5027,48 @@ EndIf
 ;-----------------------------------
 Case 53    ;Gohan Helper
 ;-----------------------------------
-If zon(aitarget(n))=0 Then aigettarget(n)
-;flies to the target
-If zx(nn) >= zx(n)+2 Then rightkey(n)=1
-If zx(nn) <= zx(n)-2 Then leftKey(n)=1
-If zy(n) >= zy(nn) Then zy(n)=zy(n)-3
-If zy(n) <= zy(nn) Then zy(n)=zy(n)+3
+;Find nearest exit route
+If isHelperAttackDone(n)=1 And zBlow(n)=0 Then
+    checkDist(n,zx(n),zy(n),2)
+    xRight=xDist(n)
+    checkDist(n,zx(n),zy(n),4)
+    xLeft=xDist(n)
+    
+    If xLeft > xRight Then
+        If xLeft >= 600 And zani(n)=4 Then 
+            leftKey(n)=1:zFace(n)=4 
+        Else 
+            zy(n)=zy(n)-3
+        End If
+    Else If xLeft < xRight Then
+        If xRight >= 600 And zani(n)=4 Then 
+            rightKey(n)=1:zFace(n)=2
+        Else 
+            zy(n)=zy(n)-3
+        End If
+    Else If xLeft=xRight Then
+        If zFace(n)=2 And zani(n)=4 Then rightKey(n)=1
+        If zFace(n)=4 And zani(n)=4 Then leftKey(n)=1
+    End If
+    
+Else If isHelperAttackDone(n)=0
+    If zon(aitarget(n))=0 Then aigettarget(n)
+    ;flies to the target
+    If zx(nn) >= zx(n)+2 Then rightkey(n)=1
+    If zx(nn) <= zx(n)-2 Then leftKey(n)=1
+    If zy(n) >= zy(nn) Then zy(n)=zy(n)-3
+    If zy(n) <= zy(nn) Then zy(n)=zy(n)+3
+    ;aim on closest enemy
+    If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
+        If zx(nn) >= zx(n)-50 And zx(nn) <= zx(n)+50 And Abs(zy(nn)-zy(n)) < 20 Then
+            shotKey(n)=1
+        End If
+    End If
+End If
 
-;aim on closest enemy
-If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
-    DebugLog "CCC"
-    If zx(nn) >= zx(n)-70 And zx(nn) <= zx(n)+70 And (zy(nn)-zy(n)) < 20 Then
-        DebugLog "BBB"
-        shotKey(n)=1
-    EndIf
-EndIf
-
+helperSeq(n)=helperSeq(n)+1
+If helperSeq(n) > 572 Then killZ(n)
+    
 End Select
 .aiDone1
 
@@ -6655,5 +6681,7 @@ Function spawnHelper(n, x, y, face, guy)
     zcurpic(zzamount)=noPic
     zLives(zzamount)=0
     zDamage(zzamount)=999
+    isHelperAttackDone(zzamount)=0
+    helperSeq(zzamount)=0
     initZ(zzamount)
 End Function

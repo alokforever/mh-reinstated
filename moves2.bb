@@ -1766,11 +1766,11 @@ Function DoGohanHelper(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
 
-    If zBlowStill(n)=1 Then
-        zBlowStillSeq(n)=zBlowStillSeq(n)+1
-        If zBlowStillSeq(n) > zBlowStillTime(n) Then zBlowStill(n)=0
-        Goto noBlowSeq53
-    EndIf
+If zBlowStill(n)=1 Then
+    zBlowStillSeq(n)=zBlowStillSeq(n)+1
+    If zBlowStillSeq(n) > zBlowStillTime(n) Then zBlowStill(n)=0
+    Goto noBlowSeq53
+EndIf
 
 zBlowSeq(n)=zBlowSeq(n)+1:
 .noBlowSeq53
@@ -1780,7 +1780,8 @@ Case 2     ;attack
     seq1=5:seq2=seq1+1:seq3=seq2+1:seq4=seq3+1:seq5=seq4+1
     seq6=seq5+3:seq7=seq6+3:seq8=seq7+6:seq9=seq8+5:seq10=seq9+25:seq11=seq10+6:seq12=seq11+35:
     seq13=seq12+10:seq14=seq13+6
-
+    zNoMove(n)=1
+    
 ;--------- Animation -----------
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=6:zf(n)=1
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=6:zf(n)=2

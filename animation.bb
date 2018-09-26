@@ -337,11 +337,22 @@ Function processPiccoloAirFrames(n)
     End If
 End Function
 
+;----------------- Process Picccolo Air Frames -------------------
+Function processGohanHelperAirFrames(n)
+    DebugLog "zSpeed: " + zSpeed#(n)
+    If abs(zSpeed#(n)) < 3 And isHelperAttackDone(n)=1 Then 
+        zani(n)=4:zf(n)=2
+    Else
+        zani(n)=4:zf(n)=1
+    End If
+End Function
+
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
     If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
     If curGuy(n)=16 Then processPiccoloAirFrames(n)
+    If curGuy(n)=53 Then processGohanHelperAirFrames(n)
 End Function
 
 ;------------------- Process End of Run --------------------------

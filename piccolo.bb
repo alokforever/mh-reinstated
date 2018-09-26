@@ -827,7 +827,7 @@ Function doGohanCounter(n)
         xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
-        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=4:zHitTime(n)=180
+        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=5:zHitTime(n)=180
         zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
         zBlowSound(n)=dbzHit3Snd
         If zBlowStill(n)=1 Then isMoveHit(n)=1
@@ -837,7 +837,7 @@ Function doGohanCounter(n)
     If zFace(n)=2 Then face=4:x=zx(n)+130
     If zFace(n)=4 Then face=2:x=zx(n)-130
     If zBlowSeq(n) = seq18 And isMoveHit(n)=1 Then 
-        makechunk(n,x,zy(n)-35,face,138)
+        makechunk(n,x,zy(n)-20,face,138)
     End If
 
     If zBlowSeq(n) >= seq20 Then zBlowSeq(n)=endSeq
