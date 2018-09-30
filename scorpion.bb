@@ -238,6 +238,33 @@ Function performScorpionCombo2(n)
     If zBlowSeq(n) = m Then zControls(n)=0:zBlowSeq(n)=endSeq
 End Function
 
+Function doScorpionUpFlyKick(n)
+    seqStart=100:seq1=seqStart+3:seq2=seq1+4:seq3=seq2+10:seq4=seq3+3
+    endSeq=50
+
+;--------- Animation -----------
+    If zBlowSeq(n) >= seqStart And zBlowSeq(n) < seq1 Then zani(n)=8:zf(n)=4
+    If zBlowSeq(n) >= seq1 And zBlowSeq(n) < seq2 Then zani(n)=8:zf(n)=5
+    If zBlowSeq(n) >= seq2 And zBlowSeq(n) < seq3 Then zani(n)=8:zf(n)=6
+    If zBlowSeq(n) >= seq3 And zBlowSeq(n) < seq4 Then zani(n)=8:zf(n)=5
+
+;--------- Hitboxes ------------
+    If zBlowseq(n) >= seq2 And zblowseq(n) < seq3 Then 
+        zblowPamount(n)=3:nn=1
+        xblow(n,nn)=18: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=12: yblow(n,nn)=30:wblow(n,nn)=12:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=6: yblow(n,nn)=28:wblow(n,nn)=9:hblow(n,nn)=1:nn=nn+1
+        zHitMode(n)=0:zBlowHold(n)=8
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+        zBlowSound(n)=mkHitSnd
+    EndIf
+    
+;--------- Sound ------------
+    If zBlowSeq(n) = seq2-2 And gameSound Then PlaySound mkKick2Snd
+    
+    If zBlowSeq(n) > seq4 Then zBlowSeq(n)=endSeq
+    
+End Function
 
 Function DoScorpion(n)
 
@@ -302,6 +329,12 @@ Case 1    ;Kick
 Case 2    ;Flying Kick
     a=5: b=a+5: c=b+8: d=c+10
     zNoJump(n)=0:ZJUMPING(N)=1
+    upFlyKickSeq=100
+    endSeq=50
+    
+    If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n)=upFlyKickSeq
+    If zBlowSeq(n) >= upFlyKickSeq Then doScorpionUpFlyKick(n)
+    
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=8:zf(n)=1
     If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=8:zf(n)=2
     If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=8:zf(n)=3
@@ -317,7 +350,7 @@ Case 2    ;Flying Kick
         zBlowDamage(n)=11:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=16:zBlowBlockTime(n)=25
         zBlowSound(n)=mkHitSnd
     EndIf
-    If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
+    If zBlowSeq(n) > d And zBlowSeq(n) < upFlyKickSeq Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
     If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zblowseq(n)=0
     
 Case 4    ;Low kick

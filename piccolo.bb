@@ -792,7 +792,9 @@ Function doGohanCounter(n)
     seq17=seq16+4:seq18=seq17+20:seq19=seq18+6:seq20=seq19+3
     endSeq=50
     
-    If zBlowSeq(n)=seqStart+1 And spellCooldownSeq(n, 2) > 0 And zSuperBar(n) < 15 Then
+    If zBlowSeq(n)=1 And zSuperBar(n) < 15 Then zBlowSeq(n)=0:zBlow(n)=0
+    
+    If zBlowSeq(n)=seqStart+1 And spellCooldownSeq(n, 2) > 0 Then
         If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
         zBlowSeq(n)=0:zBlow(n)=0
     End If
@@ -845,9 +847,8 @@ Function doGohanCounter(n)
     If zBlowSeq(n) = seq18 And isMoveHit(n)=1 Then 
         spellCooldownMaxTime(n, 2)=572
         spellCooldownSeq(n, 2)=spellCooldownMaxTime(n, 2) 
-        checkDist(n,x,zy(n)-20,zFace(n))
-        DebugLog "xDist: " + xDist(n)
-        If getHelperIndex(n)=0 makechunk(n,x,zy(n)-20,face,138)
+        ;checkDist(n,x,zy(n)-20,zFace(n))
+        makechunk(n,x,zy(n)-20,face,138)
     End If
 
     If zBlowSeq(n) >= seq20 Then zBlowSeq(n)=endSeq
