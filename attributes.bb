@@ -517,6 +517,7 @@ Case 16: ;Piccolo
     hasSpecialAirFrames(n)=1
     specialHitFrames(n)=10
     hitFrameSpeed(n)=4
+    zGrabDist(n)=zGrabDist(n)+15
     
 Case 30: ;Pig
     zBlowDist(n,1)=64

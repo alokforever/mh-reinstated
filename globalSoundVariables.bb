@@ -74,6 +74,7 @@ Global mineDudSnd=LoadSound(soundsdir$ + "minedud.wav")
 Global burnedSnd=LoadSound(soundsdir$ + "burned.wav")
 Global quakeSnd=LoadSound(soundsdir$ + "juggernaut\juggWalk.wav")
 Global pullSnd=LoadSound(soundsdir$ + "pullSnd.wav")
+Global grabSnd=LoadSound(soundsDir$ + "grabSnd.wav")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd

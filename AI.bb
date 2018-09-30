@@ -252,11 +252,11 @@ Else If isHelperAttackDone(n)=0
     ;flies to the target
     If zx(nn) >= zx(n)+2 Then rightkey(n)=1
     If zx(nn) <= zx(n)-2 Then leftKey(n)=1
-    If zy(n) >= zy(nn) Then zy(n)=zy(n)-3
-    If zy(n) <= zy(nn) Then zy(n)=zy(n)+3
+    If zy(n) >= zy(nn) Then zy(n)=zy(n)-5
+    If zy(n) <= zy(nn) Then zy(n)=zy(n)+5
     ;aim on closest enemy
     If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
-        If zx(nn) >= zx(n)-40 And zx(nn) <= zx(n)+40 And (zy(n)-zy(nn)) < 5 Then
+        If zx(nn) >= zx(n)-40 And zx(nn) <= zx(n)+40 And Abs(zy(n)-zy(nn)) < 3 Then
             shotKey(n)=1
         End If
     End If

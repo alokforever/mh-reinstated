@@ -854,6 +854,67 @@ Function doGohanCounter(n)
     If zBlowSeq(n) >= seq20 Then zBlowSeq(n)=endSeq
 End Function
 
+Function doPiccoloThrow(n)
+    seq1=8: seq2=15: seq3=25: seq4=30: seq5=35: seq6=50: seq7=54: seq8=58: seq9=62
+    zNoMove(n)=1:zNoJump(n)=1
+    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=15:zf(n)=1
+    If zBlowSeq(n) => seq2 And zBlowSeq(n) =< seq3 Then zani(n)=15:zf(n)=1
+    If zBlowSeq(n) = seq1 Then
+        If gameSound Then PlaySound grabSnd
+        grabbing(n,zx(n),zy(n)-3,zGrabDist(n),5)
+        If zGrabs(n)=1 Then zBlowSeq(n)=seq3+4
+    EndIf
+    If zBlowSeq(n)=seq2 Then zBlowSeq(n)=0:zBlow(n)=0
+    
+    en=zGrabsThis(n)
+    If zface(n)=2 Then dir=2:dir2=2:n1=1:n2=28:n3=56    Else dir=4:dir2=4:n1=-1:n2=-28:n3=-56
+    
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) < seq4 Then 
+        If shotKey(n)=1 Or grabKey(n)=1 Then
+            zBlowSeq(n)=seq4+2
+            zGrabbed(en)=1:zHit(en)=1:zFace(en)=dir
+            zFallTime(en)=40:zHitSeq(en)=0:zhitTime(en)=40
+        Else
+            zBlowSeq(n)=zBlowSeq(n)-1:zx(en)=zx(n)+n2:zy(en)=zy(n)
+            zAni(en)=2:zf(en)=1
+            zGrabbed(en)=1:zHit(en)=1:zFace(en)=dir
+            zAni(n)=15:zf(n)=1
+            If shotKey(en)=1 Or specialKey(en)=1 Then zLetGoSeq(en)=zLetGoSeq(en)+1
+            If Blockkey(n)=1 Or zLetGoSeq(en) > zLetGoAmount(en) Then 
+                zhit(en)=0:zgrabbedby(en)=0:zgrabbed(en)=0
+                zHitTime(en)=0:zFallTime(en)=0:zHitSeq(en)=0
+                zgrabsThis(n)=0
+                zgrabs(n)=0
+                zBlowSeq(n)=seq9
+            EndIf
+        EndIf
+    EndIf
+        
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) < seq9 Then zshield(n)=1
+    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then zani(n)=15:zf(n)=2:zx(en)=zx(n)+n3:zAni(en)=2:zf(en)=1:zFace(en)=dir
+    If zBlowSeq(n) >= seq5 And zBlowSeq(n) < seq6 Then zani(n)=15:zf(n)=3:zx(en)=zx(n)+n2:zy(en)=zy(n)-48:zAni(en)=2:zf(en)=5:zface(en)=dir2
+    If zBlowSeq(n) >= seq6 And zBlowSeq(n) < seq7 Then zani(n)=15:zf(n)=4:zx(en)=zx(n)+n2:zy(en)=zy(n)-12:zAni(en)=2:zf(en)=5:zface(en)=dir2
+    If zblowseq(n) = seq6 Then
+        If gameSound Then PlaySound piccoloGrunt8Snd
+    EndIf
+    If zBlowSeq(n) >= seq9-3 And zBlowSeq(n) < seq9 Then zani(n)=15:zf(n)=4:zx(en)=zx(n)+n2:zy(en)=zy(n)-3:zAni(en)=2:zf(en)=6:zface(en)=dir2
+    If zBlowSeq(n) = seq9  Then
+        zx(en)=zx(n)+n2:zy(en)=zy(n)-3
+        zHitmodeTaken(en)=2 : zHit(en)=1:zBouncedGnd(en)=0
+        zFallSpeed(en)=0:zDownFallSpeed(en)=5:zUpFallSpeed(en)=0:zFallTime(en)=80:zHitSeq(en)=30:zHitHold(en)=0
+        zDamage(en)=zDamage(en)+10
+        zLife(en)=zLife(en)-10
+        zFace(en)=dir : zFallDir(en)=dir
+        zgrabs(n)=0:zGrabsThis(n)=0:zGrabbedBy(en)=0
+    EndIf
+    If zBlowSeq(n) > seq7 And zBlowSeq(n) < seq8 Then zani(n)=15:zf(n)=5
+    If zBlowSeq(n) >= seq8 And zBlowSeq(n) < seq9 Then zani(n)=15:zf(n)=6
+    
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) < seq7 Then zgrabbed(en)=1:checkZvsWall(en,0)
+    If zBlowSeq(n) >= seq9 Then zBlowSeq(n)=0:zBlow(n)=0
+End Function
+
 Function DoPiccolo(n)
 If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 If zBlowSeq(n)=0 Then clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
@@ -1289,13 +1350,13 @@ Case 15 ;Piccolo throw
     sonicSlashSeqStart=1000
     endSeq=2000
     zNoMove(n)=1:zNoJump(n)=1
-    if zBlowSeq(n)=1 And isRunning(n) Then zSpeed(n)=0:zBlowSeq(n)=sonicSlashSeqStart
+    if zBlowSeq(n)=1 And isRunning(n) And zSpeed#(n) >= 0.1 Then zSpeed(n)=0:zBlowSeq(n)=sonicSlashSeqStart
     
     If zBlowSeq(n) >= sonicSlashSeqStart Then
         doSonicSlash(n)
     Else
         ;do throw
-        zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+        doPiccoloThrow(n)
     End If
     
     if zBlowSeq(n)=endSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
