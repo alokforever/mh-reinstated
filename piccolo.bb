@@ -25,16 +25,16 @@ Function doSonicSlash(n)
 ;--------- Hit box ----------
     If zBlowSeq(n)>=seq2 And zBlowSeq(n)<seq4 Then
         zblowPamount(n)=1:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=30:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=15: yblow(n,nn)=30:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=30:wblow(n,nn)=23:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=15: yblow(n,nn)=30:wblow(n,nn)=23:hblow(n,nn)=10:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=0:zBlowStillTime(n)=0
         zHitSpeed#(n)=4:zHitUpSpeed#(n)=1.5:zHitTime(n)=40
         zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=14:zBlowBlockTime(n)=40
         zBlowSound(n)=dbzKneeHitSnd
     Else If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then
         zblowPamount(n)=1:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=15: yblow(n,nn)=50:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=23:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=15: yblow(n,nn)=50:wblow(n,nn)=23:hblow(n,nn)=10:nn=nn+1
         zHitSpeed#(n)=5:zHitUpSpeed#(n)=1.5
         zHitmode(n)=0:zBlowHold(n)=8:zBlowStillTime(n)=0:zHitTime(n)=40
         zBlowDamage(n)=10:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
@@ -792,6 +792,11 @@ Function doGohanCounter(n)
     seq17=seq16+4:seq18=seq17+20:seq19=seq18+6:seq20=seq19+3
     endSeq=50
     
+    If zBlowSeq(n)=seqStart+1 And spellCooldownSeq(n, 2) > 0 And zSuperBar(n) < 15 Then
+        If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+        zBlowSeq(n)=0:zBlow(n)=0
+    End If
+
 ;--------- Animation -----------
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= seq1 Then zani(n)=18:zf(n)=32
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=18:zf(n)=33
@@ -827,17 +832,22 @@ Function doGohanCounter(n)
         xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
-        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=5:zHitTime(n)=180
-        zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
+        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=5:zHitTime(n)=110
+        zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
         zBlowSound(n)=dbzHit3Snd
         If zBlowStill(n)=1 Then isMoveHit(n)=1
+        If zBlowSeq(n)=seq8 Then zSuperBar(n)=zSuperBar(n)-15
     End If
     
 ;----------- Effects ------------
     If zFace(n)=2 Then face=4:x=zx(n)+130
     If zFace(n)=4 Then face=2:x=zx(n)-130
     If zBlowSeq(n) = seq18 And isMoveHit(n)=1 Then 
-        makechunk(n,x,zy(n)-20,face,138)
+        spellCooldownMaxTime(n, 2)=572
+        spellCooldownSeq(n, 2)=spellCooldownMaxTime(n, 2) 
+        checkDist(n,x,zy(n)-20,zFace(n))
+        DebugLog "xDist: " + xDist(n)
+        If getHelperIndex(n)=0 makechunk(n,x,zy(n)-20,face,138)
     End If
 
     If zBlowSeq(n) >= seq20 Then zBlowSeq(n)=endSeq

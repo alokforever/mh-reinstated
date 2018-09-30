@@ -43,7 +43,7 @@ zBlocked(n)=0: aiGetTarget(n):
     zCanFly(n)=0
     zGrabDist(n)=25
     zLetGoAmount(n)=7            ;reach this number with 'zLetGoSeq(x)' to let go of grab
-    zHelper(n)=0
+    zHelperObj(n)=0
     zTrail(n)=0
     zTrailType(n)=0
     zHitByRect(nn)=0
@@ -70,7 +70,7 @@ zBlocked(n)=0: aiGetTarget(n):
     isHeavy(n)=0
     hasSpecialAirFrames(n)=0
     specialHitFrames(n)=0
-    hitFrameSpeed(n)=0
+    hitFrameSpeed(n)=4
     superMoveMaxSeq(n)=50
     superPicNum(n)=1
     electrocuteFrames(n)=0
@@ -346,6 +346,7 @@ Case 12: ;Scorpion
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     zRunFootSoundSeq(n)=12
+    specialHitFrames(n)=8
 
 Case 13: ;Sub Zero
     zBlowDist(n,1)=45
@@ -388,6 +389,7 @@ Case 13: ;Sub Zero
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     zRunFootSoundSeq(n)=12
+    specialHitFrames(n)=8
 
 Case 14: ;Wonder Woman
     zBlowDist(n,1)=45
@@ -725,7 +727,7 @@ Case 41: ;Turtle Cloud
     zAcc(n)=.1
     zUseSpecialAI(n)=1
     zCanFly(n)=1
-    zhelper(n)=1
+    zHelperObj(n)=1
     If zvar1(n) > 0 Then
         zDtopSpeed(n)=zvar1(n)
         zTopSpeed(n)=zDTopSpeed(n)
@@ -758,7 +760,7 @@ Case 43;Laser helper
     zDontJump(n)=1
     zStone(n)=1
     zUngrabable(n)=1
-    zhelper(n)=1
+    zHelperObj(n)=1
     zUseSpecialAI(n)=1
 
 Case 44    ;Venom
@@ -785,7 +787,7 @@ Case 45    ;bombing ship
     zUseSpecialAI(n)=1
     zStone(n)=1
     zUngrabable(n)=1
-    zhelper(n)=1
+    zHelperObj(n)=1
     zDontPickItem(n)=1
     If zvar1(n) = 0 Then zvar1(n) = 12
     If zvar2(n) > 0 Then zFace(n)=zvar2(n)
@@ -803,7 +805,7 @@ Case 46    ;Ray balls
     zDontJump(n)=1
     zStone(n)=1
     zUngrabable(n)=1
-    zhelper(n)=1
+    zHelperObj(n)=1
     zUseSpecialAI(n)=1
 
 Case 47    ;soldier
@@ -852,7 +854,7 @@ Case 50: ;Laser beam
     zAcc(n)=0
     zUseSpecialAI(n)=1
     zCanFly(n)=1
-    zHelper(n)=1
+    zHelperObj(n)=1
 
     ;zxrespawn(n)=zx(n)
     ;zyrespawn(n)=zy(n)
@@ -887,11 +889,11 @@ Case 52: ;punching bag
     zUngrabable(n)=1
     zAcc(n)=0
     zUseSpecialAI(n)=1
-    zHelper(n)=1
+    zHelperObj(n)=1
     
 Case 53: ;Gohan helper
-    zUpHeight(n)=65
-    zDuckHeight(n)=zUpHeight(n)
+    zUpHeight(n)=32
+    zHeight(n)=32
     zSide(n)=50
     zDontPickItem(n)=1
     zDtopSpeed(n)=8
@@ -2885,7 +2887,7 @@ Case 129:        ;Pre-makuuhouidan
     
 Case 130:        ;Box test
     a=10000            ;bright dot
-    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,3):chunkPic_(n)=ptPic(13,3)
+    If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,1):chunkPic_(n)=ptPic(13,1)
     If chunkSeq(n) > a Then chunk(n)=0
     
 Case 131:        ;Pre-makankousappou (ground)

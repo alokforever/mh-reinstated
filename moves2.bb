@@ -1763,6 +1763,7 @@ End Function
 ;------------------------- Gohan Helper -------------------------------------
 Function DoGohanHelper(n)
 
+zchunkType(n)=20
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
 
@@ -1780,7 +1781,7 @@ Case 2     ;attack
     seq1=5:seq2=seq1+1:seq3=seq2+1:seq4=seq3+1:seq5=seq4+1
     seq6=seq5+3:seq7=seq6+3:seq8=seq7+6:seq9=seq8+5:seq10=seq9+25:seq11=seq10+6:seq12=seq11+35:
     seq13=seq12+10:seq14=seq13+6
-    zNoMove(n)=1
+    If zBlowSeq(n) < seq11 Then zNoMove(n)=1
     
 ;--------- Animation -----------
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=6:zf(n)=1
@@ -1798,6 +1799,31 @@ Case 2     ;attack
     If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 Then zani(n)=6:zf(n)=12
     If zBlowSeq(n) > seq13 And zBlowSeq(n) <= seq14 Then zani(n)=6:zf(n)=13
     
+;--------- Hit box ----------
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq7 Then
+        zblowPamount(n)=4:nn=1
+        xblow(n,nn)=0: yblow(n,nn)=14:wblow(n,nn)=16:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=16: yblow(n,nn)=14:wblow(n,nn)=16:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=0:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=16: yblow(n,nn)=0:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=10:zBlowStillTime(n)=1
+        zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=20
+        zBlowDamage(n)=1:zBLowEffect(n)=1:zEnemyImmuneTime(n)=4:zBlowBlockTime(n)=40
+        zBlowSound(n)=dbzHit2Snd
+    End If
+
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq10 Then
+        zblowPamount(n)=4:nn=1
+        xblow(n,nn)=0: yblow(n,nn)=14:wblow(n,nn)=16:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=16: yblow(n,nn)=14:wblow(n,nn)=16:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=0:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=16: yblow(n,nn)=0:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=1:zBlowStillTime(n)=1
+        zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=4:zHitTime(n)=20
+        zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=dbzHit3Snd
+    End If
+
 ;--------- Sounds -------------
     If zBlowSeq(n) = seq2 And gameSound Then PlaySound piccoloGohanYahaSnd
 ;---------- Effects -------------

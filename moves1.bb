@@ -2,7 +2,7 @@ Include "wolverine.bb"
 Include "scorpion.bb"
 Include "subzero.bb"
 Include "wonderwoman.bb"
-Include "juggernaut.bb"    
+Include "juggernaut.bb"
 Include "piccolo.bb"
 
 Function DoRyu(n)

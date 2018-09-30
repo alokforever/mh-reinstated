@@ -59,61 +59,62 @@ Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,str
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
 Global zFreezer
+Global maxZ=30
 Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
 Dim clickedBy(100),butPic(100),butPic2(100),butText$(100),butSeq(100),tpic(100)
 Dim xPointer(10),yPointer(10),zName$(16),zThumbNail(16),mapTn(100)
 
-Dim tempN#(10), strinfo$(200), characterOpen(30)
-Dim zx#(30),zy#(30),zdi(30),zface(30),zoldx#(30),zoldy#(30),zWasOn(30),zon(30),prevZOn(30),CurGuy(30),lastZon(30),lastzAI(30)
-Dim zxStart(30),zyStart(30),zxRespawn(30),zyRespawn(30),zJump2(30),zjump2seq(30),zFallDir(30),zDeadEvent(30)
-Dim zlife(30),zhit(30),zhitseq(30),Zshield(30),zTempShield(30),Zshieldseq(30),ZshieldedTime(30),zHit2(30)
-Dim zjump(30),zjumpseq(30),zjumpfallseq(30),zjumplimit(30),zongnd(30),zfallenSeq(30),zFallImpact#(30),zFallSpeed#(30)
-Dim zFallTime#(30),zUpFallTime#(30), zUpFallSpeed#(30), zDownFallSpeed#(30), zDamage#(30),zBouncedgnd(30),zGotHitsAmount(30)
-Dim zHitSpeed#(30),zHitUpSpeed#(30),zHitDownSpeed#(30),zHitTime#(30),zHitMode(30),zHitModeTaken(30),zBlowUplimit(30)            
-Dim zUpHeight(30),zDuckHeight(30),zHitHead(30),zIcon(60),zRollOnImpact(30)
-Dim zheight(30),zduck(30),zgravity(30),zSpeed#(30),zSide(30),zxHand(30,40),zyHand(30,40)
-Dim Zrun(30), zCurWeapon(30),dangerMove9(30),dangerMove5(30),zGotObj(30), zLeftCollide(30), zRightCollide(30)
-Dim zLives(30), zJumping(30),zonplat(30),zonThickPlat(30),justMovedByplat(30)
-Dim zantiPlatTime(30),zantiPlatSeq(30),zForceAntiPlat(30)
-Dim zantiPlat(30),zHitByBox(30),zChunkType(30),zAI(30),aiTarget(30),aiCurLevel(30),zblowalert(30)
-Dim aiWalk(30),aiLevel(30),zBlowDist(30,30),NextBlow(30),blockDist(30)
-Dim zTrail(30),zTrailSeq(30),zTrailTime(30),zTrailType(30),zHitHold(30),zBlowHold(30),zHitCount(30)
-Dim xDist(30),yDist(30), zBlowTrailType(30), zBlowHit(30), zJumpSnd(30), zJumpSnd2(30)
-Dim zSuperMove(30),zSuperMoveSeq(30),zSuperX(30),zSuperY(30),zSuperDir(30),zSuperBar(30)
-Dim zGrabbed(30),zGrabbedBy(30),zGrabs(30),zGrabsThis(30),zGrabSeq(30),zNoAirSpecial(30)
-Dim xOval(30),yOval(30),woval(30),hOval(30), zGrabDist(30),shotFireSound(30)
-Dim zWalkAni(30),zCurPic(30),zBlowSound(30),zani(30),zf(30),zPrevAni(30),zPrevf(30),zDontPickItem(30),zFlyAni(30),zfa(30)
-Dim zWalkSeq(30), startFreezeTime(30), currentFreezeTime(30), endFreezeTime(30), cantGetTime(30), freezeSeq(30), canMakeShot(30)
-Dim rageSeq(30), startRageTime(30), currentRageTime(30), endRageTime(30), canGetRageTime(30), wolvSpdFctr(30)
-Dim zShotByN(30),zShotHitSeq(30,200), zDontJump(30),zDeathChunk(30),zStone(30),zUngrabable(30)
-Dim yRange(30), zMyShot(30), zUseSpecialAI(30), zCanFly(30), zPushedForce(30),zShootThis(30)
-Dim zLetGoSeq(30), zLetGoAmount(30),zHelper(30), zFlySeq(30), zWalkSeq2(30), zBeenHere(30)
+Dim tempN#(10), strinfo$(200), characterOpen(maxZ)
+Dim zx#(maxZ),zy#(maxZ),zdi(maxZ),zface(maxZ),zoldx#(maxZ),zoldy#(maxZ),zWasOn(maxZ),zon(maxZ),prevZOn(maxZ),CurGuy(maxZ),lastZon(maxZ),lastzAI(maxZ)
+Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zjump2seq(maxZ),zFallDir(maxZ),zDeadEvent(maxZ)
+Dim zlife(maxZ),zhit(maxZ),zhitseq(maxZ),Zshield(maxZ),zTempShield(maxZ),Zshieldseq(maxZ),ZshieldedTime(maxZ),zHit2(maxZ)
+Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),zfallenSeq(maxZ),zFallImpact#(maxZ),zFallSpeed#(maxZ)
+Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
+Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)            
+Dim zUpHeight(maxZ),zDuckHeight(maxZ),zHitHead(maxZ),zIcon(60),zRollOnImpact(maxZ)
+Dim zheight(maxZ),zduck(maxZ),zgravity(maxZ),zSpeed#(maxZ),zSide(maxZ),zxHand(maxZ,40),zyHand(maxZ,40)
+Dim Zrun(maxZ), zCurWeapon(maxZ),dangerMove9(maxZ),dangerMove5(maxZ),zGotObj(maxZ), zLeftCollide(maxZ), zRightCollide(maxZ)
+Dim zLives(maxZ), zJumping(maxZ),zonplat(maxZ),zonThickPlat(maxZ),justMovedByplat(maxZ)
+Dim zantiPlatTime(maxZ),zantiPlatSeq(maxZ),zForceAntiPlat(maxZ)
+Dim zantiPlat(maxZ),zHitByBox(maxZ),zChunkType(maxZ),zAI(maxZ),aiTarget(maxZ),aiCurLevel(maxZ),zblowalert(maxZ)
+Dim aiWalk(maxZ),aiLevel(maxZ),zBlowDist(maxZ,maxZ),NextBlow(maxZ),blockDist(maxZ)
+Dim zTrail(maxZ),zTrailSeq(maxZ),zTrailTime(maxZ),zTrailType(maxZ),zHitHold(maxZ),zBlowHold(maxZ),zHitCount(maxZ)
+Dim xDist(maxZ),yDist(maxZ), zBlowTrailType(maxZ), zBlowHit(maxZ), zJumpSnd(maxZ), zJumpSnd2(maxZ)
+Dim zSuperMove(maxZ),zSuperMoveSeq(maxZ),zSuperX(maxZ),zSuperY(maxZ),zSuperDir(maxZ),zSuperBar(maxZ)
+Dim zGrabbed(maxZ),zGrabbedBy(maxZ),zGrabs(maxZ),zGrabsThis(maxZ),zGrabSeq(maxZ),zNoAirSpecial(maxZ)
+Dim xOval(maxZ),yOval(maxZ),woval(maxZ),hOval(maxZ), zGrabDist(maxZ),shotFireSound(maxZ)
+Dim zWalkAni(maxZ),zCurPic(maxZ),zBlowSound(maxZ),zani(maxZ),zf(maxZ),zPrevAni(maxZ),zPrevf(maxZ),zDontPickItem(maxZ),zFlyAni(maxZ),zfa(maxZ)
+Dim zWalkSeq(maxZ), startFreezeTime(maxZ), currentFreezeTime(maxZ), endFreezeTime(maxZ), cantGetTime(maxZ), freezeSeq(maxZ), canMakeShot(maxZ)
+Dim rageSeq(maxZ), startRageTime(maxZ), currentRageTime(maxZ), endRageTime(maxZ), canGetRageTime(maxZ), wolvSpdFctr(maxZ)
+Dim zShotByN(maxZ),zShotHitSeq(maxZ,200), zDontJump(maxZ),zDeathChunk(maxZ),zStone(maxZ),zUngrabable(maxZ)
+Dim yRange(maxZ), zMyShot(maxZ), zUseSpecialAI(maxZ), zCanFly(maxZ), zPushedForce(maxZ),zShootThis(maxZ)
+Dim zLetGoSeq(maxZ), zLetGoAmount(maxZ),zHelperObj(maxZ), zFlySeq(maxZ), zWalkSeq2(maxZ), zBeenHere(maxZ)
 
-Dim aiJumpedRand(30),pointerPic(30),drawObjOnZ(30)
-Dim upK(30),leftK(30),rightK(30),downK(30),shotK(30),specialK(30),jumpK(30),blockK(30),grabK(30)
-Dim zMoveSide(30),xblow(30,50),yblow(30,50),wblow(30,50),hblow(30,50),zBlowEffect(30),zBlowStillSeq(30),zBlowStillTime(30)
-Dim zxStill#(30),zyStill(30),zBlowdir(30),zNoJump(30),zNoMove(30),zNoGrav(30),zblowPamount(30),zBlowBlockTime(30),isFrozen(30)
-Dim zImuneTo(30,30),zImuneSeq(30,30),zImuneTime(30,30),zImune(30,30)
-Dim hitKey(30),upKey(30),downKey(30),leftKey(30),rightKey(30),shotKey(30),jumpKey(30),jumpKeyDown(30),blockKey(30)
-Dim rightKeyHit(30),leftKeyHit(30),specialkey(30),zController(30),controllerPort(30),grabKey(30),superKey(30),tauntKey(30),extraSpecialkey(30)
-Dim runkey(30),zDacc#(30),zAcc#(30),zTopSpeed#(30),zDtopSpeed#(30)
+Dim aiJumpedRand(maxZ),pointerPic(maxZ),drawObjOnZ(maxZ)
+Dim upK(maxZ),leftK(maxZ),rightK(maxZ),downK(maxZ),shotK(maxZ),specialK(maxZ),jumpK(maxZ),blockK(maxZ),grabK(maxZ)
+Dim zMoveSide(maxZ),xblow(maxZ,50),yblow(maxZ,50),wblow(maxZ,50),hblow(maxZ,50),zBlowEffect(maxZ),zBlowStillSeq(maxZ),zBlowStillTime(maxZ)
+Dim zxStill#(maxZ),zyStill(maxZ),zBlowdir(maxZ),zNoJump(maxZ),zNoMove(maxZ),zNoGrav(maxZ),zblowPamount(maxZ),zBlowBlockTime(maxZ),isFrozen(maxZ)
+Dim zImuneTo(maxZ,maxZ),zImuneSeq(maxZ,maxZ),zImuneTime(maxZ,maxZ),zImune(maxZ,maxZ)
+Dim hitKey(maxZ),upKey(maxZ),downKey(maxZ),leftKey(maxZ),rightKey(maxZ),shotKey(maxZ),jumpKey(maxZ),jumpKeyDown(maxZ),blockKey(maxZ)
+Dim rightKeyHit(maxZ),leftKeyHit(maxZ),specialkey(maxZ),zController(maxZ),controllerPort(maxZ),grabKey(maxZ),superKey(maxZ),tauntKey(maxZ),extraSpecialkey(maxZ)
+Dim runkey(maxZ),zDacc#(maxZ),zAcc#(maxZ),zTopSpeed#(maxZ),zDtopSpeed#(maxZ)
 
 Dim zpic(200,50,50),zpic_(200,50,50)
 Dim guyLoaded(100)
 
-Dim extraDraw(30),extraPic(30), xED(30),yED(30), epic(20,20), epic_(20,20),eAni(20),ef(20)
+Dim extraDraw(maxZ),extraPic(maxZ), xED(maxZ),yED(maxZ), epic(20,20), epic_(20,20),eAni(20),ef(20)
 Global quake, quakeSeq,mapsLoaded,xScr,yScr,xScr_,yScr_,scrollMap,scrollXspeed#, scrollYspeed#, scrLock
 Global fightMode, xScrStart, yScrStart, noAirSpecial, noDoubleJump, fileBkp, noItems=1
-Dim xAxis(30), yAxis(30)
+Dim xAxis(maxZ), yAxis(maxZ)
 
 Global Famount
 Dim curF(100),FdelaySeq(100),Fevent(100),FfacAmount(100),Floop(100)
 Dim xfac(100,100),yfac(100,100), facdir(100,100), facLife(100,100),facLives(100,100),facDamage(100,100),facAiLevel(100,100)
 Dim facTeam(100,100),facCategory(100,100), facType(100,100), facDelay(100,100), facDeadEvent(100,100),facWaitEvent(100,100)
 Dim facChunk(100,100),facSound(100,100),facVar1(100,100),facVar2(100,100),facVar3(100,100),facVar4(100,100),facVar5(100,100)
-Dim zVar1(30),zVar2(30),zVar3(30),zVar4(30),zVar5(30)
+Dim zVar1(30),zVar2(maxZ),zVar3(maxZ),zVar4(maxZ),zVar5(maxZ)
 Dim Fon(100)
 
 Global curAni,tAniAmount,taniMEnu
@@ -131,7 +132,7 @@ Dim daLLimit(100),daRlimit(100),dfleeDir(100),daTargetH(100),damovedBy(100)
 Global areaMoves, saAreaMovesAmount,daAreaMovesAmount
 
 Global rectAmount
-Dim rectHit(50),zGotRect(30),rectOwner(50),xRect(50),yRect(50),rectDir(50),wRect(50),hRect(50),rectSide(50)
+Dim rectHit(50),zGotRect(maxZ),rectOwner(50),xRect(50),yRect(50),rectDir(50),wRect(50),hRect(50),rectSide(50)
 Dim    RectHitMode(50),rectDamage(50),rectHitHold(50),rectXHitSpeed(50),rectYHitSpeed(50)
 Dim    rectChunkType(50),rectHitSound(50),zHitByRect(50)
 
@@ -165,9 +166,9 @@ Dim tileXstart(5,1500), tileYstart(5,1500),tileFollow(5,1500),tileTarget(5,1500)
 Dim xTile2(5,1500),yTile2(5,1500),tileFollowType(5,1500)
 Global colorR,colorG,colorB,bg,bgAmount=5
 
-Dim zBlowBack(30),zBlow(30),zCurBlow(30),zBlowSeq(30),zBlowSeq2(30),zBlowDamage(30),zEnemyImmuneTime(30),zBlowStill(30)
-Dim zBlock(30),zBlocked(30),zBlockDir(30),zBlockSpeed#(30),zBlockSeq(30),zBlockTime(30),zBlockLife#(30),zblockfull(30)
-Dim zShot1Pic(30),zShot2Pic(30),zShot1Pic_(30),zShot2Pic_(30)
+Dim zBlowBack(maxZ),zBlow(maxZ),zCurBlow(maxZ),zBlowSeq(maxZ),zBlowSeq2(maxZ),zBlowDamage(maxZ),zEnemyImmuneTime(maxZ),zBlowStill(maxZ)
+Dim zBlock(maxZ),zBlocked(maxZ),zBlockDir(maxZ),zBlockSpeed#(maxZ),zBlockSeq(maxZ),zBlockTime(maxZ),zBlockLife#(maxZ),zblockfull(maxZ)
+Dim zShot1Pic(maxZ),zShot2Pic(maxZ),zShot1Pic_(maxZ),zShot2Pic_(maxZ)
 
 Dim xplatDraw(200),yPlatDraw(200),platFinalDest(200), platBreak(200), platChunk(200)
 Dim xoldPlat#(200),xplat#(200),yPlat#(200),xPlatPoint(200,200),yPlatPoint(200,200),platXSpeed#(200),platYSpeed#(200),platPointsAmount(200)
@@ -195,10 +196,10 @@ Dim explosion(100),xExp(100),yExp(100),expDamage(100), expSide(100),expHeight(10
 
 Dim xFlag(4),yFlag(4), flagOwner(4),flagCarried(4),flagOnbase(4)
 Dim xFlagStart(4),yFlagStart(4)
-Dim xBase(4),yBase(4),zTeam(30),zTeamBefore(30),TeamScore(30),zScore(30),zTargetScore(30)
+Dim xBase(4),yBase(4),zTeam(maxZ),zTeamBefore(maxZ),TeamScore(maxZ),zScore(maxZ),zTargetScore(maxZ)
 Dim flagPic(4)
 
-Dim zFlagTime#(30)
+Dim zFlagTime#(maxZ)
 
 Global zzamount,zamountPlaying,flagAmount,itenAmount, shotamount, objAmount,chunkAmount,platAmount,boxAmount,expAmount
 Global wallAmount,gameDone, aliveAmountNeeded, prevZAmountPlaying,prevZzamount
@@ -212,32 +213,32 @@ Global characterAmount=16    ;Add character, 1=ryu, 2=rash ... change the value 
 Global menuOption, duringGameMenu
 
 ;zeto's variables
-Dim specialHitFrames(30), hitFrameSpeed(30), electrocuteSeq(30), isMoveHit(30)
-Dim zStanceFrames(30), zStanceSeq(30), zStanceSpeed(30), zWalkFrames(30), zWalkFrameSpeed#(30), deathSnd(60)
-Dim rightKeyHitTimer(30), leftKeyHitTimer(30), downKeyHitTimer(30), downKeyDoubleTap(30), upKeyHitTimer(30), upKeyDoubleTap(30)
-Dim isRunning(30), zTopRunningSpeed#(30), zRunSeq(30), zRunFrames(30), zRunFrameSpeed#(30), zRunGruntSound(30)
-Dim zRunSeq2(30), isRunningFlag(30) ;zRunSeq2 is run sequence that does not reset to 1 when running
-Dim zStaminaBar#(30), zRunFootSound(30), zCharSpeed#(30), zCurSpeed#(30), hasSpecialAirFrames(30)
-Dim zControls(30), zControlsThis(30), zControlsThese(30, 30), zControlled(30), zParalyzed(30), zParalyzedSeq(30)
+Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
+Dim zStanceFrames(maxZ), zStanceSeq(maxZ), zStanceSpeed(maxZ), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(60)
+Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
+Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
+Dim zRunSeq2(maxZ), isRunningFlag(maxZ) ;zRunSeq2 is run sequence that does not reset to 1 when running
+Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zCharSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
+Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
 Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
-Dim isHit(30), spellCooldownSeq(30,5), spellCooldownMaxTime(30,5), timerImage(91), cdImage(30)
-Dim isMkCharacter(30), gender(30), canWallJump(30), zWallJump(30), zTauntSeed(30)
-Dim canPerformNextCombo(30), cooldownPic(30, 4), flipFrames(30), duckFrames(30), duckFrameSpeed(30), duckSeq(30)
-Dim isShotLongRange(30), healMode(30), zHealAmount(30), zHealInterval(30), zHealTimes(30), zHealSeq(30)
-Dim downKeyHit(30), upKeyHit(30), isShotDisappearOnHit(200), shotChunkHitType(200)
-Dim startDizzyTime(30), currentDizzyTime(30), endDizzyTime(30), cantGetDizzyTime(30), isDizzy(30), dizzySeq(30), dizzyDuration(30)
-Dim dizzyFrames(30), dizzyFrameSpeed(30), zBurnSeq(30), zBurnDuration(30), zBurning(30), doesShotBurn(200), shotGroundType(200)
-Dim zComboMode(30), comboModeDuration(30), startComboModeTime(30), currentComboModeTime(30), endComboModeTime(30), cantGetComboModeTime(30)
-Dim attackMode(30, 5), canAirGlide(30), projectileDeflectMode(30), projectileDeflectSpeed#(30), isDeflecting(30), wwLassoLong(30)
-Dim zRunFootSoundSeq(30), zWalkQuakeSeq1(30), zWalkQuakeSeq2(30), walkQuakeSnd(30), zBlockSeqStart(30), isHeavy(30)
+Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), cdImage(maxZ)
+Dim isMkCharacter(maxZ), gender(maxZ), canWallJump(maxZ), zWallJump(maxZ), zTauntSeed(maxZ)
+Dim canPerformNextCombo(maxZ), cooldownPic(maxZ, 4), flipFrames(maxZ), duckFrames(maxZ), duckFrameSpeed(maxZ), duckSeq(maxZ)
+Dim isShotLongRange(maxZ), healMode(maxZ), zHealAmount(maxZ), zHealInterval(maxZ), zHealTimes(maxZ), zHealSeq(maxZ)
+Dim downKeyHit(maxZ), upKeyHit(maxZ), isShotDisappearOnHit(200), shotChunkHitType(200)
+Dim startDizzyTime(maxZ), currentDizzyTime(maxZ), endDizzyTime(maxZ), cantGetDizzyTime(maxZ), isDizzy(maxZ), dizzySeq(maxZ), dizzyDuration(maxZ)
+Dim dizzyFrames(maxZ), dizzyFrameSpeed(maxZ), zBurnSeq(maxZ), zBurnDuration(maxZ), zBurning(maxZ), doesShotBurn(200), shotGroundType(200)
+Dim zComboMode(maxZ), comboModeDuration(maxZ), startComboModeTime(maxZ), currentComboModeTime(maxZ), endComboModeTime(maxZ), cantGetComboModeTime(maxZ)
+Dim attackMode(maxZ, 5), canAirGlide(maxZ), projectileDeflectMode(maxZ), projectileDeflectSpeed#(maxZ), isDeflecting(maxZ), wwLassoLong(maxZ)
+Dim zRunFootSoundSeq(maxZ), zWalkQuakeSeq1(maxZ), zWalkQuakeSeq2(maxZ), walkQuakeSnd(maxZ), zBlockSeqStart(maxZ), isHeavy(maxZ)
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4), electrocuteTime(200)
-Dim canAirGlideUp(30), zBlowType(30), zHitType(30), zBlowTypeModulo(30), zHitTypeModulo(30)
-Dim superMoveMaxSeq(30), superPicNum(30), electrocuteFrames(30), electrocuteFrameSpd(30)
-Dim shotStopDuration(200), shotStopSeq(200), myShots(30, 200), shotExplodeChunk(200)
+Dim canAirGlideUp(maxZ), zBlowType(maxZ), zHitType(maxZ), zBlowTypeModulo(maxZ), zHitTypeModulo(maxZ)
+Dim superMoveMaxSeq(maxZ), superPicNum(maxZ), electrocuteFrames(maxZ), electrocuteFrameSpd(maxZ)
+Dim shotStopDuration(200), shotStopSeq(200), myShots(maxZ, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
-Dim superMovePortraitSeqStart(30), zStanceObjX(30,40), zStanceObjY(30,40), isCounterAttack(30)
-Dim isHelperAttackDone(30), helperOwner(30), helperSeq(30)
+Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
+Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -256,6 +257,7 @@ cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
 cooldownPic(12, 2)=LoadImage(gfxdir$ + "\cooldown\cd12_2.bmp")
 cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
 cooldownPic(16, 1)=LoadImage(gfxdir$ + "\cooldown\cd16_1.bmp")
+cooldownPic(16, 2)=LoadImage(gfxdir$ + "\cooldown\cd16_2.bmp")
 
 ;Find all mod directories and set their paths/name 
 setModDirs()
@@ -466,6 +468,7 @@ Include "attributes.bb"
 Include "moves1.bb"
 Include "moves2.bb"
 Include "animation.bb"
+Include "AI.bb"
 
 loadData()  ;Loads general maps data
 
@@ -730,56 +733,14 @@ Next
 FlushKeys
 
 For n=1 To zzamount
-    zlife(n)=100                ;Player's life
-    zHit(n)=0:zHitSeq(n)=0
-    zheight(n)=45                ;Player's current height
-    zUpHeight(n)=45
-    zDuckHeight(n)=25
-    zside(n)=9-1                 ;Z width size / 2
-    zface(n)=2                    ;Which way it's facing
-    zSpeed#(n)=0                ;Player current speed
-    zShieldedTime(n)=150        ;Time(frames) player stays invincible when recover
-    zTempShield(n)=0
-    zBlockFull(n)=80
-    zBlockLife(n)=zBlockFull(n)
-    zCurWeapon(n)=0
-    zDacc(n)=.2
-    
-    zAcc#(n)=.2         ;.2
-    zgravity(n)=3       ;3        ;Gravity force when falling or going up
-    zjumplimit(n)=20    ;20        ;Jump height (per frame), not pixels!
-    zDtopSpeed#(n)=2    ;2
-    zTopSpeed#(n)=zDtopSpeed(n)
-    zTopRunningSpeed#(n)=zDtopSpeed(n)*zCharSpeed#(curGuy(n))
-    zBlockSpeed(n)=.8
-    zBLow(n)=0
-    ztargetScore(n)=0
-    zflagTime(n)=0
-    zGotobj(n)=0
-    zhitbybox(n)=0
-    zdamage(n)=0
-    zScore(n)=0
-    zJumping(n)=0
-    zBlowStill(n)=0
-    zBlow(n)=0:zcurBlow(n)=0
-    zBlowseq(n)=0:zBlowseq2(n)=0
-    zBlock(n)=0
-    zBlocked(n)=0
-    zjump(n)=0
-    zSuperMove(n)=0
-    zSuperMoveSeq(n)=0
-    zSuperBar(n)=0
-    zStaminaBar#(n)=100
-    zTrail(n)=0
-    If zon(n) And guyLoaded(curGuy(n))=0 Then loadPics(curGuy(n))
-    If zon(n) Then initZ(n)
+    loadZ(n)
 Next
 
 chunkAmount=0   ;number of projectiles on screen
 shotamount=0    ;Number of shots on screen
 expAmount=20    ;Number of expolsions on screen
 
-For n=5 To 30    ;add extra computer
+For n=5 To maxZ    ;add extra computer
     zon(n)=0
 Next
 For n= 1 To 100
@@ -1752,6 +1713,53 @@ If menuOption=2 Then menuOption=2 Else menuOption = 1
 Goto menuStart
 End
 
+;---------------- Load Character ------------------
+Function loadZ(n)
+    zlife(n)=100                ;Player's life
+    zHit(n)=0:zHitSeq(n)=0
+    zheight(n)=45               ;Player's current height
+    zUpHeight(n)=45
+    zDuckHeight(n)=25
+    zside(n)=8                  ;Z width size / 2
+    zface(n)=2                  ;Which way it's facing
+    zSpeed#(n)=0                ;Player current speed
+    zShieldedTime(n)=150        ;Time(frames) player stays invincible when recover
+    zTempShield(n)=0
+    zBlockFull(n)=80
+    zBlockLife(n)=zBlockFull(n)
+    zCurWeapon(n)=0
+    zDacc(n)=.2
+    
+    zAcc#(n)=.2         ;.2
+    zgravity(n)=3       ;3        ;Gravity force when falling or going up
+    zjumplimit(n)=20    ;20        ;Jump height (per frame), not pixels!
+    zDtopSpeed#(n)=2    ;2
+    zTopSpeed#(n)=zDtopSpeed(n)
+    zTopRunningSpeed#(n)=zDtopSpeed(n)*zCharSpeed#(curGuy(n))
+    zBlockSpeed(n)=.8
+    zBLow(n)=0
+    ztargetScore(n)=0
+    zflagTime(n)=0
+    zGotobj(n)=0
+    zhitbybox(n)=0
+    zdamage(n)=0
+    zScore(n)=0
+    zJumping(n)=0
+    zBlowStill(n)=0
+    zBlow(n)=0:zcurBlow(n)=0
+    zBlowseq(n)=0:zBlowseq2(n)=0
+    zBlock(n)=0
+    zBlocked(n)=0
+    zjump(n)=0
+    zSuperMove(n)=0
+    zSuperMoveSeq(n)=0
+    zSuperBar(n)=0
+    zStaminaBar#(n)=100
+    zTrail(n)=0
+    If zon(n) And guyLoaded(curGuy(n))=0 Then loadPics(curGuy(n))
+    If zon(n) Then initZ(n)
+End Function
+
 ; Return 0 if it's not the time for showing the Super Portrait
 ; Return 1 if there is no custom timing for displaying Super Portrait
 ; Return 2 if there is a special timing for displaying Super Portrait
@@ -1876,8 +1884,8 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
             If facSound(n,curF(n)) > 0 And gamesound Then PlaySound soundFx(facSound(n,curF(n)))
             ztempShield(nn)=0
             zTrail(nn)=0
-                                                        
-        Case 2    ;Itens
+
+        Case 2    ;Items
             
             For i=1 To 100
                 If obj(i)=0 Then
@@ -1886,7 +1894,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
                     Exit
                 EndIf
                 
-            Next        
+            Next
             objType(nn)=facType(n,curF(n))
             objData(nn,0)
             xobj(nn)=xfac(n,curF(n))
@@ -2262,7 +2270,7 @@ If zGotObj(n) > 0 Then
     obj(zGotObj(n))=0 : zGotObj(n)=0
 EndIf
 
-If (zLives(n) =< 0 And ifiniteLives=0) Or zHelper(n)=1 Then
+If (zLives(n) =< 0 And ifiniteLives=0) Or zHelperObj(n)=1 Then
     If zon(n)=1 Then
         If eventN(zdeadEvent(n))=0 Then eventN(zdeadEvent(n))=1 Else eventN(zdeadEvent(n))=0
         zon(n)=0:zx(n)=320:zy(n)=1000
@@ -2283,11 +2291,11 @@ l_zani=zani(n) : l_zf=zf(n) : l_zpic=zcurpic(n)
 If curGuy(n) <= 30 Then checkCooldown(n):checkBuffStatus(n)
 
 If scrollMap=0 Then
-    If zx(n) < -30 And zHelper(n)=0 Then 
+    If zx(n) < -30 And zHelperObj(n)=0 Then 
         DrawImage zCurPic(n),20-(ImageWidth (zCurpic(n))/2),zy(n)-ImageHeight (zCurPic(n))+1
         DrawImage greenSign,20-(ImageWidth (greenSign)/2),zy(n)-ImageHeight (greenSign)+1
     Else
-        If zx(n) > 670 And zHelper(n)=0 Then 
+        If zx(n) > 670 And zHelperObj(n)=0 Then 
         DrawImage zCurPic(n),620-(ImageWidth (zCurpic(n))/2) ,zy(n)-ImageHeight (zCurPic(n))+1
         DrawImage greenSign,620-(ImageWidth (greenSign)/2) ,zy(n)-ImageHeight (greenSign)+1
         EndIf
@@ -4380,7 +4388,7 @@ For n=1 To maxobjAmount
             If platHeight(i) > 1 Then    ;If inside plat/wall Then try again
                 If yobj(n) > yPlat(i) -10 And yobj(n)-30 =< yPlat(i)+platHeight(i) Then       
                     If xobj(n) => xoldPlat(i)-15 And xobj(n) =< xoldPlat(i)+(platWidth(i)+15) Then
-                        Goto TrySpawnAgain      
+                        Goto TrySpawnAgain
                     EndIf
                 EndIf
             EndIf
@@ -4811,635 +4819,6 @@ Function shotExp(n,x,y,kind)
     makeChunk(n,x,y,shotDir(n),shotExplodeChunk(n))
 End Function
 
-;-------------- Special A.I. -------------------------
-Function zSpecialAI(n,nn)
-:hitkey(n)=1
-
-Select curGuy(n)
-
-;-----------------------------------
-Case 41    ;turtle on cloud
-;-----------------------------------
-
-If Rand(1,30) = 25 Then
-    aiCurLevel(n)=Rand(aiLevel(n),5)
-EndIf
-
-If zon(aitarget(n))=0 Then aigettarget(n)
-
-If zhitHead(n)=1 Then zy(n)=zy(n)+1
-If zy(n) < yScr + 100 Then zy(n)=zy(n)+1 : zjump(n)=0
-If zy(n) > yScr + 105 Then zy(n)=zy(n)-1 :
-
-;flies to the target
-If zx(nn) => zx(n)+2 Then rightkey(n)=1
-If zx(nn) =< zx(n)-2 Then leftKey(n)=1
-
-;aim on closest enemy
-If zon(nn)=1 And zteam(nn) <> zteam(n) And aiCurLevel(n) > 3 Then
-    If zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+70 And zy(nn) > zy(n) Then
-        shotKey(n)=1
-    EndIf
-EndIf
-
-;-----------------------------------
-Case 43    ;laser shooter
-;-----------------------------------
-zHitByRect(n)=1
-If aiLevel(n)=1 Then
-    shotkey(n)=1
-Else
-    For nn=1 To zzamount
-    If zon(nn)=1 And zteam(nn) <> zteam(n) Then
-        If (zx(nn) => zx(n)-400 And zx(nn) < zx(n)+400) And (zy(n) > zy(nn)-60 And zy(n) < zy(nn)+40) Then
-            ;PlaySound clickSnd
-            shotKey(n)=1
-            aiTarget(n)=nn
-            Exit
-        EndIf
-    EndIf
-    Next
-EndIf
-
-;-----------------------------------
-Case 45    ; bombing ship    
-;-----------------------------------
-
-;If zy(n) < yScr + 100 Then zy(n)=zy(n)+2
-
-;flies to the designated direction
-If zFace(n)=2 Then rightkey(n)=1
-If zFace(n)=4 Then leftKey(n)=1
-
-;bombs when appropriate
-If zx(n) < xScr+650 And zx(n) > xScr + 20 Then
-    shotKey(n)=1:Goto aiDone1
-EndIf
-If zx(n) > xScr+800 Or zx(n) < xScr - 150 Then
-    zblowseq2(n)=zblowseq2(n)+1
-    If zBlowSeq2(n) > 200 Then zon(n)=0
-EndIf
-
-
-;-----------------------------------
-Case 46    ;ray ball shooter
-;-----------------------------------
-zHitByRect(n)=1
-shotKey(n)=1
-
-;-----------------------------------
-Case 47    ;soldier
-;-----------------------------------
-If Rand(1,30) = 25 Then
-    aiCurLevel(n)=Rand(aiLevel(n),5)
-EndIf
-
-If zon(aitarget(n))=0 Then aigettarget(n)
-If rendert=1 Then aiGetNearByTarget(n)
-
-;duck when being shot
-For k=1 To shotAmount
-    If shot(k)=1 And xshot(k) => zx(n)-120 And xshot(k) =< zx(n) + 120 And aiCurLevel(n) > 2 And zShield(n)=0 Then
-        If yshot(k) => zy(n)-50 And yshot(k) =< zy(n) +10 And zTeam(n) <> zTeam(shotOwner(k)) Then
-            downKey(n)=1
-            Goto aiDone1
-        EndIf
-    EndIf
-Next
-
-nn = aitarget(n)
-If zx(nn) => zx(n) Then rightkey(n)=1 Else leftKey(n)=1
-
-If zon(nn)=1 And zteam(nn) <> zteam(n) Then
-    If zx(nn) => zx(n)-500 And zx(nn) =< zx(n)+500 And zy(nn) > zy(n)-60 And zy(nn) < zy(n)+10 And aiCurLevel(n) > 3 Then
-        shotKey(n)=1
-    EndIf
-EndIf
-
-;-----------------------------------
-Case 48    ;flying cylinder
-;-----------------------------------
-
-If Rand(1,30) = 25 Then
-    aiCurLevel(n)=Rand(aiLevel(n),5)
-EndIf
-If zon(aitarget(n))=0 Then aigettarget(n)
-
-If zhitHead(n)=1 Then zy(n)=zy(n)+1
-If aiTarget(n) <> 0 Then 
-        
-    If zy(n) < zy(nn)-18 And zblow(n)=0 Then zy(n)=zy(n)+1
-    If zy(n) > zy(nn)-15 And zblow(n)=0 Then zy(n)=zy(n)-1
-        
-    If zx(n) < zx(nn)-80 Then rightkey(n)=1 
-    If zx(n) > zx(nn)+80 Then leftkey(n)=1 
-    
-    If zx(n) < zx(nn) And zface(n)=4 Then rightkey(n)=1 
-    If zx(n) > zx(nn) And zface(n)=2 Then leftkey(n)=1 
-    
-    If zon(nn)=1 And zteam(nn) <> zteam(n) And aiCurLevel(n) > 3 Then
-        If (zx(nn) => zx(n)-400 And zx(nn) < zx(n) And zface(n)=4) Or (zx(nn) =< zx(n)+400 And zx(nn) > zx(n) And zface(n)=2) And zy(n) > zy(nn)-20 And zy(n) < zy(nn)-14 Then
-            shotKey(n)=1
-        EndIf
-    EndIf
-EndIf
-
-;-----------------------------------
-Case 49    ;Dragon
-;-----------------------------------
-a=1: b=a+5: c=b+5: d=c+5: e=d+5: f=e+5: g=f+5
-
-If Rand(1,30) = 25 Then
-    aiCurLevel(n)=Rand(aiLevel(n),5)
-EndIf
-
-zBlow(n)=1
-If zCurBlow(n) <> 2 Then zCurBlow(n)=1
-
-;Flying animation control
-zwalkseq2(n)=zwalkseq2(n)+1
-If zwalkseq2(n) => g Then zwalkseq2(n)=1
-If zwalkseq2(n) =>a And zwalkseq2(n) < b Then zFlyAni(n)=1:zfa(n)=0:Goto drewDragon
-If zwalkseq2(n) =>b And zwalkseq2(n) < c Then zFlyAni(n)=1:zfa(n)=1:Goto drewDragon
-If zwalkseq2(n) =>c And zwalkseq2(n) < d Then zFlyAni(n)=1:zfa(n)=2:Goto drewDragon
-If zwalkseq2(n) =>d And zwalkseq2(n) < e Then zFlyAni(n)=1:zfa(n)=3:Goto drewDragon
-If zwalkseq2(n) =>e And zwalkseq2(n) < f Then zFlyAni(n)=1:zfa(n)=2:Goto drewDragon
-If zwalkseq2(n) =>f And zwalkseq2(n) < g Then zFlyAni(n)=1:zfa(n)=1:Goto drewDragon
-
-.drewDragon
-zani(n)=zFlyAni(n) : zf(n)=zfa(n)
-
-If zon(aitarget(n))=0 Then aigettarget(n)
-
-If zhitHead(n)=1 Then zy(n)=zy(n)+1.5
-If aiTarget(n) <> 0 Then 
-        
-    If zy(n) < zy(nn)-34 Then zy(n)=zy(n)+1.5
-    If zy(n) > zy(nn)-30 Then zy(n)=zy(n)-1.5
-        
-    If zx(n) < zx(nn)-120 Then rightkey(n)=1 
-    If zx(n) > zx(nn)+120 Then leftkey(n)=1 
-    
-    If zx(n) < zx(nn) And zface(n)=4 Then rightkey(n)=1 
-    If zx(n) > zx(nn) And zface(n)=2 Then leftkey(n)=1 
-    
-    If (zx(nn) => zx(n)-80 And zx(nn) < zx(n) And zface(n)=4) Or (zx(nn) =< zx(n)+80 And zx(nn) > zx(n) And zface(n)=2) And zy(nn) > zy(n)-15 And aiCurLevel(n) > 3 Then
-        zCurBlow(n)=3    ;spit acids
-        Goto aiDone1
-    EndIf
-    
-    If (zx(nn) => zx(n)-400 And zx(nn) < zx(n) And zface(n)=4) Or (zx(nn) =< zx(n)+400 And zx(nn) > zx(n) And zface(n)=2) And zy(n) > zy(nn)-38 And zy(n) < zy(nn)-5 And aiCurLevel(n) > 3 Then
-        zCurBlow(n)=2    ;spit fire
-        If zx(nn) => zx(n)-150 And zx(nn) < zx(n)+150 Then
-            zBlowSeq2(n)=99
-        Else
-            zBlowSeq2(n)=0
-        EndIf
-    EndIf
-
-EndIf
-
-;-----------------------------------
-Case 50    ;Laser beam
-;-----------------------------------
-Select zLives(n)
- Case 1:zy(n)=zy(n)-zvar3(n)
- Case 2:zx(n)=zx(n)+zvar3(n) 
- Case 3:zy(n)=zy(n)+zvar3(n) 
- Case 4:zx(n)=zx(n)-zvar3(n) 
-End Select
-
-zFace(n)=aiLevel(n)
-
-shotKey(n)=1
-
-;-----------------------------------
-Case 52    ;Bag
-;-----------------------------------
-If zVar1(n)=1 Then     ;If bag has energy limit
-    If zLife(n) < 0 Then
-        killMan(n)
-    EndIf
-Else
-    zLife(n)=999
-EndIf
-
-;-----------------------------------
-Case 53    ;Gohan Helper
-;-----------------------------------
-;Find nearest exit route
-If isHelperAttackDone(n)=1 And zBlow(n)=0 Then
-    checkDist(n,zx(n),zy(n),2)
-    xRight=xDist(n)
-    checkDist(n,zx(n),zy(n),4)
-    xLeft=xDist(n)
-    
-    If xLeft > xRight Then
-        If xLeft >= 600 And zani(n)=4 Then 
-            leftKey(n)=1:zFace(n)=4 
-        Else 
-            zy(n)=zy(n)-3
-        End If
-    Else If xLeft < xRight Then
-        If xRight >= 600 And zani(n)=4 Then 
-            rightKey(n)=1:zFace(n)=2
-        Else 
-            zy(n)=zy(n)-3
-        End If
-    Else If xLeft=xRight Then
-        If zFace(n)=2 And zani(n)=4 Then rightKey(n)=1
-        If zFace(n)=4 And zani(n)=4 Then leftKey(n)=1
-    End If
-    
-Else If isHelperAttackDone(n)=0
-    If zon(aitarget(n))=0 Then aigettarget(n)
-    ;flies to the target
-    If zx(nn) >= zx(n)+2 Then rightkey(n)=1
-    If zx(nn) <= zx(n)-2 Then leftKey(n)=1
-    If zy(n) >= zy(nn) Then zy(n)=zy(n)-3
-    If zy(n) <= zy(nn) Then zy(n)=zy(n)+3
-    ;aim on closest enemy
-    If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
-        If zx(nn) >= zx(n)-50 And zx(nn) <= zx(n)+50 And Abs(zy(nn)-zy(n)) < 20 Then
-            shotKey(n)=1
-        End If
-    End If
-End If
-
-helperSeq(n)=helperSeq(n)+1
-If helperSeq(n) > 572 Then killZ(n)
-    
-End Select
-.aiDone1
-
-End Function
-;--------------------A.I. -----------------------------
-Function AI(n,e)
-nn=e:hitkey(n)=1
-
-saa=Rand(1,30)
-If saa=25 Then
-    aiCurLevel(n)=Rand(aiLevel(n),5)
-    ;If zBLow(n) =0 Then
-        .TryOtherblow
-        sa=Rand(1,6)
-        Select sa
-            Case 1:NextBLow(n)=1
-            Case 2:NextBLow(n)=4
-            Case 3:NextBLow(n)=7 
-            Case 4:NextBLow(n)=9
-            Case 5:NextBLow(n)=10
-            Case 6:If zSuperBar(n)=> 100 Then NextBlow(n)=14 Else Goto TryOtherblow
-        End Select
-    ;EndIf
-EndIf
-
-;chooses closest enemy For target
-For k=1 To zzamount
-If zon(k)=1 And (zteam(k) <> zteam(n)) And zHelper(k)=0 Then
-    If zx(k) => zx(n)-70 And zx(k) =< zx(n)+70 Then
-        If zy(k) => zy(n)-80 And zy(k) =< zy(n)+60 Then
-            aiWalk(n)=1
-            gotTarget=1
-            aiTarget(n)=k:Exit
-        EndIf
-    EndIf
-EndIf
-Next
-
-For k=1 To areaAmount    ;Detects what area player is located at
-    If zx(n) > saLlimit(k) And zx(n) < saRlimit(k) And zy(n) > saY(k) And zy(n) < saY(k)+saH(k) Then
-        If zx(n) > saLlimit(k)-15 And zx(n) < saLlimit(k)+105 Then onEdge=1
-        If zx(n) < saRlimit(k)+15 And zx(n) > saRlimit(k)-105 Then onEdge=1
-        safeArea=1
-        curArea=k
-        If zx(n) > saLlimit(k)-15 And zx(n) < saLlimit(k)+10 Then onEdge2=1
-        If zx(n) < saRlimit(k)+15 And zx(n) > saRlimit(k)-10 Then onEdge2=1
-        ;Exit
-    EndIf
-Next
-
-a=curArea
-
-
-For k=1 To dAreaAmount    ;If player is located in dangerous/jumping area
-    If zx(n) > daLlimit(k) And zx(n) < daRlimit(k) And zy(n) > daY(k) And zy(n) < daY(k)+daH(k) Then
-        ;safeArea=0
-        aiWalk(n)=1
-        inDArea=1
-        aa=k
-        Exit
-    EndIf
-Next
-
-If inDArea=1 Then
-    If daType(aa)=1 Then        ;daType 1 is For up special
-        If dFleeDir(aa) =2 And zface(n)=2 Then
-            rightkey(n)=1
-            If zNoAirSpecial(n)=0 Then
-                upkey(n)=1:specialKey(n)=1:Goto aidone
-            Else
-                shotKey(n)=1 :Goto AiDone
-            EndIf
-        EndIf    
-        If dFleeDir(aa) =4 And zface(n)=4 Then
-            leftkey(n)=1
-            If zNoAirSpecial(n)=0 Then
-                upkey(n)=1:specialKey(n)=1:Goto aidone
-            Else
-                shotKey(n)=1 :Goto AiDone
-            EndIf
-        EndIf
-        Goto aiDone
-    EndIf
-    If daType(aa)=0 And zongnd(n)=1 And aiTarget(n) <> 0 Then    ;daType 0 is For jumping
-        If daTargetH(aa)=5 Then jumpKey(n)=1:aiJumpedRand(n)=1
-        If zy(nn) < zy(n)-daTargetH(aa) And zon(nn) = 1 Then jumpKey(n)=1:aiJumpedRand(n)=1
-    EndIf
-EndIf
-
-;try to dodge bad boxes
-For k=1 To boxAmount
-If boxXSpeed(k) > 0 And (boxXDir(k)=2 Or boxXDir(k)=4) And boxHarmless(k) =0 Then ;boxes going horizontally
-    ;duck
-    If zx(n) => xBox(k)-15 And zx(n) =< xBox(k)+boxWidth(k)+15 And boxon(k) Then
-        If zy(n)-zupheight(n) => yBox(k) And zy(n)-zupheight(n) =< yBox(k) + (boxheight(k)+10) Then
-            downKey(n)=1:Goto aidone
-        EndIf
-    EndIf
-    If zx(n) => xBox(k)-50 And zx(n) =< xBox(k)+boxWidth(k)+50 And boxon(k) Then
-        If zy(n) => yBox(k)-7 And zy(n) =< yBox(k)+(boxheight(k)+10) Then
-            If zx(n)+zSide(n) < xbox(k) And boxXDir(k)=2 Then Goto aidone
-            If zx(n)-zSide(n) > xbox(k)+boxWidth(k) And boxXDir(k)=4 Then Goto aidone    
-                If zongnd(n) Or (zjumpseq(n) > zjumplimit(n)-3 And zjumpseq(n) < zjumplimit(n)) Then jumpkey(n)=1:Goto aidone
-                If zjump(n)=1 Then jumpkeydown(n)=1:Goto aidone
-                If zjump(n)=0 Or zjump2(n)=0 Then
-                    
-                    If zNoAirSpecial(n)=0 Then
-                        upkey(n)=1:specialKey(n)=1:Goto aidone
-                    Else
-                        shotKey(n)=1 :Goto AiDone
-                    EndIf
-                EndIf
-            EndIf
-    EndIf
-EndIf
-
-If boxYSpeed(k) > 0 And (boxYDir(k)=1 Or boxYDir(k)=3) And boxHarmless(k) = 0 Then    ;boxes going vertically
-    If zx(n) => xBox(k)-20 And zx(n) =< xBox(k)+boxWidth(k)+20 Then
-        If zy(n) => yBox(k) And zy(n)-zupheight(n) =< yBox(k)+(boxYspeed(k)*30) Then
-            If zx(n) =< xbox(k) Then leftKey(n)=1:Goto aidone
-            If zx(n) => xbox(k)+(boxWidth(k)) Then rightKey(n)=1:Goto aidone
-            If zx(n) =< xbox(k)+(boxWidth(k)/2) Then blockKey(n)=1:leftKeyHit(n)=1:leftKey(n)=1:Goto aidone
-            If zx(n) > xbox(k)+(boxWidth(k)/2) Then blockKey(n)=1:rightKeyHit(n)=1:rightKey(n)=1:Goto aidone
-        EndIf
-    EndIf
-    
-EndIf
-Next
-
-;Flee area
-If dangerArea(curArea)=1 Then    
-    If FleeDir(curArea) =2 Then
-        rightkey(n)=1
-        If zjump(n)=0 Then jumpKey(n)=1:jumpKeyDown(n)=1:Goto aiDone
-    EndIf
-    If FleeDir(curArea) =4 Then
-        leftkey(n)=1
-        If zjump(n)=0 Then jumpKey(n)=1:jumpKeyDown(n)=1:Goto aiDone
-    EndIf
-    Goto aiDone
-EndIf
-
-;If grabbed target, Then throw it
-If zGrabs(n) = 1 And zGrabbed(zGrabsThis(n)) =1 And aiCurLevel(n) > 3 Then
-    shotKey(n)=1
-    blockKey(n)=0
-    Goto aiDone
-EndIf
-
-;If there`s no target Then do nothing
-If aiTarget(n)=0 Then Goto aiDone
-
-;Walking
-If a=0 And aiCurLevel(n) > 3  Then    
-    If zx(nn) => zx(n)+20 Then rightkey(n)=1
-    If zx(nn) =< zx(n)-20 Then leftKey(n)=1
-Else
-    If aiCurLevel(n) > 3  Then
-        If zx(nn) > zx(n) Then rightkey(n)=1
-        If zx(nn) =< zx(n) Then leftKey(n)=1
-        ;If zx(nn) > zx(n) And zx(n) < sax(curArea) + saRlimit(curArea) Then rightkey(n)=1
-        ;If zx(nn) =< zx(n) And zx(n) > saX(curArea) Then leftKey(n)=1
-    EndIf
-EndIf
-
-;If above target on solid ground, Then roll to side
-If zx(n) > zx(nn)-2 And zx(n) < zx(nn)+2 Then
-    If zy(n) < zy(nn)-zheight(nn) And zongnd(n) Then
-    rightKey(n)=0:downkey(n)=0: 
-    leftKeyHit(n)=1: blockKey(n)=1 :Goto aidone
-    EndIf
-EndIf
-
-;go down from plataform
-If zonplat(n)=1 And dangerPlat(zOnPlatN(n))=0 Then
- If zx(nn) => zx(n) - 60 And zx(nn) =< zx(n) + 60 Then
-    If zy(n) < zy(nn)-2 And zongnd(nn)=1 Then
-        If zDontJump(n)=0 Then downKey(n)=1:jumpKey(n)=1:Goto aidone
-        ;downKey(n)=1:jumpKey(n)=1:Goto aidone
-    EndIf
- EndIf
-EndIf
-
-;pick up item If any
-For k=1 To objAmount
-    If OBJ(K)=1 And objTaken(k)=0 And zgotObj(n)=0 And zDontPickItem(n)=0 Then     
-        If xobj(k) => zx(n)-14 And xObj(k) =< zx(n)+14 And objHurt(k)=0 Then
-            If yobj(k) => zy(n) -10 And yobj(k) =< zy(n) +3 Then 
-                shotkey(n)=1:Goto aiDone
-            EndIf
-        EndIf
-    EndIf
-Next
-
-;Throw Object If enemy is near
-If zGotobj(n) > 0 And aiCurLevel(n) > 4 Then
- If zx(nn) => zx(n)-100 And zx(nn) =< zx(n)+100 And aiCurLevel(n) > 4 And zTempShield(nn)=0 Then
-  If zy(nn) => zy(n)-120 And zy(nn) =< zy(n)+10 Then
-  If (zx(n) < zx(nn) And zface(n)=2) Or (zx(n) => zx(nn) And zface(n)=4) Then
-    If beatIten(zgotObj(n))=1 Then
-        sn=Rand(1,10)
-        If sn=1 Then grabkey(n)=1 Else shotKey(n)=1
-        If shotsfired(zGotobj(n)) => objAmmo(zgotObj(n)) Then grabkey(n)=1 : shotKey(n)=0
-        
-    Else
-        shotKey(n)=1
-    EndIf
-    If (zx(nn) => zx(n)-25 And zx(nn) =< zx(n)+25) And zy(nn) < zy(n)-zHeight(n) Then
-        upKey(n)=1
-        rightkey(n)=0:leftKey(n)=0
-    EndIf
-    If (zx(nn) < zx(n)-25 Or zx(nn) > zx(n)+25) Then
-        If zy(nn)-zHeight(nn) > zy(n) Then downKey(n)=1
-          If zy(nn) < zy(n)-zheight(n) Then upkey(n)=1
-    EndIf
-    Goto aiDone
-  EndIf  
-  EndIf
- EndIf
-EndIf
-
-
-sn=Rand(1,180)    ;sometimes will jump
-If sn=47 And zGotobj(nn)=0 And zongnd(n)=1 Then downKey(n)=0: jumpKey(n)=1:aiJumpedRand(n)=0
-If zjump(n)=1  Then jumpkeydown(n)=1
-If zjumpseq(n)=zjumpLimit(n)-1 And aiJumpedRand(n)=1 Then jumpkey(n)=1:
-
-
-;blocks thrown objects
-For k=1 To objAmount
-    If objHurt(k)=1 And obj(k)=1 And xObj(k) => zx(n)-60 And xobj(k) =< zx(n) +60 And aiCurLevel(n) > 4 And zShield(n)=0 Then
-        If yObj(k) => zy(n)-60 And yobj(k) =< zy(n) +10 And zTeam(objOwner(k)) <> zTeam(n) Then
-            aiWalk(n)=1
-            blockKey(n)=1:Goto aidone
-        EndIf
-    EndIf
-Next
-
-;blocks shots
-For k=1 To shotAmount
-    If shot(k)=1 And xshot(k) => zx(n)-80 And xshot(k) =< zx(n) + 80 And aiCurLevel(n) > 4 And zShield(n)=0 Then
-        If yshot(k) => zy(n)-50 And yshot(k) =< zy(n) +10 And zTeam(n) <> zTeam(shotOwner(k)) Then
-            aiWalk(n)=1
-            If (xshot(k) => zx(n)-60 And xshot(k) =< zx(n) + 60) Or shotSpeed(k) > 4 Then blockKey(n)=1:Goto aidone
-            If zjump(n)=0 Then jumpkey(n)=1::aiJumpedRand(n)=1:Goto aidone
-        EndIf
-    EndIf
-Next
-
-blockDist(n)=zBlowDist(nn,zCurBlow(nn))
-
-;block If enemy is attacking within the range
-If zShield(n)=0 And zblow(nn)=1 And zCurBlow(nn)>0 And aiCurLevel(n) > 4 And zBlowDist(nn,zCurBlow(nn)) > 0 And zblowseq(nn) < 40 Then 
-    If (zx(n) => zx(nn) And zx(n) =< zx(nn)+blockDist(n) And zface(nn)=2) Or (zx(n) => zx(nn)-blockDist(n) And zx(n) =< zx(nn) And zface(nn)=4) Then
-        If zy(nn) < zy(n) + 50 And zy(nn) > zy(n) - 60 Then
-            sa=Rand(1,3)
-            If sa = 1 And zblowseq(nn) < 3 And zCurBlow(nn) <> 7 Then
-                If curGuy(n)=9 And Rand(0,1) = 1 Then
-                    downkey(n)=1:specialKey(n)=1: Goto aiDone
-                EndIf
-                blockKey(n)=1
-                If zx(nn) > zx(n) Then rightKeyHit(n)=1 Else leftKeyHit(n)=1
-                Goto aidone
-            Else
-                blockKey(n)=1 :Goto aidone
-            EndIf
-        EndIf
-    EndIf
-EndIf
-
-
-If zTempShield(nn)=1 Then Goto aiDone
-;high attack If enemy is on top
-If aiCurLevel(n) > 4 Then
-If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (40+yRange(n)) And zy(nn) > zy(n) - (75+yRange(n))) Then 
-    If (zongnd(n)=0 And onEdge2=0 And curArea > 0) Or (zongnd(n)=0 And dangerMove5(n)=0 And curArea > 0) Then
-
-        If zNoAirSpecial(n)=0 Then
-            upkey(n)=1:specialKey(n)=1:Goto aidone
-        Else
-            ;shotKey(n)=1 :Goto AiDone
-        EndIf
-    EndIf
-    a=Rand(1,4)
-    If a=1 And onEdge=0 And curArea > 0 Then
-        If zNoAirSpecial(n)=0 Then
-            upkey(n)=1:specialKey(n)=1:Goto aidone
-        Else
-            shotKey(n)=1 :Goto AiDone
-        EndIf
-    EndIf
-    a=2
-    If a=>2 And a<=4 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
-    Goto aidone
-EndIf
-EndIf
-
-
-;normal attack If near
-If aiCurLevel(n) > 3 And safeArea=1 Then
-If (zx(nn) => zx(n) And zx(nn) =< zx(n)+(zBlowDist(n,NextBlow(n))-4) And zface(n) =2) Or (zx(nn) => zx(n)-(zBlowDist(n,NextBlow(n))-4) And zx(nn) =< zx(n) And zface(n)=4) Then
-    If zy(nn) < zy(n) + (20+yRange(n)) And zy(nn) > zy(n) - (40+yRange(n))  Then 
-        If zx(n) < zx(nn) And zface(n)=2 Then attack=1
-        If zx(n) => zx(nn) And zface(n)=4 Then attack=1
-    EndIf
-EndIf
-EndIf
-
-;Grabs enemy If near
-If aiCurLevel(n) > 3 And safeArea=1 Then
-If (zx(nn) => zx(n) And zx(nn) =< zx(n)+zGrabDist(n) And zface(n) =2) Or (zx(nn) => zx(n)-zGrabDist(n) And zx(nn) =< zx(n) And zface(n)=4) Then
-    If zy(nn) < zy(n) + 3 And zy(nn) > zy(n) - 3  And zUngrabable(nn)=0 Then 
-        grabKey(n)=1:Goto aiDone
-    EndIf
-EndIf
-EndIf
-
-;If enemy is under Then attack with flying normal attack
-If aiCurLevel(n) > 4 And zongnd(n)=0 And safeArea=1 Then
-    If zx(nn) => zx(n) - 80 And zx(nn) =< zx(n) + 80 Then
-        If zy(n) < zy(nn) And zy(n) > zy(nn) - (85+yRange(n)) Then shotKey(n)=1:Goto aidone
-    EndIf
-EndIf
-
-;If guy is Sub Zero or Scorpion and enemy is on top
-If curGuy(n) = 13 Or curGuy (n) = 12 Then
-If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (70+yRange(n)) And zy(nn) > zy(n) - (80+yRange(n))) Then 
-    If (zongnd(n)=1 And onEdge2=0 And curArea > 0) Or (zongnd(n)=0 And dangerMove5(n)=0 And curArea > 0) Then
-
-        If zNoAirSpecial(n)=0 Then
-            tauntKey(n)=1:Goto aidone
-        Else
-            If curGuy(n) = 13 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
-        EndIf
-    EndIf    
-EndIf
-EndIf
-
-If attack=1 Then
-    a=Nextblow(n)
-    If a=1 Then shotKey(n)=1 :Goto aiDone
-    If a=4 Then shotKey(n)=1:downKey(n)=1 :Goto aiDone
-    If a=7 And zongnd(n)=1 Then
-        If zNoAirSpecial(n)=0 Then
-            specialKey(n)=1 :Goto aiDone
-        Else
-            shotKey(n)=1 :Goto AiDone
-        EndIf
-    EndIf
-    If a=10 Then shotKey(n)=1:upKey(n)=1 :Goto aiDone
-    If a=14 Then superKey(n)=1:Goto aidone
-    
-    If a=9 And onEdge=0 And curArea > 0 Then
-        If zNoAirSpecial(n)=0 Then
-            specialKey(n)=1:downkey(n)=1  :Goto aiDone
-        Else
-            shotKey(n)=1:Goto aiDone
-        EndIf
-    Else
-        If dangerMove9(n)=0 Then specialKey(n)=1:downkey(n)=1 Else shotkey(n)=1
-    EndIf
-        
-EndIf
-
-.aidone
-If zDontJump(n)=1 Then jumpKey(n)=0:jumpKeyDown(n)=0
-.aiDone2
-If zon(aitarget(n))=0 Then aiTarget(n)=0 : aigettarget(n)
-
-End Function
-
 ;-------------Define Team -----------------------------
 Function defineStuff()
 
@@ -5576,7 +4955,7 @@ Function aiGetTarget(n)
 aiTarget(n)=0
 For nn= 1 To zzamount
 If n <> nn Then
-    If zteam(n) <> zteam(nn) And zon(nn) = 1 And zHelper(nn)=0 Then
+    If zteam(n) <> zteam(nn) And zon(nn) = 1 And zHelperObj(nn)=0 Then
       If vsMode=0 Then    ;on aventure mode, will only get target If within screen
         If zx(nn) > xScr And zx(nn) < xScr+640 And zy(nn) > yScr And zy(nn) < yScr+480 Then
           aiTarget(n)=nn:Exit
@@ -5596,7 +4975,7 @@ Function aiGetNearByTarget(n)
 
 For nn= 1 To zzamount
  If n <> nn Then
-    If zteam(n) <> zteam(nn) And zon(nn) = 1 And zHelper(nn)=0 Then
+    If zteam(n) <> zteam(nn) And zon(nn) = 1 And zHelperObj(nn)=0 Then
     
         If zx(nn) > xScr And zx(nn) < xScr+640 And zy(nn) > zy(n)-60 And zy(nn) < zy(n)+30 Then
           aiTarget(n)=nn:Exit
@@ -6108,6 +5487,7 @@ Function clearSubStates(n)
     If electrocuteSeq(n)>0 Then electrocuteSeq(n)=0
     refreshCooldown(n)
     isRunning(n)=0
+    If isHelper(n)=1 Then zon(n)=0
 End Function
 
 ;-------------- Enemy Control Initialization ---------
@@ -6670,13 +6050,14 @@ End Function
 
 Function spawnHelper(n, x, y, face, guy)
     zzamount=zzamount+1
+    isHelper(zzamount)=1
+    helperOwner(zzamount)=n
     zAI(zzamount)=1
     zx(zzamount)=x:zy(zzamount)=y
     zFace(zzamount)=face
-    ;zLife(zzamount)=20
     zTeam(zzamount)=zTeam(n)
     zon(zzamount)=1
-    zani(zzamount)=1:zf(n)=1
+    zani(zzamount)=1:zf(zzamount)=1
     curguy(zzamount)=guy
     zcurpic(zzamount)=noPic
     zLives(zzamount)=0
@@ -6684,4 +6065,10 @@ Function spawnHelper(n, x, y, face, guy)
     isHelperAttackDone(zzamount)=0
     helperSeq(zzamount)=0
     initZ(zzamount)
+End Function
+
+Function getHelperIndex(n)
+    For i=1 To zzamount
+        If helperOwner(i)=n And zOn(i) Then return i
+    Next
 End Function

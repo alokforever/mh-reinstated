@@ -339,10 +339,13 @@ End Function
 
 ;----------------- Process Picccolo Air Frames -------------------
 Function processGohanHelperAirFrames(n)
-    DebugLog "zSpeed: " + zSpeed#(n)
-    If abs(zSpeed#(n)) < 3 And isHelperAttackDone(n)=1 Then 
+    If abs(zSpeed#(n)) >= 1.8 And abs(zSpeed#(n)) < 2.7 And isHelperAttackDone(n)=1 Then 
+        zani(n)=4:zf(n)=4
+    Else If abs(zSpeed#(n)) >= 0.9 And abs(zSpeed#(n)) < 1.8 And isHelperAttackDone(n)=1
+        zani(n)=4:zf(n)=3
+    Else If abs(zSpeed#(n)) >= 0 And abs(zSpeed#(n)) < 0.9 And isHelperAttackDone(n)=1
         zani(n)=4:zf(n)=2
-    Else
+    Else 
         zani(n)=4:zf(n)=1
     End If
 End Function
@@ -368,7 +371,7 @@ Function processSpecialHitFrames(n)
         If (zhitseq(n) / hitFrameSpeed(n)) Mod frame = 0 Then
             zani(n)=2:zf(n)=frame
             Return
-        EndIf            
+        EndIf
     Next
 End Function
 
