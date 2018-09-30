@@ -1350,7 +1350,7 @@ Case 15 ;Piccolo throw
     sonicSlashSeqStart=1000
     endSeq=2000
     zNoMove(n)=1:zNoJump(n)=1
-    if zBlowSeq(n)=1 And isRunning(n) And zSpeed#(n) >= 0.1 Then zSpeed(n)=0:zBlowSeq(n)=sonicSlashSeqStart
+    if zBlowSeq(n)=1 And isRunning(n) And Abs(zSpeed#(n)) >= 0.1 Then zSpeed(n)=0:zBlowSeq(n)=sonicSlashSeqStart
     
     If zBlowSeq(n) >= sonicSlashSeqStart Then
         doSonicSlash(n)
