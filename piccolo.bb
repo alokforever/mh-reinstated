@@ -181,7 +181,7 @@ Function doBuukuKyaku(n)
 End Function
 
 Function doLongKick(n)
-    seqStart=100:seqEnd=200
+    seqStart=100:seqEnd=50
     seq1=seqStart+2:seq2=seq1+2:seq3=seq2+5:seq4=seq3+4:seq5=seq4+4:seq6=seq5+4:
     seq7=seq6+3:seq8=seq7+4:seq9=seq8+3
     
@@ -834,7 +834,7 @@ Function doGohanCounter(n)
         xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=39:hblow(n,nn)=5:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
-        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=5:zHitTime(n)=110
+        zHitSpeed#(n)=3.5:zHitUpSpeed#(n)=5:zHitDownSpeed#(n)=0:zHitTime(n)=110
         zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
         zBlowSound(n)=dbzHit3Snd
         If zBlowStill(n)=1 Then isMoveHit(n)=1
@@ -915,6 +915,10 @@ Function doPiccoloThrow(n)
     If zBlowSeq(n) >= seq9 Then zBlowSeq(n)=0:zBlow(n)=0
 End Function
 
+Function doPiccoloCombo(n)
+    seq1=3:seq2=seq1+3:seq3=seq2+2:seq4=seq3+7:seq5=seq4+2:seq6=seq5+5:seq7=seq6+3
+End Function
+
 Function DoPiccolo(n)
 If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 If zBlowSeq(n)=0 Then clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
@@ -944,13 +948,16 @@ Case 0    ;Blocking
 
 Case 1    ;Normal Punch
     seq1=3:seq2=seq1+3:seq3=seq2+2:seq4=seq3+7:seq5=seq4+2:seq6=seq5+5:seq7=seq6+3
+    comboSeq=200
     kickSeq=100
-    seqEnd=200
+    seqEnd=50
     zNoMove(n)=1
     zNoJump(n)=1
     
-    If zBlowSeq(n)=1 And (rightKey(n)=1 Or leftKey(n)=1) Then zBlowSeq(n)=kickSeq
-    If zBlowSeq(n) > kickSeq Then doLongKick(n)
+    If zBlowSeq(n) = 1 And isRunning(n) Then zBlowSeq(n)=comboSeq:isRunning(n)=0
+    If zBlowSeq(n) >= comboSeq Then doPiccoloCombo(n)
+    If zBlowSeq(n)=1 And isRunning(n)=0 And (rightKey(n)=1 Or leftKey(n)=1) Then zBlowSeq(n)=kickSeq
+    If zBlowSeq(n) >= kickSeq And zBlowSeq(n) < comboSeq Then doLongKick(n)
     
 ;--------- Animation -----------
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=6:zf(n)=1

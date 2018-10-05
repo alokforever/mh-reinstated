@@ -244,6 +244,9 @@ If isHelperAttackDone(n)=1 And zBlow(n)=0 Then
         zy#(n)=zy#(n)-4
     End If
     
+    If prevZx(n)=zx(n) And zFace(n)=4 Then zFace(n)=2 
+    If prevZx(n)=zx(n) And zFace(n)=2 Then zFace(n)=4 
+    prevZx(n)=zx(n)
     If zHitHead(n)=1 And zFace(n)=4 Then leftKey(n)=1
     If zHitHead(n)=1 And zFace(n)=2 Then rightKey(n)=1
 Else If isHelperAttackDone(n)=0
@@ -260,6 +263,9 @@ Else If isHelperAttackDone(n)=0
             shotKey(n)=1
         End If
     End If
+    If prevZx(n)=zx(n) And zFace(n)=4 Then zy#(n)=zy#(n)-4
+    If prevZx(n)=zx(n) And zFace(n)=2 Then zy#(n)=zy#(n)-4
+    prevZx(n)=zx(n)
 End If
 
 helperSeq(n)=helperSeq(n)+1

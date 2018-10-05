@@ -238,7 +238,7 @@ Dim shotStopDuration(200), shotStopSeq(200), myShots(maxZ, 200), shotExplodeChun
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
-Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ)
+Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
