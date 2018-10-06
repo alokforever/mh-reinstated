@@ -130,14 +130,14 @@ Function performSubzeroCombo(n)
     If zBlowSeq(n)>=a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
     If zBlowSeq(n)>=b And zBlowSeq(n) <= c Then
         zani(n)=22:zf(n)=3
-        If zBlowSeq(n) > b+3 And zBlowSeq(n) < c-1 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=c
+        If zBlowSeq(n) > b+3 And zBlowSeq(n) < c-1 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=c
         If zBlowSeq(n) = c-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
     If zBlowSeq(n)>=d And zBlowSeq(n) < e Then zani(n)=22:zf(n)=5
     If zBlowSeq(n)>=e And zBlowSeq(n) <= f Then
         zani(n)=22:zf(n)=6
-        If zBlowSeq(n) > e+3 And zBlowSeq(n) < f-1 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=f
+        If zBlowSeq(n) > e+3 And zBlowSeq(n) < f-1 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=f
         If zBlowSeq(n) = f-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=f And zBlowSeq(n) < g Then zani(n)=22:zf(n)=7
@@ -146,7 +146,7 @@ Function performSubzeroCombo(n)
     If zBlowSeq(n)>=i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=10
     If zBlowSeq(n)>=j And zBlowSeq(n) <= k Then 
         zani(n)=22:zf(n)=11
-        If zBlowSeq(n) > j+3 And zBlowSeq(n) = k-1 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=k
+        If zBlowSeq(n) > j+3 And zBlowSeq(n) = k-1 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=k
         If zBlowSeq(n) = k-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=k And zBlowSeq(n) < l Then zani(n)=22:zf(n)=7

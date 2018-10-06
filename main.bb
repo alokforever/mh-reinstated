@@ -6061,7 +6061,6 @@ Function spawnHelper(n, x, y, face, guy)
     curguy(zzamount)=guy
     zcurpic(zzamount)=noPic
     zLives(zzamount)=0
-    zDamage(zzamount)=999
     isHelperAttackDone(zzamount)=0
     helperSeq(zzamount)=0
     initZ(zzamount)
@@ -6071,4 +6070,10 @@ Function getHelperIndex(n)
     For i=1 To zzamount
         If helperOwner(i)=n And zOn(i) Then return i
     Next
+End Function
+
+Function isAttackKeyDown(n)
+    Local ret=0
+    If (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then ret=1
+    return ret
 End Function

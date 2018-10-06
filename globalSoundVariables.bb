@@ -75,6 +75,8 @@ Global burnedSnd=LoadSound(soundsdir$ + "burned.wav")
 Global quakeSnd=LoadSound(soundsdir$ + "juggernaut\juggWalk.wav")
 Global pullSnd=LoadSound(soundsdir$ + "pullSnd.wav")
 Global grabSnd=LoadSound(soundsDir$ + "grabSnd.wav")
+Global blow3Snd=LoadSound(soundsDir$ + "blow3.wav")
+Global blow4Snd=LoadSound(soundsDir$ + "blow4.wav")
 Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
@@ -200,6 +202,7 @@ Global dbzKiHyperAttackSnd
 Global dbzHit1Snd=LoadSound(soundsDir$ + "dbz\dbzHit1Snd.wav")
 Global dbzHit2Snd=LoadSound(soundsDir$ + "dbz\dbzHit2Snd.wav")
 Global dbzHit3Snd=LoadSound(soundsDir$ + "dbz\dbzHit3Snd.wav")
+Global dbzHit4Snd=LoadSound(soundsDir$ + "dbz\dbzHit4Snd.wav")
 Global dbzSuperSpeedSnd
 Global dbzTeleSnd
 

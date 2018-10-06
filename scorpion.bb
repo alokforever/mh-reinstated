@@ -90,7 +90,7 @@ Function performScorpionCombo1(n)
     If zBlowSeq(n)>=a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
     If zBlowSeq(n)>=b And zBlowSeq(n) < c Then
         zani(n)=22:zf(n)=3
-        If zBlowSeq(n) > b+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=c
+        If zBlowSeq(n) > b+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=c
         If zBlowSeq(n) = c-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
@@ -98,7 +98,7 @@ Function performScorpionCombo1(n)
     If zBlowSeq(n)>=e And zBlowSeq(n) < f Then zani(n)=22:zf(n)=6
     If zBlowSeq(n)>=f And zBlowSeq(n) < g Then
         zani(n)=22:zf(n)=7
-        If zBlowSeq(n) > f+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=g
+        If zBlowSeq(n) > f+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=g
         If zBlowSeq(n) = g-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=g And zBlowSeq(n) < h Then zani(n)=22:zf(n)=8
@@ -108,7 +108,7 @@ Function performScorpionCombo1(n)
     If zBlowSeq(n)>=k And zBlowSeq(n) < l Then zani(n)=22:zf(n)=12
     If zBlowSeq(n)>=l And zBlowSeq(n) < m Then 
         zani(n)=22:zf(n)=13
-        If zBlowSeq(n) > l+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=m
+        If zBlowSeq(n) > l+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=m
         If zBlowSeq(n) = m-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=m And zBlowSeq(n) < n1 Then zani(n)=6:zf(n)=1
@@ -165,13 +165,13 @@ Function performScorpionCombo2(n)
     If zBlowSeq(n)>=36 And zBlowSeq(n) < a Then zani(n)=22:zf(n)=14
     If zBlowSeq(n)>=a And zBlowSeq(n) < b Then
         zani(n)=22:zf(n)=15
-        If zBlowSeq(n) > a+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=b
+        If zBlowSeq(n) > a+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=b
         If zBlowSeq(n) = b-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=b And zBlowSeq(n) < c Then zani(n)=22:zf(n)=16
     If zBlowSeq(n)>=c And zBlowSeq(n) < d Then
         zani(n)=22:zf(n)=17
-        If zBlowSeq(n) > c+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=d
+        If zBlowSeq(n) > c+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=d
         If zBlowSeq(n) = d-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=e And zBlowSeq(n) < f Then zani(n)=22:zf(n)=18
@@ -179,7 +179,7 @@ Function performScorpionCombo2(n)
     If zBlowSeq(n)>=g And zBlowSeq(n) < h Then zani(n)=22:zf(n)=14
     If zBlowSeq(n)>=h And zBlowSeq(n) < i Then 
         zani(n)=22:zf(n)=15
-        If zBlowSeq(n) > h+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=i
+        If zBlowSeq(n) > h+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=i
         If zBlowSeq(n) = i-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n)>=i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=16

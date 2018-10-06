@@ -175,21 +175,21 @@ Function performWolverineCombo(n)
     If zBlowSeq(n) >= a And zBlowSeq(n) < b Then zani(n)=22:zf(n)=2
     If zBlowSeq(n) >= b And zBlowSeq(n) < c Then 
         zani(n)=22:zf(n)=1
-        If zBlowSeq(n) > b+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=c
+        If zBlowSeq(n) > b+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=c
         If zBlowSeq(n) = c-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n) >= c And zBlowSeq(n) < d Then zani(n)=22:zf(n)=4
     If zBlowSeq(n) >= d And zBlowSeq(n) < e Then zani(n)=22:zf(n)=5
     If zBlowSeq(n) >= e And zBlowSeq(n) < f Then 
         zani(n)=22:zf(n)=6
-        If zBlowSeq(n) > e+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=f
+        If zBlowSeq(n) > e+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=f
         If zBlowSeq(n) = f-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n) >= f And zBlowSeq(n) < g Then zani(n)=22:zf(n)=7
     If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zani(n)=22:zf(n)=8
     If zBlowSeq(n) >= h And zBlowSeq(n) < i Then 
         zani(n)=22:zf(n)=9
-        If zBlowSeq(n) > h+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=i
+        If zBlowSeq(n) > h+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=i
         If zBlowSeq(n) = i-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zani(n)=22:zf(n)=10
@@ -200,7 +200,7 @@ Function performWolverineCombo(n)
     If zBlowSeq(n) >= n1 And zBlowSeq(n) < o Then zani(n)=22:zf(n)=15
     If zBlowSeq(n) >= o And zBlowSeq(n) < p Then 
         zani(n)=22:zf(n)=16
-        If zBlowSeq(n) > h+3 And (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then zBlowSeq(n)=200
+        If zBlowSeq(n) > h+3 And isAttackKeyDown(n)=1 Then zBlowSeq(n)=200
         If zBlowSeq(n) = p-1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n) > 200 Then performBerserkerSlash(n, 58)
@@ -462,7 +462,7 @@ Case 0    ;Blocking
     If zblocked(n)=1 Then zani(n)=13:zf(n)=2
     If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
-Case 1    ;High Claw
+Case 1    ;Double Claw
     a=5/wolvSpdFctr(n):b=10/wolvSpdFctr(n):c=15/wolvSpdFctr(n):d=22/wolvSpdFctr(n):e=27/wolvSpdFctr(n)
     :f=32/wolvSpdFctr(n):g=36/wolvSpdFctr(n):h=40/wolvSpdFctr(n):i=55/wolvSpdFctr(n):j=60
     zNoMove(n)=1
@@ -478,7 +478,7 @@ Case 1    ;High Claw
         xblow(n,nn)=0: yblow(n,nn)=26:wblow(n,nn)=44:hblow(n,nn)=1:nn=nn+1
         xblow(n,nn)=0: yblow(n,nn)=36:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=30/wolvSpdFctr(n)
-        zBlowDamage(n)=10:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20/wolvSpdFctr(n):zBlowStillTime(n)=0:zBlowBlockTime(n)=20
+        zBlowDamage(n)=9:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20/wolvSpdFctr(n):zBlowStillTime(n)=0:zBlowBlockTime(n)=20
         zBlowSound(n)=slashSnd
         If zBlowSeq(n) = a Then zani(n)=12:zf(n)=2
         If zBlowSeq(n) = b Then zani(n)=12:zf(n)=3
@@ -494,7 +494,7 @@ Case 1    ;High Claw
         xblow(n,nn)=0: yblow(n,nn)=26:wblow(n,nn)=46:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=0: yblow(n,nn)=16:wblow(n,nn)=38:hblow(n,nn)=5:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=8
-        zBlowDamage(n)=10:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
+        zBlowDamage(n)=9:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=20
         zBlowSound(n)=slashSnd
         If zBlowSeq(n) = f Then zani(n)=12:zf(n)=7
         If zBlowSeq(n) = g Then zani(n)=12:zf(n)=8
