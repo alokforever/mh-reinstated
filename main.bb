@@ -2089,7 +2089,7 @@ If zShotHitSeq(n,zShotByN(n)) > 10000 Then zShotHitSeq(n,zShotByN(n))=0:zShotByN
 If zHit(n)=0 And zBlocked(n)=0 Then zHitByRect(n)=0
 
 If zStone(n)=1 And fightMode=2 Then
-    killMan(n)
+    If zLife(n) < 1 Then killMan(n)
 EndIf
 
 If zhit(n)=1 Then
@@ -2142,7 +2142,9 @@ If zhit(n)=1 Then
     EndIf
     
     If fightMode=2 And zFalltime(n) > 15 Then
-        killMan(n)
+        If zLife(n) < 1 Then
+            killMan(n)
+        End If
     EndIf
 
     If zhitSeq(n) > 2 And zongnd(n)=1 And zBouncedgnd(n)=0 And (zUpFallSpeed#(n) < 2.1 Or zDownFallSpeed#(n) > 2.1) Then 
@@ -2270,7 +2272,7 @@ If zGotObj(n) > 0 Then
     obj(zGotObj(n))=0 : zGotObj(n)=0
 EndIf
 
-If (zLives(n) =< 0 And ifiniteLives=0) Or zHelperObj(n)=1 Then
+If (zLives(n) <= 0 And ifiniteLives=0) Or zHelperObj(n)=1 Then
     If zon(n)=1 Then
         If eventN(zdeadEvent(n))=0 Then eventN(zdeadEvent(n))=1 Else eventN(zdeadEvent(n))=0
         zon(n)=0:zx(n)=320:zy(n)=1000
@@ -4518,12 +4520,12 @@ For nn=1 To zzamount
       If zy(nn) > yPlat(n) +5 And zy(nn)-hh =< yPlat(n)+platHeight(n) Then       
         If zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) Then
 
-               ph=36
-             If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
+            ph=36
+            If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
                 zHitHead(nn)=1:zJump(nn)=0
                 If platYspeed(n) > 2 Then zy(nn) = (yPlat(n)+platHeight(n))+zHeight(nn)
                 If (zongnd(nn)=1 Or zonplat(nn)=1) And zGrabbed(nn)=0 Then    ;crushes player
-                    killMan(n)
+                    killMan(nn)
                     Goto platDone
                 EndIf
                 
@@ -4551,7 +4553,7 @@ For nn=1 To zzamount
                    EndIf
                 
                 If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then    ;crushes player
-                    killMan(n)
+                    killMan(nn)
                     Goto platDone
                 EndIf
                 
@@ -5930,12 +5932,10 @@ Function handleShotPlayerCollision(n, hAdj, wAdj)
 End Function
 
 Function killMan(n)
-    If zLife(n) < 1 Then
-        makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
-        playDeathSnd(n)
-        zlives(n)=zlives(n)-1
-        killZ(n)
-    EndIf
+    makeChunk(n,zx(n),zy(n)-15,2,zDeathChunk(n))
+    playDeathSnd(n)
+    zlives(n)=zlives(n)-1
+    killZ(n)
 End Function
 
 Function handleShotSeeking(n)
