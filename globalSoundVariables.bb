@@ -185,6 +185,9 @@ Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1.wav")
 Global mvcCrashSnd=LoadSound(soundsdir$ + "mvc\mvcCrash.wav")
 Global mvcCrash2Snd=LoadSound(soundsdir$ + "mvc\mvcCrash2.wav")
 Global mvcExSnd=LoadSound(soundsdir$ + "mvc\mvcEx.wav")
+Global mvcJump1Snd
+Global mvcJump2Snd
+Global mvcJump3Snd
 
 Global juggJumpSnd, juggLateralSnd, juggLateralHitSnd, juggPunchSnd, juggPunchGroundSnd, juggNoManaSnd, juggNoMana2Snd
 Global juggEarthquakeSnd
@@ -214,3 +217,6 @@ Global piccoloUpSpecialSnd, dbzKneeHitSnd, piccoloFollowUpHitSnd
 Global piccoloBuukuKyakuSnd, piccoloKutabare1Snd, piccoloKutabare2Snd
 Global piccoloKiCtrlSnd, piccoloMakuuSnd, piccoloMakkankousappouSnd
 Global piccoloGohanSnd, piccoloGohanHaSnd, piccoloGohanYahaSnd
+
+Global hiryuRunEndSnd
+Global hiryuRunStartSnd

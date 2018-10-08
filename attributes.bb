@@ -75,6 +75,8 @@ zBlocked(n)=0: aiGetTarget(n):
     superPicNum(n)=1
     electrocuteFrames(n)=0
     electrocuteFrameSpd(n)=0
+    maxHitSeq(n)=0
+    zBouncedGndFrames(n)=0
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -169,7 +171,7 @@ Case 5: ;Michaelangelo
     zJumpSnd(n)=shotwallsnd
     gender(n)=1
 
-Case 6: ;Ryu (gaiden)
+Case 6: ;Strider Hiryu
     zBlowDist(n,1)=60
     zBlowDist(n,2)=52
     zBlowDist(n,4)=53
@@ -184,8 +186,28 @@ Case 6: ;Ryu (gaiden)
     zxHand(n,2)=-5 :zyHand(n,2)=21
     zxHand(n,3)=-4 :zyHand(n,3)=21
     zRollOnImpact(n)=1
-    zJumpSnd(n)=shotwallsnd
+    zJumpSnd(n)=mvcJump1Snd
+    zJumpSnd2(n)=mvcJump2Snd
     gender(n)=1
+    zheight(n)=49
+    zCharSpeed#(n)=2.5
+    zStanceFrames(n)=20
+    zStanceSpeed(n)=3
+    duckFrames(n)=10
+    duckFrameSpeed(n)=5
+    flipFrames(n)=7
+    zWalkFrames(n)=9
+    zWalkFrameSpeed#(n)=3
+    zRunFrames(n)=6
+    zRunFrameSpeed#(n)=3
+    zRunFootSoundSeq(n)=6
+    hasSpecialAirFrames(n)=1
+    dizzyFrames(n)=6
+    dizzyFrameSpeed(n)=10
+    specialHitFrames(n)=13
+    hitFrameSpeed(n)=5
+    zBouncedGndFrames(n)=3
+    maxHitSeq(n)=65
 
 Case 7: ;Batman
     zBlowDist(n,1)=48
@@ -281,9 +303,9 @@ Case 11: ;Wolverine
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
     zWalkFrames(n)=16
+    zWalkFrameSpeed#(n)=3
     zStanceFrames(n)=17
     zStanceSpeed(n)=3
-    zWalkFrameSpeed#(n)=3
     
     For iter=0 To zStanceFrames(n)
         zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
@@ -518,6 +540,7 @@ Case 16: ;Piccolo
     specialHitFrames(n)=10
     hitFrameSpeed(n)=4
     zGrabDist(n)=zGrabDist(n)+15
+    maxHitSeq(n)=35
     
 Case 30: ;Pig
     zBlowDist(n,1)=64
@@ -3626,7 +3649,7 @@ Next
 zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
 zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
 
-For i=1 To 10
+For i=1 To 15
     zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
     zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
 Next
@@ -3647,7 +3670,7 @@ For i=2 To 20
     zPic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
 Next
 
-For i=1 To 6
+For i=1 To 7
     zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")
     zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
 Next
@@ -3742,6 +3765,11 @@ For counter = 1 To 4
     zpic_(n,24,counter)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + counter + "_.bmp")
 Next
 
+For counter = 1 To 5
+    zpic(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + ".bmp")
+    zpic_(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + "_.bmp")
+Next
+
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom
@@ -3753,6 +3781,11 @@ If n=44 Then    ;Venom
      zpic(n,5,i)=zpic(n,5,1)
      zpic_(n,5,i)=zpic_(n,5,1)
     Next
+EndIf
+
+If n=51 Then    ;Dark ninja
+    If swordSnd=0 Then swordSnd=LoadSound(soundsdir$ + "sword.wav")
+    If hayabusaSnd=0 Then hayabusaSnd=LoadSound(soundsdir$ + "hayabusa.wav")
 EndIf
 
 If n=49 Then    ;Dragon
@@ -3979,9 +4012,13 @@ If n=7 Then ;Batman
     If CapeSnd=0 Then CapeSnd=LoadSound(soundsdir$ + "cape.wav")
 EndIf
 
-If n=6 Or n=51 Then
-    If swordSnd=0 Then swordSnd=LoadSound(soundsdir$ + "sword.wav")
-    If hayabusaSnd=0 Then hayabusaSnd=LoadSound(soundsdir$ + "hayabusa.wav")
+If n=6 Then ;Strider Hiryu
+    If mvcJump1Snd=0 Then mvcJump1Snd=LoadSound(soundsdir$ + "mvc\mvcJmp1Snd.wav")
+    If mvcJump2Snd=0 Then mvcJump2Snd=LoadSound(soundsdir$ + "mvc\mvcJmp2Snd.wav")
+    If mvcJump3Snd=0 Then mvcJump3Snd=LoadSound(soundsdir$ + "mvc\mvcJmp3Snd.wav")
+    If hiryuRunStartSnd=0 Then hiryuRunStartSnd=LoadSound(soundsdir$ + "hiryu\hiryuRunStartSnd.wav")
+    If hiryuRunEndSnd=0 Then hiryuRunEndSnd=LoadSound(soundsdir$ + "juggernaut\juggDash.wav")
+    If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "hiryu\hiryuFootSnd.wav")
 EndIf
 
 If n=5 Then

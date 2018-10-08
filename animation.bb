@@ -98,6 +98,13 @@ Function drawRageEffect(player)
     EndIf
 End Function
 
+Function handleQuakeWalkSeq(n, frame)
+    If frame=zWalkQuakeSeq1(n) Or frame=zWalkQuakeSeq2(n) And frame <> 0 Then ;Shake screen
+        quake=1:quakeSeq=0
+        If gameSound Then PlaySound walkQuakeSnd(curGuy(n))
+    End If
+End Function
+
 ;------------ Draw Walk Sequence ----------------
 Function drawWalkSequence(n)
     If zwalkseq(n) = 0 Then 
@@ -109,16 +116,15 @@ Function drawWalkSequence(n)
         Return
     EndIf
     If zWalkFrames(n) <> 0 Then
+        If zwalkseq(n)>=((zWalkFrames(n)*zWalkFrameSpeed(n))+zWalkFrameSpeed(n))-1 Then zwalkseq(n)=1:Return
         For frame=zWalkFrames(n) To 1 Step -1
             If (zwalkseq(n) / zWalkFrameSpeed#(n)) Mod frame = 0 Then 
-                If zwalkseq(n) > (frame * 10) + 10 Then zwalkseq(n) = 1:Return
                 zani(n)=1:zf(n)=frame
-                If frame=zWalkQuakeSeq1(n) Or frame=zWalkQuakeSeq2(n) And frame <> 0 Then ;Shake screen
-                    quake=1:quakeSeq=0
-                    If gameSound Then PlaySound walkQuakeSnd(curGuy(n))
-                End If
+                handleQuakeWalkSeq(n, frame)
                 Return
-            EndIf
+            Else If zwalkseq(n) < zWalkFrameSpeed(n) Then
+                zani(n)=1:zf(n)=1
+            End If
         Next
     Else
         If zwalkseq(n) > 40 Then zwalkseq(n)=1:Return
@@ -127,6 +133,26 @@ Function drawWalkSequence(n)
         If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Return
         If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Return
     EndIf
+End Function
+
+Function getHiryuRunStatus(n)
+    ret=0
+    If zRunSeq2(n)=1 Then 
+        If gameSound Then PlaySound hiryuRunStartSnd
+        extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
+    End If
+    
+    If leftKey(n)=0 And rightKey(n)=0 Then 
+        ret=1
+        If abs(zSpeed#(n))<=4.8 And abs(zSpeed#(n))>3.0 Then zani(n)=21:zf(n)=7
+        If abs(zSpeed#(n))=4.8 And gameSound Then PlaySound hiryuRunEndSnd
+    
+        If abs(zSpeed#(n))<=3.0 And abs(zSpeed#(n))>2.0  Then zani(n)=21:zf(n)=8
+        If abs(zSpeed#(n))<=2.0 And abs(zSpeed#(n))>1.0 Then zani(n)=21:zf(n)=9
+        If abs(zSpeed#(n))<=1.0 Then zani(n)=21:zf(n)=10
+    End If
+    
+    Return ret
 End Function
 
 Function handleJuggernautRun(n)
@@ -180,9 +206,9 @@ Function drawRunSequence(n)
             If gameSound Then PlaySound zRunFootSound(curGuy(n))
         End If
     End If
-    If curGuy(n)=14 And zRunSeq2(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
-    If curGuy(n)=15 Then handleJuggernautRun(n)
-    If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then Return
+    
+    If getSpecialRunStatus(n)=1 Then Return
+    
     If zRunFrames(n) <> 0 Then
         For frame=zRunFrames(n) To 1 Step -1
             If (zRunSeq(n) / zRunFrameSpeed#(n)) Mod frame = 0 Then 
@@ -195,6 +221,15 @@ Function drawRunSequence(n)
     End If
 End Function
 
+Function getSpecialRunStatus(n)
+    Local ret=0
+    If curGuy(n)=6 Then ret=getHiryuRunStatus(n)
+    If curGuy(n)=14 And zRunSeq2(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
+    If curGuy(n)=15 Then handleJuggernautRun(n)
+    If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then ret=1
+    
+    Return ret
+End Function
 ;----------- Draw Stance Sequence --------------
 Function drawStanceSequence(n)
     If zStanceSeq(n) < zStanceSpeed(n) Then 
@@ -265,6 +300,30 @@ Function drawFlipFrames(n)
     End If
 End Function
 
+Function processHiryuAirFrames(n)
+    If zjump(n)=0 Then ;Falling
+        zJumpFallSeq(n)=zjumpfallseq(n)+1
+        If zJumpFallSeq(n) >= 1 And zJumpFallSeq(n) < 4 Then zani(n)=4:zf(n)=1
+        If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) < 7 Then zani(n)=4:zf(n)=2
+        If zJumpFallSeq(n) >= 7 And zJumpFallSeq(n) < 11 Then zani(n)=4:zf(n)=3
+        If zJumpFallSeq(n) >= 11 And zJumpFallSeq(n) Mod 3 = 0 Then
+            If zf(n)=4 Then 
+                zani(n)=4:zf(n)=5
+            Else If zf(n)=5 Then 
+                zani(n)=4:zf(n)=4
+            Else
+                zani(n)=4:zf(n)=4
+            End If
+        End If
+    Else
+        If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+        If zjumpseq(n)>0 And zJumpSeq(n) <= 3 Then zani(n)=4:zf(n)=6
+        If zjumpseq(n)>3 And zJumpSeq(n) <= 6 Then zani(n)=4:zf(n)=7
+        If zjumpseq(n)>6 And zJumpSeq(n) <= 9 Then zani(n)=4:zf(n)=8
+        If zjumpseq(n)>9 And zJumpSeq(n) <= 13 Then zani(n)=4:zf(n)=9
+        If zjumpseq(n)>13 And zJumpSeq(n) <= 19 Then zani(n)=4:zf(n)=10
+    End If
+End Function
 
 ;--------------- Process Wonder Woman Air Frames -----------------
 Function processWonderWomanAirFrames(n)
@@ -276,7 +335,7 @@ Function processWonderWomanAirFrames(n)
         If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 12 Then zani(n)=4:zf(n)=12
         If zJumpFallSeq(n) >= 12 And zJumpFallSeq(n) < 15 Then zani(n)=4:zf(n)=13
         If zJumpFallSeq(n) >= 15 And zJumpFallSeq(n) Mod 3 = 0 Then
-            If zf(n)=14 Then  
+            If zf(n)=14 Then 
                 zani(n)=4:zf(n)=15
             Else If zf(n)=15 Then 
                 zani(n)=4:zf(n)=14
@@ -352,6 +411,7 @@ End Function
 
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
+    If curGuy(n)=6 Then processHiryuAirFrames(n)
     If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
     If curGuy(n)=16 Then processPiccoloAirFrames(n)
@@ -365,8 +425,8 @@ End Function
 
 ;------------------- Process Special hit frames ------------------
 Function processSpecialHitFrames(n)
-    Local frame, maxHitSeq=35
-    If zhitseq(n) > maxHitSeq Then zani(n)=2:zf(n)=0:Return
+    Local frame
+    If zhitseq(n) > maxHitSeq(n) Then zani(n)=2:zf(n)=0:Return
     For frame=specialHitFrames(n) To 1 Step -1
         If (zhitseq(n) / hitFrameSpeed(n)) Mod frame = 0 Then
             zani(n)=2:zf(n)=frame
@@ -390,7 +450,26 @@ Function drawElectrocution(n)
             If (electrocuteSeq(n) / electrocuteFrameSpd(n)) Mod frame = 0 Then
                 zani(n)=24:zf(n)=frame
                 Return
-            EndIf            
+            EndIf
         Next
+    End If
+End Function
+
+Function doNormalHitSeq(n)
+    a=10:b=25:c=35
+    If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
+    If zhitseq(n) > a And zhitseq(n) =< b Then zani(n)=2:zf(n)=2
+    If zhitseq(n) > b And zhitseq(n) =< c Then zani(n)=2:zf(n)=3
+    If zhitseq(n) > c Then zani(n)=2:zf(n)=4
+End Function
+
+Function drawBouncedOnGnd(n)
+    If zBouncedGndFrames(n) > 0 Then
+        If zBouncedGndSeq(n)>=0 And zBouncedGndSeq(n)<4 Then zani(n)=25:zf(n)=1
+        If zBouncedGndSeq(n)>=4 And zBouncedGndSeq(n)<8 Then zani(n)=25:zf(n)=2
+        If zBouncedGndSeq(n)>=8 And zBouncedGndSeq(n)<12 Then zani(n)=25:zf(n)=3
+        If zBouncedGndSeq(n)>12 Then zani(n)=2:zf(n)=0
+    Else
+        zani(n)=2:zf(n)=0
     End If
 End Function

@@ -239,6 +239,7 @@ Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), 
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
+Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -976,7 +977,7 @@ For n=1 To zzamount
             Case 3:DoSpiderMan(n)
             Case 4:DoMario(n)
             Case 5:DoMike(n)
-            Case 6:DoGaiden(n)
+            Case 6:DoHiryu(n)
             Case 7:DoBatman(n)
             Case 8:DoPredator(n)
             Case 9:DoGoku(n)
@@ -2028,22 +2029,21 @@ Function selectDraw(n)
     EndIf
     
     If zhit(n) Then
-        If zongnd(n)=1 And zhitseq(n) > 15 Then
-            zani(n)=2:zf(n)=0:Goto drawZ ;fallen
+        If zBouncedgnd(n)=1 Then
+            drawBouncedOnGnd(n)
+            zBouncedGndSeq(n)=zBouncedGndSeq(n)+1
+        Else If zongnd(n)=1 And zhitseq(n) > 15 Then
+            zani(n)=2:zf(n)=0
         Else If zHitType(n)=1 Then
             doStationaryHitSequence(n)
         Else
             If specialHitFrames(n)=0 Then
-                a=10:b=25:c=35
-                If zhitseq(n) => 1 And zhitseq(n) =< a Then zani(n)=2:zf(n)=1
-                If zhitseq(n) > a And zhitseq(n) =< b Then zani(n)=2:zf(n)=2
-                If zhitseq(n) > b And zhitseq(n) =< c Then zani(n)=2:zf(n)=3
-                If zhitseq(n) > c Then zani(n)=2:zf(n)=4
+                doNormalHitSeq(n)
             Else
                 processSpecialHitFrames(n)
             End If
-            Goto drawZ
         EndIf
+        Goto drawZ ;fallen
     End If
 
     If zani(n)=0 Then zani(n)=4 : zf(n)=1
@@ -2137,7 +2137,7 @@ If zhit(n)=1 Then
         zHitByRect(n)=0
         zShotByN(n)=0 : zShotHitSeq(n,zShotByN(n))=0
         zhitbybox(n)=0
-        zhit(n)=0:zhitseq(n)=0
+        zhit(n)=0:zhitseq(n)=0:zBouncedGndSeq(n)=0
         zBlockLife(n)=zBlockFull(n):zBouncedgnd(n)=0
     EndIf
     
@@ -2244,7 +2244,7 @@ If zjump(n)=0 Then
                 If zonplat(n)=1 Then zongnd(n)=1
                 ;Goto isFalling
             EndIf
-        EndIf    
+        EndIf
     EndIf
 EndIf
 
@@ -2305,6 +2305,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
+    ;DebugLog "zani: " + zani(n) + ", zf: " + zf(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test

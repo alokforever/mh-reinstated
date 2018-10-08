@@ -127,7 +127,6 @@ maxAmap = ReadInt (file)
 maxVsMap = ReadInt (file)
 maxCTFMap = ReadInt (file)
 lastAmap = ReadInt (file)
-DebugLog "maxVsMap: " + maxVsMap
 CloseFile file
 
 End Function 
@@ -761,7 +760,6 @@ y=0
 buttonAmount = 80
 fontType = 2
 
-
 For b = 1 To characterAmount
 If x Mod 500 = 0 And x <> 0 Then y=y+60:x=0
 xBut(b)=70+x:yBut(b)=45+y:wBut(b)=50:hBut(b)=60
@@ -811,7 +809,9 @@ For b= 1 To characterAmount ;characters to select
     ;Color 100,100,100:Rect xbut(b),ybut(b),wbut(b),hBut(b),1
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     If characterOpen(b)=1 Then
-        If b = 11 Or b = 14 Then
+        If b=6 Then
+            DrawImage butpic2(b),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b)) ) +56
+        Else If b = 11 Or b = 14 Then
             DrawImage butpic2(b),xbut(b)+1,( ybut(b)-ImageHeight(butpic2(b)) ) +56
         Else If b = 15 Then
             DrawImage butpic2(b),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b)) ) +56
@@ -872,8 +872,8 @@ n=0
 For b=55 To 58  ;team, selected player
     n=n+1
     If vsMode=1 Then
-    Color 200,200,200
-    Rect xbut(b),ybut(b),wbut(b),hBut(b),0
+        Color 200,200,200
+        Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     
         If zTeam(n) < 1 Or zTeam(n) > 2 Then
             Color 200,200,200:pri xbut(b)+5,ybut(b)+3,strInfo$(30)
