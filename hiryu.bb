@@ -349,6 +349,7 @@ Case 5    ;Excalibur (Up special)
     If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=7:zf(n)=3
     If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=7:zf(n)=4
     If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then 
+        If zBlowSeq(n) Mod 7 = 0 Then extraObj(n,zx(n),-15,zy(n),50,zFace(n),139)
         If zBlowSeq(n) Mod 3=0 Then
             If zf(n)=5 Then 
                 zf(n)=6 
@@ -360,6 +361,17 @@ Case 5    ;Excalibur (Up special)
         End If
         moveX(n,zBlowdir(n),2):zantiplat(n)=1
         If zHitHead(n)=0 Then moveY(n,-5)
+        
+;--------- Hit box ------------
+        zblowPamount(n)=4:nn=1:zBlowBack(n)=1
+        xblow(n,nn)=-10: yblow(n,nn)=48:wblow(n,nn)=33:hblow(n,nn)=18:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=15:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=0:wblow(n,nn)=33:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=2:zBlowHold(n)=4:zBlowStillTime(n)=1
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
+        zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=9:zBlowBlockTime(n)=40
+        zBlowSound(n)=hiryuSlashSnd
     End If
     
     If zBlowSeq(n) >= endSeq Then

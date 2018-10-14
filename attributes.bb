@@ -2982,6 +2982,17 @@ Case 138:        ;Gohan
     
     If chunkSeq(n) >= seq7 Then chunk(n)=0
     
+Case 139:       ;Excalibur Up
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2
+    isChunkRenderLowPrio(n)=1
+    chunkFollowOwner(n)=1
+
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(109,1):chunkPic_(n)=ptPic_(109,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(109,2):chunkPic_(n)=ptPic_(109,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(109,3):chunkPic_(n)=ptPic_(109,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(109,4):chunkPic_(n)=ptPic_(109,4)
+    If chunkSeq(n)>seq4 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -4021,6 +4032,8 @@ If n=6 Then ;Strider Hiryu
     If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "hiryu\hiryuFootSnd.wav")
     If hiryuGrunt1Snd=0 Then hiryuGrunt1Snd=LoadSound(soundsdir$ + "hiryu\hiryuGrunt1Snd.wav")
     If hiryuGrunt2Snd=0 Then hiryuGrunt2Snd=LoadSound(soundsdir$ + "hiryu\hiryuGrunt2Snd.wav")
+    If hiryuSlashSnd=0 Then hiryuSlashSnd=LoadSound(soundsdir$ + "hiryu\hiryuSlashSnd.wav")
+    If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "hiryu\hiryuDieSnd.wav")
 EndIf
 
 If n=5 Then
