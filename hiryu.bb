@@ -1,3 +1,138 @@
+Function doWallLeave(n)
+    seqStart=650:seq1=seqStart+3:seq2=seq1+3:seq3=seq2+3
+    endSeq=350
+    zNoMove(n)=1:zNoGrav(n)=1
+    
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then zAni(n)=18:zf(n)=3
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then zAni(n)=18:zf(n)=2
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n) < seq3 Then zAni(n)=18:zf(n)=1
+    
+    If zBlowSeq(n)=seq3 Then zBlowSeq(n)=endSeq
+    
+End Function
+
+Function doScaleWallDown(n)
+    seqStart=600:seq1=seqStart+4:seq2=seq1+3
+    zNoMove(n)=1:zNoGrav(n)=1
+    wallLeaveSeq=650
+    wallGrabSeq=450
+    If zFace(n)=2 Then oppDir=4
+    If zFace(n)=4 Then oppDir=2
+    
+    checkYDist(n,zx(n),zy(n),2)
+    If yDist(n)<8 Then Goto dontMove
+    checkDist(n,zx(n),zy(n),oppDir)
+    If xDist(n)>11 Then Goto dontMove
+    
+;---------- Animation -------------
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then zAni(n)=18:zf(n)=12
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then zAni(n)=18:zf(n)=13
+    
+;---------- Movement --------------
+    moveY(n,2)
+    
+    .dontMove
+    If zBlowSeq(n)=seq2 Then zBlowSeq(n)=seqStart
+    If downKey(n)=0 Then zBlowSeq(n)=wallGrabSeq+15
+    If jumpKey(n)=1 Then zBlowSeq(n)=wallLeaveSeq
+    
+End Function
+
+Function doScaleWallUp(n)
+    seqStart=500:seq1=seqStart+4:seq2=seq1+4:seq3=seq2+3:seq4=seq3+4:seq5=seq4+3:seq6=seq5+4
+    zNoMove(n)=1:zNoGrav(n)=1
+    wallLeaveSeq=650
+    wallGrabSeq=450
+    If zFace(n)=2 Then oppDir=4
+    If zFace(n)=4 Then oppDir=2
+    
+    checkDist(n,zx(n),zy(n)-70,oppDir)
+    If xDist(n)>11 Then Goto dontMove
+    
+;---------- Animation -------------
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then zAni(n)=18:zf(n)=6
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then zAni(n)=18:zf(n)=7
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n) < seq3 Then zAni(n)=18:zf(n)=8
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n) < seq4 Then zAni(n)=18:zf(n)=9
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n) < seq5 Then zAni(n)=18:zf(n)=10
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n) < seq6 Then zAni(n)=18:zf(n)=11
+    
+;---------- Movement --------------
+    moveY(n,-2)
+    
+    .dontMove
+    If zBlowSeq(n)=seq6 Then zBlowSeq(n)=seqStart
+    If upKey(n)=0 Then zBlowSeq(n)=wallGrabSeq+15
+    If jumpKey(n)=1 Then zBlowSeq(n)=wallLeaveSeq
+    
+End Function
+
+Function doWallGrab(n)
+    seqStart=450:seq1=seqStart+3:seq2=seq1+3:seq3=seq2+3:seq4=seq3+3:seq5=seq4+3:seq6=seq5+3
+    zNoMove(n)=1:zNoGrav(n)=1
+    wallGrabUpSeq=500
+    wallGrabDownSeq=600
+    wallLeaveSeq=650
+    
+;---------- Animation -------------
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then zAni(n)=18:zf(n)=1
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then zAni(n)=18:zf(n)=2
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n) < seq4 Then zAni(n)=18:zf(n)=3
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n) < seq5 Then zAni(n)=18:zf(n)=4
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n) < seq6 Then zAni(n)=18:zf(n)=5
+
+;---------- Sounds ----------------
+    If zBlowSeq(n)=seqStart And gameSound Then PlaySound grabSnd
+    
+    If upKey(n)=1 Then zBlowSeq(n)=wallGrabUpSeq
+    If downKey(n)=1 Then zBlowSeq(n)=wallGrabDownSeq
+    If jumpKey(n)=1 Then zBlowSeq(n)=wallLeaveSeq
+
+    If zBlowSeq(n)>=seq6 And zBlowSeq(n) < wallGrabUpSeq Then zBlowSeq(n)=seq5
+    
+End Function
+
+Function doJumpToWall(n)
+    seqStart=400
+    seq1=seqStart+3:seq2=seq1+4:seq3=seq2+3:seq4=seq3+4:seq5=seq4+3:seq6=seq5+3:seq7=seq6+4:
+    seq8=seq7+3
+    endSeq=350
+    wallGrabSeq=450
+    zNoMove(n)=1
+    If zFace(n)=2 Then oppDir=4
+    If zFace(n)=4 Then oppDir=2
+;---------- Animation -------------
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then zani(n)=4:zf(n)=6
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then zani(n)=4:zf(n)=7
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n) < seq3 Then zani(n)=4:zf(n)=8
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n) < seq4 Then zani(n)=4:zf(n)=9
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n) < seq5 Then zani(n)=4:zf(n)=10
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n) < seq6 Then zani(n)=4:zf(n)=1
+    If zBlowSeq(n)>=seq6 And zBlowSeq(n) < seq7 Then zani(n)=4:zf(n)=2
+    If zBlowSeq(n)>=seq7 And zBlowSeq(n) < seq8 Then zani(n)=4:zf(n)=3
+;---------- Movement --------------
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then moveX(n,oppDir,3):moveY(n,-8)
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then moveX(n,oppDir,3):moveY(n,-8)
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n) < seq3 Then moveX(n,oppDir,3):moveY(n,-6)
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n) < seq4 Then moveX(n,oppDir,3):moveY(n,-4)
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n) < seq5 Then moveX(n,oppDir,3):moveY(n,-3)
+    If zBlowSeq(n)>=seq7 And zBlowSeq(n) < seq6 Then moveX(n,oppDir,3):moveY(n,-2)
+
+;---------- Sounds ----------------
+    If zBlowSeq(n)=seqStart And gameSound Then PlaySound mvcJump1Snd
+
+;---------- Extras ----------------
+    checkDist(n,zx(n),zy(n),oppDir)
+    If xDist(n)<=16 Then 
+        zBlowSeq(n)=wallGrabSeq
+        xGap=11
+        If zFace(n)=2 Then zx(n)=zx(n)-(xDist(n)-xGap)
+        If zFace(n)=4 Then zx(n)=zx(n)+(xDist(n)-xGap)
+    End If
+    
+    If zBlowSeq(n)=seq8 Then zJumpFallSeq(n)=11:zBlowSeq(n)=endSeq
+End Function
+
 ;----------------------------- Make Strider Hiryu's moves! -----------------------------------
 Function DoHiryu(n)
 
@@ -47,84 +182,21 @@ Case 14    ;super ninja stars
     If zBlowSeq(n) => b Then zBlowSeq(n)=0:zBlow(n)=0:
 
 Case 15 ;gaiden throw
-    a=12: b=a+8: c=b+8: d=c+8: e=d+30: f=e+500: g=f+8: h=g+15: i=h+15 
-    If zblowseq(n) > d And zblowseq(n) < g Then ztopSpeed(n)=1 Else zNoMove(n)=1
-    zNoJump(n)=1
-    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=15:zf(n)=1
-    If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=15:zf(n)=1
-    If zBlowSeq(n)= a Then
-        If gameSound Then PlaySound blowsnd
-        grabbing(n,zx(n),zy(n)-3,zGrabDist(n),5)
-        If zGrabs(n)=1 Then zBlowSeq(n)=c+4
-    EndIf
-    If zBlowSeq(n)=b Then zBlowSeq(n)=0:zBlow(n)=0
-    en=zGrabsThis(n)
-    If zface(n)=2 Then dir=4:dir2=2:n1=15 Else dir=2:dir2=4:n1=-15
-    If zBlowSeq(n) > c And zBlowSeq(n) < d Then 
-        If shotKey(n)=1 Or grabKey(n)=1 Then
-            zBlowSeq(n)=d
-            zGrabbed(en)=1:zHit(en)=1:zFace(en)=dir
-            zFallTime(en)=40:zHitSeq(en)=0:zhitTime(en)=40
-        Else
-            zBlowSeq(n)=zBlowSeq(n)-1:zx(en)=zx(n)+n1:zy(en)=zy(n)
-            zAni(en)=2:zf(en)=1
-            zGrabbed(en)=1:zHit(en)=1:zFace(en)=dir
-            zAni(n)=15:zf(n)=1
-            If shotKey(en)=1 Or specialKey(en)=1 Then zLetGoSeq(en)=zLetGoSeq(en)+1
-            If Blockkey(n)=1 Or zLetGoSeq(en) > zLetGoAmount(en) Then
-                zhit(en)=0:zgrabbedby(en)=0:zgrabbed(en)=0
-                zHitTime(en)=0:zFallTime(en)=0zHitSeq(en)=0
-                zgrabsThis(n)=0
-                zgrabs(n)=0
-                zBlowSeq(n)=i
-            EndIf
-        EndIf
-    EndIf
-    If zblowseq(n) = d+1 And gameSound Then PlaySound hayabusaSnd
+    jumpToWallSeq=400
+    wallGrabSeq=450
+    wallGrabUpSeq=500
+    wallGrabDownSeq=600
+    wallLeaveSeq=650
+    endSeq=350
     
-    If zBlowSeq(n) > d And zBlowSeq(n) < g Then zshield(n)=1    
-    If zhithead(n) And zblowseq(n) < f Then zblowseq(n)=e
-    If zBlowSeq(n) => d And zBlowSeq(n) < e Then zy(n)=zy(n)-8
-    If zBlowSeq(n) > e And zblowSeq(n) < g And zongnd(n)=1 Then zBlowseq(n)=g
+    If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=jumpToWallSeq:downKeyDoubleTap(n)=0
+    If zBlowSeq(n) >= jumpToWallSeq And zBlowSeq(n) < wallGrabSeq Then doJumpToWall(n)
+    If zBlowSeq(n) >= wallGrabSeq And zBlowSeq(n) < wallGrabUpSeq Then doWallGrab(n)
+    If zBlowSeq(n) >= wallGrabUpSeq And zBlowSeq(n) < wallGrabDownSeq Then doScaleWallUp(n)
+    If zBlowSeq(n) >= wallGrabDownSeq And zBlowSeq(n) < wallLeaveSeq Then doScaleWallDown(n)
+    If zBlowSeq(n) >= wallLeaveSeq Then doWallLeave(n)
     
-    If zBlowSeq(n) => d And zBlowSeq(n) < e Then zani(n)=15:zf(n)=2:zx(en)=zx(n)+n1:zy(en)=zy(n):zAni(en)=2:zf(en)=1:zface(en)=dir
-    If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=15:zf(n)=3:zx(en)=zx(n)+n1:zy(en)=zy(n):zAni(en)=2:zf(en)=6:zface(en)=dir:zy(n)=zy(n)+1
-    If zBlowSeq(n) = g  Then
-        zx(en)=zx(n)+0:zy(en)=zy(n)
-        zHitmodeTaken(en)=2 : zHit(en)=1:zBouncedGnd(en)=0
-        zFallSpeed(en)=5:zUpFallSpeed(en)=5:zFallTime(en)=55:zHitSeq(en)=0:zHitHold(en)=15
-        zDamage(en)=zDamage(en)+10
-        zLife(en)=zLife(en)-10
-        zFace(en)=dir : zFallDir(en)=dir2
-        zgrabs(n)=0:zGrabsThis(n)=0:zGrabbedBy(en)=0
-        quake=1:quakeSeq=0
-        makechunk(n,zx(en),zy(en),2,5)
-        If gameSound Then PlaySound mikeKickSnd
-    EndIf
-    
-    If zblowseq(n) > e And zblowseq(n) < f Then
-        zblowPamount(n)=3:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=20:hblow(n,nn)=1 :nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=20:wblow(n,nn)=20:hblow(n,nn)=1 :nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=0:wblow(n,nn)=20:hblow(n,nn)=1 :nn=nn+1
-        zHitMode(n)=2: zBlowHold(n)=8
-        zHitSpeed#(n)=3:zHitUpSpeed#(n)=2:zHitTime(n)=50
-        zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
-        zBlowSound(n)=mikeKickSnd
-        
-        zImune(en,n)=1:zImuneTo(en,n)=n:zImuneSeq(en,n)=0:zImuneTime(en,n)=zEnemyImmuneTime(n)
-    EndIf
-    If zBlowSeq(n) > g And zBlowSeq(n) < h Then zani(n)=15:zf(n)=3
-    If zBlowSeq(n) => h And zBlowSeq(n) < i Then zani(n)=4:zf(n)=1:movex(n,dir,1):zy(n)=zy(n)-5
-    
-    If zBlowSeq(n) > c And zBlowSeq(n) <= g Then
-        zgrabbed(en)=1
-        checkZvsWall(en,1)
-        ;    zx(en) = zx(n): zy(en) = zy(n)
-    EndIf
-
-    If zBlowSeq(n) => i Then zBlowSeq(n)=0:zBlow(n)=0
-
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<jumpToWallSeq Then zBlowSeq(n)=0:zBlow(n)=0
     
 Case 11    ;club
     a=12:b=22:c=29:d=50:e=55
@@ -262,52 +334,55 @@ Case 4    ;Low kick
     If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=9:zf(n)=3
     If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0:zduck(n)=1
 
-Case 5    ;flying sword spin (Up special)
+Case 5    ;Excalibur (Up special)
+    seq1=3:seq2=seq1+3:seq3=seq2+3:seq4=seq3+4
+    seq5=seq4+21
+    endSeq=35
     zNoMove(n)=0
-    ztopspeed(n)=.5
-    zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0 : spinN=6
-    a=4: b=a+3: c=b+3: d=c+3: e=d+3 
-    If zblowseq(n)=1 Then
-        zBlowUpLimit(n)=zy(n)-80
-    EndIf
-    j=2
-    If zBlowSeq2(n) > spinN Then
-        zjump(n)=0:zjumping(n)=1:zNoGrav(n)=0
-        If zongnd(n)=0 Then zani(n)=4:zf(n)=1:ztopSpeed(n)=.5:zNomove(n)=0
-        If zongnd(n)=1 Then zani(n)=4:zf(n)=1
-    Else
-        zantiplat(n)=1
-        If zBlowSeq(n) =2 And zblowstill(n)=0 And gameSound Then PlaySound shurikenSnd
-        If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=5:zf(n)=1:moveX(n,zBlowdir(n),1):zy(n)=zy(n)-j
-        
-        If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=7:zf(n)=1
-        If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=7:zf(n)=2
-        If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=7:zf(n)=3
-        If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=7:zf(n)=4
-        
-        If zBlowSeq(n) => a And zBlowSeq(n) =< e And zblowStill(n)=0 Then moveX(n,zBlowdir(n),1):zy(n)=zy(n)-j
-        
-        If (zf(n)=1 Or zf(n)=4 Or zf(n)=3) And (zblowseq(n) =>a And zblowseq(n) =< e) Then
-          If zf(n)=1 Then
-            zblowPamount(n)=4:nn=1
-          Else
-            zblowPamount(n)=5:nn=1
-            xblow(n,nn)=-3: yblow(n,nn)=44:wblow(n,nn)=7:hblow(n,nn)=1:nn=nn+1
-          EndIf
-            xblow(n,nn)=0: yblow(n,nn)=37:wblow(n,nn)=13:hblow(n,nn)=1:nn=nn+1
-            xblow(n,nn)=0: yblow(n,nn)=28:wblow(n,nn)=21:hblow(n,nn)=1:nn=nn+1
-            xblow(n,nn)=0: yblow(n,nn)=20:wblow(n,nn)=29:hblow(n,nn)=1:nn=nn+1
-            xblow(n,nn)=0: yblow(n,nn)=10:wblow(n,nn)=34:hblow(n,nn)=1:nn=nn+1
-            zHitmode(n)=2:zBlowHold(n)=4
-            zHitSpeed#(n)=2:zHitUpSpeed#(n)=3:zHitTime(n)=45
-            zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=10:zBlowStillTime(n)=5:zBlowBlockTime(n)=20
-            zBlowSound(n)=SlashSnd
-        EndIf
-        If zblowseq(n) => e Then zblowseq(n) = a : zblowseq2(n)=zblowseq2(n)+1
-    EndIf
+    ztopspeed(n)=1
+    zNoJump(n)=1:zJumping(n)=0:zjump(n)=0
+    zNoGrav(n)=1
     
-    If zy(n) < zBlowupLimit(n) Or zHitHead(n)=1 Then zblowseq2(n) = 99:zblowuplimit(n)=-9999
-    If zongnd(n)=1 And zBlowSeq2(n) > spinN Then zBlowSeq(n)=0:zBlowSeq2(n)=0:zBlow(n)=0:zblowstill(n)=0
+;---------- Animation ----------
+    If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zani(n)=7:zf(n)=1
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=7:zf(n)=2
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=7:zf(n)=3
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=7:zf(n)=4
+    If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then 
+        If zBlowSeq(n) Mod 3=0 Then
+            If zf(n)=5 Then 
+                zf(n)=6 
+            Else If zf(n)=6 Then 
+                zf(n)=7
+            Else
+                zf(n)=5
+            End If
+        End If
+        moveX(n,zBlowdir(n),2):zantiplat(n)=1
+        If zHitHead(n)=0 Then moveY(n,-5)
+    End If
+    
+    If zBlowSeq(n) >= endSeq Then
+        zNoGrav(n)=0:ztopSpeed(n)=1:zNomove(n)=0
+        zani(n)=4
+        If zBlowSeq(n) Mod 3 = 0 Then
+            If zf(n)=4 Then 
+                zf(n)=5
+            Else If zf(n)=5 Then 
+                zf(n)=4
+            Else
+                zf(n)=4
+            End If
+        End If
+    End If
+    
+;---------- Sounds -------------
+    If zBlowSeq(n)=seq4 And gameSound Then PlaySound hiryuGrunt1Snd
+    If zBlowSeq(n)=seq4 And gameSound Then PlaySound mvcJump3Snd
+    
+    If zongnd(n)=1 And zBlowSeq(n) >= endSeq-2 Then 
+        zBlowSeq(n)=0:zBlowSeq2(n)=0:zBlow(n)=0:zblowstill(n)=0
+    End If
     
 Case 6    ;throwing iten
     a=2:b=3:c=6:d=8
@@ -347,13 +422,13 @@ Case 8    ;Dodging
     zNoJump(n)=1
     a=5:b=10:c=15:d=20:e=25:f=30:g=35
     If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
-    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=1
-    If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),2)
-    If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=3:moveX(n,zBlowdir(n),3)
-    If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=5:zf(n)=4:moveX(n,zBlowdir(n),3)
-    If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=5:zf(n)=5:moveX(n,zBlowdir(n),1)
-    If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=5:zf(n)=6:moveX(n,zBlowdir(n),1)
-    If zBlowSeq(n) > f And zBlowSeq(n) =< g Then zani(n)=5:zf(n)=7:moveX(n,zBlowdir(n),1)
+    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=8
+    If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=9:moveX(n,zBlowdir(n),2)
+    If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=10:moveX(n,zBlowdir(n),3)
+    If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=5:zf(n)=11:moveX(n,zBlowdir(n),3)
+    If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=5:zf(n)=12:moveX(n,zBlowdir(n),1)
+    If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=5:zf(n)=13:moveX(n,zBlowdir(n),1)
+    If zBlowSeq(n) > f And zBlowSeq(n) =< g Then zani(n)=5:zf(n)=14:moveX(n,zBlowdir(n),1)
 
     If zblowseq(n) > a And zblowseq(n) <= f Then zshield(n)=1
     If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0

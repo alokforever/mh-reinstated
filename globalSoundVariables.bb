@@ -218,5 +218,5 @@ Global piccoloBuukuKyakuSnd, piccoloKutabare1Snd, piccoloKutabare2Snd
 Global piccoloKiCtrlSnd, piccoloMakuuSnd, piccoloMakkankousappouSnd
 Global piccoloGohanSnd, piccoloGohanHaSnd, piccoloGohanYahaSnd
 
-Global hiryuRunEndSnd
-Global hiryuRunStartSnd
+Global hiryuRunEndSnd, hiryuRunStartSnd
+Global hiryuGrunt1Snd, hiryuGrunt2Snd

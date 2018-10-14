@@ -1164,12 +1164,8 @@ If scrollMap=1 Then
         If zamountPlaying > 1 Then    ; more players
             If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = xScr+2:Goto XscrMoved
             If zx(n) < xscr+200 And zRight=0 Then moved=1:zRight=1:xScr = xScr-2:Goto XscrMoved
-;            If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = Int(zx(n)-440):Goto XscrMoved
-;            If zx(n) < xscr+200 And zRight=0 Then moved=1:zRight=1:xScr = Int(zx(n)-200):Goto xscrMoved
             .XscrMoved
             
-;            If zy(n) > yScr+400 And zTop=0 Then moved=1:zTop=1:yScr = Int(yScr+zGravity(n)):Goto yscrMoved
-;            If zy(n) < yScr+200 And zDown=0 Then moved=1:zDown=1:yScr = Int(yScr-zGravity(n)):Goto yscrMoved
             If zy(n) > yScr+405 And zTop=0 Then moved=1:zTop=1:yScr = yScr+3:Goto yscrMoved
             If zy(n) < yScr+205 And zDown=0 Then moved=1:zDown=1:yScr = yScr-3 :Goto yscrMoved
             .yscrMoved

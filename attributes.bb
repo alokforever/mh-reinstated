@@ -3670,7 +3670,7 @@ For i=2 To 20
     zPic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
 Next
 
-For i=1 To 7
+For i=1 To 15
     zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")
     zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
 Next
@@ -4019,6 +4019,8 @@ If n=6 Then ;Strider Hiryu
     If hiryuRunStartSnd=0 Then hiryuRunStartSnd=LoadSound(soundsdir$ + "hiryu\hiryuRunStartSnd.wav")
     If hiryuRunEndSnd=0 Then hiryuRunEndSnd=LoadSound(soundsdir$ + "juggernaut\juggDash.wav")
     If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "hiryu\hiryuFootSnd.wav")
+    If hiryuGrunt1Snd=0 Then hiryuGrunt1Snd=LoadSound(soundsdir$ + "hiryu\hiryuGrunt1Snd.wav")
+    If hiryuGrunt2Snd=0 Then hiryuGrunt2Snd=LoadSound(soundsdir$ + "hiryu\hiryuGrunt2Snd.wav")
 EndIf
 
 If n=5 Then

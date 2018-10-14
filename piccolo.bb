@@ -1232,7 +1232,7 @@ Case 5    ;UP + SPECIAL (jumping knee lift)
         zani(n)=7:zf(n)=9:zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
     End If
     
-    If zongnd(n)=1 And zBlowSeq(n) => i-2 Then 
+    If zongnd(n)=1 And zBlowSeq(n) >= i-2 Then 
         zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     End If
     
