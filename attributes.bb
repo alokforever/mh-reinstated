@@ -2993,6 +2993,17 @@ Case 139:       ;Excalibur Up
     If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(109,4):chunkPic_(n)=ptPic_(109,4)
     If chunkSeq(n)>seq4 Then chunk(n)=0
     
+Case 140:       ;Excalibur Mid
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2
+    isChunkRenderLowPrio(n)=1
+    chunkFollowOwner(n)=1
+
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(110,1):chunkPic_(n)=ptPic_(110,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(110,2):chunkPic_(n)=ptPic_(110,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(110,3):chunkPic_(n)=ptPic_(110,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(110,4):chunkPic_(n)=ptPic_(110,4)
+    If chunkSeq(n)>seq4 Then chunk(n)=0
+
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

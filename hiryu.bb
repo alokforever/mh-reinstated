@@ -133,6 +133,78 @@ Function doJumpToWall(n)
     If zBlowSeq(n)=seq8 Then zJumpFallSeq(n)=11:zBlowSeq(n)=endSeq
 End Function
 
+Function doMidExcalibur(n)
+    seqStart=200:endSeq=35
+    seq1=seqStart+21
+    
+;---------- Animation ----------
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<=seq1 Then 
+        If zBlowSeq(n) Mod 7 = 0 Then extraObj(n,zx(n),-45,zy(n),20,zFace(n),140)
+        If zBlowSeq(n) Mod 3=0 Then
+            zani(n)=7
+            If zf(n)=11 Then 
+                zf(n)=12 
+            Else If zf(n)=12 Then 
+                zf(n)=13
+            Else
+                zf(n)=11
+            End If
+        End If
+        moveX(n,zBlowdir(n),5):zantiplat(n)=1
+        If zHitHead(n)=0 Then moveY(n,-2)
+        
+;--------- Hit box ------------
+        zblowPamount(n)=4:nn=1:zBlowBack(n)=1
+        xblow(n,nn)=-10: yblow(n,nn)=48:wblow(n,nn)=33:hblow(n,nn)=18:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=15:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=0:wblow(n,nn)=33:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=2:zBlowHold(n)=4:zBlowStillTime(n)=1
+        zHitSpeed#(n)=5:zHitUpSpeed#(n)=2.5:zHitDownSpeed#(n)=0:zHitTime(n)=50
+        zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=9:zBlowBlockTime(n)=40
+        zBlowSound(n)=hiryuSlashSnd
+    End If
+    
+    If zBlowSeq(n)>seq1 Then zBlowSeq(n)=endSeq
+
+End Function
+
+Function doHighExcalibur(n)
+    seqStart=13:seq1=seqStart+21
+    endSeq=35
+    
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then 
+        If zBlowSeq(n) Mod 7 = 0 Then extraObj(n,zx(n),-15,zy(n),50,zFace(n),139)
+        If zBlowSeq(n) Mod 3=0 Then
+            If zf(n)=5 Then 
+                zf(n)=6 
+            Else If zf(n)=6 Then 
+                zf(n)=7
+            Else
+                zf(n)=5
+            End If
+        End If
+        moveX(n,zBlowdir(n),2):zantiplat(n)=1
+        If zHitHead(n)=0 Then moveY(n,-5)
+        
+;--------- Hit box ------------
+        zblowPamount(n)=4:nn=1:zBlowBack(n)=1
+        xblow(n,nn)=-10: yblow(n,nn)=48:wblow(n,nn)=33:hblow(n,nn)=18:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=15:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=-10: yblow(n,nn)=0:wblow(n,nn)=33:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=2:zBlowHold(n)=4:zBlowStillTime(n)=1
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
+        zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=9:zBlowBlockTime(n)=40
+        zBlowSound(n)=hiryuSlashSnd
+    End If
+    
+;---------- Sounds -------------
+    If zBlowSeq(n)=seq4 And gameSound Then PlaySound hiryuGrunt1Snd
+    If zBlowSeq(n)=seq4 And gameSound Then PlaySound mvcJump3Snd    
+
+End Function
+
 ;----------------------------- Make Strider Hiryu's moves! -----------------------------------
 Function DoHiryu(n)
 
@@ -166,9 +238,9 @@ Case 14    ;super ninja stars
     If zBlowSeq(n) = 1 Then zSuperMove(n)=1:zSuperMoveSeq(n)=0:zBlowSeq2(n)=0
     If zBlowSeq2(n) => spin Then zBlowSeq(n)=b
     If zBlowSeq(n) = b-1 Then
-        zBlowseq(n)=1
+        zBlowSeq(n)=1
         If zface(n)=2 Then zBlowDir(n)=4:zface(n)=4 Else zBlowDir(n)=2:zface(n)=2
-        zblowseq2(n)=zblowseq2(n)+1
+        zBlowSeq2(n)=zBlowSeq2(n)+1
         If gameSound=1 Then PlaySound shurikenSnd
     EndIf
     If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
@@ -231,7 +303,7 @@ Case 12    ;Shooting Position
     zNoMove(n)=1:zNoJump(n)=1
     extraDraw(n)=1:drawObjOnZ(n)=0
     a=8:b=22:c=28
-    If zblowSeq(n) =1 Then
+    If zBlowSeq(n) =1 Then
         If shotsfired(zgotobj(n)) < objAmmo(zgotobj(n)) Then    
             shotsfired(zgotobj(n))=shotsfired(zgotobj(n))+1
             If gameSound Then PlaySound shotFireSound(n)
@@ -312,7 +384,7 @@ Case 2    ;Flying Kick
         zani(n)=8:zf(n)=2
     EndIf
     If zBlowSeq(n) > b Then zBlowSeq(n)=0:zBlow(n)=0:zBlowStill(n)=0
-    If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zblowseq(n)=0
+    If zongnd(n)=1 And zBlowStill(n)=0 Then zBlow(n)=0:zBlowSeq(n)=0
 
 Case 4    ;Low kick
     zNoMove(n)=1:zNoJump(n)=1
@@ -336,45 +408,26 @@ Case 4    ;Low kick
 
 Case 5    ;Excalibur (Up special)
     seq1=3:seq2=seq1+3:seq3=seq2+3:seq4=seq3+4
-    seq5=seq4+21
+    midExcalibSeq=200
     endSeq=35
     zNoMove(n)=0
     ztopspeed(n)=1
     zNoJump(n)=1:zJumping(n)=0:zjump(n)=0
     zNoGrav(n)=1
     
+    If zBlowSeq(n)=seq4 And (leftKey(n)=1 Or rightKey(n)=1) Then zBlowSeq(n)=midExcalibSeq
+    
+    If zBlowSeq(n) > seq4 Then
+        If zBlowSeq(n)>= midExcalibSeq Then doMidExcalibur(n) Else doHighExcalibur(n)
+    End If
+    
 ;---------- Animation ----------
     If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zani(n)=7:zf(n)=1
     If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=7:zf(n)=2
     If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=7:zf(n)=3
     If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=7:zf(n)=4
-    If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then 
-        If zBlowSeq(n) Mod 7 = 0 Then extraObj(n,zx(n),-15,zy(n),50,zFace(n),139)
-        If zBlowSeq(n) Mod 3=0 Then
-            If zf(n)=5 Then 
-                zf(n)=6 
-            Else If zf(n)=6 Then 
-                zf(n)=7
-            Else
-                zf(n)=5
-            End If
-        End If
-        moveX(n,zBlowdir(n),2):zantiplat(n)=1
-        If zHitHead(n)=0 Then moveY(n,-5)
-        
-;--------- Hit box ------------
-        zblowPamount(n)=4:nn=1:zBlowBack(n)=1
-        xblow(n,nn)=-10: yblow(n,nn)=48:wblow(n,nn)=33:hblow(n,nn)=18:nn=nn+1
-        xblow(n,nn)=-10: yblow(n,nn)=30:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
-        xblow(n,nn)=-10: yblow(n,nn)=15:wblow(n,nn)=33:hblow(n,nn)=15:nn=nn+1
-        xblow(n,nn)=-10: yblow(n,nn)=0:wblow(n,nn)=33:hblow(n,nn)=5:nn=nn+1
-        zHitmode(n)=2:zBlowHold(n)=4:zBlowStillTime(n)=1
-        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3.8:zHitDownSpeed#(n)=0:zHitTime(n)=50
-        zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=9:zBlowBlockTime(n)=40
-        zBlowSound(n)=hiryuSlashSnd
-    End If
     
-    If zBlowSeq(n) >= endSeq Then
+    If zBlowSeq(n) >= endSeq And zBlowSeq(n) < midExcalibSeq Then
         zNoGrav(n)=0:ztopSpeed(n)=1:zNomove(n)=0
         zani(n)=4
         If zBlowSeq(n) Mod 3 = 0 Then
@@ -385,14 +438,18 @@ Case 5    ;Excalibur (Up special)
             Else
                 zf(n)=4
             End If
+        Else
+            zf(n)=4
         End If
     End If
     
 ;---------- Sounds -------------
-    If zBlowSeq(n)=seq4 And gameSound Then PlaySound hiryuGrunt1Snd
-    If zBlowSeq(n)=seq4 And gameSound Then PlaySound mvcJump3Snd
+    If zBlowSeq(n)=seq4-1 And gameSound Then PlaySound hiryuGrunt1Snd
+    If zBlowSeq(n)=seq4-1 And gameSound Then PlaySound mvcJump3Snd
     
-    If zongnd(n)=1 And zBlowSeq(n) >= endSeq-2 Then 
+    If zBlowSeq(n) >= 190 And zBlowSeq(n) < midExcalibSeq Then zBlowSeq(n)=endSeq
+    
+    If zongnd(n)=1 And zBlowSeq(n) >= endSeq-2 And zBlowSeq(n) < midExcalibSeq Then 
         zBlowSeq(n)=0:zBlowSeq2(n)=0:zBlow(n)=0:zblowstill(n)=0
     End If
     
@@ -442,7 +499,7 @@ Case 8    ;Dodging
     If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=5:zf(n)=13:moveX(n,zBlowdir(n),1)
     If zBlowSeq(n) > f And zBlowSeq(n) =< g Then zani(n)=5:zf(n)=14:moveX(n,zBlowdir(n),1)
 
-    If zblowseq(n) > a And zblowseq(n) <= f Then zshield(n)=1
+    If zBlowSeq(n) > a And zBlowSeq(n) <= f Then zshield(n)=1
     If zBlowSeq(n) > g Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0
 
 Case 9    ;sword flipping jump (down special)
