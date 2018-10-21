@@ -248,15 +248,15 @@ Function doForwardSlash(n)
 ;------------ Sounds ---------------
     If gameSound Then
         If (zBlowSeq(n)=seq4 Or zBlowSeq(n)=seq6) Then PlaySound zRunFootSound(n)
-        If zBlowSeq(n)=seq11-1 Then PlaySound hiryuGrunt3Snd
-        If zBlowSeq(n)=seq11-1 Then PlaySound hiryuSwordSnd
+        If zBlowSeq(n)=seq10-1 Then PlaySound hiryuGrunt3Snd
+        If zBlowSeq(n)=seq10-1 Then PlaySound hiryuSwordSnd
     End If
     
 ;------------ Movement ---------------
     If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq7 Then moveX(n,zBlowdir(n),4)
     
 ;------------- Hitbox ----------------
-    If zBlowSeq(n)>=seq11 And zBlowSeq(n)<seq13 Then
+    If zBlowSeq(n)>=seq10 And zBlowSeq(n)<seq13 Then
         zblowPamount(n)=12:nn=1
         xblow(n,nn)=0: yblow(n,nn)=53:wblow(n,nn)=50:hblow(n,nn)=1:nn=nn+1
         xblow(n,nn)=0: yblow(n,nn)=45:wblow(n,nn)=50:hblow(n,nn)=1:nn=nn+1
@@ -271,11 +271,11 @@ Function doForwardSlash(n)
         xblow(n,nn)=50: yblow(n,nn)=21:wblow(n,nn)=50:hblow(n,nn)=1:nn=nn+1
         xblow(n,nn)=50: yblow(n,nn)=13:wblow(n,nn)=50:hblow(n,nn)=1:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=8
-        zBlowDamage(n)=17:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
         zBlowSound(n)=slashSnd:zchunkType(n)=95
     EndIf
     
-    If zBlowSeq(n)=seq10 Then extraObj(n,zx(n),30,zy(n),10,zFace(n),141)
+    If zBlowSeq(n)=seq10-1 Then extraObj(n,zx(n),30,zy(n),10,zFace(n),141)
     
     If zBlowSeq(n)>=seq19 Then zBlowSeq(n)=endSeq
 End Function
