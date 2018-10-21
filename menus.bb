@@ -281,13 +281,14 @@ pri priW(strInfo$(36)),75, strInfo$(36)
 If checkWhatsOpen()=1 Then pri 100,100, strInfo$(61)
 
 pri 100,125, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
-x=100:y=175
+x=100:y=175:xOffset=0
 For i=1 To 4
- If zwason(i)=1 Then
-  drawimage zPic(curGuy(i),1,0),x-40,y-10
-  pri x,y, strInfo$(38) + zGotHitsAmount(i)
-  If zGotHitsAmount(i)=0 Then pri x+230,y,strInfo$(39)
-  y=y+50
+  If curGuy(i)=6 Then xOffset=20 Else xOffset=0
+  If zwason(i)=1 Then
+    drawimage zPic(curGuy(i),1,0),x-(40+xOffset),y-10
+    pri x,y, strInfo$(38) + zGotHitsAmount(i)
+    If zGotHitsAmount(i)=0 Then pri x+230,y,strInfo$(39)
+    y=y+50
  EndIf
 Next
 
@@ -334,10 +335,11 @@ Else
     End Select
 EndIf
 DebugLog "START"
-x=100:y=175
+x=100:y=175:xOffset=0
 For i=1 To 4
+ If curGuy(i)=6 Then xOffset=20 Else xOffset=0
  If zwason(i)=1 Then
-  DrawImage zPic(curGuy(i),1,0),x-40,y-10
+  DrawImage zPic(curGuy(i),1,0),x-(40+xOffset),y-10
   pri x,y, strInfo$(38) + zGotHitsAmount(i)
   If zGotHitsAmount(i)=0 Then pri x+230,y,strInfo$(39)
   y=y+50
@@ -885,7 +887,8 @@ For b=55 To 58  ;team, selected player
             pri xbut(b)+5,ybut(b)+3,strInfo$(31)
         EndIf
     EndIf
-    If CurGuy(n) > 0 And zon(n) > 0 Then DrawImage butpic2(CurGuy(n)),xbut(b)+25,350-ImageHeight(butpic2(curGuy(n)))
+    If curGuy(n)=6 Then xOffset=10 Else xOffset=25
+    If CurGuy(n) > 0 And zon(n) > 0 Then DrawImage butpic2(CurGuy(n)),xbut(b)+xOffset,350-ImageHeight(butpic2(curGuy(n)))
 Next
 
 n=0

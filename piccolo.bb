@@ -1,3 +1,13 @@
+Function playPiccoloCooldownSnd(n)
+    cdSeed=Rand(2)
+    If cdSeed=1 And gameSound And zAI(n)=0 Then 
+        PlaySound piccoloCooldown1Snd
+    Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+        PlaySound piccoloCooldown2Snd
+    End If
+    If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+End Function
+
 Function doSonicSlash(n)
     startSeq=1000:seq1=startSeq+3:seq2=seq1+3:seq3=seq2+3:
     seq4=seq3+14:seq5=seq4+5:seq6=seq5+15:seq7=seq6+5:seq8=seq7+3
@@ -795,7 +805,7 @@ Function doGohanCounter(n)
     If zBlowSeq(n)=1 And zSuperBar(n) < 15 Then zBlowSeq(n)=0:zBlow(n)=0
     
     If zBlowSeq(n)=seqStart+1 And spellCooldownSeq(n, 2) > 0 Then
-        If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+        playPiccoloCooldownSnd(n)
         zBlowSeq(n)=0:zBlow(n)=0
     End If
 
@@ -1301,7 +1311,7 @@ Case 9    ; Kaikousen (down special) / BuukuKyaku
     If zBlowSeq(n) >= a3 Then doBuukuKyaku2(n)
     If zBlowSeq(n) <= l Then
         If zBlowSeq(n)=1 And spellCooldownSeq(n, 1) > 0 Then
-            If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+            playPiccoloCooldownSnd(n)
             zBlowSeq(n)=0:zBlow(n)=0
         End If
 ;------------ Animation ------------

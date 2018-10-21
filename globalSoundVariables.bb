@@ -159,6 +159,7 @@ Global scorpionSkullSnd
 Global scorpionFireballSnd
 Global subZeroWindSnd
 Global scorpionBurnSnd
+Global scorpionCooldown1Snd, scorpionCooldown2Snd
 Global mkFriendShipAgainSnd
 Global wolverineJumpSnd=LoadSound(soundsdir$ + "wolverine\wolverinejump.wav")
 Global wolverineBarrageSnd
@@ -217,6 +218,8 @@ Global piccoloUpSpecialSnd, dbzKneeHitSnd, piccoloFollowUpHitSnd
 Global piccoloBuukuKyakuSnd, piccoloKutabare1Snd, piccoloKutabare2Snd
 Global piccoloKiCtrlSnd, piccoloMakuuSnd, piccoloMakkankousappouSnd
 Global piccoloGohanSnd, piccoloGohanHaSnd, piccoloGohanYahaSnd
+Global piccoloCooldown1Snd, piccoloCooldown2Snd
 
 Global hiryuRunEndSnd, hiryuRunStartSnd, hiryuDieSnd
 Global hiryuGrunt1Snd, hiryuGrunt2Snd, hiryuSlashSnd
+Global hiryuCooldown1Snd, hiryuCooldown2Snd

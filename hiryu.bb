@@ -1,3 +1,13 @@
+Function playHiryuCooldownSnd(n)
+    cdSeed=Rand(2)
+    If cdSeed=1 And gameSound And zAI(n)=0 Then 
+        PlaySound hiryuCooldown1Snd
+    Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+        PlaySound hiryuCooldown2Snd
+    End If
+    If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+End Function
+
 Function doWallLeave(n)
     seqStart=650:seq1=seqStart+3:seq2=seq1+3:seq3=seq2+3
     endSeq=350
@@ -136,6 +146,11 @@ End Function
 Function doMidExcalibur(n)
     seqStart=200:endSeq=35
     seq1=seqStart+21
+    
+    If zBlowSeq(n)=seqStart+1 Then
+        spellCooldownMaxTime(n, 1)=100
+        spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1) 
+    End If
     
 ;---------- Animation ----------
     If zBlowSeq(n)>=seqStart And zBlowSeq(n)<=seq1 Then 
@@ -415,7 +430,14 @@ Case 5    ;Excalibur (Up special)
     zNoJump(n)=1:zJumping(n)=0:zjump(n)=0
     zNoGrav(n)=1
     
-    If zBlowSeq(n)=seq4 And (leftKey(n)=1 Or rightKey(n)=1) Then zBlowSeq(n)=midExcalibSeq
+    If zBlowSeq(n)=seq4 And (leftKey(n)=1 Or rightKey(n)=1) Then 
+        If spellCooldownSeq(n, 1) > 0 Then
+            playHiryuCooldownSnd(n)
+            zBlowSeq(n)=0:zBlow(n)=0
+        Else
+            zBlowSeq(n)=midExcalibSeq
+        End If
+    End If
     
     If zBlowSeq(n) > seq4 Then
         If zBlowSeq(n)>= midExcalibSeq Then doMidExcalibur(n) Else doHighExcalibur(n)
@@ -429,6 +451,7 @@ Case 5    ;Excalibur (Up special)
     
     If zBlowSeq(n) >= endSeq And zBlowSeq(n) < midExcalibSeq Then
         zNoGrav(n)=0:ztopSpeed(n)=1:zNomove(n)=0
+        If zBlowSeq(n)=endSeq Then zf(n)=4
         zani(n)=4
         If zBlowSeq(n) Mod 3 = 0 Then
             If zf(n)=4 Then 
@@ -438,8 +461,6 @@ Case 5    ;Excalibur (Up special)
             Else
                 zf(n)=4
             End If
-        Else
-            zf(n)=4
         End If
     End If
     

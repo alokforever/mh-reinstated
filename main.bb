@@ -252,6 +252,7 @@ Global timerDir$="gfx\stuff\timer"
 Global cdDir$="gfx\stuff\cd"
 
 ;Cooldown Icons
+cooldownPic(6, 1)=LoadImage(gfxdir$ + "\cooldown\cd6_1.bmp")
 cooldownPic(11, 1)=LoadImage(gfxdir$ + "\cooldown\cd11_1.bmp")
 cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
 cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
@@ -2301,7 +2302,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    DebugLog "zani: " + zani(n) + ", zf: " + zf(n)
+    ;DebugLog "zani: " + zani(n) + ", zf: " + zf(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test

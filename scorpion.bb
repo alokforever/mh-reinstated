@@ -266,6 +266,16 @@ Function doScorpionUpFlyKick(n)
     
 End Function
 
+Function playScorpionCooldownSnd(n)
+    cdSeed=Rand(2)
+    If cdSeed=1 And gameSound And zAI(n)=0 Then 
+        PlaySound scorpionCooldown1Snd
+    Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+        PlaySound scorpionCooldown2Snd
+    End If
+    If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+End Function
+
 Function DoScorpion(n)
 
 If zBlowSeq(n)=0 Then clearControlledPlayers(n)
@@ -462,7 +472,7 @@ Case 7    ;Scorpion Spear
     If zBlowSeq(n) < c And shot(zMyShot(n))=1 Then zNoGrav(n)=0 
     If zBlowSeq(n) = 1 And shot(zMyShot(n))=0 Then zControlsThis(n)=0
     If zBlowSeq(n)=1 And spellCooldownSeq(n, 1) > 0 Then
-        If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+        playScorpionCooldownSnd(n)
         zBlowSeq(n)=0:zBlow(n)=0
     End If
 
@@ -533,7 +543,7 @@ Case 7    ;Scorpion Spear
         checkYDist(en,zx(en),zy(en),2)
         zy(en) = zy(n)
         If zHeight(zControlsThis(n)) <= 40 Then zy(zControlsThis(n))=zy(n)-20
-        y=zy(n)-zheight(n)+7
+        y=zy(n)-zheight(n)+15
         If zBlowSeq(n) >= e+2 Then
             If zface(n)=2 Then 
                 x=zx(n)+14
@@ -604,7 +614,7 @@ Case 9    ;Teleport punch
     a=2:b=2:c=6:d=9:e=13:f=21:g=f+15:h=g+8:i=100:j=i+24
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zBlowSeq(n)=1 And spellCooldownSeq(n, 2) > 0 Then
-        If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+        playScorpionCooldownSnd(n)
         zBlowSeq(n)=0:zBlow(n)=0
     End If
 

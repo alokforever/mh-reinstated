@@ -75,7 +75,7 @@ zBlocked(n)=0: aiGetTarget(n):
     superPicNum(n)=1
     electrocuteFrames(n)=0
     electrocuteFrameSpd(n)=0
-    maxHitSeq(n)=0
+    maxHitSeq(n)=65
     zBouncedGndFrames(n)=0
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
@@ -3909,6 +3909,8 @@ If n=16 Then ;Piccolo
     If piccoloGohanSnd=0 Then piccoloGohanSnd=LoadSound(soundsDir$ + "piccolo\piccoloGohanSnd.wav")
     If piccoloGohanHaSnd=0 Then piccoloGohanHaSnd=LoadSound(soundsDir$ + "piccolo\piccoloGohanHaSnd.wav")
     If piccoloGohanYahaSnd=0 Then piccoloGohanYahaSnd=LoadSound(soundsDir$ + "piccolo\piccoloGohanYahaSnd.wav")
+    If piccoloCooldown1Snd=0 Then piccoloCooldown1Snd=LoadSound(soundsDir$ + "piccolo\piccoloCooldown1Snd.mp3")
+    If piccoloCooldown2Snd=0 Then piccoloCooldown2Snd=LoadSound(soundsDir$ + "piccolo\piccoloCooldown2Snd.mp3")
 End If
 
 If n=15 Then ;Juggernaut
@@ -3981,6 +3983,8 @@ If n=12 Then    ;Scorpion
     If scorpionBurnSnd=0 Then scorpionBurnSnd=LoadSound(soundsdir$ + "scorpion\scorpionBurn.mp3")
     If scorpionSkullSnd=0 Then scorpionSkullSnd=LoadSound(soundsdir$ + "scorpion\scorpionSkull.mp3")
     If scorpionFireballSnd=0 Then scorpionFireballSnd=LoadSound(soundsdir$ + "scorpion\scorpionFireBall.mp3")
+    If scorpionCooldown1Snd=0 Then scorpionCooldown1Snd=LoadSound(soundsdir$ + "scorpion\scorpionCooldown1Snd.mp3")
+    If scorpionCooldown2Snd=0 Then scorpionCooldown2Snd=LoadSound(soundsdir$ + "scorpion\scorpionCooldown2Snd.mp3")
 EndIf
 
 If n=11 Then
@@ -4045,6 +4049,8 @@ If n=6 Then ;Strider Hiryu
     If hiryuGrunt2Snd=0 Then hiryuGrunt2Snd=LoadSound(soundsdir$ + "hiryu\hiryuGrunt2Snd.wav")
     If hiryuSlashSnd=0 Then hiryuSlashSnd=LoadSound(soundsdir$ + "hiryu\hiryuSlashSnd.wav")
     If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "hiryu\hiryuDieSnd.wav")
+    If hiryuCooldown1Snd=0 Then hiryuCooldown1Snd=LoadSound(soundsdir$ + "hiryu\hiryuCooldown1Snd.mp3")
+    If hiryuCooldown2Snd=0 Then hiryuCooldown2Snd=LoadSound(soundsdir$ + "hiryu\hiryuCooldown2Snd.mp3")
 EndIf
 
 If n=5 Then
