@@ -221,5 +221,6 @@ Global piccoloGohanSnd, piccoloGohanHaSnd, piccoloGohanYahaSnd
 Global piccoloCooldown1Snd, piccoloCooldown2Snd
 
 Global hiryuRunEndSnd, hiryuRunStartSnd, hiryuDieSnd
-Global hiryuGrunt1Snd, hiryuGrunt2Snd, hiryuSlashSnd
+Global hiryuGrunt1Snd, hiryuGrunt2Snd, hiryuGrunt3Snd
 Global hiryuCooldown1Snd, hiryuCooldown2Snd
+Global hiryuSwordSnd, hiryuSlashSnd

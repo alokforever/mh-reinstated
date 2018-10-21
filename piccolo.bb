@@ -745,11 +745,11 @@ Function doMakankousappou(n)
         If zBlowSeq(n) < seq22-15 Then hm=2 Else hm=0
         
         If zface(n)=2 Then
-            makeRectHit(n,zx(n)+61,zy(n)-32,xDist(n),7,zFace(n),hm,2,.5,14,6,96,dbzPierceSnd)
+            makeRectHit(n,zx(n)+61,zy(n)-32,xDist(n),7,zFace(n),hm,2,.5,14,6,95,dbzPierceSnd)
             If zBlowSeq(n) Mod 24=0 Then makeChunk(n,zx(n) + xDist(n)-5, zy(n)-24,2,122)
             makechunk(n,zx(n)+53,zy(n)-32,zFace(n),132)
         Else
-            makeRectHit(n,zx(n)-(xDist(n)+61),zy(n)-32,xDist(n),7,zFace(n),hm,2,.5,14,6,96,dbzPierceSnd)
+            makeRectHit(n,zx(n)-(xDist(n)+61),zy(n)-32,xDist(n),7,zFace(n),hm,2,.5,14,6,95,dbzPierceSnd)
             If zBlowSeq(n) Mod 24=0 Then makeChunk(n,zx(n) - xDist(n)-5, zy(n)-24,4,122)
             makechunk(n,zx(n)-53,zy(n)-32,zFace(n),132)
         EndIf
