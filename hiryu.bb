@@ -12,12 +12,14 @@ Function doWallLeave(n)
     seqStart=650:seq1=seqStart+3:seq2=seq1+3:seq3=seq2+3
     endSeq=350
     zNoMove(n)=1:zNoGrav(n)=1
+    If zFace(n)=2 Then oppDir=4
+    If zFace(n)=4 Then oppDir=2
     
     If zBlowSeq(n)>=seqStart And zBlowSeq(n) < seq1 Then zAni(n)=18:zf(n)=3
     If zBlowSeq(n)>=seq1 And zBlowSeq(n) < seq2 Then zAni(n)=18:zf(n)=2
     If zBlowSeq(n)>=seq2 And zBlowSeq(n) < seq3 Then zAni(n)=18:zf(n)=1
     
-    If zBlowSeq(n)=seq3 Then zBlowSeq(n)=endSeq
+    If zBlowSeq(n)=seq3 Then zFace(n)=oppDir:zBlowSeq(n)=endSeq
     
 End Function
 
@@ -625,7 +627,7 @@ Case 15 ;gaiden throw
     wallLeaveSeq=650
     endSeq=350
     
-    If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=jumpToWallSeq:downKeyDoubleTap(n)=0
+    If zBlowSeq(n)=1 And downKey(n)=1 Then zBlowSeq(n)=jumpToWallSeq:downKeyDoubleTap(n)=0
     If zBlowSeq(n) >= jumpToWallSeq And zBlowSeq(n) < wallGrabSeq Then doJumpToWall(n)
     If zBlowSeq(n) >= wallGrabSeq And zBlowSeq(n) < wallGrabUpSeq Then doWallGrab(n)
     If zBlowSeq(n) >= wallGrabUpSeq And zBlowSeq(n) < wallGrabDownSeq Then doScaleWallUp(n)

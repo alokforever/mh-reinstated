@@ -139,7 +139,9 @@ Case 7    ; Juggernaut punch (special)
     a3=2000:b3=a3+12:c3=b3+8:d3=c3+4
     If zOnGnd(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-    If zBlowSeq(n) = 1 And isRunning(n) And zSuperBar(n) >= 10 Then zSuperBar(n)=zSuperBar(n)-10:zBlowSeq(n)=ex:isRunning(n)=0
+    If zBlowSeq(n)=1 And isRunning(n) Then 
+        If zStaminaBar(n) >= 60 Then zStaminaBar(n)=zStaminaBar(n)-60:zBlowSeq(n)=ex:isRunning(n)=0
+    End If
     If zBlowSeq(n) = i+1 Or zBlowSeq(n) = i2+1 Then zBlowSeq(n)=a3
 ;================= Animation ==============
     ;=========== Normal Punch =============    
@@ -188,8 +190,8 @@ Case 7    ; Juggernaut punch (special)
 ;===========================================
 
 ;================= Movement ================
-    If zBlowSeq(n) >= e And zBlowSeq(n) <= f And zOnGnd(n) Then moveX(n, zBlowDir(n), 9)
-    If zBlowSeq(n) >= e2 And zBlowSeq(n) <= f2 And zOnGnd(n) Then moveX(n, zBlowDir(n), 15)
+    If zBlowSeq(n) >= e And zBlowSeq(n) <= f And zOnGnd(n) Then moveX(n, zBlowDir(n), 10)
+    If zBlowSeq(n) >= e2 And zBlowSeq(n) <= f2 And zOnGnd(n) Then moveX(n, zBlowDir(n), 26)
 ;===========================================
 
 ;================ Hit boxes ================
@@ -220,6 +222,7 @@ Case 7    ; Juggernaut punch (special)
         nn=1
         xblow(n,nn)=20: yblow(n,nn)=0:wblow(n,nn)=54:hblow(n,nn)=1:nn=nn+1
         xblow(n,nn)=20: yblow(n,nn)=10:wblow(n,nn)=54:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=20: yblow(n,nn)=36:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=10
         zHitSpeed#(n)=6:zHitUpSpeed#(n)=3:zHitTime(n)=40;:zBlockSpeed#(n)=40
         zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
@@ -251,13 +254,16 @@ Case 9    ; Earthquake (down special)
     a=2:b=a+4:c=b+2:d=c+2:e=d+36:f=e+5:g=f+5
     ex=1000:a2=ex+2:b2=a2+4:c2=b2+2:d2=c2+2:e2=d2+44:f2=e2+5:g2=f2+5
     If zOnGnd(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-    ;If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 And zSuperBar(n) >= 10 Then zSuperBar(n)=zSuperBar(n)-10:zBlowSeq(n)=ex
-    If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then zBlowSeq(n)=ex
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zBlowSeq(n)=1 Then
         If zFace(n)=2 Then checkYDist(n,zx(n)+40,zy(n)+6,2)
         If zFace(n)=4 Then checkYDist(n,zx(n)-40,zy(n)+6,2)
+        checkDist(n,zx(n),zy(n)-20,zFace(n))
     End If
+    If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then 
+        If zStaminaBar(n) >= 50 Then zStaminaBar(n)=zStaminaBar(n)-50:zBlowSeq(n)=ex
+    End If
+    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+
 ;=============== Animation =================
     If (zBlowSeq(n) >= 1 And zBlowSeq(n) < a) Or (zBlowSeq(n) = ex And zBlowSeq(n) < a2) Then zani(n)=12:zf(n)=1
     If (zBlowSeq(n) >= a And zBlowSeq(n) < b) Or (zBlowSeq(n) = a2 And zBlowSeq(n) < b2) Then zani(n)=12:zf(n)=2
@@ -298,7 +304,9 @@ Case 9    ; Earthquake (down special)
             dir=zface(n):y=zy(n)-(zheight(n)-44)
             If zface(n)=2 Then x=zx(n)+42+((zBlowSeq(n)-1000)*3)
             If zface(n)=4 Then x=zx(n)-42-((zBlowSeq(n)-1000)*3)
-            makeshot(n,48,x,y,dir)
+            If zBlowSeq(n) = d2+8 And xDist(n)>105 Then makeshot(n,48,x,y,dir)
+            If zBlowSeq(n) = d2+24 And xDist(n)>160 Then makeshot(n,48,x,y,dir)
+            If zBlowSeq(n) = d2+40 And xDist(n)>220 Then makeshot(n,48,x,y,dir)
         End If
     End If
 ;===========================================
@@ -399,7 +407,7 @@ Case 15 ;Juggernaut throw
 Case 16 ;Counter Key (Taunt and Power up)
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
-Case 17 ;Extra special key (Drill Claw)
+Case 17 ;Extra special key 
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
 End Select
