@@ -12,6 +12,8 @@ Function doJuggTaunt2(n)
     If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then zf(n)=7
     If zBlowSeq(n)>=seq5 And zBlowSeq(n)<seq6 Then zf(n)=8
     
+    If zBlowSeq(n)=seq5 Then extraObj(n,zx(n),0,zy(n),-3,zblowdir(n),142)
+    
 ;============= Sounds ================
     If zBlowSeq(n)=seqStart Then 
         soundSeed=Rand(2)

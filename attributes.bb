@@ -3014,6 +3014,16 @@ Case 141:       ;Hiryu Slash 1
     If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(111,4):chunkPic_(n)=ptPic_(111,4)
     If chunkSeq(n)>seq4 Then chunk(n)=0
     
+Case 142:       ;Juggernaut Blink
+    seq1=2:seq2=4:seq3=6:seq4=8:seq5=10
+    chunkFollowOwner(n)=1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(112,1):chunkPic_(n)=ptPic_(112,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(112,2):chunkPic_(n)=ptPic_(112,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(112,3):chunkPic_(n)=ptPic_(112,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(112,4):chunkPic_(n)=ptPic_(112,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(112,5):chunkPic_(n)=ptPic_(112,5)
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
