@@ -9,6 +9,7 @@ character-specific:
 
 1. sonya and thor remake
 
-Sprite resize offset:
+Sprite resize offset (by percentage):
 Piccolo - 50
 Strider Hiryu - 54
+Juggernaut - 40

@@ -3935,6 +3935,8 @@ If n=15 Then ;Juggernaut
     If juggNoManaSnd=0 Then juggNoManaSnd=LoadSound(soundsdir$ + "juggernaut\juggNoMana.mp3")
     If juggNoMana2Snd=0 Then juggNoMana2Snd=LoadSound(soundsdir$ + "juggernaut\juggNoMana2.mp3")
     If juggEarthquakeSnd=0 Then juggEarthquakeSnd=LoadSound(soundsdir$ + "juggernaut\juggEarthquake.wav")
+    If juggTaunt1Snd=0 Then juggTaunt1Snd=LoadSound(soundsdir$ + "juggernaut\juggTaunt1Snd.wav")
+    If juggTaunt2Snd=0 Then juggTaunt2Snd=LoadSound(soundsdir$ + "juggernaut\juggTaunt2Snd.wav")
 End If
 
 If n=14 Then ;WonderWoman

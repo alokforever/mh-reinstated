@@ -191,7 +191,7 @@ Global mvcJump2Snd
 Global mvcJump3Snd
 
 Global juggJumpSnd, juggLateralSnd, juggLateralHitSnd, juggPunchSnd, juggPunchGroundSnd, juggNoManaSnd, juggNoMana2Snd
-Global juggEarthquakeSnd
+Global juggEarthquakeSnd, juggTaunt1Snd, juggTaunt2Snd
 
 Global dbzJmpSnd=LoadSound(soundsDir$ + "dbz\dbzJmpSnd.wav")
 Global dbzJmp2Snd=LoadSound(soundsDir$ + "dbz\dbzJmp2Snd.wav")

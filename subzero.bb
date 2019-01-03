@@ -32,10 +32,10 @@ Function doSubZeroTaunt(n)
     End If
     
     If (zBlowSeq(n)=f And zTauntSeed(n)=1) Or (zBlowSeq(n)=d2 And zTauntSeed(n)=2)
-        If zSuperBar(n)+7 >= 100 Then
-            zSuperBar(n) = 100
+        If zSuperBar(n)+superbarGain >= 100 Then
+            If vsMode=1 Then zSuperBar(n) = 100
         Else
-            zSuperBar(n)=zSuperBar(n)+7
+            If vsMode=1 Then zSuperBar(n)=zSuperBar(n)+superbarGain
         End If
         zBlowSeq(n)=0:zBlow(n)=0
     End If

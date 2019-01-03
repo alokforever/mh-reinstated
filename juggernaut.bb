@@ -1,3 +1,28 @@
+Function doJuggTaunt2(n)
+    seqStart=100:seq1=seqStart+4:seq2=seqStart+8:seq3=seqStart+12:seq4=seqStart+16:seq5=seqStart+31
+    seq6=seqStart+51
+    endSeq=81
+    soundSeed=0
+    
+;============= Animation =============
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<seq1 Then zf(n)=3
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n)<seq2 Then zf(n)=4
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n)<seq3 Then zf(n)=5
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq4 Then zf(n)=6
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then zf(n)=7
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n)<seq6 Then zf(n)=8
+    
+;============= Sounds ================
+    If zBlowSeq(n)=seqStart Then 
+        soundSeed=Rand(2)
+        If gameSound Then
+            If soundSeed=1 Then PlaySound juggTaunt1Snd Else PlaySound juggTaunt2Snd
+        End If
+    End If
+    
+    If zBlowSeq(n)=seq6 Then zBlowSeq(n)=endSeq
+End Function
+
 Function handleJuggernautCooldown(n, blowSeq, cooldownType)
     If zBlowSeq(n)=blowSeq And spellCooldownSeq(n, cooldownType) > 0 Then
         cdSeed=Rand(2)
@@ -405,7 +430,41 @@ Case 15 ;Juggernaut throw
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 16 ;Counter Key (Taunt and Power up)
-    zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    taunt1=80:endSeq=81
+    taunt2=100
+    randSeed=0
+    zNoMove(n)=1
+    zNoJump(n)=1:zJump(n)=0
+    If zOnGnd(n)=0 Then zy(n)=zy(n)-2
+    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+    zani(n)=16
+    
+    If zBlowSeq(n)=1 Then
+        randSeed=Rand(5)
+        If randSeed<>1 Then zBlowSeq(n)=taunt2
+    End If
+    
+    If zBlowSeq(n)>=taunt2 Then doJuggTaunt2(n)
+    
+;============ Animation =============
+    If zBlowSeq(n)>=1 And zBlowSeq(n)<taunt1 Then 
+        If zBlowSeq(n)<=2 Then zf(n)=1
+        If zBlowSeq(n)>2 And ((zBlowSeq(n)-1) Mod 3) = 0 Then 
+            If zf(n)=1 Then zf(n)=2 Else zf(n)=1
+        End If
+    End If
+    
+;============ Sounds ===============
+    If zBlowSeq(n)=1 And gameSound Then PlaySound juggLateralSnd
+    
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<taunt2 Then 
+        If zSuperBar(n)+5 > 100 Then
+            If vsMode=1 Then zSuperBar(n) = 100
+        Else
+            If vsMode=1 Then zSuperBar(n)=zSuperBar(n)+5
+        End If
+        zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    End If
 
 Case 17 ;Extra special key 
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0

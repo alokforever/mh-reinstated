@@ -962,9 +962,9 @@ Case 16 ; taunt
     End If
     If (zBlowSeq(n)=f And zTauntSeed(n)=1) Or (zBlowSeq(n)=d2 And zTauntSeed(n)=2) Then 
         If zSuperBar(n)+superbarGain > 100 Then
-            zSuperBar(n) = 100
+            If vsMode=1 Then zSuperBar(n) = 100
         Else
-            zSuperBar(n)=zSuperBar(n)+superbarGain
+            If vsMode=1 Then zSuperBar(n)=zSuperBar(n)+superbarGain
         End If
         zBlowSeq(n)=0:zBlow(n)=0
     End If
@@ -1009,6 +1009,6 @@ Case 17 ;flame
     
     If zBlowSeq(n) = m Then    zBlowSeq(n)=0:zBlow(n)=0
 
-End Select    
+End Select
 
 End Function
