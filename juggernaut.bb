@@ -1,3 +1,35 @@
+Function doHighKick(n)
+    seqStart=50:seq1=seqStart+5:seq2=seq1+4:seq3=seq2+3:seq4=seq3+7:seq5=seq4+11:seq6=seq5+7
+    endSeq=45
+    
+;========= Animation =========
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<seq1 Then zani(n)=14:zf(n)=8
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<seq2 Then zani(n)=14:zf(n)=9
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<seq3 Then zani(n)=14:zf(n)=10
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<seq4 Then zani(n)=14:zf(n)=11
+    If zBlowSeq(n)>seq4 And zBlowSeq(n)<seq5 Then zani(n)=14:zf(n)=12
+    If zBlowSeq(n)>seq5 And zBlowSeq(n)<seq6 Then zani(n)=14:zf(n)=13
+    
+;========= Sounds ===========
+    If zBlowSeq(n)=seq1 And gameSound Then PlaySound juggGrunt2Snd
+    If zBlowSeq(n)=seq2-1 And gameSound Then PlaySound mvcBlow3Snd
+    
+;========= Hitboxes ==========
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq5 Then
+        zblowPamount(n)=2:nn=1
+        zBlowBack(n)=1
+        xblow(n,nn)=40: yblow(n,nn)=70:wblow(n,nn)=15:hblow(n,nn)=20:nn=nn+1
+        xblow(n,nn)=20: yblow(n,nn)=50:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=40:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=12:zBlowStillTime(n)=12
+        zHitSpeed#(n)=5:zHitUpSpeed#(n)=5:zHitTime(n)=40
+        zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=juggHit1Snd
+    End If
+    
+    If zBlowSeq(n)>=seq6 Then zBlowSeq(n)=endSeq
+End Function
+
 Function doLongPunch(n)
     seqStart=50:seq1=seqStart+2:seq2=seq1+4:seq3=seq2+2:seq4=seq3+2:seq5=seq4+4:seq6=seq5+2
     seq7=seq6+4:seq8=seq7+2:seq9=seq8+4:seq10=seq9+2:seq11=seq10+4:seq12=seq11+4
@@ -413,6 +445,12 @@ Case 10    ;High Punch
     seq1=7:seq2=seq1+2:seq3=seq2+2:seq4=seq3+1:seq5=seq4+6:seq6=seq5+8:seq7=seq6+5
     endSeq=seq7+1:highKickSeq=50
     zNoMove(n)=1:zNoJump(n)=1
+    
+    If zBlowSeq(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) Then
+        zBlowSeq(n)=highKickSeq
+    End If
+    
+    If zBlowSeq(n)>=highKickSeq Then doHighKick(n)
     
 ;========= Animation ===========
     If zBlowSeq(n)>0 And zBlowSeq(n)<seq1 Then zani(n)=14:zf(n)=1

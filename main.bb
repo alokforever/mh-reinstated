@@ -2302,7 +2302,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    DebugLog "n: " + n + ", zani: " + zani(n) + ", zf: " + zf(n)
+    ;DebugLog "zani: " + zani(n) + ", zf: " + zf(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test

@@ -3948,6 +3948,7 @@ If n=15 Then ;Juggernaut
     If juggTaunt1Snd=0 Then juggTaunt1Snd=LoadSound(soundsdir$ + "juggernaut\juggTaunt1Snd.wav")
     If juggTaunt2Snd=0 Then juggTaunt2Snd=LoadSound(soundsdir$ + "juggernaut\juggTaunt2Snd.wav")
     If juggGrunt1Snd=0 Then juggGrunt1Snd=LoadSound(soundsdir$ + "juggernaut\juggGrunt1Snd.wav")
+    If juggGrunt2Snd=0 Then juggGrunt2Snd=LoadSound(soundsdir$ + "juggernaut\juggGrunt2Snd.wav")
     If juggHit1Snd=0 Then juggHit1Snd=LoadSound(soundsdir$ + "juggernaut\juggHit1Snd.wav")
     If juggHit2nd=0 Then juggHit2nd=LoadSound(soundsdir$ + "juggernaut\juggHit2nd.wav")
 End If
