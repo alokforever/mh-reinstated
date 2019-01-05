@@ -627,7 +627,7 @@ Case 15 ;gaiden throw
     wallLeaveSeq=650
     endSeq=350
     
-    If zBlowSeq(n)=1 And downKey(n)=1 Then zBlowSeq(n)=jumpToWallSeq:downKeyDoubleTap(n)=0
+    If zBlowSeq(n)=1 And downKey(n)=1 Then zBlowSeq(n)=jumpToWallSeq
     If zBlowSeq(n) >= jumpToWallSeq And zBlowSeq(n) < wallGrabSeq Then doJumpToWall(n)
     If zBlowSeq(n) >= wallGrabSeq And zBlowSeq(n) < wallGrabUpSeq Then doWallGrab(n)
     If zBlowSeq(n) >= wallGrabUpSeq And zBlowSeq(n) < wallGrabDownSeq Then doScaleWallUp(n)

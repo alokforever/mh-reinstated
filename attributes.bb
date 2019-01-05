@@ -3717,7 +3717,7 @@ For i=1 To 15
     zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
 Next
 
-For i=1 To 15
+For i=1 To 20
     zpic(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + ".bmp")
     zpic_(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + "_.bmp")
 Next
@@ -3947,6 +3947,9 @@ If n=15 Then ;Juggernaut
     If juggEarthquakeSnd=0 Then juggEarthquakeSnd=LoadSound(soundsdir$ + "juggernaut\juggEarthquake.wav")
     If juggTaunt1Snd=0 Then juggTaunt1Snd=LoadSound(soundsdir$ + "juggernaut\juggTaunt1Snd.wav")
     If juggTaunt2Snd=0 Then juggTaunt2Snd=LoadSound(soundsdir$ + "juggernaut\juggTaunt2Snd.wav")
+    If juggGrunt1Snd=0 Then juggGrunt1Snd=LoadSound(soundsdir$ + "juggernaut\juggGrunt1Snd.wav")
+    If juggHit1Snd=0 Then juggHit1Snd=LoadSound(soundsdir$ + "juggernaut\juggHit1Snd.wav")
+    If juggHit2nd=0 Then juggHit2nd=LoadSound(soundsdir$ + "juggernaut\juggHit2nd.wav")
 End If
 
 If n=14 Then ;WonderWoman

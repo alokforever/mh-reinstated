@@ -180,18 +180,23 @@ Global wwShout1Snd, wwShout2Snd, wwShout3Snd, wwShout4Snd, wwGrunt1Snd
 Global wwWhip1Snd, wwWhip2Snd, wwWhipHitSnd, wwLassoSnd
 Global wwFierceAmazonSnd
 
-Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1.wav")
-Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2.wav")
-Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1.wav")
-Global mvcCrashSnd=LoadSound(soundsdir$ + "mvc\mvcCrash.wav")
-Global mvcCrash2Snd=LoadSound(soundsdir$ + "mvc\mvcCrash2.wav")
-Global mvcExSnd=LoadSound(soundsdir$ + "mvc\mvcEx.wav")
+Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1Snd.wav")
+Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2Snd.wav")
+Global mvcHit3Snd=LoadSound(soundsdir$ + "mvc\mvcHit3Snd.wav")
+Global mvcBlow1Snd=LoadSound(soundsdir$ + "mvc\mvcBlow1Snd.wav")
+Global mvcBlow2Snd=LoadSound(soundsdir$ + "mvc\mvcBlow2Snd.wav")
+Global mvcBlow3Snd=LoadSound(soundsdir$ + "mvc\mvcBlow3Snd.wav")
+Global mvcCrashSnd=LoadSound(soundsdir$ + "mvc\mvcCrashSnd.wav")
+Global mvcCrash2Snd=LoadSound(soundsdir$ + "mvc\mvcCrash2Snd.wav")
+Global mvcExSnd=LoadSound(soundsdir$ + "mvc\mvcExSnd.wav")
 Global mvcJump1Snd
 Global mvcJump2Snd
 Global mvcJump3Snd
 
 Global juggJumpSnd, juggLateralSnd, juggLateralHitSnd, juggPunchSnd, juggPunchGroundSnd, juggNoManaSnd, juggNoMana2Snd
 Global juggEarthquakeSnd, juggTaunt1Snd, juggTaunt2Snd
+Global juggGrunt1Snd
+Global juggHit1Snd, juggHit2Snd
 
 Global dbzJmpSnd=LoadSound(soundsDir$ + "dbz\dbzJmpSnd.wav")
 Global dbzJmp2Snd=LoadSound(soundsDir$ + "dbz\dbzJmp2Snd.wav")
