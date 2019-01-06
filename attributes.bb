@@ -3024,6 +3024,8 @@ Case 142:       ;Juggernaut Blink
     If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(112,4):chunkPic_(n)=ptPic_(112,4)
     If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(112,5):chunkPic_(n)=ptPic_(112,5)
     
+    If chunkSeq(n)>seq5 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
