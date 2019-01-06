@@ -1,3 +1,46 @@
+Function doJuggCrouchUpPunch(n)
+    seqStart=100
+    seq1=seqStart+6:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+11:seq6=seq5+9
+    endSeq=45
+    
+;========= Animation =========
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zani(n)=9:zf(n)=10
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=9:zf(n)=11
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=9:zf(n)=12
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=9:zf(n)=13
+    If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then zani(n)=9:zf(n)=14
+    If zBlowSeq(n)>seq5 And zBlowSeq(n)<=seq6 Then zani(n)=9:zf(n)=15
+    
+;======== Sounds ==========
+    If zBlowSeq(n)=seq2-1 And gameSound Then PlaySound juggGrunt1Snd
+    If zBlowSeq(n)=seq2-1 And gameSound Then PlaySound mvcBlow1Snd
+    
+;========= Hitboxes ==========
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then
+        zblowPamount(n)=2:nn=1
+        zBlowBack(n)=1
+        xblow(n,nn)=15: yblow(n,nn)=40:wblow(n,nn)=32:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=15: yblow(n,nn)=26:wblow(n,nn)=22:hblow(n,nn)=14:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=12:zBlowStillTime(n)=12
+        zHitSpeed#(n)=5:zHitUpSpeed#(n)=5:zHitTime(n)=40
+        zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=juggHit1Snd
+    End If
+    
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq5 Then
+        zblowPamount(n)=2:nn=1
+        zBlowBack(n)=1
+        xblow(n,nn)=-15: yblow(n,nn)=75:wblow(n,nn)=32:hblow(n,nn)=20:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=37:hblow(n,nn)=10:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=4:zBlowStillTime(n)=4
+        zHitSpeed#(n)=5:zHitUpSpeed#(n)=5:zHitTime(n)=40
+        zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=juggHit1Snd
+    End If
+    
+    If zBlowSeq(n)>seq6 Then zBlowSeq(n)=endSeq
+End Function
+
 Function doJuggLowKick(n)
     seqStart=30
     seq1=seqStart+4:seq2=seq1+1:seq3=seq2+1:seq4=seq3+15:seq5=seq4+10
@@ -315,11 +358,11 @@ Case 2    ;Flying Kick
 Case 4    ;Low kick
     zNoMove(n)=1:zNoJump(n)=1
     seq1=4:seq2=seq1+1:seq3=seq2+3:seq4=seq3+2:seq5=seq4+7
-    lowKickSeq=30:crouchUpPunchSeq=100
+    lowKickSeq=30
     endSeq=seq5+1 ;18
     
     If zBlowSeq(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) Then zBlowSeq(n)=lowKickSeq
-    If zBlowSeq(n)>=lowKickSeq And zBlowSeq(n) < crouchUpPunchSeq Then doJuggLowKick(n)
+    If zBlowSeq(n)>=lowKickSeq Then doJuggLowKick(n)
     
 ;========= Animation =========
     If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zani(n)=9:zf(n)=1
@@ -610,14 +653,16 @@ Case 9    ; Earthquake (down special)
 
 Case 10    ;High Punch 
     seq1=7:seq2=seq1+2:seq3=seq2+2:seq4=seq3+1:seq5=seq4+6:seq6=seq5+8:seq7=seq6+5
-    endSeq=seq7+1:highKickSeq=50
+    endSeq=seq7+1:highKickSeq=50:crouchUpPunchSeq=100
     zNoMove(n)=1:zNoJump(n)=1
     
     If zBlowSeq(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) Then
         zBlowSeq(n)=highKickSeq
     End If
+    If zBlowSeq(n)=1 And zDuck(n)=1 Then zBlowSeq(n)=crouchUpPunchSeq
     
-    If zBlowSeq(n)>=highKickSeq Then doJuggHighKick(n)
+    If zBlowSeq(n)>=highKickSeq And zBlowSeq(n)<crouchUpPunchSeq Then doJuggHighKick(n)
+    If zBlowSeq(n)>=crouchUpPunchSeq Then doJuggCrouchUpPunch(n)
     
 ;========= Animation ===========
     If zBlowSeq(n)>0 And zBlowSeq(n)<seq1 Then zani(n)=14:zf(n)=1
