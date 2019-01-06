@@ -1,4 +1,35 @@
-Function doJumpPunch(n)
+Function doJuggLowKick(n)
+    seqStart=30
+    seq1=seqStart+4:seq2=seq1+1:seq3=seq2+1:seq4=seq3+15:seq5=seq4+10
+    endSeq=18
+    
+;========= Animation =========
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zani(n)=9:zf(n)=5
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=9:zf(n)=6
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=9:zf(n)=7
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=9:zf(n)=8
+    If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then zani(n)=9:zf(n)=9
+    
+;======== Sounds ==========
+    If zBlowSeq(n)=seqStart+1 And gameSound Then PlaySound juggLateralSnd
+    If zBlowSeq(n)=seq2-1 And gameSound Then PlaySound mvcBlow1Snd
+    
+;--------- Hit box ----------
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq4 Then
+        zblowPamount(n)=3:nn=1
+        xblow(n,nn)=5: yblow(n,nn)=16:wblow(n,nn)=38:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=5: yblow(n,nn)=11:wblow(n,nn)=43:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=5: yblow(n,nn)=6:wblow(n,nn)=43:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=4:zBlowStillTime(n)=4
+        zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
+        zBlowDamage(n)=19:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=mvcHit3Snd
+    End If
+    
+    If zBlowSeq(n)>seq5 Then zBlowSeq(n)=endSeq
+End Function
+
+Function doJuggJumpPunch(n)
     seqStart=40:endSeq=37
     seq1=seqStart+4:seq2=seq1+4:seq3=seq2+4:seq4=seq3+3:seq5=seq4+1:seq6=seq5+4:seq7=seq6+3:seq8=seq7+5
     seq9=seq8+3:seq10=seq9+4
@@ -33,7 +64,7 @@ Function doJumpPunch(n)
     If zBlowSeq(n)>seq10 Then zBlowSeq(n)=endSeq
 End Function
 
-Function doJumpHighKick(n)
+Function doJuggJumpHighKick(n)
     seqStart=100:endSeq=37
     seq1=seqStart+10:seq2=seq1+1:seq3=seq2+10:seq4=seq3+4:seq5=seq4+3:seq6=seq5+4
 
@@ -66,7 +97,7 @@ Function doJumpHighKick(n)
     
 End Function
 
-Function doHighKick(n)
+Function doJuggHighKick(n)
     seqStart=50:seq1=seqStart+5:seq2=seq1+4:seq3=seq2+3:seq4=seq3+7:seq5=seq4+11:seq6=seq5+7
     endSeq=45
     
@@ -98,7 +129,7 @@ Function doHighKick(n)
     If zBlowSeq(n)>=seq6 Then zBlowSeq(n)=endSeq
 End Function
 
-Function doLongPunch(n)
+Function doJuggLongPunch(n)
     seqStart=50:seq1=seqStart+2:seq2=seq1+4:seq3=seq2+2:seq4=seq3+2:seq5=seq4+4:seq6=seq5+2
     seq7=seq6+4:seq8=seq7+2:seq9=seq8+4:seq10=seq9+2:seq11=seq10+4:seq12=seq11+4
     endSeq=26
@@ -213,7 +244,7 @@ Case 1    ;Normal Punch
         zBlowSeq(n)=longPunchSeq
     End If
     
-    If zBlowSeq(n)>=longPunchSeq Then doLongPunch(n)
+    If zBlowSeq(n)>=longPunchSeq Then doJuggLongPunch(n)
     
 ;======== Animation ========
     If zBlowSeq(n)>0 And zBlowSeq(n)<a Then zani(n)=6:zf(n)=1
@@ -252,8 +283,8 @@ Case 2    ;Flying Kick
     If zBlowSeq(n)=1 And downKey(n)=1 Then zBlowSeq(n)=jumpPunchSeq
     If zBlowSeq(n)=1 And upKey(n)=1 Then zBlowSeq(n)=jumpHighKickSeq
     
-    If zBlowSeq(n)>=jumpPunchSeq And zBlowSeq(n)<jumpHighKickSeq Then doJumpPunch(n)
-    If zBlowSeq(n)>=jumpHighKickSeq Then doJumpHighKick(n)
+    If zBlowSeq(n)>=jumpPunchSeq And zBlowSeq(n)<jumpHighKickSeq Then doJuggJumpPunch(n)
+    If zBlowSeq(n)>=jumpHighKickSeq Then doJuggJumpHighKick(n)
     
 ;========= Animation =========
     If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zani(n)=8:zf(n)=1
@@ -282,7 +313,37 @@ Case 2    ;Flying Kick
     if zBlowSeq(n)>=endSeq And zBlowSeq(n)<jumpPunchSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
 Case 4    ;Low kick
-    zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    zNoMove(n)=1:zNoJump(n)=1
+    seq1=4:seq2=seq1+1:seq3=seq2+3:seq4=seq3+2:seq5=seq4+7
+    lowKickSeq=30:crouchUpPunchSeq=100
+    endSeq=seq5+1 ;18
+    
+    If zBlowSeq(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) Then zBlowSeq(n)=lowKickSeq
+    If zBlowSeq(n)>=lowKickSeq And zBlowSeq(n) < crouchUpPunchSeq Then doJuggLowKick(n)
+    
+;========= Animation =========
+    If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zani(n)=9:zf(n)=1
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=9:zf(n)=2
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=9:zf(n)=3
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=9:zf(n)=3
+    If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then zani(n)=9:zf(n)=4
+    
+;--------- Hit box ----------
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq4 Then
+        zblowPamount(n)=3:nn=1
+        xblow(n,nn)=12: yblow(n,nn)=22:wblow(n,nn)=50:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=12: yblow(n,nn)=17:wblow(n,nn)=55:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=12: yblow(n,nn)=12:wblow(n,nn)=55:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=4:zBlowStillTime(n)=4
+        zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
+        zBlowDamage(n)=17:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=mvcHit3Snd
+    End If
+
+;======== Sounds ==========
+    If zBlowSeq(n)=seq1-1 And gameSound Then PlaySound mvcBlow2Snd
+    
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<lowKickSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 5    ;UP + SPECIAL (Lateral press)
     zNoMove(n)=1
@@ -556,7 +617,7 @@ Case 10    ;High Punch
         zBlowSeq(n)=highKickSeq
     End If
     
-    If zBlowSeq(n)>=highKickSeq Then doHighKick(n)
+    If zBlowSeq(n)>=highKickSeq Then doJuggHighKick(n)
     
 ;========= Animation ===========
     If zBlowSeq(n)>0 And zBlowSeq(n)<seq1 Then zani(n)=14:zf(n)=1
