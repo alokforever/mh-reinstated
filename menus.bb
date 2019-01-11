@@ -370,6 +370,7 @@ Repeat
    Case 0
     If KeyHit(shotK(n)) Or KeyHit(specialK(n)) Then pressed=1
    Case 1
+    DebugLog "JoyHit: " + JoyHit(shotK(n),controllerPort(n))
     If JoyHit(shotK(n),controllerPort(n)) Or JoyHit(specialK(n),controllerPort(n)) Then pressed=1
   End Select
  Next
