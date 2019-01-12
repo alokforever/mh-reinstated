@@ -588,10 +588,10 @@ Case 14    ;Super Special (ice spikes)
     zNoMove(n)=1
     zNoJump(n)=1
     zjump(n)=0
+    zNoGrav(n)=1
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zongnd(n)=1 And upKey(n)=1 And zBlowSeq(n)=1 Then zBlowSeq(n)=100
     If zBlowSeq(n) >= 100 Then performFatalitySuper(n) 
-    If zongnd(n)=0 And downKey(n)=0 Then zy(n)=zy(n)-2
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=2
     If zBlowSeq(n) => b And zBlowSeq(n) < d Then 
@@ -610,7 +610,7 @@ Case 14    ;Super Special (ice spikes)
      
     If zBlowSeq(n) > d And zBlowSeq(n) < f And zBlowSeq2(n) < numOfShots Then zBlowSeq2(n)=zBlowSeq2(n)+1:zBlowSeq(n)=zBlowSeq(n)-10
     If zBlowSeq(n) = d+2 And gameSound=1 Then PlaySound subZeroWindSnd
-    If zBlowSeq(n) > e And zBlowSeq(n) < f Then zBlowSeq(n)=0:zBlow(n)=0
+    If zBlowSeq(n) > e And zBlowSeq(n) < f Then zBlowSeq(n)=0:zBlow(n)=0:zNoGrav(n)=0
 
 Case 15 ;Subzero throw
     a=8: b=15: c=25: d=30: e=35: f=40: g=45: h=50: i=60

@@ -3,6 +3,7 @@ Function performScorpionSuperSpecial2(n)
     endSeq=90
     a=startSeq+3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+10:g=f+30:h=g+2:i=h+2:j=i+2:k=j+2:l=k+2:m=l+2
     
+    zNoGrav(n)=1
     If zBlowSeq(n) = startSeq And gameSound Then PlaySound mkExtraSpecialSnd
     If zBlowSeq(n)=1 And zBlowSeq(n) < a Then zani(n)=18:zf(n)=1
     If zBlowSeq(n)=a And zBlowSeq(n) < b Then zani(n)=18:zf(n)=2
@@ -30,7 +31,7 @@ Function performScorpionSuperSpecial2(n)
     If zBlowSeq(n)=k And zBlowSeq(n) < l Then zani(n)=18:zf(n)=2
     If zBlowSeq(n)=l And zBlowSeq(n) < m Then zani(n)=18:zf(n)=1
     
-    If zBlowSeq(n)=m Then zBlowSeq(n)=endSeq
+    If zBlowSeq(n)=m Then zBlowSeq(n)=endSeq:zNoGrav(n)=0
 
 End Function
 
@@ -862,7 +863,7 @@ Case 14    ;Super Special
         If gameSound Then PlaySound mkExtraSpecialSnd
     End If
 
-    If zongnd(n)=0 Then zy(n)=zy(n)-2
+    If zongnd(n)=0 And zBlowSeq(n) < e Then zy(n)=zy(n)-2
     
     If zBlowSeq(n) > d And zBlowSeq(n) < e Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 

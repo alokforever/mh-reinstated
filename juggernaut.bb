@@ -511,18 +511,18 @@ Case 5    ;UP + SPECIAL (Lateral press)
 
 ;================= Movement ===============
     If zFace(n)=2 Then
-        If leftKey(n)=1 And zBlowSeq(n)>=a Then moveX(n, zBlowDir(n), -1)
-        If rightKey(n)=1 And zBlowSeq(n)>=a Then moveX(n, zBlowDir(n), 1)
+        If leftKey(n)=1 Then moveX(n, zBlowDir(n), -1)
+        If rightKey(n)=1 Then moveX(n, zBlowDir(n), 1)
     Else
         If leftKey(n)=1 Then moveX(n, zBlowDir(n), 1)
         If rightKey(n)=1 Then moveX(n, zBlowDir(n), -1)
     End If
     
     If zHitHead(n)=0 Then
-        ;If zBlowSeq(n) >= 1 And zBlowSeq(n) < a Then moveX(n,zBlowdir(n),2):moveY(n, -7)
-        If zBlowSeq(n) >= a And zBlowSeq(n) < b Then moveX(n,zBlowdir(n),2):moveY(n, -7)
-        If zBlowSeq(n) >= b And zBlowSeq(n) < c Then moveX(n,zBlowdir(n),2):moveY(n, -5)
-        If zBlowSeq(n) >= c And zBlowSeq(n) < d Then moveX(n,zBlowdir(n),2):moveY(n, -4)
+        If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then moveX(n,zBlowdir(n),2):moveY(n, -7)
+        If zBlowSeq(n) > a And zBlowSeq(n) <= b Then moveX(n,zBlowdir(n),2):moveY(n, -6)
+        If zBlowSeq(n) > b And zBlowSeq(n) <= c Then moveX(n,zBlowdir(n),2):moveY(n, -5)
+        If zBlowSeq(n) > c And zBlowSeq(n) <= d Then moveX(n,zBlowdir(n),2):moveY(n, -4)
     End If
     If zBlowSeq(n) >= d And zBlowSeq(n) < e Then moveX(n, zBlowDir(n), 2)
     If zBlowSeq(n) >= a2 Then moveX(n, zBlowDir(n), 1.2)
@@ -532,7 +532,6 @@ Case 5    ;UP + SPECIAL (Lateral press)
         zBlowSeq(n)=a2
     End If
 ;==========================================
-
 
 Case 6    ;throwing iten
     a=3:b=6:c=9

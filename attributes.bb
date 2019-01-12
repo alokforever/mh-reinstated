@@ -980,7 +980,6 @@ Function shotData(weaponChosen,n)
     shotExpImpact(n)=50
     shotExplodeChunk(n)=4
     shotWidth(n)=1
-    shotId(n)=0
     isShotDisappearOnHit(n)=0
     shotChunkHitType(n)=0
     doesShotBurn(n)=0
@@ -1552,7 +1551,6 @@ Case 39    ;Sub Zero freeze ball
     shotSound(n)=subZeroFreeze2Snd
     
 Case 40 ;Sub Zero ground freeze
-    shotId(n)=40
     shotspeed(n)=0
     shotsize(n)=40
     shotWidth(n)=87
@@ -1578,7 +1576,7 @@ Case 41    ;Sub Zero ice spikes
     shotsize(n)=42
     shotheight(n)=40
     shotWidth(n)=50
-    shotVerticalSize(n)=1
+    shotVerticalSize(n)=40
     shotSide(n)=shotsize(n)/2
     shotdamage(n)=9
     shotHitMode(n)=3
@@ -1599,7 +1597,7 @@ Case 42    ;Sub Zero diagonal freeze ball
     shotsize(n)=40
     shotheight(n)=3
     shotWidth(n)=50
-    shotVerticalSize(n)=1
+    shotVerticalSize(n)=49
     shotSide(n)=shotsize(n)/2
     shotdamage(n)=0
     shotHitMode(n)=3
@@ -1618,7 +1616,6 @@ Case 43 ;Sub Zero ice clone
     shotsize(n)=44
     shotheight(n)=58
     shotWidth(n)=48
-    shotId(n)=43
     shotVerticalSize(n)=28
     shotSide(n)=shotsize(n)/2
     shotdamage(n)=0
@@ -1634,7 +1631,6 @@ Case 43 ;Sub Zero ice clone
     shotSound(n)=subZeroFreeze2Snd
     
 Case 44    ;Sub Zero ice shower
-    shotId(n)=44
     shotspeed(n)=0
     shotYspeed(n)=3
     shotsize(n)=16

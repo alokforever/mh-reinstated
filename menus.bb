@@ -370,7 +370,6 @@ Repeat
    Case 0
     If KeyHit(shotK(n)) Or KeyHit(specialK(n)) Then pressed=1
    Case 1
-    DebugLog "JoyHit: " + JoyHit(shotK(n),controllerPort(n))
     If JoyHit(shotK(n),controllerPort(n)) Or JoyHit(specialK(n),controllerPort(n)) Then pressed=1
   End Select
  Next
@@ -950,23 +949,7 @@ Function mainMenu()
 
 pointers
 
-If KeyHit(14) Then  ;BACKSPACE key
-    cheatSeq(1)=cheatSeq(1)+1
-EndIf
-
-If KeyHit(28) Then  ;ENTER key
-    If cheatSeq(1)=5 And cheat(1)=0 Then
-        cheat(1)=1  ;cheat_1 activated
-        If gameSound Then PlaySound energySnd
-        For n=4 To characterAmount ;unlock all playable characters
-            characterOpen(n)=1
-        Next
-    EndIf
-    For n=1 To 30
-        vsMapOpen(n)=1
-    Next
-    cheatSeq(1)=0
-EndIf
+waitCheats()
 
 For n=1 To ButtonAmount
 If clickedBut(n) Then
@@ -1889,3 +1872,41 @@ FlushKeys() : FlushJoy() : FlushMouse()
 menuOption = 2
 
 End Function 
+
+Function waitCheats()
+    If KeyHit(14) Then  ;BACKSPACE key
+        cheatSeq(1)=cheatSeq(1)+1
+    EndIf
+
+    If KeyHit(13) Then  ;'=' Key
+        cheatSeq(2)=cheatSeq(2)+1
+    End If
+    
+    If KeyHit(28) Then  ;ENTER key
+        If cheatSeq(1)=5 And cheat(1)=0 Then
+            cheat(1)=1  ;cheat_1 activated
+            If gameSound Then PlaySound energySnd
+            For n=4 To characterAmount ;unlock all playable characters
+                characterOpen(n)=1
+            Next
+        EndIf
+        
+        If cheatSeq(2)=5 Then
+            If cheat(2)=0 Then
+                cheat(2)=1  ;cheat_2 activated
+                If gameSound Then PlaySound energySnd
+                isUnliSuper = 1
+            Else
+                cheat(2)=0  ;cheat_2 deactivated
+                If gameSound Then PlaySound energyReversedSnd
+                isUnliSuper = 0
+            End If
+        End If
+        
+        For n=1 To 30
+            vsMapOpen(n)=1
+        Next
+        cheatSeq(1)=0
+        cheatSeq(2)=0
+    EndIf
+End Function

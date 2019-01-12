@@ -49,6 +49,7 @@ Global maxAmap = 100
 Global lastAmap = 50    ;beat this map to beat the game
 Global maxVsMap = 20
 Global maxCTFMap = 20
+Global isUnliSuper
 Global totalSecrets, noAirStrike, isSuperMove
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -58,7 +59,6 @@ Dim cheat(20),cheatSeq(20)
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
-Global zFreezer
 Global maxZ=30
 Dim wolverineRage(30)
 Dim NextMap(5)
@@ -220,7 +220,7 @@ Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), z
 Dim zRunSeq2(maxZ), isRunningFlag(maxZ) ;zRunSeq2 is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zCharSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
-Dim shotVerticalSize(200), shotId(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
+Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
 Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), cdImage(maxZ)
 Dim isMkCharacter(maxZ), gender(maxZ), canWallJump(maxZ), zWallJump(maxZ), zTauntSeed(maxZ)
 Dim canPerformNextCombo(maxZ), cooldownPic(maxZ, 4), flipFrames(maxZ), duckFrames(maxZ), duckFrameSpeed(maxZ), duckSeq(maxZ)
@@ -1120,6 +1120,7 @@ For n = 1 To zzamount
     End If
 
     If zon(n) Then SelectDraw(n)
+    If isUnliSuper=1 Then zSuperBar(n)=100
 Next
 
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
@@ -2767,7 +2768,7 @@ Case 2
     
     For nn = 1 To zzamount
         If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
-            handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
+            handleSubZeroProjectiles(nn, n)
             Goto shotDone
         EndIf
     Next
@@ -2796,7 +2797,7 @@ Case 4
     
     For nn = 1 To zzamount
         If shotHitMode(n)=3 Or shotHitMode(n)=4 Then 
-            handleSubZeroProjectiles(nn, n, xshot(n), yshot(n))
+            handleSubZeroProjectiles(nn, n)
             Goto shotDone
         EndIf
     Next
@@ -3979,7 +3980,6 @@ If shotHitMode(n)=3 Then ; sub zero freeze attacks
     zFallSpeed#(nn)=shotHitXspeed(n)
     zFallTime#(nn)=shotFallTime(n)
     zUpFallSpeed#(nn)=shotHitYspeed(n)
-    zFreezer=n
     freezeVictim(nn, 1)
 EndIf
 
@@ -5295,7 +5295,7 @@ Function freezeVictim(n, mode)
     If mode=ice Then isFrozen(n)=1
 End Function
 
-;------------ unfreeze unit -----------------
+;------------ unfreeze character -----------------
 Function unFreeze(n, mode)
     Local ice=1
     zgravity(n)=3
@@ -5307,19 +5307,23 @@ Function unFreeze(n, mode)
 End Function
 
 ;------------ handle sub zero projectile attacks --------------
-Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, projectileYPos)
+Function handleSubZeroProjectiles(targetPlayer, projectile)
     Local heightLoop, xAxisShotPos, yAxisShotPos
     objShotWidth=shotWidth(projectile)
     objShotHeight=shotVerticalSize(projectile)
     xAxisShotPos=xShot(projectile)
-    If shotId(projectile)=43 Then
+
+    Select shotType(projectile)
+    case 41 ; Ice spikes
         yAxisShotPos=yShot(projectile)-40
-    Else If shotId(projectile)=44 Then
+    case 43 ; Ice clone
+        yAxisShotPos=yShot(projectile)-40
+    case 44 ; Sub Zero ice shower
         xAxisShotPos=xShot(projectile)+26
         yAxisShotPos=yShot(projectile)-57
-    Else
+    default ;
         yAxisShotPos=yshot(projectile)
-    End If
+    End Select
 
     If shotHitMode(projectile)=4 Then 
         If zFace(shotOwner(projectile))=2 Then
@@ -5370,7 +5374,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile, projectileXPos, proj
                             makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile),shotDir(projectile),shotChunkType(projectile))
                         If zblock(targetPlayer)=1 And shotHitMode(shotOwner(projectile)) <> 4 Then
                             zBlocked(targetPlayer)=1:zBlockSeq(targetPlayer)=0
-                            zBlockTime(targetPlayer)=shotImpact(projectile)*2:zBlockDir(targetPlayer)=2
+                            zBlockTime(targetPlayer)=shotImpact(projectile)*2:zBlockDir(targetPlayer)=shotDir(projectile)
                             zBLockLife(targetPlayer)=zBlockLife(targetPlayer)-shotDamage(projectile)
                             If shotDir(projectile)=4 Then 
                                 zface(targetPlayer)=2
