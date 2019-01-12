@@ -10,7 +10,6 @@ character-specific:
 1. sonya and thor remake
 2. Sub zero freeze ground particles (on air)
 3. Super special portrait pause of most characters
-4. Berserker rage not initialized after
 
 Sprite resize offset (by percentage):
 Piccolo - 50

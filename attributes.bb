@@ -54,7 +54,7 @@ zBlocked(n)=0: aiGetTarget(n):
     zWalkFrameSpeed#(n)=0
     zRunFrames(n)=0
     zRunFrameSpeed#(n)=0
-    zCharSpeed#(n)=2
+    zRunSpeed#(n)=2
     gender(n)=3
     isMkCharacter(n)=0
     canWallJump(n)=0
@@ -190,7 +190,7 @@ Case 6: ;Strider Hiryu
     zJumpSnd2(n)=mvcJump2Snd
     gender(n)=1
     zheight(n)=49
-    zCharSpeed#(n)=2.5
+    zRunSpeed#(n)=2.5
     zStanceFrames(n)=20
     zStanceSpeed(n)=3
     duckFrames(n)=10
@@ -317,7 +317,7 @@ Case 11: ;Wolverine
     
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
-    zCharSpeed#(n)=2.5
+    zRunSpeed#(n)=2.5
     gender(n)=1
     canWallJump(n)=1
     dizzyFrames(n)=7
@@ -361,7 +361,7 @@ Case 12: ;Scorpion
     
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
-    zCharSpeed#(n)=2
+    zRunSpeed#(n)=2
     isMkCharacter(n)=1
     gender(n)=1
     flipFrames(n)=6
@@ -405,7 +405,7 @@ Case 13: ;Sub Zero
     
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
-    zCharSpeed#(n)=2
+    zRunSpeed#(n)=2
     isMkCharacter(n)=1
     gender(n)=1
     dizzyFrames(n)=8
@@ -445,7 +445,7 @@ Case 14: ;Wonder Woman
     zWalkFrameSpeed#(n)=2
     zRunFrames(n)=7
     zRunFrameSpeed#(n)=3
-    zCharSpeed#(n)=2.5
+    zRunSpeed#(n)=2.5
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     gender(n)=2
@@ -489,7 +489,7 @@ Case 15: ;Juggernaut
     
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4
-    zCharSpeed#(n)=3
+    zRunSpeed#(n)=3
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     gender(n)=1
@@ -530,7 +530,7 @@ Case 16: ;Piccolo
     zWalkFrameSpeed#(n)=7
     zRunFrames(n)=1
     zRunFrameSpeed#(n)=3
-    zCharSpeed#(n)=3.5
+    zRunSpeed#(n)=3.5
     gender(n)=1
     flipFrames(n)=6
     canAirGlide(n)=1

@@ -73,7 +73,7 @@ End Function
 ;------------ Draw Rage Effect (Wolverine) ------------------------
 Function drawRageEffect(player)    
     If wolverineRage(player) = 1 Then
-        Local rageDuration = 23000 ; in milliseconds
+        Local rageDuration = 21000 ; in milliseconds
         wolvSpdFctr(player) = 2
         ztopSpeed(player) = ztopSpeed(player) * wolvSpdFctr(player)
         currentRageTime(player) = MilliSecs()

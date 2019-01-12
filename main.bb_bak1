@@ -1734,7 +1734,7 @@ Function loadZ(n)
     zjumplimit(n)=20    ;20        ;Jump height (per frame), not pixels!
     zDtopSpeed#(n)=2    ;2
     zTopSpeed#(n)=zDtopSpeed(n)
-    zTopRunningSpeed#(n)=zDtopSpeed(n)*zRunSpeed#(curGuy(n))
+    zTopRunningSpeed#(n)=zDtopSpeed(n)*zRunSpeed#(curGuy(n))*wolvSpdFctr(n)
     zBlockSpeed(n)=.8
     zBLow(n)=0
     ztargetScore(n)=0
@@ -5486,7 +5486,7 @@ Function clearSubStates(n)
     If isFrozen(n)=1 Then unFreeze(n,1)
     If isDizzy(n)=1 Then unFreeze(n,0)
     If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
-    If wolverineRage(n)=1 Then wolverineRage(n)=0:wolvSpdFctr(n)=1:canGetRageTime(n)=0:rageSeq(n)=0
+    If wolverineRage(n)=1 Then wolverineRage(n)=0:wolvSpdFctr(n)=1:currentRageTime(n)=0
     If projectileDeflectMode(n)=1 Then projectileDeflectMode(n)=0
     If electrocuteSeq(n)>0 Then electrocuteSeq(n)=0
     refreshCooldown(n)
@@ -5597,7 +5597,7 @@ Function checkBuffStatus(n)
     x=-5:y=33
     If curGuy(n)=11 And wolverineRage(n)=1 Then
         Local curRageTime = (endRageTime(n) - currentRageTime(n))
-        Local rageDuration = 21000 ; milliseconds
+        Local rageDuration = 23000 ; milliseconds
         DrawImage timerImage(Int((Float(curRageTime)/rageDuration)*90)),x+((n-1)*155)+20,y
     End If
 End Function
