@@ -47,7 +47,7 @@ Function performBerserkerSlash2(n)
     End If
     If zBlowSeq(n) >= b And zBlowSeq(n) < c Then
         zani(n)=10:zf(n)=16
-        If zBlowSeq(n) = c-1 And gameSound Then PlaySound wolverineSlash3Snd    
+        If zBlowSeq(n) = c-1 And gameSound Then PlaySound wolverineSlash3Snd
     End If
     If zBlowSeq(n) >= c And zBlowSeq(n) < d Then
         If zBlowSeq(n) = c Then 
@@ -80,13 +80,14 @@ Function performBerserkerSlash2(n)
         Next
 
         zHitmode(n)=0:zBlowHold(n)=0:zBlowSound(n)=slashSnd
-        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=15    
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=15
     End If
     If zBlowSeq(n) > f And zBlowSeq(n) < g Then zani(n)=17:zf(n)=11
     
     If zBlowSeq(n) >= g Then 
+        zNoGrav(n)=0
         If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
-        If zOnGnd(n)=0 Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
+        If zOnGnd(n)=0 Then zani(n)=4:zf(n)=1:ztopSpeed(n)=.5:zNomove(n)=0
     End If
 End Function
 
@@ -720,7 +721,7 @@ Case 8    ;Dodging
 Case 9    ; berserker barrage (down special)
     zNoMove(n)=0
     ztopspeed(n)=.5
-    zNoJump(n)=1:zJumping(n)=0:zNograv(n)=1
+    zNoJump(n)=1:zJumping(n)=0:zNograv(n)=1:zJump(n)=0:zJumping(n)=0
     aa=11/wolvSpdFctr(n):a=21/wolvSpdFctr(n):b=24/wolvSpdFctr(n):c=31/wolvSpdFctr(n):d=34/wolvSpdFctr(n)
     :e=30/wolvSpdFctr(n):f=39/wolvSpdFctr(n):g=42/wolvSpdFctr(n):h=49/wolvSpdFctr(n):i=52/wolvSpdFctr(n)
     :j=(i+20):k=500
@@ -732,13 +733,11 @@ Case 9    ; berserker barrage (down special)
         If Abs(zSpeed#(n)) >= 4 Then zBlowSeq(n)=aa
         isRunning(n)=0
     End If
-    If zBlowSeq(n) = b Then
-        If gameSound Then PlaySound wolverineBarrageSnd
-        zJump(n)=0
-    EndIf
+    If zBlowSeq(n) = b And gameSound Then PlaySound wolverineBarrageSnd
+
     If zHitHead(n)=1 Then zBlowSeq(n)=i:zy(n)=zy(n)+4
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< aa Then zani(n)=3:zf(n)=1
-    If zBlowSeq(n) => aa And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=1:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))    
+    If zBlowSeq(n) => aa And zBlowSeq(n) =< a Then zani(n)=12:zf(n)=1:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))
     If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=12:zf(n)=2:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))
     If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=12:zf(n)=3:moveX(n,zBlowdir(n),(1.5*wolvSpdFctr(n)))
     If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=12:zf(n)=4:moveX(n,zBlowdir(n),(1.5*wolvSpdFctr(n)))
@@ -747,7 +746,7 @@ Case 9    ; berserker barrage (down special)
     If zBlowSeq(n) > f And zBlowSeq(n) =< g Then zani(n)=12:zf(n)=7:moveX(n,zBlowdir(n),(1.5*wolvSpdFctr(n)))
     If zBlowSeq(n) > g And zBlowSeq(n) =< h Then zani(n)=12:zf(n)=8:moveX(n,zBlowdir(n),(1.5*wolvSpdFctr(n)))
     If zBlowSeq(n) > h And zBlowSeq(n) =< i Then zani(n)=12:zf(n)=9:moveX(n,zBlowdir(n),(1.5*wolvSpdFctr(n)))
-    If zBlowSeq(n) > i And zBlowSeq(n) =< j Then zani(n)=12:zf(n)=1:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))    
+    If zBlowSeq(n) > i And zBlowSeq(n) =< j Then zani(n)=12:zf(n)=1:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))
     If zBlowSeq(n) > j And zBlowSeq(n) =< k Then zani(n)=12:zf(n)=2:moveX(n,zBlowdir(n),(1*wolvSpdFctr(n)))
     If zBlowSeq(n) > k And zBlowSeq(n) =< l Then zani(n)=12:zf(n)=3:moveX(n,zBlowdir(n),(1.5*wolvSpdFctr(n)))
 
@@ -788,10 +787,8 @@ Case 9    ; berserker barrage (down special)
         zBlowSound(n)=slashSnd
     EndIf
     If zBlowSeq(n) > i And zBlowSeq(n) < j Then zani(n)=12:zf(n)=7:zNograv(n)=0
-    
     If zBlowSeq(n) => i And zBlowSeq(n) < k-1 Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5
-
-    If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zBlow(n)=0:zblowstill(n)=0
+    If zBlowSeq(n) >= j And zBlowSeq(n) < k Then zBlow(n)=0:zblowstill(n)=0:zNograv(n)=0
     If zongnd(n)=1 And zBlowSeq(n) >= j-2 And zBlowSeq(n) < k Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10    ;High Kick 

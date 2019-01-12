@@ -1015,7 +1015,6 @@ For n=1 To zzamount
             Case 53:DoGohanHelper(n)
         End Select
     EndIf
-
     zBlowHit(n)=0
     zHitHead(n)=0
 Next

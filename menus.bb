@@ -948,7 +948,11 @@ End Function
 Function mainMenu()
 
 pointers
-
+For n=1 To 200
+    If JoyDown(n)=1 Then
+        DebugLog "JoyDown!: " + n
+    End If
+Next
 waitCheats()
 
 For n=1 To ButtonAmount
