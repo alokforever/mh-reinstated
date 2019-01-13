@@ -3022,6 +3022,48 @@ Case 142:       ;Juggernaut Blink
     
     If chunkSeq(n)>seq5 Then chunk(n)=0
     
+Case 143:       ;Pre-super 2
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2:seq7=seq6+2
+    chunkFollowOwner(n)=1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(113,1):chunkPic_(n)=ptPic(113,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(113,2):chunkPic_(n)=ptPic(113,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(113,3):chunkPic_(n)=ptPic(113,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(113,4):chunkPic_(n)=ptPic(113,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(113,5):chunkPic_(n)=ptPic(113,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(113,6):chunkPic_(n)=ptPic(113,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(113,7):chunkPic_(n)=ptPic(113,7)
+
+    If chunkSeq(n)>seq7 Then chunk(n)=0
+    
+Case 144:       ;Juggernaut Head Crush effect (head)
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2:seq7=seq6+2
+    chunkFollowOwner(n)=1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(114,1):chunkPic_(n)=ptPic_(114,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(114,2):chunkPic_(n)=ptPic_(114,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(114,3):chunkPic_(n)=ptPic_(114,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(114,4):chunkPic_(n)=ptPic_(114,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(114,5):chunkPic_(n)=ptPic_(114,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(114,6):chunkPic_(n)=ptPic_(114,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(114,7):chunkPic_(n)=ptPic_(114,7)
+
+    If chunkSeq(n)>seq7 Then chunk(n)=0
+    
+Case 145:       ;Juggernaut Head Crush effect (ground)
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2:seq7=seq6+2
+    chunkFollowOwner(n)=1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(115,1):chunkPic_(n)=ptPic_(115,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(115,2):chunkPic_(n)=ptPic_(115,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(115,3):chunkPic_(n)=ptPic_(115,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(115,4):chunkPic_(n)=ptPic_(115,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(115,5):chunkPic_(n)=ptPic_(115,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(115,6):chunkPic_(n)=ptPic_(115,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(115,7):chunkPic_(n)=ptPic_(115,7)
+
+    If chunkSeq(n)>seq7 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

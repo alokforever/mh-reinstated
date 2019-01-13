@@ -6,6 +6,8 @@ Function doJuggHeadCrush(n)
     zNoMove(n)=1:zNoJump(n)=1
     zNoGrav(n)=1
     
+    If zBlowSeq(n)=1 Then preSuperEffect(n)=1
+    
     If zBlowSeq(n)=seq1 Then
         zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=45:superMovePortraitSeqStart(n)=1
     End If
@@ -44,6 +46,13 @@ Function doJuggHeadCrush(n)
         If zBlowSeq(n)-2 Mod 10 = 0 Then extraObj(n,zx(n),-40,zy(n),2,4,89) ;Dust
     End If
     
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq15-14 Then 
+        DebugLog "seq2: " + seq2 + ", zBlowSeq: " + zBlowSeq(n)
+        If (zBlowSeq(n)-4) Mod 14 = 0 Then 
+            extraObj(n,zx(n),-70,zy(n),20,zblowdir(n),144) ;Head Crush effect (head)
+            extraObj(n,zx(n),-65,zy(n),0,zblowdir(n),145) ;Head Crush effect (ground)
+        End If
+    End If
 ;========= Hitbox ===========
     If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq18 Then
         zblowPamount(n)=5:nn=1
@@ -342,7 +351,7 @@ zchunkType(n)=10
 
 Select zCurBlow(n)
 Case 0    ;Blocking
-    zNoMove(n)=1:zNoJump(n)=1:zSuperBar(n)=100
+    zNoMove(n)=1:zNoJump(n)=1
     zBlock(n)=1:zani(n)=13:zf(n)=1
         If zblocked(n)=1 Then 
         zani(n)=13:zf(n)=2

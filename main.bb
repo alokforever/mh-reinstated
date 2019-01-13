@@ -240,6 +240,7 @@ Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chun
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
+Dim preSuperEffect(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1444,7 +1445,13 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
         zSuperMoveSeq(n)=zSuperMoveSeq(n)+1
         
         If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
-            If shouldShowSuperPortrait(n) > 0 Then showDancingCircles(n)
+            If shouldShowSuperPortrait(n) > 0 Then 
+                If preSuperEffect(n)=0 Then 
+                    showDancingCircles(n)
+                Else 
+                    If zBlowSeq(n) Mod 14=0 Then extraObj(n,zx(n),0,zy(n),30,zblowdir(n),143)
+                End If
+            End If
         EndIf
         
         If shouldShowSuperPortrait(n) > 0 Then 

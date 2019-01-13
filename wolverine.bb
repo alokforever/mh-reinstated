@@ -83,7 +83,7 @@ Function performBerserkerSlash2(n)
         zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=15
     End If
     If zBlowSeq(n) > f And zBlowSeq(n) < g Then zani(n)=17:zf(n)=11
-    
+    If zBlowSeq(n) > c And zBlowSeq(n) <= g Then zshield(n)=1
     If zBlowSeq(n) >= g Then 
         zNoGrav(n)=0
         If zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
