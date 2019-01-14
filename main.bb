@@ -97,7 +97,7 @@ Dim upK(maxZ),leftK(maxZ),rightK(maxZ),downK(maxZ),shotK(maxZ),specialK(maxZ),ju
 Dim zMoveSide(maxZ),xblow(maxZ,50),yblow(maxZ,50),wblow(maxZ,50),hblow(maxZ,50),zBlowEffect(maxZ),zBlowStillSeq(maxZ),zBlowStillTime(maxZ)
 Dim zxStill#(maxZ),zyStill(maxZ),zBlowdir(maxZ),zNoJump(maxZ),zNoMove(maxZ),zNoGrav(maxZ),zblowPamount(maxZ),zBlowBlockTime(maxZ),isFrozen(maxZ)
 Dim zImuneTo(maxZ,maxZ),zImuneSeq(maxZ,maxZ),zImuneTime(maxZ,maxZ),zImune(maxZ,maxZ)
-Dim hitKey(maxZ),upKey(maxZ),downKey(maxZ),leftKey(maxZ),rightKey(maxZ),shotKey(maxZ),jumpKey(maxZ),jumpKeyDown(maxZ),blockKey(maxZ)
+Dim hitKey(maxZ),upKey(maxZ),downKey(maxZ),leftKey(maxZ),rightKey(maxZ),shotKey(maxZ),jumpKey(maxZ),jumpKeyDown(maxZ),blockKey(maxZ),comboKey(maxZ)
 Dim rightKeyHit(maxZ),leftKeyHit(maxZ),specialkey(maxZ),zController(maxZ),controllerPort(maxZ),grabKey(maxZ),superKey(maxZ),tauntKey(maxZ),extraSpecialkey(maxZ)
 Dim runkey(maxZ),zDacc#(maxZ),zAcc#(maxZ),zTopSpeed#(maxZ),zDtopSpeed#(maxZ)
 
@@ -616,7 +616,7 @@ Select menuOption
     Case 1: menu()  ;character Select screen
     Case 2: mainMenu()  ;main menu, first screen
             For i=1 To zzamount
-                clearSubStates(i)
+                clearSubStates(i, 0)
             Next
     Case 3: optionsMenu()   ;Options menu
     Case 4: controlsMenu()   ;Controls menu
@@ -1104,7 +1104,7 @@ Next
 For n=1 To Famount
     If eventN(Fevent(n))=1 And Fon(n) Then factory(n)
 Next
-
+;DebugLog "Abs(zx(1)-zx(2)): " + Abs(zx(1)-zx(2)) + ", zy(1)-zy(2): " + (zy(1)-zy(2))
 For n = 1 To zzamount
     If isActiveCharacter(n) Then
         If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
@@ -1301,7 +1301,7 @@ Else    ;If passed level
     Next
     If alive < aliveAmountNeeded Then
         For i=1 To zzamount
-            clearSubStates(i)
+            clearSubStates(i, 0)
         Next
         gameDone=1
         mapRestart=1
@@ -1679,7 +1679,7 @@ closeScreen(Rand(1,4),0)
 
 If mapComplete=1 Then
     For i=1 To zzamount
-        clearSubStates(i)
+        clearSubStates(i, 0)
     Next
     If secretsFound > mapSecret(previousMap) Then
         mapSecret(previousMap) = secretsFound
@@ -2264,7 +2264,7 @@ EndIf
 End Function
 ;------------- Kill player -----------------------
 Function killZ(n)
-clearSubStates(n)
+clearSubStates(n, 1)
 If gameMode <> 2 Then
     zx(n)=zxRespawn(n):zy(n)=zyRespawn(n)
 Else
@@ -5488,14 +5488,14 @@ Function depleteStaminaBar(n, amt#)
 End Function
 
 ;------------ Clear gameplay sub states ---------------
-Function clearSubStates(n)
+Function clearSubStates(n, isKilled)
     If isFrozen(n)=1 Then unFreeze(n,1)
     If isDizzy(n)=1 Then unFreeze(n,0)
     If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
     If wolverineRage(n)=1 Then wolverineRage(n)=0:wolvSpdFctr(n)=1:canGetRageTime(n)=0:rageSeq(n)=0
     If projectileDeflectMode(n)=1 Then projectileDeflectMode(n)=0
     If electrocuteSeq(n)>0 Then electrocuteSeq(n)=0
-    refreshCooldown(n)
+    If isKilled=0 Then refreshCooldown(n)
     isRunning(n)=0
     If isHelper(n)=1 Then zon(n)=0
 End Function
@@ -6082,6 +6082,6 @@ End Function
 
 Function isAttackKeyDown(n)
     Local ret=0
-    If (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Then ret=1
+    If (KeyDown(shotK(n))=1 Or JoyDown(shotK(n))=1) Or comboKey(n)=1 Then ret=1
     return ret
 End Function

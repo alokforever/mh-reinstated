@@ -678,7 +678,7 @@ Case 7    ;berserker slash (special)
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=10:zf(n)=2
     If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=10:zf(n)=3
-    If zBlowSeq(n) > c And zBlowSeq(n) =< f Then 
+    If zBlowSeq(n) > c And zBlowSeq(n) =< e Then 
         If zBlowSeq(n) = c+1 Then extraObj(n,zx(n),20,zy(n),8,zblowdir(n),81)
         zblowPamount(n)=6:nn=1
         xblow(n,nn)=0: yblow(n,nn)=0:wblow(n,nn)=80:hblow(n,nn)=1:nn=nn+1
@@ -1185,6 +1185,7 @@ Case 16 ;Taunt Key (Berserker Rage)
     End If
     If zBlowSeq(n) = d Or zBlowSeq(n) = 160 Or zBlowSeq(n) = 219 Then 
         If zSuperBar(n) <= 100 And wolverineRage(n) = 0 And vsMode=1 Then zSuperBar(n)=zSuperBar(n)+5
+        If zSuperBar(n) > 100 Then zSuperBar(n)=100
     EndIf
     ;***** Taunt *****
     

@@ -855,7 +855,7 @@ Function doGohanCounter(n)
     If zFace(n)=2 Then face=4:x=zx(n)+130
     If zFace(n)=4 Then face=2:x=zx(n)-130
     If zBlowSeq(n) = seq18 And isMoveHit(n)=1 Then 
-        spellCooldownMaxTime(n, 2)=572
+        spellCooldownMaxTime(n, 2)=2072
         spellCooldownSeq(n, 2)=spellCooldownMaxTime(n, 2) 
         ;checkDist(n,x,zy(n)-20,zFace(n))
         makechunk(n,x,zy(n)-20,face,138)

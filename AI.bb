@@ -1,3 +1,43 @@
+Function isPriorityMoveFound(n, en)
+    moveFound=0
+    If zx(en) > zx(n) Then zFace(n)=2 Else zFace(n)=4
+    Select curGuy(n)
+    Case 12 ; Scorpion
+        comboKey(n)=0
+        If spellCooldownSeq(n, 1)>60 And (Abs(zx(en)-zx(n)) <= 40) Then
+            shotKey(n)=1:comboKey(n)=1:moveFound=1
+        Else If (Abs(zx(en)-zx(n)) >= 180 And Abs(zx(en)-zx(n)) <= 220) Then
+            If (zy(en)-zy(n) >= 40) And (zy(en)-zy(n) <= 55)
+                superKey(n)=1:downKey(n)=1:moveFound=1
+            End If
+        Else If (Abs(zx(en)-zx(n)) <= 200) And (Abs(zx(en)-zx(n)) >= 90) And (Abs(zy(en)-zy(n)) < 5)
+            specialKey(n)=1:moveFound=1
+        Else If (Abs(zx(en)-zx(n)) < 90) And (Abs(zx(en)-zx(n)) >= 80) And (Abs(zy(en)-zy(n)) < 40)
+            extraSpecialkey(n)=1:moveFound=1
+        End If
+    Case 13 ; Sub Zero
+        If Abs(zx(en)-zx(n)) < 15 And Abs(zy(en)-zy(n)) < 40 And zSuperBar(n)>=100 Then
+            superKey(n)=1:upKey(n)=1
+            moveFound=1
+        Else If isFrozen(en)=1 Then
+            If (Abs(zx(en)-zx(n)) > 40) And zStaminaBar(n)>=1 Then 
+                isRunning(n)=1
+                If zFace(n)=2 Then rightKey(n)=1
+                If zFace(n)=4 Then leftKey(n)=1
+            Else 
+                shotKey(n)=1:comboKey(n)=1
+            End If
+            moveFound=1
+        Else If (Abs(zx(en)-zx(n)) >= 175 And Abs(zx(en)-zx(n)) <= 180) Then
+            If zFace(n)=2 Then rightKey(n)=1
+            If zFace(n)=4 Then leftKey(n)=1
+            extraSpecialkey(n)=1
+            moveFound=1
+        End If
+    End Select
+    return moveFound
+End Function
+
 ;-------------- Special A.I. -------------------------
 Function zSpecialAI(n,nn)
 :hitkey(n)=1
@@ -279,6 +319,8 @@ End Function
 Function AI(n,e)
 nn=e:hitkey(n)=1
 
+If isPriorityMoveFound(n, nn)=1 Then GoTo AiDone
+
 saa=Rand(1,30)
 If saa=25 Then
     aiCurLevel(n)=Rand(aiLevel(n),5)
@@ -547,7 +589,6 @@ If zTempShield(nn)=1 Then Goto aiDone
 If aiCurLevel(n) > 4 Then
 If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (40+yRange(n)) And zy(nn) > zy(n) - (75+yRange(n))) Then 
     If (zongnd(n)=0 And onEdge2=0 And curArea > 0) Or (zongnd(n)=0 And dangerMove5(n)=0 And curArea > 0) Then
-
         If zNoAirSpecial(n)=0 Then
             upkey(n)=1:specialKey(n)=1:Goto aidone
         Else
@@ -563,7 +604,14 @@ If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (40+yRange
         EndIf
     EndIf
     a=2
-    If a=>2 And a<=4 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
+    If a=>2 And a<=4 And zongnd(nn)=0 Then 
+        Select curGuy(n)
+        Case 13 
+            If Abs(zx(nn)-zx(n)) < 35 Then upkey(n)=1:shotKey(n)=1
+        Default
+            upkey(n)=1:shotKey(n)=1
+        End Select
+    End If
     Goto aidone
 EndIf
 EndIf
@@ -597,15 +645,17 @@ EndIf
 
 ;If guy is Sub Zero or Scorpion and enemy is on top
 If curGuy(n) = 13 Or curGuy (n) = 12 Then
-If (zx(nn) => zx(n)-70 And zx(nn) =< zx(n)+ 70) And (zy(nn) < zy(n) - (70+yRange(n)) And zy(nn) > zy(n) - (80+yRange(n))) Then 
+If (zx(nn) => zx(n)-50 And zx(nn) =< zx(n)+50) And (zy(nn) < zy(n) - (70+yRange(n)) And zy(nn) > zy(n) - (70+yRange(n))) Then 
     If (zongnd(n)=1 And onEdge2=0 And curArea > 0) Or (zongnd(n)=0 And dangerMove5(n)=0 And curArea > 0) Then
-
         If zNoAirSpecial(n)=0 Then
             tauntKey(n)=1:Goto aidone
         Else
-            If curGuy(n) = 13 And zongnd(nn)=0 Then upkey(n)=1:shotKey(n)=1
+            If curGuy(n)=13 Then 
+                upKey(n)=1
+                If zSuperBar(n)>=100 Then superKey(n)=1 Else shotKey(n)=1
+            End If
         EndIf
-    EndIf    
+    EndIf
 EndIf
 EndIf
 
@@ -615,16 +665,19 @@ If attack=1 Then
     If a=4 Then shotKey(n)=1:downKey(n)=1 :Goto aiDone
     If a=7 And zongnd(n)=1 Then
         If zNoAirSpecial(n)=0 Then
+            If curGuy(n)=13 And isFrozen(nn)=1 Then Goto aiDone
             specialKey(n)=1 :Goto aiDone
         Else
             shotKey(n)=1 :Goto AiDone
         EndIf
     EndIf
     If a=10 Then shotKey(n)=1:upKey(n)=1 :Goto aiDone
-    If a=14 Then superKey(n)=1:Goto aidone
+    If a=14 Then superKey(n)=1:upKey(n)=1:Goto aidone
+    If a=15 Then superKey(n)=1:upKey(n)=1: DebugLog "PUTANG INA" :Goto aidone
     
     If a=9 And onEdge=0 And curArea > 0 Then
         If zNoAirSpecial(n)=0 Then
+            If curGuy(n)=13 And isFrozen(nn)=1 Then Goto aiDone
             specialKey(n)=1:downkey(n)=1  :Goto aiDone
         Else
             shotKey(n)=1:Goto aiDone

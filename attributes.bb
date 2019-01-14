@@ -2676,14 +2676,14 @@ Case 106:        ;hand from hell
     If chunkSeq(n) >= 19 And chunkSeq(n) <= 21 Then chunkPic(n)=ptPic(88,7):chunkPic_(n)=ptPic_(88,7)
     If chunkSeq(n) >= 22 And chunkSeq(n) <= 24 Then chunkPic(n)=ptPic(88,8):chunkPic_(n)=ptPic_(88,8)
     If chunkSeq(n) >= 25 And chunkSeq(n) <= 27 Then chunkPic(n)=ptPic(88,9):chunkPic_(n)=ptPic_(88,9)
-    If chunkSeq(n) >= 28 And chunkSeq(n) <= 31 Then chunkPic(n)=ptPic(88,10):chunkPic_(n)=ptPic_(88,10)
-    If chunkSeq(n) >= 32 And chunkSeq(n) <= 35 Then chunkPic(n)=ptPic(88,11):chunkPic_(n)=ptPic_(88,11)
-    If chunkSeq(n) >= 36 And chunkSeq(n) <= 39 Then chunkPic(n)=ptPic(88,12):chunkPic_(n)=ptPic_(88,12)
+    If chunkSeq(n) >= 28 And chunkSeq(n) <= 31 Then chunkPic(n)=ptPic(88,11):chunkPic_(n)=ptPic_(88,11)
+    If chunkSeq(n) >= 36 And chunkSeq(n) <= 39 Then chunkPic(n)=ptPic(88,10):chunkPic_(n)=ptPic_(88,10)
+    If chunkSeq(n) >= 32 And chunkSeq(n) <= 35 Then chunkPic(n)=ptPic(88,12):chunkPic_(n)=ptPic_(88,12)
     If chunkSeq(n) >= 40 And chunkSeq(n) <= 43 Then chunkPic(n)=ptPic(88,13):chunkPic_(n)=ptPic_(88,13)
     If chunkSeq(n) >= 44 And chunkSeq(n) <= 47 Then chunkPic(n)=ptPic(88,14):chunkPic_(n)=ptPic_(88,14)
     If chunkSeq(n) >= 48 And chunkSeq(n) <= 51 Then chunkPic(n)=ptPic(88,15):chunkPic_(n)=ptPic_(88,15)
     
-    If chunkSeq(n)=51 Or (chunkSeq(n) < 25 And zHit(n)=1) Then chunk(n)=0
+    If chunkSeq(n)=51 Then chunk(n)=0
     
 Case 107:        ;pre-fireball
     If chunkSeq(n) >= 1 And chunkSeq(n) <= 3 Then chunkPic(n)=ptPic(89,1):chunkPic_(n)=ptPic_(89,1)
