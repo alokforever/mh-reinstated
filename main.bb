@@ -240,7 +240,7 @@ Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chun
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
-Dim preSuperEffect(maxZ)
+Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)

@@ -468,6 +468,7 @@ Case 15: ;Juggernaut
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
     zBlowDist(n,16)=370
+    zGrabDist(n)=zGrabDist(n)+15
     zSide(n)=16
     zheight(n)=56
     zUpHeight(n)=56
@@ -3994,6 +3995,7 @@ If n=15 Then ;Juggernaut
     If juggHeadCrushGruntSnd=0 Then juggHeadCrushGruntSnd=LoadSound(soundsdir$ + "juggernaut\juggHeadCrushGruntSnd.wav")
     If juggHeadCrushSnd=0 Then juggHeadCrushSnd=LoadSound(soundsdir$ + "juggernaut\juggHeadCrushSnd.wav")
     If mvcSuper1Snd=0 Then mvcSuper1Snd=LoadSound(soundsdir$ + "mvc\mvcSuper1Snd.wav")
+    If wolverineGrabSnd=0 Then wolverineGrabSnd=LoadSound(soundsdir$ + "wolverine\wolverineGrab.wav")
 End If
 
 If n=14 Then ;WonderWoman

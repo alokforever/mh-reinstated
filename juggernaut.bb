@@ -334,7 +334,7 @@ Function handleJuggernautCooldown(n, blowSeq, cooldownType)
 End Function
 
 Function DoJuggernaut(n)
-
+If zBlowSeq(n)=0 Then clearControlledPlayers(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
@@ -864,7 +864,59 @@ Case 14    ;Super Special
     End If
 
 Case 15 ;Juggernaut throw
-    zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    seq1=4:seq2=seq1+2:seq3=seq2+6:seq4=seq3+6
+    seq5=seq4+18:seq6=seq5+6:seq7=seq6+6
+    zNoMove(n)=1:zNoJump(n)=1
+    
+    If zBlowSeq(n)=1 Then moveRepeatTimes(n)=0
+;======= Animation ========
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=15:zf(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=15:zf(n)=2
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=15:zf(n)=2
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=15:zf(n)=1
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=15:zf(n)=3
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=15:zf(n)=4
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then zani(n)=15:zf(n)=5
+    
+    If zBlowSeq(n) = seq7 Then moveRepeatTimes(n)=moveRepeatTimes(n)+1
+;======= Grabbing =========
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq3 Then
+        grabbing(n,zx(n),zy(n)-3,zGrabDist(n),10)
+        If zGrabs(n)=1 Then 
+            If gameSound Then PlaySound wolverineGrabSnd
+            zBlowSeq(n)=seq4+1
+        End If
+    End If
+    If zBlowSeq(n)=seq3+1 And zGrabs(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    
+    en=zGrabsThis(n)
+    If zBlowSeq(n) = seq4+1 Then
+        If zFace(n)=2 Then zx(en)=zx(n)+15:zFace(en)=4
+        If zFace(n)=4 Then zx(en)=zx(n)-15:zFace(en)=2
+    End If
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq7 Then initParalysis(n, en, 1)
+    If zBlowSeq(n) = seq5+2 Then zHitSeq(en)=0
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then 
+        zani(en)=2
+        If curGuy(en)=16 Then ;Piccolo
+            zf(en)=10
+        Else
+            zf(en)=3
+        End If
+        zblowPamount(n)=3:nn=1
+        xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=20:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=15:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
+        zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
+        zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=30:zBlowBlockTime(n)=40
+        zBlowSound(n)=mvcHit2Snd
+    Else
+        zani(en)=2:zf(en)=1
+    End If
+    
+    If zBlowSeq(n) = seq7 And moveRepeatTimes(n) < 6 Then zBlowSeq(n)=seq4+1
+    If zBlowSeq(n) > seq7 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 16 ;Counter Key (Taunt and Power up)
     taunt1=80:endSeq=81

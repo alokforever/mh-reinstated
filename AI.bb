@@ -16,7 +16,7 @@ Function isPriorityMoveFound(n, en)
             extraSpecialkey(n)=1:moveFound=1
         End If
     Case 13 ; Sub Zero
-        If Abs(zx(en)-zx(n)) < 15 And Abs(zy(en)-zy(n)) < 40 And zSuperBar(n)>=100 Then
+        If Abs(zx(en)-zx(n)) < 5 And Abs(zy(en)-zy(n)) < 40 And zSuperBar(n)>=100 Then
             superKey(n)=1:upKey(n)=1
             moveFound=1
         Else If isFrozen(en)=1 Then
