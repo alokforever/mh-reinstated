@@ -1008,7 +1008,7 @@ Function doPiccoloCombo(n)
     If zBlowSeq(n)>seq18 And zBlowSeq(n)<=seq20 Then
         If zBlowStill(n)=1 Then isMoveHit(n)=1
         If (zBlowSeq(n)=seq20) And (isMoveHit(n)=0 Or isAttackKeyDown(n)=0) Then zBlowSeq(n)=endSeq
-        zHitmode(n)=2:zBlowHold(n)=16:zBlowStillTime(n)=1:zBlowType(n)=1
+        zHitmode(n)=2:zBlowHold(n)=28:zBlowStillTime(n)=1:zBlowType(n)=1
         zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitDownSpeed(n)=0:zHitTime(n)=40
         zBlowDamage(n)=4:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowBlockTime(n)=40
         zBlowSound(n)=dbzHit1Snd

@@ -80,10 +80,10 @@ Function doJuggHeadCrush(n)
     End If
 End Function
 
-Function doJuggCrouchUpPunch(n)
+Function doJuggCrouchUpPunch(n, dmg)
     seqStart=100
     seq1=seqStart+6:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+11:seq6=seq5+9
-    endSeq=45
+    endSeq=49
     
 ;========= Animation =========
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zani(n)=9:zf(n)=10
@@ -103,9 +103,9 @@ Function doJuggCrouchUpPunch(n)
         zBlowBack(n)=1
         xblow(n,nn)=15: yblow(n,nn)=40:wblow(n,nn)=32:hblow(n,nn)=14:nn=nn+1
         xblow(n,nn)=15: yblow(n,nn)=26:wblow(n,nn)=22:hblow(n,nn)=14:nn=nn+1
-        zHitmode(n)=0:zBlowHold(n)=12:zBlowStillTime(n)=12
-        zHitSpeed#(n)=5:zHitUpSpeed#(n)=5:zHitTime(n)=40
-        zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zHitmode(n)=2:zBlowHold(n)=12:zBlowStillTime(n)=12
+        zHitSpeed#(n)=5:zHitUpSpeed#(n)=6:zHitTime(n)=40
+        zBlowDamage(n)=dmg:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
         zBlowSound(n)=juggHit1Snd
     End If
     
@@ -114,8 +114,8 @@ Function doJuggCrouchUpPunch(n)
         zBlowBack(n)=1
         xblow(n,nn)=-15: yblow(n,nn)=75:wblow(n,nn)=32:hblow(n,nn)=20:nn=nn+1
         xblow(n,nn)=0: yblow(n,nn)=50:wblow(n,nn)=37:hblow(n,nn)=10:nn=nn+1
-        zHitmode(n)=0:zBlowHold(n)=4:zBlowStillTime(n)=4
-        zHitSpeed#(n)=5:zHitUpSpeed#(n)=5:zHitTime(n)=40
+        zHitmode(n)=2:zBlowHold(n)=4:zBlowStillTime(n)=4
+        zHitSpeed#(n)=5:zHitUpSpeed#(n)=6:zHitTime(n)=40
         zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
         zBlowSound(n)=juggHit1Snd
     End If
@@ -734,7 +734,7 @@ Case 9    ; Earthquake (down special)
 
 Case 10    ;High Punch 
     seq1=7:seq2=seq1+2:seq3=seq2+2:seq4=seq3+1:seq5=seq4+6:seq6=seq5+8:seq7=seq6+5
-    endSeq=seq7+1:highKickSeq=50:crouchUpPunchSeq=100
+    endSeq=seq7+5:highKickSeq=50:crouchUpPunchSeq=100
     zNoMove(n)=1:zNoJump(n)=1
     
     If zBlowSeq(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) Then
@@ -743,7 +743,7 @@ Case 10    ;High Punch
     If zBlowSeq(n)=1 And zDuck(n)=1 Then zBlowSeq(n)=crouchUpPunchSeq
     
     If zBlowSeq(n)>=highKickSeq And zBlowSeq(n)<crouchUpPunchSeq Then doJuggHighKick(n)
-    If zBlowSeq(n)>=crouchUpPunchSeq Then doJuggCrouchUpPunch(n)
+    If zBlowSeq(n)>=crouchUpPunchSeq Then doJuggCrouchUpPunch(n, 20)
     
 ;========= Animation ===========
     If zBlowSeq(n)>0 And zBlowSeq(n)<seq1 Then zani(n)=14:zf(n)=1
@@ -865,9 +865,13 @@ Case 14    ;Super Special
 
 Case 15 ;Juggernaut throw
     seq1=4:seq2=seq1+2:seq3=seq2+6:seq4=seq3+6
-    seq5=seq4+18:seq6=seq5+6:seq7=seq6+6
+    seq5=seq4+18:seq6=seq5+6:seq7=seq6+6 ;48
+    endSeq=49
+    finishingPunchSeq=100
     zNoMove(n)=1:zNoJump(n)=1
     
+    If zBlowSeq(n)=seq7+1 Then zBlowSeq(n)=finishingPunchSeq
+    If zBlowSeq(n) >= finishingPunchSeq Then doJuggCrouchUpPunch(n, 4)
     If zBlowSeq(n)=1 Then moveRepeatTimes(n)=0
 ;======= Animation ========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=15:zf(n)=1
@@ -907,16 +911,16 @@ Case 15 ;Juggernaut throw
         xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=20:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=15:wblow(n,nn)=20:hblow(n,nn)=5:nn=nn+1
-        zHitmode(n)=2:zBlowHold(n)=1:zBlowStillTime(n)=1
+        zHitmode(n)=2:zBlowHold(n)=30:zBlowStillTime(n)=1:zBlowType(n)=1
         zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
-        zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=30:zBlowBlockTime(n)=40
+        zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowBlockTime(n)=40
         zBlowSound(n)=mvcHit2Snd
     Else
         zani(en)=2:zf(en)=1
     End If
     
     If zBlowSeq(n) = seq7 And moveRepeatTimes(n) < 6 Then zBlowSeq(n)=seq4+1
-    If zBlowSeq(n) > seq7 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<finishingPunchSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 16 ;Counter Key (Taunt and Power up)
     taunt1=80:endSeq=81

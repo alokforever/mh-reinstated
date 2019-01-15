@@ -45,7 +45,7 @@ AppTitle "MultiHero"
 SeedRnd (MilliSecs())
 
 Global message, messageN, mapN
-Global maxAmap = 100 
+Global maxAmap = 100
 Global lastAmap = 50    ;beat this map to beat the game
 Global maxVsMap = 20
 Global maxCTFMap = 20
@@ -1765,7 +1765,7 @@ Function loadZ(n)
     If zon(n) Then initZ(n)
 End Function
 
-; Return 0 if it's not the time for showing the Super Portrait
+; Return 0 if there is a special timing for displaying Super Portrait but it's not time
 ; Return 1 if there is no custom timing for displaying Super Portrait
 ; Return 2 if there is a special timing for displaying Super Portrait
 Function shouldShowSuperPortrait(n)
@@ -2102,7 +2102,7 @@ If zhit(n)=1 Then
     If zSuperMove(n)=1 And isSuperMove=1 Then isSuperMove=0
     zSuperMove(n)=0
     If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
-    DebugLog "n: " + n + ", zUpFallSpeed#(n): " + zUpFallSpeed#(n)
+    DebugLog "zUpFallSpeed: " + zUpFallSpeed#(2)
     zHitType(n)=0:zHitTypeModulo(n)=0
     zUpFallspeed#(n)=zUpFallSpeed#(n)-.1
     If zUpFallSpeed#(n) < 2 Then zUpFallSpeed#(n)=2
