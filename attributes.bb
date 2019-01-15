@@ -77,6 +77,7 @@ zBlocked(n)=0: aiGetTarget(n):
     electrocuteFrameSpd(n)=0
     maxHitSeq(n)=65
     zBouncedGndFrames(n)=0
+    superMovePortraitSeqStart(n)=0
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu

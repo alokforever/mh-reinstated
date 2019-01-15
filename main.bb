@@ -1765,7 +1765,7 @@ Function loadZ(n)
     If zon(n) Then initZ(n)
 End Function
 
-; Return 0 if it's not the time for showing the Super Portrait
+; Return 0 if there is a special timing for displaying Super Portrait but it's not time
 ; Return 1 if there is no custom timing for displaying Super Portrait
 ; Return 2 if there is a special timing for displaying Super Portrait
 Function shouldShowSuperPortrait(n)
