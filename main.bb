@@ -63,7 +63,7 @@ Global maxZ=30
 Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
-Dim clickedBy(100),butPic(100),butPic2(100),butText$(100),butSeq(100),tpic(100)
+Dim clickedBy(100),butPic(100),butPic2(100, maxZ),butText$(100),butSeq(100),tpic(100)
 Dim xPointer(10),yPointer(10),zName$(16),zThumbNail(16),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(maxZ)
@@ -240,7 +240,7 @@ Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chun
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
-Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ)
+Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -512,7 +512,14 @@ Next
 HidePointer
 
 For n=1 To characterAmount
-    butPic2(n)=LoadImage("gfx\" + n + "\zwalk0.bmp")
+    initStance(n)
+    If zStanceFrames(n)>0 Then
+        For m=1 To zStanceFrames(n)
+            butPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance" + m + ".bmp")
+        Next
+    Else
+        butPic2(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
+    End If
 Next
 
 music=LoadSound(soundsdir$ + "music10.mp3")
@@ -1104,7 +1111,7 @@ Next
 For n=1 To Famount
     If eventN(Fevent(n))=1 And Fon(n) Then factory(n)
 Next
-;DebugLog "Abs(zx(1)-zx(2)): " + Abs(zx(1)-zx(2)) + ", zy(1)-zy(2): " + (zy(1)-zy(2))
+
 For n = 1 To zzamount
     If isActiveCharacter(n) Then
         If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
@@ -2102,7 +2109,6 @@ If zhit(n)=1 Then
     If zSuperMove(n)=1 And isSuperMove=1 Then isSuperMove=0
     zSuperMove(n)=0
     If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
-    DebugLog "n: " + n + ", zUpFallSpeed#(n): " + zUpFallSpeed#(n)
     zHitType(n)=0:zHitTypeModulo(n)=0
     zUpFallspeed#(n)=zUpFallSpeed#(n)-.1
     If zUpFallSpeed#(n) < 2 Then zUpFallSpeed#(n)=2

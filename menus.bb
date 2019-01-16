@@ -334,7 +334,7 @@ Else
         EndIf
     End Select
 EndIf
-DebugLog "START"
+
 x=100:y=175:xOffset=0
 For i=1 To 4
  If curGuy(i)=6 Then xOffset=20 Else xOffset=0
@@ -355,7 +355,6 @@ waitInput()
 closeScreen(Rand(1,4),0)
 
 FreeImage statsImg
-DebugLog "END"
 End Function 
 ;--------- wait any key/joy button to be pressed ----------
 Function waitInput()
@@ -812,13 +811,13 @@ For b= 1 To characterAmount ;characters to select
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     If characterOpen(b)=1 Then
         If b=6 Then
-            DrawImage butpic2(b),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b)) ) +56
+            DrawImage butpic2(b, 1),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
         Else If b = 11 Or b = 14 Then
-            DrawImage butpic2(b),xbut(b)+1,( ybut(b)-ImageHeight(butpic2(b)) ) +56
+            DrawImage butpic2(b, 1),xbut(b)+1,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
         Else If b = 15 Then
-            DrawImage butpic2(b),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b)) ) +56
+            DrawImage butpic2(b, 1),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
         Else
-            DrawImage butpic2(b),xbut(b)+10,( ybut(b)-ImageHeight(butpic2(b)) ) +56
+            DrawImage butpic2(b, 1),xbut(b)+10,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
         EndIf
     Else
         DrawImage lock,xbut(b)+10, ybut(b)+15
@@ -873,6 +872,13 @@ Next
 n=0
 For b=55 To 58  ;team, selected player
     n=n+1
+    If zStanceFrames(curGuy(n))>0 Then
+        setStanceFrame(n)
+        butFrame=menuStanceFrame(n)
+        If butFrame=0 Then butFrame=1
+    Else
+        butFrame=1
+    End If
     If vsMode=1 Then
         Color 200,200,200
         Rect xbut(b),ybut(b),wbut(b),hBut(b),0
@@ -887,8 +893,13 @@ For b=55 To 58  ;team, selected player
             pri xbut(b)+5,ybut(b)+3,strInfo$(31)
         EndIf
     EndIf
-    If curGuy(n)=6 Then xOffset=10 Else xOffset=25
-    If CurGuy(n) > 0 And zon(n) > 0 Then DrawImage butpic2(CurGuy(n)),xbut(b)+xOffset,350-ImageHeight(butpic2(curGuy(n)))
+    xOffset=25
+    If curGuy(n)=6 Then xOffset=10
+    If curGuy(n)=15 Then xOffset=20
+    If CurGuy(n) > 0 And zon(n) > 0 Then 
+        DebugLog "butFrame: " + butFrame + ", n: " + n
+        DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,350-ImageHeight(butpic2(curGuy(n), butFrame))
+    End If
 Next
 
 n=0
@@ -1588,7 +1599,6 @@ For nn=1 To buttonAmount
     If xpointer(n) => xBut(nn) And xpointer(n) =< xbut(nn)+wbut(nn) And butOn(nn) Then
     If ypointer(n) => yBut(nn) And ypointer(n) =< ybut(nn)+hbut(nn) Then
         clickedBut(nn)=1:clickedBy(nn)=n:
-
     EndIf
     EndIf
 Next
@@ -1913,4 +1923,16 @@ Function waitCheats()
         cheatSeq(1)=0
         cheatSeq(2)=0
     EndIf
+End Function
+
+Function setStanceFrame(n)
+    guy=curGuy(n)
+    zStanceSeq(n)=zStanceSeq(n)+1
+    If zStanceSpeed(guy) > 0 Then
+        If zStanceSeq(n) Mod zStanceSpeed(guy) = 0 Then 
+            zStanceSeq(n)=0
+            menuStanceFrame(n)=menuStanceFrame(n)+1
+            If menuStanceFrame(n) > zStanceFrames(guy) Then menuStanceFrame(n)=0
+        End If
+    End If
 End Function

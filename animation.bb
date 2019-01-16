@@ -109,7 +109,7 @@ End Function
 Function drawWalkSequence(n)
     If zwalkseq(n) = 0 Then 
         If zStanceFrames(n) <> 0 Then 
-            drawStanceSequence(n):Return
+            drawStanceFrame(n):Return
         Else
             zani(n)=1:zf(n)=0
         EndIf
@@ -231,7 +231,7 @@ Function getSpecialRunStatus(n)
     Return ret
 End Function
 ;----------- Draw Stance Sequence --------------
-Function drawStanceSequence(n)
+Function drawStanceFrame(n)
     If zStanceSeq(n) < zStanceSpeed(n) Then 
         zStanceSeq(n) = zStanceSpeed(n)
     Else
@@ -242,7 +242,7 @@ Function drawStanceSequence(n)
             zani(n)=19:zf(n)=frame
             If zStanceSeq(n)-1 > zStanceFrames(n)*zStanceSpeed(n) Then zStanceSeq(n) = zStanceSpeed(n)-1
             Return
-        EndIf            
+        EndIf
     Next
 End Function
 

@@ -4306,3 +4306,32 @@ If n=31 Then
 EndIf
 
 End Function
+
+Function initStance(n)
+    zStanceFrames(n)=0
+    zStanceSpeed(n)=0
+    
+    select(n)
+    Case 6  ; Strider Hiryu
+        zStanceFrames(n)=20
+        zStanceSpeed(n)=3
+    case 11 ; Wolverine
+        zStanceFrames(n)=17
+        zStanceSpeed(n)=3
+    case 12 ; Scorpion
+        zStanceFrames(n)=9
+        zStanceSpeed(n)=5
+    case 13 ; Sub Zero
+        zStanceFrames(n)=9
+        zStanceSpeed(n)=5
+    Case 14 ; WonderWoman
+        zStanceFrames(n)=12
+        zStanceSpeed(n)=6
+    Case 15 ; Juggernaut
+        zStanceFrames(n)=8
+        zStanceSpeed(n)=6
+    Case 16 ; Piccolo
+        zStanceFrames(n)=7
+        zStanceSpeed(n)=6
+    End Select
+End Function
