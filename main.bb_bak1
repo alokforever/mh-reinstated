@@ -33,7 +33,7 @@ Const gameVersion$ = "0.96"
 ;------------- listed version 0.95 -------------------
 ;Goku can't teleport through thick walls anymore
 ;disappearing item when using axe(belmont) bug fixed
-;belmont's axe can't be used as item anymore to hit switches
+;belmont's axe can't be used as item anymore to hit  	switches
 ;Game level editor included
 
 ;------------- listed version 0.94 -------------------

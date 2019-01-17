@@ -538,7 +538,7 @@ Function menu()
 pointers
 
 For n=1 To ButtonAmount
-If clickedBut(n) Then
+If clickedBut(n) Then    
     Select n    ;Add character, add CASE 11 for your new guy, set curGuy(clickedBy(n)=11 in the new line
 
     Case 1:
@@ -874,6 +874,7 @@ For b=55 To 58  ;team, selected player
     n=n+1
     If zStanceFrames(curGuy(n))>0 Then
         setStanceFrame(n)
+        If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1
         butFrame=menuStanceFrame(n)
         If butFrame=0 Then butFrame=1
     Else
@@ -897,7 +898,6 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=6 Then xOffset=10
     If curGuy(n)=15 Then xOffset=20
     If CurGuy(n) > 0 And zon(n) > 0 Then 
-        DebugLog "butFrame: " + butFrame + ", n: " + n
         DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,350-ImageHeight(butpic2(curGuy(n), butFrame))
     End If
 Next
@@ -964,13 +964,14 @@ For n=1 To 200
         DebugLog "JoyDown!: " + n
     End If
 Next
+
 waitCheats()
 
 For n=1 To ButtonAmount
 If clickedBut(n) Then
   Select n
     Case 1: menuOption=1:vsMode=0 :defineButtons(1)
-    Case 2: menuOption=1:vsMode=1      ;go to character Select screen (vs mode)
+    Case 2: menuOption=1:vsMode=1:changeMusic(music12) ;go to character Select screen (vs mode)
     Case 3: menuOption=3                ;go to options screen
     Case 4: rollCredits()
     Case 5: saveConfig() : end
@@ -1014,7 +1015,7 @@ If clickedBut(n) Then
   Select n
     Case 1: menuOption=0: gamePaused = 0    ;resume game
     Case 2: menuOption=3                        ;go to options screen
-    Case 3: menuOption=2: gameDone=1:gamePaused=0    ;quit to main menu
+    Case 3: menuOption=2:gameDone=1:gamePaused=0    ;quit to main menu
     Case 4: saveConfig() : end              ;quit game
   End Select
     If gamesound Then PlaySound ddhitsnd
@@ -1883,7 +1884,7 @@ Repeat
 Until KeyHit(1) Or yCredit(lines) < -20
 
 FlushKeys() : FlushJoy() : FlushMouse()
-menuOption = 2
+menuOption=2
 
 End Function 
 

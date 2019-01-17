@@ -894,6 +894,18 @@ Case 15 ;Juggernaut throw
     If zBlowSeq(n)=seq3+1 And zGrabs(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
     en=zGrabsThis(n)
+    If zFace(n)=2 Then xMove=-20
+    If zFace(n)=4 Then xMove=20
+    If zF(n)=3 Then 
+        If zBlowSeq(n)<=seq4+6 Then moveY(en, -9)
+        If zBlowSeq(n)=seq4+2 Then zx(en)=zx(en)+x
+    End If
+    If zF(n)=4 Then 
+        zOnGnd(en)=0
+        If zBlowSeq(n)<=seq5+6 Then moveY(en, 9)
+        If zBlowSeq(n)=seq5+2 Then zx(en)=zx(en)-x
+    End If
+    
     If zBlowSeq(n) = seq4+1 Then
         If zFace(n)=2 Then zx(en)=zx(n)+15:zFace(en)=4
         If zFace(n)=4 Then zx(en)=zx(n)-15:zFace(en)=2

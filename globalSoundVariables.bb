@@ -1,4 +1,6 @@
 Global soundsdir$="sounds\"
+Global music10$="music10.mp3"
+Global music12$="music12.mp3"
 
 ;Load Sounds
 Global intro=LoadSound(soundsdir$ + "intro.mp3")
