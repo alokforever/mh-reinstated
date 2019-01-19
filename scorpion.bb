@@ -269,10 +269,13 @@ End Function
 
 Function playScorpionCooldownSnd(n)
     cdSeed=Rand(2)
-    If cdSeed=1 And gameSound And zAI(n)=0 Then 
-        PlaySound scorpionCooldown1Snd
-    Else If cdSeed=2 And gameSound And zAI(n)=0 Then
-        PlaySound scorpionCooldown2Snd
+    If cantSoundCdVoice(n)=0 Then
+        cantSoundCdVoice(n)=1:cooldownVoiceSeq(n)=0
+        If cdSeed=1 And gameSound And zAI(n)=0 Then 
+            PlaySound scorpionCooldown1Snd
+        Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+            PlaySound scorpionCooldown2Snd
+        End If
     End If
     If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
 End Function

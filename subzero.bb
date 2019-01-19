@@ -462,10 +462,13 @@ Case 9    ;Sub zero freeze ground
     EndIf
     If zBlowSeq(n)=1 And zongnd(n)=1 And yDist(n) < 2 And spellCooldownSeq(n, 1) > 0 Then
         cdSeed=Rand(2)
-        If cdSeed=1 And gameSound And zAI(n)=0 Then 
-            PlaySound subZeroCooldown1Snd
-        Else If cdSeed=2 And gameSound And zAI(n)=0 Then
-            PlaySound subZeroCooldown2Snd
+        If cantSoundCdVoice(n)=0 Then
+            cantSoundCdVoice(n)=1:cooldownVoiceSeq(n)=0
+            If cdSeed=1 And gameSound And zAI(n)=0 Then 
+                PlaySound subZeroCooldown1Snd
+            Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+                PlaySound subZeroCooldown2Snd
+            End If
         End If
         If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
         zBlowSeq(n)=0:zBlow(n)=0

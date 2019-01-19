@@ -51,6 +51,7 @@ Global maxVsMap = 20
 Global maxCTFMap = 20
 Global isUnliSuper
 Global totalSecrets, noAirStrike, isSuperMove
+Global cooldownVoiceMaxSeq=52
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -242,6 +243,7 @@ Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ)
+Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -956,6 +958,10 @@ For n= 1 To zzamount
         zStone(n)=1
         zStoneSeq(n)=zStoneSeq(n)+1
         If zStoneSeq(n) > zStoneMaxTime(n) Then zTempStone(n)=0:zStone(n)=0
+    End If
+    If cantSoundCdVoice(n)=1 Then
+        cooldownVoiceSeq(n)=cooldownVoiceSeq(n)+1
+        If cooldownVoiceSeq(n)>=cooldownVoiceMaxSeq Then cantSoundCdVoice(n)=0
     End If
     If zTrail(n) > 0 And rendert =1 And zon(n)=1 Then
         ztrailseq(n)=ztrailseq(n)+1
