@@ -855,9 +855,8 @@ Function doGohanCounter(n)
     If zFace(n)=2 Then face=4:x=zx(n)+130
     If zFace(n)=4 Then face=2:x=zx(n)-130
     If zBlowSeq(n) = seq18 And isMoveHit(n)=1 Then 
-        spellCooldownMaxTime(n, 2)=2072
+        spellCooldownMaxTime(n, 2)=2080
         spellCooldownSeq(n, 2)=spellCooldownMaxTime(n, 2) 
-        ;checkDist(n,x,zy(n)-20,zFace(n))
         makechunk(n,x,zy(n)-20,face,138)
     End If
 
@@ -1174,10 +1173,10 @@ Case 4    ;Low kick
 ;--------- Hit box ----------
     If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq5 Then
         zblowPamount(n)=4:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=7:wblow(n,nn)=16:hblow(n,nn)=7:nn=nn+1
-        xblow(n,nn)=16: yblow(n,nn)=7:wblow(n,nn)=16:hblow(n,nn)=7:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=0:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=16: yblow(n,nn)=0:wblow(n,nn)=16:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=7:wblow(n,nn)=17:hblow(n,nn)=7:nn=nn+1
+        xblow(n,nn)=16: yblow(n,nn)=7:wblow(n,nn)=17:hblow(n,nn)=7:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=0:wblow(n,nn)=17:hblow(n,nn)=1:nn=nn+1
+        xblow(n,nn)=16: yblow(n,nn)=0:wblow(n,nn)=17:hblow(n,nn)=1:nn=nn+1
         zHitmode(n)=0:zBlowHold(n)=8:zBlowStillTime(n)=6
         zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
         zBlowDamage(n)=17:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
@@ -1264,6 +1263,11 @@ Case 7    ; Seeking ki blast (special)
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zongnd(n)=0 And canAirGlideUp(n)=0 Then zy(n)=zy(n)-2
 
+    If zBlowSeq(n)=1 And spellCooldownSeq(n, 3) > 0 Then
+        playPiccoloCooldownSnd(n)
+        zBlowSeq(n)=0:zBlow(n)=0
+    End If
+    
 ;----------- Animation -------------
     If zBlowSeq(n)>0 And zBlowSeq(n)<=a Then zani(n)=10:zf(n)=1
     If zBlowSeq(n)>a And zBlowSeq(n)<=b Then zani(n)=10:zf(n)=2
@@ -1279,6 +1283,8 @@ Case 7    ; Seeking ki blast (special)
         If zFace(n)=2 Then x=zx(n)+30
         If zFace(n)=4 Then x=zx(n)-30
         makeshot(n,50,x,y,zface(n))
+        spellCooldownMaxTime(n, 3)=104
+        spellCooldownSeq(n, 3)=spellCooldownMaxTime(n, 3) 
     End If
     
 ;---------- Sounds --------------

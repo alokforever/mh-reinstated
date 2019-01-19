@@ -221,7 +221,7 @@ Dim zRunSeq2(maxZ), isRunningFlag(maxZ) ;zRunSeq2 is run sequence that does not 
 Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
 Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
-Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), cdImage(maxZ)
+Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), timerImage2(120), cdImage(maxZ)
 Dim isMkCharacter(maxZ), gender(maxZ), canWallJump(maxZ), zWallJump(maxZ), zTauntSeed(maxZ)
 Dim canPerformNextCombo(maxZ), cooldownPic(maxZ, 4), flipFrames(maxZ), duckFrames(maxZ), duckFrameSpeed(maxZ), duckSeq(maxZ)
 Dim isShotLongRange(maxZ), healMode(maxZ), zHealAmount(maxZ), zHealInterval(maxZ), zHealTimes(maxZ), zHealSeq(maxZ)
@@ -261,6 +261,7 @@ cooldownPic(12, 2)=LoadImage(gfxdir$ + "\cooldown\cd12_2.bmp")
 cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
 cooldownPic(16, 1)=LoadImage(gfxdir$ + "\cooldown\cd16_1.bmp")
 cooldownPic(16, 2)=LoadImage(gfxdir$ + "\cooldown\cd16_2.bmp")
+cooldownPic(16, 3)=LoadImage(gfxdir$ + "\cooldown\cd16_3.bmp")
 
 ;Find all mod directories and set their paths/name 
 setModDirs()
@@ -414,6 +415,10 @@ Next
 
 For n=0 To 90 Step 1
     timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")
+Next 
+
+For n=0 To 34 Step 1
+    timerImage2(n)=LoadImage(gfxdir$ + "timer2\timer" + n + ".bmp")
 Next 
 
 Dim letter(20,100), letterWidth(20,100)    
@@ -1430,7 +1435,7 @@ For n=1 To 4
         Case 3: pri x+115,y+20, Int(zFlagTime(n))
         Case 4: pri x+115,y+20, Int(zTargetScore(n))
     End Select
-     If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
+    If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
     Rect x,y+15,zSuperbar(n),4,1
     If zStaminaBar#(n) < 70 Then Color 231,76,60 Else Color 52,152,219  
     Rect x,y+20,zStaminaBar#(n),4,1
@@ -5595,7 +5600,7 @@ End Function
 Function checkCooldown(n)
     For spellId = 0 To 4
         If spellCooldownSeq(n, spellId) > 0 Then
-            drawTimer(spellCooldownSeq(n, spellId), spellCooldownMaxTime(n, spellId), n, spellId)
+            drawTimer(n, spellId)
             spellCooldownSeq(n, spellId) = spellCooldownSeq(n, spellId)-1
         End If
     Next
@@ -5612,10 +5617,14 @@ Function checkBuffStatus(n)
 End Function
 
 ;------------------ Draw Timer ----------------------
-Function drawTimer(curSeq, maxSeq, n, spellId)
-    x=15:y=480
-    DrawImage cooldownPic(curGuy(n),spellId),x+((n-1)*160)-20,y-(spellId*9)-20
-    DrawImage timerImage(Int((Float(curSeq)/maxSeq)*90)),x+((n-1)*160)+20,y-(spellId*9)
+Function drawTimer(n, spellId)
+    Local curSeq=spellCooldownSeq(n, spellId)
+    Local maxSeq=spellCooldownMaxTime(n, spellId)
+    Local currFrame=Int((Float(curSeq)/maxSeq)*34)
+    x=((n-1)*160)+(spellId*42)-20:y=445
+    
+    DrawImage cooldownPic(curGuy(n),spellId),x-20,y
+    DrawImage timerImage2(currFrame),x+10,y
 End Function
 
 ;------------------ Check Wall Jump -----------------
@@ -5821,13 +5830,13 @@ Function handleShotWallCollision(n, adj)
                 xshot(n)=xshot(n)+shotsize(n)
             EndIf
             shotsizeL(n)=adj
-            makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,1)
+            makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),1)
             If shotDir(n)=2 Then shotDir(n)=4 Else shotDir(n)=2
             If gameSound Then PlaySound zhitwallSnd
         Else
             shot(n)=0
             shotsizeL(n)=adj
-            makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,shotChunkType(n))
+            makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),shotChunkType(n))
             shotHit=1
             If gameSound Then PlaySound shotsound(n)
         EndIf
@@ -5850,7 +5859,7 @@ Function handleShotPlatCollision(n, adj)
             If yshot(n) => yplat(nn) And yshot(n) < yplat(nn)+platHeight(nn)+shotHeight(n) Then
                 If shotBounce(n)=1 Then
                     shotsizeL(n)=adj
-                    makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,1)
+                    makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),1)
                     If gameSound Then PlaySound zhitwallSnd
                     If xShot(n) =< xPlat(nn)+(platWidth(nn)/2) Then
                         xShot(n)=xPlat(nn) : shotDir(n)=4
@@ -5862,7 +5871,7 @@ Function handleShotPlatCollision(n, adj)
                     If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0
                     shot(n)=0:
                     shotsizeL(n)=adj
-                    makechunk(shotDir(n),xshot(n)+adj,yShot(n),2,shotChunkType(n))
+                    makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),shotChunkType(n))
                     shotHit=1
                     If gameSound Then PlaySound shotsound(n)
                 EndIf

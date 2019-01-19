@@ -1768,7 +1768,7 @@ Case 49    ;Kaikousen
     shotFramesAmount(n)=11
     shotFrameTime(n)=3
     shotSound(n)=shockSnd
-    electrocuteTime(n)=95
+    electrocuteTime(n)=110
     shotGroundXDestroy(n)=50
 
     shotPicIdx=1
@@ -2342,7 +2342,7 @@ Case 61    ;scorpion spear
     If chunkSeq(n) <= e And zhit(chunkOwner(n))=1 Then chunk(n)=0
 
     If chunkSeq(n) >= g Or (shot(zMyShot(chunkOwner(n)))=0) Then chunk(n)=0
-    
+
 Case 62    ;scorpion spear rope
     If chunkSeq(n)=1 Then chunkPic(n)=ptPic(84,1):chunkPic_(n)=ptPic(84,1)
     
@@ -2650,8 +2650,8 @@ Case 104:        ;spear disappearing
     If chunkSeq(n) >= 19 And chunkSeq(n) < 22 Then chunkPic(n)=ptPic(86,2):chunkPic_(n)=ptPic_(86,2)
     If chunkSeq(n) >= 22 And chunkSeq(n) < 25 Then chunkPic(n)=ptPic(86,3):chunkPic_(n)=ptPic_(86,3)
     If chunkSeq(n) = 25 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,1)
-    If chunkSeq(n) = 26 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,2)
-    If chunkSeq(n) = 27 Then chunkPic(n)=ptPic(86,1):chunkPic_(n)=ptPic_(86,3)
+    If chunkSeq(n) = 26 Then chunkPic(n)=ptPic(86,2):chunkPic_(n)=ptPic_(86,2)
+    If chunkSeq(n) = 27 Then chunkPic(n)=ptPic(86,3):chunkPic_(n)=ptPic_(86,3)
     
     If chunkSeq(n) > 27 Then chunk(n)=0
     

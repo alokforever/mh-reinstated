@@ -631,7 +631,7 @@ Case 7    ; Juggernaut punch (special)
         xblow(n,nn)=20: yblow(n,nn)=36:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=10
         zHitSpeed#(n)=6:zHitUpSpeed#(n)=3:zHitTime(n)=40;:zBlockSpeed#(n)=30
-        zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
+        zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=40
         zBlowSound(n)=juggLateralHitSnd
     End If
     If (zBlowSeq(n) >= f2 And zBlowSeq(n) < g2) Or (zBlowSeq(n) >= f And zBlowSeq(n) < g) Then
@@ -647,7 +647,7 @@ Case 7    ; Juggernaut punch (special)
         xblow(n,nn)=20: yblow(n,nn)=36:wblow(n,nn)=38:hblow(n,nn)=1:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=10
         zHitSpeed#(n)=6:zHitUpSpeed#(n)=3:zHitTime(n)=40;:zBlockSpeed#(n)=40
-        zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
+        zBlowDamage(n)=hitDamage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=20:zBlowStillTime(n)=0:zBlowBlockTime(n)=50
         zBlowSound(n)=juggLateralHitSnd
     End If
 ;===========================================
