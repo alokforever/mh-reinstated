@@ -971,7 +971,7 @@ For n=1 To ButtonAmount
 If clickedBut(n) Then
   Select n
     Case 1: menuOption=1:vsMode=0 :defineButtons(1)
-    Case 2: menuOption=1:vsMode=1:changeMusic(music12) ;go to character Select screen (vs mode)
+    Case 2: menuOption=1:vsMode=1:changeMusic(music12):initCharSelect() ;go to character Select screen (vs mode)
     Case 3: menuOption=3                ;go to options screen
     Case 4: rollCredits()
     Case 5: saveConfig() : end
@@ -1015,7 +1015,7 @@ If clickedBut(n) Then
   Select n
     Case 1: menuOption=0: gamePaused = 0    ;resume game
     Case 2: menuOption=3                        ;go to options screen
-    Case 3: menuOption=2:gameDone=1:gamePaused=0    ;quit to main menu
+    Case 3: menuOption=2:gameDone=1:gamePaused=0 ;quit to main menu
     Case 4: saveConfig() : end              ;quit game
   End Select
     If gamesound Then PlaySound ddhitsnd

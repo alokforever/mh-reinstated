@@ -46,8 +46,9 @@ Function doJuggHeadCrush(n)
         If zBlowSeq(n)-2 Mod 10 = 0 Then extraObj(n,zx(n),-40,zy(n),2,4,89) ;Dust
     End If
     
+    If zBlowSeq(n)=seq2+1 Then zTempStone(n)=1:zStoneSeq(n)=0:zStoneMaxTime(n)=seq15-(seq2+1)
+    
     If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq15-14 Then 
-        DebugLog "seq2: " + seq2 + ", zBlowSeq: " + zBlowSeq(n)
         If (zBlowSeq(n)-4) Mod 14 = 0 Then 
             extraObj(n,zx(n),-70,zy(n),20,zblowdir(n),144) ;Head Crush effect (head)
             extraObj(n,zx(n),-65,zy(n),0,zblowdir(n),145) ;Head Crush effect (ground)

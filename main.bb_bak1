@@ -608,6 +608,7 @@ If KeyHit(1) Then
   If menuOption = 1 Then 
       menuOption = 2
       If vsMode=1 Then changeMusic(music10)
+      DebugLog "PITA MO"
   End If
   If menuOption = 3 Then menuOption = 2
   If menuOption = 4 Then menuOption = 3 : savekeys()
