@@ -3067,6 +3067,16 @@ Case 145:       ;Juggernaut Head Crush effect (ground)
 
     If chunkSeq(n)>seq7 Then chunk(n)=0
     
+Case 146:       ;Juggernaut dodge sillhouete
+    If chunkSeq(n)<=2 Then chunkPic(n)=ptPic(116,1):chunkPic_(n)=ptPic_(116,1)
+    
+    If chunkSeq(n)>2 Then chunk(n)=0
+    
+Case 147:       ;Counter
+    If chunkSeq(n)<=20 Then chunkPic(n)=ptPic(117,1):chunkPic_(n)=ptPic(117,1)
+    
+    If chunkSeq(n)>20 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

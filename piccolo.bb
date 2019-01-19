@@ -430,7 +430,7 @@ Function doHighExtendingPunch(n)
         xblow(n,nn)=78: yblow(n,nn)=39:wblow(n,nn)=10:hblow(n,nn)=8:nn=nn+1
         xblow(n,nn)=60: yblow(n,nn)=39:wblow(n,nn)=10:hblow(n,nn)=8:nn=nn+1
         xblow(n,nn)=30: yblow(n,nn)=39:wblow(n,nn)=10:hblow(n,nn)=8:nn=nn+1
-        xblow(n,nn)=15: yblow(n,nn)=39:wblow(n,nn)=10:hblow(n,nn)=8:nn=nn+1    
+        xblow(n,nn)=15: yblow(n,nn)=39:wblow(n,nn)=10:hblow(n,nn)=8:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=8:zBlowStillTime(n)=6
         zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
         zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
@@ -518,6 +518,7 @@ Function doLowExtendingPunch(n)
         unitCounter=1
         While zControlsThese(n,unitCounter) <> 0
             en=zControlsThese(n,unitCounter)
+            If zBlock(en)=1 Then clearControlledPlayers(n):Goto skipPull
             zani(en)=2:zf(en)=2
             If zBlowSeq(n) = seq8 And isMoveHit(n)=1 Then
                 If zControlsThis(n) <> 0 Then 
@@ -529,6 +530,7 @@ Function doLowExtendingPunch(n)
             If zFace(n) = 4 Then zx(en)=zx(n)-78
             unitCounter=unitCounter+1
         Wend
+        .skipPull
     End If
     
     If zBlowSeq(n) = seq12 And zControlsThis(n) = 0 Then zBlowSeq(n)=endSeq

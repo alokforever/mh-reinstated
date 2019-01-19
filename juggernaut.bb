@@ -1,3 +1,36 @@
+Function doCounterPunchSeq(n)
+    seqStart=50:seq1=seqStart+5:seq2=seq1+2:seq3=seq2+3:seq4=seq3+7
+    endSeq=40
+
+    If zBlowSeq(n)=seqStart Then zShield(n)=1
+;======== Animation =========
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zani(n)=6:zf(n)=1:zShield(n)=1
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=18:zf(n)=3:zShield(n)=1
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=18:zf(n)=4
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=18:zf(n)=5
+
+;======== Sounds ==========
+    If zBlowSeq(n)=seq1 And gameSound Then PlaySound mvcBlow3Snd
+    
+;======== Hit box =========
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq3 Then
+        zblowPamount(n)=5:nn=1
+        xblow(n,nn)=3: yblow(n,nn)=39:wblow(n,nn)=41:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=30:wblow(n,nn)=60:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=25:wblow(n,nn)=65:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=20:wblow(n,nn)=65:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=3: yblow(n,nn)=15:wblow(n,nn)=65:hblow(n,nn)=5:nn=nn+1
+        zHitmode(n)=0:zBlowHold(n)=4:zBlowStillTime(n)=4
+        zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40
+        zBlowSound(n)=mvcHit3Snd
+        If zBlowStill(n)=1 Then makechunk(n,zx(n)+22,zy(n)-8,zFace(n),147)
+    End If
+
+    If zBlowSeq(n)>=seq4 Then zBlowSeq(n)=endSeq
+    
+End Function
+
 Function doJuggHeadCrush(n)
     seqStart=0:seq1=seqStart+3:seq2=seq1+42:seq3=seq2+3:seq4=seq3+3:seq5=seq4+3:seq6=seq5+3:seq7=seq6+3
     seq8=seq7+3:seq9=seq8+3:seq10=seq9+3:seq11=seq10+3:seq12=seq11+3:seq13=seq12+3
@@ -972,7 +1005,30 @@ Case 16 ;Counter Key (Taunt and Power up)
     End If
 
 Case 17 ;Extra special key 
-    zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    seq1=2:seq2=seq1+20:seq3=seq2+5
+    counterPunchSeq=50
+    endSeq=seq3+1
+    zNoMove(n)=1
+    zNoJump(n)=1:zJump(n)=0
+    If zOnGnd(n)=0 Then zy(n)=zy(n)-2
+    If zBlowSeq(n)=1 Then KeyDown(BlockK(n))=0
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 And KeyDown(shotK(n))=1 Then zBlowSeq(n)=counterPunchSeq
+    If zBlowSeq(n) >= counterPunchSeq Then doCounterPunchSeq(n)
+
+;======= Animation ========
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=18:zf(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=18:zf(n)=2:zshield(n)=1
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=18:zf(n)=1
+    
+;======= Sound =========
+    If zBlowSeq(n)=seq1+1 And gameSound Then 
+        PlaySound juggGrunt1Snd
+        PlaySound mvcBlow3Snd
+    End If
+    
+    If zBlowSeq(n)=seq1+1 Or zBlowSeq(n)=seq1+4 Then makechunk(n,zx(n),zy(n),zFace(n),146)
+    
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<counterPunchSeq Then flushKeys():zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
 End Select
 

@@ -910,13 +910,7 @@ If vsMode=0 Then
     Next
     fightMode=2 
     teamAttack=0
-    Select zamountPlaying 
-        Case 1:aliveAmountNeeded=1
-        Case 2:aliveAmountNeeded=2
-        Case 3:aliveAmountNeeded=2
-        Case 4:aliveAmountNeeded=2
-        Default: aliveAmountNeeded=1
-    End Select
+    aliveAmountNeeded=1
 Else
     NoUserInput=1
     makechunk(0,330,-30,2,2)
@@ -937,6 +931,7 @@ For n= 1 To zzamount
     zLeftCollide(n)=0: zRightCollide(n)=0
     zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
     projectileDeflectMode(n)=0
+
     If electrocuteSeq(n) <> 0 Then drawElectrocution(n)
     If isFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
     If zCanFly(n)=1 Then zNoGrav(n)=1: zForceAntiPlat(n)=1 : zantiPlatSeq(n)=0
@@ -1434,7 +1429,7 @@ For n=1 To 4
     End Select
     If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
     Rect x,y+15,zSuperbar(n),4,1
-    If zStaminaBar#(n) < 70 Then Color 231,76,60 Else Color 52,152,219  
+    If zStaminaBar#(n) < 70 Then Color 231,76,60 Else Color 52,152,219
     Rect x,y+20,zStaminaBar#(n),4,1
     Color 74,35,90
     Rect x,y+25,(zBlockLife(n)*1.28),4,1
@@ -2393,6 +2388,7 @@ Function Getinput()
 For n= 1 To zzamount
     zoldx(n)=zx(n):zoldy(n)=zy(n)
 Next
+
 For n=1 To zzamount
     hitKey(n)=0:upKey(n)=0:leftKey(n)=0:rightKey(n)=0:downKey(n)=0:jumpKey(n)=0:shotKey(n)=0
     jumpKeyDown(n)=0:runkey(n)=0:blockKey(n)=0:specialkey(n)=0:grabKey(n)=0:superKey(n)=0
@@ -2447,7 +2443,6 @@ Case 0
     If KeyDown(jumpK(n)) Then jumpKeyDown(n)=1:hitKey(n)=1
     If KeyHit(grabK(n)) Then grabKey(n)=1:hitKey(n)=1
     If KeyDown(blockK(n)) Then blockKey(n)=1:hitKey(n)=1
-    ;If shotkey(n)=1 And blockkey(n)=1 Then  grabKey(n)=1
     If blockKey(n)=1 And specialKey(n)=1 Then superKey(n)=1
     If blockKey(n)=1 And shotkey(n)=1 Then tauntKey(n)=1
     If blockKey(n)=1 And grabKey(n)=1 Then extraSpecialkey(n)=1:grabKey(n)=0
@@ -2484,7 +2479,6 @@ Case 1
     If JoyHit(grabK(n),controllerPort(n)) Then grabKey(n)=1 :hitKey(n)=1
     If JoyDown(jumpK(n),controllerPort(n)) Then jumpKeyDown(n)=1 :hitKey(n)=1
     If JoyDown(blockK(n),controllerPort(n)) Then blockKey(n)=1:hitKey(n)=1
-    ;If shotkey(n) And blockkey(n) Then grabKey(n)=1:hitKey(n)=1
     If blockKey(n)=1 And specialKey(n)=1 Then superKey(n)=1
     If blockKey(n)=1 And shotkey(n)=1 Then tauntKey(n)=1
     If blockKey(n)=1 And grabkey(n)=1 Then extraSpecialKey(n)=1:grabKey(n)=0
@@ -2571,6 +2565,8 @@ If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then
         doBlow(n, 8)    ;Dodge move
     EndIf
 EndIf
+;DebugLog "blockkey(1): " + KeyDown(blockK(1)) + ", zCurBlow(n): " + zCurBlow(n)
+If zCurBlow(n)=0 And KeyDown(blockK(n))=0 Then zBlow(n)=0
 ;------------------------------------------------------------------------------------------------------
 
 ;----pickup iten---------------------------
@@ -3191,10 +3187,10 @@ For i=1 To 1500
             chunkDir(i)=dir
             chunk(i)=1:chunkType(i)=kind
             xChunk(i)=x:yChunk(i)=y
-            chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
+            If n <= maxZ Then chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
             chunkCategory(i)=1
         Exit
-    EndIf    
+    EndIf
 Next
 
 End Function
@@ -4251,7 +4247,6 @@ Case  2
                     If Not zBlock(nn) Then
                         zlife(nn)=zlife(nn)-objdamage(n)
                         zDamage#(nn)=zDamage#(nn)+objDamage(n)
-    
                         If zStone(nn)=0 Then
                             zFallDir(nn)=2
                             zface(nn)=4:zjump(nn)=0:zBouncedgnd(nn)=0:zhit(nn)=1
@@ -4288,7 +4283,7 @@ Case 4
             If objSuper(n)=1 Then zShield(nn)=0
             If teamAttack=1 Or zTeam(objOwner(n)) <> zteam(nn) Then
               If nn<>objOwner(n) And objHurt(n) And zShield(nn)=0 And zon(nn)=1 Then
-                                If (zx(nn) => xObj(n)-(objSide(n)+zside(nn)+5) And zx(nn) =< xObj(n)+(objSide(n)+zside(nn)+5)) And (zy(nn) => yObj(n)-(objHeight(n)+5) And zy(nn) =< (yObj(n)+zHeight(nn)+5)) Then
+                If (zx(nn) => xObj(n)-(objSide(n)+zside(nn)+5) And zx(nn) =< xObj(n)+(objSide(n)+zside(nn)+5)) And (zy(nn) => yObj(n)-(objHeight(n)+5) And zy(nn) =< (yObj(n)+zHeight(nn)+5)) Then
                 If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xobj(n)-objSide(n)+q,yobj(n)-hh,1,1) Then
                     If projectileDeflectMode(nn)=1 And zFace(nn)=2 Then deflectObject(n, nn):Goto objDone
                     If objExplosive(n) > 0 And objHurt(n)=1 Then
