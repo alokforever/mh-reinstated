@@ -5371,7 +5371,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile)
         For targetPlayer = 1 To zzamount
             oldshield = zShield(targetPlayer)
             If shotSuper(projectile)=1 Then zShield(targetPlayer)=0 
-            If zShield(targetPlayer)=0 And zon(targetPlayer)=1 And (teamAttack=1 Or zteam(shotOwner(projectile) <> zteam(targetPlayer))) Then
+            If zShield(targetPlayer)=0 And zon(targetPlayer)=1 And (teamAttack=1 Or zteam(shotOwner(projectile)) <> zteam(targetPlayer)) Then
                 If Not targetPlayer=shotOwner(projectile) Then
                     If Not (zShotByN(targetPlayer) = projectile And zShotHitSeq(targetPlayer, projectile) < shotImmuneTime(projectile)) Then
                     If teamAttack=0 And zteam(shotOwner(projectile)) = zteam(targetPlayer) Then Goto shotDone

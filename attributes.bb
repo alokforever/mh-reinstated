@@ -1546,7 +1546,7 @@ Case 39    ;Sub Zero freeze ball
     shotFallTime(n)=0
     shotHitXspeed(n)=0
     shotHitYspeed(n)=0
-    shotDuration(n)=60
+    shotDuration(n)=70
     shotMaxSpeed(n)=shotSpeed(n)
     shotChunkType(n)=75
     shotPic(n,1)=shotImage(47)
