@@ -3555,13 +3555,13 @@ If vsMode=1 And gameMode <> 2 Then
 EndIf
 
 End Function
-;--------------- Quick check agaist wall---------------------------------------------
+;--------------- Quick check against wall---------------------------------------------
 Function zCheckWall(n)
 
 For vn=0 To zHeight(n) Step 5
     If ImageRectCollide (map,0,0,0,zx(n) - zSide(n),zy(n) - vn,1,1) Or ImageRectCollide (map,0,0,0,zx(n) + zSide(n),zy(n) - vn,1,1) Then
         zx(n)=zOldx(n) : zy(n)=zOldy(n)
-        Goto zCheckedWallDone             
+        Goto zCheckedWallDone
     EndIf
 Next
 .zCheckedWallDone

@@ -3077,6 +3077,22 @@ Case 147:       ;Counter
     
     If chunkSeq(n)>20 Then chunk(n)=0
     
+Case 148:       ;Ground crack
+    seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(118,1):chunkPic_(n)=ptPic_(118,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(118,2):chunkPic_(n)=ptPic_(118,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(118,3):chunkPic_(n)=ptPic_(118,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(118,4):chunkPic_(n)=ptPic_(118,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(118,5):chunkPic_(n)=ptPic_(118,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(118,6):chunkPic_(n)=ptPic_(118,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(118,7):chunkPic_(n)=ptPic_(118,7)
+    If chunkSeq(n)>seq7 And chunkSeq(n)<=seq8 Then chunkPic(n)=ptPic(118,8):chunkPic_(n)=ptPic_(118,8)
+    If chunkSeq(n)>seq8 And chunkSeq(n)<=seq9 Then chunkPic(n)=ptPic(118,9):chunkPic_(n)=ptPic_(118,9)
+    If chunkSeq(n)>seq9 And chunkSeq(n)<=seq10 Then chunkPic(n)=ptPic(118,10):chunkPic_(n)=ptPic_(118,10)
+    
+    If chunkSeq(n)>seq10 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3790,7 +3806,7 @@ For i=1 To 30
     zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
 Next
 
-For i=1 To 30
+For i=1 To 50
     zpic(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + ".bmp")
     zpic_(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + "_.bmp")
 Next
@@ -4032,6 +4048,9 @@ If n=14 Then ;WonderWoman
     If wwLassoSnd=0 Then wwLassoSnd=LoadSound(soundsdir$ + "wonderwoman\wwLasso.wav")
     If wwFierceAmazonSnd=0 Then wwFierceAmazonSnd=LoadSound(soundsdir$ + "wonderwoman\wwFierceAmazon.wav")
     If wwTauntSnd=0 Then wwTauntSnd=LoadSound(soundsdir$ + "wonderwoman\wwTauntSnd.wav")
+    If wwThemysciraSnd=0 Then wwThemysciraSnd=LoadSound(soundsdir$ + "wonderwoman\wwThemysciraSnd.wav")
+    If wwRun1Snd=0 Then wwRun1Snd=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
+    If wwRun2Snd=0 Then wwRun2Snd=LoadSound(soundsdir$ + "wonderwoman\wwRun2Snd.wav")
 End If
 
 If n=13 Then ;SubZero

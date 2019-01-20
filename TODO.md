@@ -24,7 +24,5 @@ Wonderwoman - 49
 
 Animation:
 Themyscira - 203
-228 - 232
-19 -> 15
-20 -> 14
+1 - 7 = 5 - 11
 

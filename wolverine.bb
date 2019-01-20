@@ -724,7 +724,7 @@ Case 8    ;Dodging
 Case 9    ; berserker barrage (down special)
     zNoMove(n)=0
     ztopspeed(n)=.5
-    zNoJump(n)=1:zJumping(n)=0:zNograv(n)=1:zJump(n)=0:zJumping(n)=0
+    zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNograv(n)=1
     aa=11/wolvSpdFctr(n):a=21/wolvSpdFctr(n):b=24/wolvSpdFctr(n):c=31/wolvSpdFctr(n):d=34/wolvSpdFctr(n)
     :e=30/wolvSpdFctr(n):f=39/wolvSpdFctr(n):g=42/wolvSpdFctr(n):h=49/wolvSpdFctr(n):i=52/wolvSpdFctr(n)
     :j=(i+20):k=500
