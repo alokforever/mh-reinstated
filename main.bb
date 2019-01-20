@@ -243,7 +243,7 @@ Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ)
-Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ)
+Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -930,7 +930,7 @@ For n= 1 To zzamount
     zJumping(n)=1:zNoGrav(n)=0:zNoJump(n)=0:zNoMove(n)=0:zTopSpeed(n)=zDtopSpeed(n)
     zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
     zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zRunSpeed#(n)
-    zLeftCollide(n)=0: zRightCollide(n)=0
+    zLeftCollide(n)=0: zRightCollide(n)=0:immuneToCollide(n)=0
     zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
     projectileDeflectMode(n)=0
 
@@ -4486,11 +4486,8 @@ EndIf
 ;players x plat collision
 For nn=1 To zzamount
 .tryPlatAgain
-
     If zon(nn)=1 And zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) And zJump(nn)=0 Then
-
         If zy(nn) => yPlat(n)-3 And zy(nn) =< yPlat(n)+4 Then
-
             If zBeenHere(nn)=1 Then Goto platDone
             If platXspeed(n) > 0 Then zBeenHere(nn)=1
             If zantiplat(nn)=1 Then
@@ -4501,7 +4498,6 @@ For nn=1 To zzamount
                         zy(nn)=yplat(n)-1
                     EndIf
                 EndIf
-                                 
                 ;Goto platDone
             Else
                 zonplat(nn)=1:zNoGrav(nn)=1
@@ -4540,25 +4536,24 @@ For nn=1 To zzamount
                 zUpFallSpeed(nn)=0:zUpFallTime(nn)=0
             Else
                 If zoldx(nn) < xoldPlat(n)+(platWidth(n)/2) Then
-                     If platYspeed(n) => 3 And platyDir(n)=1 And zy(nn) < yPlat(n)+15 Then
-                       zongnd(nn)=1 : zjump(nn)=0
-                       zy(nn)=yPlat(n)-1
-                       Goto tryPlatAgain
-                     Else
-                       zx(nn)=xoldPlat(n)-(zSide(nn)+1)
-                       zLeftCollide(nn)=1
-                     EndIf
-                    
-                   Else
                     If platYspeed(n) => 3 And platyDir(n)=1 And zy(nn) < yPlat(n)+15 Then
-                       zongnd(nn)=1 : zjump(nn)=0
-                       zy(nn)=yPlat(n)-1
-                       Goto tryPlatAgain
-                    Else
-                       zx(nn)=xoldPlat(n)+(platWidth(n)+zSide(nn)+1)
-                       zRightCollide(nn)=1
+                        zongnd(nn)=1 : zjump(nn)=0
+                        ;zy(nn)=yPlat(n)-1
+                        Goto tryPlatAgain
+                    Else If immuneToCollide(nn)=0
+                        zx(nn)=xoldPlat(n)-(zSide(nn)+1)
+                        zLeftCollide(nn)=1
                     EndIf
-                   EndIf
+                Else
+                    If platYspeed(n) => 3 And platyDir(n)=1 And zy(nn) < yPlat(n)+15 Then
+                        zongnd(nn)=1 : zjump(nn)=0
+                        ;zy(nn)=yPlat(n)-1
+                        Goto tryPlatAgain
+                    Else If immuneToCollide(nn)=0
+                        zx(nn)=xoldPlat(n)+(platWidth(n)+zSide(nn)+1)
+                        zRightCollide(nn)=1
+                    EndIf
+                EndIf
                 
                 If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then    ;crushes player
                     killMan(nn)
