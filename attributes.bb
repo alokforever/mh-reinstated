@@ -3820,7 +3820,7 @@ For counter = 1 To 40
     zpic_(n,15,counter)=LoadImage(gfxdir$ + "zgrab" + counter + "_.bmp")
 Next
 
-For counter = 1 To 22
+For counter = 1 To 25
     zpic(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + ".bmp")
     zpic_(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + "_.bmp")
 Next
@@ -4031,6 +4031,7 @@ If n=14 Then ;WonderWoman
     If wwWhipHitSnd=0 Then wwWhipHitSnd=LoadSound(soundsdir$ + "wonderwoman\wwWhipHit.wav")
     If wwLassoSnd=0 Then wwLassoSnd=LoadSound(soundsdir$ + "wonderwoman\wwLasso.wav")
     If wwFierceAmazonSnd=0 Then wwFierceAmazonSnd=LoadSound(soundsdir$ + "wonderwoman\wwFierceAmazon.wav")
+    If wwTauntSnd=0 Then wwTauntSnd=LoadSound(soundsdir$ + "wonderwoman\wwTauntSnd.wav")
 End If
 
 If n=13 Then ;SubZero

@@ -155,6 +155,25 @@ Function getHiryuRunStatus(n)
     Return ret
 End Function
 
+Function getWonderwomanRunStatus(n)
+    ret=0
+    If zRunSeq2(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
+    
+    If leftKey(n)=0 And rightKey(n)=0 Then 
+        ret=1
+        If abs(zSpeed#(n))<=4.8 And abs(zSpeed#(n))>4.3 Then zani(n)=21:zf(n)=8
+        If zOnGnd(n)=1 And abs(zSpeed#(n))=4.8 And gameSound Then PlaySound pullSnd
+
+        If abs(zSpeed#(n))<=3.8 And abs(zSpeed#(n))>3.3 Then zani(n)=21:zf(n)=8
+        If abs(zSpeed#(n))<=3.3 And abs(zSpeed#(n))>2.8 Then zani(n)=21:zf(n)=9
+        If abs(zSpeed#(n))<=2.8 And abs(zSpeed#(n))>2.3 Then zani(n)=21:zf(n)=10
+        If abs(zSpeed#(n))<=1.8 And abs(zSpeed#(n))>1.3 Then zani(n)=21:zf(n)=12
+        If abs(zSpeed#(n))<=1.3 And abs(zSpeed#(n))>0.8 Then zani(n)=21:zf(n)=13
+        If abs(zSpeed#(n))<=0.8 Then zani(n)=21:zf(n)=14
+    End If
+    Return ret
+End Function
+
 Function handleJuggernautRun(n)
     If zFace(n)=2 Then 
         If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=2
@@ -224,7 +243,7 @@ End Function
 Function getSpecialRunStatus(n)
     Local ret=0
     If curGuy(n)=6 Then ret=getHiryuRunStatus(n)
-    If curGuy(n)=14 And zRunSeq2(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
+    If curGuy(n)=14 Then ret=getWonderwomanRunStatus(n)
     If curGuy(n)=15 Then handleJuggernautRun(n)
     If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then ret=1
     
@@ -264,7 +283,19 @@ End Function
 
 ;----------------  Draw Flip Frames ----------------
 Function drawFlipFrames(n)
-    If flipFrames(n)=0 Then
+    If curGuy(n)=14 Then ;Wonderwoman
+        Select True                                                        ;Jump flip
+            Case (zjump2seq(n)>0 And zjump2seq(n)<=3):zani(n)=5:zf(n)=1
+            Case (zjump2seq(n)>3 And zjump2seq(n)<=6):zani(n)=5:zf(n)=2
+            Case (zjump2seq(n)>6 And zjump2seq(n)<=9):zani(n)=5:zf(n)=3
+            Case (zjump2seq(n)>9 And zjump2seq(n)<=12):zani(n)=5:zf(n)=4
+            Case (zjump2seq(n)>12 And zjump2seq(n)<=15):zani(n)=5:zf(n)=5
+            Case (zjump2seq(n)>15 And zjump2seq(n)<=18):zani(n)=5:zf(n)=6
+            Case (zjump2seq(n)>18 And zjump2seq(n)<=21):zani(n)=5:zf(n)=7
+            Case (zjump2seq(n)>21 And zjump2seq(n)<=24):zani(n)=5:zf(n)=8
+            Case (zjump2seq(n)>24 And zjump2seq(n)<=27):zani(n)=5:zf(n)=9
+        End Select
+    Else If flipFrames(n)=0 Then
         Select True                                                        ;Jump flip
             Case (zjump2seq(n)=>1 And zjump2seq(n)=<5):zani(n)=5:zf(n)=1
             Case (zjump2seq(n)=>6 And zjump2seq(n)=<10):zani(n)=5:zf(n)=2

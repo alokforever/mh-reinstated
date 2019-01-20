@@ -178,6 +178,7 @@ Global wolverineSpellCooldown1Snd, wolverineSpellCooldown2Snd
 Global wolverineSuper3Snd
 Global wonderwomanWH1Snd, wonderwomanWH2Snd, wonderwomanWhWaveSnd
 Global wwAegisSnd, wwAegisMetalSnd, wwAegisHitSnd
+Global wwTauntSnd
 Global wwTaunt1Snd, wwCapeSnd
 Global wwShout1Snd, wwShout2Snd, wwShout3Snd, wwShout4Snd, wwGrunt1Snd
 Global wwWhip1Snd, wwWhip2Snd, wwWhipHitSnd, wwLassoSnd

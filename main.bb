@@ -1982,7 +1982,7 @@ Function selectDraw(n)
         If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
         Goto drawZ        
     End If            ;ducking
-    
+
     If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
         If isRunning(n) And canAirGlide(n)
             If zJump2Seq(n)=1 Then zRunSeq(n)=0

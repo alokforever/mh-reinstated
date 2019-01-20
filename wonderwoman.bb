@@ -1,3 +1,41 @@
+Function doWwTaunt2(n)
+    seqStart=150:seq1=seqStart+3:seq2=seq1+6:seq3=seq2+6:seq4=seq3+45:seq5=seq4+3
+    seq6=seq5+3:seq7=seq6+3:seq8=seq7+3:seq9=seq8+3
+    endSeq=140
+    
+;========= Animation ==========
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zf(n)=14
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zf(n)=15
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zf(n)=16
+    
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq4 Then
+        If zBlowSeq(n) Mod 3 = 0 Then
+            If zF(n)=17 Then 
+                zF(n)=18
+            Else If zF(n)=18 Then 
+                zF(n)=19
+            Else If zF(n)=19 Then 
+                zF(n)=20
+            Else If zF(n)=20 Then 
+                zF(n)=21
+            Else 
+                zF(n)=17 
+            End If
+        End If
+    End If
+    
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n)=seq5 Then zf(n)=15
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n)=seq6 Then zf(n)=14
+    If zBlowSeq(n)>=seq6 And zBlowSeq(n)=seq7 Then zf(n)=22
+    If zBlowSeq(n)>=seq7 And zBlowSeq(n)=seq8 Then zf(n)=23
+    If zBlowSeq(n)>=seq8 And zBlowSeq(n)=seq9 Then zf(n)=24
+    
+;========= Sounds ==========
+    If zBlowSeq(n)=seqStart+1 And gameSound Then PlaySound wwTauntSnd
+    
+    If zBlowSeq(n)>seq9 Then zBlowSeq(n)=endSeq
+End Function
+
 Function performFierceAmazon(n)
     zNoMove(n)=0:zNoJump(n)=1:zNoGrav(n)=1
     a=500:b=506:c=508:d=510:e=531
@@ -53,7 +91,7 @@ zBlowEffect(n)=0
         Goto noBlowSeq3
     EndIf
 
-zBlowSeq(n)=zBlowSeq(n)+1:
+zBlowSeq(n)=zBlowSeq(n)+1
 .noBlowSeq3
 
 zchunkType(n)=10
@@ -680,12 +718,21 @@ Case 16 ;Counter Key (Taunt)
     zNoMove(n)=1:zNoJump(n)=1
     a=72:b=a+6:c=b+6:d=c+6:e=d+4:f=e+4:g=f+3:h=g+3:i=h+3:j=i+4
     zani(n)=16
+    endSeq=140
+    taunt2Seq=150
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zOnGnd(n)=0 Then zy(n)=zy(n)-2
-;---------- Sound effects ------------
-    If zBlowSeq(n)=1 And gameSound Then PlaySound wwTaunt1Snd
-    If (zBlowSeq(n) Mod 50=0 Or zBlowSeq(n)=1) And gameSound Then PlaySound wwCapeSnd
 
+    If zBlowSeq(n)>=taunt2Seq Then doWwTaunt2(n)
+;---------- Sound effects ------------
+    If zBlowSeq(n)=1 Then
+        zTauntSeed(n)=Rand(2)
+        If zTauntSeed(n)=1 Then zBlowSeq(n)=taunt2Seq
+    End If
+    If zBlowSeq(n)=1 And gameSound Then PlaySound wwTaunt1Snd
+    If zBlowSeq(n) < taunt2Seq And (zBlowSeq(n) Mod 50=0 Or zBlowSeq(n)=1) Then 
+        If gameSound PlaySound wwCapeSnd
+    End If
 ;---------- Animations -------------
     If zBlowSeq(n) >= 1 And zBlowSeq(n) < a Then
         If zBlowSeq(n)=1 Then zf(n)=1
@@ -717,8 +764,10 @@ Case 16 ;Counter Key (Taunt)
         Else
             zSuperBar(n)=zSuperBar(n)+6
         End If
-        zBlowSeq(n)=0:zBlow(n)=0
+        zBlowSeq(n)=endSeq
     End If
+    
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<taunt2Seq Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 17 ;Extra special key (Flight)
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0

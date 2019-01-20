@@ -502,7 +502,7 @@ Function doLowExtendingPunch(n)
         xblow(n,nn)=78: yblow(n,nn)=24:wblow(n,nn)=6:hblow(n,nn)=8:nn=nn+1
         xblow(n,nn)=60: yblow(n,nn)=24:wblow(n,nn)=6:hblow(n,nn)=8:nn=nn+1
         xblow(n,nn)=30: yblow(n,nn)=24:wblow(n,nn)=6:hblow(n,nn)=8:nn=nn+1
-        xblow(n,nn)=15: yblow(n,nn)=24:wblow(n,nn)=6:hblow(n,nn)=8:nn=nn+1    
+        xblow(n,nn)=15: yblow(n,nn)=24:wblow(n,nn)=6:hblow(n,nn)=8:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=8:zBlowStillTime(n)=6
         zHitSpeed#(n)=4:zHitUpSpeed#(n)=4:zHitTime(n)=40
         zBlowDamage(n)=8:zBLowEffect(n)=1:zEnemyImmuneTime(n)=40:zBlowBlockTime(n)=40
