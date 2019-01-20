@@ -2571,6 +2571,8 @@ If blockKey(n)=1 And (leftKeyhit(n)=1 Or rightkeyhit(n)=1) Then
         doBlow(n, 8)    ;Dodge move
     EndIf
 EndIf
+;DebugLog "blockkey(1): " + KeyDown(blockK(1)) + ", zCurBlow(n): " + zCurBlow(n)
+;If zCurBlow(n)=0 And KeyDown(blockK(n))=0 Then zBlow(n)=0
 ;------------------------------------------------------------------------------------------------------
 
 ;----pickup iten---------------------------
