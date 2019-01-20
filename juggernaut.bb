@@ -1014,13 +1014,23 @@ Case 17 ;Extra special key
     zNoMove(n)=1
     zNoJump(n)=1:zJump(n)=0
     If zOnGnd(n)=0 Then zy(n)=zy(n)-2
-    If zBlowSeq(n)=1 Then KeyDown(BlockK(n))=0
-    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 And KeyDown(shotK(n))=1 Then zBlowSeq(n)=counterPunchSeq
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 And KeyDown(shotK(n))=1 Then 
+        For nn=1 To zzamount
+            If zControlsThese(n, nn)>0 Then
+                en=zControlsThese(n, nn)
+                If isDoingAttackMove(en)=1 Then zBlowSeq(n)=counterPunchSeq
+            End If
+        Next
+    End If
     If zBlowSeq(n) >= counterPunchSeq Then doCounterPunchSeq(n)
 
 ;======= Animation ========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=18:zf(n)=1
-    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=18:zf(n)=2:zshield(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then 
+        zani(n)=18:zf(n)=2:zshield(n)=1
+        checkEnemy(n, zx(n)+3, zy(n)-39, 41, 5)
+        checkEnemy(n, zx(n)+3, zy(n)-30, 65, 35)
+    End If
     If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=18:zf(n)=1
     
 ;======= Sound =========

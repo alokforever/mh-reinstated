@@ -6119,3 +6119,37 @@ For n=1 To characterAmount
     End If
 Next
 End Function
+
+Function checkEnemy(n, x#, y#, w#, h#)
+    For en=1 To zzamount
+        If zon(en) And en <> n And zTeam(en) <> zTeam(n)
+            Select zFace(n)
+            Case 2
+                If zx(en) >= x# And zx(en) <= x#+w# And zy(en) >= y# And zy(en) <= y#+h# Then
+                    zControlsThese(n, en)=en
+                End If
+            Case 4
+                If zx(en) <= x# And zx(en) >= x#-w# And zy(en) >= y# And zy(en) <= y#+h# Then
+                    zControlsThese(n, en)=en
+                End If
+            End Select
+        End If
+    Next
+End Function
+
+Function isDoingAttackMove(n)
+    doingAttackMove=0
+    If zBlow(n)=1 Then
+        If zCurBlow(n)=1 Then doingAttackMove=1
+        If zCurBlow(n)=2 Then doingAttackMove=1
+        If zCurBlow(n)=4 Then doingAttackMove=1
+        If zCurBlow(n)=5 Then doingAttackMove=1
+        If zCurBlow(n)=7 Then doingAttackMove=1
+        If zCurBlow(n)=9 Then doingAttackMove=1
+        If zCurBlow(n)=10 Then doingAttackMove=1
+        If zCurBlow(n)=11 Then doingAttackMove=1
+        If zCurBlow(n)=14 Then doingAttackMove=1
+        If zCurBlow(n)=17 Then doingAttackMove=1
+    End If
+    Return doingAttackMove
+End Function
