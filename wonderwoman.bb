@@ -1,13 +1,56 @@
+Function doThemysciraLandSeq(n)
+    zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
+    seqStart=20030:seq1=seqStart+5:seq2=seq1+4:seq3=seq2+1:seq4=seq3+1:seq5=seq4+2:seq6=seq5+2
+    seq7=seq6+2
+    endSeq=2
+
+;======== Animation =========
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<seq1 Then zani(n)=26:zf(n)=1
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n)<seq2 Then zani(n)=26:zf(n)=2
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n)<seq3 Then zani(n)=26:zf(n)=3
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq4 Then zani(n)=26:zf(n)=4
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then zani(n)=26:zf(n)=5
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n)<seq6 Then zani(n)=26:zf(n)=6
+    If zBlowSeq(n)>=seq6 And zBlowSeq(n)<seq7 Then zani(n)=26:zf(n)=7
+    
+    If zBlowSeq(n)>seq7 Then zBlowSeq(n)=endSeq
+End Function
+
+Function doThemysciraHitSeq(n)
+    zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
+    seqStart=20001:seq1=seqStart+5:seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+3:seq6=seq5+3
+    ;20024
+    endSeq=2
+    
+    If zBlowSeq(n)<seq5 Then 
+        zNoGrav(n)=1 
+    Else 
+        zNoGrav(n)=0 
+    End If
+;======== Animation =========
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<seq1 Then zani(n)=4:zf(n)=10:moveY(n,-1.5)
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n)<seq2 Then zani(n)=4:zf(n)=11:moveY(n,-1):moveX(n,zBlowDir(n),-3)
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n)<seq3 Then zani(n)=4:zf(n)=12:moveY(n,0.5):moveX(n,zBlowDir(n),-2.4)
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq4 Then zani(n)=4:zf(n)=12:moveY(n,1.5):moveX(n,zBlowDir(n),-1.6)
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then zani(n)=4:zf(n)=14:moveY(n,2.5):moveX(n,zBlowDir(n),-1.2)
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n)<seq6 Then zani(n)=4:zf(n)=15:moveX(n,zBlowDir(n),-0.8)
+    
+    If zBlowSeq(n)>=seq6 Then zBlowSeq(n)=endSeq
+End Function
+
 Function doThemysciraLow(n)
     seqStart=198:seq1=seqStart+3:seq2=seq1+3:seq3=seq2+18 ; 222
     seq4=seq3+2:seq5=seq4+2:seq6=seq5+2:seq7=seq6+2:seq8=seq7+2:seq9=seq8+2:seq10=seq9+2 ; 236
     seq11=seq10+20000
+    themysciraHitSeq=20001
+    themysciraLandSeq=20030
     endSeq=2
     zNoGrav(n)=1:zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
     If zBlowSeq(n)>seq10 And zOnGnd(n)=1 Then 
         If gameSound Then PlaySound mvcCrash2Snd
         makechunk(n,zx(n),zy(n)+10,zFace(n),148)
-        zBlowSeq(n)=endSeq
+        quake=1:quakeSeq=0
+        zBlowSeq(n)=themysciraLandSeq
     End If
 ;======= Animation =======
     If zBlowSeq(n)>=seqStart And zBlowSeq(n)<=seq1 Then zani(n)=10:zf(n)=24
@@ -50,7 +93,38 @@ Function doThemysciraLow(n)
 ;======= Movement =======
     If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 And zHitHead(n)=0 Then moveY(n,-7)
     If zBlowSeq(n)>seq9 And zBlowSeq(n)<=seq10 Then moveY(n,2):moveX(n,zBlowdir(n),1)
-    If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11 And zOnGnd(n)=0 Then moveY(n,9):moveX(n,zBlowDir(n),2.5)
+    If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11 And zOnGnd(n)=0 Then 
+        If zFace(n)=2 Then xDst=zx(n)-10
+        If zFace(n)=4 Then xDst=zx(n)+10
+        checkYDist(n, xDst, zy(n), 2)
+        If zBlowStill(n)=0 Then moveX(n,zBlowDir(n),2.5)
+        If yDist(n)>=15 Then 
+            If zBlowStill(n)=0 Then moveY(n,9) 
+        Else 
+            If zBlowStill(n)=0 Then moveY(n,4) 
+        End If
+    End If
+
+;======= Hitbox ========
+    If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11
+        zblowPamount(n)=4:nn=1:zBlowBack(n)=1
+        xblow(n,nn)=-7: yblow(n,nn)=30:wblow(n,nn)=13:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=-4: yblow(n,nn)=20:wblow(n,nn)=13:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=-2: yblow(n,nn)=10:wblow(n,nn)=13:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=14:hblow(n,nn)=10:nn=nn+1
+        zHitMode(n)=2:zBlowHold(n)=12
+        zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=40
+        zBlowDamage(n)=19:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+        zBlowSound(n)=mvcHit2Snd
+        
+        If zBlowStill(n)=1 Then zBlowSeq(n)=themysciraHitSeq
+    End If
+;======= Effects ========
+    If zBlowSeq(n)=seqStart Then extraObj(n,zx(n),10,zy(n),2,zFace(n),117)
+    If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11 And zBlowStill(n)=0 Then 
+        If zF(n)=30 Then extraObj(n,zx(n),0,zy(n),0,zFace(n),149)
+        If zF(n)=29 Then extraObj(n,zx(n),0,zy(n),0,zFace(n),150)
+    End If
 End Function
 
 Function doWwTaunt2(n)
@@ -59,7 +133,7 @@ Function doWwTaunt2(n)
     endSeq=140
     
 ;========= Animation ==========
-    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zf(n)=14
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<=seq1 Then zf(n)=14
     If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zf(n)=15
     If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zf(n)=16
     
@@ -400,15 +474,16 @@ Case 6    ;throwing iten
 
 
 Case 7    ;Special (THEMYSCIRA FALL / Fierce Amazon)
-    faSeq=10:endSeq=2:themysciraSeq=198
+    faSeq=10:endSeq=2:themysciraSeq=198:themysciraHitSeq=20001
+    themysciraLandSeq=20030
 
     If zBlowSeq(n)=1 And isRunning(n) Then zBlowSeq(n)=faSeq
     If zBlowSeq(n)=1 And isRunning(n)=0 Then zBlowSeq(n)=themysciraSeq
     If zBlowSeq(n) >= faSeq And zBlowSeq(n)<themysciraSeq Then performFierceAmazon(n)
-    If zBlowSeq(n) >= themysciraSeq Then doThemysciraLow(n)
+    If zBlowSeq(n) >= themysciraSeq And zBlowSeq(n)<themysciraHitSeq Then doThemysciraLow(n)
+    If zBlowSeq(n) >= themysciraHitSeq And zBlowSeq(n)<themysciraLandSeq Then doThemysciraHitSeq(n)
+    If zBlowSeq(n) >= themysciraLandSeq Then doThemysciraLandSeq(n)
 
-
-    
     If zBlowSeq(n)>=endSeq And zBlowSeq(n)<faSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
 Case 8    ;Dodging
@@ -771,7 +846,7 @@ Case 15 ;WW throw
                 zFace(n)=4
             Else
                 zFace(n)=2
-            End If        
+            End If
         End If
         zBlowSeq(n)=0:zBlow(n)=0
     End If
@@ -796,7 +871,7 @@ Case 16 ;Counter Key (Taunt)
         If gameSound PlaySound wwCapeSnd
     End If
 ;---------- Animations -------------
-    If zBlowSeq(n) >= 1 And zBlowSeq(n) < a Then
+    If zBlowSeq(n) >= 1 And zBlowSeq(n) < a And zTauntSeed(n)=2 Then
         If zBlowSeq(n)=1 Then zf(n)=1
         If zBlowSeq(n) Mod 3 = 0 Then
             If zf(n)=1 Then 
@@ -820,15 +895,7 @@ Case 16 ;Counter Key (Taunt)
     If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zf(n)=12
     If zBlowSeq(n) >= i And zBlowSeq(n) < j Then zf(n)=13
     
-    If zBlowSeq(n) = j Then 
-        If zSuperBar(n)+6 >= 100 Then
-            zSuperBar(n) = 100
-        Else
-            zSuperBar(n)=zSuperBar(n)+6
-        End If
-        zBlowSeq(n)=endSeq
-    End If
-    
+    If zBlowSeq(n)=taunt2Seq Then zani(n)=16:zF(n)=14
     If zBlowSeq(n)>=endSeq And zBlowSeq(n)<taunt2Seq Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 17 ;Extra special key (Flight)

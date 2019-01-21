@@ -1972,7 +1972,6 @@ Function selectDraw(n)
         If zCurBlow(n)=5 Then isRunning(n)=0
         Goto drawZ
     End If
-    
     If zDuck(n)=1 Then
         If duckFrames(n) > 0 Then
             drawDuckSequence(n)

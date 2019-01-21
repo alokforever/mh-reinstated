@@ -3093,6 +3093,16 @@ Case 148:       ;Ground crack
     
     If chunkSeq(n)>seq10 Then chunk(n)=0
     
+Case 149:       ;Wonderwoman Themyscira low 1 sillhouete
+    If chunkSeq(n)<=4 Then chunkPic(n)=ptPic(119,1):chunkPic_(n)=ptPic_(119,1)
+    
+    If chunkSeq(n)>4 Then chunk(n)=0
+    
+Case 150:       ;Wonderwoman Themyscira low 2 sillhouete
+    If chunkSeq(n)<=4 Then chunkPic(n)=ptPic(119,2):chunkPic_(n)=ptPic_(119,2)
+    
+    If chunkSeq(n)>4 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
@@ -3879,6 +3889,11 @@ Next
 For counter = 1 To 5
     zpic(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + ".bmp")
     zpic_(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + "_.bmp")
+Next
+
+For counter = 1 To 20
+    zpic(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + ".bmp")
+    zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
 Next
 
 ;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)

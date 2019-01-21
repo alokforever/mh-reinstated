@@ -15,6 +15,7 @@ character-specific:
 1. Sub zero freeze ground particles (on air)
 2. Scorpion spear does not trigger pull when enemy is backward facing
 3. Wonderwoman projectile deflect reaction to scorpion spear (facing right)
+4. Wonderwoman roll with item crash
 
 Sprite resize offset (by percentage):
 Piccolo - 50
@@ -24,5 +25,4 @@ Wonderwoman - 49
 
 Animation:
 Themyscira - 203
-1 - 7 = 5 - 11
 
