@@ -79,6 +79,7 @@ zBlocked(n)=0: aiGetTarget(n):
     zBouncedGndFrames(n)=0
     superMovePortraitSeqStart(n)=0
     zTempStone(n)=0
+    zBlockedSnd(n)=blockedsnd
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -458,6 +459,7 @@ Case 14: ;Wonder Woman
     superPicNum(n)=2
     electrocuteFrames(n)=3
     electrocuteFrameSpd(n)=2
+    zBlockedSnd(n)=wwBlockedSnd
 
 Case 15: ;Juggernaut
     zBlowDist(n,1)=45
@@ -4066,6 +4068,7 @@ If n=14 Then ;WonderWoman
     If wwThemysciraSnd=0 Then wwThemysciraSnd=LoadSound(soundsdir$ + "wonderwoman\wwThemysciraSnd.wav")
     If wwRun1Snd=0 Then wwRun1Snd=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
     If wwRun2Snd=0 Then wwRun2Snd=LoadSound(soundsdir$ + "wonderwoman\wwRun2Snd.wav")
+    If wwBlockedSnd=0 Then wwBlockedSnd=LoadSound(soundsdir$ + "wonderwoman\wwBlockedSnd.wav")
 End If
 
 If n=13 Then ;SubZero

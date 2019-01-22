@@ -242,7 +242,7 @@ Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40),
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
-Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ)
+Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ)
 
 ;Paths For directories / mods
@@ -2914,7 +2914,7 @@ For nn=1 To zzamount
                     Else
                         makechunk(n,zx(nn),yRect(n)+hRect(n) ,2,1)
                 EndIf
-                If gameSound Then PlaySound blockedsnd
+                If gameSound Then PlaySound zBlockedSnd(nn)
                 If zBlockLife(nn) <1 Then
                     zBlock(nn)=0:zBlocked(nn)=0
                     If gameSound Then PlaySound brokensnd
@@ -3667,7 +3667,7 @@ Case 2
                                 zBlock(nn)=0:zBlocked(nn)=0
                                 If gameSound=1 Then PlaySound brokensnd
                             Else
-                                If gameSound=1 Then PlaySound blockedsnd
+                                If gameSound=1 Then PlaySound zBlockedSnd(nn)
                             EndIf
                         EndIf    
                         If zblock(nn) = 0 Then 
@@ -3762,7 +3762,7 @@ Case 4
                             zBlock(nn)=0:zBlocked(nn)=0
                             If gameSound=1 Then PlaySound brokensnd
                         Else
-                            If gameSOund=1 Then PlaySound blockedsnd
+                            If gameSOund=1 Then PlaySound zBlockedSnd(nn)
                         EndIf
                 EndIf
                 If zblock(nn)=0 Then
@@ -4244,7 +4244,7 @@ Case  2
                             zBlock(nn)=0:zBlocked(nn)=0
                             If gameSound Then PlaySound brokensnd
                         Else
-                            If gamesound Then PlaySound blockedsnd
+                            If gamesound Then PlaySound zBlockedSnd(nn)
                         EndIf
                     EndIf
                     If Not zBlock(nn) Then
@@ -4309,7 +4309,7 @@ Case 4
                             zBlock(nn)=0:zBlocked(nn)=0
                             If gameSound Then PlaySound brokensnd
                         Else
-                            If gamesound Then PlaySound blockedsnd
+                            If gamesound Then PlaySound zBlockedSnd(nn)
                         EndIf
                     EndIf
                     If Not zBlock(nn) Then
@@ -4777,7 +4777,7 @@ For nn=1 To zzamount
                     zBlock(nn)=0:zBlocked(nn)=0
                     If gameSound=1 Then PlaySound brokensnd
                 Else
-                    If gameSound=1 Then PlaySound blockedsnd
+                    If gameSound=1 Then PlaySound zBlockedSnd(nn)
                 EndIf
             EndIf
             
@@ -5386,7 +5386,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile)
                                 zface(targetPlayer)=4
                             EndIf
                             zblowDir(targetPlayer)=zface(targetPlayer)
-                            If gameSound Then PlaySound blockedsnd
+                            If gameSound Then PlaySound zBlockedSnd(targetPlayer)
                             If zBlockLife(targetPlayer) < 1 Then
                                 zBlock(targetPlayer)=0:zBlocked(targetPlayer)=0
                                 If gameSound Then PlaySound brokensnd
@@ -5906,7 +5906,7 @@ Function handleShotPlayerCollision(n, hAdj, wAdj)
                                 zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=oppDir:zblowDir(nn)=zface(nn)
                                 zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=shotDir(n)
                                 zBLockLife(nn)=zBlockLife(nn)-shotDamage(n)
-                                If gameSound Then PlaySound blockedsnd
+                                If gameSound Then PlaySound zBlockedSnd(nn)
                                 If zBlockLife(nn) < 1 Then
                                     zBlock(nn)=0:zBlocked(nn)=0
                                     If gameSound Then PlaySound brokensnd
