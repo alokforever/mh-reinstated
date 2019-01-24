@@ -2,7 +2,7 @@ Include "globalSoundVariables.bb"
 
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
-Global modsAmount, curModId
+Global modsAmount, curModId, maxCharAmt=54
 
 If loadConfig() = False Then 
     gameSound=1
@@ -191,7 +191,7 @@ Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
 Dim xChunk#(1500),yChunk#(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
 Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,15),ptPic_(1500,15),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
-Dim chunkOwner(1500)
+Dim chunkOwner(1500), isChunkSolid(1500), chunkYAdj(1500), yChunkSpeed#(1500)
 
 Dim explosion(100),xExp(100),yExp(100),expDamage(100), expSide(100),expHeight(100),expImpact(100),expType(100),explosionSound(100)
 
@@ -215,7 +215,7 @@ Global menuOption, duringGameMenu
 
 ;zeto's variables
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
-Dim zStanceFrames(maxZ), zStanceSeq(maxZ), zStanceSpeed(maxZ), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(60)
+Dim zStanceFrames(maxZ), zStanceSeq(maxZ), zStanceSpeed(maxZ), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
 Dim zRunSeq2(maxZ), isRunningFlag(maxZ) ;zRunSeq2 is run sequence that does not reset to 1 when running
@@ -243,7 +243,7 @@ Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
-Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ)
+Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -790,6 +790,7 @@ If guyLoaded(43)=0 Then loadPics(43)
 If guyLoaded(45)=0 Then loadPics(45)
 If guyLoaded(46)=0 Then loadPics(46)
 If guyLoaded(53)=0 Then loadPics(53)
+If guyLoaded(54)=0 Then loadPics(54)
 
 For i=1 To Famount    ;loads character For factory If not done yet
     For ii=1 To FfacAmount(i)
@@ -881,7 +882,7 @@ EndIf
 noDoubleJump=0
 noAirSpecial=0
 If ScrollMap=0 Then
-    rScrLimit=1040:lScrLimit=-400:uScrLimit=-50000:dScrLimit=540    
+    rScrLimit=1040:lScrLimit=-400:uScrLimit=-50000:dScrLimit=540
 Else
     If uScrLimit=0 Then uScrLimit=-50000
     dScrLimit = yScrCameraBottomLimit+540
@@ -1410,7 +1411,7 @@ Next
 x=15:y=3    ;draws bars, super bar, damage/life, lives, etc.
 For n=1 To 4
     xx=0
- If zon(n) Then
+ If zon(n) And isHelper(n)=0 Then
     For k=1 To zlives(n)
         DrawImage zIcon(curGuy(n)),x+xx,y
         xx=xx+15
@@ -2225,7 +2226,7 @@ For vn=3 To zheight(n) Step 4    ;Detects wall collision Next to player
         EndIf
         zx(n)=zoldx(n):Exit
     EndIf
-Next    
+Next
 
 If zjump(n)=1 And zhit(n)=0 And zBlowStill(n)=0 And zJumping(n)=1 Then        ;Makes it jump!
     checkDist(n, zx(n), zy(n), zFace(n))
@@ -2314,7 +2315,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    ;DebugLog "zani: " + zani(n) + ", zf: " + zf(n)
+    ;DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -2350,6 +2351,12 @@ End Function
 ;--------Draw Chunks----------------------------------------------------------------------------------
 Function renderChunks(n)
 
+  If isChunkSolid(n)=1 Then
+    If Not ImageRectCollide(map,0,0,0,xChunk(n)-9,yChunk(n)+1,chunkWidth(n),chunkHeight(n)) Then
+      yChunk(n)=yChunk(n)+yChunkSpeed#(n)
+    End If
+  End If
+  
   If chunk(n) = 1 And (isSuperMove=0 Or (isSuperMove=1 And chunkOwner(n)=1)) Then
     Local yImageHeight,xImageHeight
     yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
@@ -4487,6 +4494,7 @@ For nn=1 To zzamount
 .tryPlatAgain
     If zon(nn)=1 And zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) And zJump(nn)=0 Then
         If zy(nn) => yPlat(n)-3 And zy(nn) =< yPlat(n)+4 Then
+            DebugLog "platHeight: " + platHeight(n)
             If zBeenHere(nn)=1 Then Goto platDone
             If platXspeed(n) > 0 Then zBeenHere(nn)=1
             If zantiplat(nn)=1 Then
@@ -4522,7 +4530,6 @@ For nn=1 To zzamount
     If platHeight(n) > 1 And zon(nn) Then 
       If zy(nn) > yPlat(n) +5 And zy(nn)-hh =< yPlat(n)+platHeight(n) Then       
         If zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) Then
-
             ph=36
             If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
                 zHitHead(nn)=1:zJump(nn)=0
@@ -4531,7 +4538,6 @@ For nn=1 To zzamount
                     killMan(nn)
                     Goto platDone
                 EndIf
-                
                 zUpFallSpeed(nn)=0:zUpFallTime(nn)=0
             Else
                 If zoldx(nn) < xoldPlat(n)+(platWidth(n)/2) Then
@@ -4554,7 +4560,7 @@ For nn=1 To zzamount
                     EndIf
                 EndIf
                 
-                If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then    ;crushes player
+                If zLeftCollide(nn)=1 And zRightCollide(nn)=1 Then ;crushes player
                     killMan(nn)
                     Goto platDone
                 EndIf
@@ -4623,7 +4629,7 @@ For nn=1 To objAmount
 
         EndIf
     EndIf
-      If platHeight(n) > 1 Then    
+    If platHeight(n) > 1 Then
     If yobj(nn) > yPlat(n) +4 And yobj(nn)-objHeight(nn) =< yPlat(n)+platHeight(n) And objTaken(nn)=0 And obj(nn)=1 Then       
         If xobj(nn) => xoldPlat(n)-objSide(nn) And xobj(nn) =< xoldPlat(n)+(platWidth(n)+objSide(nn)) Then
               If objExplosive(nn) >0 And objHurt(nn)=1 Then objexp(nn,xObj(nn),yobj(nn)-5,objExplosive(nn)):objHitSolid(nn):obj(nn)=0
@@ -4648,14 +4654,22 @@ For nn=1 To objAmount
 Next
 
 ;Flags x plat collision
-For nn=1 To flagAmount    
-    If yFlag(nn) > yPlat(n) And yFlag(nn) =< yPlat(n)+5 Then       
+For nn=1 To flagAmount
+    If yFlag(nn) > yPlat(n) And yFlag(nn) =< yPlat(n)+5 Then
         If xFlag(nn) => xoldPlat(n) And xFlag(nn) =< xoldPlat(n)+(platWidth(n)) Then
-            yFlag(nn)=yPlat(n)         
+            yFlag(nn)=yPlat(n)
         EndIf
     EndIf
 Next
 
+;Chunks x plat collision
+For nn=1 To chunkAmount
+    If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
+        If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
+            If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
+        EndIf
+    EndIf
+Next
 
 Next
 
@@ -5050,7 +5064,7 @@ Function checkYDist(n,x,y,dir)
             If y+q > yplat(nn) And y+q < yplat(nn)+platHeight(nn)+heightAdjustment And platWidth(nn)>1 Then
                 If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
                     yDist(n)=q
-                    Goto distChecked    
+                    Goto distChecked
                 EndIf
             EndIf
         Next
@@ -5261,7 +5275,7 @@ For n=0 To characterAmount
     Next
 Next
 
-For n=30 To 53    ;add character
+For n=30 To maxCharAmt    ;add character
     guyLoaded(n)=0
     For n1=0 To 50
         For n2=0 To 50

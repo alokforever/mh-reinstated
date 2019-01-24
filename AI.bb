@@ -295,8 +295,8 @@ Else If isHelperAttackDone(n)=0
     ;flies to the target
     If zx(nn) >= zx(n)+2 Then rightkey(n)=1
     If zx(nn) <= zx(n)-2 Then leftKey(n)=1
-    If zy(n) >= zy(nn) Then zy(n)=zy(n)-5
-    If zy(n) <= zy(nn) Then zy(n)=zy(n)+5
+    If zy(n) >= zy(nn) Then zy(n)=zy(n)-6
+    If zy(n) <= zy(nn) Then zy(n)=zy(n)+6
     ;aim on closest enemy
     If zon(nn)=1 And zteam(nn) <> zteam(n) And isHelperAttackDone(n)=0 Then
         If zx(nn) >= zx(n)-40 And zx(nn) <= zx(n)+40 And Abs(zy(n)-zy(nn)) < 3 Then
@@ -310,7 +310,14 @@ End If
 
 helperSeq(n)=helperSeq(n)+1
 If helperSeq(n) > 572 Then killZ(n)
-    
+
+;-----------------------------------
+Case 54    ;Ground crack
+;-----------------------------------
+zLife(n)=999
+If zBlow(n)=0 Then zBlow(n)=1:zCurBlow(n)=1
+helperSeq(n)=helperSeq(n)+1
+If helperSeq(n) > 176 Then killZ(n)
 End Select
 .aiDone1
 

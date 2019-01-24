@@ -1832,5 +1832,4 @@ Case 2     ;attack
     If zBlowSeq(n) = seq14+1 Then zBlowSeq(n)=0:zBlow(n)=0
 
 End Select
-
 End Function

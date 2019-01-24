@@ -742,8 +742,6 @@ If clickedBut(n) Then
         selectPlayer(4,n,0)
     Case 79
         selectPlayer(4,n,1)
-
-
     End Select
     If gamesound And butOn(n)=1 Then PlaySound clicksnd
 EndIf
@@ -872,13 +870,15 @@ Next
 n=0
 For b=55 To 58  ;team, selected player
     n=n+1
-    If zStanceFrames(curGuy(n))>0 Then
-        setStanceFrame(n)
-        If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1
-        butFrame=menuStanceFrame(n)
-        If butFrame=0 Then butFrame=1
-    Else
-        butFrame=1
+    If curGuy(n)<=maxZ Then
+        If zStanceFrames(curGuy(n))>0 Then
+            setStanceFrame(n)
+            If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1
+            butFrame=menuStanceFrame(n)
+            If butFrame=0 Then butFrame=1
+        Else
+            butFrame=1
+        End If
     End If
     If vsMode=1 Then
         Color 200,200,200

@@ -932,7 +932,6 @@ Case 53: ;Gohan helper
     zUseSpecialAI(n)=1
     zCanFly(n)=1
     hasSpecialAirFrames(n)=1
-    
 End Select
 
 
@@ -1845,6 +1844,9 @@ End Function
 Function chunks(n)
 
 isChunkRenderLowPrio(n)=0
+isChunkSolid(n)=0
+yChunkSpeed#(n)=0
+chunkYAdj(n)=0
 chunkSeq(n)=chunkSeq(n)+1
 cc=chunkType(n)
 Select chunkType(n)
@@ -3080,6 +3082,8 @@ Case 147:       ;Counter
     If chunkSeq(n)>20 Then chunk(n)=0
     
 Case 148:       ;Ground crack
+    isChunkSolid(n)=1:chunkYAdj(n)=15:yChunkSpeed#(n)=4
+    chunkWidth(n)=85:chunkHeight(n)=21
     seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
     
     If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(118,1):chunkPic_(n)=ptPic_(118,1)
@@ -3749,7 +3753,7 @@ explosionSound(n)=shotExplosionSound(n)
 End Function
 ;------------------Load sprites ------------------------------------
 Function loadPics(n)
-
+DebugLog "n: " + n
 gfxdir$="gfx\" + n + "\"
 guyLoaded(n)=1
 

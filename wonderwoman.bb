@@ -7,7 +7,7 @@ Function doThemysciraFar(n)
 
     If zBlowSeq(n)>=seq7 And zOnGnd(n)=1 Then 
         If gameSound Then PlaySound mvcCrash2Snd
-        makechunk(n,zx(n),zy(n)+10,zFace(n),148)
+        makechunk(n,zx(n),zy(n)+15,zFace(n),148)
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
     End If
@@ -112,7 +112,8 @@ Function doThemysciraNear(n)
 
     If zBlowSeq(n)>seq7 And zOnGnd(n)=1 Then 
         If gameSound Then PlaySound mvcCrash2Snd
-        makechunk(n,zx(n),zy(n)+10,zFace(n),148)
+        checkYDist(n, zx(n), zy(n), 2)
+        If yDist(n)<10 Then makechunk(n,zx(n),zy(n)+15,zFace(n),148)
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
     End If
