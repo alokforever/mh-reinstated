@@ -4494,7 +4494,6 @@ For nn=1 To zzamount
 .tryPlatAgain
     If zon(nn)=1 And zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) And zJump(nn)=0 Then
         If zy(nn) => yPlat(n)-3 And zy(nn) =< yPlat(n)+4 Then
-            DebugLog "platHeight: " + platHeight(n)
             If zBeenHere(nn)=1 Then Goto platDone
             If platXspeed(n) > 0 Then zBeenHere(nn)=1
             If zantiplat(nn)=1 Then
@@ -4543,7 +4542,7 @@ For nn=1 To zzamount
                 If zoldx(nn) < xoldPlat(n)+(platWidth(n)/2) Then
                     If platYspeed(n) => 3 And platyDir(n)=1 And zy(nn) < yPlat(n)+15 Then
                         zongnd(nn)=1 : zjump(nn)=0
-                        ;zy(nn)=yPlat(n)-1
+                        zy(nn)=yPlat(n)-1
                         Goto tryPlatAgain
                     Else If immuneToCollide(nn)=0
                         zx(nn)=xoldPlat(n)-(zSide(nn)+1)
@@ -4552,7 +4551,7 @@ For nn=1 To zzamount
                 Else
                     If platYspeed(n) => 3 And platyDir(n)=1 And zy(nn) < yPlat(n)+15 Then
                         zongnd(nn)=1 : zjump(nn)=0
-                        ;zy(nn)=yPlat(n)-1
+                        zy(nn)=yPlat(n)-1
                         Goto tryPlatAgain
                     Else If immuneToCollide(nn)=0
                         zx(nn)=xoldPlat(n)+(platWidth(n)+zSide(nn)+1)

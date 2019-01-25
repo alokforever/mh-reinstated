@@ -1,3 +1,25 @@
+Function renderGroundCrack(n)
+	renderOk=1
+	If zFace(n)=2 Then xRender=10
+	If zFace(n)=4 Then xRender=-10
+	checkYDist(n, zx(n)+xRender, zy(n), 2)
+	If yDist(n)>10 Then renderOk=0
+	checkYDist(n, zx(n)-xRender, zy(n), 2)
+	If yDist(n)>10 Then renderOk=0
+	If renderOk=1 Then
+		xRender=xRender*2
+		checkYDist(n,zx(n)+xRender,zy(n),zface(n))
+		If yDist(n)>10 Then renderOk=0
+		checkYDist(n,zx(n)-xRender,zy(n),zface(n))
+		If yDist(n)>10 Then renderOk=0
+		If renderOk=1 Then
+			makechunk(n,zx(n),zy(n)+10,zFace(n),148)
+		Else
+			makechunk(n,zx(n),zy(n)+10,zFace(n),151)
+		End If
+	End If
+End Function
+
 Function doThemysciraFar(n)
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
     seqStart=20050:seq1=seqStart+2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2
@@ -7,9 +29,10 @@ Function doThemysciraFar(n)
 
     If zBlowSeq(n)>=seq7 And zOnGnd(n)=1 Then 
         If gameSound Then PlaySound mvcCrash2Snd
-        makechunk(n,zx(n),zy(n)+15,zFace(n),148)
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
+		quake=1:quakeSeq=0
+		renderGroundCrack(n)
     End If
     
 ;======== Animation =========
@@ -112,11 +135,10 @@ Function doThemysciraNear(n)
 
     If zBlowSeq(n)>seq7 And zOnGnd(n)=1 Then 
         If gameSound Then PlaySound mvcCrash2Snd
-        checkYDist(n, zx(n), zy(n), 2)
-        If yDist(n)<10 Then makechunk(n,zx(n),zy(n)+15,zFace(n),148)
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
-    End If
+		renderGroundCrack(n)
+	End If
     
 ;======= Animation =======
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zani(n)=5:zf(n)=5

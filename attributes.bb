@@ -3082,7 +3082,7 @@ Case 147:       ;Counter
     If chunkSeq(n)>20 Then chunk(n)=0
     
 Case 148:       ;Ground crack
-    isChunkSolid(n)=1:chunkYAdj(n)=15:yChunkSpeed#(n)=4
+    isChunkSolid(n)=1:chunkYAdj(n)=10:yChunkSpeed#(n)=4
     chunkWidth(n)=85:chunkHeight(n)=21
     seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
     
@@ -3109,6 +3109,24 @@ Case 150:       ;Wonderwoman Themyscira low 2 sillhouete
     
     If chunkSeq(n)>4 Then chunk(n)=0
     
+Case 151:       ;Ground crack half
+    isChunkSolid(n)=1:chunkYAdj(n)=10:yChunkSpeed#(n)=4
+    chunkWidth(n)=85:chunkHeight(n)=21
+    seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(121,1):chunkPic_(n)=ptPic_(121,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(121,2):chunkPic_(n)=ptPic_(121,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(121,3):chunkPic_(n)=ptPic_(121,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(121,4):chunkPic_(n)=ptPic_(121,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(121,5):chunkPic_(n)=ptPic_(121,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(121,6):chunkPic_(n)=ptPic_(121,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(121,7):chunkPic_(n)=ptPic_(121,7)
+    If chunkSeq(n)>seq7 And chunkSeq(n)<=seq8 Then chunkPic(n)=ptPic(121,8):chunkPic_(n)=ptPic_(121,8)
+    If chunkSeq(n)>seq8 And chunkSeq(n)<=seq9 Then chunkPic(n)=ptPic(121,9):chunkPic_(n)=ptPic_(121,9)
+    If chunkSeq(n)>seq9 And chunkSeq(n)<=seq10 Then chunkPic(n)=ptPic(121,10):chunkPic_(n)=ptPic_(121,10)
+    
+    If chunkSeq(n)>seq10 Then chunk(n)=0
+	
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
