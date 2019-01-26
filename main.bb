@@ -4644,7 +4644,7 @@ For nn=1 To objAmount
                 objHitSolid(nn):objYspeed(nn)=0
                 If xobj(nn) < xoldPlat(n)+(platWidth(n)/2) Then
                     xobj(nn)=xoldPlat(n)-(objSide(nn)+1)
-                    objDir(nn)=4       
+                    objDir(nn)=4
                    Else
                     xobj(nn)=xoldPlat(n)+(platWidth(n)+(objSide(nn)+1))
                     objDir(nn)=2
@@ -4669,6 +4669,10 @@ For nn=1 To chunkAmount
     If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
         If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
             If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
+            Select platXDir(n)
+                Case 2:xChunk(nn)=xChunk(nn)+platXSpeed(n)
+                Case 4:xChunk(nn)=xChunk(nn)-platXSpeed(n)
+            End Select
         EndIf
     EndIf
 Next

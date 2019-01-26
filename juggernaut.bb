@@ -932,10 +932,8 @@ Case 15 ;Juggernaut throw
     
     en=zGrabsThis(n)
     immuneToCollide(en)=1
-    If zBlowSeq(n)=seq1+1 Then
-        If zFace(n)=2 Then zx(en)=zx(n)+30
-        If zFace(n)=4 Then zx(en)=zx(n)-30
-    End If
+    If zFace(n)=2 Then zx(en)=zx(n)+15
+    If zFace(n)=4 Then zx(en)=zx(n)-15
     If zBlowSeq(n)=seq4+2 Or zBlowSeq(n)=seq7 Then zy(en)=zy(n)-30
     If zBlowSeq(n)=seq5+2 Then zy(en)=zy(n)+10
     If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq7 Then initParalysis(n, en, 1)
