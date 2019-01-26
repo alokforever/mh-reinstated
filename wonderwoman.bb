@@ -1,23 +1,37 @@
+Function renderFallingRock(n)
+    xChunkPos=Rand(0,20):xChunkVeloc#=Rand(5, 35)
+    xChunkVeloc#=xChunkVeloc#/1000
+    yChunkVeloc#=Rand(2, 6)
+    chunkIdx=makechunk(n,zx(n)-xChunkPos,zy(n)+10,zFace(n),152) ; Falling rocks
+    xChunkForce#(chunkIdx)=xChunkVeloc
+    yChunkForce#(chunkIdx)=yChunkVeloc
+    
+    chunkIdx=makechunk(n,zx(n)+xChunkPos,zy(n)+10,zFace(n),153) ; Reversed Falling rocks
+    xChunkVeloc#=Rand(5, 35):xChunkVeloc#=xChunkVeloc#/1000
+    yChunkVeloc#=Rand(2, 6)
+    xChunkForce#(chunkIdx)=0 - xChunkVeloc#
+    yChunkForce#(chunkIdx)=yChunkVeloc
+End Function
+
 Function renderGroundCrack(n)
-	renderOk=1
-	If zFace(n)=2 Then xRender=10
-	If zFace(n)=4 Then xRender=-10
-	checkYDist(n, zx(n)+xRender, zy(n), 2)
-	If yDist(n)>10 Then renderOk=0
-	checkYDist(n, zx(n)-xRender, zy(n), 2)
-	If yDist(n)>10 Then renderOk=0
-	If renderOk=1 Then
-		xRender=xRender*2
-		checkYDist(n,zx(n)+xRender,zy(n),zface(n))
-		If yDist(n)>10 Then renderOk=0
-		checkYDist(n,zx(n)-xRender,zy(n),zface(n))
-		If yDist(n)>10 Then renderOk=0
-		If renderOk=1 Then
-			makechunk(n,zx(n),zy(n)+10,zFace(n),148)
-		Else
-			makechunk(n,zx(n),zy(n)+10,zFace(n),151)
-		End If
-	End If
+    renderOk=1
+    xRender=10
+    checkYDist(n, zx(n)+xRender, zy(n), 2)
+    If yDist(n)>10 Then renderOk=0
+    checkYDist(n, zx(n)-xRender, zy(n), 2)
+    If yDist(n)>10 Then renderOk=0
+    If renderOk=1 Then
+        xRender=xRender*2
+        checkYDist(n,zx(n)+xRender,zy(n),2)
+        If yDist(n)>10 Then renderOk=0
+        checkYDist(n,zx(n)-xRender,zy(n),2)
+        If yDist(n)>10 Then renderOk=0
+        If renderOk=1 Then
+            makechunk(n,zx(n),zy(n)+10,zFace(n),148)
+        Else
+            makechunk(n,zx(n),zy(n)+10,zFace(n),151)
+        End If
+    End If
 End Function
 
 Function doThemysciraFar(n)
@@ -31,8 +45,10 @@ Function doThemysciraFar(n)
         If gameSound Then PlaySound mvcCrash2Snd
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
-		quake=1:quakeSeq=0
-		renderGroundCrack(n)
+        quake=1:quakeSeq=0
+        renderGroundCrack(n)
+        renderFallingRock(n)
+        renderFallingRock(n)
     End If
     
 ;======== Animation =========
@@ -65,7 +81,7 @@ Function doThemysciraFar(n)
         xblow(n,nn)=20: yblow(n,nn)=5:wblow(n,nn)=15:hblow(n,nn)=5:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=12
         zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=40
-        zBlowDamage(n)=19:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
         zBlowSound(n)=mvcHit2Snd
         If zBlowStill(n)=1 Then zBlowSeq(n)=themysciraHitSeq-1
     End If
@@ -137,8 +153,10 @@ Function doThemysciraNear(n)
         If gameSound Then PlaySound mvcCrash2Snd
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
-		renderGroundCrack(n)
-	End If
+        renderGroundCrack(n)
+        renderFallingRock(n)
+        renderFallingRock(n)
+    End If
     
 ;======= Animation =======
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then zani(n)=5:zf(n)=5
@@ -172,7 +190,7 @@ Function doThemysciraNear(n)
         xblow(n,nn)=0: yblow(n,nn)=5:wblow(n,nn)=14:hblow(n,nn)=10:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=12
         zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=40
-        zBlowDamage(n)=19:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
+        zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
         zBlowSound(n)=mvcHit2Snd
         If zBlowStill(n)=1 Then zBlowSeq(n)=themysciraHitSeq-1
     End If
@@ -276,7 +294,7 @@ Function performFierceAmazon(n)
     a=10:b=16:c=18:d=20:e=41:f=43:g=46:h=49
     endSeq=2
     If zBlowSeq(n)=a Then 
-        zy(n)=zy(n)-15
+        If zHitHead(n)=0 Then zy(n)=zy(n)-15
         extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
     End If
 ;----------- Sounds -----------
@@ -293,8 +311,7 @@ Function performFierceAmazon(n)
         Else
             zani(n)=10:zf(n)=4
         End If
-    End If
-    
+    End If    
     If zBlowSeq(n) >= e And zBlowSeq(n) < f Then zani(n)=10:zf(n)=2
     If zBlowSeq(n) >= f And zBlowSeq(n) < g Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=6
@@ -321,7 +338,7 @@ Function performFierceAmazon(n)
 End Function
 
 Function DoWonderWoman(n)
-
+initMoveStates(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
 
@@ -352,7 +369,7 @@ Case 1    ;Attack
     zNoMove(n)=1:zNoJump(n)=1
     a=6:b=a+5:c=b+2:d=c+2:e=d+2:f=e+2:g=f+2:h=g+2:i=h+2:j=i+2:k=j+2:l=k+3
     m=l+4:n1=m+4
-    If isRunning(n) Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+
 ;----------- Sounds -----------
     randSeed=Rand(3)
     If zBlowSeq(n)=1 And gameSound Then
@@ -432,7 +449,6 @@ Case 4    ;Low kick
     zNoMove(n)=1:zNoJump(n)=1
     zheight(n)=zduckheight(n)
     a=3:b=a+3:c=b+3:d=c+3:e=d+3:f=e+4:g=f+5:h=g+5:i=h+4:j=i+4:k=j+4
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 ;----------- Sounds ------------
     randSeed=Rand(2)
     If zBlowSeq(n)=1 And gameSound Then
@@ -478,7 +494,7 @@ Case 5    ;Up + Special (Warrior's heart)
     a=3:b=a+3:c=b+3:d=c+2:e=d+2:f=e+1:g=f+1:h=g+2:i=h+2:j=i+2:k=j+2
     l=k+2:m=l+2:n1=m+1:o=n1+1:p=o+2:q=p+2:r=q+3:s=r+3
     aa=s+2:bb=aa+2:cc=bb+2:dd=cc+1:ee=dd+1:ff=ee+2:gg=ff+2:hh=gg+3:ii=hh+3
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+
     If zBlowSeq(n)=1 And upKeyDoubleTap(n)=1 Then
         zBlowUpLimit(n)=zy(n)-80
         attackMode(n, 1)=1
@@ -566,7 +582,7 @@ Case 5    ;Up + Special (Warrior's heart)
 
 Case 6    ;throwing iten
     a=2:b=3:c=6:d=8
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+    
     If zongnd(n)=1 Then zNoMove(n)=1:zNoJump(n)=1
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=3
     If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=6:zf(n)=5
@@ -600,14 +616,14 @@ Case 8    ;Dodging
     zNoJump(n)=1
     zheight(n)=25
     a=7:b=15:c=20:d=25:e=30:f=37
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+    
     If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=1:zf(n)=0
     If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=1:moveX(n,zBlowdir(n),2)
     If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),3)
     If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=5:zf(n)=3:moveX(n,zBlowdir(n),3)
     If zBlowSeq(n) > d And zBlowSeq(n) =< e Then zani(n)=5:zf(n)=4:moveX(n,zBlowdir(n),2)
-    If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=1:zf(n)=0:moveX(n,zBlowdir(n),1)  
+    If zBlowSeq(n) > e And zBlowSeq(n) =< f Then zani(n)=1:zf(n)=0:moveX(n,zBlowdir(n),1)
 
     If zblowseq(n) > a And zblowseq(n) <= e Then zshield(n)=1
     If zBlowSeq(n) > f Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zShield(n)=0
@@ -618,8 +634,6 @@ Case 9    ;Down + Special (Amazon Aegis (Projectile deflector))
     aa=100:bb=aa+1:cc=bb+5:dd=cc+5:ee=dd+2:ff=ee+2:gg=ff+2:hh=gg+12:ii=hh+4
 
     If zOnGnd(n)=0 Then zy(n)=zy(n)-2
-
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zBlowSeq(n)=1 Then projectileDeflectSpeed#(n)=1+(Abs(zSpeed#(n)/5))
 
 ;---------- Sound effects ----------
@@ -677,7 +691,6 @@ Case 10    ;High Attack
     
 ;---------- Animation ------------    
     zani(n)=14
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zf(n)=1
     If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zf(n)=2
     If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zf(n)=3
@@ -697,7 +710,7 @@ Case 10    ;High Attack
     If zBlowSeq(n) >= p And zBlowSeq(n) <= q Then zani(n)=12:zf(n)=1
 
 ;---------- Hit box --------------
-    If zBlowSeq(n) => g And zBlowSeq(n) =< n1 Then
+    If zBlowSeq(n) => d And zBlowSeq(n) =< n1 Then
         zblowPamount(n)=2:nn=1
         xblow(n,nn)=20: yblow(n,nn)=67:wblow(n,nn)=6:hblow(n,nn)=10:nn=nn+1
         xblow(n,nn)=20: yblow(n,nn)=57:wblow(n,nn)=6:hblow(n,nn)=10:nn=nn+1
@@ -714,7 +727,6 @@ Case 11    ;club
     zNoJump(n)=1
     extraDraw(n)=1
     drawObjOnZ(n)=0
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-40:yed(n)=40
     If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-40:yed(n)=42
     If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
@@ -742,7 +754,6 @@ Case 12    ;Shooting Position
     zNoMove(n)=1:zNoJump(n)=1
     extraDraw(n)=1:drawObjOnZ(n)=0
     a=8:b=22:c=28
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zblowSeq(n) =1 Then
         If shotsfired(zgotobj(n)) < objAmmo(zgotobj(n)) Then
             shotsfired(zgotobj(n))=shotsfired(zgotobj(n))+1
@@ -791,7 +802,6 @@ Case 13 ; item pickup
     If zBlowSeq(n) => c Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 14    ;Super Special
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 15 ;WW throw
@@ -800,7 +810,6 @@ Case 15 ;WW throw
     aa=200:bb=aa+6:cc=bb+4:dd=cc+4:ee=dd+9:ff=ee+7:gg=ff+6:hh=gg+5:ii=hh+4:jj=ii+8:kk=jj+7:ll=kk+6:mm=ll+5:nn=mm+3
     aaa=300
     If zOnGnd(n)=0 And zBlowSeq(n) < b Then zy(n)=zy(n)-2
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
 
 ;----------------- Animations and Sounds
     If zBlowSeq(n)=1 And downKey(n)=0 Then zBlowSeq(n)=aaa
@@ -966,7 +975,6 @@ Case 16 ;Counter Key (Taunt)
     zani(n)=16
     endSeq=140
     taunt2Seq=150
-    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zOnGnd(n)=0 Then zy(n)=zy(n)-2
 
     If zBlowSeq(n)>=taunt2Seq Then doWwTaunt2(n)

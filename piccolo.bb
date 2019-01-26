@@ -1040,8 +1040,7 @@ Function doPiccoloCombo(n)
 End Function
 
 Function DoPiccolo(n)
-If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-If zBlowSeq(n)=0 Then clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
+initMoveStates(n)
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
     If zBlowStill(n)=1 Then

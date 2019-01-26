@@ -238,6 +238,7 @@ Dim superMoveMaxSeq(maxZ), superPicNum(maxZ), electrocuteFrames(maxZ), electrocu
 Dim shotStopDuration(200), shotStopSeq(200), myShots(maxZ, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
+Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
@@ -476,6 +477,7 @@ Global objTypeN=19    ;Amount of existing objects
 
 Include "menus.bb"
 Include "attributes.bb"
+Include "chunks.bb"
 Include "moves1.bb"
 Include "moves2.bb"
 Include "animation.bb"
@@ -1407,6 +1409,9 @@ For b=3 To 5
   Next
 Next
 
+For n=1 To zzamount
+    If curGuy(n) <= 30 Then checkCooldown(n):checkBuffStatus(n)
+Next
 
 x=15:y=3    ;draws bars, super bar, damage/life, lives, etc.
 For n=1 To 4
@@ -2300,8 +2305,6 @@ Function renderZ(n)
 
 l_zani=zani(n) : l_zf=zf(n) : l_zpic=zcurpic(n)
 
-If curGuy(n) <= 30 Then checkCooldown(n):checkBuffStatus(n)
-
 If scrollMap=0 Then
     If zx(n) < -30 And zHelperObj(n)=0 Then 
         DrawImage zCurPic(n),20-(ImageWidth (zCurpic(n))/2),zy(n)-ImageHeight (zCurPic(n))+1
@@ -2380,7 +2383,6 @@ Function renderChunks(n)
         Case 4:DrawImage chunkPic_(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
       End Select
     ;Case 2    ;text messages
-;
 ;      yChunk(n) = textBox(chunkWidth(n),chunkHeight(n))
 ;      y=0
  ;      For i=1 To chunkLines(n)
@@ -3191,18 +3193,18 @@ Function makeChunk(n,x,y,dir,kind)
 For i=1 To 1500
     If chunk(i)=0 Then
         If i > chunkAmount Then chunkAmount=i
-            chunkPic(i)=0
-            chunkOwner(i)=n
-            chunkSeq(i)=0
-            chunkDir(i)=dir
-            chunk(i)=1:chunkType(i)=kind
-            xChunk(i)=x:yChunk(i)=y
-            If n <= maxZ Then chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
-            chunkCategory(i)=1
-        Exit
+        chunkPic(i)=0
+        chunkOwner(i)=n
+        chunkSeq(i)=0
+        chunkDir(i)=dir
+        chunk(i)=1:chunkType(i)=kind
+        xChunk(i)=x:yChunk(i)=y
+        If n <= maxZ Then chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
+        chunkCategory(i)=1
+        Return i
     EndIf
 Next
-
+Return 0
 End Function
 
 
@@ -5079,14 +5081,13 @@ Function checkYDist(n,x,y,dir)
             If y-q > yplat(nn) And y-q < yplat(nn)+platHeight(nn) And platWidth(nn)>1 Then
                 If x > xplat(nn) And x < xplat(nn)+platWidth(nn) Then
                     yDist(n)=q
-                    Goto distChecked    
+                    Goto distChecked
                 EndIf
             EndIf
         Next
     Next
     End Select
 .distChecked
-
 End Function
 ;------------ check If element is inside visible area--------------------------------------------------
 Function inSight(x,y)
@@ -6157,4 +6158,12 @@ Function isDoingAttackMove(n)
         If zCurBlow(n)=17 Then doingAttackMove=1
     End If
     Return doingAttackMove
+End Function
+
+Function initMoveStates(n)
+    If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
+    If zBlowSeq(n)=0 Then
+        clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
+        zHitDownSpeed#(n)=0
+    End If
 End Function
