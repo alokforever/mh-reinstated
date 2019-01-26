@@ -1,3 +1,71 @@
+Function playWonderwomanCooldownSnd(n)
+    cdSeed=Rand(2)
+    If cantSoundCdVoice(n)=0 Then
+        cantSoundCdVoice(n)=1:cooldownVoiceSeq(n)=0
+        If cdSeed=1 And gameSound And zAI(n)=0 Then 
+            PlaySound wwCd1Snd
+        Else If cdSeed=2 And gameSound And zAI(n)=0 Then
+            PlaySound wwCd2Snd
+        End If
+    End If
+    If gameSound And zAi(n)=0 Then PlaySound clockTickSnd
+End Function
+
+Function doFierceAmazonHitSeq(n)
+    seqStart=100000:seq1=seqStart+36:seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+4
+    seq6=seq5+4:seq7=seq6+4:seq8=seq7+4:seq9=seq8+4:seq10=seq9+4:seq11=seq10+4:seq12=seq11+4
+    endSeq=2
+    zNoGrav(n)=1:zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
+    If zBlowSeq(n)>=seq8 Then zNoGrav(n)=0
+    If zBlowSeq(n)>=seq10 And zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
+;=========== Animation ============
+    If zBlowSeq(n)>=seqStart and zBlowSeq(n)<seq1 Then
+        zani(n)=10
+        If zBlowSeq(n) Mod 2=0 Then
+            If zF(n)=7 Then
+                zF(n)=8
+            Else If zF(n)=8 Then 
+                zF(n)=9
+            Else If zF(n)=9 Then 
+                zF(n)=10
+            Else If zF(n)=10 Then 
+                zF(n)=11
+            Else If zF(n)=11 Then 
+                zF(n)=12
+            Else
+                zF(n)=7
+            End If
+        End If
+    End If
+    If zBlowSeq(n)>=seq1 and zBlowSeq(n)<seq2 Then zani(n)=10:zf(n)=13
+    If zBlowSeq(n)>=seq2 and zBlowSeq(n)<seq3 Then zani(n)=10:zf(n)=14
+    If zBlowSeq(n)>=seq3 and zBlowSeq(n)<seq4 Then zani(n)=10:zf(n)=15
+    If zBlowSeq(n)>=seq4 and zBlowSeq(n)<seq5 Then zani(n)=10:zf(n)=16
+    If zBlowSeq(n)>=seq5 and zBlowSeq(n)<seq6 Then zani(n)=10:zf(n)=17
+    If zBlowSeq(n)>=seq6 and zBlowSeq(n)<seq7 Then zani(n)=10:zf(n)=18
+    If zBlowSeq(n)>=seq7 and zBlowSeq(n)<seq8 Then zani(n)=10:zf(n)=19
+    If zBlowSeq(n)>=seq8 and zBlowSeq(n)<seq9 Then zani(n)=10:zf(n)=20
+    If zBlowSeq(n)>=seq9 and zBlowSeq(n)<seq10 Then zani(n)=10:zf(n)=21
+    If zBlowSeq(n)>=seq10 and zBlowSeq(n)<seq11 Then zani(n)=10:zf(n)=22
+    If zBlowSeq(n)>=seq11 and zBlowSeq(n)<seq12 Then zani(n)=10:zf(n)=23
+    
+;========= Hitbox ===========
+    If zBlowSeq(n) >= seqStart And zBlowSeq(n) < seq1 Then 
+        seq=zBlowSeq(n)-seqStart
+        zblowPamount(n)=2
+        nn=1
+        xblow(n,nn)=10: yblow(n,nn)=25:wblow(n,nn)=38:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=10: yblow(n,nn)=15:wblow(n,nn)=38:hblow(n,nn)=4:nn=nn+1
+        zHitMode(n)=2:zBlowHold(n)=36-seq:zBlowTypeModulo(n)=5:zBlowType(n)=1:zBlowTypeModulo(n)=5
+        zBlowDamage(n)=3:zBLowEffect(n)=1:zEnemyImmuneTime(n)=7:zBlowStillTime(n)=1:zBlowBlockTime(n)=30
+        zBlowSound(n)=mvcHit1Snd
+        
+        If zBlowSeq(n)>=seq1-7 Then zHitMode(n)=0:zBlowType(n)=0
+    End If
+    
+    If zBlowSeq(n)>=seq12 Then zBlowSeq(n)=endSeq
+End Function
+
 Function renderFallingRock(n)
     xChunkPos=Rand(0,20):xChunkVeloc#=Rand(5, 35)
     xChunkVeloc#=xChunkVeloc#/1000
@@ -41,7 +109,7 @@ Function doThemysciraFar(n)
     themysciraHitSeq=20001
     themysciraLandSeq=20030
 
-    If zBlowSeq(n)>=seq7 And zOnGnd(n)=1 Then 
+    If zBlowSeq(n)>=seq7 And zOnGnd(n)=1 And zBlowStill(n)=0 Then 
         If gameSound Then PlaySound mvcCrash2Snd
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
@@ -79,7 +147,7 @@ Function doThemysciraFar(n)
         zblowPamount(n)=2:nn=1:zBlowBack(n)=1
         xblow(n,nn)=11: yblow(n,nn)=15:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
         xblow(n,nn)=20: yblow(n,nn)=5:wblow(n,nn)=15:hblow(n,nn)=5:nn=nn+1
-        zHitMode(n)=2:zBlowHold(n)=12
+        zHitMode(n)=0:zBlowHold(n)=12
         zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=40
         zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
         zBlowSound(n)=mvcHit2Snd
@@ -149,7 +217,7 @@ Function doThemysciraNear(n)
     themysciraLandSeq=20030
     endSeq=2
 
-    If zBlowSeq(n)>seq7 And zOnGnd(n)=1 Then 
+    If zBlowSeq(n)>seq7 And zOnGnd(n)=1 And zBlowStill(n)=0 Then 
         If gameSound Then PlaySound mvcCrash2Snd
         quake=1:quakeSeq=0
         zBlowSeq(n)=themysciraLandSeq
@@ -291,13 +359,17 @@ End Function
 
 Function performFierceAmazon(n)
     zNoMove(n)=0:zNoJump(n)=1:zNoGrav(n)=1
-    a=10:b=16:c=18:d=20:e=41:f=43:g=46:h=49
-    endSeq=2
+    a=10:b=16:c=18:d=20:e=41*100:f=43:g=46:h=49
+    endSeq=2:faHitSeq=100000
     If zBlowSeq(n)=a Then 
         If zHitHead(n)=0 Then zy(n)=zy(n)-15
         extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
     End If
-;----------- Sounds -----------
+    If zBlowSeq(n)=a Then 
+        spellCooldownMaxTime(n, 1)=208
+        spellCooldownSeq(n, 1)=spellCooldownMaxTime(n, 1) 
+    End If
+;----------- Sounds ---------------
     If zBlowSeq(n)=a+3 And gameSound Then PlaySound wwFierceAmazonSnd
     If zBlowSeq(n)=a+6 And gameSound Then PlaySound zRunFootSound(curGuy(n))
     
@@ -316,24 +388,37 @@ Function performFierceAmazon(n)
     If zBlowSeq(n) >= f And zBlowSeq(n) < g Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) >= g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=6
     
-;---------- Movement -------------
-    If zBlowSeq(n) >= a And zBlowSeq(n) < b Then 
-        If zFace(n) = 2 Then zx(n)=zx(n)-2
-        If zFace(n) = 4 Then zx(n)=zx(n)+2
-        zy(n)=zy(n)-1
+;---------- Movement --------------
+    If zBlowStill(n)=0 Then
+        If zBlowSeq(n) >= a And zBlowSeq(n) < b Then 
+            If zFace(n) = 2 Then zx(n)=zx(n)-2
+            If zFace(n) = 4 Then zx(n)=zx(n)+2
+            zy(n)=zy(n)-1
+        End If
+        If zBlowSeq(n) >= b And zBlowSeq(n) < d Then 
+            If zFace(n) = 2 Then zx(n)=zx(n)-1
+            If zFace(n) = 4 Then zx(n)=zx(n)+1
+            zy(n)=zy(n)+1
+        End If
+        If zBlowSeq(n) >= d And zBlowSeq(n) < e Then 
+            If zFace(n) = 2 Then zx(n)=zx(n)+6
+            If zFace(n) = 4 Then zx(n)=zx(n)-6
+            zy(n)=zy(n)-1
+        End If
     End If
-    If zBlowSeq(n) >= b And zBlowSeq(n) < d Then 
-        If zFace(n) = 2 Then zx(n)=zx(n)-1
-        If zFace(n) = 4 Then zx(n)=zx(n)+1
-        zy(n)=zy(n)+1
-    End If
+;========= Hitbox ===========
     If zBlowSeq(n) >= d And zBlowSeq(n) < e Then 
-        If zFace(n) = 2 Then zx(n)=zx(n)+6
-        If zFace(n) = 4 Then zx(n)=zx(n)-6
-        zy(n)=zy(n)-1
+        zblowPamount(n)=2
+        nn=1
+        xblow(n,nn)=10: yblow(n,nn)=25:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=10: yblow(n,nn)=15:wblow(n,nn)=35:hblow(n,nn)=1:nn=nn+1
+        zHitMode(n)=2:zBlowHold(n)=36
+        zBlowDamage(n)=3:zBLowEffect(n)=1:zEnemyImmuneTime(n)=7:zBlowStillTime(n)=1:zBlowBlockTime(n)=30
+        zBlowSound(n)=mvcHit1Snd
+        If zBlowStill(n)=1 Then zBlowSeq(n)=faHitSeq
     End If
     
-    If zBlowSeq(n) > h Then zBlowSeq(n) = endSeq
+    If zBlowSeq(n) > h And zBlowSeq(n)<faHitSeq Then zBlowSeq(n) = endSeq
 
 End Function
 
@@ -351,7 +436,7 @@ zBlowEffect(n)=0
 zBlowSeq(n)=zBlowSeq(n)+1
 .noBlowSeq3
 
-zchunkType(n)=10
+zchunkType(n)=154
 
 Select zCurBlow(n)
 Case 0    ;Blocking
@@ -597,17 +682,35 @@ Case 6    ;throwing iten
 
 Case 7    ;Special (THEMYSCIRA FALL / Fierce Amazon)
     faSeq=10:endSeq=2:themysciraSeq=198:themysciraNearSeq=223:themysciraHitSeq=20001
-    themysciraLandSeq=20030:themysciraFarSeq=20050
+    themysciraLandSeq=20030:themysciraFarSeq=20050:faHitSeq=100000
 
-    If zBlowSeq(n)=1 And isRunning(n) Then zBlowSeq(n)=faSeq
-    If zBlowSeq(n)=1 And isRunning(n)=0 Then zBlowSeq(n)=themysciraSeq
+    If zBlowSeq(n)=1 And isRunning(n) Then 
+        If spellCooldownSeq(n, 1) > 0 Then
+            playWonderwomanCooldownSnd(n):zBlowSeq(n)=endSeq
+        Else
+            zBlowSeq(n)=faSeq
+        End If
+    End If
+    If zBlowSeq(n)=1 And isRunning(n)=0 Then 
+        If zOnGnd(n)=1 Then zBlowSeq(n)=themysciraSeq
+        If zOnGnd(n)=0 Then 
+            If leftKey(n)=0 And rightKey(n)=0 Then 
+                zBlowSeq(n)=themysciraNearSeq
+                If gameSound Then PlaySound wwShout5Snd
+            Else
+                zBlowSeq(n)=themysciraFarSeq
+                If gameSound Then PlaySound wwShout6Snd
+            End If
+        End If
+    End If
     If zBlowSeq(n) >= faSeq And zBlowSeq(n)<themysciraSeq Then performFierceAmazon(n)
     If zBlowSeq(n) >= themysciraSeq And zBlowSeq(n)<themysciraNearSeq Then doThemysciraDiveInit(n)
     If zBlowSeq(n) >= themysciraNearSeq And zBlowSeq(n)<themysciraHitSeq Then doThemysciraNear(n)
     
     If zBlowSeq(n) >= themysciraHitSeq And zBlowSeq(n)<themysciraLandSeq Then doThemysciraHitSeq(n)
     If zBlowSeq(n) >= themysciraLandSeq And zBlowSeq(n)<themysciraFarSeq Then doThemysciraLandSeq(n)
-    If zBlowSeq(n) >= themysciraFarSeq Then doThemysciraFar(n)
+    If zBlowSeq(n) >= themysciraFarSeq And zBlowSeq(n)<faHitSeq Then doThemysciraFar(n)
+    If zBlowSeq(n) >= faHitSeq Then doFierceAmazonHitSeq(n)
 
     If zBlowSeq(n)>=endSeq And zBlowSeq(n)<faSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     

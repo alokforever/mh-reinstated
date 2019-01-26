@@ -2782,6 +2782,8 @@ If n=14 Then ;WonderWoman
     If wwShout2Snd=0 Then wwShout2Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout2.wav")
     If wwShout3Snd=0 Then wwShout3Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout3.wav")
     If wwShout4Snd=0 Then wwShout4Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout4.wav")
+    If wwShout5Snd=0 Then wwShout5Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout5.wav")
+    If wwShout6Snd=0 Then wwShout6Snd=LoadSound(soundsdir$ + "wonderwoman\wwShout6.wav")
     If wwGrunt1Snd=0 Then wwGrunt1Snd=LoadSound(soundsdir$ + "wonderwoman\wwGrunt1.wav")
     If wwWhip1Snd=0 Then wwWhip1Snd=LoadSound(soundsdir$ + "wonderwoman\wwWhip1.wav")
     If wwWhip2Snd=0 Then wwWhip2Snd=LoadSound(soundsdir$ + "wonderwoman\wwWhip2.wav")
@@ -2793,6 +2795,8 @@ If n=14 Then ;WonderWoman
     If wwRun1Snd=0 Then wwRun1Snd=LoadSound(soundsdir$ + "wonderwoman\wwRun.wav")
     If wwRun2Snd=0 Then wwRun2Snd=LoadSound(soundsdir$ + "wonderwoman\wwRun2Snd.wav")
     If wwBlockedSnd=0 Then wwBlockedSnd=LoadSound(soundsdir$ + "wonderwoman\wwBlockedSnd.wav")
+    If wwCd1Snd=0 Then wwCd1Snd=LoadSound(soundsdir$ + "wonderwoman\wwCooldown1Snd.mp3")
+    If wwCd2Snd=0 Then wwCd2Snd=LoadSound(soundsdir$ + "wonderwoman\wwCooldown2Snd.mp3")
 End If
 
 If n=13 Then ;SubZero

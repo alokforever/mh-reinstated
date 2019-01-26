@@ -263,6 +263,7 @@ cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
 cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
 cooldownPic(12, 2)=LoadImage(gfxdir$ + "\cooldown\cd12_2.bmp")
 cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
+cooldownPic(14, 1)=LoadImage(gfxdir$ + "\cooldown\cd14_1.bmp")
 cooldownPic(16, 1)=LoadImage(gfxdir$ + "\cooldown\cd16_1.bmp")
 cooldownPic(16, 2)=LoadImage(gfxdir$ + "\cooldown\cd16_2.bmp")
 cooldownPic(16, 3)=LoadImage(gfxdir$ + "\cooldown\cd16_3.bmp")
@@ -6047,25 +6048,12 @@ If zHitSeq(n)=1 Then zani(n)=2:zf(n)=1
     End If
 End Function
 
-Function drawTestBox(n, x, y, height, width)
-    For up=1 To height
-        extraObj(n,x,0,y-up,0,2,130)
-    Next
-    
-    For right=1 To width
-        extraObj(n,x+right,0,y,0,2,130)
-    Next
-
-    x2=x+width
-    y2=y-height
-
-    For down=1 To height
-        extraObj(n,x2,0,y2+down,0,2,130)
-    Next
-    
-    For left=1 To width
-        extraObj(n,x2-left,0,y2,0,2,130)
-    Next
+Function drawTestBox(n, x, y, w, h)
+    If zFace(n)=4 Then w=0-w:x=0-x
+    makeChunk(n, x, y, zFace(n), 130)
+    makeChunk(n, x+w, y, zFace(n), 130)
+    makeChunk(n, x, y+h, zFace(n), 130)
+    makeChunk(n, x+w, y+h, zFace(n), 130)
 End Function
 
 Function doBlow(n, blowId)
@@ -6164,6 +6152,6 @@ Function initMoveStates(n)
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zBlowSeq(n)=0 Then
         clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
-        zHitDownSpeed#(n)=0
+        zHitDownSpeed#(n)=0:zBlowType(n)=0:zBlowTypeModulo(n)=0
     End If
 End Function

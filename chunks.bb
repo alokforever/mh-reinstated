@@ -1071,7 +1071,7 @@ Case 129:        ;Pre-makuuhouidan
     If chunkSeq(n) > seq1 Then chunk(n)=0
     
 Case 130:        ;Box test
-    a=10            ;bright dot
+    a=1            ;bright dot
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,1):chunkPic_(n)=ptPic(13,1)
     If chunkSeq(n) > a Then chunk(n)=0
     
@@ -1355,6 +1355,34 @@ Case 153:       ;Falling rocks reverse
     
     If chunkSeq(n)>chunkEnd Then chunk(n)=0
     
+Case 154:   ; Wonderwoman hit spark
+    chunkEnd=21
+    If chunkSeq(n)>0 And chunkSeq(n)<=3 Then chunkPic(n)=ptPic(122,1):chunkPic_(n)=ptPic(122,1)
+    If chunkSeq(n) Mod 3=0 Then
+        If chunkPic(n)=ptPic(122,1) Then
+            chunkPic(n)=ptPic(122,2):chunkPic_(n)=ptPic(122,2)
+        Else If chunkPic(n)=ptPic(122,2) Then
+            chunkPic(n)=ptPic(122,3):chunkPic_(n)=ptPic(122,3)
+        Else If chunkPic(n)=ptPic(122,3) Then
+            chunkPic(n)=ptPic(122,4):chunkPic_(n)=ptPic(122,4)
+        Else If chunkPic(n)=ptPic(122,4) Then
+            chunkPic(n)=ptPic(122,5):chunkPic_(n)=ptPic(122,5)
+        Else If chunkPic(n)=ptPic(122,5) Then
+            chunkPic(n)=ptPic(122,6):chunkPic_(n)=ptPic(122,6)
+        Else If chunkPic(n)=ptPic(122,6) Then
+            chunkPic(n)=ptPic(122,7):chunkPic_(n)=ptPic(122,7)
+        Else If chunkPic(n)=ptPic(122,7) Then
+            chunkPic(n)=ptPic(122,8):chunkPic_(n)=ptPic(122,8)
+        Else If chunkPic(n)=ptPic(122,8) Then
+            chunkPic(n)=ptPic(122,9):chunkPic_(n)=ptPic(122,9)
+        Else If chunkPic(n)=ptPic(122,9) Then
+            chunkPic(n)=ptPic(122,10):chunkPic_(n)=ptPic(122,10)
+        Else 
+            chunkPic(n)=ptPic(122,1):chunkPic_(n)=ptPic(122,1)
+        End If
+    End If
+
+    If chunkSeq(n)>chunkEnd Then chunk(n)=0
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
