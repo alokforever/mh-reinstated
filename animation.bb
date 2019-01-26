@@ -454,8 +454,36 @@ Function processEndRun(n)
     If curGuy(n)=16 Then extraObj(n,zx(n),10,zy(n),2,zFace(n),117)
 End Function
 
-;------------------- Process Special hit frames ------------------
-Function processSpecialHitFrames(n)
+;------------------- Do Special hit frames ------------------
+Function doSpecialHitFrames(n)
+    If curGuy(n)=14 Then
+        drawWwHitFrames(n)
+    Else
+        drawSpecialHitFrames(n)
+    End If
+End Function
+
+;------------------- Draw Wonderwoman Hit frames ----------------------
+Function drawWwHitFrames(n)
+    seq1=4:seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+4:seq6=seq5+4:seq7=seq6+4
+    If zhitseq(n)>0 And zHitSeq(n)<=seq1 Then zani(n)=2:zf(n)=8
+    If zhitseq(n)>seq1 And zHitSeq(n)<=seq2 Then zani(n)=2:zf(n)=9
+    If zhitseq(n)>seq2 And zHitSeq(n)<=seq3 Then zani(n)=2:zf(n)=10
+    If zhitseq(n)>seq3 And zHitSeq(n)<=seq4 Then zani(n)=2:zf(n)=11
+    If zhitseq(n)>seq4 And zHitSeq(n)<=seq5 Then zani(n)=2:zf(n)=12
+    If zhitseq(n)>seq5 And zHitSeq(n)<=seq6 Then zani(n)=2:zf(n)=13
+    If zhitseq(n)>seq6 And zHitSeq(n)<=seq7 Then zani(n)=2:zf(n)=14
+
+    If zhitseq(n)>seq7 And zHitSeq(n) Mod 2=0 Then
+        If zF(n)=15 Then
+            zF(n)=16
+        Else
+            zF(n)=15
+        End If
+    End If
+End Function
+
+Function drawSpecialHitFrames(n)
     Local frame
     If zhitseq(n) > maxHitSeq(n) Then zani(n)=2:zf(n)=0:Return
     For frame=specialHitFrames(n) To 1 Step -1

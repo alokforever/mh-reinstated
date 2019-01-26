@@ -460,6 +460,8 @@ Case 14: ;Wonder Woman
     electrocuteFrames(n)=3
     electrocuteFrameSpd(n)=2
     zBlockedSnd(n)=wwBlockedSnd
+    zBouncedGndFrames(n)=3
+    specialHitFrames(n)=8
 
 Case 15: ;Juggernaut
     zBlowDist(n,1)=45
@@ -2496,7 +2498,7 @@ Next
 zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
 zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
 
-For i=1 To 15
+For i=1 To 16
     zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
     zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
 Next

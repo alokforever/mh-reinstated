@@ -898,6 +898,7 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=6 Then xOffset=10
     If curGuy(n)=15 Then xOffset=20
     If CurGuy(n) > 0 And zon(n) > 0 Then 
+        If butPic2(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
         DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,350-ImageHeight(butpic2(curGuy(n), butFrame))
     End If
 Next

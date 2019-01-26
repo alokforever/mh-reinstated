@@ -2057,7 +2057,7 @@ Function selectDraw(n)
             If specialHitFrames(n)=0 Then
                 doNormalHitSeq(n)
             Else
-                processSpecialHitFrames(n)
+                doSpecialHitFrames(n)
             End If
         EndIf
         Goto drawZ ;fallen
