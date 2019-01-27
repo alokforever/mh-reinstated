@@ -184,8 +184,10 @@ Global wwShout1Snd, wwShout2Snd, wwShout3Snd, wwShout4Snd, wwGrunt1Snd
 Global wwShout5Snd, wwShout6Snd
 Global wwWhip1Snd, wwWhip2Snd, wwWhipHitSnd, wwLassoSnd
 Global wwFierceAmazonSnd, wwRun2Snd, wwRun1Snd, wwBlockedSnd
-Global wwCd1Snd, wwCd2Snd
+Global wwCd1Snd, wwCd2Snd, wwRageSpinSnd, wwRagingPaladinNoiseSnd, wwRagingPaladinTransformSnd
+Global wwSeriousTimeSnd
 
+Global mvcSuper2Snd
 Global mvcHit1Snd=LoadSound(soundsdir$ + "mvc\mvcHit1Snd.wav")
 Global mvcHit2Snd=LoadSound(soundsdir$ + "mvc\mvcHit2Snd.wav")
 Global mvcHit3Snd=LoadSound(soundsdir$ + "mvc\mvcHit3Snd.wav")

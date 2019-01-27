@@ -51,7 +51,7 @@ Global maxVsMap = 20
 Global maxCTFMap = 20
 Global isUnliSuper
 Global totalSecrets, noAirStrike, isSuperMove
-Global cooldownVoiceMaxSeq=52
+Global cooldownVoiceMaxSeq=46
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -241,7 +241,7 @@ Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chun
 Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
-Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ)
+Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoubleTap(maxZ), blockKeyHitTimer(maxZ)
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
@@ -2328,7 +2328,7 @@ EndIf
 If zGotObj(n) <> 0 Then
     If drawObjOnZ(n)=1 Then
         If zani(n)=1 Then
-            If zWalkFrames(n)>0 Then zfHand=zf(n)-1 Else zfHand=zf(n)
+            If zWalkFrames(n)>0 And zf(n)>0 Then zfHand=zf(n)-1 Else zfHand=zf(n)
             xED(n)=(zxHand(n,zfHand) + xObjHand(zGotObj(n))): yED(n)=(zyHand(n,zfHand) + yObjHand(zGotObj(n)))
         Else If zani(n)=19 Then
             xED(n)=(zStanceObjX(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zStanceObjY(n,zf(n)) + yObjHand(zGotObj(n)))
@@ -5456,6 +5456,7 @@ Function checkInputs(n)
     If leftKeyHit(n) Then checkLeftKeyHit(n)
     If downKeyHit(n) Then checkDownKeyHit(n)
     If upKeyHit(n) Then checkUpKeyHit(n)
+    If KeyHit(blockK(n)) Then checkBlockKeyHit(n)
 End Function
 
 ;----------- Check right key hit ---------------
@@ -5496,6 +5497,18 @@ Function checkUpKeyHit(n)
         upKeyDoubleTap(n)=0
     End If
     upKeyHitTimer(n) = curTime
+End Function
+
+;----------- Check block key hit ------------
+Function checkBlockKeyHit(n)
+    Local quartSec=250, curTime=MilliSecs()
+    If (curTime - blockKeyHitTimer(n)) < quartSec And (curTime - blockKeyHitTimer(n)) > 0 Then
+        blockKeyDoubleTap(n)=1
+    Else
+        blockKeyDoubleTap(n)=0
+    End If
+    blockKeyHitTimer(n) = curTime
+    DebugLog "blockKeyDoubleTap: " + blockKeyDoubleTap(n)
 End Function
 
 ;------------ Deplete Stamina Bar --------------

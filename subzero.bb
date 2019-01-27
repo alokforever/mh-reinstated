@@ -4,7 +4,8 @@ Function doSubZeroTaunt(n)
     If zOnGnd(n)=0 Then zy(n)=zy(n)-2
     zani(n)=16
     If zBlowSeq(n)=a And gameSound Then PlaySound mkFriendshipSnd
-    If zBlowSeq(n)=startSeq+1 Then zTauntSeed(n)=Rand(2)
+    If zBlowSeq(n)=startSeq+1 And blockKeyDoubleTap(n)=0 Then zTauntSeed(n)=2
+    If zBlowSeq(n)=startSeq+1 And blockKeyDoubleTap(n)=1 Then zTauntSeed(n)=1
     If zBlowSeq(n)>startSeq And zBlowSeq(n) <= a Then zf(n)=6
     If zTauntSeed(n)=1 Then
         superbarGain=7

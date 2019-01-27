@@ -938,7 +938,8 @@ Case 16 ; taunt
     If zOnGnd(n)=0 Then zy(n)=zy(n)-2
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     zani(n)=16
-    If zBlowSeq(n)=1 Then zTauntSeed(n)=Rand(2)
+    If zBlowSeq(n)=1 And blockKeyDoubleTap(n)=0 Then zTauntSeed(n)=2
+    If zBlowSeq(n)=1 And blockKeyDoubleTap(n)=1 Then zTauntSeed(n)=1
     If zTauntSeed(n)=1 Then
         superbarGain=7
         If zBlowSeq(n)=a And gameSound Then PlaySound mkFriendshipSnd

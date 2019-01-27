@@ -2799,6 +2799,11 @@ If n=14 Then ;WonderWoman
     If wwBlockedSnd=0 Then wwBlockedSnd=LoadSound(soundsdir$ + "wonderwoman\wwBlockedSnd.wav")
     If wwCd1Snd=0 Then wwCd1Snd=LoadSound(soundsdir$ + "wonderwoman\wwCooldown1Snd.mp3")
     If wwCd2Snd=0 Then wwCd2Snd=LoadSound(soundsdir$ + "wonderwoman\wwCooldown2Snd.mp3")
+    If wwRageSpinSnd=0 Then wwRageSpinSnd=LoadSound(soundsdir$ + "wonderwoman\wwRageSpinSnd.wav")
+    If wwRagingPaladinNoiseSnd=0 Then wwRagingPaladinNoiseSnd=LoadSound(soundsdir$ + "wonderwoman\wwRagingPaladinNoiseSnd.wav")
+    If wwRagingPaladinTransformSnd=0 Then wwRagingPaladinTransformSnd=LoadSound(soundsdir$ + "wonderwoman\wwRagingPaladinTransformSnd.wav")
+    If wwSeriousTimeSnd=0 Then wwSeriousTimeSnd=LoadSound(soundsdir$ + "wonderwoman\wwSeriousTimeSnd.wav")
+    If mvcSuper2Snd=0 Then mvcSuper2Snd=LoadSound(soundsdir$ + "mvc\mvcSuper2Snd.wav")
 End If
 
 If n=13 Then ;SubZero

@@ -1,3 +1,51 @@
+Function doRagingEagle(n)
+    seqStart=10:seq1=seqStart+84:seq2=seq1+1:seq3=seq2+2:seq4=seq3+4:seq5=seq4+2:seq6=seq5+2
+    seq7=seq6+2
+    endSeq=2
+    zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
+    
+;=========== Animation ============
+    If zBlowSeq(n)<=seqStart+18 Then modSeq=3
+    If zBlowSeq(n)>seqStart+18 And zBlowSeq(n)=<seqStart+54 Then modSeq=2
+    If zBlowSeq(n)>seqStart+54 Then modSeq=1
+    
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 And (zBlowSeq(n) Mod modSeq) = 0 Then
+        zani(n)=17
+        If zF(n)=1 Then
+            zF(n)=2
+        Else If zF(n)=2 Then
+            zF(n)=3
+        Else If zF(n)=3 Then
+            zF(n)=4
+        Else If zF(n)=4 Then
+            zF(n)=5
+        Else If zF(n)=5 Then
+            zF(n)=6
+        Else 
+            zF(n)=1
+            If gameSound Then PlaySound wwRageSpinSnd
+        End If
+    End If
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zani(n)=17:zf(n)=7
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zani(n)=10:zf(n)=32
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zani(n)=10:zf(n)=33
+    If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then zani(n)=10:zf(n)=34
+    If zBlowSeq(n)>seq5 And zBlowSeq(n)<=seq6 Then zani(n)=10:zf(n)=35
+    If zBlowSeq(n)>seq6 And zBlowSeq(n)<=seq7 Then zani(n)=10:zf(n)=36
+    
+;=========== Sounds ===========
+    If zBlowSeq(n)=seqStart+1 And gameSound Then PlaySound mvcSuper2Snd
+    If zBlowSeq(n)=seqStart+2 And gameSound Then PlaySound wwRagingPaladinNoiseSnd
+    If zBlowSeq(n)=seqStart+2 And gameSound Then PlaySound wwSeriousTimeSnd
+    
+;=========== Effects ==========
+    If zBlowSeq(n)=seqStart Then
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=97:superMovePortraitSeqStart(n)=85
+    End If
+    
+    If zBlowSeq(n)>seq7 Then zBlowSeq(n)=endSeq
+End Function
+
 Function playWonderwomanCooldownSnd(n)
     cdSeed=Rand(2)
     If cantSoundCdVoice(n)=0 Then
@@ -905,9 +953,27 @@ Case 13 ; item pickup
     If zBlowSeq(n) => c Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 14    ;Super Special
-    zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    ragingSeq=10
+    royalThrustSeq=1000
+    themysciraGreatRisingSeq=2000
+    gaeasBoundSeq=3000
+    endSeq=2
+    
+    If zBlowSeq(n)=1 Then
+        If upKey(n)=1 Then 
+            zBlowSeq(n)=themysciraGreatRisingSeq
+        Else If downKey(n)=1 Then
+            zBlowSeq(n)=royalThrustSeq
+        Else
+            zBlowSeq(n)=ragingSeq
+        End If
+    End If
 
-Case 15 ;WW throw
+    If zBlowSeq(n)>=ragingSeq And zBlowSeq(n)<royalThrustSeq Then doRagingEagle(n)
+    
+    If zBlowSeq(n)>=endSeq And zBlowSeq(n)<ragingSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+
+Case 15    ;WW throw
     zNoMove(n)=1:zNoJump(n)=1
     a=144:b=a+2:c=b+2:d=c+4:e=d+4:f=e+4:g=f+4:h=g+1:i=h+1:j=i+2:k=j+3:l=k+3:m=l+3:n1=m+3:o=n1+4:p=o+3
     aa=200:bb=aa+6:cc=bb+4:dd=cc+4:ee=dd+9:ff=ee+7:gg=ff+6:hh=gg+5:ii=hh+4:jj=ii+8:kk=jj+7:ll=kk+6:mm=ll+5:nn=mm+3
@@ -1083,8 +1149,11 @@ Case 16 ;Counter Key (Taunt)
     If zBlowSeq(n)>=taunt2Seq Then doWwTaunt2(n)
 ;---------- Sound effects ------------
     If zBlowSeq(n)=1 Then
-        zTauntSeed(n)=Rand(2)
-        If zTauntSeed(n)=1 Then zBlowSeq(n)=taunt2Seq
+        If blockKeyDoubleTap(n)=0 Then 
+            zBlowSeq(n)=taunt2Seq:zTauntSeed(n)=1
+        Else
+            zTauntSeed(n)=2
+        End If
     End If
     If zBlowSeq(n)=1 And gameSound Then PlaySound wwTaunt1Snd
     If zBlowSeq(n) < taunt2Seq And (zBlowSeq(n) Mod 50=0 Or zBlowSeq(n)=1) Then 
