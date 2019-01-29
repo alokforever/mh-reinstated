@@ -243,7 +243,7 @@ Function doJuggJumpHighKick(n)
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq3 Then
         zblowPamount(n)=2:nn=1
         zBlowBack(n)=1
-        xblow(n,nn)=40: yblow(n,nn)=73:wblow(n,nn)=15:hblow(n,nn)=23:nn=nn+1
+        xblow(n,nn)=40: yblow(n,nn)=78:wblow(n,nn)=15:hblow(n,nn)=28:nn=nn+1
         xblow(n,nn)=20: yblow(n,nn)=50:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
         xblow(n,nn)=3: yblow(n,nn)=40:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
         zHitmode(n)=0:zBlowHold(n)=4:zBlowStillTime(n)=4

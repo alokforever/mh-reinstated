@@ -245,6 +245,7 @@ Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoub
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
+Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -868,6 +869,7 @@ For n=1 To zzamount
     zx(n)=zxStart(n):zy(n)=zyStart(n)
     zGotHitsAmount(n)=0
     If ifiniteLives=1 Then zLives(n)=0 Else zlives(n)=gameLives
+    If zx(n)>=640/2 Then zFace(n)=4 Else zF(n)=2
 Next
 
 ;If music=0 Then music=LoadSound(soundsdir$ + "music" + musicN1+ ".wav")
@@ -1038,7 +1040,7 @@ For n= 1 To zzamount
     If zon(n) > 0 Then blows(n)
 Next
 For n=1 To zzamount
-    If zHit(n) =1 Then zBlow(n)=0:zBlowStill(n)=0:isRunning(n)=0
+    If zHit(n)=1 Then zBlow(n)=0:zBlowStill(n)=0:isRunning(n)=0
 Next
 
 stages();Special stuff that goes on the current map
@@ -1412,6 +1414,7 @@ Next
 
 For n=1 To zzamount
     If curGuy(n) <= 30 Then checkCooldown(n):checkBuffStatus(n)
+    If showLifeBar(n)=1 Then drawBossLife(n)
 Next
 
 x=15:y=3    ;draws bars, super bar, damage/life, lives, etc.
@@ -1898,7 +1901,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
             AiLevel(nn)=facAiLevel(n,curF(n))
             zTeam(nn)=facTeam(n,curF(n))
             zDeadEvent(nn)=facDeadEvent(n,curF(n))
-                        
+
             If facChunk(n,curF(n)) > 0 Then makeChunk(nn,zx(nn),zy(nn),2,facChunk(n,curF(n)))
             If facSound(n,curF(n)) > 0 And gamesound Then PlaySound soundFx(facSound(n,curF(n)))
             ztempShield(nn)=0
@@ -2931,16 +2934,14 @@ For nn=1 To zzamount
                 EndIf
             EndIf
             If Not zBlock(nn) Then
-                zLife(nn)=zlife(nn)-rectDamage(n)
-                zDamage#(nn)=zDamage#(nn)+rectDamage(n)
-                
+                reduceHealth(nn, rectDamage(n))
                 If zStone(nn)=0 Then 
                     zjump(nn)=0
                     zBouncedgnd(nn)=0: zHitByRect(nn)=1
                     If rectDir(n)=2 Then zFace(nn)=4:zFallDir(nn)=2 Else zFace(nn)=2:zFallDir(nn)=4
                     zHitHold(nn)=rectHitHold(n)
                     If rectHitMode(n)=2 Then
-                        calcRect2(nn,n,30)
+                        calcRect(nn,n,30)
                     Else
                         calcBlow(nn,n,rectHitMode(n),zDamage(nn))
                     EndIf
@@ -3681,8 +3682,7 @@ Case 2
                             EndIf
                         EndIf    
                         If zblock(nn) = 0 Then 
-                            zlife(nn)=zlife(nn)-zBlowDamage(n)
-                            zDamage#(nn)=zDamage#(nn)+zBlowDamage(n)
+                            reduceHealth(nn, zBlowDamage(n))
                             zhitbybox(nn)=0
                             zHitCount(n)=zHitCount(n)+1
                             If zStone(nn)=0 Then
@@ -3776,10 +3776,9 @@ Case 4
                         EndIf
                 EndIf
                 If zblock(nn)=0 Then
-                    zlife(nn)=zlife(nn)-zBlowDamage(n)
-                    zDamage#(nn)=zDamage#(nn)+zBlowDamage(n)
+                    reduceHealth(nn, zBlowDamage(n))
                     zhitbybox(nn)=0
-                    zHitCount(n)=zHitCount(n)+1        
+                    zHitCount(n)=zHitCount(n)+1
                     If zStone(nn)=0 Then
                         If zblowback(n)=1 Then
                             If zx(n) => zx(nn) Then zface(nn)=2:zFallDir(nn)=4
@@ -3877,18 +3876,19 @@ Else
     zUpFallSpeed#(nn)=zUpFallSpeed#(nn)+3
 EndIf
 
-
 End Function
-;--------------------------Calculate Rect impact 2 --------------------------------------------------
-Function calcRect2(nn,n,hitTime)
+
+;---------------------------Calculate Blow Impact 2 ------------------------------------------------
+Function calcblow2(nn,n,hitTime)
 initFightStates(nn)
-zHitModeTaken(nn)=rectHitMode(n)
+zHitModeTaken(nn)=zHitMode(n)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 zhit(nn)=1:zHitSeq(nn)=0
-zFallSpeed#(nn)=rectXhitSpeed(n)
+zFallSpeed#(nn)=zhitSpeed#(n)
 If zFallSpeed#(nn) > 14 Then zFallSpeed#(nn)=14
 zFallTime#(nn)=HitTime
-zUpFallSpeed#(nn)=rectYHitSpeed(n)
+zUpFallSpeed#(nn)=zHitUpSpeed#(n)
+zDownFallSpeed#(nn)=zHitDownSpeed#(n)
 zUpFallSpeed#(nn)=zUpFallSpeed#(nn)+3
 If zGotobj(nn)>0 Then
     objLife(zgotObj(nn))=objLife(zgotObj(nn))-4
@@ -3903,17 +3903,17 @@ If zGrabbed(nn)=1 Then
 EndIf
 
 End Function
-;---------------------------Calculate Blow Impact 2 ------------------------------------------------
-Function calcblow2(nn,n,hitTime)
+
+;--------------------------Calculate Rect impact 2 --------------------------------------------------
+Function calcRect(nn,n,hitTime)
 initFightStates(nn)
-zHitModeTaken(nn)=zHitMode(n)
+zHitModeTaken(nn)=rectHitMode(n)
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 zhit(nn)=1:zHitSeq(nn)=0
-zFallSpeed#(nn)=zhitSpeed#(n)
+zFallSpeed#(nn)=rectXhitSpeed(n)
 If zFallSpeed#(nn) > 14 Then zFallSpeed#(nn)=14
 zFallTime#(nn)=HitTime
-zUpFallSpeed#(nn)=zHitUpSpeed#(n)
-zDownFallSpeed#(nn)=zHitDownSpeed#(n)
+zUpFallSpeed#(nn)=rectYHitSpeed(n)
 zUpFallSpeed#(nn)=zUpFallSpeed#(nn)+3
 If zGotobj(nn)>0 Then
     objLife(zgotObj(nn))=objLife(zgotObj(nn))-4
@@ -4258,8 +4258,7 @@ Case  2
                         EndIf
                     EndIf
                     If Not zBlock(nn) Then
-                        zlife(nn)=zlife(nn)-objdamage(n)
-                        zDamage#(nn)=zDamage#(nn)+objDamage(n)
+                        reduceHealth(nn, objdamage(n))
                         If zStone(nn)=0 Then
                             zFallDir(nn)=2
                             zface(nn)=4:zjump(nn)=0:zBouncedgnd(nn)=0:zhit(nn)=1
@@ -4323,8 +4322,7 @@ Case 4
                         EndIf
                     EndIf
                     If Not zBlock(nn) Then
-                        zlife(nn)=zlife(nn)-objdamage(n)
-                        zDamage#(nn)=zDamage#(nn)+objDamage(n)
+                        reduceHealth(nn, objdamage(n))
                         If zstone(nn)=0 Then
                             zFallDir(nn)=4
                             zface(nn)=2:zjump(nn)=0:zBouncedgnd(nn)=0:zhit(nn)=1
@@ -4744,8 +4742,7 @@ For nn=1 To zzamount    ;box x player collision
             If zx(nn) => (xbox(n)+boxWidth(n)/2) Then zface(nn)=4:zFallDir(nn)=2
             If zGotobj(nn)>0 Then objhitsolid(zGotobj(nn)):zGotobj(nn)=0
             zjump(nn)=0
-            zLife(nn)=zlife(nn)-boxDamage(n)
-            zDamage#(nn)=zDamage#(nn)+boxDamage(n)
+            reduceHealth(nn, boxDamage(n))
             zBouncedgnd(nn)=0
             zhitbybox(nn)=1
             If boxHitMode(n)=2 Then
@@ -4802,8 +4799,7 @@ For nn=1 To zzamount
             EndIf
             
             If zblock(nn)=0 Then
-                zLife(nn)=zlife(nn)-expDamage(n)
-                zDamage#(nn)=zDamage#(nn)+expDamage(n)
+                reduceHealth(nn, expDamage(n))
                 If zStone(nn)=0 Then
                     zjump(nn)=0:zhit(nn)=1
                     zBouncedgnd(nn)=0
@@ -5415,8 +5411,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile)
                             zBlock(targetPlayer)=0:zBlocked(targetPlayer)=0
                         EndIf
                         If Not zBlock(targetPlayer) And shotSuper(projectile)=0 Then
-                            zlife(targetPlayer)=zlife(targetPlayer)-shotdamage(projectile)
-                            zDamage#(targetPlayer)=zDamage#(targetPlayer)+shotDamage(projectile)
+                            reduceHealth(targetPlayer, shotdamage(projectile))
                             
                             zjump(targetPlayer)=0:zBouncedgnd(targetPlayer)=0:zhit(targetPlayer)=1
                             calcShot(targetPlayer, projectile)
@@ -5508,7 +5503,6 @@ Function checkBlockKeyHit(n)
         blockKeyDoubleTap(n)=0
     End If
     blockKeyHitTimer(n) = curTime
-    DebugLog "blockKeyDoubleTap: " + blockKeyDoubleTap(n)
 End Function
 
 ;------------ Deplete Stamina Bar --------------
@@ -5529,6 +5523,7 @@ Function clearSubStates(n, isKilled)
     isRunning(n)=0
     If isHelper(n)=1 Then zon(n)=0
     If zTempStone(n)=1 Then zTempStone(n)=0:zStone(n)=0
+    showLifeBar(n)=0
 End Function
 
 ;-------------- Enemy Control Initialization ---------
@@ -5703,7 +5698,7 @@ Function burnPlayer(n)
     If zBurnSeq(n) > zBurnDuration(n) Then zBurnSeq(n)=0:zBurning(n)=0
     zTrail(n)=1:zTrailSeq(n)=0:zTrailType(n)=1
     If zBurnSeq(n) Mod 50 = 0 Then 
-        zDamage(n)=zDamage(n)+5:zLife(n)=zLife(n)-5
+        reduceHealth(n, 5)
         If gameSound Then PlaySound burnedSnd
         If zLife(n) <= 0 And vsMode=0 Then
             extraObj(n,zx(n),0,zy(n),0,zblowdir(n),16)
@@ -5945,8 +5940,7 @@ Function handleShotPlayerCollision(n, hAdj, wAdj)
                                 EndIf
                             EndIf
                             If Not zBlock(nn) And shotSuper(n)=0 Then
-                                zlife(nn)=zlife(nn)-shotdamage(n)
-                                zDamage#(nn)=zDamage#(nn)+shotDamage(n)
+                                reduceHealth(nn, shotdamage(n))
                                 If zLife(nn) < 1 Then zScore(shotOwner(n))=zScore(shotOwner(n))+1
                                 If gameSound Then PlaySound shotsound(n)
                                 If electrocuteTime(n) > 0 Then 
@@ -6171,4 +6165,50 @@ Function initMoveStates(n)
         clearControlledPlayers(n):isMoveHit(n)=0:superMovePortraitSeqStart(n)=0
         zHitDownSpeed#(n)=0:zBlowType(n)=0:zBlowTypeModulo(n)=0
     End If
+End Function
+
+;-------------- Draw life of enemy AI when hit ----------------
+Function drawBossLife(n)
+    maxLifeBarShowSeq=Nfps/2
+    Local width1=(zLife(n) Mod 100)
+    Local width2=100-(zLife(n) Mod 100), height=4
+    Local xPos1=zx(n)-(width1/2)-xScr
+    Local xPos2=xPos1+width1
+    Local yPos=zy(n)-yScr+10
+    
+    If zMaxLife(n)<zLife(n) Then zMaxLife(n)=zLife(n)
+    
+    If zLife(n) < 100 Then
+        Color 255,0,0 ; Red
+        Rect xPos1,yPos,width1,height,1
+    Else If zLife(n) < 200 Then
+        Color 255,255,0 ; Yellow
+        Rect xPos1,yPos,width1,height,1
+        Color 255,0,0 ; Red
+        Rect xPos2,yPos,width2,height,1
+    Else If zLife(n) < 300 Then
+        Color 0,255,0 ; Green
+        Rect xPos1,yPos,width1,height,1
+        Color 255,255,0 ; Yellow
+        Rect xPos2,yPos,width2,height,1
+    Else If zLife(n) < 400 Then
+        Color 0,0,255 ; Blue
+        Rect xPos1,yPos,width1,height,1
+        Color 255,255,0 ; Green
+        Rect xPos2,yPos,width2,height,1
+    Else If zLife(n) < 500 Then
+        Color 75,0,130 ; Indigo
+        Rect xPos1,yPos,width1,height,1
+        Color 0,0,255 ; Blue
+        Rect xPos2,yPos,width2,height,1
+    End If
+    
+    showLifeBarSeq(n)=showLifeBarSeq(n)+1
+    If showLifeBarSeq(n)>=maxLifeBarShowSeq Then showLifeBarSeq(n)=0:showLifeBar(n)=0
+End Function
+
+Function reduceHealth(n, dmg)
+    zLife(n)=zlife(n)-dmg
+    zDamage#(n)=zDamage#(n)+dmg
+    If isBoss(n)=1 Then showLifeBar(n)=1:showLifeBarSeq(n)=0
 End Function

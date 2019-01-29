@@ -80,6 +80,7 @@ zBlocked(n)=0: aiGetTarget(n):
     superMovePortraitSeqStart(n)=0
     zTempStone(n)=0
     zBlockedSnd(n)=blockedsnd
+    isBoss(n)=0
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Ryu
@@ -612,6 +613,7 @@ Case 33: ;Shredder
     zBlowDist(n,14)=50
     zDontPickItem(n)=1
     gender(n)=1
+    isBoss(n)=1
 
 Case 34: ;Thug
     zBlowDist(n,1)=40
@@ -648,6 +650,7 @@ Case 35: ;Red horns
     gender(n)=1
 
 Case 36: ;Gargola
+    isBoss(n)=1
     zBlowDist(n,1)=364
     zBlowDist(n,2)=360
     zBlowDist(n,4)=360
@@ -690,6 +693,7 @@ Case 37: ;Red plant
     zUngrabable(n)=1
 
 Case 38: ;Bowser
+    isBoss(n)=1
     zBlowDist(n,1)=120
     zBlowDist(n,2)=360
     zBlowDist(n,4)=360
@@ -765,6 +769,7 @@ Case 41: ;Turtle Cloud
     EndIf
 
 Case 42    ;Joker
+    isBoss(n)=1
     zBlowDist(n,1)=50       ;1  - blow
     zBlowDist(n,2)=200      ;2  - flying blow
     zBlowDist(n,4)=50       ;4  - low blow
@@ -795,6 +800,7 @@ Case 43;Laser helper
     zUseSpecialAI(n)=1
 
 Case 44    ;Venom
+    isBoss(n)=1
     zBlowDist(n,1)=120
     zBlowDist(n,2)=120
     zBlowDist(n,4)=120
@@ -861,6 +867,7 @@ Case 48: ;Cylinder
     zCanFly(n)=1
 
 Case 49: ;Dragon
+    isBoss(n)=1
     zUpHeight(n)=65
     zDuckHeight(n)=zUpHeight(n)
     zSide(n)=50
@@ -2624,7 +2631,7 @@ For counter = 1 To 20
     zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
 Next
 
-;add character (stuff the must be loaded the first time, such as sounds. Don't worry about the pics)
+;add character (stuff that must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom
     For i=0 To 7
