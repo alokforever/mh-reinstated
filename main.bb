@@ -39,7 +39,7 @@ Const gameVersion$ = "0.96"
 ;------------- listed version 0.94 -------------------
 ;items bounce on landing
 ;Richter Belmont added
-;option to turn items on/off on versus mode
+;option to turn items on/off on versus modeko;k
 
 AppTitle "MultiHero"
 SeedRnd (MilliSecs())
