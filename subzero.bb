@@ -58,9 +58,11 @@ Function performFatalitySuper(n)
     If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=14:zf(n)=3
     If zBlowSeq(n) = b And gameSound Then PlaySound blow2snd
     If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=14:zf(n)=4
-    If zBlowSeq(n) => c And zBlowSeq(n) < c+5    
+    If zBlowSeq(n) => c And zBlowSeq(n) < c+5
         If zBlowSeq(n) = c Then zControls(n)=0
-        enemyControlInit(n,zx(n),zy(n)-45,41,35,0,guardable)
+        If zFace(n)=2 Then xAdj=3
+        If zFace(n)=4 Then xAdj=-3
+        enemyControlInit(n,zx(n)-xAdj,zy(n)-58,45,48,0,guardable)
         zblowPamount(n)=2:nn=1
         xblow(n,nn)=6: yblow(n,nn)=73:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
         xblow(n,nn)=6: yblow(n,nn)=42:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
@@ -69,10 +71,15 @@ Function performFatalitySuper(n)
         zHitSpeed#(n)=2.4:zHitUpSpeed#(n)=3.5:zHitTime(n)=90
         zBlowSound(n)=mkStrongHitSnd
     End If
+    en=zControlsThis(n)
     If zBlowSeq(n) => d And zBlowSeq(n) < e Then 
-        If zBlowSeq(n) = d And xDist(n) > 56 And gameSound Then PlaySound subzeroFreeze1Snd
         zani(n)=12:zf(n)=1
-        If xDist(n) > 56 Then extraObj(n,zx(n),45,zy(n),0,zblowdir(n),101)
+        If zBlock(en)=0 Then 
+            If zBlowSeq(n) = d And xDist(n) > 56 And gameSound Then PlaySound subzeroFreeze1Snd
+            If xDist(n) > 56 Then extraObj(n,zx(n),45,zy(n),0,zblowdir(n),101)
+        Else 
+            zBlowSeq(n) = endSeq
+        End If
     End If
     If zBlowSeq(n) => d And zBlowSeq(n) < j-90 Then 
         dir=zface(n):y=zy(n)-zheight(n)+5
@@ -81,11 +88,25 @@ Function performFatalitySuper(n)
         makeshot(n,40,x,y,dir)
     End If
     If zBlowSeq(n) => e And zBlowSeq(n) < f Then zani(n)=12:zf(n)=2
-    If zBlowSeq(n) => f And zBlowSeq(n) < g Then zani(n)=12:zf(n)=3
+    If zBlowSeq(n) => f And zBlowSeq(n) < g Then 
+        zani(n)=12:zf(n)=3
+        If Abs(zx(n)-zx(en)) < 46 Then 
+            moveX(en, zFace(n), 1)
+        Else If Abs(zx(n)-zx(en))=46 Then
+            zFallSpeed#(en)=0
+        Else
+            zFallSpeed#(en)=0
+            If zFace(n)=2 Then zx(en)=zx(n)+46
+            If zFace(n)=4 Then zx(en)=zx(n)-46
+        End If
+    End If
     If zBlowSeq(n) => g And zBlowSeq(n) < h Then zani(n)=10:zf(n)=4
     If zBlowSeq(n) => h And zBlowSeq(n) < i Then 
         zani(n)=10:zf(n)=5
-        If zBlowSeq(n) = h And gameSound Then PlaySound mkFatality2Snd
+        If zBlowSeq(n) = h Then
+            If gameSound Then PlaySound mkFatality2Snd
+            makechunk(n,320+xScr,150+yScr,2,155)
+        End If
     End If
     If zBlowSeq(n) => i And zBlowSeq(n) < j Then 
         zani(n)=10:zf(n)=6
@@ -95,7 +116,7 @@ Function performFatalitySuper(n)
         If xDist(n) <= 56 Or zControlsThis(n)=0 Or (zLife(zControlsThis(n)) < 1 And vsMode=0) Or zUngrabable(zControlsThis(n))=1 Then zBlowSeq(n)=endSeq
     End If
     If zBlowSeq(n) >= 183 And xDist(n) > 56 Then 
-        enemyControlInit(n,zx(n),zy(n)-66,75,66,zControlsThis(n),guardable)
+        enemyControlInit(n,zx(n),zy(n)-66,72,66,zControlsThis(n),guardable)
         If zBlowSeq(n) = 183 Then
             If zControlsThis(n) <> 0 Then extraObj(n,zx(n),42,zy(n),-15,zblowdir(n),96)
             If gameSound And gender(zControlsThis(n))=1 Then PlaySound mkMaleAgonySnd

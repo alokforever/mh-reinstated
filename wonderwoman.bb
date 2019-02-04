@@ -2,20 +2,24 @@ Function doRagingEagle(n)
     seqStart=10:seq1=seqStart+84:seq2=seq1+1:seq3=seq2+2:seq4=seq3+4:seq5=seq4+2:seq6=seq5+2
     seq7=seq6+2:seq8=seq7+3 ;110
     seq9=seq8+24
+    seq10=seq9+90 ;Strike sequence
     endSeq=2
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
     
 ;=========== Animation ============
+    ;========== Spin init =========
+    modSeq=1
     If zBlowSeq(n)<=seqStart+18 Then 
         modSeq=3:zani(n)=17:f1=1:f2=2:f3=3:f4=4:f5=5:f6=6
     End If
     If zBlowSeq(n)>seqStart+18 And zBlowSeq(n)<=seqStart+54 Then 
         modSeq=2:zani(n)=26:f1=8:f2=9:f3=10:f4=11:f5=12:f6=13
     End If
-    If zBlowSeq(n)>seqStart+54 Then 
+    If zBlowSeq(n)>seqStart+54 And zBlowSeq(n)<=seq1 Then 
         modSeq=1:zani(n)=26:f1=14:f2=15:f3=16:f4=17:f5=18:f6=19
     End If
     
+    ;========== Spin =========
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 And (zBlowSeq(n) Mod modSeq) = 0 Then
         If zF(n)=f1 Then
             zF(n)=f2
@@ -32,6 +36,9 @@ Function doRagingEagle(n)
             If gameSound Then PlaySound wwRageSpinSnd
         End If
     End If
+    If zBlowSeq(n)<=seqStart+1 Then zani(n)=17:zF(n)=1
+    
+    ;========= Raging enter =========
     If zBlowSeq(n)>seqStart+18 And zBlowSeq(n)<=seq1 Then zani(n)=26
     If zBlowSeq(n)>seq1 Then zani(n)=17
     If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zf(n)=7
@@ -50,6 +57,25 @@ Function doRagingEagle(n)
         End If
     End If
     
+    ;=========== Strike =============
+    If zBlowSeq(n)=seq9+1 Then zF(n)=25
+    If zBlowSeq(n)>seq9 And zBlowSeq(n)<=seq10 Then
+        If zF(n)=25 Then
+            If zBlowSeq(n)>seq9+6 And (zBlowSeq(n)+3) Mod 6 = 0 Then 
+                zF(n)=zF(n)+1
+                If Rand(2)=1 Then PlaySound wwGrunt1Snd Else PlaySound wwShout5Snd
+            End If
+        Else
+            If zBlowSeq(n) Mod 3 = 0 Then 
+                zF(n)=zF(n)+1
+                If zF(n)>35 Then zF(n)=25
+                If zF(n)=31 And gameSound Then
+                    If Rand(2)=1 Then PlaySound wwGrunt1Snd Else PlaySound wwShout5Snd
+                End If
+            End If
+        End If
+    End If
+    
 ;=========== Sounds ===========
     If gameSound Then
         If zBlowSeq(n)=seqStart+1 Then PlaySound mvcSuper2Snd
@@ -57,12 +83,16 @@ Function doRagingEagle(n)
         If zBlowSeq(n)=seqStart+2 Then PlaySound wwSeriousTimeSnd
         If zBlowSeq(n)=seq7+1 Then PlaySound wwRagingPaladinTransformSnd
     End If
+    
+;=========== Movement =============
+    If (zF(n)>=26 And zF(n)<=28) Or (zF(n)>=32 And zF(n)<=34) Then moveX(n,zBlowDir(n),3)
+    If zF(n)=31 Or zF(n)=33 Then moveX(n,zBlowDir(n),1)
 ;=========== Effects ==========
     If zBlowSeq(n)=seqStart Then
-        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=97:superMovePortraitSeqStart(n)=85
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq10-10:superMovePortraitSeqStart(n)=85
     End If
     
-    If zBlowSeq(n)>seq9 Then zBlowSeq(n)=endSeq
+    If zBlowSeq(n)>seq10 Then zBlowSeq(n)=endSeq
 End Function
 
 Function playWonderwomanCooldownSnd(n)
@@ -976,7 +1006,9 @@ Case 14    ;Super Special
     royalThrustSeq=1000
     themysciraGreatRisingSeq=2000
     gaeasBoundSeq=3000
-    endSeq=2
+    endSeq=2:
+    
+    If zBlowSeq(n) <ragingSeq Then zNoMove(n)=1
     
     If zBlowSeq(n)=1 Then
         If upKey(n)=1 Then 
@@ -999,7 +1031,7 @@ Case 15    ;WW throw
     aaa=300
     If zOnGnd(n)=0 And zBlowSeq(n) < b Then zy(n)=zy(n)-2
 
-;----------------- Animations and Sounds
+;----------------- Animations and Sounds ------------------
     If zBlowSeq(n)=1 And downKey(n)=0 Then zBlowSeq(n)=aaa
     zani(n)=15
     If zBlowSeq(n) >= b Then zNoGrav(n)=1

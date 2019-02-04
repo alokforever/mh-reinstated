@@ -475,6 +475,7 @@ Function drawWwHitFrames(n)
     If zhitseq(n)>seq6 And zHitSeq(n)<=seq7 Then zani(n)=2:zf(n)=14
 
     If zhitseq(n)>seq7 And zHitSeq(n) Mod 2=0 Then
+        zani(n)=2
         If zF(n)=15 Then
             zF(n)=16
         Else
@@ -527,7 +528,7 @@ Function drawBouncedOnGnd(n)
         If zBouncedGndSeq(n)>=0 And zBouncedGndSeq(n)<4 Then zani(n)=25:zf(n)=1
         If zBouncedGndSeq(n)>=4 And zBouncedGndSeq(n)<8 Then zani(n)=25:zf(n)=2
         If zBouncedGndSeq(n)>=8 And zBouncedGndSeq(n)<12 Then zani(n)=25:zf(n)=3
-        If zBouncedGndSeq(n)>12 Then zani(n)=2:zf(n)=0
+        If zBouncedGndSeq(n)>=12 Then zani(n)=2:zf(n)=0
     Else
         zani(n)=2:zf(n)=0
     End If

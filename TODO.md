@@ -22,6 +22,8 @@ Piccolo - 50
 Strider Hiryu - 54
 Juggernaut - 40
 Wonderwoman - 49
+Sub Zero - 48
+Scorpion - 48
 
 Animation:
 Themyscira - 203

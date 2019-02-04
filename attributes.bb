@@ -1599,7 +1599,7 @@ Case 41    ;Sub Zero ice spikes
     shotHitYspeed(n)=0
     shotDuration(n)=300
     shotMaxSpeed(n)=shotSpeed(n)
-    shotChunkType(n)=75
+    shotChunkType(n)=156
     shotPic(n,1)=shotImage(49)
     shotPic_(n,1)=shotImage_(49)
     shotSound(n)=subZeroIceBlastSnd
@@ -2482,7 +2482,6 @@ explosionSound(n)=shotExplosionSound(n)
 End Function
 ;------------------Load sprites ------------------------------------
 Function loadPics(n)
-DebugLog "n: " + n
 gfxdir$="gfx\" + n + "\"
 guyLoaded(n)=1
 

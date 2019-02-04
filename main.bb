@@ -39,7 +39,7 @@ Const gameVersion$ = "0.96"
 ;------------- listed version 0.94 -------------------
 ;items bounce on landing
 ;Richter Belmont added
-;option to turn items on/off on versus modeko;k
+;option to turn items on/off on versus mode
 
 AppTitle "MultiHero"
 SeedRnd (MilliSecs())
@@ -245,7 +245,7 @@ Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoub
 Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
-Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ)
+Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -983,7 +983,7 @@ For n= 1 To zzamount
 Next
 
 For n=1 To zzamount
-        If isActiveCharacter(n) And (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 Then
+        If isActiveCharacter(n) And (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 And zBouncedgnd(n)=0 Then
         ;Add character, add another CASE call to your new function, will probably be 
         ;something like: CASE 11:DoGuyNameHere(n)
         Select curguy(n)
@@ -1131,7 +1131,6 @@ For n = 1 To zzamount
     Else
         initNoMove(n)
     End If
-
     If zon(n) Then SelectDraw(n)
     If isUnliSuper=1 Then zSuperBar(n)=100
 Next
@@ -1139,7 +1138,7 @@ Next
 If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
 If chunkAMount < 0 Then chunkAMount=0
 For n = 1 To chunkAmount
-    If chunk(n) And (isSuperMove=0 Or (isSuperMove=1 And chunkOwner(n)=1)) Then chunks(n)
+    If chunk(n) Then chunks(n)
 Next
 
 If scrollMap=1 Then
@@ -1457,8 +1456,17 @@ Next
 
 superBarDispTime=50
 For n=1 To zzamount        ;Draws big pictures of characters when performing super special move
-    If zSuperMove(n) And zhit(n)=0 Then
-        If zSuperMoveSeq(n)=1 Then isSuperMove=1
+    If zSuperMove(n) And zhit(n)=0 And zGrabbed(n)=0 Then
+    
+        If zSuperMoveSeq(n)=1 Then ;Set super pic
+            isSuperMove=1
+            If superPicNum(n)>1 Then 
+                superPicSeed(n)=Rand(2)
+            Else
+                superPicSeed(n)=1
+            End If
+        End If
+        
         zSuperMoveSeq(n)=zSuperMoveSeq(n)+1
         
         If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
@@ -1499,7 +1507,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)+20
         End Select
         
-        If zSuperMoveSeq(n) > c Then zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0
+        If zSuperMoveSeq(n)>c Then zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0
         
         If shouldShowSuperPortrait(n) > 0 Then 
             y=zSuperY(n)
@@ -1509,8 +1517,9 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
                 y=y+10
             Next
             
-            If zSuperDir(n)=2 Then DrawImage zPic(curGuy(n),20,1),zSuperX(n),zSuperY(n)
-            If zSuperDir(n)=4 Then DrawImage zPic_(curGuy(n),20,1),zSuperX(n),zSuperY(n)
+            If superPicSeed(n)=1 Or superPicNum(n)=1 Then superPicIdx=1 Else superPicIdx=2
+            If zSuperDir(n)=2 Then DrawImage zPic(curGuy(n),20,superPicIdx),zSuperX(n),zSuperY(n)
+            If zSuperDir(n)=4 Then DrawImage zPic_(curGuy(n),20,superPicIdx),zSuperX(n),zSuperY(n)
         End If
     EndIf
 Next
@@ -1680,6 +1689,9 @@ EndIf
 
 For n=1 To zzamount
     If zSupermove(n) And zon(n) Then 
+        If zHit(n)=1 Or zGrabbed(n)=1 Then
+            zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0:shouldShowSuperPortrait(n)=0
+        End If
         If shouldShowSuperPortrait(n)=1 Goto renderOnly
     End If
 Next
@@ -2322,7 +2334,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    ;DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n)
+    If n=2 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -2358,13 +2370,14 @@ End Function
 ;--------Draw Chunks----------------------------------------------------------------------------------
 Function renderChunks(n)
 
-  If isChunkSolid(n)=1 Then
+  If isChunkSolid(n)=1 And isSuperMove=0 Then
+    DebugLog "xChunk: " + xChunk(n) + ", yChunk: " + yChunk(n)
     If Not ImageRectCollide(map,0,0,0,xChunk(n)-9,yChunk(n)+1,chunkWidth(n),chunkHeight(n)) Then
       yChunk(n)=yChunk(n)+yChunkSpeed#(n)
     End If
   End If
   
-  If chunk(n) = 1 And (isSuperMove=0 Or (isSuperMove=1 And chunkOwner(n)=1)) Then
+  If chunk(n)=1 And chunkPic(n)>0 Then
     Local yImageHeight,xImageHeight
     yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
     xImageHeight=(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr
@@ -4835,7 +4848,13 @@ End Function
 ;---------------------- Shot explodes --------------------------------
 Function shotExp(n,x,y,kind)
     makeExp(n,x,y,kind)
-    If gamesound Then PlaySound shotExplosionSound(n)
+    If gamesound Then 
+        If shotExplosionSound(n)=0 Then 
+            PlaySound explodeSnd
+        Else 
+            PlaySound shotExplosionSound(n)
+        End If
+    End If
     makeChunk(n,x,y,shotDir(n),shotExplodeChunk(n))
 End Function
 
