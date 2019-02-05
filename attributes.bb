@@ -1003,6 +1003,7 @@ Function shotData(weaponChosen,n)
     shotSeekSpeed#(n)=0
     shotGroundXDestroy(n)=0
     shotStopDuration(n)=0
+    isShotSolid(n)=0
 
 Select weaponChosen
     
@@ -1564,6 +1565,7 @@ Case 39    ;Sub Zero freeze ball
     shotSound(n)=subZeroFreeze2Snd
     
 Case 40 ;Sub Zero ground freeze
+    isShotSolid(n)=1
     shotspeed(n)=0
     shotsize(n)=40
     shotWidth(n)=87
@@ -1625,6 +1627,7 @@ Case 42    ;Sub Zero diagonal freeze ball
     shotSound(n)=subZeroFreeze2Snd
     
 Case 43 ;Sub Zero ice clone
+    isShotSolid(n)=1
     shotspeed(n)=0
     shotsize(n)=44
     shotheight(n)=58
@@ -1638,7 +1641,7 @@ Case 43 ;Sub Zero ice clone
     shotHitYspeed(n)=0
     shotDuration(n)=100
     shotMaxSpeed(n)=shotSpeed(n)
-    shotChunkType(n)=75
+    shotChunkType(n)=156
     shotPic(n,1)=shotImage(51)
     shotPic_(n,1)=shotImage_(51)
     shotSound(n)=subZeroFreeze2Snd

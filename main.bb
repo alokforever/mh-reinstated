@@ -202,7 +202,7 @@ Dim flagPic(4)
 
 Dim zFlagTime#(maxZ)
 
-Global zzamount,zamountPlaying,flagAmount,itenAmount, shotamount, objAmount,chunkAmount,platAmount,boxAmount,expAmount
+Global zzamount,zamountPlaying,flagAmount, shotamount, objAmount,chunkAmount,platAmount,boxAmount,expAmount
 Global wallAmount,gameDone, aliveAmountNeeded, prevZAmountPlaying,prevZzamount
 Global twoPlayersKeyb,bgColor,maxScore,ScoreDone,showVidMem,level,renderdelay,showBlowArea
 Global xTileImg#,yTileImg#,winner,flagMaxTime,showZColor,teamAttack,gameMode, vsMode 
@@ -214,6 +214,7 @@ Global characterAmount=16    ;Add character, 1=ryu, 2=rash ... change the value 
 Global menuOption, duringGameMenu
 
 ;zeto's variables
+Global isStuffFall
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
 Dim zStanceFrames(maxZ), zStanceSeq(maxZ), zStanceSpeed(maxZ), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
@@ -246,6 +247,7 @@ Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
+Dim isShotSolid(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -837,7 +839,7 @@ secretsFound=0
 For n=0 To 100
     Fon(n)=1
     eventAction(n)=0
-    FdelaySeq(n) = 1    
+    FdelaySeq(n) = 1
     curF(n)=1
 Next
 For n=1 To triggerAmount
@@ -1322,7 +1324,6 @@ EndIf
 
 .noScore    ;test
 
-
 ;-----------------------------------------------------------------------
 ;--------- GAME RENDERING ----RENDER GAME----------------------------------
 ;-----------------------------------------------------------------------
@@ -1672,7 +1673,6 @@ Repeat
         Case 3: optionsMenu()   ;Options menu
         Case 4: controlsMenu()  ;Controls menu
         Case 5: inGameMenu()    ;during gameplay menu
-    
     End Select
 
 If warning=1 Then
@@ -1687,6 +1687,7 @@ duringGameMenu=0
 ClsColor colorR,colorG,colorB
 EndIf
 
+isStuffFall=0
 For n=1 To zzamount
     If zSupermove(n) And zon(n) Then 
         If zHit(n)=1 Or zGrabbed(n)=1 Then
@@ -1695,6 +1696,7 @@ For n=1 To zzamount
         If shouldShowSuperPortrait(n)=1 Goto renderOnly
     End If
 Next
+isStuffFall=1
 
 Wend    ;******* ENDS MAIN LOOP + GAME RENDER LOOP **********
 
@@ -2334,7 +2336,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    If n=2 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
+    ;If n=2 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -2370,8 +2372,7 @@ End Function
 ;--------Draw Chunks----------------------------------------------------------------------------------
 Function renderChunks(n)
 
-  If isChunkSolid(n)=1 And isSuperMove=0 Then
-    DebugLog "xChunk: " + xChunk(n) + ", yChunk: " + yChunk(n)
+  If isChunkSolid(n)=1 And isStuffFall=1 Then
     If Not ImageRectCollide(map,0,0,0,xChunk(n)-9,yChunk(n)+1,chunkWidth(n),chunkHeight(n)) Then
       yChunk(n)=yChunk(n)+yChunkSpeed#(n)
     End If
@@ -4678,6 +4679,18 @@ Next
 ;Chunks x plat collision
 For nn=1 To chunkAmount
     If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
+        If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
+            If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
+            Select platXDir(n)
+                Case 2:xChunk(nn)=xChunk(nn)+platXSpeed(n)
+                Case 4:xChunk(nn)=xChunk(nn)-platXSpeed(n)
+            End Select
+        EndIf
+    EndIf
+Next
+
+For nn=1 To shotAmount
+    If yShot(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
         If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
             If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
             Select platXDir(n)

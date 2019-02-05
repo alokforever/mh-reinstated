@@ -1679,6 +1679,7 @@ Function getTheKey(port)
 
 pressed=0
 Repeat
+    DebugLog "Time: " + MilliSecs()
     For n=2 To 221
         If KeyHit(n) Then Return n
     Next

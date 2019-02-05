@@ -1388,30 +1388,30 @@ Case 155:   ;Fatality text
     seq1=1:seq2=seq1+3:seq3=seq2+3:seq4=seq3+3:seq5=seq4+3:seq6=seq5+3:seq7=seq6+3
     seq8=seq7+3:seq9=seq8+3:seq10=seq9+3:seq11=seq10+100
     
-    If chunkSeq(n)=seq1 Then chunkPic(n)=ptPic(124,1)
-    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(124,2)
-    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(124,3)
-    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(124,4)
-    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(124,5)
-    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(124,6)
-    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(124,7)
-    If chunkSeq(n)>seq7 And chunkSeq(n)<=seq8 Then chunkPic(n)=ptPic(124,8)
-    If chunkSeq(n)>seq8 And chunkSeq(n)<=seq9 Then chunkPic(n)=ptPic(124,9)
-    If chunkSeq(n)>seq9 And chunkSeq(n)<=seq10 Then chunkPic(n)=ptPic(124,10)
+    If chunkSeq(n)=seq1 Then chunkPic(n)=ptPic(126,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(126,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(126,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(126,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(126,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(126,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(126,7)
+    If chunkSeq(n)>seq7 And chunkSeq(n)<=seq8 Then chunkPic(n)=ptPic(126,8)
+    If chunkSeq(n)>seq8 And chunkSeq(n)<=seq9 Then chunkPic(n)=ptPic(126,9)
+    If chunkSeq(n)>seq9 And chunkSeq(n)<=seq10 Then chunkPic(n)=ptPic(126,10)
     If chunkSeq(n)>seq10 And chunkSeq(n)<=seq11 Then 
         If chunkSeq(n) Mod 5=0 Then
-            If chunkPic(n)=ptPic(124,10) Then
-                chunkPic(n)=ptPic(124,11)
-            Else If chunkPic(n)=ptPic(124,11) Then
-                chunkPic(n)=ptPic(124,12)
-            Else If chunkPic(n)=ptPic(124,12) Then
-                chunkPic(n)=ptPic(124,13)
-            Else If chunkPic(n)=ptPic(124,13) Then
-                chunkPic(n)=ptPic(124,14)
-            Else If chunkPic(n)=ptPic(124,14) Then
-                chunkPic(n)=ptPic(124,15)
+            If chunkPic(n)=ptPic(126,10) Then
+                chunkPic(n)=ptPic(126,11)
+            Else If chunkPic(n)=ptPic(126,11) Then
+                chunkPic(n)=ptPic(126,12)
+            Else If chunkPic(n)=ptPic(126,12) Then
+                chunkPic(n)=ptPic(126,13)
+            Else If chunkPic(n)=ptPic(126,13) Then
+                chunkPic(n)=ptPic(126,14)
+            Else If chunkPic(n)=ptPic(126,14) Then
+                chunkPic(n)=ptPic(126,15)
             Else
-                chunkPic(n)=ptPic(124,10)
+                chunkPic(n)=ptPic(126,10)
             End If
         End If
     End If
@@ -1423,7 +1423,46 @@ Case 156:   ;Ice spike hit
     If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(44,3):chunkPic_(n)=ptPic_(44,3)
     If chunkSeq(n) > b And chunkSeq(n) =< c Then chunkPic(n)=ptPic(44,4):chunkPic_(n)=ptPic_(44,4)
     If chunkSeq(n) > c Then chunk(n)=0
-
+    
+Case 157:   ;Raging spin (Large)
+    If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(123,1):chunkPic_(n)=ptPic_(123,1)
+    If chunkSeq(n) = 2 Then chunkPic(n)=ptPic(123,2):chunkPic_(n)=ptPic_(123,2)
+    If chunkSeq(n) = 3 Then chunkPic(n)=ptPic(123,3):chunkPic_(n)=ptPic_(123,3)
+    If chunkSeq(n) = 4 Then chunkPic(n)=ptPic(123,4):chunkPic_(n)=ptPic_(123,4)
+    If chunkSeq(n) = 5 Then chunkPic(n)=ptPic(123,5):chunkPic_(n)=ptPic_(123,5)
+    If chunkSeq(n) = 6 Then chunkPic(n)=ptPic(123,6):chunkPic_(n)=ptPic_(123,6)
+    If chunkSeq(n) = 7 Then chunkPic(n)=ptPic(123,7):chunkPic_(n)=ptPic_(123,7)
+    If chunkSeq(n) = 8 Then chunkPic(n)=ptPic(123,8):chunkPic_(n)=ptPic_(123,8)
+    If chunkSeq(n) = 9 Then chunkPic(n)=ptPic(123,9):chunkPic_(n)=ptPic_(123,9)
+    
+    If chunkSeq(n) > 9 Then chunk(n)=0
+    
+Case 158:   ;Raging spin (Medium)
+    If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(124,1):chunkPic_(n)=ptPic_(124,1)
+    If chunkSeq(n) = 2 Then chunkPic(n)=ptPic(124,2):chunkPic_(n)=ptPic_(124,2)
+    If chunkSeq(n) = 3 Then chunkPic(n)=ptPic(124,3):chunkPic_(n)=ptPic_(124,3)
+    If chunkSeq(n) = 4 Then chunkPic(n)=ptPic(124,4):chunkPic_(n)=ptPic_(124,4)
+    If chunkSeq(n) = 5 Then chunkPic(n)=ptPic(124,5):chunkPic_(n)=ptPic_(124,5)
+    If chunkSeq(n) = 6 Then chunkPic(n)=ptPic(124,6):chunkPic_(n)=ptPic_(124,6)
+    If chunkSeq(n) = 7 Then chunkPic(n)=ptPic(124,7):chunkPic_(n)=ptPic_(124,7)
+    If chunkSeq(n) = 8 Then chunkPic(n)=ptPic(124,8):chunkPic_(n)=ptPic_(124,8)
+    If chunkSeq(n) = 9 Then chunkPic(n)=ptPic(124,9):chunkPic_(n)=ptPic_(124,9)
+    
+    If chunkSeq(n) > 9 Then chunk(n)=0
+    
+Case 159:   ;Raging spin (Small)
+    If chunkSeq(n) = 1 Then chunkPic(n)=ptPic(125,1):chunkPic_(n)=ptPic_(125,1)
+    If chunkSeq(n) = 2 Then chunkPic(n)=ptPic(125,2):chunkPic_(n)=ptPic_(125,2)
+    If chunkSeq(n) = 3 Then chunkPic(n)=ptPic(125,3):chunkPic_(n)=ptPic_(125,3)
+    If chunkSeq(n) = 4 Then chunkPic(n)=ptPic(125,4):chunkPic_(n)=ptPic_(125,4)
+    If chunkSeq(n) = 5 Then chunkPic(n)=ptPic(125,5):chunkPic_(n)=ptPic_(125,5)
+    If chunkSeq(n) = 6 Then chunkPic(n)=ptPic(125,6):chunkPic_(n)=ptPic_(125,6)
+    If chunkSeq(n) = 7 Then chunkPic(n)=ptPic(125,7):chunkPic_(n)=ptPic_(125,7)
+    If chunkSeq(n) = 8 Then chunkPic(n)=ptPic(125,8):chunkPic_(n)=ptPic_(125,8)
+    If chunkSeq(n) = 9 Then chunkPic(n)=ptPic(125,9):chunkPic_(n)=ptPic_(125,9)
+    
+    If chunkSeq(n) > 9 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

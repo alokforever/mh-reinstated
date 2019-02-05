@@ -60,7 +60,7 @@ Function performFatalitySuper(n)
     If zBlowSeq(n) => c And zBlowSeq(n) < d Then zani(n)=14:zf(n)=4
     If zBlowSeq(n) => c And zBlowSeq(n) < c+5
         If zBlowSeq(n) = c Then zControls(n)=0
-        If zFace(n)=2 Then xAdj=3
+        xAdj=3
         If zFace(n)=4 Then xAdj=-3
         enemyControlInit(n,zx(n)-xAdj,zy(n)-58,45,48,0,guardable)
         zblowPamount(n)=2:nn=1

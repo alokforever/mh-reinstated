@@ -36,6 +36,21 @@ Function doRagingEagle(n)
             If gameSound Then PlaySound wwRageSpinSnd
         End If
     End If
+    
+    ;========== Spin chunks ===========
+    If zBlowSeq(n)>seqStart+18 And zBlowSeq(n)<=seq1 Then
+        If zFace(n)=2 Then x=5 Else x=-5
+        If zBlowSeq(n) Mod 18=0 Then
+            randSeed=Rand(3)
+            If randSeed=1 Then
+                makechunk(n,zx(n)+x,zy(n),zFace(n),157)
+            Else If randSeed=2
+                makechunk(n,zx(n)+x,zy(n)-10,zFace(n),159)
+            Else
+                makechunk(n,zx(n)+x,zy(n)-15,zFace(n),158)
+            End If
+        End If
+    End If
     If zBlowSeq(n)<=seqStart+1 Then zani(n)=17:zF(n)=1
     
     ;========= Raging enter =========
