@@ -195,13 +195,13 @@ Function doRagingEagle(n)
     End If
 ;=========== Effects ==========
     If zBlowSeq(n)=seqStart Then
-        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq9-15:superMovePortraitSeqStart(n)=seqStart+18
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq9-7:superMovePortraitSeqStart(n)=seqStart+18
     End If
     
 ;=========== Hitbox ============
     If zBlowSeq(n) >= seq9 And zBlowSeq(n) < seq10 And zani(n)=17 And zF(n)<>25 Then 
         zHitMode(n)=2:zBlowHold(n)=0
-        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=30
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=60
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=1.2:zHitTime(n)=60
         If zF(n)=27 Then
             zblowPamount(n)=2
@@ -242,15 +242,17 @@ Function doRagingEagle(n)
         Else
             zblowPamount(n)=0
         End If
+        ;==== Hold enemy ===
+        If zBlowSeq(n)>=(seq10-13) Then zBlowHold(n)=40:zBlowTypeModulo(n)=5:zBlowType(n)=1
     End If
     
     If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then ;Axe (zf=27)
         zblowPamount(n)=2:nn=1:zBlowBack(n)=1
         xblow(n,nn)=-30: yblow(n,nn)=70:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
         xblow(n,nn)=-30: yblow(n,nn)=57:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
-        zHitMode(n)=0:zBlowHold(n)=12
+        zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
-        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
         zBlowSound(n)=slashsnd
         zchunkType(n)=161
     End If
@@ -259,9 +261,9 @@ Function doRagingEagle(n)
         zblowPamount(n)=2:nn=1
         xblow(n,nn)=10: yblow(n,nn)=70:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
         xblow(n,nn)=10: yblow(n,nn)=57:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
-        zHitMode(n)=0:zBlowHold(n)=12
+        zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
-        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
         zBlowSound(n)=slashsnd
         zchunkType(n)=161
     End If
@@ -270,9 +272,9 @@ Function doRagingEagle(n)
         zblowPamount(n)=2:nn=1
         xblow(n,nn)=50: yblow(n,nn)=62:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
         xblow(n,nn)=50: yblow(n,nn)=49:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
-        zHitMode(n)=0:zBlowHold(n)=12
+        zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
-        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
         zBlowSound(n)=slashsnd
         zchunkType(n)=161
     End If
@@ -281,9 +283,9 @@ Function doRagingEagle(n)
         zblowPamount(n)=2:nn=1
         xblow(n,nn)=50: yblow(n,nn)=22:wblow(n,nn)=35:hblow(n,nn)=11:nn=nn+1
         xblow(n,nn)=50: yblow(n,nn)=0:wblow(n,nn)=35:hblow(n,nn)=11:nn=nn+1
-        zHitMode(n)=0:zBlowHold(n)=12
+        zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
-        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
         zBlowSound(n)=slashsnd
         zchunkType(n)=161
     End If
