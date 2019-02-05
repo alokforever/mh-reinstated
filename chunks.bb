@@ -1071,7 +1071,7 @@ Case 129:        ;Pre-makuuhouidan
     If chunkSeq(n) > seq1 Then chunk(n)=0
     
 Case 130:        ;Box test
-    a=1            ;bright dot
+    a=10            ;bright dot
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(13,1):chunkPic_(n)=ptPic(13,1)
     If chunkSeq(n) > a Then chunk(n)=0
     
@@ -1462,6 +1462,61 @@ Case 159:   ;Raging spin (Small)
     If chunkSeq(n) = 9 Then chunkPic(n)=ptPic(125,9):chunkPic_(n)=ptPic_(125,9)
     
     If chunkSeq(n) > 9 Then chunk(n)=0
+    
+Case 160:   ;Raging stars (Inward)
+    endSeq=20
+    chOwn=chunkOwner(n)
+    If zFace(chOwn)=2 Then xAdj=3 Else xAdj=-3
+    
+    chunkPic(n)=ptPic(127,1):chunkPic_(n)=ptPic_(127,1)
+    If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-3
+    If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+3
+    
+    If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-3
+    If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+3
+    
+    If chunkSeq(n)>endSeq Then chunk(n)=0
+    
+Case 161:   ;Axe Slash
+    seq1=12
+    If chunkSeq(n)>0 And chunkSeq(n)<=12 Then chunkPic(n)=ptPic(128,1):chunkPic_(n)=ptPic_(128,1)
+    If chunkSeq(n)=13 Then chunkPic(n)=ptPic(128,2):chunkPic_(n)=ptPic_(128,2)
+    If chunkSeq(n)=14 Then chunkPic(n)=ptPic(128,3):chunkPic_(n)=ptPic_(128,3)
+    If chunkSeq(n)=15 Then chunkPic(n)=ptPic(128,4):chunkPic_(n)=ptPic_(128,4)
+    If chunkSeq(n)=16 Then chunkPic(n)=ptPic(128,5):chunkPic_(n)=ptPic_(128,5)
+    If chunkSeq(n)=17 Then chunkPic(n)=ptPic(128,6):chunkPic_(n)=ptPic_(128,6)
+    If chunkSeq(n)=18 Then chunkPic(n)=ptPic(128,7):chunkPic_(n)=ptPic_(128,7)
+    If chunkSeq(n)=19 Then chunkPic(n)=ptPic(128,8):chunkPic_(n)=ptPic_(128,8)
+    If chunkSeq(n)=20 Then chunkPic(n)=ptPic(128,9):chunkPic_(n)=ptPic_(128,9)
+    
+    If chunkSeq(n)>20 Then chunk(n)=0
+    
+Case 162:   ;Axe disappear
+    seq1=19:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2:seq7=seq6+2
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(129,1):chunkPic_(n)=ptPic_(129,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(129,2):chunkPic_(n)=ptPic_(129,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(129,3):chunkPic_(n)=ptPic_(129,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(129,4):chunkPic_(n)=ptPic_(129,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(129,5):chunkPic_(n)=ptPic_(129,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(129,6):chunkPic_(n)=ptPic_(129,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(129,7):chunkPic_(n)=ptPic_(129,7)
+
+    If chunkSeq(n)>seq7 Then chunk(n)=0
+    
+Case 163:   ;Raging stars (Outward)
+    endSeq=20
+    chOwn=chunkOwner(n)
+    If zFace(chOwn)=2 Then xAdj=3 Else xAdj=-3
+    
+    chunkPic(n)=ptPic(127,1):chunkPic_(n)=ptPic_(127,1)
+    If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+3
+    If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-3
+    
+    If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+3
+    If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-3
+    
+    If chunkSeq(n)>endSeq Then chunk(n)=0
     
 Default
     a=5:b=10:c=14    ;Blocking

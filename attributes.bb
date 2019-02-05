@@ -2625,7 +2625,7 @@ For counter = 1 To 5
     zpic_(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + "_.bmp")
 Next
 
-For counter = 1 To 20
+For counter = 1 To 40
     zpic(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + ".bmp")
     zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
 Next
@@ -2810,6 +2810,9 @@ If n=14 Then ;WonderWoman
     If wwRagingPaladinTransformSnd=0 Then wwRagingPaladinTransformSnd=LoadSound(soundsdir$ + "wonderwoman\wwRagingPaladinTransformSnd.wav")
     If wwSeriousTimeSnd=0 Then wwSeriousTimeSnd=LoadSound(soundsdir$ + "wonderwoman\wwSeriousTimeSnd.wav")
     If mvcSuper2Snd=0 Then mvcSuper2Snd=LoadSound(soundsdir$ + "mvc\mvcSuper2Snd.wav")
+    If wwBlow1Snd=0 Then wwBlow1Snd=LoadSound(soundsdir$ + "wonderwoman\wwBlow1Snd.wav")
+    If wwAxeSnd=0 Then wwAxeSnd=LoadSound(soundsdir$ + "wonderwoman\wwAxeSnd.wav")
+    If wwAxePlaceSnd=0 Then wwAxePlaceSnd=LoadSound(soundsdir$ + "wonderwoman\wwAxePlaceSnd.wav")
 End If
 
 If n=13 Then ;SubZero

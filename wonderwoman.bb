@@ -3,6 +3,9 @@ Function doRagingEagle(n)
     seq7=seq6+2:seq8=seq7+3 ;110
     seq9=seq8+24
     seq10=seq9+90 ;Strike sequence
+    seq11=seq10+21 ;raging 2nd enter
+    seq12=seq11+5:seq13=seq12+5:seq14=seq13+5:seq15=seq14+8:seq16=seq15+7 ;Raging 2nd going
+    seq17=seq16+24 ;Raging end
     endSeq=2
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
     
@@ -43,22 +46,45 @@ Function doRagingEagle(n)
         If zBlowSeq(n) Mod 18=0 Then
             randSeed=Rand(3)
             If randSeed=1 Then
-                DebugLog "AAA"
                 makechunk(n,zx(n)+x,zy(n)+5,zFace(n),157)
             Else If randSeed=2
-                DebugLog "BBB"
                 makechunk(n,zx(n)+x,zy(n)-10,zFace(n),159)
             Else
-                DebugLog "CCC"
                 makechunk(n,zx(n)+x,zy(n)-15,zFace(n),158)
             End If
+        End If
+    End If
+    
+    ;========== Star chunks ============
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then
+        If zBlowSeq(n) Mod 9=0 Then
+            For i=1 To 3
+                randSeed=Rand(8)
+                If randSeed=1 Then
+                    makechunk(n,zx(n),zy(n)-70,zFace(n),160)
+                Else If randSeed=2 Then
+                    makechunk(n,zx(n),zy(n)+40,zFace(n),160)
+                Else If randSeed=3 Then
+                    makechunk(n,zx(n)-50,zy(n)-25,zFace(n),160)
+                Else If randSeed=4 Then
+                    makechunk(n,zx(n)+50,zy(n)-25,zFace(n),160)
+                Else If randSeed=5 Then
+                    makechunk(n,zx(n)-50,zy(n)-70,zFace(n),160)
+                Else If randSeed=6 Then
+                    makechunk(n,zx(n)+50,zy(n)-70,zFace(n),160)
+                Else If randSeed=7
+                    makechunk(n,zx(n)-50,zy(n)+40,zFace(n),160)
+                Else
+                    makechunk(n,zx(n)+50,zy(n)+40,zFace(n),160)
+                End If
+            Next
         End If
     End If
     If zBlowSeq(n)<=seqStart+1 Then zani(n)=17:zF(n)=1
     
     ;========= Raging enter =========
     If zBlowSeq(n)>seqStart+18 And zBlowSeq(n)<=seq1 Then zani(n)=26
-    If zBlowSeq(n)>seq1 Then zani(n)=17
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq10 Then zani(n)=17
     If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zf(n)=7
     If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zf(n)=8
     If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zf(n)=9
@@ -81,16 +107,72 @@ Function doRagingEagle(n)
         If zF(n)=25 Then
             If zBlowSeq(n)>seq9+6 And (zBlowSeq(n)+3) Mod 6 = 0 Then 
                 zF(n)=zF(n)+1
-                If Rand(2)=1 Then PlaySound wwGrunt1Snd Else PlaySound wwShout5Snd
+                If gameSound Then
+                    If Rand(2)=1 Then PlaySound wwGrunt1Snd Else PlaySound wwShout5Snd
+                    PlaySound wwBlow1Snd
+                End If
             End If
         Else
             If zBlowSeq(n) Mod 3 = 0 Then 
                 zF(n)=zF(n)+1
                 If zF(n)>35 Then zF(n)=25
                 If zF(n)=31 And gameSound Then
-                    If Rand(2)=1 Then PlaySound wwGrunt1Snd Else PlaySound wwShout5Snd
+                    If gameSound Then
+                        If Rand(2)=1 Then PlaySound wwGrunt1Snd Else PlaySound wwShout5Snd
+                        PlaySound wwBlow1Snd
+                    End If
                 End If
             End If
+        End If
+    End If
+    
+    ;========== Raging 2nd enter ===========
+    If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11 Then
+        If zani(n)=17 Then zani(n)=26:zF(n)=19
+        If (zBlowSeq(n)+1) Mod 3=0 Then
+            zF(n)=zF(n)+1
+        End If
+    End If
+
+    ;========== Raging 2nd going ===========
+    If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then zani(n)=26:zF(n)=27
+    If zBlowSeq(n)>seq12 And zBlowSeq(n)<=seq13 Then zani(n)=26:zF(n)=28
+    If zBlowSeq(n)>seq13 And zBlowSeq(n)<=seq14 Then zani(n)=26:zF(n)=29
+    If zBlowSeq(n)>seq14 And zBlowSeq(n)<=seq15 Then zani(n)=26:zF(n)=30
+    If zBlowSeq(n)>seq15 And zBlowSeq(n)<=seq16 Then zani(n)=26:zF(n)=31
+    
+    ;========== Raging end ============
+    If zBlowSeq(n)>seq16 And zBlowSeq(n)<=seq17 Then
+        zani(n)=17
+        If zBlowSeq(n)=seq16+1 Then 
+            zF(n)=24
+        Else
+            If zBlowSeq(n) Mod 2 = 0 Then zF(n)=zF(n)-1
+            If zF(n)<14 Then zF(n)=14
+        End If
+        
+        ;========== Star chunks outward ==========
+        If zBlowSeq(n) Mod 4=0 Then
+            For i=1 To 3
+                randSeed=Rand(8)
+                If randSeed=1 Then
+                    makechunk(n,zx(n),zy(n)-35,zFace(n),163)
+                Else If randSeed=2 Then
+                    makechunk(n,zx(n),zy(n)+4,zFace(n),163)
+                Else If randSeed=3 Then
+                    makechunk(n,zx(n)-5,zy(n)-4,zFace(n),163)
+                Else If randSeed=4 Then
+                    makechunk(n,zx(n)+5,zy(n)-4,zFace(n),163)
+                Else If randSeed=5 Then
+                    makechunk(n,zx(n)-5,zy(n)-35,zFace(n),163)
+                Else If randSeed=6 Then
+                    makechunk(n,zx(n)+5,zy(n)-35,zFace(n),163)
+                Else If randSeed=7
+                    makechunk(n,zx(n)-5,zy(n)+4,zFace(n),163)
+                Else
+                    makechunk(n,zx(n)+5,zy(n)+4,zFace(n),163)
+                End If
+            Next
         End If
     End If
     
@@ -100,17 +182,113 @@ Function doRagingEagle(n)
         If zBlowSeq(n)=seqStart+2 Then PlaySound wwRagingPaladinNoiseSnd
         If zBlowSeq(n)=seqStart+2 Then PlaySound wwSeriousTimeSnd
         If zBlowSeq(n)=seq7+1 Then PlaySound wwRagingPaladinTransformSnd
+        If zBlowSeq(n)=seq10+1 Then PlaySound wwAxeSnd
+        If zBlowSeq(n)=seq10+8 Then PlaySound wwShout3Snd
+        If zBlowSeq(n)=seq13+1 Then PlaySound wwBlow1Snd
+        If zBlowSeq(n)=seq14+1 Then PlaySound wwAxePlaceSnd
     End If
     
 ;=========== Movement =============
-    If (zF(n)>=26 And zF(n)<=28) Or (zF(n)>=32 And zF(n)<=34) Then moveX(n,zBlowDir(n),3)
-    If zF(n)=31 Or zF(n)=33 Then moveX(n,zBlowDir(n),1)
+    If zBlowSeq(n)<seq10 Then
+        If (zF(n)>=26 And zF(n)<=28) Or (zF(n)>=32 And zF(n)<=34) Then moveX(n,zBlowDir(n),3)
+        If zF(n)=31 Or zF(n)=33 Then moveX(n,zBlowDir(n),1)
+    End If
 ;=========== Effects ==========
     If zBlowSeq(n)=seqStart Then
-        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq10-10:superMovePortraitSeqStart(n)=85
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq9-15:superMovePortraitSeqStart(n)=seqStart+18
     End If
     
-    If zBlowSeq(n)>seq10 Then zBlowSeq(n)=endSeq
+;=========== Hitbox ============
+    If zBlowSeq(n) >= seq9 And zBlowSeq(n) < seq10 And zani(n)=17 And zF(n)<>25 Then 
+        zHitMode(n)=2:zBlowHold(n)=0
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=30
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=1.2:zHitTime(n)=60
+        If zF(n)=27 Then
+            zblowPamount(n)=2
+            nn=1
+            xblow(n,nn)=40: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+            xblow(n,nn)=55: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+            zBlowSound(n)=slashsnd
+            zchunkType(n)=161
+        Else If zF(n)=28 Then
+            zblowPamount(n)=6:zBlowBack(n)=1
+            nn=1
+            xblow(n,nn)=-25: yblow(n,nn)=47:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=-2: yblow(n,nn)=47:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=38: yblow(n,nn)=47:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=-25: yblow(n,nn)=34:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=-2: yblow(n,nn)=34:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=38: yblow(n,nn)=34:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            zBlowSound(n)=slashsnd
+            zchunkType(n)=161
+        Else If zF(n)=32
+            zblowPamount(n)=2
+            nn=1
+            xblow(n,nn)=10: yblow(n,nn)=47:wblow(n,nn)=46:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=10: yblow(n,nn)=34:wblow(n,nn)=46:hblow(n,nn)=13:nn=nn+1
+            zBlowSound(n)=mvcHit2Snd
+        Else If zF(n)=33
+            zblowPamount(n)=2
+            nn=1
+            xblow(n,nn)=32: yblow(n,nn)=40:wblow(n,nn)=12:hblow(n,nn)=10:nn=nn+1
+            xblow(n,nn)=47: yblow(n,nn)=40:wblow(n,nn)=12:hblow(n,nn)=10:nn=nn+1
+            zBlowSound(n)=mvcHit2Snd
+        Else If zF(n)=34
+            zblowPamount(n)=2
+            nn=1
+            xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=36:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=0: yblow(n,nn)=27:wblow(n,nn)=36:hblow(n,nn)=13:nn=nn+1
+            zBlowSound(n)=mvcHit2Snd
+        Else
+            zblowPamount(n)=0
+        End If
+    End If
+    
+    If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then ;Axe (zf=27)
+        zblowPamount(n)=2:nn=1:zBlowBack(n)=1
+        xblow(n,nn)=-30: yblow(n,nn)=70:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=-30: yblow(n,nn)=57:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        zHitMode(n)=0:zBlowHold(n)=12
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowSound(n)=slashsnd
+        zchunkType(n)=161
+    End If
+
+    If zBlowSeq(n)>seq12 And zBlowSeq(n)<=seq13 Then ;Axe (zf=28)
+        zblowPamount(n)=2:nn=1
+        xblow(n,nn)=10: yblow(n,nn)=70:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=10: yblow(n,nn)=57:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        zHitMode(n)=0:zBlowHold(n)=12
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowSound(n)=slashsnd
+        zchunkType(n)=161
+    End If
+    
+    If zBlowSeq(n)>seq13 And zBlowSeq(n)<=seq14 Then ;Axe (zf=29)
+        zblowPamount(n)=2:nn=1
+        xblow(n,nn)=50: yblow(n,nn)=62:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=50: yblow(n,nn)=49:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        zHitMode(n)=0:zBlowHold(n)=12
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowSound(n)=slashsnd
+        zchunkType(n)=161
+    End If
+    
+    If zBlowSeq(n)>seq14 And zBlowSeq(n)<=seq15 Then ;Axe (zf=30)
+        zblowPamount(n)=2:nn=1
+        xblow(n,nn)=50: yblow(n,nn)=22:wblow(n,nn)=35:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=50: yblow(n,nn)=0:wblow(n,nn)=35:hblow(n,nn)=11:nn=nn+1
+        zHitMode(n)=0:zBlowHold(n)=12
+        zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
+        zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=60
+        zBlowSound(n)=slashsnd
+        zchunkType(n)=161
+    End If
+
+    If zBlowSeq(n)>seq17 Then zBlowSeq(n)=endSeq
 End Function
 
 Function playWonderwomanCooldownSnd(n)
@@ -171,7 +349,7 @@ Function doFierceAmazonHitSeq(n)
         nn=1
         xblow(n,nn)=10: yblow(n,nn)=25:wblow(n,nn)=38:hblow(n,nn)=10:nn=nn+1
         xblow(n,nn)=10: yblow(n,nn)=15:wblow(n,nn)=38:hblow(n,nn)=4:nn=nn+1
-        zHitMode(n)=2:zBlowHold(n)=36-seq:zBlowTypeModulo(n)=5:zBlowType(n)=1:zBlowTypeModulo(n)=5
+        zHitMode(n)=2:zBlowHold(n)=36-seq:zBlowTypeModulo(n)=5:zBlowType(n)=1
         zBlowDamage(n)=3:zBLowEffect(n)=1:zEnemyImmuneTime(n)=7:zBlowStillTime(n)=1:zBlowBlockTime(n)=30
         zBlowSound(n)=mvcHit1Snd
         

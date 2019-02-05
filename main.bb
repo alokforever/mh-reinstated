@@ -931,6 +931,7 @@ FlushKeys() : FlushJoy()
 ;------*-------*-------------------*--------*--------
 While Not gameDone=1
 Getinput
+;HitBoxDebug
 flags
 For n= 1 To zzamount
     zBeenHere(n)=0
@@ -3666,7 +3667,8 @@ Case 2
                         If zBlowStill(n)=1 Then 
                             zBlowStillSeq(n)=zBlowStillSeq(n)
                         Else
-                            zBlowStill(n)=1: zBlowStillSeq(n)=0
+                            If zBlowStillTime(n)>0 Then zBlowStill(n)=1
+                            zBlowStillSeq(n)=0
                         EndIf
                         zBlockLife(n)=zBlockLife(n)+10
                         If zblockLife(n) > zblockfull(n) Then zblockLife(n)=zblockfull(n)
@@ -3741,7 +3743,7 @@ Case 4
         If teamAttack=0 And (zteam(n) = zteam(nn)) Then Goto tryz2
         If zx(nn) > zx(n)+10 And zBlowback(n)=0 Then Goto tryz2
         If Not zImune(nn,n)=1 And zImuneTo(nn,n)=n Then 
-        For bn=1 To zblowpamount(n)    
+        For bn=1 To zblowpamount(n)
             yp=Int(zy(nn)-ImageHeight(zCurPic(nn))+1)
             xp=Int(zx(nn)-(ImageWidth(zCurPic(nn))/2))
             ;zx(n)-(xBlow(n,bn)+wBlow(n,bn)),zy(n)-yBlow(n,bn)
@@ -6230,4 +6232,14 @@ Function reduceHealth(n, dmg)
     zLife(n)=zlife(n)-dmg
     zDamage#(n)=zDamage#(n)+dmg
     If isBoss(n)=1 Then showLifeBar(n)=1:showLifeBarSeq(n)=0
+End Function
+
+Function HitBoxDebug()
+    If MouseHit(1)=1 Then
+        makechunk(n,MouseX(),MouseY(),2,130)
+        DebugLog "zx(1): " + zx(1) + ", zy(1): " + zy(1)
+        DebugLog "MouseX(): " + MouseX() + ", MouseY(): " + MouseY()
+        DebugLog "Hitbox X: " + (MouseX()-zx(1)) + "Hitbox Y: " + (MouseY()-zy(1))
+        DebugLog " "
+    End If
 End Function
