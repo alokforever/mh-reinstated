@@ -247,7 +247,6 @@ Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
-Dim isShotSolid(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -4679,18 +4678,6 @@ Next
 ;Chunks x plat collision
 For nn=1 To chunkAmount
     If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
-        If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
-            If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
-            Select platXDir(n)
-                Case 2:xChunk(nn)=xChunk(nn)+platXSpeed(n)
-                Case 4:xChunk(nn)=xChunk(nn)-platXSpeed(n)
-            End Select
-        EndIf
-    EndIf
-Next
-
-For nn=1 To shotAmount
-    If yShot(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
         If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
             If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
             Select platXDir(n)

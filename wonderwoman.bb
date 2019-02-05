@@ -43,10 +43,13 @@ Function doRagingEagle(n)
         If zBlowSeq(n) Mod 18=0 Then
             randSeed=Rand(3)
             If randSeed=1 Then
-                makechunk(n,zx(n)+x,zy(n),zFace(n),157)
+                DebugLog "AAA"
+                makechunk(n,zx(n)+x,zy(n)+5,zFace(n),157)
             Else If randSeed=2
+                DebugLog "BBB"
                 makechunk(n,zx(n)+x,zy(n)-10,zFace(n),159)
             Else
+                DebugLog "CCC"
                 makechunk(n,zx(n)+x,zy(n)-15,zFace(n),158)
             End If
         End If
