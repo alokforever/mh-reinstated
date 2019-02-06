@@ -9,6 +9,7 @@ Function doRagingEagle(n)
     endSeq=2
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
     
+    If zBlowSeq(n)=seqStart Then zTempStone(n)=1:zStoneSeq(n)=0:zStoneMaxTime(n)=seq17-seqStart
 ;=========== Animation ============
     ;========== Spin init =========
     modSeq=1
@@ -152,25 +153,25 @@ Function doRagingEagle(n)
         End If
         
         ;========== Star chunks outward ==========
-        If zBlowSeq(n) Mod 4=0 Then
+        If zBlowSeq(n) Mod 6=0 Then
             For i=1 To 3
                 randSeed=Rand(8)
                 If randSeed=1 Then
-                    makechunk(n,zx(n),zy(n)-35,zFace(n),163)
+                    makechunk(n,zx(n)-6,zy(n)-25,zFace(n),163)
                 Else If randSeed=2 Then
-                    makechunk(n,zx(n),zy(n)+4,zFace(n),163)
+                    makechunk(n,zx(n)+6,zy(n)-25,zFace(n),163)
                 Else If randSeed=3 Then
-                    makechunk(n,zx(n)-5,zy(n)-4,zFace(n),163)
+                    makechunk(n,zx(n)-6,zy(n)-31,zFace(n),163)
                 Else If randSeed=4 Then
-                    makechunk(n,zx(n)+5,zy(n)-4,zFace(n),163)
+                    makechunk(n,zx(n)+6,zy(n)-31,zFace(n),163)
                 Else If randSeed=5 Then
-                    makechunk(n,zx(n)-5,zy(n)-35,zFace(n),163)
+                    makechunk(n,zx(n)-6,zy(n)-19,zFace(n),163)
                 Else If randSeed=6 Then
-                    makechunk(n,zx(n)+5,zy(n)-35,zFace(n),163)
+                    makechunk(n,zx(n)+6,zy(n)-19,zFace(n),163)
                 Else If randSeed=7
-                    makechunk(n,zx(n)-5,zy(n)+4,zFace(n),163)
+                    makechunk(n,zx(n),zy(n)-31,zFace(n),163)
                 Else
-                    makechunk(n,zx(n)+5,zy(n)+4,zFace(n),163)
+                    makechunk(n,zx(n),zy(n)-19,zFace(n),163)
                 End If
             Next
         End If
@@ -243,7 +244,7 @@ Function doRagingEagle(n)
             zblowPamount(n)=0
         End If
         ;==== Hold enemy ===
-        If zBlowSeq(n)>=(seq10-13) Then zBlowHold(n)=40:zBlowTypeModulo(n)=5:zBlowType(n)=1
+        If zBlowSeq(n)>=(seq10-13) Then zHitSpeed#(n)=0.4:zHitUpSpeed#(n)=2
     End If
     
     If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then ;Axe (zf=27)

@@ -1510,11 +1510,14 @@ Case 163:   ;Raging stars (Outward)
     If zFace(chOwn)=2 Then xAdj=3 Else xAdj=-3
     
     chunkPic(n)=ptPic(127,1):chunkPic_(n)=ptPic_(127,1)
-    If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+3
-    If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-3
-    
-    If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+3
-    If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-3
+    If xChunk#(n) >= zx(chOwn)+5 Or xChunk#(n) <= zx(chOwn)-5 Then
+        If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+3
+        If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-3
+    End If
+    If yChunk#(n) >= (zy(chOwn)-(zHeight(chOwn)/2))+5 Or yChunk#(n) <= (zy(chOwn)-(zHeight(chOwn)/2))-5 Then
+        If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+3
+        If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-3
+    End If
     
     If chunkSeq(n)>endSeq Then chunk(n)=0
     
