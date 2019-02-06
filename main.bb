@@ -102,7 +102,8 @@ Dim hitKey(maxZ),upKey(maxZ),downKey(maxZ),leftKey(maxZ),rightKey(maxZ),shotKey(
 Dim rightKeyHit(maxZ),leftKeyHit(maxZ),specialkey(maxZ),zController(maxZ),controllerPort(maxZ),grabKey(maxZ),superKey(maxZ),tauntKey(maxZ),extraSpecialkey(maxZ)
 Dim runkey(maxZ),zDacc#(maxZ),zAcc#(maxZ),zTopSpeed#(maxZ),zDtopSpeed#(maxZ)
 
-Dim zpic(200,50,50),zpic_(200,50,50)
+Global maxPicFrames=100
+Dim zpic(200,50,maxPicFrames),zpic_(200,50,maxPicFrames)
 Dim guyLoaded(100)
 
 Dim extraDraw(maxZ),extraPic(maxZ), xED(maxZ),yED(maxZ), epic(20,20), epic_(20,20),eAni(20),ef(20)
@@ -5290,7 +5291,7 @@ Next
 For n=0 To characterAmount
     guyLoaded(n)=0
     For n1=0 To 50
-        For n2=0 To 50
+        For n2=0 To maxPicFrames
             If zpic(n,n1,n2) <> 0 Then FreeImage zpic(n,n1,n2):zpic(n,n1,n2)=0
             If zpic_(n,n1,n2) <> 0 Then FreeImage zpic_(n,n1,n2):zpic_(n,n1,n2)=0
         Next
@@ -5300,7 +5301,7 @@ Next
 For n=30 To maxCharAmt    ;add character
     guyLoaded(n)=0
     For n1=0 To 50
-        For n2=0 To 50
+        For n2=0 To maxPicFrames
             If zpic(n,n1,n2) <> 0 Then FreeImage zpic(n,n1,n2):zpic(n,n1,n2)=0
             If zpic_(n,n1,n2) <> 0 Then FreeImage zpic_(n,n1,n2):zpic_(n,n1,n2)=0
         Next

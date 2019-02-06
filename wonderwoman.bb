@@ -161,9 +161,9 @@ Function doRagingEagle(n)
                 Else If randSeed=2 Then
                     makechunk(n,zx(n)+6,zy(n)-25,zFace(n),163)
                 Else If randSeed=3 Then
-                    makechunk(n,zx(n)-6,zy(n)-31,zFace(n),163)
+                    makechunk(n,zx(n)-6,zy(n)-32,zFace(n),163)
                 Else If randSeed=4 Then
-                    makechunk(n,zx(n)+6,zy(n)-31,zFace(n),163)
+                    makechunk(n,zx(n)+7,zy(n)-32,zFace(n),163)
                 Else If randSeed=5 Then
                     makechunk(n,zx(n)-6,zy(n)-19,zFace(n),163)
                 Else If randSeed=6 Then

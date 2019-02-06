@@ -2585,7 +2585,7 @@ For counter = 1 To 25
     zpic_(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + "_.bmp")
 Next
 
-For counter = 1 To 40
+For counter = 1 To maxPicFrames
     zpic(n,17,counter)=LoadImage(gfxdir$ + "superspecial\zsuper" + counter + ".bmp")
     zpic_(n,17,counter)=LoadImage(gfxdir$ + "superspecial\zsuper" + counter + "_.bmp")
 Next
@@ -2625,7 +2625,7 @@ For counter = 1 To 5
     zpic_(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + "_.bmp")
 Next
 
-For counter = 1 To 40
+For counter = 1 To 50
     zpic(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + ".bmp")
     zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
 Next
