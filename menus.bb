@@ -1625,6 +1625,7 @@ End Function
 ;-------------Configure Keys!-----------------------------------------------------------------
 Function configKeys(player)
 
+Local isKeyPressed=0
 pn = player
 
 If zController(pn) =1 Then  keyschosen=5 Else keyschosen=1
@@ -1654,20 +1655,41 @@ color 28,28,28
 rect x,y,220,20,1
 
 Select keyschosen
-Case 1:pri x,y,strInfo$(51): flip:upK(pn)=getTheKey(controllerPort(pn))
-Case 2:pri x,y,strInfo$(52): flip:downK(pn)=getTheKey(controllerPort(pn))
-Case 3:pri x,y,strInfo$(53): flip:leftK(pn)=getTheKey(controllerPort(pn))
-Case 4:pri x,y,strInfo$(54): flip:rightK(pn)=getTheKey(controllerPort(pn))
-Case 5:pri x,y,strInfo$(55): flip:shotK(pn)=getTheKey(controllerPort(pn))
-Case 6:pri x,y,strInfo$(56): flip:specialK(pn)=getTheKey(controllerPort(pn))
-Case 7:pri x,y,strInfo$(57): flip:jumpK(pn)=getTheKey(controllerPort(pn))
-Case 8:pri x,y,strInfo$(58): flip:blockK(pn)=getTheKey(controllerPort(pn))
-Case 9:pri x,y,strInfo$(59): flip:grabK(pn)=getTheKey(controllerPort(pn))
-
+Case 1:pri x,y,strInfo$(51): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then upK(pn)=key:isKeyPressed=1
+Case 2:pri x,y,strInfo$(52): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then downK(pn)=key:isKeyPressed=1
+Case 3:pri x,y,strInfo$(53): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then leftK(pn)=key:isKeyPressed=1
+Case 4:pri x,y,strInfo$(54): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then rightK(pn)=key:isKeyPressed=1
+Case 5:pri x,y,strInfo$(55): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then shotK(pn)=key:isKeyPressed=1
+Case 6:pri x,y,strInfo$(56): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then specialK(pn)=key:isKeyPressed=1
+Case 7:pri x,y,strInfo$(57): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then jumpK(pn)=key:isKeyPressed=1
+Case 8:pri x,y,strInfo$(58): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then blockK(pn)=key:isKeyPressed=1
+Case 9:pri x,y,strInfo$(59): flip
+    key=getTheKey(controllerPort(pn))
+    If key <> 0 Then grabK(pn)=key:isKeyPressed=1
 End Select
 
-keyschosen=keyschosen+1
-If gameSound Then PlaySound clickSnd
+If isKeyPressed=1 Then 
+    keyschosen=keyschosen+1
+    If gameSound Then PlaySound clickSnd
+    isKeyPressed=0
+End If
+
 Until keyschosen > 9
 For i=1 To 50
   clickedBut(i)=0
@@ -1678,18 +1700,16 @@ End Function
 Function getTheKey(port)
 
 pressed=0
-Repeat
-    DebugLog "Time: " + MilliSecs()
-    For n=2 To 221
-        If KeyHit(n) Then Return n
+For n=2 To 221
+    If KeyHit(n) Then Return n
+Next
+If zcontroller(pn)=1 Then
+    For n=1 To 10
+        If JoyHit(n,port) Then Return n
     Next
-    If zcontroller(pn)=1 Then
-        For n=1 To 10
-            If JoyHit(n,port) Then Return n
-        Next
-    EndIf
-Until KeyHit(1) = True
+EndIf
 
+Return 0
 End Function 
 
 ;-------Load keys---------------------

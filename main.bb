@@ -1722,17 +1722,16 @@ If mapComplete=1 Then
         statsScreen()
         freesound music
         music=LoadSound(soundsdir$ + "music" + 10 + ".wav")
-         If gameMusic=1 Then
+        If gameMusic=1 Then
           LoopSound music
            chMusic=PlaySound(music)
-         EndIf
+        EndIf
         rollCredits()
-        freeMap()
      Else
-         statsScreen()
-         freeMap()
+        statsScreen()
         Goto restartMap
     EndIf
+    freeMap()
 EndIf
 
 If vsMode=1 And scoreDone=1 Then
@@ -5230,7 +5229,6 @@ Else    ;If not CTF Then it`s KTF
         Next
       EndIf
     Next
-
 EndIf
 
 For n=1 To flagAmount
@@ -5307,6 +5305,12 @@ For n=30 To maxCharAmt    ;add character
         Next
     Next
 Next
+
+For i=1 To 1500
+    If chunkPic(i) <> 0 Then FreeImage chunkPic(i):chunkPic(i)=0
+    If chunkPic_(i) <> 0 Then FreeImage chunkPic_(i):chunkPic_(i)=0
+Next
+
 
 End Function
 ;----------------- MoveX2 ----------------------

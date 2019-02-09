@@ -1872,6 +1872,7 @@ objCurFrame(n)=1
 objFrameSeq(n)=0
 objZMade(n)=0
 objBounce(n)=0
+shotExplosionSound(n)=explodeSnd
 
 Select objType(n)
 Case 1    ;yellow shell
