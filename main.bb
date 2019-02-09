@@ -5306,12 +5306,6 @@ For n=30 To maxCharAmt    ;add character
     Next
 Next
 
-For i=1 To 1500
-    If chunkPic(i) <> 0 Then FreeImage chunkPic(i):chunkPic(i)=0
-    If chunkPic_(i) <> 0 Then FreeImage chunkPic_(i):chunkPic_(i)=0
-Next
-
-
 End Function
 ;----------------- MoveX2 ----------------------
 Function moveX2(n,dir,speed)

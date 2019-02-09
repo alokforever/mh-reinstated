@@ -71,7 +71,7 @@ End Function
 
 Function applyScorpionComboHitBox(n, hitMode, damage, hitSnd)
     zblowPamount(n)=1:nn=1
-    xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=30:hblow(n,nn)=22:nn=nn+1
+    xblow(n,nn)=0: yblow(n,nn)=55:wblow(n,nn)=20:hblow(n,nn)=35:nn=nn+1
     zHitMode(n)=hitMode:zBlowHold(n)=10
     zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
     zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=12:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
@@ -692,7 +692,7 @@ Case 9    ;Teleport punch
     If zBlowSeq(n) >= h And zBlowSeq(n) < i Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 10    ;Up + Attack
-    a=3: b=6: c=9: d=12: e=20: f=24: g=37: h=44
+    a=3: b=6: c=9: d=12: e=20: f=24: g=30: h=37
     zChunkType(n)=95
     zNoMove(n)=1
     zNoJump(n)=1

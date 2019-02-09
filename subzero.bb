@@ -131,7 +131,7 @@ End Function
 
 Function applySubZeroComboHitBox(n, hitMode, damage)
     zblowPamount(n)=1:nn=1
-    xblow(n,nn)=10: yblow(n,nn)=40:wblow(n,nn)=36:hblow(n,nn)=22:nn=nn+1
+    xblow(n,nn)=0: yblow(n,nn)=55:wblow(n,nn)=20:hblow(n,nn)=35:nn=nn+1
     zHitMode(n)=hitMode:zBlowHold(n)=10
     zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
     zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=10:zBlowStillTime(n)=0:zBlowBlockTime(n)=25
@@ -500,7 +500,7 @@ Case 9    ;Sub zero freeze ground
 
     
 Case 10    ; Up + Attack
-    a=3: b=6: c=9: d=15: e=24: f=37: g=44
+    a=3: b=6: c=9: d=15: e=24: f=30: g=37
     zNoMove(n)=1
     zNoJump(n)=1
     zChunkType(n)=95
