@@ -2814,6 +2814,7 @@ If n=14 Then ;WonderWoman
     If wwBlow1Snd=0 Then wwBlow1Snd=LoadSound(soundsdir$ + "wonderwoman\wwBlow1Snd.wav")
     If wwAxeSnd=0 Then wwAxeSnd=LoadSound(soundsdir$ + "wonderwoman\wwAxeSnd.wav")
     If wwAxePlaceSnd=0 Then wwAxePlaceSnd=LoadSound(soundsdir$ + "wonderwoman\wwAxePlaceSnd.wav")
+    If wwRoyalThrustStartSnd=0 Then wwRoyalThrustStartSnd=LoadSound(soundsdir$ + "wonderwoman\wwRoyalThrustStartSnd.wav")
 End If
 
 If n=13 Then ;SubZero

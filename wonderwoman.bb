@@ -1,3 +1,46 @@
+Function doRoyalThrust(n)
+    seqStart=1000:endSeq=2
+    seq1=seqStart+60
+    zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
+    
+    If zOnGnd(n)=1 Then zy(n)=zy(n)-2
+;=========== Animation ============
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then
+        zani(n)=17
+        If zBlowSeq(n) Mod 3 Then 
+            If zF(n)=36 Then
+                zF(n)=37
+            Else If zF(n)=37 Then
+                zF(n)=38
+            Else If zF(n)=38 Then
+                zF(n)=39
+            Else
+                zF(n)=36
+            End If
+        End If
+    End If
+    
+;=========== Sounds ===============
+    If gameSound Then
+        If zBlowSeq(n)=seqStart+1 Then PlaySound mvcSuper2Snd
+        If zBlowSeq(n)=seqStart+1 Then PlaySound wwRoyalThrustStartSnd
+    End If
+    
+;=========== Movement =============
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1-20 Then
+        moveX(n,zBlowDir(n),-1)
+        moveY(n,-1)
+    End If
+
+;=========== Effects ==============
+    If zBlowSeq(n)=seqStart Then
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq1:superMovePortraitSeqStart(n)=seqStart+1
+    End If
+    
+    If zBlowSeq(n)>seq1 Then zBlowSeq(n)=endSeq
+    
+End Function
+
 Function doRagingEagle(n)
     seqStart=10:seq1=seqStart+84:seq2=seq1+1:seq3=seq2+2:seq4=seq3+4:seq5=seq4+2:seq6=seq5+2
     seq7=seq6+2:seq8=seq7+3 ;110
@@ -1205,7 +1248,7 @@ Case 14    ;Super Special
     royalThrustSeq=1000
     themysciraGreatRisingSeq=2000
     gaeasBoundSeq=3000
-    endSeq=2:
+    endSeq=2
     
     If zBlowSeq(n) <ragingSeq Then zNoMove(n)=1
     
@@ -1220,6 +1263,7 @@ Case 14    ;Super Special
     End If
 
     If zBlowSeq(n)>=ragingSeq And zBlowSeq(n)<royalThrustSeq Then doRagingEagle(n)
+    If zBlowSeq(n)>=royalThrustSeq And zBlowSeq(n)<themysciraGreatRisingSeq Then doRoyalThrust(n)
     
     If zBlowSeq(n)>=endSeq And zBlowSeq(n)<ragingSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
