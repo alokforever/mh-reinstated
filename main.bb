@@ -990,7 +990,7 @@ For n=1 To zzamount
         ;Add character, add another CASE call to your new function, will probably be 
         ;something like: CASE 11:DoGuyNameHere(n)
         Select curguy(n)
-            Case 1:DoRyu(n)
+            Case 1:DoEvilRyu(n)
             Case 2:DoRash(n)
             Case 3:DoSpiderMan(n)
             Case 4:DoMario(n)

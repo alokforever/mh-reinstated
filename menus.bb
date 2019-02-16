@@ -283,7 +283,14 @@ If checkWhatsOpen()=1 Then pri 100,100, strInfo$(61)
 pri 100,125, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
 x=100:y=175:xOffset=0
 For i=1 To 4
-  If curGuy(i)=6 Then xOffset=20 Else xOffset=0
+  If curGuy(i)=1 Then
+    xOffset=10
+  Else If curGuy(i)=6 Then 
+    xOffset=20 
+  Else 
+    xOffset=0
+  End If
+  
   If zwason(i)=1 Then
     drawimage zPic(curGuy(i),1,0),x-(40+xOffset),y-10
     pri x,y, strInfo$(38) + zGotHitsAmount(i)
@@ -337,7 +344,13 @@ EndIf
 
 x=100:y=175:xOffset=0
 For i=1 To 4
- If curGuy(i)=6 Then xOffset=20 Else xOffset=0
+ If curGuy(i)=1 Then
+    xOffset=10
+ Else If curGuy(i)=6 Then 
+    xOffset=20
+ Else
+   xOffset=0
+ End If
  If zwason(i)=1 Then
   DrawImage zPic(curGuy(i),1,0),x-(40+xOffset),y-10
   pri x,y, strInfo$(38) + zGotHitsAmount(i)
@@ -808,15 +821,15 @@ For b= 1 To characterAmount ;characters to select
     ;Color 100,100,100:Rect xbut(b),ybut(b),wbut(b),hBut(b),1
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     If characterOpen(b)=1 Then
-        If b=6 Then
-            DrawImage butpic2(b, 1),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
+        Local xOffset=10
+        If b=1 Then
+            xOffset=0
+        Else If b=6 Or b=15 Then
+            xOffset=-5
         Else If b = 11 Or b = 14 Then
-            DrawImage butpic2(b, 1),xbut(b)+1,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
-        Else If b = 15 Then
-            DrawImage butpic2(b, 1),xbut(b)-5,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
-        Else
-            DrawImage butpic2(b, 1),xbut(b)+10,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
+            xOffset=1
         EndIf
+        DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
     Else
         DrawImage lock,xbut(b)+10, ybut(b)+15
     EndIf

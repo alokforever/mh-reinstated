@@ -5,6 +5,7 @@ Include "wonderwoman.bb"
 Include "juggernaut.bb"
 Include "piccolo.bb"
 Include "hiryu.bb"
+Include "evilryu.bb"
 
 Function DoRyu(n)
 

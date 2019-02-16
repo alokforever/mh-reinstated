@@ -24,6 +24,7 @@ Juggernaut - 40
 Wonderwoman - 49
 Sub Zero - 48
 Scorpion - 48
+Evil Ryu - 55
 
 Animation:
 Themyscira - 203

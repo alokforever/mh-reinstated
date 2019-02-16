@@ -83,7 +83,7 @@ zBlocked(n)=0: aiGetTarget(n):
     isBoss(n)=0
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
-Case 1: ;Ryu
+Case 1: ;Evil Ryu
     zBlowDist(n,1)=44
     zBlowDist(n,2)=48
     zBlowDist(n,4)=44
@@ -100,6 +100,11 @@ Case 1: ;Ryu
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=1
+    zWalkFrames(n)=6
+    zWalkFrameSpeed#(n)=4
+    zJumpSnd(n)=jumpsnd
+    zJumpSnd2(n)=wolverinejumpsnd
+    hasSpecialAirFrames(n)=1
 
 Case 2: ;Rash
     zBlowDist(n,1)=65

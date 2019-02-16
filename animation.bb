@@ -331,6 +331,26 @@ Function drawFlipFrames(n)
     End If
 End Function
 
+Function processEvilRyuAirFrames(n)
+    If zjump(n)=0 Then ;Falling
+        zJumpFallSeq(n)=zjumpfallseq(n)+1
+        If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 4 Then zani(n)=4:zf(n)=3
+        If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) < 9 Then zani(n)=4:zf(n)=4
+        If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 13 Then zani(n)=4:zf(n)=5
+        If zJumpFallSeq(n) >= 13 And zJumpFallSeq(n) Mod 3 = 0 Then
+            If zf(n)=6 Then 
+                zani(n)=4:zf(n)=7
+            Else
+                zani(n)=4:zf(n)=6
+            End If
+        End If
+    Else
+        If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+        If zjumpseq(n) >= 0 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=1
+        If zjumpseq(n) >= 17 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=2
+    End If
+End Function
+
 Function processHiryuAirFrames(n)
     If zjump(n)=0 Then ;Falling
         zJumpFallSeq(n)=zjumpfallseq(n)+1
@@ -442,6 +462,7 @@ End Function
 
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
+    If curGuy(n)=1 Then processEvilRyuAirFrames(n)
     If curGuy(n)=6 Then processHiryuAirFrames(n)
     If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
