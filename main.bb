@@ -61,11 +61,11 @@ Dim cheat(20),cheatSeq(20)
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
-Global maxZ=30
+Global maxZ=30, maxFrame=35
 Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
-Dim clickedBy(100),butPic(100),butPic2(100, maxZ),butText$(100),butSeq(100),tpic(100)
+Dim clickedBy(100),butPic(100),butPic2(100, maxFrame),butText$(100),butSeq(100),tpic(100)
 Dim xPointer(10),yPointer(10),zName$(16),zThumbNail(16),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(maxZ)
@@ -248,6 +248,7 @@ Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
+Dim stanceLevel(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1034,6 +1035,7 @@ For n=1 To zzamount
     EndIf
     zBlowHit(n)=0
     zHitHead(n)=0
+    If zBlowSeq(n)=1 Then zStanceSeq(n)=0
 Next
 
 For n=1 To rectAmount

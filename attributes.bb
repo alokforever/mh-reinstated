@@ -105,6 +105,8 @@ Case 1: ;Evil Ryu
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
     hasSpecialAirFrames(n)=1
+    zStanceFrames(n)=34
+    zStanceSpeed(n)=3
 
 Case 2: ;Rash
     zBlowDist(n,1)=65
@@ -2601,7 +2603,7 @@ For counter = 1 To 40
     zpic_(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + "_.bmp")
 Next
 
-For counter = 1 To 20
+For counter = 1 To 35
     zpic(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + ".bmp")
     zpic_(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + "_.bmp")
 Next
@@ -2948,10 +2950,9 @@ If n=3 Then     ;Spider-man
 EndIf
 
 If n=1 Then
-    If hueSnd=0 Then hueSnd=LoadSound(soundsdir$ + "hue.wav")
-    If uppercutsnd=0 Then uppercutsnd=LoadSound(soundsdir$ + "uppercut.wav")
-    If ryuBallsnd=0 Then ryuBallsnd=LoadSound(soundsdir$ + "ryuball.wav")
-    If ryuSpinsnd=0 Then ryuSpinsnd=LoadSound(soundsdir$ + "ryuspin.wav")
+    If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "evilryu\evilryuDieSnd.wav")
+    If evilryuKorosuSnd=0 Then evilryuKorosuSnd=LoadSound(soundsdir$ + "evilryu\evilryuKorosuSnd.wav")
+    If evilryuStepSnd=0 Then evilryuStepSnd=LoadSound(soundsdir$ + "evilryu\evilryuStepSnd.wav")
 EndIf
 
 If n=41 Then     ;Turtle CLoud
@@ -3112,6 +3113,8 @@ Function initStance(n)
     zStanceSpeed(n)=0
     
     select(n)
+    Case 1  ; Evil Ryu
+        zStanceFrames(n)=34
     Case 6  ; Strider Hiryu
         zStanceFrames(n)=20
         zStanceSpeed(n)=3

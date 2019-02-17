@@ -283,9 +283,7 @@ If checkWhatsOpen()=1 Then pri 100,100, strInfo$(61)
 pri 100,125, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
 x=100:y=175:xOffset=0
 For i=1 To 4
-  If curGuy(i)=1 Then
-    xOffset=10
-  Else If curGuy(i)=6 Then 
+  If curGuy(i)=6 Then 
     xOffset=20 
   Else 
     xOffset=0
@@ -344,9 +342,7 @@ EndIf
 
 x=100:y=175:xOffset=0
 For i=1 To 4
- If curGuy(i)=1 Then
-    xOffset=10
- Else If curGuy(i)=6 Then 
+ If curGuy(i)=6 Then 
     xOffset=20
  Else
    xOffset=0
@@ -822,9 +818,7 @@ For b= 1 To characterAmount ;characters to select
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     If characterOpen(b)=1 Then
         Local xOffset=10
-        If b=1 Then
-            xOffset=0
-        Else If b=6 Or b=15 Then
+        If b=6 Or b=15 Then
             xOffset=-5
         Else If b = 11 Or b = 14 Then
             xOffset=1
@@ -885,7 +879,11 @@ For b=55 To 58  ;team, selected player
     n=n+1
     If curGuy(n)<=maxZ Then
         If zStanceFrames(curGuy(n))>0 Then
-            setStanceFrame(n)
+            If curGuy(n)=1 Then
+                menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)-5, yBut(b)-10)
+            Else
+                setStanceFrame(n)
+            End If
             If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1:zStanceSeq(n)=0
             butFrame=menuStanceFrame(n)
             If butFrame=0 Then butFrame=1

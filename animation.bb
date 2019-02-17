@@ -109,7 +109,15 @@ End Function
 Function drawWalkSequence(n)
     If zwalkseq(n) = 0 Then 
         If zStanceFrames(n) <> 0 Then 
-            drawStanceFrame(n):Return
+            If curGuy(n)=1 Then
+                zani(n)=19
+                If zFace(n)(n)=2 Then x=zx(n)-5
+                If zFace(n)(n)=4 Then x=zx(n)+5
+                zF(n)=getEvilRyuStance(n, x, zy(n)-10)
+            Else
+                drawStanceFrame(n)
+            End If
+            Return
         Else
             zani(n)=1:zf(n)=0
         EndIf
@@ -249,6 +257,67 @@ Function getSpecialRunStatus(n)
     
     Return ret
 End Function
+
+Function getEvilRyuStance(n, x, y)
+    zStanceSeq(n) = zStanceSeq(n) + 1
+    Local frame
+    
+;======== Animation =========
+    If zStanceSeq(n)=1 Then frame=1:stanceLevel(n)=1
+    If zStanceSeq(n)=2 Then frame=2
+    If zStanceSeq(n)=3 Then frame=3
+    If zStanceSeq(n)>3 And zStanceSeq(n)<=6 Then frame=4
+    If zStanceSeq(n)>6 And zStanceSeq(n)<=8 Then frame=5
+    If zStanceSeq(n)>8 And zStanceSeq(n)<=10 Then frame=6
+    If zStanceSeq(n)>10 And zStanceSeq(n)<=12 Then frame=7
+    If zStanceSeq(n)>12 And zStanceSeq(n)<=15 Then frame=8
+    If zStanceSeq(n)>15 And zStanceSeq(n)<=17 Then frame=9
+    If zStanceSeq(n)>17 And zStanceSeq(n)<=20 Then frame=10
+    If zStanceSeq(n)>20 And zStanceSeq(n)<=22 Then frame=11
+    
+    If zStanceSeq(n)>22 And zStanceSeq(n)<=40 Then frame=12
+    If zStanceSeq(n)>40 And zStanceSeq(n)<=46 Then frame=13
+    If zStanceSeq(n)>46 And zStanceSeq(n)<=52 Then frame=14
+    If zStanceSeq(n)>52 And zStanceSeq(n)<=58 Then frame=15
+    If zStanceSeq(n)>58 And zStanceSeq(n)<=62 Then frame=16
+    If zStanceSeq(n)>62 And zStanceSeq(n)<=64 Then frame=17
+    If zStanceSeq(n)>64 And zStanceSeq(n)<=66 Then frame=18
+    If zStanceSeq(n)>66 And zStanceSeq(n)<=80 Then frame=19
+    If zStanceSeq(n)>80 And zStanceSeq(n)<=86 Then frame=20
+    If zStanceSeq(n)>86 And zStanceSeq(n)<=92 Then frame=21
+    If zStanceSeq(n)>92 And zStanceSeq(n)<=98 Then 
+        frame=22:stanceLevel(n)=stanceLevel(n)+1
+        If stanceLevel(n)<4 Then zStanceSeq(n)=22
+    End If
+    
+    If zStanceSeq(n)>98 And zStanceSeq(n)<=104 Then frame=23
+    If zStanceSeq(n)>104 And zStanceSeq(n)<=110 Then frame=24
+    If zStanceSeq(n)>110 And zStanceSeq(n)<=116 Then frame=25
+    If zStanceSeq(n)>116 And zStanceSeq(n)<=123 Then frame=26
+    If zStanceSeq(n)>123 And zStanceSeq(n)<=130 Then frame=27
+    If zStanceSeq(n)>130 And zStanceSeq(n)<=135 Then frame=28
+    If zStanceSeq(n)>135 And zStanceSeq(n)<=138 Then frame=29
+    If zStanceSeq(n)>138 And zStanceSeq(n)<=143 Then frame=30
+    If zStanceSeq(n)>143 And zStanceSeq(n)<=146 Then frame=31
+    If zStanceSeq(n)>146 And zStanceSeq(n)<=149 Then frame=32
+    If zStanceSeq(n)>149 And zStanceSeq(n)<=179 Then frame=33
+    If zStanceSeq(n)>179 And zStanceSeq(n)<=184 Then frame=34
+    
+    If zStanceSeq(n)>=184 Then zStanceSeq(n)=22:stanceLevel(n)=1
+    
+;======== Sounds =========
+    If gameSound
+        If zStanceSeq(n)=18 Then PlaySound evilryuLightStepSnd
+        If zStanceSeq(n)=59 Then PlaySound evilryuElectricSnd
+    End If
+    
+;======== Effects =========
+    If zStanceSeq(n)=18 Then quake=1:quakeSeq=0
+    If zStanceSeq(n)=59 Then makechunk(n,x,y,zFace(n),164)
+    
+    Return frame
+End Function
+
 ;----------- Draw Stance Sequence --------------
 Function drawStanceFrame(n)
     If zStanceSeq(n) < zStanceSpeed(n) Then 

@@ -239,3 +239,7 @@ Global hiryuRunEndSnd, hiryuRunStartSnd, hiryuDieSnd
 Global hiryuGrunt1Snd, hiryuGrunt2Snd, hiryuGrunt3Snd
 Global hiryuCooldown1Snd, hiryuCooldown2Snd
 Global hiryuSwordSnd, hiryuSlashSnd
+
+Global evilryuKorosuSnd, evilryuStepSnd
+Global evilryuLightStepSnd=LoadSound(soundsdir$ + "evilryu\evilryuLightStepSnd.wav")
+Global evilryuElectricSnd=LoadSound(soundsdir$ + "evilryu\evilryuElectricSnd.wav")

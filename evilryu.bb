@@ -417,6 +417,30 @@ Case 10    ;High Kick
         If zBlowSeq(n) > c And zBlowSeq(n) =< d Then zani(n)=14:zf(n)=1
     If zBlowSeq(n) > d Then zBlowSeq(n)=0:zBlow(n)=0
 
+Case 16:
+    zNoMove(n)=1:zNoJump(n)=1
+    zani(n)=16
+    seq1=4:seq2=seq1+4:seq3=seq2+4:seq4=seq3+40
+    
+;========= Animation ============
+    If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zF(n)=1
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zF(n)=2
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zF(n)=3
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then 
+        If zBlowSeq(n) Mod 2 = 0 Then
+            If zF(n)=4 Then zF(n)=5 Else zF(n)=4
+        End If
+    End If
+    
+;========= Sounds ==========
+    If gameSound Then
+        If zBlowSeq(n)=seq3+1 Then PlaySound evilryuStepSnd
+        If zBlowSeq(n)=seq3+5 Then PlaySound evilryuKorosuSnd
+    End If
+    
+    If zBlowSeq(n)=seq3+1 And zOnGnd(n)=1 Then quake=1:quakeSeq=0
+    If zBlowSeq(n) > seq4 Then zBlowSeq(n)=0:zBlow(n)=0
+    
 Case 17:
     zBlowSeq(n)=0:zBlow(n)=0
         

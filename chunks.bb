@@ -1521,6 +1521,26 @@ Case 163:   ;Raging stars (Outward)
     
     If chunkSeq(n)>endSeq Then chunk(n)=0
     
+Case 164: ;Evil Ryu Stance Electricity
+    If chunkSeq(n)<=1 Then chunkPic(n)=ptPic(130,1):chunkPic_(n)=ptPic_(130,1)
+    If chunkSeq(n) Mod 2 = 0 Then
+        If chunkPic(n)=ptPic(130,1) Then 
+            chunkPic(n)=ptPic(130,2):chunkPic_(n)=ptPic_(130,2)
+        Else If chunkPic(n)=ptPic(130,2) Then
+            chunkPic(n)=ptPic(130,3):chunkPic_(n)=ptPic_(130,3)
+        Else If chunkPic(n)=ptPic(130,3) Then
+            chunkPic(n)=ptPic(130,4):chunkPic_(n)=ptPic_(130,4)
+        Else If chunkPic(n)=ptPic(130,4) Then
+            chunkPic(n)=ptPic(130,5):chunkPic_(n)=ptPic_(130,5)
+        Else If chunkPic(n)=ptPic(130,5) Then
+            chunkPic(n)=ptPic(130,6):chunkPic_(n)=ptPic_(130,6)
+        Else 
+            chunkPic(n)=ptPic(130,1):chunkPic_(n)=ptPic_(130,1)
+        End If
+    End If
+    
+    If chunkSeq(n)>12 Then chunk(n)=0
+
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)
