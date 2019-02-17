@@ -873,7 +873,7 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)<=maxZ Then
         If zStanceFrames(curGuy(n))>0 Then
             setStanceFrame(n)
-            If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1
+            If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1:zStanceSeq(n)=0
             butFrame=menuStanceFrame(n)
             If butFrame=0 Then butFrame=1
         Else
@@ -1955,7 +1955,6 @@ Function setStanceFrame(n)
         If zStanceSeq(n) Mod zStanceSpeed(guy) = 0 Then 
             zStanceSeq(n)=0
             menuStanceFrame(n)=menuStanceFrame(n)+1
-            If menuStanceFrame(n) > zStanceFrames(guy) Then menuStanceFrame(n)=0
         End If
     End If
 End Function

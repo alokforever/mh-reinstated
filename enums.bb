@@ -1,0 +1,1 @@
+Global seekTypeSemi=1, seekTypeFull=2, seekTypeNone=0 ; shot seek types

@@ -34,7 +34,7 @@ Function doRoyalThrust(n)
 
 ;=========== Effects ==============
     If zBlowSeq(n)=seqStart Then
-        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq1:superMovePortraitSeqStart(n)=seqStart+1
+        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq1:superMovePortraitSeqStart(n)=10
     End If
     
     If zBlowSeq(n)>seq1 Then zBlowSeq(n)=endSeq

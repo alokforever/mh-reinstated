@@ -810,7 +810,7 @@ Case 10    ;High Punch
     If zBlowSeq(n)>endSeq And zBlowSeq(n)<highKickSeq Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
 Case 11    ;club
-    a=12:b=22:c=29:d=50:e=55
+    a=12:b=15:c=22:d=43:e=53
     zNoMove(n)=1
     zNoJump(n)=1
     extraDraw(n)=1
@@ -843,7 +843,7 @@ Case 12    ;Shooting Position
     extraDraw(n)=1:drawObjOnZ(n)=0
     a=8:b=22:c=28
     If zblowSeq(n) =1 Then
-        If shotsfired(zgotobj(n)) < objAmmo(zgotobj(n)) Then    
+        If shotsfired(zgotobj(n)) < objAmmo(zgotobj(n)) Then
             shotsfired(zgotobj(n))=shotsfired(zgotobj(n))+1
             If gameSound Then PlaySound shotFireSound(n)
             dir=zface(n):y=zy(n)-27

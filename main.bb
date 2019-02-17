@@ -1,4 +1,5 @@
 Include "globalSoundVariables.bb"
+Include "enums.bb"
 
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
@@ -138,7 +139,6 @@ Dim rectHit(50),zGotRect(maxZ),rectOwner(50),xRect(50),yRect(50),rectDir(50),wRe
 Dim    RectHitMode(50),rectDamage(50),rectHitHold(50),rectXHitSpeed(50),rectYHitSpeed(50)
 Dim    rectChunkType(50),rectHitSound(50),zHitByRect(50)
 
-Global seekTypeSemi=1, seekTypeFull=2, seekTypeNone=0 ; shot seek types
 Dim shotsfired(200),zShotLimit(200),zAmmo(200),shotDraw(200),shotUseAcc(200),shotHold(200),shotTrailType(200)
 Dim shotHitXspeed(200),shotHitYspeed#(200),shotFallTime(200),shotHitMode(200),oldxShot(200), shotExplosive(200)
 Dim xshot(200),yshot(200),shot(200),shotDir(200),shotowner(200), shotspeed#(200), shotYspeed#(200), shotSound(200)
