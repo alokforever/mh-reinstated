@@ -6139,10 +6139,12 @@ For n=1 To characterAmount
     initStance(n)
     If zStanceFrames(n)>0 Then
         For m=1 To zStanceFrames(n)
-            butPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance" + m + ".bmp")
+            If butPic2(n, m)=0 Then
+                butPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance" + m + ".bmp")
+            End If
         Next
     Else
-        butPic2(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
+        If butPic2(n, 1)=0 Then butPic2(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
     End If
 Next
 End Function

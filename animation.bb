@@ -111,8 +111,8 @@ Function drawWalkSequence(n)
         If zStanceFrames(n) <> 0 Then 
             If curGuy(n)=1 Then
                 zani(n)=19
-                If zFace(n)(n)=2 Then x=zx(n)-5
-                If zFace(n)(n)=4 Then x=zx(n)+5
+                If zFace(n)=2 Then x=zx(n)-5
+                If zFace(n)=4 Then x=zx(n)+5
                 zF(n)=getEvilRyuStance(n, x, zy(n)-10)
             Else
                 drawStanceFrame(n)
