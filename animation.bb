@@ -259,7 +259,7 @@ Function getSpecialRunStatus(n)
 End Function
 
 Function getEvilRyuStance(n, x, y)
-    zStanceSeq(n) = zStanceSeq(n) + 1
+    zStanceSeq(n)=zStanceSeq(n)+1
     Local frame
     
 ;======== Animation =========

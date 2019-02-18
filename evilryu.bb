@@ -434,7 +434,7 @@ Case 16:
     
 ;========= Sounds ==========
     If gameSound Then
-        If zBlowSeq(n)=seq3+1 Then PlaySound evilryuStepSnd
+        If zBlowSeq(n)=seq3+1 And zOnGnd(n)=1 Then PlaySound evilryuStepSnd
         If zBlowSeq(n)=seq3+5 Then PlaySound evilryuKorosuSnd
     End If
     

@@ -878,9 +878,9 @@ n=0
 For b=55 To 58  ;team, selected player
     n=n+1
     If curGuy(n)<=maxZ Then
-        If zStanceFrames(curGuy(n))>0 Then
+        If zStanceFrames(curGuy(n))>0 And zOn(n)=1 Then
             If curGuy(n)=1 Then
-                menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)-5, yBut(b)-10)
+                menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+45, 335)
             Else
                 setStanceFrame(n)
             End If

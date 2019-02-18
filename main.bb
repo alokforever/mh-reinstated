@@ -430,7 +430,7 @@ For n=0 To 34 Step 1
     timerImage2(n)=LoadImage(gfxdir$ + "timer2\timer" + n + ".bmp")
 Next 
 
-Dim letter(20,100), letterWidth(20,100)    
+Dim letter(20,100), letterWidth(20,100)
 ;LOADS fonts
 
 For t=1 To 2
@@ -442,7 +442,7 @@ Next
 
 Dim soundFx(20)    ;sound fx, obj list
 soundFx(1)=slashSnd           ;sound list
-soundFx(2)=highpunchsnd    
+soundFx(2)=highpunchsnd
 soundFx(3)=sDoorSnd
 soundFx(4)=mDoorSnd
 soundFx(5)=fireHitSnd
@@ -533,7 +533,7 @@ music=LoadSound(soundsdir$ + "music10.mp3")
 gameIntro()
 justIntroduced=1
 
-menuOption=2
+menuOption=mainMenuVal
 .menuStart    ;----STARTS MENU -------------------------------
 
 SetBuffer BackBuffer()
@@ -547,7 +547,7 @@ If justIntroduced=1 Then    ;the menu music is loaded For sure, just play
     justIntroduced=0
 Else
     freeMap()
-    If menuOption <> 1 Or scoreDone=1 Then
+    If menuOption <> charSelectVal Or scoreDone=1 Then
         changeMusic(music10)
     EndIf
 EndIf
@@ -567,7 +567,7 @@ butSeq(n)=lastBut(n)
 Next
 x=0
 
-zzamount=4    
+zzamount=4
 For n=1 To 4
     zOn(n)=lastZon(n)
     zAI(n)=lastzAI(n)
@@ -602,7 +602,7 @@ Repeat     ;--------Menus loop-------------------------
 WaitTimer(frameTimer)
 Cls
 
-If menuOption=2 Or menuOption=3 Or menuOption=4 Then
+If menuOption=mainMenuVal Or menuOption=optionsMenuVal Or menuOption=controlsMenuVal Then
     DrawImage backg1,0,0
     DrawImage title,24,24
     fontType=2
@@ -613,23 +613,23 @@ EndIf
 If KeyHit(1) Then
   defineButtons(0)
   If gameSound Then PlaySound clickSnd
-  If menuOption = 2 Then saveConfig() : End
-  If menuOption = 1 Then 
-      menuOption = 2
+  If menuOption = mainMenuVal Then saveConfig() : End
+  If menuOption = charSelectVal Then 
+      menuOption = mainMenuVal
       If vsMode=1 Then changeMusic(music10)
   End If
-  If menuOption = 3 Then menuOption = 2
-  If menuOption = 4 Then menuOption = 3 : savekeys()
+  If menuOption = optionsMenuVal Then menuOption = mainMenuVal
+  If menuOption = controlsMenuVal Then menuOption = optionsMenuVal : savekeys()
 EndIf
 
 Select menuOption
-    Case 1: menu()  ;character Select screen
-    Case 2: mainMenu()  ;main menu, first screen
+    Case charSelectVal: menu()  ;character Select screen
+    Case mainMenuVal: mainMenu()  ;main menu, first screen
             For i=1 To zzamount
                 clearSubStates(i, 0)
             Next
-    Case 3: optionsMenu()   ;Options menu
-    Case 4: controlsMenu()   ;Controls menu
+    Case optionsMenuVal: optionsMenu()   ;Options menu
+    Case controlsMenuVal: controlsMenu()   ;Controls menu
 End Select
 
 If warning=1 Then
@@ -638,6 +638,12 @@ If warning=1 Then
     fontType=1
 EndIf
 
+If menuOption=charSelectVal Then 
+    processChunks()
+    For n = 1 To chunkAmount
+        renderChunks(n)
+    Next
+End If
 
 ;If MilliSecs() => timestart+1000 Then fps=gframe:gframe=0:timestart#=MilliSecs()
 ;gframe=gframe+1
@@ -1140,11 +1146,7 @@ For n = 1 To zzamount
     If isUnliSuper=1 Then zSuperBar(n)=100
 Next
 
-If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
-If chunkAMount < 0 Then chunkAMount=0
-For n = 1 To chunkAmount
-    If chunk(n) Then chunks(n)
-Next
+processChunks()
 
 If scrollMap=1 Then
     ;camera control
@@ -1666,16 +1668,16 @@ Repeat
     If KeyHit(1) Then
       ;defineButtons(0)
       If gameSound Then PlaySound clickSnd
-      If menuOption = 5 Then gamePaused=0
-      If menuOption = 3 Then menuOption = 5
-      If menuOption = 4 Then menuOption = 3 : savekeys()
+      If menuOption = inGameMenuVal Then gamePaused=0
+      If menuOption = optionsMenuVal Then menuOption = inGameMenuVal
+      If menuOption = controlsMenuVal Then menuOption = optionsMenuVal : savekeys()
 
     EndIf
 
     Select menuOption
-        Case 3: optionsMenu()   ;Options menu
-        Case 4: controlsMenu()  ;Controls menu
-        Case 5: inGameMenu()    ;during gameplay menu
+        Case optionsMenuVal: optionsMenu()   ;Options menu
+        Case controlsMenuVal: controlsMenu()  ;Controls menu
+        Case inGameMenuVal: inGameMenu()    ;during gameplay menu
     End Select
 
 If warning=1 Then
@@ -1747,7 +1749,7 @@ If mapRestart=1 Then
     Goto restartMap
 EndIf
 
-If menuOption=2 Then menuOption=2 Else menuOption = 1
+If menuOption=mainMenuVal Then menuOption=mainMenuVal Else menuOption = charSelectVal
 Goto menuStart
 End
 
@@ -1794,6 +1796,7 @@ Function loadZ(n)
     zSuperBar(n)=0
     zStaminaBar#(n)=100
     zTrail(n)=0
+    zStanceSeq(n)=0
     If zon(n) And guyLoaded(curGuy(n))=0 Then loadPics(curGuy(n))
     If zon(n) Then initZ(n)
 End Function
@@ -2023,7 +2026,7 @@ Function selectDraw(n)
     
     If zongnd(n)=0 And zhit(n)=0 Then     ;mid air
         If isRunning(n) And canAirGlide(n)=1 Then
-            If zJumpSeq(n)=1 Then zRunSeq(n)=0
+            If zJumpSeq(n)=1 Then zRunSeq(n)=0:zStanceSeq(n)=0
             zRunSeq(n)=zRunSeq(n)+1
             zRunSeq2(n)=zRunSeq2(n)+1
             If zJump(n) Then canAirGlideUp(n)=1
@@ -2379,7 +2382,7 @@ Function renderChunks(n)
       yChunk(n)=yChunk(n)+yChunkSpeed#(n)
     End If
   End If
-  
+
   If chunk(n)=1 And chunkPic(n)>0 Then
     Local yImageHeight,xImageHeight
     yImageHeight=yChunk(n)-ImageHeight(chunkPic(n))
@@ -2405,7 +2408,7 @@ Function renderChunks(n)
     ;Case 2    ;text messages
 ;      yChunk(n) = textBox(chunkWidth(n),chunkHeight(n))
 ;      y=0
- ;      For i=1 To chunkLines(n)
+;      For i=1 To chunkLines(n)
 ;        ;fontType=2
 ;        pri priW(chunkStr$(n,i)), yChunk(n)+5+y, chunkStr$(n,i)
 ;        ;fontType=1
@@ -2430,7 +2433,7 @@ For n=1 To zzamount
     If zBlocked(n) Then zBlock(n)=1:zBlow(n)=1 Else zblock(n)=0
 Next
 If KeyHit(1) Then   ;pause button
-    gamePaused=1 : menuOption=5
+    gamePaused=1 : menuOption=inGameMenuVal
     delay(100)
     flushkeys() : flushmouse() : flushjoy()
     If gameSound Then PlaySound ddhitSnd
@@ -6245,4 +6248,12 @@ Function HitBoxDebug()
         DebugLog "Hitbox X: " + (MouseX()-zx(1)) + "Hitbox Y: " + (MouseY()-zy(1))
         DebugLog " "
     End If
+End Function
+
+Function processChunks()
+    If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
+    If chunkAMount < 0 Then chunkAMount=0
+    For n = 1 To chunkAmount
+        If chunk(n) Then chunks(n)
+    Next
 End Function
