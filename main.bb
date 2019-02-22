@@ -1146,6 +1146,15 @@ For n = 1 To zzamount
     If isUnliSuper=1 Then zSuperBar(n)=100
 Next
 
+If KeyHit(88) Then
+    mapComplete=1
+    gameDone=1
+    mapOpen(curMap)=1
+    previousMap = curMap
+    curMap=NextMap(1)
+    mapOpen(curMap)=1
+End If
+
 processChunks()
 
 If scrollMap=1 Then

@@ -1675,7 +1675,7 @@ Case 2:pri x,y,strInfo$(52): flip
 Case 3:pri x,y,strInfo$(53): flip
     key=getTheKey(controllerPort(pn))
     If key <> 0 Then leftK(pn)=key:isKeyPressed=1
-Case 4:pri x,y,strInfo$(54): ;flip
+Case 4:pri x,y,strInfo$(54): flip
     key=getTheKey(controllerPort(pn))
     If key <> 0 Then rightK(pn)=key:isKeyPressed=1
 Case 5:pri x,y,strInfo$(55): flip
