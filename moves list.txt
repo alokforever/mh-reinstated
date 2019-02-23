@@ -1,0 +1,106 @@
+Wolverine:
+
+Specials:
+
+*While running* Attack (Hold): Combo
+Down + Special: Berserker Barrage
+2x Down + Special: Berserker Slash Ex
+*On air* 2x Down + Attack: Gliding kick
+Block + Throw + *Direction*:  Drill Claw
+*Running* + Special: Berserker Slash
+*While near wall* Forward + Jump: Wall Jump
+Block + Attack: Taunt
+
+Supers:
+Block + Down + Attack: Berserker Rage
+Block + 2x Down + Special: Regenerate
+Block + Special: Weapon-X
+Block + Down + Special: Berserker Barrage X
+
+======================================================
+Sub Zero:
+
+*While running* Attack (Hold): Combo
+Block + Throw: Ice shower
+Block + Attack: Ice clone
+Down + Special: Ground freeze
+*While on air* + Down + Special: Diagonal Freeze ball
+Down + Attack: Sliding kick
+Block + Down + Attack: Taunt 1
+2x Block + Down + Attack: Taunt 2
+
+Supers:
+Block + Up + Special: Fatality Super - Ice impale
+Block + Special: Ice spikes
+
+Scorpion:
+
+Special: Scorpion Spear
+Down + Special: Teleport punch
+*While running* Attack (Hold): Combo
+Block + Throw: Flame breath
+Block + Attack: Taunt
+2x Down + Attack: sweeping kick combo
+Block + Attack: Taunt 1
+2x Block + Attack: Taunt 2
+
+Supers:
+Block + Special: Flaming hand
+Block + Down + Special: Fireball
+
+======================================================
+Wonderwoman:
+
+Specials:
+
+2x Up + Special: Warrior's heart EX
+Down (Hold) + Throw: Lasso
+Down + Special: Projectile deflect
+*While running* + special: Fierce amazon
+Special (Can be done on air): Themyscira fall near
+Special + Forward (Can be done on air): Themysicra fall far
+Block + Attack: Taunt 1
+2x Block + Attack: Taunt 2
+
+Supers:
+Block + Special (100 power bar): Raging paladin eagle
+Block + Down + Special (100 power bar): Royal Thrust
+Block + Up + Special (100 power bar): Grand Themysicra fall
+2x Block + Special: Hyper magic lasso
+
+======================================================
+
+Juggernaut:
+
+Specials:
+
+Up + Special: Lateral press
+Down + Special: Earthquake
+2x Down + Special: Earthquake Ex (Uses 70 stamina)
+*While running* + Special: Juggernaut punch Ex (Uses 70 stamina)
+Block + Grab: Dodge
+While dodging and enemy attacks on range, press attack: Counter attack
+2x Block + Grab: Cyttorak Power-up
+
+Supers:
+Block + Special: Head Crush
+Block + Down + Special: Juggernaut Smash
+
+======================================================
+
+Piccolo:
+
+Specials:
+Up + Special: Jumping knee lift
+Special: Pursuing ki ball
+Down + Special: Kaikousen (Eletric attack)
+*While on air* Down + Special: Buuku-kyaku (Flying kick)
+Block + Attack: Taunt
+*While running* + Grab: Sonic slash
+Block + Grab: Arm extend
+Down + Forward + Attack: Lower arm extend
+*While blocked* Press grab: Gohan counter
+
+Supers:
+Block + Special: Makankousappou
+Block + Up + Special: Makuuhouidan
