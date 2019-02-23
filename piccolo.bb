@@ -645,7 +645,7 @@ Function doApplySeekingBalls(n)
     For i=0 To numOfShots
         shotDuration(myShots(n, i))=200
         shotSeekType(myShots(n, i))=seekTypeFull
-        shotSeekSpeed#(myShots(n, i))=3.5
+        shotSeekSpeed#(myShots(n, i))=4
     Next
 End Function
 

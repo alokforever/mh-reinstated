@@ -1,7 +1,3 @@
-Function pow(x, y)
-    Return x^y
-End Function
-
 Function performWolverineHeal(n)
     a=1000:b=a+10:c=b+5:d=c+30
     endSeq=58

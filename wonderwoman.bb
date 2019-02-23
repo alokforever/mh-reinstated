@@ -1,10 +1,18 @@
 Function doRoyalThrust(n)
     seqStart=1000:endSeq=2
+    ;Intro sequence
     seq1=seqStart+60
+    ;Tiara Throw 1 sequence
+    seq2=seq1+4:seq3=seq3+4:seq4=seq3+4:seq5=seq4+2:seq6=seq5+2:seq7=seq6+6:seq8=seq7+6:seq9=seq8+6:seq10=seq9+3
+    ;Tiara Throw 2 sequence
+    seq11=seq10+4:seq12=seq11+4:seq13=seq12+4:seq14=seq13+4:seq15=seq14+4:seq16=seq15+4
+    seq17=seq16+6:seq18=seq17+6:seq19=seq18+6:seq20=seq19+6:seq21=seq20+3
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
     
     If zOnGnd(n)=1 Then zy(n)=zy(n)-2
+    If zBlowSeq(n)=1 Then moveRepeatTimes(n)=0
 ;=========== Animation ============
+    ;============== Intro =============
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then
         zani(n)=17
         If zBlowSeq(n) Mod 3 Then 
@@ -20,14 +28,47 @@ Function doRoyalThrust(n)
         End If
     End If
     
+    ;========= First/Third Tiara throw =========
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq10 And moveRepeatTimes(n)<=1 Then
+        zani(n)=17
+        If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zF(n)=40
+        If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zF(n)=41
+        If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zF(n)=42
+        If zBlowSeq(n)>seq4 And zBlowSeq(n)<=seq5 Then zF(n)=43
+        If zBlowSeq(n)>seq5 And zBlowSeq(n)<=seq6 Then zF(n)=44
+        If zBlowSeq(n)>seq6 And zBlowSeq(n)<=seq7 Then zF(n)=45
+        If zBlowSeq(n)>seq7 And zBlowSeq(n)<=seq8 Then zF(n)=46
+        If zBlowSeq(n)>seq8 And zBlowSeq(n)<=seq9 Then zF(n)=47
+        If zBlowSeq(n)>seq9 And zBlowSeq(n)<=seq10 Then zF(n)=48
+    End If
+    
+    ;========= Second/Fourth Tiara throw ===========
+    If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq21 And moveRepeatTimes(n)<=1 Then
+        zani(n)=17
+        If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11 Then zF(n)=40
+        If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then zF(n)=41
+        If zBlowSeq(n)>seq12 And zBlowSeq(n)<=seq13 Then zF(n)=42
+        If zBlowSeq(n)>seq13 And zBlowSeq(n)<=seq14 Then zF(n)=49
+        If zBlowSeq(n)>seq14 And zBlowSeq(n)<=seq15 Then zF(n)=50
+        If zBlowSeq(n)>seq15 And zBlowSeq(n)<=seq16 Then zF(n)=51
+        If zBlowSeq(n)>seq16 And zBlowSeq(n)<=seq17 Then zF(n)=52
+        If zBlowSeq(n)>seq17 And zBlowSeq(n)<=seq18 Then zF(n)=53
+        If zBlowSeq(n)>seq18 And zBlowSeq(n)<=seq19 Then zF(n)=54
+        If zBlowSeq(n)>seq19 And zBlowSeq(n)<=seq20 Then zF(n)=55
+        If zBlowSeq(n)>seq20 And zBlowSeq(n)<=seq21 Then zF(n)=56
+        If zBlowSeq(n)=seq21 Then moveRepeatTimes(n)=moveRepeatTimes(n)+1
+        If moveRepeatTimes(n)<=1 Then zBlowSeq(n)=seq1
+    End If
+    
 ;=========== Sounds ===============
     If gameSound Then
         If zBlowSeq(n)=seqStart+1 Then PlaySound mvcSuper2Snd
         If zBlowSeq(n)=seqStart+1 Then PlaySound wwRoyalThrustStartSnd
+        
     End If
     
 ;=========== Movement =============
-    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1-20 Then
+    If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1-20 And zHitHead(n)=0 Then
         moveX(n,zBlowDir(n),-1)
         moveY(n,-1)
     End If

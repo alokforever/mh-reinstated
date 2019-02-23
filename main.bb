@@ -1810,6 +1810,10 @@ Function loadZ(n)
     If zon(n) Then initZ(n)
 End Function
 
+Function pow(x, y)
+    Return x^y
+End Function
+
 ; Return 0 if it's not the time for showing the Super Portrait
 ; Return 1 if there is no custom timing for displaying Super Portrait
 ; Return 2 if there is a special timing for displaying Super Portrait
@@ -6011,46 +6015,56 @@ End Function
 
 Function handleShotSeeking(n)
     nn=getNearestEnemy(n)
-    Local adjHt    If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
+    Local adjHt, ySpd#, xSpd#
+    If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
     If zheight(nn)=40 Then adjHt=8
 
+    If nn=0 Then GoTo SeekDone
     If shotSeekType(n)=seekTypeSemi
         If ((yShot(n) < (zy(nn)-adjHt)) And (Abs(zy(nn)-adjHt-yShot(n)) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
             yShot(n)=yShot(n)+shotSeekSpeed#(n)
         Else If ((yShot(n) > (zy(nn)-adjHt)) And (Abs(yShot(n)-zy(nn)-adjHt) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
             yShot(n)=yShot(n)-shotSeekSpeed#(n)
-        End If            
-    Else If (shotSeekType(n)=seekTypeFull) And (nn <> shotOwner(n))Then
+        End If
+    Else If (shotSeekType(n)=seekTypeFull) Then
+        yHeightDiff#=Abs(yShot(n)-(zy#(nn)-adjHt))
+        xVertDiff#=Abs(xShot(n)-zx#(nn))
+        dist=getDistanceFromShot(n, nn)
+        ySpd#=shotSeekSpeed#(n)*(yHeightDiff/dist)
+        xSpd#=shotSeekSpeed#(n)*(xVertDiff/dist)
         If yShot(n) < (zy(nn)-adjHt) Then
-            yShot(n)=yShot(n)+shotSeekSpeed#(n)
+            yShot(n)=yShot(n)+ySpd
         Else If yShot(n) > (zy(nn)-adjHt) Then
-            yShot(n)=yShot(n)-shotSeekSpeed#(n)
+            yShot(n)=yShot(n)-ySpd
         End If
         
         If xShot(n) < zx(nn) Then
-            xShot(n)=xShot(n)+shotSeekSpeed#(n)
+            xShot(n)=xShot(n)+xSpd
         Else If xShot(n) > zx(nn) Then
-            xShot(n)=xShot(n)-shotSeekSpeed#(n)
+            xShot(n)=xShot(n)-xSpd
         End If
     End If
+    .SeekDone
 End Function
 
 Function getNearestEnemy(n)
-    If zzamount=1 Then Return 1
-    Local nearest=1, newDist=9999
+    Local nearest=0, prevDist=9999
     For nn=1 To zzamount
         If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) Then 
-            enHeightadj=(zHeight(nn)/2)
-            xDistance=abs(xShot(n)-zx(nn))
-            yDistance=abs(yShot(n)-(zy(nn)-enHeightadj))
-            dist=sqr(xDistance+yDistance)
-            If dist < newDist Then nearest = nn:newDist=dist
-        Else
-            Goto done
+            dist=getDistanceFromShot(n, nn)
+            If dist < prevDist Then nearest = nn:prevDist=dist
         End If
-        .done
     Next
     Return nearest
+End Function
+
+Function getDistanceFromShot(n, nn)
+    Local dist=0
+    enHeightadj=(zHeight(nn)/2)
+    xDistance=pow(abs(xShot(n)-zx(nn)), 2)
+    yDistance=pow(abs(yShot(n)-(zy(nn)-enHeightadj)), 2)
+    dist=sqr(xDistance+yDistance)
+    Return dist
 End Function
 
 Function controlTargets(n)

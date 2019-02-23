@@ -1,4 +1,25 @@
-Wolverine:
+**Universal for all new playable characters**
+_Common character combat controls:
+Attack
+Up + Attack
+Down + Attack
+Attack (in air)
+Up + Attack (in air)
+Down + Attack (in air)
+Special
+Up + Special
+Down + Special
+Block
+Block + Special
+Block + Throw
+
+*Try these on all characters to see what they do, then refer to the character specific special abilities
+
+section for advanced techniques.
+
+Character specific advanced techniques:
+
+**Wolverine**
 
 Specials:
 
