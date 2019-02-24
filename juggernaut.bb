@@ -39,7 +39,7 @@ Function doJuggHeadCrush(n)
     zNoMove(n)=1:zNoJump(n)=1
     zNoGrav(n)=1
     
-    If zBlowSeq(n)=1 Then preSuperEffect(n)=1
+    If zBlowSeq(n)=1 Then preSuperEffect(n)=preSuperCrosshair
     
     If zBlowSeq(n)=seq1 Then
         zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=45:superMovePortraitSeqStart(n)=1

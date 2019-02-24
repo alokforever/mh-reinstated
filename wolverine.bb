@@ -1,6 +1,8 @@
 Function performWolverineHeal(n)
     a=1000:b=a+10:c=b+5:d=c+30
     endSeq=58
+    
+    If zBlowSeq(n)=a Then isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=53
     If zBlowSeq(n) >= a And zBlowSeq(n) < b Then
         If zBlowSeq(n)=a Then
             zSuperMove(n)=1:zSuperMoveSeq(n)=0
@@ -263,6 +265,7 @@ Function performSuperSpecial2(n)
     h=g+1:i=h+1:j=i+1:k=j+1:l=k+20
     
     If zBlowSeq(n)=1100 Then
+        isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=53
         zani(n)=9:zf(n)=7
         If gameSound Then PlaySound wolverineSuper2Snd
     End If
@@ -952,6 +955,7 @@ Case 14    ;Super Special
     End If
     If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=17:zf(n)=7
     If zBlowSeq(n) = c Then 
+        isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=53
         zSuperMove(n)=1:zSuperMoveSeq(n)=0
         If gameSound Then PlaySound wolverineSuper1Snd
     EndIf
@@ -1120,6 +1124,7 @@ Case 16 ;Taunt Key (Berserker Rage)
     
     If zBlowSeq(n) = f Then
         wolverineRage(n)=1
+        isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=53
         zSuperMove(n)=1:zSuperMoveSeq(n)=0
         If gameSound Then PlaySound wolverineSuper1Snd
     EndIf

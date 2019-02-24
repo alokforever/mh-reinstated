@@ -3,18 +3,23 @@ Function doRoyalThrust(n)
     ;Intro sequence
     seq1=seqStart+60
     ;Tiara Throw 1 sequence
-    seq2=seq1+4:seq3=seq3+4:seq4=seq3+4:seq5=seq4+2:seq6=seq5+2:seq7=seq6+6:seq8=seq7+6:seq9=seq8+6:seq10=seq9+3
+    seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+2:seq6=seq5+2:seq7=seq6+6:seq8=seq7+6:seq9=seq8+6:seq10=seq9+3
     ;Tiara Throw 2 sequence
     seq11=seq10+4:seq12=seq11+4:seq13=seq12+4:seq14=seq13+4:seq15=seq14+4:seq16=seq15+4
     seq17=seq16+6:seq18=seq17+6:seq19=seq18+6:seq20=seq19+6:seq21=seq20+3
+    seq22=seq21+10:seq23=seq22+4:seq24=seq23+4
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
-    
+    zani(n)=17
+
     If zOnGnd(n)=1 Then zy(n)=zy(n)-2
-    If zBlowSeq(n)=1 Then moveRepeatTimes(n)=0
+    If zBlowSeq(n)=seqStart Then 
+        moveRepeatTimes(n)=0:preSuperEffect(n)=preSuperCrosshair
+        preSuperEffectX(n)=-30:preSuperEffectY(n)=25
+    End If
+    
 ;=========== Animation ============
     ;============== Intro =============
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1 Then
-        zani(n)=17
         If zBlowSeq(n) Mod 3 Then 
             If zF(n)=36 Then
                 zF(n)=37
@@ -30,7 +35,6 @@ Function doRoyalThrust(n)
     
     ;========= First/Third Tiara throw =========
     If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq10 And moveRepeatTimes(n)<=1 Then
-        zani(n)=17
         If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zF(n)=40
         If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zF(n)=41
         If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zF(n)=42
@@ -44,7 +48,6 @@ Function doRoyalThrust(n)
     
     ;========= Second/Fourth Tiara throw ===========
     If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq21 And moveRepeatTimes(n)<=1 Then
-        zani(n)=17
         If zBlowSeq(n)>seq10 And zBlowSeq(n)<=seq11 Then zF(n)=40
         If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then zF(n)=41
         If zBlowSeq(n)>seq12 And zBlowSeq(n)<=seq13 Then zF(n)=42
@@ -56,15 +59,23 @@ Function doRoyalThrust(n)
         If zBlowSeq(n)>seq18 And zBlowSeq(n)<=seq19 Then zF(n)=54
         If zBlowSeq(n)>seq19 And zBlowSeq(n)<=seq20 Then zF(n)=55
         If zBlowSeq(n)>seq20 And zBlowSeq(n)<=seq21 Then zF(n)=56
-        If zBlowSeq(n)=seq21 Then moveRepeatTimes(n)=moveRepeatTimes(n)+1
-        If moveRepeatTimes(n)<=1 Then zBlowSeq(n)=seq1
+        If zBlowSeq(n)=seq21 Then 
+            moveRepeatTimes(n)=moveRepeatTimes(n)+1
+            If moveRepeatTimes(n)<=1 Then zBlowSeq(n)=seq1
+        End If
     End If
+    
+    ;========= End Tiara throw ===========
+    If zBlowSeq(n)>seq21 And zBlowSeq(n)<=seq22 Then zF(n)=51
+    If zBlowSeq(n)>seq22 And zBlowSeq(n)<=seq23 Then zF(n)=50
+    If zBlowSeq(n)>seq23 And zBlowSeq(n)<=seq24 Then zF(n)=49
     
 ;=========== Sounds ===============
     If gameSound Then
         If zBlowSeq(n)=seqStart+1 Then PlaySound mvcSuper2Snd
         If zBlowSeq(n)=seqStart+1 Then PlaySound wwRoyalThrustStartSnd
-        
+        If zBlowSeq(n)=seq6+1 Or zBlowSeq(n)=seq16+1 Then PlaySound wwTiaraThrowSnd
+        If zBlowSeq(n)=seq16+1 And moveRepeatTimes(n)=1 Then PlaySound wwShout3Snd
     End If
     
 ;=========== Movement =============
@@ -72,13 +83,17 @@ Function doRoyalThrust(n)
         moveX(n,zBlowDir(n),-1)
         moveY(n,-1)
     End If
+    
+;=========== Shots ===============
+    
 
 ;=========== Effects ==============
     If zBlowSeq(n)=seqStart Then
-        zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq1:superMovePortraitSeqStart(n)=10
+        isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=75:zSuperMove(n)=1:zSuperMoveSeq(n)=0
+        superMoveMaxSeq(n)=seq6-seqStart:superMovePortraitSeqStart(n)=1
     End If
     
-    If zBlowSeq(n)>seq1 Then zBlowSeq(n)=endSeq
+    If zBlowSeq(n)>seq21 Then zBlowSeq(n)=endSeq
     
 End Function
 
@@ -93,7 +108,10 @@ Function doRagingEagle(n)
     endSeq=2
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0:zNoGrav(n)=1
     
-    If zBlowSeq(n)=seqStart Then zTempStone(n)=1:zStoneSeq(n)=0:zStoneMaxTime(n)=seq17-seqStart
+    If zBlowSeq(n)=seqStart Then 
+        zTempStone(n)=1:zStoneSeq(n)=0:zStoneMaxTime(n)=seq17-seqStart
+        preSuperEffect(n)=preSuperDancingCircles
+    End If
 ;=========== Animation ============
     ;========== Spin init =========
     modSeq=1
@@ -280,6 +298,7 @@ Function doRagingEagle(n)
     End If
 ;=========== Effects ==========
     If zBlowSeq(n)=seqStart Then
+        isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=75
         zSuperMove(n)=1:zSuperMoveSeq(n)=0:superMoveMaxSeq(n)=seq9-7:superMovePortraitSeqStart(n)=seqStart+18
     End If
     

@@ -81,6 +81,8 @@ zBlocked(n)=0: aiGetTarget(n):
     zTempStone(n)=0
     zBlockedSnd(n)=blockedsnd
     isBoss(n)=0
+    preSuperEffectX(n)=0
+    preSuperEffectY(n)=30
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Evil Ryu
@@ -2638,6 +2640,13 @@ For counter = 1 To 50
     zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
 Next
 
+;Hyper Bgs
+If n <= maxZ
+    For i=1 To maxHyperBg
+        hyperBgPic(n,i)=LoadImage("gfx\stuff\hyperbg\hyperBg" + n + "_" + i + ".bmp")
+    Next
+End If
+
 ;add character (stuff that must be loaded the first time, such as sounds. Don't worry about the pics)
 
 If n=44 Then    ;Venom
@@ -2822,6 +2831,9 @@ If n=14 Then ;WonderWoman
     If wwAxeSnd=0 Then wwAxeSnd=LoadSound(soundsdir$ + "wonderwoman\wwAxeSnd.wav")
     If wwAxePlaceSnd=0 Then wwAxePlaceSnd=LoadSound(soundsdir$ + "wonderwoman\wwAxePlaceSnd.wav")
     If wwRoyalThrustStartSnd=0 Then wwRoyalThrustStartSnd=LoadSound(soundsdir$ + "wonderwoman\wwRoyalThrustStartSnd.wav")
+    If wwTiaraThrowSnd=0 Then wwTiaraThrowSnd=LoadSound(soundsdir$ + "wonderwoman\wwTiaraThrowSnd.wav")
+    If wwTiaraBackSnd=0 Then wwTiaraBackSnd=LoadSound(soundsdir$ + "wonderwoman\wwTiaraBackSnd.wav")
+    If wwTiaraReturnedSnd=0 Then wwTiaraReturnedSnd=LoadSound(soundsdir$ + "wonderwoman\wwTiaraReturnedSnd.wav")
 End If
 
 If n=13 Then ;SubZero

@@ -1478,6 +1478,7 @@ Case 160:   ;Raging stars (Inward)
     If chunkSeq(n)>endSeq Then chunk(n)=0
     
 Case 161:   ;Axe Slash
+    chunkFollowOwner(n)=1
     seq1=12
     If chunkSeq(n)>0 And chunkSeq(n)<=12 Then chunkPic(n)=ptPic(128,1):chunkPic_(n)=ptPic_(128,1)
     If chunkSeq(n)=13 Then chunkPic(n)=ptPic(128,2):chunkPic_(n)=ptPic_(128,2)

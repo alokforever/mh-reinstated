@@ -61,7 +61,7 @@ Dim cheat(20),cheatSeq(20)
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
-Global maxZ=30, maxFrame=35
+Global maxZ=30, maxFrame=35, maxHyperBg=25
 Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
@@ -69,7 +69,7 @@ Dim clickedBy(100),butPic(100),butPic2(100, maxFrame),butText$(100),butSeq(100),
 Dim xPointer(10),yPointer(10),zName$(16),zThumbNail(16),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(maxZ)
-Dim zx#(maxZ),zy#(maxZ),zdi(maxZ),zface(maxZ),zoldx#(maxZ),zoldy#(maxZ),zWasOn(maxZ),zon(maxZ),prevZOn(maxZ),CurGuy(maxZ),lastZon(maxZ),lastzAI(maxZ)
+Dim zx#(maxZ),zy#(maxZ),zdi(maxZ),zface(maxZ),zoldx#(maxZ),zoldy#(maxZ),zWasOn(maxZ),zon(maxZ),prevZOn(maxZ),CurGuy(maxCharAmt),lastZon(maxZ),lastzAI(maxZ)
 Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zjump2seq(maxZ),zFallDir(maxZ),zDeadEvent(maxZ)
 Dim zlife(maxZ),zhit(maxZ),zhitseq(maxZ),Zshield(maxZ),zTempShield(maxZ),Zshieldseq(maxZ),ZshieldedTime(maxZ),zHit2(maxZ)
 Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),zfallenSeq(maxZ),zFallImpact#(maxZ),zFallSpeed#(maxZ)
@@ -244,10 +244,11 @@ Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoubleTap(maxZ), blockKeyHitTimer(maxZ)
-Dim preSuperEffect(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
+Dim preSuperEffect(maxZ), preSuperEffectX(maxZ), preSuperEffectY(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
+Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ)
 
 ;Paths For directories / mods
@@ -1362,12 +1363,16 @@ For b=0 To 2
     Next
 Next
 
-For n = 1 To flagamount
-    DrawImage flagPic(n),xFlag(n)-xscr,(yFlag(n)-32)-yscr
-Next
-
 For n= 1 To platAmount
     If drawPlat(n)=1 Then DrawImage platPic(n),xplat(n)-xscr,(yplat(n)-3)-yscr
+Next
+
+For n=1 To zzamount
+    If isHyperBgShow(n)=1 Then drawHyperBg(n)
+Next
+
+For n = 1 To flagamount
+    DrawImage flagPic(n),xFlag(n)-xscr,(yFlag(n)-32)-yscr
 Next
 
 For i=1 To triggerAmount
@@ -1486,10 +1491,10 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
         
         If zSuperMove(n) And zSuperMoveSeq(n) > 1 Then 
             If shouldShowSuperPortrait(n) > 0 Then 
-                If preSuperEffect(n)=0 Then 
+                If preSuperEffect(n)=preSuperDancingCircles Then 
                     showDancingCircles(n)
                 Else 
-                    If zBlowSeq(n) Mod 14=0 Then extraObj(n,zx(n),0,zy(n),30,zblowdir(n),143)
+                    If zBlowSeq(n) Mod 14=0 Then extraObj(n,zx(n),preSuperEffectX(n),zy(n),preSuperEffectY(n),zblowdir(n),143)
                 End If
             End If
         EndIf
@@ -1507,7 +1512,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             Else
                 zSuperX(n)=640 : zSuperDir(n)=4
             EndIf
-            If zy(n)-yscr > 240 Then zSuperY(n)=100 Else zSuperY(n)=250
+            If zy(n)-yscr > 310 Then zSuperY(n)=80 Else zSuperY(n)=300
         EndIf
             
         a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
@@ -6279,4 +6284,48 @@ Function processChunks()
     For n = 1 To chunkAmount
         If chunk(n) Then chunks(n)
     Next
+End Function
+
+Function drawHyperBg(n)
+    If curGuy(n)=11 Then
+        drawWolverineHyperBg(n)
+    Else
+        drawCommonHyperBg(n)
+    End If
+End Function
+
+Function drawCommonHyperBg(n)
+    If hyperBgSeq(n)=0 Or hyperBgPic(curGuy(n), hyperBgFrame(n))=0 Then hyperBgFrame(n)=1
+    DrawImage hyperBgPic(curGuy(n), hyperBgFrame(n)),0,0
+    hyperBgSeq(n)=hyperBgSeq(n)+1
+    If hyperBgSeq(n) Mod 2 = 0 Then hyperBgFrame(n)=hyperBgFrame(n)+1
+    If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0
+End Function
+
+Function drawWolverineHyperBg(n)
+    If hyperBgSeq(n)=0 Or hyperBgPic(curGuy(n), hyperBgFrame(n))=0 Then hyperBgFrame(n)=1
+    If hyperBgSeq(n)=0 Then hyperBgFrame(n)=1
+    
+    If hyperBgSeq(n)>0 And hyperBgSeq(n)<=17 Then 
+        If hyperBgSeq(n) Mod 2 = 0 Then
+            If hyperBgSeq(n) Mod 4 = 0 Then
+                hyperBgFrame(n)=1
+            Else
+                hyperBgFrame(n)=(hyperBgSeq(n)/4)+2
+            End If
+        End If
+    End If
+    
+    If hyperBgSeq(n)>17 And hyperBgSeq(n)<=53
+        If hyperBgSeq(n)=18 Then hyperBgFrame(n)=6
+        If hyperBgSeq(n) Mod 2 = 0 Then
+            hyperBgFrame(n)=hyperBgFrame(n)+1
+        End If
+    End If
+    
+    DebugLog "hyperBgSeq: " + hyperBgSeq(n) + ", hyperBgFrame: " + hyperBgFrame(n)
+    
+    DrawImage hyperBgPic(curGuy(n), hyperBgFrame(n)),0,0
+    hyperBgSeq(n)=hyperBgSeq(n)+1
+    If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0
 End Function
