@@ -634,7 +634,6 @@ Function doMakuuHouidan(n)
         extraObj(n,zx(n),21,zy(n),-15,zFace(n),129)
         extraObj(n,zx(n),-8,zy(n),-15,zFace(n),129)
     End If
-    
 ;-------------------------------
         
     If zBlowSeq(n) = seq18+1 Then zBlowSeq(n)=endSeq
@@ -645,7 +644,8 @@ Function doApplySeekingBalls(n)
     For i=0 To numOfShots
         shotDuration(myShots(n, i))=200
         shotSeekType(myShots(n, i))=seekTypeFull
-        shotSeekSpeed#(myShots(n, i))=4
+        xSpdRand#=rand(20)
+        shotSeekSpeed#(myShots(n, i))=3+(xSpdRand#/10.0)
     Next
 End Function
 

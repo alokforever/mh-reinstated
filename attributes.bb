@@ -1012,6 +1012,8 @@ Function shotData(weaponChosen,n)
     shotSeekSpeed#(n)=0
     shotGroundXDestroy(n)=0
     shotStopDuration(n)=0
+    zShotHitType(n)=0
+    zShotHitTypeModulo(n)=0
 
 Select weaponChosen
     
@@ -1856,7 +1858,38 @@ Case 51 ;Makuuhouidan
     shotPic_(n,1)=shotImage(70)
     shotPic(n,2)=shotImage(71)
     shotPic_(n,2)=shotImage_(71)
+    
+Case 52:    ;Wonderwoman's Tiara
+    shotspeed#(n)=12
+    shotWidth(n)=6
+    shotsize(n)=6
+    shotheight(n)=10
+    shotDamage(n)=15
+    shotHitMode(n)=2
+    shotSide(n)=shotsize(n)/2
+    shotImmuneTime(n)=40
+    shotHitXspeed(n)=1
+    shotHitYspeed(n)=1
+    shotFallTime(n)=60
+    shotDuration(n)=300
+    shotMaxSpeed(n)=shotSpeed#(n)
+    shotDrill(n)=0
+    shotChunkType(n)=122
+    shotSound(n)=wwTiaraBackSnd
+    shotSeekType(n)=seekTypeFull
+    shotSeekSpeed#(n)=12
+    shotPic(n,1)=shotImage(72)
+    shotPic_(n,1)=shotImage_(72)
+    zShotHitType(n)=1
+    zShotHitTypeModulo(n)=10
+    shotHasAfterImg(n)=1
+    shotHold(n)=80
+    shotAfterImage(n, 1)=shotImage(73)
+    shotAfterImage_(n, 1)=shotImage_(73)
+    shotAfterImage(n, 2)=shotImage(74)
+    shotAfterImage_(n, 2)=shotImage_(74)
 End Select
+
 End Function
 
 ;----------------------------- Object Data-------------------------------------------------------

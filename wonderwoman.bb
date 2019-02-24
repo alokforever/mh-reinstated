@@ -85,8 +85,17 @@ Function doRoyalThrust(n)
     End If
     
 ;=========== Shots ===============
+    If zBlowSeq(n)=seq6+1 Or zBlowSeq(n)=seq16+1 Then
+        If zBlowSeq(n)=seq6+1 Then 
+            y=zy(n)-zheight(n)+30
+        Else
+            y=zy(n)-zheight(n)+25
+        End If
+        If zFace(n)=2 Then x=zx(n)+30
+        If zFace(n)=4 Then x=zx(n)-30
+        makeshot(n,52,x,y,zface(n))
+    End If
     
-
 ;=========== Effects ==============
     If zBlowSeq(n)=seqStart Then
         isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=75:zSuperMove(n)=1:zSuperMoveSeq(n)=0
