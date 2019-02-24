@@ -84,14 +84,11 @@ Function drawRageEffect(player)
         EndIf
         endRageTime(player) = startRageTime(player) + rageDuration
         
-        Local shakeXAxis=4
         rageSeq(player) = rageSeq(player) + 1
-        If rageSeq(player) Mod 15 = 0 Then extraObj(n,zx(player),0,zy(player),0,zblowdir(player),93)
 
-        If rageSeq(player) Mod 4 = 0 Then zx(player)=zx(player)-shakeXAxis
-        If rageSeq(player) Mod 4 = 1 Then zx(player)=zx(player)+shakeXAxis
-
-        If currentRageTime(player) => endRageTime(player) Then canGetRageTime(player)=0:wolverineRage(player)=0:wolvSpdFctr(player)=1
+        If currentRageTime(player) => endRageTime(player) Then 
+            canGetRageTime(player)=0:wolverineRage(player)=0:wolvSpdFctr(player)=1:clearAfterImages(player)
+        End If
     Else
         ztopSpeed(player) = ztopSpeed(player) / wolvSpdFctr(player)
         canGetRageTime(unit)=0

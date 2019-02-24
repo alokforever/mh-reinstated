@@ -2643,7 +2643,7 @@ Next
 ;Hyper Bgs
 If n <= maxZ
     For i=1 To maxHyperBg
-        hyperBgPic(n,i)=LoadImage("gfx\stuff\hyperbg\hyperBg" + n + "_" + i + ".bmp")
+        If hyperBgPic(n,i)=0 Then hyperBgPic(n,i)=LoadImage("gfx\stuff\hyperbg\hyperBg" + n + "_" + i + ".bmp")
     Next
 End If
 

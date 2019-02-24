@@ -53,6 +53,7 @@ Global maxCTFMap = 20
 Global isUnliSuper
 Global totalSecrets, noAirStrike, isSuperMove
 Global cooldownVoiceMaxSeq=46
+Global maxAfterImg=20
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -249,7 +250,8 @@ Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
-Dim stanceLevel(maxZ)
+Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
+Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -1367,10 +1369,6 @@ For n= 1 To platAmount
     If drawPlat(n)=1 Then DrawImage platPic(n),xplat(n)-xscr,(yplat(n)-3)-yscr
 Next
 
-For n=1 To zzamount
-    If isHyperBgShow(n)=1 Then drawHyperBg(n)
-Next
-
 For n = 1 To flagamount
     DrawImage flagPic(n),xFlag(n)-xscr,(yFlag(n)-32)-yscr
 Next
@@ -1380,6 +1378,10 @@ For i=1 To triggerAmount
         If EventN(Tevent(i))=0 Then DrawImage Timage(TimageN(i),1),(Tx(i)+TimgX(i))-xscr, (Ty(i)+TimgY(i))-yscr
         If EventN(Tevent(i))=1 Then DrawImage Timage(TimageN(i),2),(Tx(i)+TimgX(i))-xscr, (Ty(i)+TimgY(i))-yscr
     EndIf
+Next
+
+For n=1 To zzamount
+    If isHyperBgShow(n)=1 Then drawHyperBg(n)
 Next
 
 For n = 1 To chunkAmount
@@ -2106,6 +2108,8 @@ Function selectDraw(n)
     If zani(n)=0 Then zani(n)=4 : zf(n)=1
     
     .drawZ
+    If isDrawAfterImage(n)=1 Then setAfterImages(n)
+    
     Select zFace(n)
     Case 4:
         zcurpic(n)=zpic_(curGuy(n),zani(n),zf(n))
@@ -2361,6 +2365,7 @@ EndIf
 ;If zCurPic(n) <> 0 Then     ;test
     ;If n=2 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
+    If isDrawAfterImage(n)=1 Then drawAfterImages(n)
 ;Else
 ;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
 ;EndIf
@@ -5559,7 +5564,10 @@ Function clearSubStates(n, isKilled)
     If isFrozen(n)=1 Then unFreeze(n,1)
     If isDizzy(n)=1 Then unFreeze(n,0)
     If zBurning(n)=1 Then zBurning(n)=0:zBurnSeq(n)=0
-    If wolverineRage(n)=1 Then wolverineRage(n)=0:wolvSpdFctr(n)=1:canGetRageTime(n)=0:rageSeq(n)=0
+    If wolverineRage(n)=1 Then
+        wolverineRage(n)=0:wolvSpdFctr(n)=1:canGetRageTime(n)=0:rageSeq(n)=0
+        clearAfterImages(n)
+    End If
     If projectileDeflectMode(n)=1 Then projectileDeflectMode(n)=0
     If electrocuteSeq(n)>0 Then electrocuteSeq(n)=0
     If isKilled=0 Then refreshCooldown(n)
@@ -6323,9 +6331,36 @@ Function drawWolverineHyperBg(n)
         End If
     End If
     
-    DebugLog "hyperBgSeq: " + hyperBgSeq(n) + ", hyperBgFrame: " + hyperBgFrame(n)
-    
     DrawImage hyperBgPic(curGuy(n), hyperBgFrame(n)),0,0
     hyperBgSeq(n)=hyperBgSeq(n)+1
     If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0
+End Function
+
+Function setAfterImages(n)
+    For i=1 To (maxAfterImg-1)
+        If afterImage(n, i+1) <> 0 Then
+            afterImage(n, i) = afterImage(n, i+1)
+            afterImageX(n, i) = afterImageX(n, i+1)
+            afterImageY(n, i) = afterImageY(n, i+1)
+        End If
+    Next
+    afterImage(n, maxAfterImg)=zCurPic(n)
+    afterImageX(n, maxAfterImg)=zX(n)
+    afterImageY(n, maxAfterImg)=zY(n)
+    afterImageSeq(n)=afterImageSeq(n)+1
+End Function
+
+Function drawAfterImages(n)
+    For i=1 To maxAfterImg
+        If afterImage(n, i) <> 0 And (i Mod 5 = 0) Then 
+            DrawImage afterImage(n, i),(afterImageX(n, i)-(ImageWidth(afterImage(n, i))/2))-xscr,(afterImageY(n, i)-ImageHeight(afterImage(n, i))+2)-yscr
+        End If
+    Next
+End Function
+
+Function clearAfterImages(n)
+    isDrawAfterImage(n)=0:afterImageSeq(n)=0
+    For i=1 To maxAfterImg
+        afterImage(n, i)=0
+    Next
 End Function

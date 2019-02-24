@@ -407,11 +407,10 @@ Function performBerserkerSlash(n, endSeq)
 End Function
 
 Function doClawAttack(n)
-
-    seqStart=40/wolvSpdFctr(n):a2=(seqStart+4)/wolvSpdFctr(n):b2=(seqStart+8)/wolvSpdFctr(n)
-    c2=(seqStart+12)/wolvSpdFctr(n):d2=(seqStart+16)/wolvSpdFctr(n):e2=(seqStart+20)/wolvSpdFctr(n)
-    f2=(seqStart+24)/wolvSpdFctr(n):g2=(seqStart+28)/wolvSpdFctr(n):h2=(seqStart+32)/wolvSpdFctr(n)
-    i2=(seqStart+36)/wolvSpdFctr(n):j2=(seqStart+42)/wolvSpdFctr(n)
+    seqStart=40:a2=(seqStart+(4/wolvSpdFctr(n))):b2=(seqStart+(8/wolvSpdFctr(n)))
+    c2=(seqStart+(12/wolvSpdFctr(n))):d2=(seqStart+(16/wolvSpdFctr(n))):e2=(seqStart+(20/wolvSpdFctr(n)))
+    f2=(seqStart+(24/wolvSpdFctr(n))):g2=(seqStart+(28/wolvSpdFctr(n))):h2=(seqStart+(32/wolvSpdFctr(n)))
+    i2=(seqStart+(36/wolvSpdFctr(n))):j2=(seqStart+(42/wolvSpdFctr(n)))
     endSeq=35
     
     If zBlowSeq(n) > seqStart And zBlowSeq(n) <= a2 Then zani(n)=8:zf(n)=5
@@ -518,7 +517,7 @@ Case 2    ;Flying Kick
     Else If zBlowSeq(n)=1 And downKey(n)=1 Then 
         zBlowSeq(n)=clawSeq
     End If
-    
+    DebugLog "zBlowSeq(n): " + zBlowSeq(n)
     If zBlowSeq(n) >= clawSeq And zBlowSeq(n) < glidingKickSeq Then doClawAttack(n)
     If zBlowSeq(n) >= glidingKickSeq Then performGlidingKick(n)
     
@@ -1123,7 +1122,7 @@ Case 16 ;Taunt Key (Berserker Rage)
     If zBlowSeq(n) => m And zBlowSeq(n) < nnn Then zani(n)=10:zf(n)=8
     
     If zBlowSeq(n) = f Then
-        wolverineRage(n)=1
+        wolverineRage(n)=1:isDrawAfterImage(n)=1
         isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=53
         zSuperMove(n)=1:zSuperMoveSeq(n)=0
         If gameSound Then PlaySound wolverineSuper1Snd
