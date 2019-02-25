@@ -143,15 +143,16 @@ Dim    rectChunkType(50),rectHitSound(50),zHitByRect(50)
 
 Dim shotsfired(maxShots),zShotLimit(maxShots),zAmmo(maxShots),shotDraw(maxShots),shotUseAcc(maxShots),shotHold(maxShots),shotTrailType(maxShots)
 Dim shotHitXspeed(maxShots),shotHitYspeed#(maxShots),shotFallTime(maxShots),shotHitMode(maxShots),oldxShot(maxShots), shotExplosive(maxShots)
-Dim xshot(maxShots),yshot(maxShots),shot(maxShots),shotDir(maxShots),shotowner(maxShots), shotspeed#(maxShots), shotYspeed#(maxShots), shotSound(maxShots)
-Dim shotdamage(maxShots),shotsize(maxShots),shotsizeL(maxShots),shotPic(maxShots,15),shotPic_(maxShots,15),shotInvertPic(maxShots,15),shotImpact(maxShots)
+Dim xshot(maxShots),yshot(maxShots),shot(maxShots),shotDir(maxShots),shotYDir(maxShots),shotowner(maxShots), shotspeed#(maxShots), shotYspeed#(maxShots), shotSound(maxShots)
+Dim shotdamage(maxShots),shotsize(maxShots),shotsizeL(maxShots),shotPic(maxShots,15),shotPic_(maxShots,15),shotYPic(maxShots,15),shotYPic_(maxShots,15),shotInvertPic(maxShots,15),shotImpact(maxShots)
 Dim shotImage(100), shotImage_(100), shotHitTrail(maxShots), shotSuper(maxShots), shotBounce(maxShots),shotExplosionSound(maxShots)
 Dim shotHeight(maxShots),shotWidth(maxShots),shotside(maxShots),shotChunkType(maxShots), shotType(maxShots), shotPushForce(maxShots)
 Dim justShot(maxShots),shotSeq(maxShots),shotDuration(maxShots),shotDurationSeq(maxShots), shotDrill(maxShots),shotDuration2(maxShots)
 Dim shotAcc#(maxShots),shotMaxSpeed#(maxShots),shotUturn(maxShots),shotReturnOnHit(maxShots), shotFollowOwner(maxShots),shotUturnseq(maxShots)
 Dim shotFramesAmount(maxShots), shotCurFrame(maxShots), shotFrameSeq(maxShots), shotFrameTime(maxShots),shotImmuneTime(maxShots),shotUturnAmount(maxShots)
 Dim zShotHitType(maxShots), zShotHitTypeModulo(maxShots), shotHasAfterImg(maxShots), shotAfterImageSeq(maxShots)
-Dim shotAfterImage(maxShots, 2), shotAfterImage_(maxShots, 2), shotAfterImgX(maxShots, 20), shotAfterImgY(maxShots, 20)
+Dim shotAfterImage(maxShots, 4), shotAfterImage_(maxShots, 4), shotAfterImgX(maxShots, 20), shotAfterImgY(maxShots, 20)
+Dim doesShotReturn(maxShots), isShotReturning(maxShots), isShotAfterImageZigzag(maxShots), shotReturnXDest(maxShots), shotReturnYDest(maxShots)
 
 Dim ObjType(400),objThrow(400),objHurt(400),objId(400),objHitSound(400)
 Dim xobj#(400),yobj#(400),obj(400),objdir(400),objowner(400), objXspeed#(400),objYSpeed#(400),objAmmo(400)
@@ -1420,8 +1421,12 @@ Next
 For n = 1 To shotamount
     If shot(n) Then
         Select shotDir(n)
-        Case 2:    DrawImage shotpic(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
-        Case 4:    DrawImage shotpic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        Case dirRight: DrawImage shotpic(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        Case dirLeft:  DrawImage shotpic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        End Select
+        Select shotYDir(n)
+        Case dirUp: DrawImage shotYPic(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        Case dirLeft:  DrawImage shotYPic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
         End Select
         If shotHasAfterImg(n)=1 Then drawShotAfterImg(n)
     EndIf
@@ -2783,7 +2788,7 @@ For i=1 To shotAmount
     End If
 Next
 .EndLoop
-End Function
+End Function 
 
 ;--------SHOTS---------------------------------------------------------------------------------
 Function shots(n)
@@ -2797,12 +2802,14 @@ For nn=1 To shotamount    ;shot x shot collision
         For q=0 To shotsize(n) Step 2
             If xshot(n)+q => xshot(nn) And xshot(n)+q =< xshot(nn)+shotsize(nn) And zteam(shotOwner(n)) <> zteam(shotOwner(nn)) Then
                 If yshot(n)-(shotHeight(n)/2) => yshot(nn)-shotheight(nn) And yshot(n)-(shotHeight(n)/2) =< yshot(nn) Then
-                    If shotSuper(n)=0 Then
-                        shot(n)=0
+                    If shotSuper(n)=0 And doesShotReturn(n)=0 Then
+                        shot(n)=0:clearShotAfterImg(n)
                         makeChunk(0,xshot(n),yshot(n),shotDir(n),shotChunkType(n))
+                    Else doesShotReturn(n)=1
+                        isShotReturning(n)=1
                     EndIf
                     If shotSuper(nn)=0 Then
-                        shot(nn)=0:
+                        shot(nn)=0:clearShotAfterImg(n)
                         makeChunk(0,xshot(nn),yshot(nn),shotDir(n),shotChunkType(nn))
                     EndIf
                     If gamesound Then PlaySound shotSound(n):Exit
@@ -2827,7 +2834,7 @@ If shotTrailType(n) > 0 Then
 EndIf
 
 Select shotDir(n)
-Case 2
+Case dirRight
     shotsizeL(n)=shotspeed#(n)
     For q=0 To shotspeed#(n) Step 2
         shothit = handleShotWallCollision(n, q) ;shot x wall collision
@@ -2856,7 +2863,7 @@ Case 2
     
     If xshot(n) > rscrlimit Then shot(n)=0:clearShotAfterImg(n)
 
-Case 4
+Case dirLeft
     shotsizeL(n)=shotspeed#(n)
     For q=0 To shotspeed#(n) Step 1 
         shothit = handleShotWallCollision(n, q*(-1)) ;shot x wall collision
@@ -2890,9 +2897,9 @@ If shotGroundType(n) <> 0 Then handleGroundShotType(n)
 If shotSeekType(n) <> 0 Then handleShotSeeking(n)
 If shotHasAfterImg(n)=1 Then setShotAfterImgCoord(n)
 Select shotDir(n)
-    Case 2:
+    Case dirRight:
         xshot(n)=xshot(n)+shotspeed#(n)
-    Case 4:
+    Case dirLeft:
         xshot(n)=xshot(n)-shotspeed#(n)
 End Select
 yShot(n)=yShot(n)+shotYspeed#(n)
@@ -2922,7 +2929,7 @@ If shotUturn(n)=1 And shotDurationSeq(n) >= shotDuration(n) Then
             shotUturnSeq(n)=shotUturnseq(n)+1
         EndIf
         shotDuration(n)=shotDuration2(n)
-    If shotDir(n) = 2 Then shotDir(n)=4 Else shotDir(n)=2
+    If shotDir(n) = dirRight Then shotDir(n)=dirLeft Else shotDir(n)=dirRight
 EndIf
 Else    
     If shotUseAcc(n)=1 Then
@@ -2942,6 +2949,7 @@ If shotDurationSeq(n) > shotDuration(n) Then
             shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
         End If
     End If
+    clearShotAfterImg(n)
 EndIf
 .endShotProcess
 End Function
@@ -3211,8 +3219,8 @@ For i=1 To 200
         shotData(n,i)
         shot(i)=1:shotowner(i)=o
             Select dir
-                Case 2:shotDir(i)=2:xshot(i)=x:yshot(i)=y
-                Case 4:shotDir(i)=4:xshot(i)=x:yshot(i)=y
+                Case dirRight:shotDir(i)=dirRight:xshot(i)=x:yshot(i)=y
+                Case dirLeft:shotDir(i)=dirLeft:xshot(i)=x:yshot(i)=y
             End Select
         Return i
     EndIf    
@@ -5795,10 +5803,10 @@ End Function
 ;----------------- Deflect Projectile -----------------------------
 Function deflectProjectile(shot, newOwner)
     shotOwner(shot)=newOwner
-    If shotDir(shot)=2 Then 
-        shotDir(shot)=4
+    If shotDir(shot)=dirRight Then 
+        shotDir(shot)=dirLeft
     Else
-        shotDir(shot)=2
+        shotDir(shot)=dirRight
     End If
     If shotYSpeed(shot) > 0 And shotSpeed(shot)=0 Then 
         shotPic(shot,1)=shotInvertPic(shot,1)
@@ -5842,7 +5850,7 @@ End Function
 Function handleGroundShotType(n)
     Local shotX, downDir=2
     If shotGroundType(n)=1 Then
-        If shotDir(n)=2 Then 
+        If shotDir(n)=dirRight Then 
             shotX=xshot(n)+10
         Else
             shotX=xshot(n)+shotGroundXDestroy(n)
@@ -5850,7 +5858,7 @@ Function handleGroundShotType(n)
         checkYDist(n,shotX,yshot(n),downDir)
         If yDist(n) > 10 Then shot(n)=0
     Else If shotGroundType(n)=2 Then
-        If shotDir(n)=2 Then 
+        If shotDir(n)=dirRight Then 
             shotX=xshot(n)-25
         Else
             shotX=xshot(n)+25
@@ -5900,15 +5908,17 @@ Function handleShotWallCollision(n, adj)
     EndIf
     If ImageRectCollide(map,0,0,0,xshot(n)+adj,yshot(n),1,1) Or ImageRectCollide(map,0,0,0,xshot(n)+adj,yshot(n)-shotHeight(n),1,1) Then
         If shotBounce(n)=1 Then
-            If shotDir(n)=2 Then
+            If shotDir(n)=dirRight Then
                 xshot(n)=xshot(n)-shotsize(n)
             Else
                 xshot(n)=xshot(n)+shotsize(n)
             EndIf
             shotsizeL(n)=adj
             makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),1)
-            If shotDir(n)=2 Then shotDir(n)=4 Else shotDir(n)=2
+            If shotDir(n)=dirRight Then shotDir(n)=4 Else shotDir(n)=dirRight
             If gameSound Then PlaySound zhitwallSnd
+        Else If doesShotReturn(n)=1 Then
+            isShotReturning(n)=1
         Else
             shot(n)=0
             clearShotAfterImg(n)
@@ -5941,9 +5951,11 @@ Function handleShotPlatCollision(n, adj)
                     If xShot(n) =< xPlat(nn)+(platWidth(nn)/2) Then
                         xShot(n)=xPlat(nn) : shotDir(n)=4
                     Else
-                        xShot(n)=xPlat(nn)+platWidth(nn) : shotDir(n)=2
+                        xShot(n)=xPlat(nn)+platWidth(nn) : shotDir(n)=dirRight
                     EndIf
                     shotHit=1
+                Else If doesShotReturn(n)=1 Then
+                    isShotReturning(n)=1
                 Else
                     If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n))
                     shot(n)=0:clearShotAfterImg(n)
@@ -5963,8 +5975,8 @@ Function handleShotPlayerCollision(n, hAdj, wAdj)
     Local oppDir, xAxisShotPos, yAxisShotPos, objShotWidth, objShotHeight
     Local dir, isDone=0
     dir = shotDir(n)
-    If shotDir(n)=2 Then oppDir=4
-    If shotDir(n)=4 Then oppDir=2
+    If shotDir(n)=dirRight Then oppDir=dirLeft
+    If shotDir(n)=dirLeft Then oppDir=dirRight
 
     xAxisShotPos=xshot(n)+wAdj
     yAxisShotPos=yshot(n)-hAdj
@@ -5975,12 +5987,13 @@ Function handleShotPlayerCollision(n, hAdj, wAdj)
         If shotSuper(n)=1 Then zShield(nn)=0
         If zShield(nn)=0 And zon(nn)=1 And (teamAttack=1 Or zteam(shotOwner(n)) <> zteam(nn)) Then
             If Not nn=shotowner(n) Then
-                If Not (zShotByN(nn) = n And zShotHitSeq(nn, n) < shotImmuneTime(n)) Then    
+                If Not (zShotByN(nn) = n And zShotHitSeq(nn, n) < shotImmuneTime(n)) Then
                     If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then isDone=1:Exit
                         If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
                             If projectileDeflectMode(nn)=1 And zFace(nn)=oppDir Then deflectProjectile(n, nn):Exit
                             If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0:clearShotAfterImg(n)
-                            If Not shotDrill(n) Then shot(n)=0:clearShotAfterImg(n)
+                            If shotDrill(n)=0 And doesShotReturn(n)=0 Then shot(n)=0:clearShotAfterImg(n)
+                            If doesShotReturn(n)=1 Then isShotReturning(n)=1
                             zShotByN(nn)=n:zShotHitSeq(nn,n)=0
                             If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
                                 makechunk(shotDir(n),zx(nn),yShot(n),shotDir(n),shotChunkType(n))
@@ -6035,37 +6048,56 @@ Function killMan(n)
 End Function
 
 Function handleShotSeeking(n)
-    nn=getNearestEnemy(n)
-    Local adjHt, ySpd#, xSpd#
-    If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
-    If zheight(nn)=40 Then adjHt=8
+    Local nn, adjHt, ySpd#=0, xSpd#=0, xDest, yDest
+    
+    If isShotReturning(n)=1 Then 
+        nn=shotOwner(n)
+        xDest=zx#(shotOwner(n))+shotReturnXDest(n)
+        yDest=zy#(shotOwner(n))+shotReturnYDest(n)
+    Else
+        nn=getNearestEnemy(n)
+        If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
+        If zheight(nn)=40 Then adjHt=8
+        xDest=zx#(nn)
+        yDest=(zy#(nn)-adjHt)
+    End If
+    shotYDir(n)=0
 
     If nn=0 Then GoTo SeekDone
     If shotSeekType(n)=seekTypeSemi
-        If ((yShot(n) < (zy(nn)-adjHt)) And (Abs(zy(nn)-adjHt-yShot(n)) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
+        If ((yShot(n) < yDest) And (Abs(yDest-yShot(n)) <= 100) And (Abs(xShot(n)-xDest)<80)) Then
             yShot(n)=yShot(n)+shotSeekSpeed#(n)
-        Else If ((yShot(n) > (zy(nn)-adjHt)) And (Abs(yShot(n)-zy(nn)-adjHt) <= 100) And (Abs(xShot(n)-zx(nn))<80)) Then
+        Else If ((yShot(n) > yDest) And (Abs(yShot(n)-yDest) <= 100) And (Abs(xShot(n)-xDest)<80)) Then
             yShot(n)=yShot(n)-shotSeekSpeed#(n)
         End If
     Else If (shotSeekType(n)=seekTypeFull) Then
-        yHeightDiff#=Abs(yShot(n)-(zy#(nn)-adjHt))
-        xVertDiff#=Abs(xShot(n)-zx#(nn))
+        yHeightDiff#=Abs(yShot(n)-yDest)
+        xVertDiff#=Abs(xShot(n)-xDest)
         dist=getDistanceFromShot(n, nn)
         ySpd#=shotSeekSpeed#(n)*(yHeightDiff/dist)
         xSpd#=shotSeekSpeed#(n)*(xVertDiff/dist)
-        If yShot(n) < (zy(nn)-adjHt) Then
+        If yShot(n) < yDest Then
             yShot(n)=yShot(n)+ySpd#
-        Else If yShot(n) > (zy(nn)-adjHt) Then
+        Else If yShot(n) > yDest Then
             yShot(n)=yShot(n)-ySpd#
         End If
         
-        If xShot(n) < zx(nn) Then
+        If xShot(n) < xDest Then
             xShot(n)=xShot(n)+xSpd#
-            shotDir(n)=2
-        Else If xShot(n) >= zx(nn) Then
+            shotDir(n)=dirRight
+        Else If xShot(n) >= xDest Then
             xShot(n)=xShot(n)-xSpd#
-            shotDir(n)=4
+            shotDir(n)=dirLeft
         End If
+    End If
+    
+    If ySpd# > xSpd# Then
+        If yShot(n) < yDest Then shotYDir(n)=dirDown
+        If yShot(n) > yDest Then shotYDir(n)=dirUp
+    End If
+    
+    If isShotReturning(n)=1 Then
+        If Abs(xShot(n)-xDest)<=5 And Abs(yShot(n)-yDest)<=5 Then shot(n)=0:clearShotAfterImg(n)
     End If
     .SeekDone
 End Function
@@ -6392,12 +6424,20 @@ Function drawShotAfterImg(n)
     y1=shotAfterImgY(n, 19)
     y2=shotAfterImgY(n, 17)
     Select shotDir(n)
-        Case 2:
+        Case dirRight:
             shotPic1=shotAfterImage(n, 1)
             shotPic2=shotAfterImage(n, 2)
         Default:
             shotPic1=shotAfterImage_(n, 1)
             shotPic2=shotAfterImage_(n, 2)
+    End Select
+    Select shotYDir(n)
+        Case dirUp: 
+            If shotAfterImage(n, 3)<>0 Then shotPic1=shotAfterImage(n, 3)
+            If shotAfterImage(n, 4)<>0 Then shotPic2=shotAfterImage(n, 4)
+        Case dirDown:
+            If shotAfterImage_(n, 3)<>0 Then shotPic1=shotAfterImage_(n, 3)
+            If shotAfterImage_(n, 4)<>0 Then shotPic2=shotAfterImage_(n, 4)
     End Select
     DrawImage shotPic1, (x1-shotside(n))-xscr, (y1-shotHeight(n))-yscr
     DrawImage shotPic2, (x2-shotside(n))-xscr, (y2-shotHeight(n))-yscr
