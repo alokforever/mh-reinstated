@@ -55,6 +55,8 @@ Global totalSecrets, noAirStrike, isSuperMove
 Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
+Global hyperBgDsp=0
+Global debugMode=0
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -148,11 +150,11 @@ Dim shotdamage(maxShots),shotsize(maxShots),shotsizeL(maxShots),shotPic(maxShots
 Dim shotImage(100), shotImage_(100), shotHitTrail(maxShots), shotSuper(maxShots), shotBounce(maxShots),shotExplosionSound(maxShots)
 Dim shotHeight(maxShots),shotWidth(maxShots),shotside(maxShots),shotChunkType(maxShots), shotType(maxShots), shotPushForce(maxShots)
 Dim justShot(maxShots),shotSeq(maxShots),shotDuration(maxShots),shotDurationSeq(maxShots), shotDrill(maxShots),shotDuration2(maxShots)
-Dim shotAcc#(maxShots),shotMaxSpeed#(maxShots),shotUturn(maxShots),shotReturnOnHit(maxShots), shotFollowOwner(maxShots),shotUturnseq(maxShots)
+Dim shotAcc#(maxShots),shotMaxSpeed#(maxShots),shotUturn(maxShots), shotFollowOwner(maxShots),shotUturnseq(maxShots)
 Dim shotFramesAmount(maxShots), shotCurFrame(maxShots), shotFrameSeq(maxShots), shotFrameTime(maxShots),shotImmuneTime(maxShots),shotUturnAmount(maxShots)
 Dim zShotHitType(maxShots), zShotHitTypeModulo(maxShots), shotHasAfterImg(maxShots), shotAfterImageSeq(maxShots)
 Dim shotAfterImage(maxShots, 4), shotAfterImage_(maxShots, 4), shotAfterImgX(maxShots, 20), shotAfterImgY(maxShots, 20)
-Dim doesShotReturn(maxShots), isShotReturning(maxShots), isShotAfterImageZigzag(maxShots), shotReturnXDest(maxShots), shotReturnYDest(maxShots)
+Dim shotReturnOnHit(maxShots), isShotReturning(maxShots), isShotAfterImageZigzag(maxShots), shotReturnXDest(maxShots), shotReturnYDest(maxShots)
 
 Dim ObjType(400),objThrow(400),objHurt(400),objId(400),objHitSound(400)
 Dim xobj#(400),yobj#(400),obj(400),objdir(400),objowner(400), objXspeed#(400),objYSpeed#(400),objAmmo(400)
@@ -225,7 +227,7 @@ Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit
 Dim zStanceFrames(maxZ), zStanceSeq(maxZ), zStanceSpeed(maxZ), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
-Dim zRunSeq2(maxZ), isRunningFlag(maxZ) ;zRunSeq2 is run sequence that does not reset to 1 when running
+Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
 Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
@@ -946,7 +948,9 @@ FlushKeys() : FlushJoy()
 ;------*-------*-------------------*--------*--------
 While Not gameDone=1
 Getinput
-;HitBoxDebug
+
+If debugMode=1 Then doDebugMode()
+
 flags
 For n= 1 To zzamount
     zBeenHere(n)=0
@@ -1152,15 +1156,6 @@ For n = 1 To zzamount
     If zon(n) Then SelectDraw(n)
     If isUnliSuper=1 Then zSuperBar(n)=100
 Next
-
-If KeyHit(88) Then
-    mapComplete=1
-    gameDone=1
-    mapOpen(curMap)=1
-    previousMap = curMap
-    curMap=NextMap(1)
-    mapOpen(curMap)=1
-End If
 
 processChunks()
 
@@ -1438,7 +1433,7 @@ Next
 
 For b=3 To 5
   For i=1 To tileAmount(b)
-    DrawImage tilePic(b,i),(xTile(b,i)+xqk)-xscr,(yTile(b,i)+yqk)-yscr
+    If hyperBgDsp=0 Then DrawImage tilePic(b,i),(xTile(b,i)+xqk)-xscr,(yTile(b,i)+yqk)-yscr
   Next
 Next
 
@@ -2044,7 +2039,7 @@ Function selectDraw(n)
         If isRunning(n) And canAirGlide(n)
             If zJump2Seq(n)=1 Then zRunSeq(n)=0
             If zjump2seq(n)>20 Then 
-                zRunSeq2(n)=zRunSeq2(n)+1
+                zRunSeqNoReset(n)=zRunSeqNoReset(n)+1
                 zRunSeq(n)=zRunSeq(n)+1:drawRunSequence(n)
                 Goto drawZ
             End If
@@ -2057,11 +2052,11 @@ Function selectDraw(n)
         If isRunning(n) And canAirGlide(n)=1 Then
             If zJumpSeq(n)=1 Then zRunSeq(n)=0:zStanceSeq(n)=0
             zRunSeq(n)=zRunSeq(n)+1
-            zRunSeq2(n)=zRunSeq2(n)+1
+            zRunSeqNoReset(n)=zRunSeqNoReset(n)+1
             If zJump(n) Then canAirGlideUp(n)=1
             drawRunSequence(n)
             If canAirGlideUp(n)=1 Then 
-                If (zRunSeq2(n) < zJumpLimit(n)*3) And zHitHead(n)=0 Then moveY(n,-1)
+                If (zRunSeqNoReset(n) < zJumpLimit(n)*3) And zHitHead(n)=0 Then moveY(n,-1)
             End If
             Goto drawZ
         End If
@@ -2078,7 +2073,7 @@ Function selectDraw(n)
             If isRunning(n) Then
                 isRunningFlag(n)=1
                 zRunSeq(n)=zRunSeq(n)+1
-                zRunSeq2(n)=zRunSeq2(n)+1
+                zRunSeqNoReset(n)=zRunSeqNoReset(n)+1
                 drawRunSequence(n):Goto drawZ
             Else ;Walking
                 zRunSeq(n)=0
@@ -2091,7 +2086,7 @@ Function selectDraw(n)
         EndIf
         If isRunning(n)=0 And isRunningFlag(n)=1 Then 
             processEndRun(n):isRunningFlag(n)=0
-            zRunSeq2(n)=0
+            zRunSeqNoReset(n)=0
         End If
         drawWalkSequence(n):Goto drawZ
     EndIf
@@ -2802,10 +2797,10 @@ For nn=1 To shotamount    ;shot x shot collision
         For q=0 To shotsize(n) Step 2
             If xshot(n)+q => xshot(nn) And xshot(n)+q =< xshot(nn)+shotsize(nn) And zteam(shotOwner(n)) <> zteam(shotOwner(nn)) Then
                 If yshot(n)-(shotHeight(n)/2) => yshot(nn)-shotheight(nn) And yshot(n)-(shotHeight(n)/2) =< yshot(nn) Then
-                    If shotSuper(n)=0 And doesShotReturn(n)=0 Then
+                    If shotSuper(n)=0 And shotReturnOnHit(n)=0 Then
                         shot(n)=0:clearShotAfterImg(n)
                         makeChunk(0,xshot(n),yshot(n),shotDir(n),shotChunkType(n))
-                    Else doesShotReturn(n)=1
+                    Else shotReturnOnHit(n)=1
                         isShotReturning(n)=1
                     EndIf
                     If shotSuper(nn)=0 Then
@@ -5872,7 +5867,7 @@ End Function
 Function handleStatusEffects(n)
     If isRunning(n)=0 Then 
         If canAirGlideUp(n)=1 Then canAirGlideUp(n)=0
-        zRunSeq(n)=0:zRunSeq2(n)=0
+        zRunSeq(n)=0:zRunSeqNoReset(n)=0
     End If
     If isFrozen(n) Then 
         drawFrozenState(n)
@@ -5917,7 +5912,7 @@ Function handleShotWallCollision(n, adj)
             makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),1)
             If shotDir(n)=dirRight Then shotDir(n)=4 Else shotDir(n)=dirRight
             If gameSound Then PlaySound zhitwallSnd
-        Else If doesShotReturn(n)=1 Then
+        Else If shotReturnOnHit(n)=1 Then
             isShotReturning(n)=1
         Else
             shot(n)=0
@@ -5954,7 +5949,7 @@ Function handleShotPlatCollision(n, adj)
                         xShot(n)=xPlat(nn)+platWidth(nn) : shotDir(n)=dirRight
                     EndIf
                     shotHit=1
-                Else If doesShotReturn(n)=1 Then
+                Else If shotReturnOnHit(n)=1 Then
                     isShotReturning(n)=1
                 Else
                     If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n))
@@ -5992,8 +5987,8 @@ Function handleShotPlayerCollision(n, hAdj, wAdj)
                         If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
                             If projectileDeflectMode(nn)=1 And zFace(nn)=oppDir Then deflectProjectile(n, nn):Exit
                             If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0:clearShotAfterImg(n)
-                            If shotDrill(n)=0 And doesShotReturn(n)=0 Then shot(n)=0:clearShotAfterImg(n)
-                            If doesShotReturn(n)=1 Then isShotReturning(n)=1
+                            If shotDrill(n)=0 And shotReturnOnHit(n)=0 Then shot(n)=0:clearShotAfterImg(n)
+                            If shotReturnOnHit(n)=1 Then isShotReturning(n)=1
                             zShotByN(nn)=n:zShotHitSeq(nn,n)=0
                             If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
                                 makechunk(shotDir(n),zx(nn),yShot(n),shotDir(n),shotChunkType(n))
@@ -6337,6 +6332,7 @@ Function processChunks()
 End Function
 
 Function drawHyperBg(n)
+    hyperBgDsp=1
     If curGuy(n)=11 Then
         drawWolverineHyperBg(n)
     Else
@@ -6349,7 +6345,7 @@ Function drawCommonHyperBg(n)
     DrawImage hyperBgPic(curGuy(n), hyperBgFrame(n)),0,0
     hyperBgSeq(n)=hyperBgSeq(n)+1
     If hyperBgSeq(n) Mod 2 = 0 Then hyperBgFrame(n)=hyperBgFrame(n)+1
-    If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0
+    If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0:hyperBgDsp=0
 End Function
 
 Function drawWolverineHyperBg(n)
@@ -6375,7 +6371,7 @@ Function drawWolverineHyperBg(n)
     
     DrawImage hyperBgPic(curGuy(n), hyperBgFrame(n)),0,0
     hyperBgSeq(n)=hyperBgSeq(n)+1
-    If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0
+    If hyperBgSeq(n)>=maxHyperBgSeq(n) Then isHyperBgShow(n)=0:hyperBgSeq(n)=0:hyperBgFrame(n)=0:hyperBgDsp=0
 End Function
 
 Function setAfterImages(n)
@@ -6451,4 +6447,24 @@ Function clearShotAfterImg(n)
             shotAfterImgY(n, i)=0
         Next
     End If
+End Function
+
+Function doDebugMode()
+    HitBoxDebug
+    
+    ;======== Go to next level =========
+    If KeyHit(88) Then ;F12
+        mapComplete=1
+        gameDone=1
+        mapOpen(curMap)=1
+        previousMap = curMap
+        curMap=NextMap(1)
+        mapOpen(curMap)=1
+    End If
+
+    ;======== Freeze when F1 is pressed, continue one frame if F2 is pressed =========
+    While KeyDown(59)=1 ;F1
+        If KeyHit(60)=1 Then GoTo Continue
+    Wend
+    .Continue
 End Function

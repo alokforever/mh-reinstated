@@ -43,7 +43,10 @@ Function doRoyalThrust(n)
         If zBlowSeq(n)>seq6 And zBlowSeq(n)<=seq7 Then zF(n)=45
         If zBlowSeq(n)>seq7 And zBlowSeq(n)<=seq8 Then zF(n)=46
         If zBlowSeq(n)>seq8 And zBlowSeq(n)<=seq9 Then zF(n)=47
-        If zBlowSeq(n)>seq9 And zBlowSeq(n)<=seq10 Then zF(n)=48
+        If zBlowSeq(n)>seq9 And zBlowSeq(n)<=seq10 Then 
+            zF(n)=48:getShots(n):retShot=myShots(n, 0)
+            If Abs(xShot(retShot)-zx(n)>55) Or Abs(yShot(retShot)-zy(n)>20) Then zBlowSeq(n)=seq9+1
+        End If
     End If
     
     ;========= Second/Fourth Tiara throw ===========
@@ -58,7 +61,10 @@ Function doRoyalThrust(n)
         If zBlowSeq(n)>seq17 And zBlowSeq(n)<=seq18 Then zF(n)=53
         If zBlowSeq(n)>seq18 And zBlowSeq(n)<=seq19 Then zF(n)=54
         If zBlowSeq(n)>seq19 And zBlowSeq(n)<=seq20 Then zF(n)=55
-        If zBlowSeq(n)>seq20 And zBlowSeq(n)<=seq21 Then zF(n)=56
+        If zBlowSeq(n)>seq20 And zBlowSeq(n)<=seq21 Then 
+            zF(n)=56:getShots(n):retShot=myShots(n, 0)
+            If Abs(xShot(retShot)-zx(n)>55) Or Abs(yShot(retShot)-zy(n)>20) Then zBlowSeq(n)=seq20+1
+        End If
         If zBlowSeq(n)=seq21 Then 
             moveRepeatTimes(n)=moveRepeatTimes(n)+1
             If moveRepeatTimes(n)<=1 Then zBlowSeq(n)=seq1

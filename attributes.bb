@@ -1015,7 +1015,7 @@ Function shotData(weaponChosen,n)
     zShotHitType(n)=0
     zShotHitTypeModulo(n)=0
     shotHasAfterImg(n)=0
-    doesShotReturn(n)=0
+    shotReturnOnHit(n)=0
     isShotReturning(n)=0
     isShotAfterImageZigzag(n)=0
     shotReturnXDest(n)=0
@@ -1866,7 +1866,7 @@ Case 51 ;Makuuhouidan
     shotPic_(n,2)=shotImage_(71)
     
 Case 52:    ;Wonderwoman's Tiara
-    doesShotReturn(n)=1
+    shotReturnOnHit(n)=1
     shotspeed#(n)=0
     shotWidth(n)=6
     shotsize(n)=6
@@ -1881,7 +1881,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotDuration(n)=300
     shotMaxSpeed(n)=shotSpeed#(n)
     shotDrill(n)=1
-    shotChunkType(n)=94
+    shotChunkType(n)=95
     shotSound(n)=wwTiaraBackSnd
     shotSeekType(n)=seekTypeFull
     shotSeekSpeed#(n)=12
@@ -1890,7 +1890,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotYPic(n,1)=shotImage(75)
     shotYPic_(n,1)=shotImage(75)
     zShotHitType(n)=1
-    zShotHitTypeModulo(n)=10
+    zShotHitTypeModulo(n)=5
     shotHasAfterImg(n)=1
     shotHold(n)=80
     shotAfterImage(n, 1)=shotImage(73)
@@ -1901,8 +1901,8 @@ Case 52:    ;Wonderwoman's Tiara
     shotAfterImage_(n, 3)=shotImage_(76)
     shotAfterImage(n, 4)=shotImage(77)
     shotAfterImage_(n, 4)=shotImage_(77)
-    shotReturnXDest(n)=-18
-    shotReturnYDest(n)=-45
+    shotReturnXDest(n)=-10
+    shotReturnYDest(n)=-40
 End Select
 
 End Function

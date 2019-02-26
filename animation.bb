@@ -142,7 +142,7 @@ End Function
 
 Function getHiryuRunStatus(n)
     ret=0
-    If zRunSeq2(n)=1 Then 
+    If zRunSeqNoReset(n)=1 Then 
         If gameSound Then PlaySound hiryuRunStartSnd
         extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
     End If
@@ -162,7 +162,7 @@ End Function
 
 Function getWonderwomanRunStatus(n)
     ret=0
-    If zRunSeq2(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
+    If zRunSeqNoReset(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
     
     If leftKey(n)=0 And rightKey(n)=0 Then 
         ret=1
@@ -191,13 +191,13 @@ Function handleJuggernautRun(n)
 End Function
 
 Function getPiccoloRunStatus(n)
-    If zRunSeq2(n)>=1 And zRunSeq2(n)<=6 And zOnGnd(n)=1 Then 
+    If zRunSeqNoReset(n)>=1 And zRunSeqNoReset(n)<=6 And zOnGnd(n)=1 Then 
         zSpeed#(n)=0
-        If zRunSeq2(n)>=1 And zRunSeq2(n)<=3 Then zani(n)=21:zf(n)=2
-        If zRunSeq2(n)>=3 And zRunSeq2(n)<=6 Then zani(n)=21:zf(n)=3
+        If zRunSeqNoReset(n)>=1 And zRunSeqNoReset(n)<=3 Then zani(n)=21:zf(n)=2
+        If zRunSeqNoReset(n)>=3 And zRunSeqNoReset(n)<=6 Then zani(n)=21:zf(n)=3
         Return 1
     End If
-    If zRunSeq2(n) = 7 Then 
+    If zRunSeqNoReset(n) = 7 Then 
         extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
         If gameSound Then PlaySound dbzGlideSnd
     End If
@@ -210,10 +210,10 @@ Function drawTrailingEffects(n)
         If zRunSeq(n) Mod 5 = 0 And Abs(zSpeed#(n)) >= 5 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
     End If
     If curGuy(n)=14 Then
-        If zRunSeq2(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
+        If zRunSeqNoReset(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
     End If
     If curGuy(n)=16 Then
-        If zRunSeq2(n) Mod 4 = 0 Then 
+        If zRunSeqNoReset(n) Mod 4 = 0 Then 
             extraObj(n,zx(n),-15,zy(n),-30,zFace(n),118)
             extraObj(n,zx(n),-60,zy(n),-15,zFace(n),119)
         End If
@@ -224,7 +224,7 @@ End Function
 ;------------ Draw Run Sequence ----------------
 Function drawRunSequence(n)
     drawTrailingEffects(n)
-    If (zRunSeq2(n)=5 Or (canAirGlide(n) And zRunSeq2(n)=5 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
+    If (zRunSeqNoReset(n)=5 Or (canAirGlide(n) And zRunSeqNoReset(n)=5 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
     If zRunFootSoundSeq(n) <> 0 Then
         If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
             If gameSound Then PlaySound zRunFootSound(curGuy(n))

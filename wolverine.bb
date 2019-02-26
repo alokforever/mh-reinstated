@@ -517,7 +517,7 @@ Case 2    ;Flying Kick
     Else If zBlowSeq(n)=1 And downKey(n)=1 Then 
         zBlowSeq(n)=clawSeq
     End If
-    DebugLog "zBlowSeq(n): " + zBlowSeq(n)
+    
     If zBlowSeq(n) >= clawSeq And zBlowSeq(n) < glidingKickSeq Then doClawAttack(n)
     If zBlowSeq(n) >= glidingKickSeq Then performGlidingKick(n)
     
