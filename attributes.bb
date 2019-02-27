@@ -55,7 +55,7 @@ zBlocked(n)=0: aiGetTarget(n):
     zRunFrames(n)=0
     zRunFrameSpeed#(n)=0
     zRunSpeed#(n)=2
-    gender(n)=3
+    gender(n)=noGenderVal
     isMkCharacter(n)=0
     canWallJump(n)=0
     flipFrames(n)=0
@@ -83,6 +83,7 @@ zBlocked(n)=0: aiGetTarget(n):
     isBoss(n)=0
     preSuperEffectX(n)=0
     preSuperEffectY(n)=30
+    doesCharBleed(n)=1
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Evil Ryu
@@ -101,7 +102,7 @@ Case 1: ;Evil Ryu
     zxHand(n,3)=-2 :zyHand(n,3)=23
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
     zWalkFrames(n)=6
     zWalkFrameSpeed#(n)=4
     zJumpSnd(n)=jumpsnd
@@ -126,7 +127,7 @@ Case 2: ;Rash
     zxHand(n,3)=-8 :zyHand(n,3)=20
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 3: ;Spider-man
     zBlowDist(n,1)=55
@@ -145,7 +146,7 @@ Case 3: ;Spider-man
     zxHand(n,3)=-13 :zyHand(n,3)=10
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 4: ;Mario
     zBlowDist(n,1)=92
@@ -163,7 +164,7 @@ Case 4: ;Mario
     zxHand(n,3)=-6 :zyHand(n,3)=13
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 5: ;Michaelangelo
     zBlowDist(n,1)=64
@@ -182,7 +183,7 @@ Case 5: ;Michaelangelo
     zxHand(n,3)=-7 :zyHand(n,3)=20
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 6: ;Strider Hiryu
     zBlowDist(n,1)=60
@@ -201,7 +202,7 @@ Case 6: ;Strider Hiryu
     zRollOnImpact(n)=1
     zJumpSnd(n)=mvcJump1Snd
     zJumpSnd2(n)=mvcJump2Snd
-    gender(n)=1
+    gender(n)=maleVal
     zheight(n)=49
     zRunSpeed#(n)=2.5
     zStanceFrames(n)=20
@@ -239,7 +240,7 @@ Case 7: ;Batman
     zxHand(n,3)=-2 :zyHand(n,3)=15
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 8: ;Predator
     zBlowDist(n,1)=48
@@ -258,7 +259,7 @@ Case 8: ;Predator
     zxHand(n,3)=-5 :zyHand(n,3)=24
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
     
 Case 9: ;Goku
     zBlowDist(n,1)=54
@@ -276,7 +277,7 @@ Case 9: ;Goku
     zxHand(n,3)=-2 :zyHand(n,3)=23
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 10: ;Richter Belmont
     zBlowDist(n,1)=110
@@ -294,7 +295,7 @@ Case 10: ;Richter Belmont
     zxHand(n,3)=-6 :zyHand(n,3)=19
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 11: ;Wolverine
     zBlowDist(n,1)=60
@@ -331,7 +332,7 @@ Case 11: ;Wolverine
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=2.5
-    gender(n)=1
+    gender(n)=maleVal
     canWallJump(n)=1
     dizzyFrames(n)=7
     dizzyFrameSpeed(n)=7
@@ -376,7 +377,7 @@ Case 12: ;Scorpion
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=2
     isMkCharacter(n)=1
-    gender(n)=1
+    gender(n)=maleVal
     flipFrames(n)=6
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
@@ -420,7 +421,7 @@ Case 13: ;Sub Zero
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=2
     isMkCharacter(n)=1
-    gender(n)=1
+    gender(n)=maleVal
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     zRunFootSoundSeq(n)=12
@@ -461,7 +462,7 @@ Case 14: ;Wonder Woman
     zRunSpeed#(n)=2.5
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
-    gender(n)=2
+    gender(n)=femaleVal
     duckFrames(n)=5
     duckFrameSpeed(n)=5
     canAirGlide(n)=1
@@ -509,7 +510,7 @@ Case 15: ;Juggernaut
     zRunSpeed#(n)=3
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
-    gender(n)=1
+    gender(n)=maleVal
     zRunFootSoundSeq(n)=18
     zWalkQuakeSeq1(n)=2
     zWalkQuakeSeq2(n)=10
@@ -548,7 +549,7 @@ Case 16: ;Piccolo
     zRunFrames(n)=1
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=3.5
-    gender(n)=1
+    gender(n)=maleVal
     flipFrames(n)=6
     canAirGlide(n)=1
     dizzyFrames(n)=4
@@ -576,7 +577,7 @@ Case 30: ;Pig
     zDtopSpeed#(n)=1.5
     zTopSpeed#(n)=zDtopSpeed(n)
     zNoAirSpecial(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 31: ;Alien
     zBlowDist(n,1)=64
@@ -593,7 +594,7 @@ Case 31: ;Alien
     zDuckHeight(n)=40
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 32: ;Foot Clan
     zBlowDist(n,1)=50
@@ -608,7 +609,7 @@ Case 32: ;Foot Clan
     zDuckHeight(n)=45
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 33: ;Shredder
     zBlowDist(n,1)=50
@@ -621,7 +622,7 @@ Case 33: ;Shredder
     zBlowDist(n,11)=50
     zBlowDist(n,14)=50
     zDontPickItem(n)=1
-    gender(n)=1
+    gender(n)=maleVal
     isBoss(n)=1
 
 Case 34: ;Thug
@@ -637,7 +638,7 @@ Case 34: ;Thug
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
     zRollOnImpact(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 35: ;Red horns
     zBlowDist(n,1)=164
@@ -656,7 +657,7 @@ Case 35: ;Red horns
     zDtopSpeed#(n)=.5
     zTopSpeed#(n)=zDtopSpeed(n)
     zNoAirSpecial(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 36: ;Gargola
     isBoss(n)=1
@@ -700,6 +701,7 @@ Case 37: ;Red plant
     zNoAirSpecial(n)=1
     zStone(n)=1
     zUngrabable(n)=1
+    doesCharBleed(n)=0
 
 Case 38: ;Bowser
     isBoss(n)=1
@@ -723,7 +725,7 @@ Case 38: ;Bowser
     zStone(n)=1
     zUngrabable(n)=1
     yRange(n)=100
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 39    ;thief
     zBlowDist(n,1)=200
@@ -739,7 +741,7 @@ Case 39    ;thief
     zDontJump(n)=1
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 40    ;turtle
     zBlowDist(n,1)=200
@@ -757,7 +759,7 @@ Case 40    ;turtle
     zDontJump(n)=1
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
-    gender(n)=3
+    gender(n)=noGenderVal
 
 Case 41: ;Turtle Cloud
     zJumpLimit(n)=0
@@ -793,7 +795,7 @@ Case 42    ;Joker
     zDtopSpeed#(n)=2.5
     zDontPickItem(n)=1
     zTopSpeed#(n)=zDtopSpeed(n)
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 43;Laser helper
     zUpHeight(n)=20
@@ -807,6 +809,7 @@ Case 43;Laser helper
     zUngrabable(n)=1
     zHelperObj(n)=1
     zUseSpecialAI(n)=1
+    doesCharBleed(n)=0
 
 Case 44    ;Venom
     isBoss(n)=1
@@ -824,7 +827,7 @@ Case 44    ;Venom
     zStone(n)=1
     zUngrabable(n)=1
     zBlockFull(n)=500
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 45    ;bombing ship
     zUpHeight(n)=40
@@ -840,6 +843,7 @@ Case 45    ;bombing ship
     If gamesound Then PlaySound flyBySnd
     zBlowSeq2(n)=0
     zCanFly(n)=1
+    doesCharBleed(n)=0
 
 Case 46    ;Ray balls
     zUpHeight(n)=20
@@ -853,6 +857,7 @@ Case 46    ;Ray balls
     zUngrabable(n)=1
     zHelperObj(n)=1
     zUseSpecialAI(n)=1
+    doesCharBleed(n)=0
 
 Case 47    ;soldier
     zDontJump(n)=1
@@ -861,7 +866,7 @@ Case 47    ;soldier
     zTopSpeed#(n)=zDtopSpeed(n)
     zDontPickItem(n)=1
     zUseSpecialAI(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 48: ;Cylinder
     zUpHeight(n)=20
@@ -874,6 +879,7 @@ Case 48: ;Cylinder
     zAcc(n)=.1
     zUseSpecialAI(n)=1
     zCanFly(n)=1
+    doesCharBleed(n)=0
 
 Case 49: ;Dragon
     isBoss(n)=1
@@ -902,6 +908,7 @@ Case 50: ;Laser beam
     zUseSpecialAI(n)=1
     zCanFly(n)=1
     zHelperObj(n)=1
+    doesCharBleed(n)=0
 
     ;zxrespawn(n)=zx(n)
     ;zyrespawn(n)=zy(n)
@@ -924,7 +931,7 @@ Case 51: ;Gray Ninja
     zTopSpeed(n)=zDtopSpeed(n)
     zjumplimit(n)=22
     zRollOnImpact(n)=1
-    gender(n)=1
+    gender(n)=maleVal
 
 Case 52: ;punching bag
     zUpHeight(n)=34
@@ -937,6 +944,7 @@ Case 52: ;punching bag
     zAcc(n)=0
     zUseSpecialAI(n)=1
     zHelperObj(n)=1
+    doesCharBleed(n)=0
     
 Case 53: ;Gohan helper
     zUpHeight(n)=32
@@ -2919,6 +2927,7 @@ If n=12 Then    ;Scorpion
     If scorpionFireballSnd=0 Then scorpionFireballSnd=LoadSound(soundsdir$ + "scorpion\scorpionFireBall.mp3")
     If scorpionCooldown1Snd=0 Then scorpionCooldown1Snd=LoadSound(soundsdir$ + "scorpion\scorpionCooldown1Snd.mp3")
     If scorpionCooldown2Snd=0 Then scorpionCooldown2Snd=LoadSound(soundsdir$ + "scorpion\scorpionCooldown2Snd.mp3")
+    If mkFriendShipAgainSnd=0 Then mkFriendShipAgainSnd=LoadSound(soundsdir$ + "mk\mkFriendShipAgain.wav")
 EndIf
 
 If n=11 Then

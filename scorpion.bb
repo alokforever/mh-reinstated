@@ -959,7 +959,7 @@ Case 16 ; taunt
     Else ;Buy a Scorpion doll taunt
         superbarGain=5
         If zBlowSeq(n)>a2 Then extraObj(n,zx(n),5,zy(n),-80,zblowdir(n),126)
-        If zBlowSeq(n)=a2 And gameSound Then PlaySound mkFriendShipAgainSnd
+        If zBlowSeq(n)=a2 And gameSound Then PlaySound mkFriendShipAgainSnd:PlaySound mkFriendshipSnd
         If zBlowSeq(n)>0 And zBlowSeq(n)<=a2 Then zf(n)=1
         If zBlowSeq(n)>a2 And zBlowSeq(n)<=b2 Then zf(n)=18
         If zBlowSeq(n)>b2 And zBlowSeq(n)<=c2 Then zf(n)=19

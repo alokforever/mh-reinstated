@@ -56,7 +56,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=0
+Global debugMode=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -257,7 +257,7 @@ Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantD
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
-Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ)
+Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), doesCharBleed(maxCharAmt)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -598,7 +598,6 @@ butPic(55)=LoadImage(gfxdir$ + "but_team.bmp")
 For n=56 To 58
     butPic(n)=butPic(55)
 Next
-
 
 butPic(72)=butPic(71)
 
@@ -1214,7 +1213,7 @@ If scrollMap=1 Then
       If moved=1 Then Exit
     Next
     
-    If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit    
+    If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit
 
     If yScr < uScrLimit Then yScr = uScrLimit
 
@@ -1829,14 +1828,14 @@ End Function
 ; Return 1 if there is no custom timing for displaying Super Portrait
 ; Return 2 if there is a special timing for displaying Super Portrait
 Function shouldShowSuperPortrait(n)
-    Local returnVal=0, superBarDispTime=50
+    Local returnVal=superPortraitNoShow, superBarDispTime=50
     
-    If superMovePortraitSeqStart(n)=0 Then
-        If zSuperMoveSeq(n) < superBarDispTime Then returnVal=1
-    Else If superMovePortraitSeqStart(n) > 0 Then
+    If superMovePortraitSeqStart(n)=superPortraitNoShow Then
+        If zSuperMoveSeq(n) < superBarDispTime Then returnVal=superPortraitNrmShow
+    Else If superMovePortraitSeqStart(n) > superPortraitNoShow Then
         If zSuperMoveSeq(n) >= superMovePortraitSeqStart(n) Then
             If zSuperMoveSeq(n) < superMovePortraitSeqStart(n) + superBarDispTime Then 
-                returnVal=2
+                returnVal=superPortraitCustmTimed
             End If
         End If
     End If
@@ -2797,16 +2796,8 @@ For nn=1 To shotamount    ;shot x shot collision
         For q=0 To shotsize(n) Step 2
             If xshot(n)+q => xshot(nn) And xshot(n)+q =< xshot(nn)+shotsize(nn) And zteam(shotOwner(n)) <> zteam(shotOwner(nn)) Then
                 If yshot(n)-(shotHeight(n)/2) => yshot(nn)-shotheight(nn) And yshot(n)-(shotHeight(n)/2) =< yshot(nn) Then
-                    If shotSuper(n)=0 And shotReturnOnHit(n)=0 Then
-                        shot(n)=0:clearShotAfterImg(n)
-                        makeChunk(0,xshot(n),yshot(n),shotDir(n),shotChunkType(n))
-                    Else shotReturnOnHit(n)=1
-                        isShotReturning(n)=1
-                    EndIf
-                    If shotSuper(nn)=0 Then
-                        shot(nn)=0:clearShotAfterImg(n)
-                        makeChunk(0,xshot(nn),yshot(nn),shotDir(n),shotChunkType(nn))
-                    EndIf
+                    handleShotToShotCollision(n)
+                    handleShotToShotCollision(nn)
                     If gamesound Then PlaySound shotSound(n):Exit
                 EndIf
             EndIf
@@ -2849,9 +2840,9 @@ Case dirRight
         heightIndex=0:maxHeightIndex=shotHeight(n)
     End If
     isShotDone=0
-    For qh=heightIndex To maxHeightIndex Step 6 ;shot x player collision
+    For qh=heightIndex To maxHeightIndex Step 6 ;shot x character collision
         For q=0 To shotsizeL(n) Step 1
-            isShotDone=handleShotPlayerCollision(n, qh, q*(-1))
+            isShotDone=handleShotCharacterCollision(n, qh, q*(-1))
             If isShotDone Then Goto shotDone
         Next
     Next
@@ -2877,9 +2868,9 @@ Case dirLeft
     Else
         heightIndex=0:maxHeightIndex=shotHeight(n)
     End If
-    For qh=heightIndex To maxHeightIndex Step 6 ;shot x player collision
+    For qh=heightIndex To maxHeightIndex Step 6 ;shot x character collision
         For q=0 To shotsizeL(n) Step 1
-            isShotDone=handleShotPlayerCollision(n, qh, q)
+            isShotDone=handleShotCharacterCollision(n, qh, q)
             If isShotDone Then Goto shotDone
         Next
     Next
@@ -2924,8 +2915,9 @@ If shotUturn(n)=1 And shotDurationSeq(n) >= shotDuration(n) Then
             shotUturnSeq(n)=shotUturnseq(n)+1
         EndIf
         shotDuration(n)=shotDuration2(n)
-    If shotDir(n) = dirRight Then shotDir(n)=dirLeft Else shotDir(n)=dirRight
-EndIf
+        If shotReturnOnHit(n)=1 Then isShotReturning(n)=1:shotSeekType(n)=seekTypeFull
+        If shotDir(n) = dirRight Then shotDir(n)=dirLeft Else shotDir(n)=dirRight
+    EndIf
 Else    
     If shotUseAcc(n)=1 Then
         shotSpeed#(n)=shotSpeed#(n) + shotAcc(n)
@@ -3249,6 +3241,9 @@ For i=1 To 1500
         chunkOwner(i)=n
         chunkSeq(i)=0
         chunkDir(i)=dir
+        ;rash Hit instead of blood if character should not display bleeding
+        DebugLog "kind: " + kind + ", doesCharBleed: " + doesCharBleed(n) + ", curGuy: " + curGuy(n)
+        If (kind=95 Or kind=96) And doesCharBleed(n)=0 Then kind=20 
         chunk(i)=1:chunkType(i)=kind
         xChunk(i)=x:yChunk(i)=y
         If n <= maxZ Then chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
@@ -5413,8 +5408,8 @@ Function handleSubZeroProjectiles(targetPlayer, projectile)
             enemyControlInit(shotOwner(projectile),xAxisShotPos,yAxisShotPos,shotWidth(projectile),shotVerticalSize(projectile),0,1)
             en=zControlsThis(shotOwner(projectile))
             zParalyzedSeq(en)=zParalyzedSeq(en)+1
-            If zParalyzedSeq(en)=1 And gender(en)=1 And gameSound Then PlaySound mkSlideCrySnd
-            If zParalyzedSeq(en)=1 And gender(en)=2 And gameSound Then PlaySound mkSlideCry2Snd
+            If zParalyzedSeq(en)=1 And gender(en)=maleVal And gameSound Then PlaySound mkSlideCrySnd
+            If zParalyzedSeq(en)=1 And gender(en)=femaleVal And gameSound Then PlaySound mkSlideCry2Snd
             If zParalyzedSeq(en)>69 Then zParalyzedSeq(en)=0
             If zParalyzed(en)=1 And zParalyzedSeq(en) Mod 20=0 Then 
                 zani(en)=2:zf(en)=1
@@ -5966,7 +5961,7 @@ Function handleShotPlatCollision(n, adj)
 End Function
 
 ;------------------------ handle shot x player collision -------------------------
-Function handleShotPlayerCollision(n, hAdj, wAdj)
+Function handleShotCharacterCollision(n, hAdj, wAdj)
     Local oppDir, xAxisShotPos, yAxisShotPos, objShotWidth, objShotHeight
     Local dir, isDone=0
     dir = shotDir(n)
@@ -6044,7 +6039,6 @@ End Function
 
 Function handleShotSeeking(n)
     Local nn, adjHt, ySpd#=0, xSpd#=0, xDest, yDest
-    
     If isShotReturning(n)=1 Then 
         nn=shotOwner(n)
         xDest=zx#(shotOwner(n))+shotReturnXDest(n)
@@ -6100,7 +6094,7 @@ End Function
 Function getNearestEnemy(n)
     Local nearest=0, prevDist=9999
     For nn=1 To zzamount
-        If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) Then 
+        If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) And curGuy(nn)<>punchingBagIdx And zOn(nn)=1 Then 
             dist=getDistanceFromShot(n, nn)
             If dist < prevDist Then nearest = nn:prevDist=dist
         End If
@@ -6467,4 +6461,13 @@ Function doDebugMode()
         If KeyHit(60)=1 Then GoTo Continue
     Wend
     .Continue
+End Function
+
+Function handleShotToShotCollision(n)
+    If shotSuper(n)=0 And shotReturnOnHit(n)=0 Then
+        shot(n)=0:clearShotAfterImg(n)
+        makeChunk(0,xshot(n),yshot(n),shotDir(n),shotChunkType(n))
+    Else shotReturnOnHit(n)=1
+        isShotReturning(n)=1
+    EndIf
 End Function

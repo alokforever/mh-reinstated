@@ -100,6 +100,14 @@ Function doRoyalThrust(n)
         If zFace(n)=2 Then x=zx(n)+30
         If zFace(n)=4 Then x=zx(n)-30
         makeshot(n,52,x,y,zface(n))
+        en=getNearestEnemy(n):getShots(n):s=myShots(n, 0)
+        If (en = 0) Then 
+            shotSeekType(s)=seekTypeNone:shotspeed#(s)=12:shotMaxSpeed(s)=12:shotFollowOwner(s)=1
+            shotUturn(s)=1:shotDuration(s)=2:shotDuration2(s)=100
+            shotBounce(s)=1
+        End If
+        
+        DebugLog "shotSeekType(s): " + shotSeekType(s)
     End If
     
 ;=========== Effects ==============
