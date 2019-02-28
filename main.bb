@@ -269,18 +269,6 @@ Global gfxdir$="gfx\stuff\"
 Global timerDir$="gfx\stuff\timer"
 Global cdDir$="gfx\stuff\cd"
 
-;Cooldown Icons
-cooldownPic(6, 1)=LoadImage(gfxdir$ + "\cooldown\cd6_1.bmp")
-cooldownPic(11, 1)=LoadImage(gfxdir$ + "\cooldown\cd11_1.bmp")
-cooldownPic(11, 2)=LoadImage(gfxdir$ + "\cooldown\cd11_2.bmp")
-cooldownPic(12, 1)=LoadImage(gfxdir$ + "\cooldown\cd12_1.bmp")
-cooldownPic(12, 2)=LoadImage(gfxdir$ + "\cooldown\cd12_2.bmp")
-cooldownPic(13, 1)=LoadImage(gfxdir$ + "\cooldown\cd13_1.bmp")
-cooldownPic(14, 1)=LoadImage(gfxdir$ + "\cooldown\cd14_1.bmp")
-cooldownPic(16, 1)=LoadImage(gfxdir$ + "\cooldown\cd16_1.bmp")
-cooldownPic(16, 2)=LoadImage(gfxdir$ + "\cooldown\cd16_2.bmp")
-cooldownPic(16, 3)=LoadImage(gfxdir$ + "\cooldown\cd16_3.bmp")
-
 ;Find all mod directories and set their paths/name 
 setModDirs()
 If curModId = 0 Then curModId = 1
@@ -555,6 +543,9 @@ If justIntroduced=1 Then    ;the menu music is loaded For sure, just play
     EndIf
     justIntroduced=0
 Else
+    For n = 1 To chunkAmount ; Clear chunks
+        chunk(n)=0
+    Next
     freeMap()
     If menuOption <> charSelectVal Or scoreDone=1 Then
         changeMusic(music10)
@@ -1394,10 +1385,10 @@ For n = 1 To objAmount
     If obj(n) And objTaken(n) Then
         xobj(n)=zx(objOwner(n)):yobj(n)=zy(objOwner(n))-20
     Else
-        If obj(n) Then
+        If obj(n) And hyperBgDsp=0 Then
             Select objDir(n)
-             Case 2: DrawImage objPic(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr
-             Case 4: DrawImage objPic_(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr    
+             Case dirRight: DrawImage objPic(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr
+             Case dirLeft: DrawImage objPic_(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr    
              Default: DrawImage objPic(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr
             End Select
             If objHurt(n)=0 Then 
@@ -1419,8 +1410,8 @@ For n = 1 To shotamount
         Case dirLeft:  DrawImage shotpic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
         End Select
         Select shotYDir(n)
-        Case dirUp: DrawImage shotYPic(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
-        Case dirLeft:  DrawImage shotYPic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        Case dirUp: If shotYPic(n,shotCurFrame(n))<>0 Then DrawImage shotYPic(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        Case dirLeft: If shotYPic_(n,shotCurFrame(n))<>0 Then DrawImage shotYPic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
         End Select
         If shotHasAfterImg(n)=1 Then drawShotAfterImg(n)
     EndIf
@@ -1522,11 +1513,11 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             
         a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
         Select zSuperDir(n)
-        Case 2
+        Case dirRight
             If zSuperMoveSeq(n) > superMovePortraitSeqStart(n) And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)+20
             If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
             If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)-20
-        Case 4
+        Case dirLeft
             If zSuperMoveSeq(n) > 0 And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)-20
             If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
             If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)+20
@@ -2403,7 +2394,7 @@ End Function
 ;--------Draw Chunks----------------------------------------------------------------------------------
 Function renderChunks(n)
 
-  If isChunkSolid(n)=1 And isStuffFall=1 Then
+  If isChunkSolid(n)=1 And isStuffFall=1 And gamestart=1 Then
     If Not ImageRectCollide(map,0,0,0,xChunk(n)-9,yChunk(n)+1,chunkWidth(n),chunkHeight(n)) Then
       yChunk(n)=yChunk(n)+yChunkSpeed#(n)
     End If
@@ -3241,9 +3232,6 @@ For i=1 To 1500
         chunkOwner(i)=n
         chunkSeq(i)=0
         chunkDir(i)=dir
-        ;rash Hit instead of blood if character should not display bleeding
-        DebugLog "kind: " + kind + ", doesCharBleed: " + doesCharBleed(n) + ", curGuy: " + curGuy(n)
-        If (kind=95 Or kind=96) And doesCharBleed(n)=0 Then kind=20 
         chunk(i)=1:chunkType(i)=kind
         xChunk(i)=x:yChunk(i)=y
         If n <= maxZ Then chunkOwnerX#(i)=zx#(n):chunkOwnerY#(i)=zy#(n)
@@ -5339,6 +5327,22 @@ For n=30 To maxCharAmt    ;add character
     Next
 Next
 
+For n=1 To maxZ		; Clear Hyper background
+	For n1=1 To maxHyperBg
+		If hyperBgPic(n, n1)<>0 Then FreeImage hyperBgPic(n, n1):hyperBgPic(n, n1)=0
+	Next
+Next
+
+For n=1 To maxZ		; Clear cooldown Pics
+	For n1=1 To 4
+		If cooldownPic(n,n1)<>0 Then FreeImage cooldownPic(n,n1):cooldownPic(n,n1)=0
+	Next
+Next
+
+For n=1 To maxZ
+	If zCurPic(n)<>0 Then FreeImage zCurPic(n):zCurPic(n)=0
+	clearAfterImages(n)
+Next
 End Function
 ;----------------- MoveX2 ----------------------
 Function moveX2(n,dir,speed)
@@ -5986,9 +5990,13 @@ Function handleShotCharacterCollision(n, hAdj, wAdj)
                             If shotReturnOnHit(n)=1 Then isShotReturning(n)=1
                             zShotByN(nn)=n:zShotHitSeq(nn,n)=0
                             If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
-                                makechunk(shotDir(n),zx(nn),yShot(n),shotDir(n),shotChunkType(n))
+                                makechunk(n,zx(nn),yShot(n),shotDir(n),shotChunkType(n))
                             Else
-                                makechunk(shotDir(n),zx(nn),yShot(n),shotDir(n),shotChunkHitType(n))
+                                If (shotChunkHitType(n)=95 Or shotChunkHitType(n)=96) And doesCharBleed(nn)=0 
+                                    makechunk(n,zx(nn),yShot(n),shotDir(n),shotChunkType(n))
+                                Else
+                                    makechunk(nn,zx(nn),yShot(n),shotDir(n),shotChunkHitType(n))
+                                End If
                             End If
                             If doesShotBurn(n) Then zBurning(nn)=1:zBurnDuration(nn)=200
                             If zblock(nn)=1 Then
@@ -6393,7 +6401,7 @@ End Function
 Function clearAfterImages(n)
     isDrawAfterImage(n)=0:afterImageSeq(n)=0
     For i=1 To maxAfterImg
-        afterImage(n, i)=0
+        If afterImage(n, i)<>0 Then afterImage(n, i)=0
     Next
 End Function
 

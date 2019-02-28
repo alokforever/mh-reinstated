@@ -1889,6 +1889,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotDuration(n)=300
     shotMaxSpeed(n)=shotSpeed#(n)
     shotDrill(n)=1
+    shotChunkType(n)=20
     shotChunkType(n)=95
     shotSound(n)=wwTiaraBackSnd
     shotSeekType(n)=seekTypeFull
@@ -2696,11 +2697,15 @@ For counter = 1 To 50
     zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
 Next
 
-;Hyper Bgs
+;Hyper Bgs and Cooldown Pics
 If n <= maxZ
     For i=1 To maxHyperBg
         If hyperBgPic(n,i)=0 Then hyperBgPic(n,i)=LoadImage("gfx\stuff\hyperbg\hyperBg" + n + "_" + i + ".bmp")
     Next
+	
+	For i=1 To 4
+		cooldownPic(n, i)=LoadImage("gfx\stuff\cooldown\cd" + n + "_" + i + ".bmp")
+	Next
 End If
 
 ;add character (stuff that must be loaded the first time, such as sounds. Don't worry about the pics)
