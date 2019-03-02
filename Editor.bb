@@ -1576,7 +1576,10 @@ If taniMenu=1 Then   ;get user input for animation menu (If on), define buttons
     button(xbut(1),yBut(1),wBut(1),hBut(1))
     If butClicked=1 Then 
         If mouseClicked=1 Then mouseClicked=0 : curAni=curAni+in
-        If mouseClicked2=1 Then mouseClicked2=0 : curAni=curAni-in
+        If mouseClicked2=1 Then 
+            mouseClicked2=0
+            If curAni>0 Then curAni=curAni-in Else curAni=50
+        End If
     EndIf
     button(xbut(2),yBut(2),wBut(2),hBut(2))
     If butClicked=1 Then
@@ -1704,7 +1707,7 @@ Next
 .gotele
 mouseClicked=0
 EndIf
-
+            
 If artMode=3 And mouseClicked=1 Then    ;Select tile for this Animation#
 b=bg
 For n=1 To tileAmount(b)
@@ -1760,7 +1763,7 @@ For n=1 To tileAmount(b)
             taniBg(curAni,tanicurFrame(curAni))=b
             taniN(curAni,taniCurFrame(curAni))=n
             Goto gotframe
-        EndIf        
+        EndIf
     EndIf
 Next
 Next
@@ -4258,4 +4261,4 @@ Forever
 ; Properly close the open folder
 CloseDir myDir
 
-End Function 
+End Function
