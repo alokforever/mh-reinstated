@@ -257,7 +257,7 @@ Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantD
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
-Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), doesCharBleed(maxCharAmt)
+Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -287,6 +287,7 @@ Global board2=LoadImage(gfxdir$ + "board2.bmp")
 Global board3=LoadImage(gfxdir$ + "board3.bmp")
 Global lock=LoadImage(gfxdir$ + "lock.bmp")
 Global noPic=LoadImage(gfxdir$ + "no.bmp")
+;Global statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 
 Global frameTimer = CreateTimer(54) ;define FPS game will run
 
@@ -523,8 +524,6 @@ For n=1 To zzamount
 Next
 HidePointer
 
-initCharSelect()
-
 music=LoadSound(soundsdir$ + "music10.mp3")
 
 gameIntro()
@@ -592,14 +591,16 @@ Next
 
 butPic(72)=butPic(71)
 
+initCharSelect()
+
 gamestart=0
 If gameMode=2 Then gmStr=strinfo$(7)
 ClsColor 0,0,0
 fontType=1
 defineButtons(0)
 Repeat     ;--------Menus loop-------------------------
-WaitTimer(frameTimer)
 Cls
+WaitTimer(frameTimer)
 
 If menuOption=mainMenuVal Or menuOption=optionsMenuVal Or menuOption=controlsMenuVal Then
     DrawImage backg1,0,0
@@ -716,6 +717,11 @@ Next
 For n=0 To 100
     If butPic(n) <> 0 Then FreeImage butPic(n):butPic(n)=0
 Next
+For n=0 To 100
+    For nn=0 To maxFrame
+        If butPic2(n, nn) <> 0 Then FreeImage butPic2(n, nn):butPic2(n, nn)=0
+    Next
+Next
 
 If gameStart=2 Then
     Goto menustart
@@ -724,6 +730,7 @@ EndIf
 ;-----------Load map--------------------------------
 isSuperMove=0
 fontType=1
+quake=0
 For n=1 To 4
     prevZOn(n)=zon(n)
 Next
@@ -907,7 +914,7 @@ EndIf
 ;    If xScr < lScrLimit Or xScr+640 > rScrLimit Then xScr=xScrOld
 ;EndIf
 
-ClsColor colorR,colorG,colorB
+ClsColor colorR,colorG,colorB ; Map color background
 
 warning=0 : warnSeq=0
 scoreDone=0:winner=0
@@ -1335,9 +1342,8 @@ EndIf
 ;-----------------------------------------------------------------------
 .drawMouse
 .RenderOnly
-WaitTimer(frameTimer)
-
 Cls
+WaitTimer(frameTimer)
 
 If quake=1 Then
     quakeSeq = quakeSeq + 1
@@ -1570,7 +1576,6 @@ EndIf
 ;    Text xTile(0,n)+2,yTile(0,n)+2, n
 ;Next
 
-
 If showBlowArea=1 Then    ;renders developer`s stuff!
 
 Color 255,43,234
@@ -1706,7 +1711,7 @@ isStuffFall=0
 For n=1 To zzamount
     If zSupermove(n) And zon(n) Then 
         If zHit(n)=1 Or zGrabbed(n)=1 Then
-            zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0:shouldShowSuperPortrait(n)=0
+            zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0:shouldShowSuperPortrait(n)=0:isHyperBgShow(n)=0
         End If
         If shouldShowSuperPortrait(n)=1 Goto renderOnly
     End If
@@ -3151,10 +3156,10 @@ If Tway(n) >4 And Tway(n) < 10 Then    ;check If player's on Exit
     For nn=1 To 4
         If zx(nn) => Tx(n) And zx(nn) =< Tx(n)+Tw(n) And zon(nn)=1 Then
             If zy(nn) => Ty(n) And zy(nn) =< Ty(n)+Th(n) Then
-                
                 allp=allp+1
                 If allp=aliveAmountNeeded Then
                     ;Exit level
+                    isSuperMove=0
                     mapComplete=1
                     gameDone=1
                     mapOpen(curMap)=1
@@ -3323,9 +3328,9 @@ boxHitSpeed(n) = ReadFloat (file)
 boxHitYSpeed(n) = ReadFloat (file)
 boxDamage(n) = ReadInt (file)
 boxHitSound(n) = ReadInt (file)
-boxUseTrigger(n)=ReadInt (file)        
-boxEventN(n)=ReadInt (file)            
-boxFinalDest(n)= ReadInt (file)    
+boxUseTrigger(n)=ReadInt (file)
+boxEventN(n)=ReadInt (file)
+boxFinalDest(n)= ReadInt (file)
 boxBreak(n)= ReadInt (file)
 boxSound(n) = ReadInt (file)
 boxBreakable(n) = ReadInt (file)
@@ -3371,7 +3376,7 @@ For b=0 To bgAmount  ;
         tileXstart(b,n) = ReadInt (file)
         tileYstart(b,n) = ReadInt (file)
         tileFollow(b,n)= ReadInt (file)
-        tileTarget(b,n)= ReadInt (file)    
+        tileTarget(b,n)= ReadInt (file)
         xtile2(b,n) = ReadInt (file)
         ytile2(b,n) = ReadInt (file)
         tileFollowType(b,n) = ReadInt (file)
@@ -4948,10 +4953,10 @@ xbox(n)=xboxPoint(n,1):ybox(n)=yboxPoint(n,1)
 targetBox(n)=1
 drawBox(n)=1
 
-objFrequency=50     
+objFrequency=50
 maxobjAmount=4
 For i=1 To objTypeN
-    objTypeOut(i)=1    ;take this itens out of this game mode!
+    objTypeOut(i)=1    ;take this items out of this game mode!
 Next
 objTypeOut(3)=0    ;<- only item available on this mode
 
@@ -5284,7 +5289,6 @@ End Function
 ;-------------------------- MoveX -------------------------------------------------------------
 Function moveX(n,dir,speed#)
 
-;zx(n)=zx(n)+speed
 Select dir
 Case 2:zx(n)=zx(n)+speed#
 Case 4:zx(n)=zx(n)-speed#
@@ -5315,6 +5319,7 @@ For n=0 To characterAmount
             If zpic_(n,n1,n2) <> 0 Then FreeImage zpic_(n,n1,n2):zpic_(n,n1,n2)=0
         Next
     Next
+    If zCurPic(n) <> 0 Then FreeImage zCurPic(n)
 Next
 
 For n=30 To maxCharAmt    ;add character
@@ -5327,22 +5332,23 @@ For n=30 To maxCharAmt    ;add character
     Next
 Next
 
-For n=1 To maxZ		; Clear Hyper background
-	For n1=1 To maxHyperBg
-		If hyperBgPic(n, n1)<>0 Then FreeImage hyperBgPic(n, n1):hyperBgPic(n, n1)=0
-	Next
+For n=1 To maxZ     ; Clear Hyper background
+    For n1=1 To maxHyperBg
+        If hyperBgPic(n, n1)<>0 Then FreeImage hyperBgPic(n, n1):hyperBgPic(n, n1)=0
+    Next
 Next
 
-For n=1 To maxZ		; Clear cooldown Pics
-	For n1=1 To 4
-		If cooldownPic(n,n1)<>0 Then FreeImage cooldownPic(n,n1):cooldownPic(n,n1)=0
-	Next
+For n=1 To maxZ     ; Clear cooldown Pics
+    For n1=1 To 4
+        If cooldownPic(n,n1)<>0 Then FreeImage cooldownPic(n,n1):cooldownPic(n,n1)=0
+    Next
 Next
 
 For n=1 To maxZ
-	If zCurPic(n)<>0 Then FreeImage zCurPic(n):zCurPic(n)=0
-	clearAfterImages(n)
+    If zCurPic(n)<>0 Then FreeImage zCurPic(n):zCurPic(n)=0
+    clearAfterImages(n)
 Next
+
 End Function
 ;----------------- MoveX2 ----------------------
 Function moveX2(n,dir,speed)
@@ -6388,6 +6394,7 @@ Function setAfterImages(n)
     afterImageX(n, maxAfterImg)=zX(n)
     afterImageY(n, maxAfterImg)=zY(n)
     afterImageSeq(n)=afterImageSeq(n)+1
+    If afterImageSeq(n) >= afterImageMaxSeq(n) Then clearAfterImages(n)
 End Function
 
 Function drawAfterImages(n)
@@ -6456,6 +6463,7 @@ Function doDebugMode()
     
     ;======== Go to next level =========
     If KeyHit(88) Then ;F12
+        isSuperMove=0
         mapComplete=1
         gameDone=1
         mapOpen(curMap)=1

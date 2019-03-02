@@ -71,7 +71,7 @@ Function drawDizzyState(unit)
 End Function
 
 ;------------ Draw Rage Effect (Wolverine) ------------------------
-Function drawRageEffect(player)    
+Function drawRageEffect(player)
     If wolverineRage(player) = 1 Then
         Local rageDuration = 21000 ; in milliseconds
         wolvSpdFctr(player) = 2
@@ -84,7 +84,7 @@ Function drawRageEffect(player)
         EndIf
         endRageTime(player) = startRageTime(player) + rageDuration
         
-        rageSeq(player) = rageSeq(player) + 1
+        If gamePaused=0 Then rageSeq(player) = rageSeq(player) + 1
 
         If currentRageTime(player) => endRageTime(player) Then 
             canGetRageTime(player)=0:wolverineRage(player)=0:wolvSpdFctr(player)=1:clearAfterImages(player)

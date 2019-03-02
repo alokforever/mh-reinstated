@@ -645,6 +645,7 @@ Function doApplySeekingBalls(n)
         shotDuration(myShots(n, i))=200
         shotSeekType(myShots(n, i))=seekTypeFull
         xSpdRand#=rand(20)
+        shotspeed#(n)=0
         shotSeekSpeed#(myShots(n, i))=4
     Next
 End Function

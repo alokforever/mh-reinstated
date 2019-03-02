@@ -1843,7 +1843,7 @@ Case 50    ;Kiryoku-ryuu
 Case 51 ;Makuuhouidan
     xSpdRand#=rand(40)
     durationRand#=rand(8)
-    shotspeed#(n)=0
+    shotspeed#(n)=3+(xSpdRand#/10.0)
     shotYspeed#(n)=-6
     shotWidth(n)=20
     shotsize(n)=20
@@ -1890,7 +1890,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotMaxSpeed(n)=shotSpeed#(n)
     shotDrill(n)=1
     shotChunkType(n)=20
-    shotChunkType(n)=95
+    shotChunkHitType(n)=95
     shotSound(n)=wwTiaraBackSnd
     shotSeekType(n)=seekTypeFull
     shotSeekSpeed#(n)=12
@@ -2702,10 +2702,10 @@ If n <= maxZ
     For i=1 To maxHyperBg
         If hyperBgPic(n,i)=0 Then hyperBgPic(n,i)=LoadImage("gfx\stuff\hyperbg\hyperBg" + n + "_" + i + ".bmp")
     Next
-	
-	For i=1 To 4
-		cooldownPic(n, i)=LoadImage("gfx\stuff\cooldown\cd" + n + "_" + i + ".bmp")
-	Next
+
+    For i=1 To 4
+        cooldownPic(n, i)=LoadImage("gfx\stuff\cooldown\cd" + n + "_" + i + ".bmp")
+    Next
 End If
 
 ;add character (stuff that must be loaded the first time, such as sounds. Don't worry about the pics)

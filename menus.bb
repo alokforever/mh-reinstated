@@ -270,9 +270,9 @@ End Function
 Function statsScreen()
 
 SetBuffer BackBuffer()
-statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 ClsColor 0,50,100
 Cls
+statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
 ;n1=640-(priW(strInfo$(36))) : x=(n1/2)
@@ -305,16 +305,16 @@ FlushKeys : flushjoy
 waitInput()
 closeScreen(Rand(1,4),0)
 
-FreeImage statsImg
+FreeImage statsImg:statsImg=0
 
 End Function 
 ;------------ versus results ----------------
 Function vsStatsScreen()
 
-SetBuffer BackBuffer()
-statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 ClsColor 0,50,100
 Cls
+SetBuffer BackBuffer()
+statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
 
@@ -363,7 +363,7 @@ FlushKeys() : flushjoy()
 waitInput()
 closeScreen(Rand(1,4),0)
 
-FreeImage statsImg
+FreeImage statsImg:statsImg=0
 End Function 
 ;--------- wait any key/joy button to be pressed ----------
 Function waitInput()

@@ -1122,7 +1122,7 @@ Case 16 ;Taunt Key (Berserker Rage)
     If zBlowSeq(n) => m And zBlowSeq(n) < nnn Then zani(n)=10:zf(n)=8
     
     If zBlowSeq(n) = f Then
-        wolverineRage(n)=1:isDrawAfterImage(n)=1
+        wolverineRage(n)=1:isDrawAfterImage(n)=1:afterImageMaxSeq(n)=21000
         isHyperBgShow(n)=1:hyperBgSeq(n)=0:maxHyperBgSeq(n)=53
         zSuperMove(n)=1:zSuperMoveSeq(n)=0
         If gameSound Then PlaySound wolverineSuper1Snd

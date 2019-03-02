@@ -699,12 +699,6 @@ Function doThemysciraNear(n)
         End If
     End If
     
-;======= Effects ========
-    If zBlowSeq(n)>seq7 And zBlowSeq(n)<=seq8 And zBlowStill(n)=0 Then 
-        If zF(n)=30 Then extraObj(n,zx(n),0,zy(n),0,zFace(n),149)
-        If zF(n)=29 Then extraObj(n,zx(n),0,zy(n),0,zFace(n),150)
-    End If
-    
 End Function
 
 Function doThemysciraDiveInit(n)
