@@ -206,10 +206,7 @@ End Function
 
 ;-------------- Draw trailing effects ----------------
 Function drawTrailingEffects(n)
-    If curGuy(n)=11 Then
-        If zRunSeq(n) Mod 5 = 0 And Abs(zSpeed#(n)) >= 5 Then extraObj(n,zx(n),-40,zy(n),-10,zFace(n),90)
-    End If
-    If curGuy(n)=14 Then
+    If curGuy(n)=14 Or curGuy(n)=11 Then
         If zRunSeqNoReset(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
     End If
     If curGuy(n)=16 Then

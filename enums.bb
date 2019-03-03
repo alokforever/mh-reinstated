@@ -7,3 +7,4 @@ Global ryuIdx=1, hulkIdx=2, spidermanIdx=3, marioIdx=4, gambitIdx=5, hiryuIdx=6,
 Global gokuIdx=9, richterIdx=10, wolverineIdx=11, scorpionIdx=12, subZeroIdx=13, wonderwomanIdx=14, juggernautIdx=15, piccoloIdx=16, thorIdx=17
 Global punchingBagIdx=52
 Global maleVal=1, femaleVal=2, noGenderVal=0
+Global hitTypeByModulo=1, hitTypeBySeq=2

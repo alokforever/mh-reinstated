@@ -1876,9 +1876,9 @@ Case 51 ;Makuuhouidan
 Case 52:    ;Wonderwoman's Tiara
     shotReturnOnHit(n)=1
     shotspeed#(n)=0
-    shotWidth(n)=6
-    shotsize(n)=6
-    shotheight(n)=10
+    shotWidth(n)=9
+    shotsize(n)=9
+    shotheight(n)=13
     shotDamage(n)=15
     shotHitMode(n)=2
     shotSide(n)=shotsize(n)/2
@@ -1898,7 +1898,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotPic_(n,1)=shotImage_(72)
     shotYPic(n,1)=shotImage(75)
     shotYPic_(n,1)=shotImage(75)
-    zShotHitType(n)=1
+    zShotHitType(n)=hitTypeBySeq
     zShotHitTypeModulo(n)=5
     shotHasAfterImg(n)=1
     shotHold(n)=80
@@ -1911,7 +1911,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotAfterImage(n, 4)=shotImage(77)
     shotAfterImage_(n, 4)=shotImage_(77)
     shotReturnXDest(n)=-10
-    shotReturnYDest(n)=-40
+    shotReturnYDest(n)=-33
 End Select
 
 End Function

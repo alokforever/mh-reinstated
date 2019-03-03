@@ -309,7 +309,7 @@ Else If isHelperAttackDone(n)=0
 End If
 
 helperSeq(n)=helperSeq(n)+1
-If helperSeq(n) > 572 Then killZ(n)
+If helperSeq(n) > 850 Then killZ(n)
 
 ;-----------------------------------
 Case 54    ;Ground crack

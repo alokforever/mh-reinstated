@@ -29,7 +29,7 @@ Const gameVersion$ = "0.96"
 
 ;------------- listed version 0.96 -------------------
 ;mod selection screen bug solved
-;unlocking the rights things even of loaded mod isn't original one
+;unlocking the right things even if loaded mod isn't original one
 
 ;------------- listed version 0.95 -------------------
 ;Goku can't teleport through thick walls anymore
@@ -88,7 +88,7 @@ Dim zantiPlat(maxZ),zHitByBox(maxZ),zChunkType(maxZ),zAI(maxZ),aiTarget(maxZ),ai
 Dim aiWalk(maxZ),aiLevel(maxZ),zBlowDist(maxZ,maxZ),NextBlow(maxZ),blockDist(maxZ)
 Dim zTrail(maxZ),zTrailSeq(maxZ),zTrailTime(maxZ),zTrailType(maxZ),zHitHold(maxZ),zBlowHold(maxZ),zHitCount(maxZ)
 Dim xDist(maxZ),yDist(maxZ), zBlowTrailType(maxZ), zBlowHit(maxZ), zJumpSnd(maxZ), zJumpSnd2(maxZ)
-Dim zSuperMove(maxZ),zSuperMoveSeq(maxZ),zSuperX(maxZ),zSuperY(maxZ),zSuperDir(maxZ),zSuperBar(maxZ)
+Dim zSuperMove(maxCharAmt),zSuperMoveSeq(maxZ),zSuperX(maxZ),zSuperY(maxZ),zSuperDir(maxZ),zSuperBar(maxZ)
 Dim zGrabbed(maxZ),zGrabbedBy(maxZ),zGrabs(maxZ),zGrabsThis(maxZ),zGrabSeq(maxZ),zNoAirSpecial(maxZ)
 Dim xOval(maxZ),yOval(maxZ),woval(maxZ),hOval(maxZ), zGrabDist(maxZ),shotFireSound(maxZ)
 Dim zWalkAni(maxZ),zCurPic(maxZ),zBlowSound(maxZ),zani(maxZ),zf(maxZ),zPrevAni(maxZ),zPrevf(maxZ),zDontPickItem(maxZ),zFlyAni(maxZ),zfa(maxZ)
@@ -2092,7 +2092,7 @@ Function selectDraw(n)
             zBouncedGndSeq(n)=zBouncedGndSeq(n)+1
         Else If zongnd(n)=1 And zhitseq(n) > 15 Then
             zani(n)=2:zf(n)=0
-        Else If zHitType(n)=1 Then
+        Else If zHitType(n)>0 Then
             doStationaryHitSequence(n)
         Else
             If specialHitFrames(n)=0 Then
@@ -2158,7 +2158,6 @@ If zhit(n)=1 Then
     If zSuperMove(n)=1 And isSuperMove=1 Then isSuperMove=0
     zSuperMove(n)=0
     If zhitseq(n) < zHitHold(n) Then justGotHit=1 Goto dontmove
-    zHitType(n)=0:zHitTypeModulo(n)=0
     zUpFallspeed#(n)=zUpFallSpeed#(n)-.1
     If zUpFallSpeed#(n) < 2 Then zUpFallSpeed#(n)=2
     zFallspeed#(n)=zFallSpeed#(n)-.1
@@ -2169,7 +2168,7 @@ If zhit(n)=1 Then
     EndIf
 
     If (zFallSpeed(n) > 8 Or zUpFallSpeed(n) > 8) And rendert > 1 Then makeChunk(n,zx(n),zy(n),2,16)
-    If zhitseq(n) > 20 Then zhitbybox(n)=0    
+    If zhitseq(n) > 20 Then zhitbybox(n)=0
     If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then zy(n)=zy(n)-zUpFallSpeed#(n)
     
     zDownFallSpeed#(n)=zDownFallSpeed#(n)-.1
@@ -2223,17 +2222,19 @@ If zhit(n)=1 Then
     EndIf
     .dontmove
     If zhitseq(n) > 6 Then zHitByRect(n)=0
+Else
+    zHitType(n)=0:zHitTypeModulo(n)=0:zHitHold(n)=0
 EndIf
 
 zShotHitSeq(n,zShotByN(n))=zShotHitSeq(n,zShotByN(n))+1
 
 If ImageRectCollide(map,0,0,0,zoldx#(n)+zside(n),zy(n)-zheight(n),1,1) Then    ;Head x ceiling  collision detection
     zy(n)=zy(n)+3:zjump(n)=0:zUpFallSpeed(n)=0:zUpFallTime(n)=0:zHitHead(n)=1
-    Else
-        If ImageRectCollide(map,0,0,0,zoldx#(n)-zside(n),zy(n)-zheight(n),1,1) Then
-            zjump(n)=0 :zUpFallSpeed(n)=0:zUpFallTime(n)=0:zHitHead(n)=1
-            zy(n)=zy(n)+3
-        EndIf
+Else
+    If ImageRectCollide(map,0,0,0,zoldx#(n)-zside(n),zy(n)-zheight(n),1,1) Then
+        zjump(n)=0 :zUpFallSpeed(n)=0:zUpFallTime(n)=0:zHitHead(n)=1
+        zy(n)=zy(n)+3
+    EndIf
 EndIf
 
 If zjump(n)=1 Or zblock(n)=1 Then zheight(n)=zupheight(n)
@@ -3974,6 +3975,7 @@ initFightStates(nn)
 zHitHold(nn)=8
 zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 zHitModeTaken(nn)=boxHitMode(n)
+zHitType(nn)=0:zHitTypeModulo(nn)=0
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 zhit(nn)=1:zHitSeq(nn)=0
 zFallSpeed#(nn)=boxhitSpeed#(n)
@@ -3995,6 +3997,7 @@ Function calcObj(nn,n)
 initFightStates(nn)
 zBlow(nn)=0:zblowseq(nn)=0:zblowseq2(nn)=0
 zHitModeTaken(nn)=2
+zHitType(nn)=0:zHitTypeModulo(nn)=0
 zGotHitsAmount(nn)=zGotHitsAmount(nn)+1
 zhit(nn)=1:zHitSeq(nn)=0
 zFallTime#(nn)=objFallTime(n)
@@ -4569,7 +4572,7 @@ For nn=1 To zzamount
     
     hh=zHeight(nn)
     If platHeight(n) > 1 And zon(nn) Then 
-      If zy(nn) > yPlat(n) +5 And zy(nn)-hh =< yPlat(n)+platHeight(n) Then       
+      If zy(nn) > yPlat(n) +5 And zy(nn)-hh =< yPlat(n)+platHeight(n) Then
         If zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) Then
             ph=36
             If zy(nn)-hh > yplat(n)+(platHeight(n)-ph) And zx(nn) > xoldPlat(n) And zx(nn) < xoldPlat(n)+platWidth(n) Then
@@ -6059,7 +6062,9 @@ Function handleShotSeeking(n)
         yDest=zy#(shotOwner(n))+shotReturnYDest(n)
     Else
         nn=getNearestEnemy(n)
-        If zheight(nn)<>40 Then adjHt=zHeight(nn)/2
+        If zheight(nn)<>40 Then
+            If Not (zani(n)=2 And zF(n)=0) Then adjHt=zHeight(nn)/2
+        End If
         If zheight(nn)=40 Then adjHt=8
         xDest=zx#(nn)
         yDest=(zy#(nn)-adjHt)
@@ -6100,7 +6105,7 @@ Function handleShotSeeking(n)
     End If
     
     If isShotReturning(n)=1 Then
-        If Abs(xShot(n)-xDest)<=5 And Abs(yShot(n)-yDest)<=5 Then shot(n)=0:clearShotAfterImg(n)
+        If Abs(xShot(n)-xDest)<=5 And Abs(yShot(n)-yDest)<=5 Then shotSeekSpeed#(n)=0:shot(n)=0:clearShotAfterImg(n)
     End If
     .SeekDone
 End Function
@@ -6111,6 +6116,7 @@ Function getNearestEnemy(n)
         If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) And curGuy(nn)<>punchingBagIdx And zOn(nn)=1 Then 
             dist=getDistanceFromShot(n, nn)
             If dist < prevDist Then nearest = nn:prevDist=dist
+            ;DebugLog "nn: " + nn + ", n: " + n
         End If
     Next
     Return nearest
@@ -6151,18 +6157,25 @@ Function alignVerticalPosOfTarget(n)
 End Function
 
 Function doStationaryHitSequence(n)
-If zHitSeq(n)=1 Then zani(n)=2:zf(n)=1
-    If zHitTypeModulo(n) > 0 Then
-        If zHitSeq(n) Mod zHitTypeModulo(n) = 0 Then 
-            If zf(n) = 1 Then
-                zani(n)=2:zf(n)=2
-            Else If zf(n) = 2 Then
-                zani(n)=2:zf(n)=3
-            Else
-                zani(n)=2:zf(n)=1
-            End If
+
+If zHitTypeModulo(n) > 0 And zHitType(n)=hitTypeByModulo Then
+    If zHitSeq(n)=1 Then zani(n)=2:zf(n)=1
+    If zHitSeq(n) Mod zHitTypeModulo(n) = 0 Then 
+        If zf(n) = 1 Then
+            zani(n)=2:zf(n)=2
+        Else If zf(n) = 2 Then
+            zani(n)=2:zf(n)=3
+        Else
+            zani(n)=2:zf(n)=1
         End If
     End If
+Else If zHitType(n)=hitTypeBySeq Then
+    zy(n)=zy(n)+1
+    If zHitSeq(n)<=2 Then zani(n)=2:zf(n)=2
+    If zHitSeq(n)>2 And zHitSeq(n)<=4 Then zani(n)=2:zf(n)=1
+    If zHitSeq(n)>4 And zHitSeq(n)<=6 Then zani(n)=2:zf(n)=3
+    If zHitSeq(n)>6 Then zani(n)=2:zf(n)=0
+End If
 End Function
 
 Function drawTestBox(n, x, y, w, h)
@@ -6472,7 +6485,7 @@ Function doDebugMode()
         mapOpen(curMap)=1
     End If
 
-    ;======== Freeze when F1 is pressed, continue one frame if F2 is pressed =========
+    ;======== Freezes while F1 is pressed, continue one frame if F2 is pressed =========
     While KeyDown(59)=1 ;F1
         If KeyHit(60)=1 Then GoTo Continue
     Wend

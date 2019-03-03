@@ -86,7 +86,15 @@ Function doRoyalThrust(n)
     
 ;=========== Movement =============
     If zBlowSeq(n)>seqStart And zBlowSeq(n)<=seq1-20 And zHitHead(n)=0 Then
-        moveX(n,zBlowDir(n),-1)
+        If zFace(n)=dirRight Then oppDir=dirLeft
+        If zFace(n)=dirLeft Then oppDir=dirRight
+        checkDist(n, zx(n), zy(n), oppDir)
+        If xDist(n)>20 Then 
+            moveX(n,zBlowDir(n),-1)
+        Else
+            If zFace(n)=dirRight Then zx(n)=zx(n)+1
+            If zFace(n)=dirLeft Then zx(n)=zx(n)-1
+        End If
         moveY(n,-1)
     End If
     
@@ -94,20 +102,21 @@ Function doRoyalThrust(n)
     If zBlowSeq(n)=seq6+1 Or zBlowSeq(n)=seq16+1 Then
         If zBlowSeq(n)=seq6+1 Then 
             y=zy(n)-zheight(n)+30
+            xOffset=30
         Else
-            y=zy(n)-zheight(n)+25
+            y=zy(n)-zheight(n)+28
+            xOffset=24
         End If
-        If zFace(n)=2 Then x=zx(n)+30
-        If zFace(n)=4 Then x=zx(n)-30
+        If zFace(n)=2 Then x=zx(n)+xOffset
+        If zFace(n)=4 Then x=zx(n)-xOffset
         makeshot(n,52,x,y,zface(n))
+        If zBlowSeq(n)=seq6+1 Then shotReturnXDest(n)=-5:shotReturnYDest(n)=-28
         en=getNearestEnemy(n):getShots(n):s=myShots(n, 0)
         If (en = 0) Then 
             shotSeekType(s)=seekTypeNone:shotspeed#(s)=12:shotMaxSpeed(s)=12:shotFollowOwner(s)=1
             shotUturn(s)=1:shotDuration(s)=2:shotDuration2(s)=100
             shotBounce(s)=1
         End If
-        
-        DebugLog "shotSeekType(s): " + shotSeekType(s)
     End If
     
 ;=========== Effects ==============
