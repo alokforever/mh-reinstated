@@ -27,8 +27,6 @@ Wonderwoman - 49
 Juggernaut - 40
 Piccolo - 50
 
-
-
 Animation:
 Themyscira - 203
 

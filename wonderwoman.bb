@@ -1,3 +1,56 @@
+Function doWwIdleFlight(n)
+    seqStart=16
+    
+;=========== Animation ==========
+    If zBlowSeq(n)=seqStart Then 
+        zF(n)=4
+    Else If zBlowSeq(n)=seqStart+76 Then 
+        zF(n)=6
+    Else If zBlowSeq(n)=seqStart+80 Then
+        zF(n)=7
+    Else
+        If zBlowSeq(n) Mod 4=0 Then
+            If zF(n)=4 Then 
+                zF(n)=5
+            Else If zF(n)=5 Then 
+                zF(n)=6
+            Else If zF(n)=6 Then
+                zF(n)=7
+            Else If zF(n)=7 Then
+                zF(n)=8
+            Else If zF(n)=8 Then
+                zF(n)=9
+            Else
+                zF(n)=4
+            End If
+        End If
+    End If
+    If zBlowSeq(n)>=seqStart+80 Then zBlowSeq(n)=seqStart
+    
+;============= Movement =============
+    If zBlowSeq(n)=seqStart Then zx(n)=zx(n)+1:zy(n)=zy(n)+1    ;1
+    If zBlowSeq(n)=seqStart+4 Then zx(n)=zx(n)-1:zy(n)=zy(n)-1  ;2
+    If zBlowSeq(n)=seqStart+8 Then zx(n)=zx(n)-1:zy(n)=zy(n)-1  ;3
+    If zBlowSeq(n)=seqStart+12 Then zy(n)=zy(n)-1               ;4
+    If zBlowSeq(n)=seqStart+16 Then zy(n)=zy(n)-1               ;5
+    If zBlowSeq(n)=seqStart+20 Then zx(n)=zx(n)+1:zy(n)=zy(n)-1 ;6
+    If zBlowSeq(n)=seqStart+24 Then zx(n)=zx(n)+1               ;7
+    If zBlowSeq(n)=seqStart+28 Then zx(n)=zx(n)+1:zy(n)=zy(n)+1 ;8
+    If zBlowSeq(n)=seqStart+32 Then zx(n)=zx(n)+1:zy(n)=zy(n)+1 ;9
+    If zBlowSeq(n)=seqStart+36 Then zx(n)=zx(n)-1:zy(n)=zy(n)+1 ;10
+    If zBlowSeq(n)=seqStart+40 Then zx(n)=zx(n)-1:zy(n)=zy(n)+1 ;11
+    If zBlowSeq(n)=seqStart+44 Then zx(n)=zx(n)-1:zy(n)=zy(n)+1 ;12
+    If zBlowSeq(n)=seqStart+48 Then zx(n)=zx(n)-1:zy(n)=zy(n)+1 ;13
+    If zBlowSeq(n)=seqStart+52 Then zx(n)=zx(n)-1:zy(n)=zy(n)+1 ;14
+    If zBlowSeq(n)=seqStart+56 Then zx(n)=zx(n)-1:zy(n)=zy(n)-1 ;15
+    If zBlowSeq(n)=seqStart+60 Then zx(n)=zx(n)-1:zy(n)=zy(n)-1 ;16
+    If zBlowSeq(n)=seqStart+64 Then zx(n)=zx(n)+1:zy(n)=zy(n)-1 ;17
+    If zBlowSeq(n)=seqStart+68 Then zx(n)=zx(n)+1:zy(n)=zy(n)-1 ;18
+    If zBlowSeq(n)=seqStart+72 Then zx(n)=zx(n)+1:zy(n)=zy(n)+1 ;19
+    If zBlowSeq(n)=seqStart+76 Then zx(n)=zx(n)+1               ;20
+    
+End Function
+
 Function doRoyalThrust(n)
     seqStart=1000:endSeq=2
     ;Intro sequence
@@ -1577,8 +1630,40 @@ Case 16 ;Counter Key (Taunt)
     If zBlowSeq(n)>=endSeq And zBlowSeq(n)<taunt2Seq Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 17 ;Extra special key (Flight)
-    zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    zNoMove(n)=1:zNoJump(n)=1:zNoGrav(n)=1
+    seq1=3:seq2=7:seq3=11:seq4=15
+    idleFlySeq=16:forwardFlySeq=10000:backFlySeq=20000:upFlySeq=30000:downFlySeq=30000
+    endSeq=40000
+    zani(n)=18
     
+    If zBlowSeq(n)>seq4 And extraSpecialkey(n)=1 Then zjump(n)=1:zjumpseq(n)=8:zBlowSeq(n)=endSeq
+    
+    DebugLog "maxFlightYLimit: " + maxFlightYLimit(n) + ", zy: " + zy(n)
+    If zBlowSeq(n)=1 Then 
+        maxFlightYLimit(n)=zy(n)
+        If zOnGnd(n)=0 Then zBlowSeq(n)=seq3
+    End If
+    
+    If zBlowSeq(n)>=idleFlySeq And zBlowSeq(n)<forwardFlySeq Then doWwIdleFlight(n)
+    
+;============ Animation ============
+    If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zf(n)=1
+    If zBlowSeq(n)>seq1 And zBlowSeq(n)<=seq2 Then zf(n)=2
+    If zBlowSeq(n)>seq2 And zBlowSeq(n)<=seq3 Then zf(n)=3
+    If zBlowSeq(n)>seq3 And zBlowSeq(n)<=seq4 Then zf(n)=2
+    
+;============ Sound ================
+    If zBlowSeq(n)=1 And gameSound Then 
+        PlaySound wwRun1Snd
+        PlaySound wwRun2Snd
+    End If
+    
+;============ Movement =============
+    If zBlowSeq(n)>0 And zBlowSeq(n)<=seq4 Then moveY(n,-3)
+    
+    If zBlowSeq(n)=1 Then makechunk(n,zx(n)-70,zy(n)+2,zFace(n),89)
+    
+    If zBlowSeq(n)>=endSeq Then zBlowSeq(n)=0:zBlow(n)=0
 End Select
 
 End Function
