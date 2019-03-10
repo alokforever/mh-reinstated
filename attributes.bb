@@ -1885,7 +1885,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotWidth(n)=9
     shotsize(n)=9
     shotheight(n)=9
-    shotDamage(n)=5
+    shotDamage(n)=15
     shotHitMode(n)=2
     shotSide(n)=shotsize(n)/2
     shotImmuneTime(n)=40
