@@ -45,7 +45,7 @@ Function doRoyalThrust(n)
         If zBlowSeq(n)>seq8 And zBlowSeq(n)<=seq9 Then zF(n)=47
         If zBlowSeq(n)>seq9 And zBlowSeq(n)<=seq10 Then 
             zF(n)=48:getShots(n):retShot=myShots(n, 0)
-            If Abs(xShot(retShot)-zx(n)>55) Or Abs(yShot(retShot)-zy(n)>20) Then zBlowSeq(n)=seq9+1
+            If shot(retShot)<>0 Then zBlowSeq(n)=seq9+1
         End If
     End If
     
@@ -63,7 +63,7 @@ Function doRoyalThrust(n)
         If zBlowSeq(n)>seq19 And zBlowSeq(n)<=seq20 Then zF(n)=55
         If zBlowSeq(n)>seq20 And zBlowSeq(n)<=seq21 Then 
             zF(n)=56:getShots(n):retShot=myShots(n, 0)
-            If Abs(xShot(retShot)-zx(n)>55) Or Abs(yShot(retShot)-zy(n)>20) Then zBlowSeq(n)=seq20+1
+            If shot(retShot)<>0 Then zBlowSeq(n)=seq20+1
         End If
         If zBlowSeq(n)=seq21 Then 
             moveRepeatTimes(n)=moveRepeatTimes(n)+1
@@ -107,15 +107,24 @@ Function doRoyalThrust(n)
             y=zy(n)-zheight(n)+28
             xOffset=24
         End If
-        If zFace(n)=2 Then x=zx(n)+xOffset
-        If zFace(n)=4 Then x=zx(n)-xOffset
-        makeshot(n,52,x,y,zface(n))
-        If zBlowSeq(n)=seq6+1 Then shotReturnXDest(n)=-5:shotReturnYDest(n)=-28
-        en=getNearestEnemy(n):getShots(n):s=myShots(n, 0)
-        If (en = 0) Then 
-            shotSeekType(s)=seekTypeNone:shotspeed#(s)=12:shotMaxSpeed(s)=12:shotFollowOwner(s)=1
-            shotUturn(s)=1:shotDuration(s)=2:shotDuration2(s)=100
-            shotBounce(s)=1
+        
+        en=getNearestEnemy(n)
+        If (en = 0) Or curGuy(en)<1 Or curGuy(en)>maxCharAmt Then
+            shotSeekType(s)=seekTypeFull:shotspeed#(s)=8:shotYspeed(n)=8:shotMaxSpeed(s)=12
+        Else
+            If zX(en) <= zX(n) Then 
+                zBlowDir(n)=dirLeft:zFace(n)=dirLeft
+            Else
+                zBlowDir(n)=dirRight:zFace(n)=dirRight
+            End If
+        End If
+        
+        If zFace(n)=dirRight Then x=zx(n)+xOffset
+        If zFace(n)=dirLeft Then x=zx(n)-xOffset
+        s=makeshot(n,52,x,y,zface(n))
+        If zBlowSeq(n)=seq6+1 Then shotReturnXDest(s)=-5:shotReturnYDest(s)=-28
+        If zBlowSeq(n)=seq16+1 And moveRepeatTimes(n)=1 Then 
+            shotHitBeforeReturn(s)=4:shotHitMode(s)=0:shotImmuneTime(s)=5:shotHold(s)=6:shotSound(s)=slashsnd
         End If
     End If
     

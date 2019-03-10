@@ -84,6 +84,7 @@ zBlocked(n)=0: aiGetTarget(n):
     preSuperEffectX(n)=0
     preSuperEffectY(n)=30
     doesCharBleed(n)=1
+    zFlipMaxSeq(n)=20
 
 Select curGuy(n)    ;Add character, add your new guy initial stuff, attack range, jump sound etc
 Case 1: ;Evil Ryu
@@ -210,6 +211,7 @@ Case 6: ;Strider Hiryu
     duckFrames(n)=10
     duckFrameSpeed(n)=5
     flipFrames(n)=7
+    zFlipMaxSeq(n)=21
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=3
     zRunFrames(n)=6
@@ -379,6 +381,7 @@ Case 12: ;Scorpion
     isMkCharacter(n)=1
     gender(n)=maleVal
     flipFrames(n)=6
+    zFlipMaxSeq(n)=21
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     zRunFootSoundSeq(n)=12
@@ -473,6 +476,7 @@ Case 14: ;Wonder Woman
     zBlockedSnd(n)=wwBlockedSnd
     zBouncedGndFrames(n)=3
     specialHitFrames(n)=8
+    zFlipMaxSeq(n)=27
 
 Case 15: ;Juggernaut
     zBlowDist(n,1)=45
@@ -551,6 +555,7 @@ Case 16: ;Piccolo
     zRunSpeed#(n)=3.5
     gender(n)=maleVal
     flipFrames(n)=6
+    zFlipMaxSeq(n)=21
     canAirGlide(n)=1
     dizzyFrames(n)=4
     dizzyFrameSpeed(n)=7
@@ -1025,9 +1030,10 @@ Function shotData(weaponChosen,n)
     shotHasAfterImg(n)=0
     shotReturnOnHit(n)=0
     isShotReturning(n)=0
-    isShotAfterImageZigzag(n)=0
     shotReturnXDest(n)=0
     shotReturnYDest(n)=0
+    shotHits(n)=0
+    shotHitBeforeReturn(n)=0
 
 Select weaponChosen
     
@@ -1878,8 +1884,8 @@ Case 52:    ;Wonderwoman's Tiara
     shotspeed#(n)=0
     shotWidth(n)=9
     shotsize(n)=9
-    shotheight(n)=13
-    shotDamage(n)=15
+    shotheight(n)=9
+    shotDamage(n)=5
     shotHitMode(n)=2
     shotSide(n)=shotsize(n)/2
     shotImmuneTime(n)=40
@@ -1901,7 +1907,7 @@ Case 52:    ;Wonderwoman's Tiara
     zShotHitType(n)=hitTypeBySeq
     zShotHitTypeModulo(n)=5
     shotHasAfterImg(n)=1
-    shotHold(n)=80
+    shotHold(n)=40
     shotAfterImage(n, 1)=shotImage(73)
     shotAfterImage_(n, 1)=shotImage_(73)
     shotAfterImage(n, 2)=shotImage(74)
@@ -1912,6 +1918,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotAfterImage_(n, 4)=shotImage_(77)
     shotReturnXDest(n)=-10
     shotReturnYDest(n)=-33
+    shotHitBeforeReturn(n)=1
 End Select
 
 End Function

@@ -154,7 +154,7 @@ Dim shotAcc#(maxShots),shotMaxSpeed#(maxShots),shotUturn(maxShots), shotFollowOw
 Dim shotFramesAmount(maxShots), shotCurFrame(maxShots), shotFrameSeq(maxShots), shotFrameTime(maxShots),shotImmuneTime(maxShots),shotUturnAmount(maxShots)
 Dim zShotHitType(maxShots), zShotHitTypeModulo(maxShots), shotHasAfterImg(maxShots), shotAfterImageSeq(maxShots)
 Dim shotAfterImage(maxShots, 4), shotAfterImage_(maxShots, 4), shotAfterImgX(maxShots, 20), shotAfterImgY(maxShots, 20)
-Dim shotReturnOnHit(maxShots), isShotReturning(maxShots), isShotAfterImageZigzag(maxShots), shotReturnXDest(maxShots), shotReturnYDest(maxShots)
+Dim shotReturnOnHit(maxShots), isShotReturning(maxShots), shotReturnXDest(maxShots), shotReturnYDest(maxShots), shotHits(maxShots), shotHitBeforeReturn(maxShots)
 
 Dim ObjType(400),objThrow(400),objHurt(400),objId(400),objHitSound(400)
 Dim xobj#(400),yobj#(400),obj(400),objdir(400),objowner(400), objXspeed#(400),objYSpeed#(400),objAmmo(400)
@@ -252,7 +252,7 @@ Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40),
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoubleTap(maxZ), blockKeyHitTimer(maxZ)
 Dim preSuperEffect(maxZ), preSuperEffectX(maxZ), preSuperEffectY(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
-Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ)
+Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ), zFlipMaxSeq(maxCharAmt)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
@@ -1417,7 +1417,7 @@ For n = 1 To shotamount
         End Select
         Select shotYDir(n)
         Case dirUp: If shotYPic(n,shotCurFrame(n))<>0 Then DrawImage shotYPic(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
-        Case dirLeft: If shotYPic_(n,shotCurFrame(n))<>0 Then DrawImage shotYPic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
+        Case dirDown: If shotYPic_(n,shotCurFrame(n))<>0 Then DrawImage shotYPic_(n,shotCurFrame(n)), (xshot(n)-shotside(n))-xscr, (yshot(n)-shotHeight(n))-yscr
         End Select
         If shotHasAfterImg(n)=1 Then drawShotAfterImg(n)
     EndIf
@@ -2029,11 +2029,11 @@ Function selectDraw(n)
         If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
         Goto drawZ        
     End If            ;ducking
-
+    
     If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
         If isRunning(n) And canAirGlide(n)
             If zJump2Seq(n)=1 Then zRunSeq(n)=0
-            If zjump2seq(n)>20 Then 
+            If zjump2seq(n)>zFlipMaxSeq(n) Then 
                 zRunSeqNoReset(n)=zRunSeqNoReset(n)+1
                 zRunSeq(n)=zRunSeq(n)+1:drawRunSequence(n)
                 Goto drawZ
@@ -2638,7 +2638,7 @@ If shotKey(n) And downkey(n)=0 And upkey(n)=0 And zblow(n)=0 And zHit(n)=0 And z
     Next
 EndIf
 
-;----iten use-----------------------------
+;----item use-----------------------------
 If grabKey(n) And zGotObj(n)>0 And obj(zgotObj(n))=1 And zblow(n)=0 And zHit(n)=0 Then
     zblow(n)=1:zblowseq(n)=0:zCurBlow(n)=6:zBlowDir(n)=zFace(n)
     Goto noShot
@@ -2912,7 +2912,6 @@ If shotUturn(n)=1 And shotDurationSeq(n) >= shotDuration(n) Then
             shotUturnSeq(n)=shotUturnseq(n)+1
         EndIf
         shotDuration(n)=shotDuration2(n)
-        If shotReturnOnHit(n)=1 Then isShotReturning(n)=1:shotSeekType(n)=seekTypeFull
         If shotDir(n) = dirRight Then shotDir(n)=dirLeft Else shotDir(n)=dirRight
     EndIf
 Else    
@@ -3205,6 +3204,7 @@ For i=1 To 200
             Select dir
                 Case dirRight:shotDir(i)=dirRight:xshot(i)=x:yshot(i)=y
                 Case dirLeft:shotDir(i)=dirLeft:xshot(i)=x:yshot(i)=y
+                Default shotDir(i)=dirRight:xshot(i)=x:yshot(i)=y
             End Select
         Return i
     EndIf    
@@ -5994,9 +5994,10 @@ Function handleShotCharacterCollision(n, hAdj, wAdj)
                     If teamAttack=0 And zteam(shotOwner(n)) = zteam(nn) Then isDone=1:Exit
                         If ImageRectCollide(zCurPic(nn),zx(nn)-(ImageWidth(zCurPic(nn))/2),zy(nn)-ImageHeight(zCurPic(nn))+1,0,xAxisShotPos,yAxisShotPos,objShotWidth,objShotHeight) Then
                             If projectileDeflectMode(nn)=1 And zFace(nn)=oppDir Then deflectProjectile(n, nn):Exit
+                            shotHits(n)=shotHits(n)+1
                             If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0:clearShotAfterImg(n)
                             If shotDrill(n)=0 And shotReturnOnHit(n)=0 Then shot(n)=0:clearShotAfterImg(n)
-                            If shotReturnOnHit(n)=1 Then isShotReturning(n)=1
+                            If shotReturnOnHit(n)=1 And shotHits(n)>=shotHitBeforeReturn(n) Then isShotReturning(n)=1
                             zShotByN(nn)=n:zShotHitSeq(nn,n)=0
                             If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
                                 makechunk(n,zx(nn),yShot(n),shotDir(n),shotChunkType(n))
@@ -6055,7 +6056,7 @@ Function killMan(n)
 End Function
 
 Function handleShotSeeking(n)
-    Local nn, adjHt, ySpd#=0, xSpd#=0, xDest, yDest
+    Local nn, adjHt=15, ySpd#=0, xSpd#=0, xDest, yDest
     If isShotReturning(n)=1 Then 
         nn=shotOwner(n)
         xDest=zx#(shotOwner(n))+shotReturnXDest(n)
@@ -6063,7 +6064,7 @@ Function handleShotSeeking(n)
     Else
         nn=getNearestEnemy(n)
         If zheight(nn)<>40 Then
-            If Not (zani(n)=2 And zF(n)=0) Then adjHt=zHeight(nn)/2
+            If Not (zani(nn)=2 And zF(nn)=0) Then adjHt=zHeight(nn)/2
         End If
         If zheight(nn)=40 Then adjHt=8
         xDest=zx#(nn)
@@ -6071,7 +6072,10 @@ Function handleShotSeeking(n)
     End If
     shotYDir(n)=0
 
-    If nn=0 Then GoTo SeekDone
+    If nn=0 Or zOn(nn)=0 Then 
+        If shotReturnOnHit(nn)=1 Then isShotReturning(n)=1:nn=shotOwner(n)
+    End If
+    
     If shotSeekType(n)=seekTypeSemi
         If ((yShot(n) < yDest) And (Abs(yDest-yShot(n)) <= 100) And (Abs(xShot(n)-xDest)<80)) Then
             yShot(n)=yShot(n)+shotSeekSpeed#(n)
@@ -6079,11 +6083,8 @@ Function handleShotSeeking(n)
             yShot(n)=yShot(n)-shotSeekSpeed#(n)
         End If
     Else If (shotSeekType(n)=seekTypeFull) Then
-        yHeightDiff#=Abs(yShot(n)-yDest)
-        xVertDiff#=Abs(xShot(n)-xDest)
-        dist=getDistanceFromShot(n, nn)
-        ySpd#=shotSeekSpeed#(n)*(yHeightDiff/dist)
-        xSpd#=shotSeekSpeed#(n)*(xVertDiff/dist)
+        ySpd#=getShotSeekYSpd(n, nn, yDest)
+        xSpd#=getShotSeekXSpd(n, nn, xDest)
         If yShot(n) < yDest Then
             yShot(n)=yShot(n)+ySpd#
         Else If yShot(n) > yDest Then
@@ -6103,11 +6104,15 @@ Function handleShotSeeking(n)
         If yShot(n) < yDest Then shotYDir(n)=dirDown
         If yShot(n) > yDest Then shotYDir(n)=dirUp
     End If
+    .SeekDone
     
     If isShotReturning(n)=1 Then
-        If Abs(xShot(n)-xDest)<=5 And Abs(yShot(n)-yDest)<=5 Then shotSeekSpeed#(n)=0:shot(n)=0:clearShotAfterImg(n)
+        If Abs(xShot(n)-xDest)<=5 And Abs(yShot(n)-yDest)<=5 Then xSpd#=0:ySpd#=0
+        If xSpd#<=(shotSeekSpeed#(n)/2) And ySpd#<=(shotSeekSpeed#(n)/2) And nn=shotOwner(n) Then 
+            shotSeekSpeed#(n)=0:shot(n)=0:clearShotAfterImg(n):shotSeekType(n)=seekTypeNone
+        End If
     End If
-    .SeekDone
+    
 End Function
 
 Function getNearestEnemy(n)
@@ -6116,7 +6121,6 @@ Function getNearestEnemy(n)
         If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) And curGuy(nn)<>punchingBagIdx And zOn(nn)=1 Then 
             dist=getDistanceFromShot(n, nn)
             If dist < prevDist Then nearest = nn:prevDist=dist
-            ;DebugLog "nn: " + nn + ", n: " + n
         End If
     Next
     Return nearest
@@ -6170,7 +6174,7 @@ If zHitTypeModulo(n) > 0 And zHitType(n)=hitTypeByModulo Then
         End If
     End If
 Else If zHitType(n)=hitTypeBySeq Then
-    zy(n)=zy(n)+1
+    zy#(n)=zy#(n)+0.5
     If zHitSeq(n)<=2 Then zani(n)=2:zf(n)=2
     If zHitSeq(n)>2 And zHitSeq(n)<=4 Then zani(n)=2:zf(n)=1
     If zHitSeq(n)>4 And zHitSeq(n)<=6 Then zani(n)=2:zf(n)=3
@@ -6499,4 +6503,18 @@ Function handleShotToShotCollision(n)
     Else shotReturnOnHit(n)=1
         isShotReturning(n)=1
     EndIf
+End Function
+
+Function getShotSeekYSpd(shot, target, yDest)
+    yHeightDiff#=Abs(yShot(shot)-yDest)
+    dist=getDistanceFromShot(shot, target)
+    ySpd#=shotSeekSpeed#(shot)*(yHeightDiff/dist)
+    Return ySpd#
+End Function
+
+Function getShotSeekXSpd(shot, target, xDest)
+    xLengthDiff#=Abs(xShot(shot)-xDest)
+    dist=getDistanceFromShot(shot, target)
+    xSpd#=shotSeekSpeed#(shot)*(xLengthDiff/dist)
+    Return xSpd#
 End Function

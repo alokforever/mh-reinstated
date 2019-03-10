@@ -385,7 +385,7 @@ Function drawFlipFrames(n)
             Case (zjump2seq(n)>18 And zjump2seq(n)=<21):zani(n)=5:zf(n)=7
         End Select
     End If
-    If zjump2seq(n)>20 Then 
+    If zjump2seq(n)>zFlipMaxSeq(n) Then 
         If hasSpecialAirFrames(n)=1 Then
             processOnAirFrames(n)
         Else

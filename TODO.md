@@ -18,13 +18,16 @@ character-specific:
 4. Wonderwoman roll with item crash
 
 Sprite resize offset (by percentage):
-Piccolo - 50
+Evil Ryu - 55
 Strider Hiryu - 54
-Juggernaut - 40
-Wonderwoman - 49
+Wolverine - 54
 Sub Zero - 48
 Scorpion - 48
-Evil Ryu - 55
+Wonderwoman - 49
+Juggernaut - 40
+Piccolo - 50
+
+
 
 Animation:
 Themyscira - 203

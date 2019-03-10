@@ -156,7 +156,7 @@ Function applyWolverineComboHitBox(n, hitMode, damage, xPos, yPos, xWidth, yWidt
     xblow(n,nn)=xPos:yblow(n,nn)=yPos:wblow(n,nn)=xWidth:hblow(n,nn)=yWidth:nn=nn+1
     zHitMode(n)=hitMode:zBlowHold(n)=10
     zHitSpeed#(n)=0:zHitUpSpeed#(n)=0:zHitTime(n)=0
-    zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16
+    zBlowDamage(n)=damage:zBLowEffect(n)=1:zEnemyImmuneTime(n)=13
     zBlowStillTime(n)=0:zBlowBlockTime(n)=25
     If blowSound=0 Then 
         zBlowSound(n)=slashsnd
@@ -226,15 +226,13 @@ Function performWolverineCombo(n)
         movex2(zControlsThis(n),zface(zControlsThis(n)),-1*(1+(Abs(zSpeed#(n))/1.5)))
         isHitting=1
     End If
-    ;If zBlowSeq(n)=b And zControls(n)=0 Then zBlowSeq(n)=endSeq
     If zBlowSeq(n) >= d And zBlowSeq(n) < f Then 
         If zBlowSeq(n) = d And gameSound Then PlaySound wolverineShout4Snd
-        applyWolverineComboHitBox(n, 2, 6, 0, 43, 36, 46, 1)
+        applyWolverineComboHitBox(n, 2, 6, 0, 43, 44, 46, 1)
         isHitting=1
     End If
-    ;If zBlowSeq(n)=d And zControls(n)=0 Then zBlowSeq(n)=endSeq
     If zBlowSeq(n) >= h And zBlowSeq(n) < i Then 
-        applyWolverineComboHitBox(n, 2, 6, 0, 15, 36, 16, 1)
+        applyWolverineComboHitBox(n, 2, 6, 0, 15, 44, 16, 1)
         isHitting=1
     End If
     If zBlowSeq(n) >= k And zBlowSeq(n) < m Then
@@ -461,7 +459,10 @@ Case 0    ;Blocking
     zNoMove(n)=1:zNoJump(n)=1
     zBlock(n)=1:zani(n)=13:zf(n)=1
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
-    If zblocked(n)=1 Then zani(n)=13:zf(n)=2
+    If zblocked(n)=1 Then 
+        zblowseq2(n)=zblowseq2(n)+1
+        If zblowseq2(n)>4 Then zf(n)=2 Else zf(n)=1
+    End If
     If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 1    ;Double Claw
