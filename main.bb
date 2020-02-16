@@ -1,5 +1,5 @@
-Include "globalSoundVariables.bb"
-Include "enums.bb"
+Include "src\modules\globalSoundVariables.bb"
+Include "src\modules\enums.bb"
 
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
@@ -20,9 +20,9 @@ EndIf
 
 curWindowMode = windowMode
 If windowMode = 0 Then
-    Graphics 640,480,videoColorDepth,1  ;full screen
+    Graphics 1024,768,videoColorDepth,1  ;full screen
 Else
-    Graphics 640,480,videoColorDepth,2  ;window
+    Graphics 1024,768,videoColorDepth,2  ;window
 End If
 
 Const gameVersion$ = "0.96"
@@ -49,8 +49,7 @@ Global message, messageN, mapN
 Global maxAmap = 100 
 Global lastAmap = 50    ;beat this map to beat the game
 Global maxVsMap = 20
-Global maxCTFMap = 20
-Global isUnliSuper
+Global maxCTFMap = 2
 Global totalSecrets, noAirStrike, isSuperMove
 Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
@@ -80,7 +79,7 @@ Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),
 Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
 Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)            
 Dim zUpHeight(maxZ),zDuckHeight(maxZ),zHitHead(maxZ),zIcon(60),zRollOnImpact(maxZ)
-Dim zheight(maxZ),zduck(maxZ),zgravity(maxZ),zSpeed#(maxZ),zSide(maxZ),zxHand(maxZ,40),zyHand(maxZ,40)
+Dim zheight(maxZ),zduck(maxZ),zgravity#(maxZ),zSpeed#(maxZ),zSide(maxZ),zxHand(maxZ,40),zyHand(maxZ,40)
 Dim Zrun(maxZ), zCurWeapon(maxZ),dangerMove9(maxZ),dangerMove5(maxZ),zGotObj(maxZ), zLeftCollide(maxZ), zRightCollide(maxZ)
 Dim zLives(maxZ), zJumping(maxZ),zonplat(maxZ),zonThickPlat(maxZ),justMovedByplat(maxZ)
 Dim zantiPlatTime(maxZ),zantiPlatSeq(maxZ),zForceAntiPlat(maxZ)
@@ -124,10 +123,11 @@ Dim facChunk(100,100),facSound(100,100),facVar1(100,100),facVar2(100,100),facVar
 Dim zVar1(30),zVar2(maxZ),zVar3(maxZ),zVar4(maxZ),zVar5(maxZ)
 Dim Fon(100)
 
+Global maxAni=350
 Global curAni,tAniAmount,taniMEnu
-Dim tAniSeq(200),tAniFrames(200)
-Dim tAniBg(200,200),tAniN(200,200),tAniTime(200,200),tAniCurFrame(200)
-Dim taniBgSel(200),taniNSel(200)
+Dim tAniSeq(maxAni),tAniFrames(maxAni)
+Dim tAniBg(maxAni,maxAni),tAniN(maxAni,maxAni),tAniTime(maxAni,maxAni),tAniCurFrame(maxAni)
+Dim taniBgSel(maxAni),taniNSel(maxAni)
 
 ;sa= safe Area For AI
 ;da= danger/jumping area For AI
@@ -216,7 +216,7 @@ Global twoPlayersKeyb,bgColor,maxScore,ScoreDone,showVidMem,level,renderdelay,sh
 Global xTileImg#,yTileImg#,winner,flagMaxTime,showZColor,teamAttack,gameMode, vsMode 
 Global gamePaused,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxScore,targetMaxScore
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
-Global rScrLimit=1400,lScrLimit=-760,uScrLimit=-50000,dScrLimit=540, yScrCameraBottomLimit
+Global rScrLimit=3248,lScrLimit=-760,uScrLimit=-50000,dScrLimit=1252, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
 Global characterAmount=16    ;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
@@ -258,7 +258,7 @@ Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), super
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
-Dim maxFlightYLimit(maxZ)
+Dim maxFlightYLimit(maxZ), loadingImg(characterAmount), charIdxList(4)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -479,13 +479,13 @@ butCPU=LoadImage(gfxdir$ + "butCPU.bmp")
 
 Global objTypeN=19    ;Amount of existing objects
 
-Include "menus.bb"
-Include "attributes.bb"
-Include "chunks.bb"
-Include "moves1.bb"
-Include "moves2.bb"
-Include "animation.bb"
-Include "AI.bb"
+Include "src\modules\menus.bb"
+Include "src\modules\attributes.bb"
+Include "src\modules\chunks.bb"
+Include "src\modules\moves1.bb"
+Include "src\modules\moves2.bb"
+Include "src\modules\animation.bb"
+Include "src\modules\AI.bb"
 
 loadData()  ;Loads general maps data
 
@@ -571,8 +571,8 @@ zzamount=4
 For n=1 To 4
     zOn(n)=lastZon(n)
     zAI(n)=lastzAI(n)
-    xpointer(n)=100+x:ypointer(n)=400
-    x=x+150
+    xpointer(n)=160+x:ypointer(n)=640
+    x=x+240
     If zteam(n) > 2 Then zteam(n)=0
 Next
 
@@ -605,7 +605,7 @@ WaitTimer(frameTimer)
 
 If menuOption=mainMenuVal Or menuOption=optionsMenuVal Or menuOption=controlsMenuVal Then
     DrawImage backg1,0,0
-    DrawImage title,24,24
+    DrawImage title,39,38
     fontType=2
     pri 565,94,"v "+gameVersion
     fontType=1
@@ -746,8 +746,9 @@ zzamount=prevZzamount
 
 SetBuffer BackBuffer()
 Cls
-ClsColor 200,200,200
-pri priw(strinfo$(23)),220,strinfo$(23)        ;L O A D I N G . . .   message
+ClsColor 0,0,0
+
+displayLoadingScr
 
 Flip
 
@@ -885,7 +886,7 @@ For n=1 To zzamount
     zx(n)=zxStart(n):zy(n)=zyStart(n)
     zGotHitsAmount(n)=0
     If ifiniteLives=1 Then zLives(n)=0 Else zlives(n)=gameLives
-    If zx(n)>=640/2 Then zFace(n)=4 Else zF(n)=2
+    If zx(n)>=1024/2 Then zFace(n)=4 Else zF(n)=2
 Next
 
 ;If music=0 Then music=LoadSound(soundsdir$ + "music" + musicN1+ ".wav")
@@ -903,16 +904,16 @@ EndIf
 noDoubleJump=0
 noAirSpecial=0
 If ScrollMap=0 Then
-    rScrLimit=1040:lScrLimit=-400:uScrLimit=-50000:dScrLimit=540
+    rScrLimit=1040:lScrLimit=-400:uScrLimit=-50000:dScrLimit=864
 Else
     If uScrLimit=0 Then uScrLimit=-50000
-    dScrLimit = yScrCameraBottomLimit+540
+    dScrLimit = yScrCameraBottomLimit+864
 EndIf
 
 ;If scrollMap=1 Then
 ;    If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit
 ;        If yScr < uScrLimit Then yScr = uScrLimit
-;    If xScr < lScrLimit Or xScr+640 > rScrLimit Then xScr=xScrOld
+;    If xScr < lScrLimit Or xScr+1024 > rScrLimit Then xScr=xScrOld
 ;EndIf
 
 ClsColor colorR,colorG,colorB ; Map color background
@@ -1143,7 +1144,7 @@ For n = 1 To zzamount
         If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
         checkInputs(n)
         If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
-            zStaminaBar#(n)=zStaminaBar#(n)+0.5
+            zStaminaBar#(n)=zStaminaBar#(n)+0.2
         End If
         If healMode(n)=1 Then healPlayer(n)
         If zBurning (n) > 0 Then burnPlayer(n)
@@ -1152,7 +1153,7 @@ For n = 1 To zzamount
         initNoMove(n)
     End If
     If zon(n) Then SelectDraw(n)
-    If isUnliSuper=1 Then zSuperBar(n)=100
+    If debugMode=1 Then zSuperBar(n)=100
 Next
 
 processChunks()
@@ -1166,18 +1167,18 @@ If scrollMap=1 Then
     moved=0
     For n=1 To 4
         If zon(n)=1 Then
-            If zx(n) > xscr+440 Then zRight=1
-            If zx(n) < xscr+200 Then zLeft=1
-            If zy(n) > yScr+400 Then zDown=1
-            If zy(n) < yScr+200 Then zTop=1
+            If zx(n) > xscr+704 Then zRight=1
+            If zx(n) < xscr+320 Then zLeft=1
+            If zy(n) > yScr+640 Then zDown=1
+            If zy(n) < yScr+320 Then zTop=1
             
-            If zx(n) > xscr+640 Then zx(n)=zoldx(n)
+            If zx(n) > xscr+1024 Then zx(n)=zoldx(n)
             If zx(n) < xscr Then zx(n)=zoldx(n)
-            If zy(n) > yscr+525 Then
+            If zy(n) > yscr+840 Then
                 playDeathSnd(n)
                 zlives(n)=zlives(n)-1
                 killZ(n)
-            ElseIf zy(n) < yscr-45 Then
+            Else If zy(n) < yscr-72 Then
                 playDeathSnd(n)
                 zlives(n)=zlives(n)-1
                 killZ(n)
@@ -1186,8 +1187,8 @@ If scrollMap=1 Then
     Next
     scrollxSpeed=0
     scrollySpeed=0
-    xScrOld=xScr 
-    yScrOld=yScr 
+    xScrOld=xScr
+    yScrOld=yScr
     
     For n=1 To 4
       If zon(n)=1 Then  
@@ -1215,11 +1216,11 @@ If scrollMap=1 Then
     If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit
 
     If yScr < uScrLimit Then yScr = uScrLimit
-
+    DebugLog "yScr: " + yScr
     If xScr < lScrLimit Then
         xScr=lScrLimit
-    ElseIf xScr+640 > rScrLimit Then
-        xScr=rScrLimit-640
+    ElseIf xScr+1024 > rScrLimit Then
+        xScr=rScrLimit-1024
     EndIf
     
     scrollxSpeed=(xScr-xScrOld)
@@ -1271,7 +1272,7 @@ For n=1 To tileAmount(i)
     EndIf
     
     xTile(i,n)=xTile(i,n) + tileXspeed(i,n)
-     yTile(i,n)=yTile(i,n) + tileYspeed(i,n)
+    yTile(i,n)=yTile(i,n) + tileYspeed(i,n)
 Next
 Next
 
@@ -1289,7 +1290,7 @@ For n=1 To taniAmount    ;executes indepedent animations For tiles
     If tAniSeq(n) > tAniTime(n,tAniCurFrame(n)) Then
         tAniSeq(n)=0 : tAniCurFrame(n)=tAniCurFrame(n)+1
         If tAniCurFrame(n) > tAniFrames(n) Then tAniCurFrame(n)=1
-        tilePic( taniBgSel(n),taniNSel(n) ) = tilePic( taniBg(n,taniCurFrame(n)) ,tAniN(n,taniCurFrame(n)) )    
+        tilePic( taniBgSel(n),taniNSel(n) ) = tilePic( taniBg(n,taniCurFrame(n)) ,tAniN(n,taniCurFrame(n)) )
     EndIf
 Next
 
@@ -1357,7 +1358,7 @@ EndIf
 
 For b=0 To 2
     For i=1 To tileAmount(b)
-        DrawImage tilePic(b,i), xTile(b,i)+xqk-xscr, yTile(b,i)+yqk-yscr
+        If tilePic(b, i)<>0 Then DrawImage tilePic(b,i), xTile(b,i)+xqk-xscr, yTile(b,i)+yqk-yscr
     Next
 Next
 
@@ -1395,11 +1396,11 @@ For n = 1 To objAmount
         If obj(n) And hyperBgDsp=0 Then
             Select objDir(n)
              Case dirRight: DrawImage objPic(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr
-             Case dirLeft: DrawImage objPic_(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr    
+             Case dirLeft: DrawImage objPic_(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr
              Default: DrawImage objPic(n,objCurFrame(n)),(xObj(n)-objSide(n))-xscr,(yObj(n)-objHeight(n))+1-yscr
             End Select
-            If objHurt(n)=0 Then 
-                DrawImage objArrow,(xObj(n)-2)-xscr,(yObj(n)-(objHeight(n)+7))-yscr
+            If objHurt(n)=0 Then
+                DrawImage objArrow,(xObj(n))-xscr,(yObj(n)-(objHeight(n)+9))-yscr
             EndIf
         EndIf
     EndIf
@@ -1467,7 +1468,7 @@ For n=1 To 4
     End Select
     If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
     Rect x,y+15,zSuperbar(n),4,1
-    If zStaminaBar#(n) < 70 Then Color 231,76,60 Else Color 52,152,219
+    If zStaminaBar#(n) < 40 Then Color 231,76,60 Else Color 52,152,219
     Rect x,y+20,zStaminaBar#(n),4,1
     Color 74,35,90
     Rect x,y+25,(zBlockLife(n)*1.28),4,1
@@ -1513,9 +1514,9 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             If zFace(n)=2 Then
                 zSuperX(n)=0 - ImageWidth(zpic(curGuy(n),20,1)) : zSuperDir(n)=2
             Else
-                zSuperX(n)=640 : zSuperDir(n)=4
+                zSuperX(n)=1024 : zSuperDir(n)=4
             EndIf
-            If zy(n)-yscr > 310 Then zSuperY(n)=80 Else zSuperY(n)=300
+            If zy(n)-yscr > 495 Then zSuperY(n)=80 Else zSuperY(n)=300
         EndIf
             
         a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
@@ -1536,7 +1537,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             y=zSuperY(n)
             For i=0 To 110 Step 10
                 Color 0,0,Rand(80,200)
-                Rect 0,y,640,10,1
+                Rect 0,y,1024,10,1
                 y=y+10
             Next
             
@@ -1553,9 +1554,9 @@ If message=1 Then
       y=0
        For i=1 To chunkLines(n)
         ;fontType=2
-        pri priW(chunkStr$(n,i)), yChunk(n)+5+y, chunkStr$(n,i)
+        pri priW(chunkStr$(n,i)), yChunk(n)+8+y, chunkStr$(n,i)
         ;fontType=1
-        y=y+22
+        y=y+35
       Next
 EndIf
 
@@ -1773,10 +1774,10 @@ End
 Function loadZ(n)
     zlife(n)=100                ;Player's life
     zHit(n)=0:zHitSeq(n)=0
-    zheight(n)=45               ;Player's current height
-    zUpHeight(n)=45
-    zDuckHeight(n)=25
-    zside(n)=8                  ;Z width size / 2
+    zheight(n)=72               ;Player's current height
+    zUpHeight(n)=72
+    zDuckHeight(n)=40
+    zside(n)=13                  ;Z width size / 2
     zface(n)=2                  ;Which way it's facing
     zSpeed#(n)=0                ;Player current speed
     zShieldedTime(n)=150        ;Time(frames) player stays invincible when recover
@@ -1787,7 +1788,7 @@ Function loadZ(n)
     zDacc(n)=.2
     
     zAcc#(n)=.2         ;.2
-    zgravity(n)=3       ;3        ;Gravity force when falling or going up
+    zgravity#(n)=4.8       ;3        ;Gravity force when falling or going up
     zjumplimit(n)=20    ;20        ;Jump height (per frame), not pixels!
     zDtopSpeed#(n)=2    ;2
     zTopSpeed#(n)=zDtopSpeed(n)
@@ -2164,17 +2165,17 @@ If zhit(n)=1 Then
     zFallspeed#(n)=zFallSpeed#(n)-.1
     If zFallSpeed#(n) < 0 Then zFallSpeed#(n)=0
     If zongnd(n)=0 Then
-        If zFallDir(n)=4 Then zx(n)=zx(n)-zFallSpeed#(n)
-        If zFallDir(n)=2 Then zx(n)=zx(n)+zFallSpeed#(n)
+        If zFallDir(n)=4 Then zx(n)=zx(n)-(zFallSpeed#(n) * 1.6)
+        If zFallDir(n)=2 Then zx(n)=zx(n)+(zFallSpeed#(n) * 1.6)
     EndIf
 
     If (zFallSpeed(n) > 8 Or zUpFallSpeed(n) > 8) And rendert > 1 Then makeChunk(n,zx(n),zy(n),2,16)
     If zhitseq(n) > 20 Then zhitbybox(n)=0
-    If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then zy(n)=zy(n)-zUpFallSpeed#(n)
+    If zhitseq(n) < zFallTime#(n) And zUpFallSpeed#(n) > 2 Then zy(n)=zy(n)-(zUpFallSpeed#(n) * 1.6)
     
     zDownFallSpeed#(n)=zDownFallSpeed#(n)-.1
     If zDownFallSpeed#(n) < 0 Then zDownFallSpeed#(n)=0
-    If zhitseq(n) < zFallTime#(n) And zDownFallSpeed#(n) > 0 Then zy(n)=zy(n)+zDownFallSpeed#(n)
+    If zhitseq(n) < zFallTime#(n) And zDownFallSpeed#(n) > 0 Then zy(n)=zy(n)+(zDownFallSpeed#(n) * 1.6)
         
     ;evasive roll when on ground
     If blockKey(n)=1 And (leftKey(n)=1 Or rightKey(n)=1) And zRollOnImpact(n)=1 And zongnd(n)=1 And zHitSeq(n) > 20 Then
@@ -2429,16 +2430,6 @@ Function renderChunks(n)
         Case 2:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
         Case 4:DrawImage chunkPic_(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
       End Select
-    ;Case 2    ;text messages
-;      yChunk(n) = textBox(chunkWidth(n),chunkHeight(n))
-;      y=0
-;      For i=1 To chunkLines(n)
-;        ;fontType=2
-;        pri priW(chunkStr$(n,i)), yChunk(n)+5+y, chunkStr$(n,i)
-;        ;fontType=1
-;        y=y+22
-;      Next
-;    End Select
   EndIf
 
 End Function
@@ -2464,8 +2455,8 @@ If KeyHit(1) Then   ;pause button
 EndIf
 
 If KeyHit(87) Then    ;F11 to take snap shot/ screen shot
-temppic=CreateImage(640,480)
-CopyRect xscr,yscr,640,480,0,0,FrontBuffer(),ImageBuffer(temppic)
+temppic=CreateImage(1024,768)
+CopyRect xscr,yscr,1024,768,0,0,FrontBuffer(),ImageBuffer(temppic)
 SaveBuffer(ImageBuffer(temppic)),"pic"+ screenShotN +".bmp"
 screenShotN = screenShotN + 1
 FreeImage temppic
@@ -3515,7 +3506,7 @@ Function buildMap()
 If wallAmount=0 Then
     If map=0 Then map = CreateImage(2,2)
 Else
-    map = CreateImage(640,480)
+    map = CreateImage(1024,768)
     SetBuffer ImageBuffer(map)
     Color 128,128,128
     For i=1 To wallAmount
@@ -3869,7 +3860,7 @@ End Select
             If soundSeed = 6 Then If gameSound Then PlaySound mkLaugh2Snd
             If soundSeed >= 7 And soundSeed <= 8 Then 
                 If gameSound Then PlaySound toastySnd 
-                extraObj(n,xScr+600,0,yScr+480,0,2,98)
+                extraObj(n,xScr+1000,0,yScr+768,0,2,98)
             End If
         End If
         If isMkCharacter(n) = 0 And gameSound Then PlaySound clapSnd
@@ -4149,13 +4140,13 @@ For q=2 To objheight(n)-2 Step 2
         If ImageRectCollide(map,0,0,0,xobj(n)+objSide(n),yobj(n)-q,1,1) Then
             xobj(n)=xobj(n)-2:objYSpeed(n)=0
             If objHurt(n)=1 Then objHit(n)=1
-            ithit=1:objDir(n)=4:objHitSolid(n)            
+            ithit=1:objDir(n)=4:objHitSolid(n)
             Exit
         EndIf
         If ImageRectCollide(map,0,0,0,xobj(n)-objSide(n),yobj(n)-q,1,1) Then
             xobj(n)=xobj(n)+2:objYSpeed(n)=0
             If objHurt(n)=1 Then objHit(n)=1
-            ithit=1:objDir(n)=2:objHitSolid(n)            
+            ithit=1:objDir(n)=2:objHitSolid(n)
             Exit
         EndIf
 Next    
@@ -5028,7 +5019,7 @@ For nn= 1 To zzamount
 If n <> nn Then
     If zteam(n) <> zteam(nn) And zon(nn) = 1 And zHelperObj(nn)=0 Then
       If vsMode=0 Then    ;on aventure mode, will only get target If within screen
-        If zx(nn) > xScr And zx(nn) < xScr+640 And zy(nn) > yScr And zy(nn) < yScr+480 Then
+        If zx(nn) > xScr And zx(nn) < xScr+1024 And zy(nn) > yScr And zy(nn) < yScr+768 Then
           aiTarget(n)=nn:Exit
         Else
           nada=nada123
@@ -5048,7 +5039,7 @@ For nn= 1 To zzamount
  If n <> nn Then
     If zteam(n) <> zteam(nn) And zon(nn) = 1 And zHelperObj(nn)=0 Then
     
-        If zx(nn) > xScr And zx(nn) < xScr+640 And zy(nn) > zy(n)-60 And zy(nn) < zy(n)+30 Then
+        If zx(nn) > xScr And zx(nn) < xScr+1024 And zy(nn) > zy(n)-60 And zy(nn) < zy(n)+30 Then
           aiTarget(n)=nn:Exit
         EndIf
     
@@ -5059,10 +5050,10 @@ Next
 End Function
 ;--------CHECK PIXEL COLLISION DISTANCE-----------------------------------------------------------
 Function checkDist(n,x,y,dir)
-xDist(n)=600
+xDist(n)=1024
 Select dir
 Case 2
-For q=1 To 600 Step 5
+For q=1 To 1024 Step 5
     If ImageRectCollide(map,0,0,0,x+q,y,1,1) Then
         xDist(n)=q
         Goto distChecked
@@ -5078,7 +5069,7 @@ For q=1 To 600 Step 5
 Next
 
 Case 4
-For q=1 To 600 Step 5
+For q=1 To 1024 Step 5
     If ImageRectCollide(map,0,0,0,x-q,y,1,1) Then
         xDist(n)=q
         Goto distChecked
@@ -5144,7 +5135,7 @@ End Function
 ;------------ check If element is inside visible area--------------------------------------------------
 Function inSight(x,y)
 
-If x > xScr And x < xScr+640 And y > yScr And y < yScr+490 Then
+If x > xScr And x < xScr+1024 And y > yScr And y < yScr+778 Then
     Return True
 Else
     Return False
@@ -5525,7 +5516,7 @@ End Function
 Function checkRightKeyHit(n)    
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - rightKeyHitTimer(n)) < quartSec And (curTime - rightKeyHitTimer(n)) > 0 Then
-        If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
+        If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
     End If
     rightKeyHitTimer(n) = curTime
 End Function
@@ -5534,7 +5525,7 @@ End Function
 Function checkLeftKeyHit(n)
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - leftKeyHitTimer(n)) < quartSec And (curTime - leftKeyHitTimer(n)) > 0 Then
-        If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 70 And zRunFrames(n)>0 Then isRunning(n)=1
+        If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
     End If
     leftKeyHitTimer(n) = curTime
 End Function
@@ -6243,6 +6234,7 @@ For n=1 To characterAmount
         For m=1 To zStanceFrames(n)
             If butPic2(n, m)=0 Then
                 butPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance" + m + ".bmp")
+                If n=14 Then ScaleImage butPic2(n, m),0.49,0.49
             End If
         Next
     Else
@@ -6495,6 +6487,24 @@ Function doDebugMode()
         If KeyHit(60)=1 Then GoTo Continue
     Wend
     .Continue
+    
+    yTile2Reduction = 0
+    For n=0 To bgAmount
+        For m=1 To tileAmount(n)
+            If tileFollowType(n, m)=1 Then
+                If KeyHit(61)=1 Then
+                    yTile2Reduction=-1
+                End If
+                
+                If KeyHit(62)=1 Then
+                    yTile2Reduction=1
+                End If
+                
+                yTile2( n, m )=yTile2( n, m ) + yTile2Reduction
+                If yTile2Reduction <> 0 Then DebugLog "yTile2: " + yTile2(n, m)
+            End If
+        Next
+    Next
 End Function
 
 Function handleShotToShotCollision(n)
@@ -6518,4 +6528,19 @@ Function getShotSeekXSpd(shot, target, xDest)
     dist=getDistanceFromShot(shot, target)
     xSpd#=shotSeekSpeed#(shot)*(xLengthDiff/dist)
     Return xSpd#
+End Function
+
+Function displayLoadingScr()
+    For n=1 To zamountPlaying
+        charIdxList(n)=curGuy(n)
+    Next
+    
+    i=Rand(1,zamountPlaying)
+    If loadingImg(charIdxList(i))=0 Then
+        loadingImg(charIdxList(i))=LoadImage("gfx\stuff\loading\loading_" + charIdxList(i) + ".png")
+    End If
+
+    If loadingImg(charIdxList(i)) <> 0 Then
+        DrawImage loadingImg(charIdxList(i)), 0, 0       ; Loading screen
+    End If
 End Function

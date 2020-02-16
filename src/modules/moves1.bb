@@ -1,11 +1,11 @@
-Include "wolverine.bb"
-Include "scorpion.bb"
-Include "subzero.bb"
-Include "wonderwoman.bb"
-Include "juggernaut.bb"
-Include "piccolo.bb"
-Include "hiryu.bb"
-Include "evilryu.bb"
+Include "src\char\wolverine.bb"
+Include "src\char\scorpion.bb"
+Include "src\char\subzero.bb"
+Include "src\char\wonderwoman.bb"
+Include "src\char\juggernaut.bb"
+Include "src\char\piccolo.bb"
+Include "src\char\hiryu.bb"
+Include "src\char\evilryu.bb"
 
 Function DoRyu(n)
 

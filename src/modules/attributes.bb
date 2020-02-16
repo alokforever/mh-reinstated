@@ -1949,13 +1949,13 @@ shotExplosionSound(n)=explodeSnd
 
 Select objType(n)
 Case 1    ;yellow shell
-    objXspeed(n)=7
-    objSize(n)=14
-    objYSpeed(n)=-1
-    objYForce(n)=-6
+    objXspeed(n)=11.2
+    objSize(n)=16.8
+    objYSpeed(n)=-1.6
+    objYForce(n)=-9.6
     objdamage(n)=25
-    objHeight(n)=16
-    objSide(n)=7
+    objHeight(n)=27
+    objSide(n)=11.2
     objImpact(n)=12
     If e=0 Then objLife(n)=50
     BeatIten(n)=0
@@ -1964,13 +1964,13 @@ Case 1    ;yellow shell
     objPic_(n,1)=obj1P
 
 Case 2    ;MedKit
-    objXspeed(n)=3
-    objSize(n)=14
-    objYSpeed(n)=-1
-    objYForce(n)=-3
+    objXspeed(n)=4.8
+    objSize(n)=22.4
+    objYSpeed(n)=-1.6
+    objYForce(n)=-4.8
     objdamage(n)=10
-    objHeight(n)=16
-    objSide(n)=7
+    objHeight(n)=26
+    objSide(n)=11.2
     objImpact(n)=15
     If e=0 Then objLife(n)=20
     BeatIten(n)=0
@@ -1980,13 +1980,13 @@ Case 2    ;MedKit
     objEat(n)=1
 
 Case 3    ;Green shell
-    objXspeed(n)=7
-    objSize(n)=14
-    objYSpeed(n)=-1
-    objYForce(n)=-6
+    objXspeed(n)=11.2
+    objSize(n)=22.4
+    objYSpeed(n)=-1.6
+    objYForce(n)=-9.6
     objdamage(n)=20
-    objHeight(n)=16
-    objSide(n)=7
+    objHeight(n)=27
+    objSide(n)=11.2
     objImpact(n)=10
     If e=0 Then objLife(n)=20
     BeatIten(n)=0
@@ -1995,13 +1995,13 @@ Case 3    ;Green shell
     objPic_(n,1)=obj3P
 
 Case 4  ;Explosive Barrel
-    objXspeed(n)=6
-    objSize(n)=14
-    objYSpeed(n)=-1
-    objYForce(n)=-5
+    objXspeed(n)=9.6
+    objSize(n)=22.4
+    objYSpeed(n)=-1.6
+    objYForce(n)=-8
     objdamage(n)=3
-    objHeight(n)=16
-    objSide(n)=7
+    objHeight(n)=26
+    objSide(n)=11.2
     objImpact(n)=20
     objExplosive(n)=1
     If e=0 Then objLife(n)=20
@@ -2013,12 +2013,12 @@ Case 4  ;Explosive Barrel
     objPic_(n,1)=obj4P
 
 Case 5  ;helper
-    objXspeed(n)=2.5
-    objSize(n)=14
-    objYSpeed(n)=-1
-    objYForce(n)=-2.5
+    objXspeed(n)=4
+    objSize(n)=22.4
+    objYSpeed(n)=-1.6
+    objYForce(n)=-4
     objdamage(n)=2
-    objHeight(n)=16
+    objHeight(n)=26
     objSide(n)=objSize(n)/2
     objImpact(n)=20
     objExplosive(n)=4    ;defines what will do when obj hits something!
@@ -2672,6 +2672,11 @@ Next
 For counter = 1 To 35
     zpic(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + ".bmp")
     zpic_(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + "_.bmp")
+    
+    If n=14 And zpic(n,19,counter)<>0 Then 
+        ScaleImage zpic(n,19,counter),0.75,0.75
+        ScaleImage zpic_(n,19,counter),0.75,0.75
+    End If
 Next
 
 For counter = 1 To 20

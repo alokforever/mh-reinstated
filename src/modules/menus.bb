@@ -180,29 +180,29 @@ EndIf
 
 ;-------stage menu rendering ----------
 Cls
-DrawImage butpic(70),15,5
-pri 25,10,strinfo$(22) 
+DrawImage butpic(70),24,8
+pri 85,16,strinfo$(22) 
 
-x=250 : y=5
+x=400 : y=8
 fontType=1
-strSize = pri(x+30, 7, modName(curModId))
+strSize = pri(x+48, 11, modName(curModId))
 fontType=2
 ;draws arrows for selecting mod
-DrawImage arrow1,x+5,y+3
-DrawImage arrow2,x+35+strSize, y+3
+DrawImage arrow1,x+8,y+5
+DrawImage arrow2,x+56+strSize, y+5
 b=53
-xBut(b)=x+5:yBut(b)=y+3:wBut(b)=20:hBut(b)=15
+xBut(b)=x+8:yBut(b)=y+5:wBut(b)=32:hBut(b)=24
 b=54
-xBut(b)=x+35+strSize : yBut(b)=y+3:wBut(b)=20:hBut(b)=15
+xBut(b)=x+56+strSize : yBut(b)=y+5:wBut(b)=32:hBut(b)=24
 
 
-y=40;:mn=0
-x=20
-sp1=125 : sp2=90    ;x/y space between maps
+y=64;:mn=0
+x=32
+sp1=200 : sp2=144    ;x/y space between maps
 If vsMode=0 Then
-    sp1=60 : sp2=45
+    sp1=96 : sp2=72
 EndIf
-For n= 1 To 50 ;maxAmap
+For n = 1 To 50 ;maxAmap
   If vsMode=0 Then  ;If adventure mode
     If mapOpen(n)=1 And mapTn(n) <> 0 Then
         xBut(n)=x:yBut(n)=y:wBut(n)=ImageWidth(mapTn(n)):hBut(n)=ImageHeight(mapTn(n))
@@ -240,7 +240,7 @@ For n= 1 To 50 ;maxAmap
   EndIf
 
     x=x+sp1
-    If x > 600 Then x=20: y=y+sp2
+    If x > 960 Then x=32: y=y+sp2
 Next
 
 For n=1 To 4
@@ -253,8 +253,8 @@ Until gameStart > 0
 End Function 
 ;----- draws box ---------------
 Function textBox(w,h)
-n1=640-(w) : x=(n1/2)
-n2=480-(h) : y=(n2/2)
+n1=1024-(w) : x=(n1/2)
+n2=768-(h) : y=(n2/2)
 
 Color 0,0,0
 Rect x,y,w,h,1
@@ -275,29 +275,29 @@ Cls
 statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
-;n1=640-(priW(strInfo$(36))) : x=(n1/2)
-pri priW(strInfo$(36)),75, strInfo$(36)
+;n1=1024-(priW(strInfo$(36))) : x=(n1/2)
+pri priW(strInfo$(36)),120, strInfo$(36)
 
-If checkWhatsOpen()=1 Then pri 100,100, strInfo$(61)
+If checkWhatsOpen()=1 Then pri 160,160, strInfo$(61)
 
-pri 100,125, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
-x=100:y=175:xOffset=0
+pri 160,200, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
+x=160:y=280:xOffset=0
 For i=1 To 4
   If curGuy(i)=6 Then 
-    xOffset=20 
+    xOffset=32 
   Else 
     xOffset=0
   End If
   
   If zwason(i)=1 Then
-    drawimage zPic(curGuy(i),1,0),x-(40+xOffset),y-10
+    drawimage zPic(curGuy(i),1,0),x-(64+xOffset),y-16
     pri x,y, strInfo$(38) + zGotHitsAmount(i)
-    If zGotHitsAmount(i)=0 Then pri x+230,y,strInfo$(39)
-    y=y+50
+    If zGotHitsAmount(i)=0 Then pri x+368,y,strInfo$(39)
+    y=y+80
  EndIf
 Next
 
-pri priW(strInfo$(37)),390, strInfo$(37)
+pri priW(strInfo$(37)),624, strInfo$(37)
 
 Flip
 Delay 200
@@ -318,7 +318,7 @@ statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
 
-y = 100
+y = 160
 If winner=1000 Then ;If its a draw
     pri priW(strInfo(34)),y, strInfo$(34)
 Else
@@ -340,22 +340,22 @@ Else
     End Select
 EndIf
 
-x=100:y=175:xOffset=0
+x=160:y=280:xOffset=0
 For i=1 To 4
- If curGuy(i)=6 Then 
-    xOffset=20
+ If curGuy(i)=6 Then
+    xOffset=32
  Else
    xOffset=0
  End If
  If zwason(i)=1 Then
-  DrawImage zPic(curGuy(i),1,0),x-(40+xOffset),y-10
+  DrawImage zPic(curGuy(i),1,0),x-(64+xOffset),y-16
   pri x,y, strInfo$(38) + zGotHitsAmount(i)
-  If zGotHitsAmount(i)=0 Then pri x+230,y,strInfo$(39)
-  y=y+50
+  If zGotHitsAmount(i)=0 Then pri x+368,y,strInfo$(39)
+  y=y+80
  EndIf
 Next
 
-pri priW(strInfo$(37)),390, strInfo$(37)
+pri priW(strInfo$(37)),624, strInfo$(37)
 
 Flip
 Delay 300
@@ -521,7 +521,7 @@ For i=1 To Len(s$)
  End Select
 Next
 
-n1=640-w :w = (n1/2)
+n1=1024-w :w = (n1/2)
 
 Return w
 
@@ -769,43 +769,43 @@ buttonAmount = 80
 fontType = 2
 
 For b = 1 To characterAmount
-If x Mod 500 = 0 And x <> 0 Then y=y+60:x=0
-xBut(b)=70+x:yBut(b)=45+y:wBut(b)=50:hBut(b)=60
-x=x+50
-pri xbut(b)+5,ybut(b)+10, butTExt(b)
+If x Mod 800 = 0 And x <> 0 Then y=y+96:x=0
+xBut(b)=112+x:yBut(b)=72+y:wBut(b)=80:hBut(b)=96
+x=x+80
+pri xbut(b)+8,ybut(b)+16, butTExt(b)
 Next
 
 x=0
 For b= 55 To 58
-xBut(b)=50+x:yBut(b)=250:wBut(b)=90:hBut(b)=20
-x=x+150
+xBut(b)=80+x:yBut(b)=400:wBut(b)=144:hBut(b)=32
+x=x+240
 Next
 
 x=0
 For b= 60 To 63 ;human, CPU, none
-xBut(b)=110+x:yBut(b)=212:wBut(b)=35:hBut(b)=15
-x=x+150
+xBut(b)=176+x:yBut(b)=339:wBut(b)=56:hBut(b)=24
+x=x+240
 Next
 
 x=0
 For b= 72 To 79 Step 2  ;arrows to Select CPU player
-xBut(b)=50 +  x :yBut(b)  =310:wBut(b)  =30:hBut(b)  =15
-xBut(b+1)=115+x :yBut(b+1)=310:wBut(b+1)=30:hBut(b+1)=15
-x=x+150
+xBut(b)=80 +  x :yBut(b)  =496:wBut(b)  =48:hBut(b)  =24
+xBut(b+1)=184+x :yBut(b+1)=496:wBut(b+1)=48:hBut(b+1)=24
+x=x+240
 Next
 
 x=0
 For b= 64 To 67 ;AI level button
-xBut(b)=58+x:yBut(b)=352:wBut(b)=64:hBut(b)=22
-x=x+150
+xBut(b)=93+x:yBut(b)=563:wBut(b)=102:hBut(b)=35
+x=x+240
 Next
 
-xBut(50)=196:yBut(50)=10:wBut(50)=226:hBut(50)=20
-xBut(51)=485:yBut(51)=12:wBut(51)=20:hBut(51)=16
-xBut(52)=595:yBut(52)=12:wBut(52)=20:hBut(52)=16
-xBut(54)=10:yBut(54)=10:wBut(54)=160:hBut(54)=20
-xBut(70)=200:yBut(70)=450:wBut(70)=225:hBut(70)=20
-xBut(71)=470:yBut(71)=450:wBut(71)=158:hBut(71)=20
+xBut(50)=314:yBut(50)=16:wBut(50)=362:hBut(50)=32
+xBut(51)=776:yBut(51)=19:wBut(51)=32:hBut(51)=27
+xBut(52)=952:yBut(52)=19:wBut(52)=32:hBut(52)=27
+xBut(54)=16:yBut(54)=16:wBut(54)=256:hBut(54)=32
+xBut(70)=320:yBut(70)=720:wBut(70)=360:hBut(70)=32
+xBut(71)=752:yBut(71)=720:wBut(71)=253:hBut(71)=32
 
 ;-----Rendering menu --------------------------------
 
@@ -819,59 +819,59 @@ For b= 1 To characterAmount ;characters to select
     If characterOpen(b)=1 Then
         Local xOffset=10
         If b=6 Or b=15 Then
-            xOffset=-5
+            xOffset=-8
         Else If b = 11 Or b = 14 Then
-            xOffset=1
+            xOffset=2
         EndIf
-        DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +56
+        DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +90
     Else
-        DrawImage lock,xbut(b)+10, ybut(b)+15
+        DrawImage lock,xbut(b)+16, ybut(b)+24
     EndIf
 Next
 
 b=50
 If vsMode=1 Then
  DrawImage butpic(b),xbut(b),ybut(b)
- pri xbut(b)+8,ybut(b)+5,strInfo$(17) + gmStr$
+ pri xbut(b)+14,ybut(b)+8,strInfo$(17) + gmStr$
 EndIf
 b=51
 If vsMode=1 Then
- DrawImage butpic(54),xbut(b)-20,ybut(b)-3
+ DrawImage butpic(54),xbut(b)-32,ybut(b)-5
  DrawImage arrow1,xbut(b),ybut(b)
  DrawImage arrow2,xbut(b+1),ybut(b+1)
- If gameMode=1 Then pri xbut(b)+25,ybut(b)+3,strInfo$(29) + gameLives
- If gameMode=2 Then pri xbut(b)+25,ybut(b)+3,strInfo$(11) + flagMAxScore
- If gameMode=3 Then pri xbut(b)+25,ybut(b)+3,strInfo$(10) + flagMAxTime
- If gameMode=4 Then pri xbut(b)+25,ybut(b)+3,strInfo$(11) + targetMAxScore
+ If gameMode=1 Then pri xbut(b)+25,ybut(b)+5,strInfo$(29) + gameLives
+ If gameMode=2 Then pri xbut(b)+25,ybut(b)+5,strInfo$(11) + flagMAxScore
+ If gameMode=3 Then pri xbut(b)+25,ybut(b)+5,strInfo$(10) + flagMAxTime
+ If gameMode=4 Then pri xbut(b)+25,ybut(b)+5,strInfo$(11) + targetMAxScore
 EndIf
 
 b=54
 If vsMode=1 Then
  DrawImage butpic(54),xbut(b),ybut(b)
- If teamAttack=1 Then pri xbut(b)+8,ybut(b)+5,strInfo$(2)
- If teamAttack=0 Then pri xbut(b)+8,ybut(b)+5,strInfo$(3)
+ If teamAttack=1 Then pri xbut(b)+13,ybut(b)+8,strInfo$(2)
+ If teamAttack=0 Then pri xbut(b)+13,ybut(b)+8,strInfo$(3)
 EndIf
 b=70    ;Start the game!
  DrawImage butpic(b),xbut(b),ybut(b)
- pri xbut(b)+65,ybut(b)+5,strInfo$(1)
+ pri xbut(b)+104,ybut(b)+8,strInfo$(1)
 
 b=71   ;items on/off
 DrawImage butpic(b),xbut(b),ybut(b)
 If noItems=1 Then
-    pri xbut(b)+50,ybut(b)+5,strInfo$(97)
+    pri xbut(b)+80,ybut(b)+8,strInfo$(97)
 Else
-    pri xbut(b)+50,ybut(b)+5,strInfo$(96)
+    pri xbut(b)+80,ybut(b)+8,strInfo$(96)
 EndIf
 
-x=40:y=210:xx=0:n=0
+x=64:y=336:xx=0:n=0
 For b=1 To zzamount ;board, player # and pad
     n=n+1
     ;Color 100,100,100:Rect x+xx,y,110,55,1
     ;Color 200,200,200:Rect x+xx,y,110,55,0
-    drawimage board,(x+xx)-10,y-8
-    drawimage pad,x+xx+5,y+125
-    pri x+xx+5,y+3,strInfo$(12)+ n
-    xx=xx+150
+    drawimage board,(x+xx)-16,y-13
+    drawimage pad,x+xx+8,y+200
+    pri x+xx+8,y+5,strInfo$(12)+ n
+    xx=xx+240
 Next
 
 n=0
@@ -880,7 +880,7 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)<=maxZ Then
         If zStanceFrames(curGuy(n))>0 And zOn(n)=1 Then
             If curGuy(n)=1 Then
-                menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+45, 335)
+                menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+72, 536)
             Else
                 setStanceFrame(n)
             End If
@@ -896,21 +896,21 @@ For b=55 To 58  ;team, selected player
         Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     
         If zTeam(n) < 1 Or zTeam(n) > 2 Then
-            Color 200,200,200:pri xbut(b)+5,ybut(b)+3,strInfo$(30)
+            Color 200,200,200:pri xbut(b)+8,ybut(b)+5,strInfo$(30)
         Else
             Select zteam(n)
-            Case 1:Color 250,0,0:Rect xbut(b)+50,ybut(b)+2,30,10,1
-            Case 2:Color 0,250,0:Rect xbut(b)+50,ybut(b)+2,30,10,1
+            Case 1:Color 250,0,0:Rect xbut(b)+80,ybut(b)+3,48,16,1
+            Case 2:Color 0,250,0:Rect xbut(b)+80,ybut(b)+3,48,16,1
             End Select
-            pri xbut(b)+5,ybut(b)+3,strInfo$(31)
+            pri xbut(b)+8,ybut(b)+5,strInfo$(31)
         EndIf
     EndIf
-    xOffset=25
-    If curGuy(n)=6 Then xOffset=10
-    If curGuy(n)=15 Then xOffset=20
+    xOffset=40
+    If curGuy(n)=6 Then xOffset=16
+    If curGuy(n)=15 Then xOffset=32
     If CurGuy(n) > 0 And zon(n) > 0 Then 
         If butPic2(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
-        DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,350-ImageHeight(butpic2(curGuy(n), butFrame))
+        DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(butpic2(curGuy(n), butFrame))
     End If
 Next
 
@@ -939,7 +939,7 @@ For b=64 To 67  ;Level Select For AI
     n=n+1
     If zai(n)=1 Then
         drawimage board2, xbut(b),ybut(b)
-        pri xbut(b)+6,ybut(b)+6,strInfo$(32) + aiLevel(n)
+        pri xbut(b)+10,ybut(b)+10,strInfo$(32) + aiLevel(n)
     EndIf
 Next
 
@@ -958,12 +958,12 @@ End Function
 Function warningMsg()
 warnSeq=warnSeq+1
 If warnSeq > 140 Then warning=0
-    x=188: y=165: w=250: h=30
+    x=300: y=264: w=400: h=48
     Color 192,192,192
     Rect x,y,w,h,1
     Color Rand(1,255),Rand(1,255),Rand(1,255)
     Rect x+2,y+2,w-4,h-4,0
-    pri priW(strWarning$),y+10, strWarning$
+    pri priW(strWarning$),y+16, strWarning$
 
 End Function 
 
@@ -995,9 +995,9 @@ Next
 ;----------Buttons attributes--------------------------
 x=0 : y=0
 buttonAmount = 5
-For b= 1 To 5
-    xBut(b)=200+x:yBut(b)=200+y:wBut(b)=240:hBut(b)=22
-    y=y+30
+For b = 1 To 5
+    xBut(b)=320+x:yBut(b)=320+y:wBut(b)=384:hBut(b)=35
+    y=y+48
 Next
 
 butText$(1)=strInfo$(14)
@@ -1038,8 +1038,8 @@ Next
 x=0 : y=0
 buttonAmount = 4
 For b= 1 To 4
-    xBut(b)=200+x:yBut(b)=200+y:wBut(b)=240:hBut(b)=22
-    y=y+30
+    xBut(b)=320+x:yBut(b)=320+y:wBut(b)=384:hBut(b)=35
+    y=y+48
 Next
 
 butText$(1)=strInfo$(63)
@@ -1096,9 +1096,9 @@ Next
 x=0 : y=0
 buttonAmount = 7
 For b= 1 To buttonAmount
-    If b=7 Then y=y+50
-    xBut(b)=180+x:yBut(b)=200+y:wBut(b)=290:hBut(b)=22
-    y=y+30
+    If b=7 Then y=y+80
+    xBut(b)=288+x:yBut(b)=320+y:wBut(b)=464:hBut(b)=35
+    y=y+48
 Next
 
 butText$(1)=strInfo$(19)
@@ -1116,7 +1116,7 @@ For b=1 To buttonAmount
     ;color 200,200,200
     ;rect xBut(b),yBut(b),wBut(b),hBut(b),0
 Next
-o=200
+o=320
 If windowMode=0 Then
     pri xBut(1)+o, yBut(1), strInfo$(41)
 Else
@@ -1173,10 +1173,10 @@ EndIf
 Next
 
 ;----------Buttons attributes--------------------------
-x=100: y=220
+x=160: y=352
 buttonAmount = 13
 For b= 1 To 4
-    xBut(b) = x : yBut(b) = y : wBut(b)=100:hBut(b)=60
+    xBut(b) = x : yBut(b) = y : wBut(b)=160:hBut(b)=96
 
     If zController(b)=0 Then
         tpic(b) = keyboardPic
@@ -1184,31 +1184,31 @@ For b= 1 To 4
         tPic(b) = controllerPic
     EndIf
 
-    x=x+120
+    x=x+192
 Next
 
-x=100: y=290
-For b= 5 To 8
-    xBut(b) = x : yBut(b) = y : wBut(b)=100:hBut(b)=20
-    x=x+120
+x=160: y=464
+For b = 5 To 8
+    xBut(b) = x : yBut(b) = y : wBut(b)=160:hBut(b)=32
+    x=x+192
     butText$(b) = strInfo$(60)
 Next
 
-x=135 : y=192
+x=216 : y=307
 For b=10 To 13
     xBut(b) = x : yBut(b) = y : wBut(b)=0:hBut(b)=0
-    x=x+120
+    x=x+192
     butText$(b) = "p"+(b-9)
 Next
 
-xBut(9)=100 : yBut(9)=420: wBut(9)=80: hBut(9)=25: butText$(9)=strInfo$(48)
+xBut(9)=160 : yBut(9)=672: wBut(9)=128: hBut(9)=40: butText$(9)=strInfo$(48)
 
 ;-----Rendering menu --------------------------------
 fontType=1
 For b=1 To 8
     If b < 5 Then
         drawimage tPic(b), xBut(b), yBut(b)
-        If zController(b)=1 Then pri xBut(b)+2,yBut(b)+2,controllerPort(b)+1
+        If zController(b)=1 Then pri xBut(b)+3,yBut(b)+3,controllerPort(b)+1
    EndIf
     If b > 4 Then pri xBut(b), yBut(b), butText$(b)
 Next
@@ -1483,9 +1483,9 @@ For n=1 To 4
     If shotKey(n)=1 Then clickButton(n)
 
     If xpointer(n) < 1 Then xpointer(n) = 1
-    If xpointer(n) > 630 Then xpointer(n) = 630
+    If xpointer(n) > 1014 Then xpointer(n) = 1014
     If ypointer(n) < 1 Then ypointer(n) = 1
-    If ypointer(n) > 470 Then ypointer(n) = 470
+    If ypointer(n) > 758 Then ypointer(n) = 758
 Next
 
 If MouseHit(1) Then clickbutton(1)
@@ -1536,60 +1536,60 @@ Color 10,10,10
 Select n
 
 Case 1    ;horizontal lines
-y1=0 : y2=480
-For i=1 To 240
-    Rect 0,y1,641,3,1
-    Rect 0,y2,641,3,1
+y1=0 : y2=768
+For i=1 To 384
+    Rect 0,y1,1025,5,1
+    Rect 0,y2,1025,5,1
     If curWindowMode=1 Then
         Flip
     Else
         VWait
     EndIf
-    y1=y1+3
-    y2=y2-3
-    If y1 > 245 Then Exit
+    y1=y1+5
+    y2=y2-5
+    If y1 > 389 Then Exit
 Next
 
 Case 2    ;vertical lines
-x1=0 : x2=641
-For i=1 To 320
-    Rect x1,0,3,481,1
-    Rect x2,0,3,481,1
+x1=0 : x2=1025
+For i=1 To 512
+    Rect x1,0,5,769,1
+    Rect x2,0,5,769,1
     If curWindowMode=1 Then
         Flip
     Else
         VWait
     EndIf
-    x1=x1+3
-    x2=x2-3
-    If x1 > 325 Then Exit
+    x1=x1+5
+    x2=x2-5
+    If x1 > 517 Then Exit
 Next
 
 Case 3    ;horizontal and vertical lines
 
-x1=0 : x2=641
-y1=0 : y2=480
-For i=1 To 320
-    Rect x1,0,3,481,1
-    Rect x2,0,3,481,1
-    Rect 0,y1,641,3,1
-    Rect 0,y2,641,3,1
+x1=0 : x2=1025
+y1=0 : y2=768
+For i=1 To 512
+    Rect x1,0,5,769,1
+    Rect x2,0,5,769,1
+    Rect 0,y1,1025,5,1
+    Rect 0,y2,1025,5,1
     If curWindowMode=1 Then
         Flip
     Else
         VWait
     EndIf
-    x1=x1+3 : x2=x2-3
-    y1=y1+3 : y2=y2-3
-    If x1 > 325 Then Exit
+    x1=x1+5 : x2=x2-5
+    y1=y1+5 : y2=y2-5
+    If x1 > 517 Then Exit
 Next
 
 Case 4 ;spreading vertical lines
 
 x1=32
 For i=1 To 68 Step 2
-    For ii= 0 To 640 Step 64
-        Rect x1+ii,0,i,481,1
+    For ii= 0 To 1024 Step 64
+        Rect x1+ii,0,i,789,1
     Next
     x1=x1-1
     If curWindowMode=1 Then
@@ -1639,7 +1639,7 @@ Function configKeys(player)
 Local isKeyPressed=0
 pn = player
 
-If zController(pn) =1 Then  keyschosen=5 Else keyschosen=1
+If zController(pn) = 1 Then  keyschosen=5 Else keyschosen=1
 
 Repeat
 setbuffer backbuffer()
@@ -1648,7 +1648,7 @@ FlushKeys()
 For b=1 To 8
     If b < 5 Then
         drawimage tPic(b), xBut(b), yBut(b)
-        If zController(b)=1 Then pri xBut(b)+2,yBut(b)+2,controllerPort(b)+1
+        If zController(b)=1 Then pri xBut(b)+3,yBut(b)+3,controllerPort(b)+1
     EndIf
     If b > 4 Then pri xBut(b), yBut(b), butText$(b)
 Next
@@ -1657,13 +1657,13 @@ For b=10 To 13
     pri xBut(b),yBut(b),butText$(b)
 Next
 
-If pn=1 Then x = 100
-If pn=2 Then x = 220
-If pn=3 Then x = 340
-If pn=4 Then x = 460
-y = 320
+If pn=1 Then x = 160
+If pn=2 Then x = 352
+If pn=3 Then x = 544
+If pn=4 Then x = 736
+y = 512
 color 28,28,28
-rect x,y,220,20,1
+rect x,y,352,32,1
 
 Select keyschosen
 Case 1:pri x,y,strInfo$(51): flip
@@ -1779,7 +1779,7 @@ End Function
 Function loadConfig()
 
 If FileType("game.cfg")=0 Then ;create file If it doesn`t exist
-    temp=WriteFile("game.cfg")    
+    temp=WriteFile("game.cfg")
     For n=1 To 20
         WriteInt temp, 0
     Next
@@ -1838,18 +1838,18 @@ If gameMusic=1 Then PlaySound intro
 fontType=1
 SetBuffer BackBuffer()
 If po=1 Then
-    pri priW("a fan made game"),210,"a fan made game"
-    pri priW("p r e s e n t s"),240,"p r e s e n t s"
+    pri priW("a fan made game"),336,"a fan made game"
+    pri priW("p r e s e n t s"),384,"p r e s e n t s"
 Else
-    pri priW("a fan made game"),220,"a fan made game"
+    pri priW("a fan made game"),352,"a fan made game"
 EndIf
 flip
 cls
 waitThis(8000)
 If po=1 Then
-    drawimage logo,147,127
+    drawimage logo,235,203
 Else
-    pri priW("p r e s e n t s"),220,"p r e s e n t s"
+    pri priW("p r e s e n t s"),352,"p r e s e n t s"
 EndIf
 flip
 waitThis(8200)
@@ -1859,8 +1859,8 @@ End Function
 ;---------------------- Roll Credits ------------------------
 Function rollCredits()
 n=1
-s=25
-s2=50
+s=40
+s2=80
 credits$(n)="credits" :ySpace(n)=s2 :n=n+1
 credits$(n)="thanks to all the great" :ySpace(n)=s :n=n+1
 credits$(n)="characters, art and sound" :ySpace(n)=s :n=n+1
@@ -1892,12 +1892,11 @@ credits$(n)="julia" :ySpace(n)=s2 :n=n+1
 credits$(n)="extra vs levels" :ySpace(n)=s :n=n+1
 credits$(n)="benjamin woods" :ySpace(n)=s :n=n+1
 credits$(n)="colin clark" :ySpace(n)=s :n=n+1
-
-
+credits$(n)="mod creator: zeto" :ySpace(n)=s :n=n+1
 
 If gameSound Then PlaySound ddhitSnd
 lines = n
-yCredit(0)=460
+yCredit(0)=736
 For i=1 To lines
     yCredit(i)=yCredit(i-1) + ySpace(i-1)
 Next
@@ -1908,13 +1907,14 @@ Repeat
  WaitTimer(frameTimer)
  Cls
  For n=1 To lines
-   If yCredit(n) > -30 And yCredit(n) < 500     ;only draw texts on screen
+   If yCredit(n) > -48 And yCredit(n) < 800     ;only draw texts on screen
        pri priW(credits$(n)),yCredit(n),credits$(n)
    EndIf
    yCredit(n)=yCredit(n)-1
+   If KeyDown(57)=1 Then yCredit(n)=yCredit(n)-2
  Next
  Flip
-Until KeyHit(1) Or yCredit(lines) < -20
+Until KeyHit(1) Or yCredit(lines) < -32
 
 FlushKeys() : FlushJoy() : FlushMouse()
 menuOption=2

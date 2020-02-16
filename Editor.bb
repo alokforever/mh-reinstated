@@ -1,4 +1,4 @@
-Graphics 1920,1440,32,2
+Graphics 1920,1080,32,2
 ;Graphics 800,600,16
 
 SetBuffer BackBuffer()
@@ -36,14 +36,13 @@ Dim facChunk(100,100),facSound(100,100),facVar1(100,100),facVar2(100,100),facVar
 Dim mx(10),my(10),mw(10),mh(10)
 Dim xBut(200),yBut(200),wBut(200),hBut(200), Nbut(200),strBut$(200),typeBut(200)
 
-
 Global forceAiAreaDraw, forcePlatDraw, ForceBoxDraw
 
 Global curAni,tAniAmount,taniMEnu
 Dim tAniSeq(200),tAniFrames(200)
 Dim tAniBg(200,200),tAniN(200,200),tAniTime(200,200),tAniCurFrame(200)
 Dim taniBgSel(200),taniNSel(200)
-        
+
 Global platAmount, platMode,endN,artMode=1
 Dim xplatDraw(200),yPlatDraw(200),platFinalDest(200)
 Dim xoldPlat#(200),xplat#(200),yPlat#(200),xPlatPoint(200,200),yPlatPoint(200,200)
@@ -96,7 +95,7 @@ SoundStr$(9)="sbb"
 SoundStr$(10)="bats"
 SoundStr$(11)="electr."
 ;soundFx(1)=slashSnd           ;sound list
-;soundFx(2)=highpunchsnd    
+;soundFx(2)=highpunchsnd
 ;soundFx(3)=sDoorSnd
 ;soundFx(4)=mDoorSnd
 ;soundFx(5)=fireHitSnd
@@ -192,8 +191,6 @@ shotImage(13)=shotImage(7)
 shotImage(12)=shotImage(11)
 shotImage(10)=shotImage(2)    ;Shot list organization
 
-
-
 Dim flagImage(2)
 flagImage(1)=LoadImage(gfxdir$ + "flag1.bmp")
 flagImage(2)=LoadImage(gfxdir$ + "flag2.bmp")
@@ -274,6 +271,10 @@ curLoop=1
 ;-------------------------------
 While Not KeyHit(1)
 
+If KeyHit(19) Then
+    AdjustScreen
+End If
+
 ;delay 10
 
 If KeyHit(181) Then
@@ -341,18 +342,21 @@ EndIf
 If KeyHit(65) Then
     curLoop=7:click1=0
 EndIf
+If KeyHit(66) Then
+    curLoop=0:click1=0
+EndIf
 
 If KeyHit(87) Then    ;F11 to take snap shot
   If mapStr$= "amap" Then
-    temppic=CreateImage(638,477)
-    CopyRect 0,0,638,478,0,0,FrontBuffer(),ImageBuffer(temppic)
+    temppic=CreateImage(1022,766)
+    CopyRect 0,0,1022,766,0,0,FrontBuffer(),ImageBuffer(temppic)
     ScaleImage temppic,.075,.075
     SaveBuffer(ImageBuffer(temppic)), mapsdir$ + mapStr$ + "_"+curMap+".jpg"
     FreeImage temppic
     msg=1:msgSeq=0:msgTxt="Snap shot taken."
   Else
-    temppic=CreateImage(638,477)
-    CopyRect 0,0,638,478,0,0,FrontBuffer(),ImageBuffer(temppic)
+    temppic=CreateImage(1022,766)
+    CopyRect 0,0,1022,766,0,0,FrontBuffer(),ImageBuffer(temppic)
     ScaleImage temppic,.155,.155
     SaveBuffer(ImageBuffer(temppic)), mapsdir$ + mapStr$ + "_"+curMap+".jpg"
     FreeImage temppic
@@ -390,17 +394,16 @@ Select mapShow
       Next
     Case 1 
       Color colorR,colorG,colorB
-      Rect 0+xScr,0+yScr,640,480,1
+      Rect 0+xScr,332+yScr,1920,1080,1
       
       If showOneLayer=1 Then
-                 For i=1 To tileAmount(bg)
-                If tilePic(bg,i) <> 0 Then DrawImage tilePic(bg,i),xTile(bg,i)+xScr,yTile(bg,i)+yScr
-                Color 255,43,234
-                If showTileNumber Then Text xTile(bg,i)+xScr+2,yTile(bg,i)+yScr+2, i      
-                Next
-            
+        For i=1 To tileAmount(bg)
+            If tilePic(bg,i) <> 0 Then DrawImage tilePic(bg,i),xTile(bg,i)+xScr,yTile(bg,i)+yScr
+            Color 255,43,234
+            If showTileNumber Then Text xTile(bg,i)+xScr+2,yTile(bg,i)+yScr+2, i
+        Next
       Else
-          For b=0 To bgAmount      
+          For b=0 To bgAmount
                 For i=1 To tileAmount(b)
                 If tilePic(b,i) <> 0 Then DrawImage tilePic(b,i),xTile(b,i)+xScr,yTile(b,i)+yScr
                 
@@ -427,7 +430,7 @@ Select mapShow
         Rect xTile(bg,cn)+xScr+ImageWidth(tilePic(bg,cn))-10 ,yTile(bg,cn)+yScr+ImageHeight(tilePic(bg,cn)),10,1,0  
       EndIf  
       If hideWalls=0 Then
-        For i=1 To wallAmount    
+        For i=1 To wallAmount
             Color 255,255,255
             Rect xWall(i)+xScr,yWall(i)+yScr,wallWidth(i),wallHeight(i),0
           Next
@@ -448,13 +451,16 @@ If forcePlatDraw =1 Then renderPlat
 If forceBoxDraw =1 Then renderBox
 
 ;draws mouse cross
-Color 255,255,255
-Rect MouseX()-5 , MouseY()   ,10,1 ,0
-Rect MouseX()   , MouseY()-5 ,1 ,11,0
-;draws line to show player duck height
-If duckLine Then Rect MouseX()+3 , MouseY()-25 ,1 ,25,0
-;Text 200, 710, "platPic(1)= " + platPic(1) + "  cn = " + cn
-Text 400, 745, "X=" + (MouseX()-xScr) + " Y=" + (MouseY()- yScr) + "  "+modName(modSelected) +"\"+ mapStr$+curMap
+If curLoop <> 0 Then
+    Color 255,255,255
+    Rect MouseX()-5 , MouseY()   ,10,1 ,0
+    Rect MouseX()   , MouseY()-5 ,1 ,11,0
+    ;draws line to show player duck height
+    If duckLine Then Rect MouseX()+3 , MouseY()-25 ,1 ,25,0
+    ;Text 200, 710, "platPic(1)= " + platPic(1) + "  cn = " + cn
+    Text 400, 745, "X=" + (MouseX()-xScr) + " Y=" + (MouseY()- yScr) + "  "+modName(modSelected) +"\"+ mapStr$+curMap
+End If
+
 ;--------------------
 If msg=1 Then
     msgseq=msgseq+1
@@ -707,7 +713,7 @@ For n=1 To platAmount
         If MouseY() > yPlat(n)+yScr And MouseY() < yplat(n)+ph+yScr Then
             cn=n
             Goto gotplat
-        EndIf        
+        EndIf
     EndIf
 Next
 
@@ -721,7 +727,7 @@ For n=1 To platAmount
         If MouseY() > yPlat(n)+yScr And MouseY() < yplat(n)+ph+yScr Then
             cn=n
             Goto gotplat
-        EndIf        
+        EndIf
     EndIf
 Next
 .gotplat
@@ -1125,7 +1131,7 @@ If KeyDown(52) And mouseClicked=1 Then
 EndIf
 If KeyDown(53) And mouseClicked=1 Then
     mouseClicked=0
-    yScrCameraLimit=(MouseY()-yScr)-480
+    yScrCameraLimit=(MouseY()-yScr)-768
 EndIf
 If KeyDown(40) And mouseClicked=1 Then
     mouseClicked=0
@@ -1298,7 +1304,7 @@ If KeyDown(29) And mouseclicked=1 Then    ;hold down CTRL + click to select trig
             If MouseY() > Ty(n)+yScr And MouseY() < Ty(n)+Th(n)+yScr Then
                 cn=n
                 gotT=1
-            EndIf        
+            EndIf
         EndIf
     If gotT=1 Then Exit
     Next
@@ -1438,10 +1444,10 @@ EndIf
 If KeyDown(41) Then     ;temp test
 
 n=2 : nn=3
-tileAMount(n)=154
+tileAmount(n)=154
 For i=1 To 154
 
-        xTile(n,i)=xTile(nn,i)
+    xTile(n,i)=xTile(nn,i)
     yTile(n,i)=yTile(nn,i)
     tilePic(n,i)=tilePic(nn,i)
     tileNumber(n,i)=tileNumber(nn,i)
@@ -1469,7 +1475,6 @@ For i=1 To 154
 Next
 
 EndIf
-
 
 If KeyDown(42) Then shift=1 Else shift=0
 If KeyDown(56) Then alt=1 Else alt=0
@@ -1701,13 +1706,13 @@ For n=1 To platAmount
         If MouseY() > yPlat(n)+yScr And MouseY() < yplat(n)+ph+yScr Then
             tileTarget( taniBgSel(curAni), taniNsel(curAni) ) = n
             Goto gotele
-        EndIf        
+        EndIf
     EndIf
 Next
 .gotele
 mouseClicked=0
 EndIf
-            
+
 If artMode=3 And mouseClicked=1 Then    ;Select tile for this Animation#
 b=bg
 For n=1 To tileAmount(b)
@@ -1733,7 +1738,7 @@ For n=1 To tileAmount(b)
             taniBg(curAni,tanicurFrame(curAni))=b
             taniN(curAni,taniCurFrame(curAni))=n
             Goto gottani
-        EndIf        
+        EndIf
     EndIf
 Next
 Next
@@ -1747,7 +1752,7 @@ For n=1 To tileAmount(b)
             taniBg(curAni,tanicurFrame(curAni))=b
             taniN(curAni,taniCurFrame(curAni))=n
             Goto gottani
-        EndIf        
+        EndIf
     EndIf
 Next
 Next
@@ -1774,7 +1779,7 @@ For n=1 To tileAmount(b)
             taniBg(curAni,tanicurFrame(curAni))=b
             taniN(curAni,taniCurFrame(curAni))=n
             Goto gotframe
-        EndIf        
+        EndIf
     EndIf
 Next
 Next
@@ -1797,7 +1802,7 @@ For n=1 To tileAmount(bg)
         If MouseY() > yTile(bg,n)+yScr And MouseY() < yTile(bg,n)+ImageHeight(tilePic(bg,n))+yScr Then
             tileTarget(bg,cn)=n
             ;Exit
-        EndIf        
+        EndIf
     EndIf
 Next
 .gottileF
@@ -1983,20 +1988,20 @@ b=bg
             xtile(bg,cn)=xtile(b,n)+ImageWidth(tilePic(b,n))
             ytile(bg,cn)=ytile(b,n)
             MoveMouse xtile(bg,cn)+xscr,ytile(bg,cn)+yscr
-            Goto pickedit2        
-        EndIf        
+            Goto pickedit2
+        EndIf
     EndIf
   Next
 ;Next
-;For b=0 To bgAmount  
+;For b=0 To bgAmount
   For n=1 To tileAmount(b)    ;stick to upper left corner
     If xTile(b,n) => xtile(bg,cn)+ImageWidth(tilePic(bg,cn)) And xTile(b,n) =< xtile(bg,cn)+ ImageWidth(tilePic(bg,cn))+d Then
         If yTile(b,n) => ytile(bg,cn)-d And yTile(b,n) =< ytile(bg,cn)+d Then
             xtile(bg,cn)=xtile(b,n)-ImageWidth(tilePic(bg,cn))
             ytile(bg,cn)=ytile(b,n)
             MoveMouse xtile(bg,cn)+xscr,ytile(bg,cn)+yscr
-            Goto pickedit2        
-        EndIf        
+            Goto pickedit2
+        EndIf
     EndIf
   Next
 ;Next
@@ -2008,8 +2013,8 @@ b=bg
             xtile(bg,cn)=xtile(b,n)
             ytile(bg,cn)=ytile(b,n)+ImageHeight(tilePic(b,n))
             MoveMouse xtile(bg,cn)+xscr,ytile(bg,cn)+yscr
-            Goto pickedit2        
-        EndIf        
+            Goto pickedit2
+        EndIf
     EndIf
   Next
 ;Next
@@ -2019,8 +2024,8 @@ b=bg
             xtile(bg,cn)=xtile(b,n)
             ytile(bg,cn)=ytile(b,n)-ImageHeight(tilePic(bg,cn))
             MoveMouse xtile(bg,cn)+xscr,ytile(bg,cn)+yscr
-            Goto pickedit2        
-        EndIf        
+            Goto pickedit2
+        EndIf
     EndIf
   Next
 ;Next
@@ -2046,8 +2051,8 @@ For b=0 To bgAmount
         If MouseY() > yTile(b,n)+yScr And MouseY() < yTile(b,n)+20+yScr Then
             bg=b
             cn=n
-            Goto pickedit1        
-        EndIf        
+            Goto pickedit1
+        EndIf
     EndIf
   Next
 Next
@@ -2059,8 +2064,8 @@ For b=0 To bgAmount
 
             bg=b
             cn=n
-        Goto pickedit1        
-        EndIf        
+        Goto pickedit1
+        EndIf
     EndIf
   Next
 Next
@@ -2234,7 +2239,7 @@ Until i=1
 xTile(bg,1)=temp1
 yTile(bg,1)=temp2
 TilePic(bg,1)=temp3
-tileNumber(bg,1)=temp4    
+tileNumber(bg,1)=temp4
 tileSetNumber(bg,1)=temp5
 tileFixed(bg,1)=temp6
 tileXend1(bg,1)=temp7
@@ -2482,7 +2487,7 @@ If KeyHit(18) Then
     tileYrand1(bg,cn)=Input("tileYrand1("+tileYrand1(bg,cn)+ ") "):y=y+15
     Locate x,y
     tileYrand2(bg,cn)=Input("tileYrand2("+tileYrand2(bg,cn)+ ") "):y=y+15
-    FlushKeys()            
+    FlushKeys()
 EndIf
 
 If KeyHit(16) Then
@@ -2497,7 +2502,7 @@ If KeyHit(16) Then
     FlushKeys()
 EndIf
     
-If KeyHit(46) Then    
+If KeyHit(46) Then
     FlushKeys()
     x=500: y=500
     Locate x,y
@@ -2541,7 +2546,7 @@ If forceAiAreaDraw Then
         Rect saX(n)+xScr,saY(n)+ yScr,saW(n),saH(n),0
     Next
     Color 250,250,45
-    For n=1 To DareaAmount    
+    For n=1 To DareaAmount
         Rect daX(n)+xScr,daY(n)+ yScr,daW(n),daH(n),0
     Next
     Goto endFunc1
@@ -2550,8 +2555,8 @@ EndIf
 Color 155,183,234
 If click1=0 Then Text 2,490,"Click for starting X, Y"
 If click1=1 Then Text 2,490,"Click for ending X, Y"
-If aiAreaMode=1 Then Text 2,490,"Click plataform to follow"
-If aiAreaMode=2 Then Text 2,490,"Click x,y position from plataform"
+If aiAreaMode=1 Then Text 2,490,"Click platform to follow"
+If aiAreaMode=2 Then Text 2,490,"Click x,y position from platform"
 
 Select areaType
 Case 1
@@ -2638,7 +2643,6 @@ For n=1 To dareaAmount
             Color 0,0,255
             If dfleeDir(n)=2 Then Text daX(n)+xScr+19,daY(n)+1+ yScr, ">"
             If dfleeDir(n)=4 Then Text daX(n)+xScr+19,daY(n)+1+ yScr, "<"
-            
         End Select
         
         Color 250,250,45
@@ -2656,7 +2660,7 @@ If showEvents Then renderEvent()
 .endFunc1
 End Function
 
-;-------RENDERING (plataforms)------
+;-------RENDERING (platforms)------
 Function renderPlat()
 
 If forcePlatDraw Then
@@ -2726,17 +2730,17 @@ Color 0,0,0
 Rect 0,508,210,240,1
 Color 155,183,234
 Select platMode
-    Case 1: Text 2,490,"Set plataform width"
-    Case 2: Text 2,490,"Set plataform X speed"
-    Case 3: Text 2,490,"Set plataform Y speed"
-    Case 4: Text 2,490,"Set plataform current point"
-    Case 5: Text 2,490,"Set plataform points amount"
-    Case 6: Text 2,490,"Set plataform danger"
-    Case 7: Text 2,490,"Set plataform visibility"
-    Case 8: Text 2,490,"Set plataform picture"
-    Case 9: Text 2,490,"Set plataform to depend on event"
-    Case 0: Text 2,490,"Set plataform event number to depend on"
-    Case 11: Text 2,490,"Set plataform final point destination"
+    Case 1: Text 2,490,"Set platform width"
+    Case 2: Text 2,490,"Set platform X speed"
+    Case 3: Text 2,490,"Set platform Y speed"
+    Case 4: Text 2,490,"Set platform current point"
+    Case 5: Text 2,490,"Set platform points amount"
+    Case 6: Text 2,490,"Set platform danger"
+    Case 7: Text 2,490,"Set platform visibility"
+    Case 8: Text 2,490,"Set platform picture"
+    Case 9: Text 2,490,"Set platform to depend on event"
+    Case 0: Text 2,490,"Set platform event number to depend on"
+    Case 11: Text 2,490,"Set platform final point destination"
     Case 12: Text 2,490,"Trigger this event number when it reaches final point"
         
 End Select
@@ -2927,7 +2931,7 @@ Text 2,n, "9) exit1= "+nextMap(1)+", exit2= "+nextMAp(2) :n=n+15
 Text 2,n, "10) Set Camera starting X= "+xScrStart+ " Y= "+yScrStart :n=n+15
 Text 2,n, "A) disable air strike= "+ val(noAirStrike) :n=n+15
 If scrollMap Then
-    Text 2,n, "Hold '<', '>' or ';' + click for map edge limits" :n=n+15
+    Text 2,n, "Hold '<', '>' or '/' + click for map edge limits" :n=n+15
 EndIf
 
 
@@ -2964,7 +2968,7 @@ If scrollMap=1 Then
     Rect rScrLimit+xScr,100,1,300,0
     Text (rScrLimit+xScr)+3,200,">"
     
-    Rect 450,(yScrCameraLimit+yScr)+480,250,1,0
+    Rect 450,(yScrCameraLimit+yScr)+768,250,1,0
     Text 575,(yScrCameraLimit+yScr)+483,"|"
     Rect 450,(uScrLimit+yScr)+0,250,1,0
     Text 575,(uScrLimit+yScr)+3,"|"
@@ -3038,7 +3042,7 @@ If click1=1 Then
     Rect Tx(cn)+xScr,Ty(cn)+ yScr,Tw(cn)+(MouseX()-Tx(cn))-xScr,Th(cn)+ (MouseY()-Ty(cn))- yScr ,0
 EndIf
 
-For i= 1 To triggerAmount    
+For i= 1 To triggerAmount
     If Tdraw(i)=1 Then
         If Not Timage(TimageN(i),1) = False Then DrawImage Timage(TimageN(i),1),(Tx(i)+TimgX(i))+xScr, (Ty(i)+TimgY(i))+yScr
     EndIf
@@ -3291,7 +3295,6 @@ Color 255,0,0
 If taniNsel(curAni) > 0 Then
     Line xbut(2),ybut(2), xTile(taniBgSel(curAni),taniNSel(curAni))+xScr, yTile(taniBgSel(curAni),taniNSel(curAni))+yScr
 EndIf
-
 
 EndIf
 
@@ -3618,9 +3621,9 @@ WriteInt file, platHeight(n)
 WriteInt file, platCurPoint(n)
 WriteInt file, platPointsAmount(n)
 WriteInt file, platPic(n)
-WriteInt file, platUseTrigger(n)    
-WriteInt file, platEventN(n)        
-WriteInt file, platFinalDest(n)        
+WriteInt file, platUseTrigger(n)
+WriteInt file, platEventN(n)
+WriteInt file, platFinalDest(n)
 WriteInt file, platBreak(n)
 WriteInt file, platChunk(n)
 WriteInt file, platSound(n)
@@ -3920,37 +3923,36 @@ Next
 
 boxAmount = ReadInt (file)
 For n=1 To boxAmount
-xbox(n) = ReadFloat (file)
-ybox(n) = ReadFloat (file)
-boxXspeed(n) = ReadFloat (file)
-boxYspeed(n) = ReadFloat (file)
-targetBox(n) = ReadInt (file)
-drawbox(n) = ReadInt (file)
-boxWidth(n) = ReadInt (file)
-boxHeight(n) = ReadInt (file)
-boxCurPoint(n) = ReadInt (file)
-boxPointsAmount(n) = ReadInt (file)
-boxType(n) = ReadInt (file)
-boxChunkType(n) = ReadInt (file)
-boxHitMode(n) = ReadInt (file)
-boxHitTime(n) = ReadFloat (file)
-boxHitSpeed(n) = ReadFloat (file)
-boxHitYSpeed(n) = ReadFloat (file)
-boxDamage(n) = ReadInt (file)
-boxHitSound(n) = ReadInt (file)
-boxUseTrigger(n)=ReadInt (file)        ;;
-boxEventN(n)=ReadInt (file)            ;;
-boxFinalDest(n)= ReadInt (file)    
-boxBreak(n)= ReadInt (file)
-boxSound(n) = ReadInt (file)
-boxBreakable(n) = ReadInt (file)
-boxEventN2(n) = ReadInt (file)
+    xbox(n) = ReadFloat (file)
+    ybox(n) = ReadFloat (file)
+    boxXspeed(n) = ReadFloat (file)
+    boxYspeed(n) = ReadFloat (file)
+    targetBox(n) = ReadInt (file)
+    drawbox(n) = ReadInt (file)
+    boxWidth(n) = ReadInt (file)
+    boxHeight(n) = ReadInt (file)
+    boxCurPoint(n) = ReadInt (file)
+    boxPointsAmount(n) = ReadInt (file)
+    boxType(n) = ReadInt (file)
+    boxChunkType(n) = ReadInt (file)
+    boxHitMode(n) = ReadInt (file)
+    boxHitTime(n) = ReadFloat (file)
+    boxHitSpeed(n) = ReadFloat (file)
+    boxHitYSpeed(n) = ReadFloat (file)
+    boxDamage(n) = ReadInt (file)
+    boxHitSound(n) = ReadInt (file)
+    boxUseTrigger(n)=ReadInt (file)        ;;
+    boxEventN(n)=ReadInt (file)            ;;
+    boxFinalDest(n)= ReadInt (file)
+    boxBreak(n)= ReadInt (file)
+    boxSound(n) = ReadInt (file)
+    boxBreakable(n) = ReadInt (file)
+    boxEventN2(n) = ReadInt (file)
 
     For i=1 To boxPointsAmount(n)
         xboxpoint(n,i) = ReadInt (file)
         yboxpoint(n,i) = ReadInt (file)
     Next
-
 Next
 
 wallAmount = ReadInt (file)
@@ -3986,7 +3988,7 @@ For b=0 To bgAmount  ;
         tileXstart(b,n) = ReadInt (file);;
         tileYstart(b,n) = ReadInt (file);;
         tileFollow(b,n)= ReadInt (file)
-        tileTarget(b,n)= ReadInt (file)    
+        tileTarget(b,n)= ReadInt (file)
         xtile2(b,n) = ReadInt (file)
         ytile2(b,n) = ReadInt (file)
         tileFollowType(b,n) = ReadInt (file)
@@ -4261,4 +4263,227 @@ Forever
 ; Properly close the open folder
 CloseDir myDir
 
+End Function
+
+Function AdjustScreen()
+    xOrigin=-32:yOrigin=-569
+    xFactor=0:yFactor=0
+    
+    For n=1 To platAmount
+        xFactor = 1.6 * ((xPlat(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yPlat(n) - yOrigin) / 2.7)
+            
+        xPlat(n)=xPlat(n) + xFactor
+        platWidth(n)=platWidth(n) * 1.6
+        yPlat(n)=yPlat(n) + yFactor
+        platHeight(n)=platHeight(n) * 1.6
+        
+        For i= 1 To platPointsAmount(n)
+            xFactor = 1.6 * ((xPlatPoint(n,i) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((yPlatPoint(n,i) - yOrigin) / 2.7)
+            xPlatPoint(n,i)=xPlatPoint(n,i) + xFactor
+            yPlatPoint(n,i)=yPlatPoint(n,i) + yFactor
+        Next
+        
+        platXSpeed#(n)=platXSpeed#(n) * 1.6
+        platYSpeed#(n)=platYSpeed#(n) * 1.6
+
+        xFactor = 1.6 * ((xplatDest(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yplatDest(n) - yOrigin) / 2.7)
+        xplatDest(n)=xplatDest(n) + xFactor
+        yplatDest(n)=yplatDest(n) + yFactor
+    Next
+    
+    For n=0 To bgAmount
+        For m=1 To tileAmount(n)
+            xFactor = 1.6 * ((xTile(n,m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((yTile(n,m) - yOrigin) / 2.7)
+            
+            xTile(n,m)=xTile(n,m) + xFactor
+            yTile(n,m)=yTile(n,m) + yFactor
+            
+            tty = yplat(tileTarget(n,m))
+            
+            xTile2(n,m)=(xTile2(n,m) * 1.595)
+            yTile2(n,m)=(yTile2(n,m) * 1.595)
+            
+            xFactor = 1.6 * ((tileXstart(n,m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((tileYstart(n,m) - yOrigin) / 2.7)
+            tileXstart(n,m)=tileXstart(n,m) + xFactor
+            tileYstart(n,m)=tileYstart(n,m) + yFactor
+            
+            xFactor = 1.6 * ((tileXend1(n,m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((tileYend1(n,m) - yOrigin) / 2.7)
+            tileXend1(n,m)=tileXend1(n,m) + xFactor
+            tileYend1(n,m)=tileYend1(n,m) + yFactor
+            
+            xFactor = 1.6 * ((tileXend2(n,m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((tileYend2(n,m) - yOrigin) / 2.7)
+            tileXend2(n,m)=tileXend2(n,m) + xFactor
+            tileYend2(n,m)=tileYend2(n,m) + yFactor
+            
+            xFactor = 1.6 * ((tileXrand1(n,m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((tileYrand1(n,m) - yOrigin) / 2.7)
+            tileXrand1(n,m)=tileXrand1(n,m) + xFactor
+            tileYrand1(n,m)=tileYrand1(n,m) + yFactor
+            
+            xFactor = 1.6 * ((tileXrand2(n,m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((tileYrand2(n,m) - yOrigin) / 2.7)
+            tileXrand2(n,m)=tileXrand2(n,m) + xFactor
+            tileYrand2(n,m)=tileYrand2(n,m) + yFactor
+            
+            tileXspeed#(n,m)=tileXspeed#(n,m) * 1.6
+            tileYspeed#(n,m)=tileYspeed#(n,m) * 1.6
+            
+            If (xTileScrSpeed#(n,m) > 0) Then
+                xFactor = 1.6 * ((xTileScrSpeed(n,m) - xOrigin) / 2.7)
+                xTileScrSpeed#(n,m)=xTileScrSpeed#(n,m) + xFactor
+            End If
+            
+            If (yTileScrSpeed#(n,m) > 0) Then
+                yFactor = 1.6 * ((yTileScrSpeed(n,m) - yOrigin) / 2.7)
+                yTileScrSpeed#(n,m)=yTileScrSpeed#(n,m) + yFactor
+            End If
+        Next
+    Next
+    
+    For n=1 To boxAmount
+        xFactor = 1.6 * ((xBox(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yBox(n) - yOrigin) / 2.7)
+        
+        xBox(n)=xBox(n) + xFactor
+        BoxWidth(n)=BoxWidth(n) * 1.6
+        yBox(n)=yBox(n) + yFactor
+        BoxHeight(n)=BoxHeight(n) * 1.6
+        
+        boxXspeed(n)=boxXspeed(n) * 1.6
+        boxYspeed(n)=boxYspeed(n) * 1.6
+        boxHitSpeed(n)=boxHitSpeed(n) * 1.6
+        boxHitYSpeed(n)=boxHitYSpeed(n) * 1.6
+        
+        xFactor = 1.6 * ((xboxDest(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yboxDest(n) - yOrigin) / 2.7)
+        xboxDest(n) = xboxDest(n) + xFactor
+        yboxDest(n) = yboxDest(n) + yFactor
+        
+        For i=1 To boxPointsAmount(n)
+            xFactor = 1.6 * ((xboxpoint(n,i) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((yboxpoint(n,i) - yOrigin) / 2.7)
+            
+            xboxpoint(n,i) = xboxpoint(n,i) + xFactor
+            yboxpoint(n,i) = yboxpoint(n,i) + yFactor
+        Next
+    Next
+    
+    For n=1 To triggerAmount
+        xFactor = 1.6 * ((Tx(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((Ty(n) - yOrigin) / 2.7)
+        
+        Tx(n)=Tx(n) + xFactor
+        Tw(n)=Tw(n) * 1.6
+        Ty(n)=Ty(n) + yFactor
+        Th(n)=Th(n) * 1.6
+        
+        Tplatx(n)=Tplatx(n) * 1.6
+        Tplaty(n)=Tplaty(n) * 1.6
+        
+        TimgX(n)=TimgX(n) * 1.6
+        TimgY(n)=TimgY(n) * 1.6
+    Next
+    
+    For n=1 To FAmount
+        For m=1 To FfacAmount(n)
+            xFactor = 1.6 * ((xfac(n, m) - xOrigin) / 2.7)
+            yFactor = 1.6 * ((yfac(n, m) - yOrigin) / 2.7)
+        
+            xfac(n, m)=xfac(n, m) + xFactor
+            yfac(n, m)=yfac(n, m) + yFactor
+        Next
+    Next
+    
+    For n=1 To 4
+        xFactor = 1.6 * ((xFlag(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yFlag(n) - yOrigin) / 2.7)
+        
+        xFlag(n)=xFlag(n) + xFactor
+        yFlag(n)=yFlag(n) + yFactor
+        
+        xFactor = 1.6 * ((xFlagStart(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yFlagStart(n) - yOrigin) / 2.7)
+        
+        xFlagStart(n)=xFlagStart(n) + xFactor
+        yFlagStart(n)=yFlagStart(n) + yFactor
+        
+        xFactor = 1.6 * ((xBase(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yBase(n) - yOrigin) / 2.7)
+        
+        xBase(n)=xBase(n) + xFactor
+        yBase(n)=yBase(n) + yFactor
+    Next
+    
+    For n=1 To dareaAmount
+        xFactor = 1.6 * ((dax(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((day(n) - yOrigin) / 2.7)
+        
+        dax(n)=dax(n) + xFactor
+        daw(n)=daw(n) * 1.6
+        day(n)=day(n) + yFactor
+        daH(n)=daH(n) * 1.6
+        
+        daTargetH(n)=daTargetH(n) * 1.6
+    Next
+    
+    For n=1 To areaAmount
+        xFactor = 1.6 * ((sax(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((say(n) - yOrigin) / 2.7)
+        
+        sax(n)=sax(n) + xFactor
+        saw(n)=saw(n) * 1.6
+        say(n)=say(n) + yFactor
+        saH(n)=saH(n) * 1.6
+    Next
+    
+    xFactor = 1.6 * ((xScrStart - xOrigin) / 2.7)
+    yFactor = 1.6 * ((yScrStart - yOrigin) / 2.7)
+    xScrStart=xScrStart + xFactor
+    yScrStart=yScrStart + yFactor
+    
+    For n=1 To pawnAmount
+        xFactor = 1.6 * ((zxStart(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((zyStart(n) - yOrigin) / 2.7)
+        
+        zxStart(n)=zxStart(n) + xFactor
+        zyStart(n)=zyStart(n) + yFactor
+        
+        xFactor = 1.6 * ((zxRespawn(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((zyRespawn(n) - yOrigin) / 2.7)
+        zxRespawn(n)=zxRespawn(n) + xFactor
+        zyRespawn(n)=zyRespawn(n) + yFactor
+    Next
+    
+    For n=1 To 10
+        xFactor = 1.6 * ((mx(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((my(n) - yOrigin) / 2.7)
+        
+        mx(n)=mx(n) + xFactor
+        my(n)=my(n) + yFactor
+        
+        mw(n)=mw(n) * 1.6
+        my(n)=my(n) * 1.6
+    Next
+    
+    rScrLimit = rScrLimit * 1.6
+    dScrLimit = dScrLimit * 1.6
+    yScrCameraLimit = yScrCameraLimit * 2.48
+    lScrLimit = lScrLimit + 14
+    
+    For n=1 To wallAmount
+        xFactor = 1.6 * ((xWall(n) - xOrigin) / 2.7)
+        yFactor = 1.6 * ((yWall(n) - yOrigin) / 2.7)
+        xWall(n)=xWall(n) + xFactor
+        yWall(n)=yWall(n) + yFactor
+        
+        wallWidth(n)=wallWidth(n) * 1.6
+        wallHeight(n)=wallHeight(n) * 1.6
+    Next
 End Function

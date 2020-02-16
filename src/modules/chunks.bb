@@ -248,7 +248,7 @@ Case 40:a=10    ;tutorial 1 - double jump
         chunkStr$(n,ln)=strInfo$(67):ln=ln+1
         chunkStr$(n,ln)=strInfo$(68)
         chunkLines(n)=ln
-        chunkWidth(n)=500:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=800:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -269,7 +269,7 @@ Case 41:a=10    ;tutorial 2 - up special
         chunkStr$(n,ln)=strInfo$(70):ln=ln+1
         chunkStr$(n,ln)=strInfo$(71)
         chunkLines(n)=ln
-        chunkWidth(n)=500:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=800:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -291,7 +291,7 @@ Case 42:a=10    ;tutorial 3 - fight
         chunkStr$(n,ln)=strInfo$(74):ln=ln+1
         chunkStr$(n,ln)=strInfo$(75)
         chunkLines(n)=ln
-        chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=736:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -311,7 +311,7 @@ Case 43:a=10    ;tutorial 4 - use switch
         chunkStr$(n,ln)=strInfo$(76):ln=ln+1
         chunkStr$(n,ln)=strInfo$(77)
         chunkLines(n)=ln
-        chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=736:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -333,7 +333,7 @@ Case 44:a=10    ;tutorial 5 - pick up item
         chunkStr$(n,ln)=strInfo$(80):ln=ln+1
         chunkStr$(n,ln)=strInfo$(81)
         chunkLines(n)=ln
-        chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=736:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -354,7 +354,7 @@ Case 45:a=10    ;tutorial 6 - go down from platform
         chunkStr$(n,ln)=strInfo$(83):ln=ln+1
         chunkStr$(n,ln)=strInfo$(84)
         chunkLines(n)=ln
-        chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=736:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -377,7 +377,7 @@ Case 46:a=10    ;tutorial 7 - throw item diagonally
          chunkStr$(n,ln)=strInfo$(88):ln=ln+1
         chunkStr$(n,ln)=strInfo$(89)
         chunkLines(n)=ln
-        chunkWidth(n)=460:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=736:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -399,7 +399,7 @@ Case 47:a=10    ;tutorial 8 - super special
         chunkStr$(n,ln)=strInfo$(92):ln=ln+1
         chunkStr$(n,ln)=strInfo$(93)
         chunkLines(n)=ln
-        chunkWidth(n)=560:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=896:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 3 Then
         Delay 500
@@ -431,7 +431,7 @@ Case 49:a=200    ;no air special allowed
         ln=1
         chunkStr$(n,ln)=strInfo$(94)
         chunkLines(n)=ln
-        chunkWidth(n)=420:chunkHeight(n)=(25 * ln)
+        chunkWidth(n)=672:chunkHeight(n)=(40 * ln)
     EndIf
     If chunkSeq(n) = 200 Then
         tutorial(9)=1 : chunk(n)=0 : message=0

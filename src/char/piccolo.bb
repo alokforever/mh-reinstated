@@ -285,10 +285,10 @@ Function doPummel(n)
     If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then
         zBlowBack(n)=1
         zblowPamount(n)=4:nn=1
-        xblow(n,nn)=-7: yblow(n,nn)=-7:wblow(n,nn)=7:hblow(n,nn)=5:nn=nn+1
-        xblow(n,nn)=-1: yblow(n,nn)=-2:wblow(n,nn)=8:hblow(n,nn)=5:nn=nn+1
-        xblow(n,nn)=5: yblow(n,nn)=3:wblow(n,nn)=8:hblow(n,nn)=5:nn=nn+1
-        xblow(n,nn)=11: yblow(n,nn)=4:wblow(n,nn)=8:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=-7: yblow(n,nn)=-7:wblow(n,nn)=9:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=-1: yblow(n,nn)=-2:wblow(n,nn)=10:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=5: yblow(n,nn)=3:wblow(n,nn)=11:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=11: yblow(n,nn)=4:wblow(n,nn)=11:hblow(n,nn)=5:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=8:zBlowStillTime(n)=6
         zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=20
         zBlowDamage(n)=17:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowBlockTime(n)=40

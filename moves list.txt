@@ -1,5 +1,5 @@
 **Universal for all new playable characters**
-_Common character combat controls:
+Common character combat controls:
 Attack
 Up + Attack
 Down + Attack
