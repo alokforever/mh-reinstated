@@ -16,19 +16,19 @@ zBlocked(n)=0: aiGetTarget(n):
     zFace(n)=2
     zlife(n)=100
     zani(n)=1 : zf(n)=0
-    zheight(n)=45                ;Player's current height
-    zUpHeight(n)=45
-    zDuckHeight(n)=25
-    zside(n)=8                     ;Z width size / 2
+    zheight(n)=72                ;Player's current height
+    zUpHeight(n)=72
+    zDuckHeight(n)=40
+    zside(n)=12.8                     ;Z width size / 2
     zSpeed#(n)=0                ;Player current speed
     zShieldedTime(n)=150        ;Time(frames) player stays invincible when recover
     zBlockFull(n)=80
     zBlockLife(n)=zBlockFull(n)
     zCurWeapon(n)=0
-    zAcc#(n)=.2         ;.2
-    zgravity(n)=3       ;3        ;Gravity force when falling Or going up
+    zAcc#(n)=.32         ;.2
+    zgravity(n)=4.8       ;3        ;Gravity force when falling Or going up
     zjumplimit(n)=20    ;20        ;Jump height (per frame), not pixels!
-    zDtopSpeed#(n)=2    ;2
+    zDtopSpeed#(n)=3.2    ;2
     zTopSpeed#(n)=zDtopSpeed(n)
     zBlockSpeed(n)=.8
     zJumping(n)=0
@@ -54,7 +54,7 @@ zBlocked(n)=0: aiGetTarget(n):
     zWalkFrameSpeed#(n)=0
     zRunFrames(n)=0
     zRunFrameSpeed#(n)=0
-    zRunSpeed#(n)=2
+    zRunSpeed#(n)=3.2
     gender(n)=noGenderVal
     isMkCharacter(n)=0
     canWallJump(n)=0
@@ -204,8 +204,8 @@ Case 6: ;Strider Hiryu
     zJumpSnd(n)=mvcJump1Snd
     zJumpSnd2(n)=mvcJump2Snd
     gender(n)=maleVal
-    zheight(n)=49
-    zRunSpeed#(n)=2.5
+    zheight(n)=78
+    zRunSpeed#(n)=4
     zStanceFrames(n)=20
     zStanceSpeed(n)=3
     duckFrames(n)=10
@@ -333,7 +333,7 @@ Case 11: ;Wolverine
     
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
-    zRunSpeed#(n)=2.5
+    zRunSpeed#(n)=4
     gender(n)=maleVal
     canWallJump(n)=1
     dizzyFrames(n)=7
@@ -357,8 +357,8 @@ Case 12: ;Scorpion
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
-    zheight(n)=53
-    zUpHeight(n)=53
+    zheight(n)=85
+    zUpHeight(n)=85
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
@@ -377,7 +377,7 @@ Case 12: ;Scorpion
     
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
-    zRunSpeed#(n)=2
+    zRunSpeed#(n)=3.2
     isMkCharacter(n)=1
     gender(n)=maleVal
     flipFrames(n)=6
@@ -402,8 +402,8 @@ Case 13: ;Sub Zero
     zxHand(n,1)=2 :zyHand(n,1)=23
     zxHand(n,2)=-2 :zyHand(n,2)=23
     zxHand(n,3)=-2 :zyHand(n,3)=23
-    zheight(n)=53
-    ;zUpHeight(n)=53
+    zheight(n)=85
+    ;zUpHeight(n)=85
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
@@ -422,7 +422,7 @@ Case 13: ;Sub Zero
     
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
-    zRunSpeed#(n)=2
+    zRunSpeed#(n)=3.2
     isMkCharacter(n)=1
     gender(n)=maleVal
     dizzyFrames(n)=8
@@ -442,8 +442,8 @@ Case 14: ;Wonder Woman
     zBlowDist(n,14)=600
     zBlowDist(n,16)=370
     zSide(n)=11
-    zheight(n)=50
-    zUpHeight(n)=50
+    zheight(n)=80
+    zUpHeight(n)=80
     zRollOnImpact(n)=1
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
@@ -462,7 +462,7 @@ Case 14: ;Wonder Woman
     zWalkFrameSpeed#(n)=2
     zRunFrames(n)=7
     zRunFrameSpeed#(n)=3
-    zRunSpeed#(n)=2.5
+    zRunSpeed#(n)=4
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     gender(n)=femaleVal
@@ -491,8 +491,8 @@ Case 15: ;Juggernaut
     zBlowDist(n,16)=370
     zGrabDist(n)=zGrabDist(n)+15
     zSide(n)=16
-    zheight(n)=56
-    zUpHeight(n)=56
+    zheight(n)=90
+    zUpHeight(n)=90
     zRollOnImpact(n)=1
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
@@ -511,7 +511,7 @@ Case 15: ;Juggernaut
     
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4
-    zRunSpeed#(n)=3
+    zRunSpeed#(n)=4.8
     dizzyFrames(n)=8
     dizzyFrameSpeed(n)=7
     gender(n)=maleVal
@@ -535,9 +535,9 @@ Case 16: ;Piccolo
     zxHand(n,0)=14 :zyHand(n,0)=36
     zxHand(n,1)=14 :zyHand(n,1)=36
     zxHand(n,2)=15 :zyHand(n,2)=36
-    zxHand(n,3)=15 :zyHand(n,3)=36    
-    zheight(n)=54
-    zUpHeight(n)=54
+    zxHand(n,3)=15 :zyHand(n,3)=36
+    zheight(n)=86
+    zUpHeight(n)=86
     zRollOnImpact(n)=1
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
@@ -552,7 +552,7 @@ Case 16: ;Piccolo
     zWalkFrameSpeed#(n)=7
     zRunFrames(n)=1
     zRunFrameSpeed#(n)=3
-    zRunSpeed#(n)=3.5
+    zRunSpeed#(n)=5.6
     gender(n)=maleVal
     flipFrames(n)=6
     zFlipMaxSeq(n)=21
@@ -575,11 +575,11 @@ Case 30: ;Pig
     zBlowDist(n,10)=80
     zBlowDist(n,11)=60
     zBlowDist(n,14)=60
-    zDuckHeight(n)=45
+    zDuckHeight(n)=72
     zJumpLimit(n)=10
     zDontJump(n)=1
     zDontPickItem(n)=1
-    zDtopSpeed#(n)=1.5
+    zDtopSpeed#(n)=2.4
     zTopSpeed#(n)=zDtopSpeed(n)
     zNoAirSpecial(n)=1
     gender(n)=maleVal
@@ -594,9 +594,9 @@ Case 31: ;Alien
     zBlowDist(n,10)=80
     zBlowDist(n,11)=60
     zBlowDist(n,14)=60
-    zheight(n)=40                ;Player's current height
-    zUpHeight(n)=40
-    zDuckHeight(n)=40
+    zheight(n)=64                ;Player's current height
+    zUpHeight(n)=64
+    zDuckHeight(n)=64
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
     gender(n)=maleVal
@@ -611,7 +611,7 @@ Case 32: ;Foot Clan
     zBlowDist(n,10)=55
     zBlowDist(n,11)=55
     zBlowDist(n,14)=55
-    zDuckHeight(n)=45
+    zDuckHeight(n)=72
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
     gender(n)=maleVal
@@ -655,11 +655,11 @@ Case 35: ;Red horns
     zBlowDist(n,10)=160
     zBlowDist(n,11)=160
     zBlowDist(n,14)=160
-    zDuckHeight(n)=45
-    zJumpLimit(n)=10
+    zDuckHeight(n)=72
+    zJumpLimit(n)=16
     zDontJump(n)=1
     zDontPickItem(n)=1
-    zDtopSpeed#(n)=.5
+    zDtopSpeed#(n)=.8
     zTopSpeed#(n)=zDtopSpeed(n)
     zNoAirSpecial(n)=1
     gender(n)=maleVal
@@ -675,9 +675,9 @@ Case 36: ;Gargola
     zBlowDist(n,10)=360
     zBlowDist(n,11)=360
     zBlowDist(n,14)=360
-    zSide(n)=25
-    zDuckHeight(n)=45
-    zJumpLimit(n)=10
+    zSide(n)=40
+    zDuckHeight(n)=72
+    zJumpLimit(n)=16
     zDontJump(n)=1
     zDontPickItem(n)=1
     zDtopSpeed#(n)=0
@@ -697,7 +697,7 @@ Case 37: ;Red plant
     zBlowDist(n,10)=360
     zBlowDist(n,11)=360
     zBlowDist(n,14)=360
-    zDuckHeight(n)=45
+    zDuckHeight(n)=72
     zJumpLimit(n)=0
     zDontJump(n)=1
     zDontPickItem(n)=1
@@ -719,10 +719,10 @@ Case 38: ;Bowser
     zBlowDist(n,10)=120
     zBlowDist(n,11)=360
     zBlowDist(n,14)=360
-    zheight(n)=52
-    zUpHeight(n)=52
-    zDuckHeight(n)=52
-    zSide(n)=18
+    zheight(n)=83
+    zUpHeight(n)=83
+    zDuckHeight(n)=83
+    zSide(n)=29
     zJumpLimit(n)=0
     zDontJump(n)=1
     zNoAirSpecial(n)=1
@@ -742,7 +742,7 @@ Case 39    ;thief
     zBlowDist(n,10)=200
     zBlowDist(n,11)=200
     zBlowDist(n,14)=200
-    zDuckHeight(n)=45
+    zDuckHeight(n)=72
     zDontJump(n)=1
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
@@ -758,9 +758,9 @@ Case 40    ;turtle
     zBlowDist(n,10)=200
     zBlowDist(n,11)=200
     zBlowDist(n,14)=200
-    zheight(n)=40
-    zUpHeight(n)=40
-    zDuckHeight(n)=40
+    zheight(n)=64
+    zUpHeight(n)=64
+    zDuckHeight(n)=64
     zDontJump(n)=1
     zDontPickItem(n)=1
     zNoAirSpecial(n)=1
@@ -795,16 +795,16 @@ Case 42    ;Joker
     zBlowDist(n,10)=50      ;10 - high blow
     zBlowDist(n,11)=200
     zBlowDist(n,14)=200
-    zDuckHeight(n)=45
+    zDuckHeight(n)=72
     zNoAirSpecial(n)=1
-    zDtopSpeed#(n)=2.5
+    zDtopSpeed#(n)=4
     zDontPickItem(n)=1
     zTopSpeed#(n)=zDtopSpeed(n)
     gender(n)=maleVal
 
 Case 43;Laser helper
-    zUpHeight(n)=20
-    zDuckHeight(n)=20
+    zUpHeight(n)=32
+    zDuckHeight(n)=32
     zNoAirSpecial(n)=1
     zDtopSpeed#(n)=0
     zTopSpeed#(n)=zDtopSpeed(n)
@@ -835,8 +835,8 @@ Case 44    ;Venom
     gender(n)=maleVal
 
 Case 45    ;bombing ship
-    zUpHeight(n)=40
-    zDtopSpeed#(n)=8
+    zUpHeight(n)=64
+    zDtopSpeed#(n)=12.8
     zTopSpeed#(n)=zDtopSpeed(n)
     zUseSpecialAI(n)=1
     zStone(n)=1
@@ -851,8 +851,8 @@ Case 45    ;bombing ship
     doesCharBleed(n)=0
 
 Case 46    ;Ray balls
-    zUpHeight(n)=20
-    zDuckHeight(n)=20
+    zUpHeight(n)=32
+    zDuckHeight(n)=32
     zNoAirSpecial(n)=1
     zDtopSpeed#(n)=0
     zTopSpeed#(n)=zDtopSpeed(n)
@@ -874,8 +874,8 @@ Case 47    ;soldier
     gender(n)=maleVal
 
 Case 48: ;Cylinder
-    zUpHeight(n)=20
-    zDuckHeight(n)=20
+    zUpHeight(n)=32
+    zDuckHeight(n)=32
     zDontPickItem(n)=1
     zDtopSpeed(n)=1
     zTopSpeed(n)=zDtopSpeed(n)
@@ -888,22 +888,22 @@ Case 48: ;Cylinder
 
 Case 49: ;Dragon
     isBoss(n)=1
-    zUpHeight(n)=65
+    zUpHeight(n)=104
     zDuckHeight(n)=zUpHeight(n)
-    zSide(n)=50
+    zSide(n)=80
     zDontPickItem(n)=1
-    zDtopSpeed(n)=1
+    zDtopSpeed#(n)=1.6
     zTopSpeed(n)=zDtopSpeed(n)
     zStone(n)=1
     zUngrabable(n)=1
-    zAcc(n)=.1
+    zAcc(n)=.16
     zUseSpecialAI(n)=1
     zCanFly(n)=1
 
 Case 50: ;Laser beam
-    zUpHeight(n)=20
-    zDuckHeight(n)=20
-    zSide(n)=2
+    zUpHeight(n)=32
+    zDuckHeight(n)=32
+    zSide(n)=3
     zDontPickItem(n)=1
     zDtopSpeed(n)=0
     zTopSpeed(n)=zDtopSpeed(n)
@@ -932,16 +932,16 @@ Case 51: ;Gray Ninja
     zxHand(n,1)=-5 :zyHand(n,1)=22
     zxHand(n,2)=-5 :zyHand(n,2)=21
     zxHand(n,3)=-4 :zyHand(n,3)=21
-    zDtopSpeed(n)=2.5
+    zDtopSpeed(n)=4
     zTopSpeed(n)=zDtopSpeed(n)
-    zjumplimit(n)=22
+    zjumplimit(n)=35
     zRollOnImpact(n)=1
     gender(n)=maleVal
 
 Case 52: ;punching bag
-    zUpHeight(n)=34
-    zDuckHeight(n)=34
-    zSide(n)=7
+    zUpHeight(n)=54
+    zDuckHeight(n)=54
+    zSide(n)=11
     zDontPickItem(n)=1
     zDtopSpeed(n)=0
     zTopSpeed(n)=zDtopSpeed(n)
@@ -952,14 +952,14 @@ Case 52: ;punching bag
     doesCharBleed(n)=0
     
 Case 53: ;Gohan helper
-    zUpHeight(n)=32
-    zHeight(n)=32
-    zSide(n)=50
+    zUpHeight(n)=51
+    zHeight(n)=51
+    zSide(n)=80
     zDontPickItem(n)=1
-    zDtopSpeed(n)=8
+    zDtopSpeed#(n)=12.8
     zTopSpeed(n)=zDtopSpeed(n)
     zUngrabable(n)=1
-    zAcc(n)=.1
+    zAcc(n)=.16
     zUseSpecialAI(n)=1
     zCanFly(n)=1
     hasSpecialAirFrames(n)=1
@@ -1952,7 +1952,7 @@ Case 1    ;yellow shell
     objXspeed(n)=11.2
     objSize(n)=16.8
     objYSpeed(n)=-1.6
-    objYForce(n)=-9.6
+    objYForce(n)=-8
     objdamage(n)=25
     objHeight(n)=27
     objSide(n)=11.2
@@ -1967,7 +1967,7 @@ Case 2    ;MedKit
     objXspeed(n)=4.8
     objSize(n)=22.4
     objYSpeed(n)=-1.6
-    objYForce(n)=-4.8
+    objYForce(n)=-8
     objdamage(n)=10
     objHeight(n)=26
     objSide(n)=11.2
@@ -1983,7 +1983,7 @@ Case 3    ;Green shell
     objXspeed(n)=11.2
     objSize(n)=22.4
     objYSpeed(n)=-1.6
-    objYForce(n)=-9.6
+    objYForce(n)=-8
     objdamage(n)=20
     objHeight(n)=27
     objSide(n)=11.2
@@ -2644,70 +2644,75 @@ For i=1 To 3
     zpic_(n,13,i)=LoadImage(gfxdir$ + "zblock" + i + "_.bmp")
 Next
 
-For counter = 1 To 16
-    zpic(n,14,counter)=LoadImage(gfxdir$ + "zupblow" + counter + ".bmp")
-    zpic_(n,14,counter)=LoadImage(gfxdir$ + "zupblow" + counter + "_.bmp")
+For i = 1 To 16
+    zpic(n,14,i)=LoadImage(gfxdir$ + "zupblow" + i + ".bmp")
+    zpic_(n,14,i)=LoadImage(gfxdir$ + "zupblow" + i + "_.bmp")
 Next
 
-For counter = 1 To 40
-    zpic(n,15,counter)=LoadImage(gfxdir$ + "zgrab" + counter + ".bmp")
-    zpic_(n,15,counter)=LoadImage(gfxdir$ + "zgrab" + counter + "_.bmp")
+For i = 1 To 40
+    zpic(n,15,i)=LoadImage(gfxdir$ + "zgrab" + i + ".bmp")
+    zpic_(n,15,i)=LoadImage(gfxdir$ + "zgrab" + i + "_.bmp")
 Next
 
-For counter = 1 To 25
-    zpic(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + ".bmp")
-    zpic_(n,16,counter)=LoadImage(gfxdir$ + "taunt\zTaunt" + counter + "_.bmp")
+For i = 1 To 25
+    zpic(n,16,i)=LoadImage(gfxdir$ + "taunt\zTaunt" + i + ".bmp")
+    zpic_(n,16,i)=LoadImage(gfxdir$ + "taunt\zTaunt" + i + "_.bmp")
 Next
 
-For counter = 1 To maxPicFrames
-    zpic(n,17,counter)=LoadImage(gfxdir$ + "superspecial\zsuper" + counter + ".bmp")
-    zpic_(n,17,counter)=LoadImage(gfxdir$ + "superspecial\zsuper" + counter + "_.bmp")
+For i = 1 To maxPicFrames
+    zpic(n,17,i)=LoadImage(gfxdir$ + "superspecial\zsuper" + i + ".bmp")
+    zpic_(n,17,i)=LoadImage(gfxdir$ + "superspecial\zsuper" + i + "_.bmp")
 Next
 
-For counter = 1 To 40
-    zpic(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + ".bmp")
-    zpic_(n,18,counter)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + counter + "_.bmp")
+For i = 1 To 40
+    zpic(n,18,i)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + i + ".bmp")
+    zpic_(n,18,i)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + i + "_.bmp")
 Next
 
-For counter = 1 To 35
-    zpic(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + ".bmp")
-    zpic_(n,19,counter)=LoadImage(gfxdir$ + "stance\zstance" + counter + "_.bmp")
-    
-    If n=14 And zpic(n,19,counter)<>0 Then 
-        ScaleImage zpic(n,19,counter),0.75,0.75
-        ScaleImage zpic_(n,19,counter),0.75,0.75
-    End If
+For i = 1 To 35
+    zpic(n,19,i)=LoadImage(gfxdir$ + "stance\zstance" + i + ".bmp")
+    zpic_(n,19,i)=LoadImage(gfxdir$ + "stance\zstance" + i + "_.bmp")
 Next
 
-For counter = 1 To 20
-    zpic(n,21,counter)=LoadImage(gfxdir$ + "run\zRun" + counter + ".bmp")
-    zpic_(n,21,counter)=LoadImage(gfxdir$ + "run\zRun" + counter + "_.bmp")
+For i = 1 To 20
+    zpic(n,21,i)=LoadImage(gfxdir$ + "run\zRun" + i + ".bmp")
+    zpic_(n,21,i)=LoadImage(gfxdir$ + "run\zRun" + i + "_.bmp")
 Next
 
-For counter = 1 To 20
-    zpic(n,22,counter)=LoadImage(gfxdir$ + "combo\zCombo" + counter + ".bmp")
-    zpic_(n,22,counter)=LoadImage(gfxdir$ + "combo\zCombo" + counter + "_.bmp")
+For i = 1 To 20
+    zpic(n,22,i)=LoadImage(gfxdir$ + "combo\zCombo" + i + ".bmp")
+    zpic_(n,22,i)=LoadImage(gfxdir$ + "combo\zCombo" + i + "_.bmp")
 Next
 
-For counter = 1 To 15
-    zpic(n,23,counter)=LoadImage(gfxdir$ + "dizzy\zDizzy" + counter + ".bmp")
-    zpic_(n,23,counter)=LoadImage(gfxdir$ + "dizzy\zDizzy" + counter + "_.bmp")
+For i = 1 To 15
+    zpic(n,23,i)=LoadImage(gfxdir$ + "dizzy\zDizzy" + i + ".bmp")
+    zpic_(n,23,i)=LoadImage(gfxdir$ + "dizzy\zDizzy" + i + "_.bmp")
 Next
 
-For counter = 1 To 4
-    zpic(n,24,counter)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + counter + ".bmp")
-    zpic_(n,24,counter)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + counter + "_.bmp")
+For i = 1 To 4
+    zpic(n,24,i)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + i + ".bmp")
+    zpic_(n,24,i)=LoadImage(gfxdir$ + "electrocute\zElectrocute" + i + "_.bmp")
 Next
 
-For counter = 1 To 5
-    zpic(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + ".bmp")
-    zpic_(n,25,counter)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + counter + "_.bmp")
+For i = 1 To 5
+    zpic(n,25,i)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + i + ".bmp")
+    zpic_(n,25,i)=LoadImage(gfxdir$ + "fallBounce\zFallBounce" + i + "_.bmp")
 Next
 
-For counter = 1 To 50
-    zpic(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + ".bmp")
-    zpic_(n,26,counter)=LoadImage(gfxdir$ + "extras\zExtra" + counter + "_.bmp")
+For i = 1 To 50
+    zpic(n,26,i)=LoadImage(gfxdir$ + "extras\zExtra" + i + ".bmp")
+    zpic_(n,26,i)=LoadImage(gfxdir$ + "extras\zExtra" + i + "_.bmp")
 Next
+
+For j=0 To 50
+    For i=0 To maxPicFrames
+        If zpic(n,j,i) <> 0 And imgScaleFactor#(n) <> 0 And imgScaleFactor#(n) <> 1 Then
+            ScaleImage zpic(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
+            ScaleImage zpic_(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
+        End If
+    Next
+Next
+
 
 ;Hyper Bgs and Cooldown Pics
 If n <= maxZ

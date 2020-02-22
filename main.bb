@@ -61,6 +61,7 @@ Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
 Dim cheat(20),cheatSeq(20)
     
+Global debugSeq
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
@@ -258,7 +259,7 @@ Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), super
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
-Dim maxFlightYLimit(maxZ), loadingImg(characterAmount), charIdxList(4)
+Dim maxFlightYLimit(maxZ), loadingImg(characterAmount), charIdxList(4), imgScaleFactor#(maxCharamt)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -592,6 +593,7 @@ Next
 
 butPic(72)=butPic(71)
 
+setScaleFactorPerChar()
 initCharSelect()
 
 gamestart=0
@@ -1216,7 +1218,6 @@ If scrollMap=1 Then
     If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit
 
     If yScr < uScrLimit Then yScr = uScrLimit
-    DebugLog "yScr: " + yScr
     If xScr < lScrLimit Then
         xScr=lScrLimit
     ElseIf xScr+1024 > rScrLimit Then
@@ -1789,8 +1790,8 @@ Function loadZ(n)
     
     zAcc#(n)=.2         ;.2
     zgravity#(n)=4.8       ;3        ;Gravity force when falling or going up
-    zjumplimit(n)=20    ;20        ;Jump height (per frame), not pixels!
-    zDtopSpeed#(n)=2    ;2
+    zjumplimit(n)=32    ;20        ;Jump height (per frame), not pixels!
+    zDtopSpeed#(n)=3.2    ;2
     zTopSpeed#(n)=zDtopSpeed(n)
     zTopRunningSpeed#(n)=zDtopSpeed(n)*zRunSpeed#(curGuy(n))
     zBlockSpeed(n)=.8
@@ -1973,7 +1974,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
             If facChunk(n,curF(n)) > 0 Then makechunk(nn,xobj(nn),yobj(nn),objDir(nn),facChunk(n,curF(n)))
             If facSound(n,curF(n)) > 0 And gamesound Then PlaySound soundFx(facSound(n,curF(n)))
             objSuper(nn) = facVar1(n,curF(n))
-            objNoGrav(nn) = facVar2(n,curF(n))  
+            objNoGrav(nn) = facVar2(n,curF(n))
             objHitMode(nn) = facVar3(n,curF(n))
                         
         Case 3    ;shots
@@ -2063,6 +2064,8 @@ Function selectDraw(n)
             zani(n)=4:zf(n)=1
         End If
         Goto drawZ
+    Else
+        debugSeq = 0
     End If
     handleHeavyCharactersOnAir(n)
     If (Not zhit(n)) And isActiveCharacter(n)=1 Then ;On ground
@@ -3211,12 +3214,12 @@ objThrow(zGotObj(n))=1:
 objdir(zGotObj(n))=dir:xobj(zGotObj(n))=x:yobj(zGotObj(n))=y
 
 If upkey(n)=1 And (leftKey(n)=1 Or rightKey(n)) Then objYSpeed(zGotObj(n))=objYForce(zGotObj(n)) Goto objThrown
-If downkey(n)=1 And (leftKey(n)=1 Or rightKey(n)) Then objYSpeed(zGotObj(n))=5 Goto objThrown
+If downkey(n)=1 And (leftKey(n)=1 Or rightKey(n)) Then objYSpeed(zGotObj(n))=8 Goto objThrown
 If upkey(n)=1 Then objYSpeed(zGotObj(n))=objYForce(zGotobj(n)):objXspeed(zgotObj(n))=0 Goto objThrown
-If downkey(n)=1 Then objYSpeed(zGotObj(n))=5:objXspeed(zgotObj(n))=0 Goto objThrown
+If downkey(n)=1 Then objYSpeed(zGotObj(n))=8:objXspeed(zgotObj(n))=0 Goto objThrown
 .objThrown
 
-zGotObj(n)=0                         
+zGotObj(n)=0
 
 End Function
 
@@ -4115,6 +4118,7 @@ If objTaken(n)=0 Then
     If Not ImageRectCollide(map,0,0,0,xObj(n)-objSide(n),yObj(n)+1,1,1) Then
         If Not ImageRectCollide(map,0,0,0,xObj(n)+objSide(n),yObj(n)+1,1,1) Then
             yobj(n)=yobj(n)+objYSpeed(n)
+            DebugLog "PUTA3"
         Else
             If objHurt(n)=1 Then objHit(n)=1
             objYspeed(n)=0:objhitsolid(n)
@@ -4123,6 +4127,7 @@ If objTaken(n)=0 Then
     .checkObjAgain
     If ImageRectCollide(map,0,0,0,xObj(n)-objSide(n),yObj(n),1,1) Or ImageRectCollide(map,0,0,0,xObj(n)+objSide(n),yObj(n),1,1) And objXspeed(n)=<0 Then
             If objHurt(n)=1 Then objHit(n)=1
+            DebugLog "PUTA2"
             yObj(n)=yObj(n)-1:objXspeed(n)=0:objYSpeed(n)=0:objHitSolid(n):Goto checkobjAgain
     EndIf
     If ImageRectCollide(map,0,0,0,xObj(n),yObj(n)+1,1,1) Then
@@ -4131,12 +4136,13 @@ If objTaken(n)=0 Then
         Else
         If ImageRectCollide(map,0,0,0,xObj(n)-objSide(n),yObj(n)-(objheight(n)),1,1) Or ImageRectCollide(map,0,0,0,xObj(n)+objSide(n),yObj(n)-(objheight(n)),1,1) Then
             If objHurt(n)=1 Then objHit(n)=1
+            DebugLog "PUTA1"
             If objNoGrav(n)=0 Then yobj(n)=yobj(n)+1.5
             objYspeed(n)=1:objXspeed(n)=1:objHitSolid(n):objhitroof=1
         EndIf
     EndIf
     
-For q=2 To objheight(n)-2 Step 2
+    For q=2 To objheight(n)-2 Step 2
         If ImageRectCollide(map,0,0,0,xobj(n)+objSide(n),yobj(n)-q,1,1) Then
             xobj(n)=xobj(n)-2:objYSpeed(n)=0
             If objHurt(n)=1 Then objHit(n)=1
@@ -4149,17 +4155,17 @@ For q=2 To objheight(n)-2 Step 2
             ithit=1:objDir(n)=2:objHitSolid(n)
             Exit
         EndIf
-Next    
+    Next
 
 For nn=1 To shotAmount    ;object x shot collision
   If shot(nn) And objHurt(n) Then
     If xshot(nn) => xobj(n)-objSide(n) And xshot(nn) =< xObj(n)+objSide(n) Then 
-      For hh=0 To shotHeight(nn) Step 4    
+      For hh=0 To shotHeight(nn) Step 4
         If (yshot(nn) => yObj(n)-objheight(n) And yshot(nn) <= yObj(n)) Or (yshot(nn)-hh => yObj(n)-objheight(n) And yshot(nn)-hh <= yObj(n)) Then
             If shotSuper(nn)=0 And objSuper(n)=0 Then
               If gameSound Then PlaySound shotSound(nn)
             EndIf
-            If objSuper(n)=0 Then    
+            If objSuper(n)=0 Then
                 objHitSolid(n)
                 objLife(n)=objLife(n)-5
                 If objLife(n) =< 0 Then obj(n)=0:makeChunk(0,xObj(n),yObj(n),2,objHitChunk(n))
@@ -4204,7 +4210,7 @@ For nn=1 To objAmount    ;object x object collision
                 objdir(n)=4
             EndIf
           EndIf
-          If objSuper(nn)=0 Then    
+          If objSuper(nn)=0 Then
             objhitsolid(nn)
             objLife(nn)=objLife(nn)-5
             If objExplosive(nn) > 0 Then objexp(nn,xObj(nn),yobj(nn),objExplosive(nn)):objHitSolid(nn):obj(nn)=0
@@ -4248,7 +4254,7 @@ If targetBox(tarN)=1 And objHurt(n) Then    ;object x target collision
             objdir(n)=4
         EndIf
         EndIf
-    EndIf        
+    EndIf
 EndIf
 
 If objHit(n) And objExplosive(n)>0 Then objexp(n,xObj(n),yobj(n)-5,objExplosive(n)):objHitSolid(n):obj(n)=0:Goto objdone
@@ -4381,9 +4387,9 @@ Case 4
               EndIf
             EndIf
             zShield(nn)=oldshield
-        Next    
+        Next
     Next
-  Next    
+  Next
 End Select
 .objDone
 
@@ -4657,8 +4663,6 @@ For nn=1 To objAmount
                 Else
                     objYspeed(nn) = -1
                 EndIf
-                ;objXspeed(nn) = objXspeed(nn)-2
-                ;If objXspeed(nn) < 0 Then objXspeed(nn) = 0
             Else
                 objXspeed(nn)=0:objYSpeed(nn)=0
             EndIf
@@ -5375,7 +5379,7 @@ End Function
 ;------------ unfreeze character -----------------
 Function unFreeze(n, mode)
     Local ice=1
-    zgravity(n)=3
+    zgravity(n)=4.8
     isFrozen(n)=0
     isDizzy(n)=0
     cantGetTime(n)=0
@@ -6227,6 +6231,14 @@ Function changeMusic(musicSelected$)
     EndIf
 End Function
 
+Function setScaleFactorPerChar()
+    For i=1 To maxCharAmt
+        imgScaleFactor#(i)=1
+    Next
+    
+    imgScaleFactor#(14)=0.75
+End Function
+
 Function initCharSelect()
 For n=1 To characterAmount
     initStance(n)
@@ -6234,7 +6246,7 @@ For n=1 To characterAmount
         For m=1 To zStanceFrames(n)
             If butPic2(n, m)=0 Then
                 butPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance" + m + ".bmp")
-                If n=14 Then ScaleImage butPic2(n, m),0.49,0.49
+                If imgScaleFactor#(n) <> 1 Then ScaleImage butPic2(n, m),imgScaleFactor#(n),imgScaleFactor#(n)
             End If
         Next
     Else
@@ -6501,7 +6513,6 @@ Function doDebugMode()
                 End If
                 
                 yTile2( n, m )=yTile2( n, m ) + yTile2Reduction
-                If yTile2Reduction <> 0 Then DebugLog "yTile2: " + yTile2(n, m)
             End If
         Next
     Next

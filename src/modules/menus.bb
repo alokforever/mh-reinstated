@@ -821,7 +821,7 @@ For b= 1 To characterAmount ;characters to select
         If b=6 Or b=15 Then
             xOffset=-8
         Else If b = 11 Or b = 14 Then
-            xOffset=2
+            xOffset=5
         EndIf
         DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +90
     Else
@@ -905,7 +905,7 @@ For b=55 To 58  ;team, selected player
             pri xbut(b)+8,ybut(b)+5,strInfo$(31)
         EndIf
     EndIf
-    xOffset=40
+    xOffset=38
     If curGuy(n)=6 Then xOffset=16
     If curGuy(n)=15 Then xOffset=32
     If CurGuy(n) > 0 And zon(n) > 0 Then 
