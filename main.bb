@@ -5289,8 +5289,8 @@ End Function
 Function moveX(n,dir,speed#)
 
 Select dir
-Case 2:zx(n)=zx(n)+speed#
-Case 4:zx(n)=zx(n)-speed#
+Case 2:zx(n)=zx(n)+(speed# * 1.6) ; * 1.6 is 1024 x 768 transition
+Case 4:zx(n)=zx(n)-(speed# * 1.6)
 End Select
 
 End Function
@@ -5350,21 +5350,21 @@ Next
 
 End Function
 ;----------------- MoveX2 ----------------------
-Function moveX2(n,dir,speed)
+Function moveX2(n,dir,speed#)
 
 If zBlowStill(n)=0 Then
     Select dir
-    Case 2:zx(n)=zx(n)+speed
-    Case 4:zx(n)=zx(n)-speed
+    Case 2:zx(n)=zx(n)+(speed# * 1.6) ; * 1.6 is 1024 x 768 transition
+    Case 4:zx(n)=zx(n)-(speed# * 1.6)
     End Select
 EndIf
 
 End Function
 ;------------ move y-----------------
-Function moveY(n,speed)
+Function moveY(n,speed#)
 
 If zBlowStill(n)=0 Then
-    zy(n)=zy(n)+speed
+    zy(n)=zy(n)+(speed# * 1.6) ; * 1.6 is 1024 x 768 transition
 EndIf
 End Function
 
