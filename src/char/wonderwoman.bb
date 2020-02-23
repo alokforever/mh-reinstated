@@ -668,13 +668,13 @@ Function doThemysciraLandSeq(n)
     endSeq=2
 
 ;======== Animation =========
-    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<seq1 Then zani(n)=26:zf(n)=1
-    If zBlowSeq(n)>=seq1 And zBlowSeq(n)<seq2 Then zani(n)=26:zf(n)=2
-    If zBlowSeq(n)>=seq2 And zBlowSeq(n)<seq3 Then zani(n)=26:zf(n)=3
-    If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq4 Then zani(n)=26:zf(n)=4
-    If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then zani(n)=26:zf(n)=5
-    If zBlowSeq(n)>=seq5 And zBlowSeq(n)<seq6 Then zani(n)=26:zf(n)=6
-    If zBlowSeq(n)>=seq6 And zBlowSeq(n)<seq7 Then zani(n)=26:zf(n)=7
+    If zBlowSeq(n)>=seqStart And zBlowSeq(n)<seq1 Then zani(n)=10:zf(n)=31
+    If zBlowSeq(n)>=seq1 And zBlowSeq(n)<seq2 Then zani(n)=10:zf(n)=32
+    If zBlowSeq(n)>=seq2 And zBlowSeq(n)<seq3 Then zani(n)=10:zf(n)=33
+    If zBlowSeq(n)>=seq3 And zBlowSeq(n)<seq4 Then zani(n)=10:zf(n)=34
+    If zBlowSeq(n)>=seq4 And zBlowSeq(n)<seq5 Then zani(n)=10:zf(n)=35
+    If zBlowSeq(n)>=seq5 And zBlowSeq(n)<seq6 Then zani(n)=10:zf(n)=36
+    If zBlowSeq(n)>=seq6 And zBlowSeq(n)<seq7 Then zani(n)=10:zf(n)=37
     
     If zBlowSeq(n)>seq7 Then zBlowSeq(n)=endSeq
 End Function

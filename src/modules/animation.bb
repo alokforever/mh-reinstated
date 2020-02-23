@@ -166,15 +166,19 @@ Function getWonderwomanRunStatus(n)
     
     If leftKey(n)=0 And rightKey(n)=0 Then 
         ret=1
-        If abs(zSpeed#(n))<=4.8 And abs(zSpeed#(n))>4.3 Then zani(n)=21:zf(n)=8
+        If abs(zSpeed#(n))<=7.68 And abs(zSpeed#(n))>6.88 Then zani(n)=21:zf(n)=8
         If zOnGnd(n)=1 And abs(zSpeed#(n))=4.8 And gameSound Then PlaySound pullSnd
 
-        If abs(zSpeed#(n))<=3.8 And abs(zSpeed#(n))>3.3 Then zani(n)=21:zf(n)=8
-        If abs(zSpeed#(n))<=3.3 And abs(zSpeed#(n))>2.8 Then zani(n)=21:zf(n)=9
-        If abs(zSpeed#(n))<=2.8 And abs(zSpeed#(n))>2.3 Then zani(n)=21:zf(n)=10
-        If abs(zSpeed#(n))<=1.8 And abs(zSpeed#(n))>1.3 Then zani(n)=21:zf(n)=12
-        If abs(zSpeed#(n))<=1.3 And abs(zSpeed#(n))>0.8 Then zani(n)=21:zf(n)=13
-        If abs(zSpeed#(n))<=0.8 Then zani(n)=21:zf(n)=14
+        If abs(zSpeed#(n))<=6.08 And abs(zSpeed#(n))>5.28 Then zani(n)=21:zf(n)=9
+        If abs(zSpeed#(n))<=5.28 And abs(zSpeed#(n))>4.48 Then zani(n)=21:zf(n)=10
+        If abs(zSpeed#(n))<=4.48 And abs(zSpeed#(n))>3.68 Then zani(n)=21:zf(n)=11
+        If abs(zSpeed#(n))<=3.68 And abs(zSpeed#(n))>2.08 Then zani(n)=21:zf(n)=12
+        If abs(zSpeed#(n))<=2.08 And abs(zSpeed#(n))>1.28 Then zani(n)=21:zf(n)=13
+        If abs(zSpeed#(n))<=1.28 Then zani(n)=21:zf(n)=14
+    Else If zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 7 Then
+        ret=1
+        If zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 3 Then zani(n)=21:zf(n)=19
+        If zRunSeqNoReset(n) > 3 And zRunSeqNoReset(n) <= 7 Then zani(n)=21:zf(n)=20
     End If
     Return ret
 End Function
@@ -207,7 +211,7 @@ End Function
 ;-------------- Draw trailing effects ----------------
 Function drawTrailingEffects(n)
     If curGuy(n)=14 Or curGuy(n)=11 Then
-        If zRunSeqNoReset(n)=1 Then extraObj(n,zx(n),-40,zy(n),2,zFace(n),116) ; Dust 2
+        If zRunSeqNoReset(n)=1 Then extraObj(n,zx(n),-64,zy(n),3,zFace(n),116) ; Dust 2
     End If
     If curGuy(n)=16 Then
         If zRunSeqNoReset(n) Mod 4 = 0 Then 

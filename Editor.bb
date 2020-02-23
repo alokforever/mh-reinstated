@@ -4434,8 +4434,8 @@ Function AdjustScreen()
     Next
     
     For n=1 To areaAmount
-        xFactor = 1.6 * ((sax(n) - xOrigin) / 2.7)
-        yFactor = 1.6 * ((say(n) - yOrigin) / 2.7)
+        xFactor = 1.6 * ((sax(n) - xOrigin) / 2.65)
+        yFactor = 1.6 * ((say(n) - yOrigin) / 2.75)
         
         sax(n)=sax(n) + xFactor
         saw(n)=saw(n) * 1.6

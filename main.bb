@@ -1441,42 +1441,42 @@ For n=1 To zzamount
     If showLifeBar(n)=1 Then drawBossLife(n)
 Next
 
-x=15:y=3    ;draws bars, super bar, damage/life, lives, etc.
+x=24:y=5    ;draws bars, super bar, damage/life, lives, etc.
 For n=1 To 4
     xx=0
  If zon(n) And isHelper(n)=0 Then
     For k=1 To zlives(n)
         DrawImage zIcon(curGuy(n)),x+xx,y
-        xx=xx+15
+        xx=xx+24
         If k > 6 Then Exit
     Next
     If zDamage(n) > 999 Then zDamage(n)=999
     Color 255,0,0
     If fightMode=1 Then 
-        pri x+115,y, Int(zDamage(n))
+        pri x+168,y, Int(zDamage(n))
     Else
-        pri x+115,y, Int(zLife(n))
+        pri x+168,y, Int(zLife(n))
     EndIf
 
     Select gameMode
         Case 2:
-            Color 255,0,0:Rect 4,y+19,20,14,1
+            Color 255,0,0:Rect 6,y+30,32,22,1
             pri 5,y+20, teamScore(1)
-            Color 0,255,0:Rect 615,y+19,20,14,1
-            pri 617,y+20, teamScore(2)
-        Case 3: pri x+115,y+20, Int(zFlagTime(n))
-        Case 4: pri x+115,y+20, Int(zTargetScore(n))
+            Color 0,255,0:Rect 984,y+30,32,22,1
+            pri 987,y+32, teamScore(2)
+        Case 3: pri x+168,y+32, Int(zFlagTime(n))
+        Case 4: pri x+168,y+32, Int(zTargetScore(n))
     End Select
     If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
-    Rect x,y+15,zSuperbar(n),4,1
+    Rect x,y+24,zSuperbar(n) * 1.6,4,1
     If zStaminaBar#(n) < 40 Then Color 231,76,60 Else Color 52,152,219
-    Rect x,y+20,zStaminaBar#(n),4,1
+    Rect x,y+32,zStaminaBar#(n) * 1.6,4,1
     Color 74,35,90
-    Rect x,y+25,(zBlockLife(n)*1.28),4,1
+    Rect x,y+40,(zBlockLife(n)*2),4,1
     Color 120,120,120
-    Rect x,y+15,100,4,0
+    Rect x,y+24,160,6,0
  EndIf
-x=x+155
+x=x+248
 Next
 
 superBarDispTime=50
@@ -1517,7 +1517,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             Else
                 zSuperX(n)=1024 : zSuperDir(n)=4
             EndIf
-            If zy(n)-yscr > 495 Then zSuperY(n)=80 Else zSuperY(n)=300
+            If zy(n)-yscr > 495 Then zSuperY(n)=128 Else zSuperY(n)=480
         EndIf
             
         a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
@@ -1536,10 +1536,10 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
         
         If shouldShowSuperPortrait(n) > 0 Then 
             y=zSuperY(n)
-            For i=0 To 110 Step 10
+            For i=0 To 176 Step 16
                 Color 0,0,Rand(80,200)
-                Rect 0,y,1024,10,1
-                y=y+10
+                Rect 0,y,1024,16,1
+                y=y+16
             Next
             
             If superPicSeed(n)=1 Or superPicNum(n)=1 Then superPicIdx=1 Else superPicIdx=2
@@ -2030,7 +2030,7 @@ Function selectDraw(n)
             zani(n)=3:zf(n)=1
         End If
         If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
-        Goto drawZ        
+        Goto drawZ
     End If            ;ducking
     
     If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
@@ -2368,7 +2368,7 @@ If scrollMap=0 Then
 EndIf
 
 ;If zCurPic(n) <> 0 Then     ;test
-    ;If n=2 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
+    ;If n=1 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
     If isDrawAfterImage(n)=1 Then drawAfterImages(n)
 ;Else
@@ -4118,7 +4118,7 @@ If objTaken(n)=0 Then
     If Not ImageRectCollide(map,0,0,0,xObj(n)-objSide(n),yObj(n)+1,1,1) Then
         If Not ImageRectCollide(map,0,0,0,xObj(n)+objSide(n),yObj(n)+1,1,1) Then
             yobj(n)=yobj(n)+objYSpeed(n)
-            DebugLog "PUTA3"
+            ;DebugLog "PUTA3"
         Else
             If objHurt(n)=1 Then objHit(n)=1
             objYspeed(n)=0:objhitsolid(n)
