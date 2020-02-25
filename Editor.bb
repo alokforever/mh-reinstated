@@ -908,7 +908,7 @@ For n=1 To boxAmount
         If MouseY() > yBox(n)+yScr And MouseY() < yBox(n)+boxHeight(n)+yScr Then
             cn=n
             Goto gotBox
-        EndIf        
+        EndIf
     EndIf
 Next
 .gotbox
@@ -1291,7 +1291,7 @@ For n=1 To platAmount
         If MouseY() > yPlat(n)+yScr And MouseY() < yplat(n)+ph+yScr Then
             Tfollow(cn) = n
             Goto gotele4
-        EndIf        
+        EndIf
     EndIf
 Next
 .gotele4

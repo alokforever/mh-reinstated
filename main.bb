@@ -259,7 +259,11 @@ Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), super
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
-Dim maxFlightYLimit(maxZ), loadingImg(characterAmount), charIdxList(4), imgScaleFactor#(maxCharamt)
+Dim maxFlightYLimit(maxZ), loadingImg(maxZ), charIdxList(4), imgScaleFactor#(maxCharamt)
+
+; developer mode variables
+Global freezeMode, clicked, curHitBox
+Dim xHitbox(200), yHitbox(200), wHitbox(200), hHitBox(200)
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -950,8 +954,6 @@ FlushKeys() : FlushJoy()
 While Not gameDone=1
 Getinput
 
-If debugMode=1 Then doDebugMode()
-
 flags
 For n= 1 To zzamount
     zBeenHere(n)=0
@@ -1446,7 +1448,7 @@ For n=1 To 4
     xx=0
  If zon(n) And isHelper(n)=0 Then
     For k=1 To zlives(n)
-        DrawImage zIcon(curGuy(n)),x+xx,y
+        If zIcon(curGuy(n)) <> 0 Then DrawImage zIcon(curGuy(n)),x+xx,y
         xx=xx+24
         If k > 6 Then Exit
     Next
@@ -1517,7 +1519,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
             Else
                 zSuperX(n)=1024 : zSuperDir(n)=4
             EndIf
-            If zy(n)-yscr > 495 Then zSuperY(n)=128 Else zSuperY(n)=480
+            If zy(n)-yscr > 495 Then zSuperY(n)=128 Else zSuperY(n)=520
         EndIf
             
         a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
@@ -1579,9 +1581,12 @@ EndIf
 ;    Text xTile(0,n)+2,yTile(0,n)+2, n
 ;Next
 
+If debugMode=1 Then doDebugMode()
+
 If showBlowArea=1 Then    ;renders developer`s stuff!
 
 Color 255,43,234
+
 For n=1 To zzamount
     For bn=1 To zblowpamount(n)
         If zBlow(n) And zFace(n)=2 And zBlowEffect(n) Then Rect (zx(n)+xBlow(n,bn))-xscr,(zy(n)-yBlow(n,bn))-yscr,wBlow(n,bn),hBlow(n,bn),0
@@ -6240,7 +6245,8 @@ Function setScaleFactorPerChar()
 End Function
 
 Function initCharSelect()
-For n=1 To characterAmount
+For n=1 To maxZ
+    If curGuy(n) >= 30 Then GoTo SkipInitChar
     initStance(n)
     If zStanceFrames(n)>0 Then
         For m=1 To zStanceFrames(n)
@@ -6253,6 +6259,7 @@ For n=1 To characterAmount
         If butPic2(n, 1)=0 Then butPic2(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
     End If
 Next
+.SkipInitChar
 End Function
 
 Function checkEnemy(n, x#, y#, w#, h#)
@@ -6481,8 +6488,12 @@ Function clearShotAfterImg(n)
 End Function
 
 Function doDebugMode()
-    HitBoxDebug
+    ShowPointer
     
+    If KeyHit(59)=1 Then ;F1
+        freezeMode=1
+    End If
+
     ;======== Go to next level =========
     If KeyHit(88) Then ;F12
         isSuperMove=0
@@ -6494,9 +6505,51 @@ Function doDebugMode()
         mapOpen(curMap)=1
     End If
 
-    ;======== Freezes while F1 is pressed, continue one frame if F2 is pressed =========
-    While KeyDown(59)=1 ;F1
-        If KeyHit(60)=1 Then GoTo Continue
+    ;======== Freezes after F1 is pressed, continue one frame if F2 is pressed =========
+    While freezeMode=1
+        Color 255,43,234
+        For n=1 To zzamount
+            For bn=1 To zblowpamount(n)
+                If zBlow(n) And zFace(n)=2 And zBlowEffect(n) Then Rect (zx(n)+xBlow(n,bn))-xscr,(zy(n)-yBlow(n,bn))-yscr,wBlow(n,bn),hBlow(n,bn),0
+                If zBlow(n) And zFace(n)=4 And zBlowEffect(n) Then Rect (zx(n)-(xBlow(n,bn)+wBlow(n,bn)))-xscr,(zy(n)-yBlow(n,bn))-yscr,wBlow(n,bn),hBlow(n,bn),0
+            Next
+        Next
+        
+        If MouseHit(2) Then
+            For n=0 To curHitBox
+                xHitbox(n)=0:yHitbox(n)=0
+                wHitbox(n)=0:hHitbox(n)=0
+            Next
+            curHitBox=0
+        End If
+        
+        If MouseHit(1) Then
+            If clicked=0 Then
+                clicked=1
+                xHitbox(curHitBox)=MouseX()
+                yHitbox(curHitBox)=MouseY()
+            Else
+                clicked=0
+                wHitBox(curHitBox)=(MouseX()-xHitbox(curHitBox))
+                hHitBox(curHitBox)=(MouseY()-yHitbox(curHitBox))
+                curHitBox=curHitBox+1
+                
+                DebugLog "======= Hitboxes ======="
+                For n=0 To curHitBox
+                    Color 255,255,255
+                    Rect xHitbox(n),yHitbox(n),wHitbox(n),hHitbox(n),0
+                    DebugLog n + ": xblow(n,nn)=" + ((xHitbox(n)-zx(1))+xScr) + ":yblow(n,nn)=" + ((zy(1)-yHitbox(n))-yScr) + ":wblow(n,nn)=" + wHitbox(n) + ":hblow(n,nn)=" + hHitbox(n) + ", zani: " + zani(1) + ", zf: " + zf(1)
+                Next
+                DebugLog "========================"
+            End If
+        End If
+        Flip
+        
+        If KeyHit(59)=1 Then ;F1
+            freezeMode=0
+        End If
+        
+        If KeyHit(60)=1 Then GoTo Continue ;F2
     Wend
     .Continue
     
@@ -6543,6 +6596,7 @@ End Function
 
 Function displayLoadingScr()
     For n=1 To zamountPlaying
+        If curGuy(n) >= 30 Then GoTo SkipLoadingScr
         charIdxList(n)=curGuy(n)
     Next
     
@@ -6554,4 +6608,5 @@ Function displayLoadingScr()
     If loadingImg(charIdxList(i)) <> 0 Then
         DrawImage loadingImg(charIdxList(i)), 0, 0       ; Loading screen
     End If
+    .SkipLoadingScr
 End Function

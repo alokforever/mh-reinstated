@@ -968,10 +968,12 @@ Case 1    ;Attack
     If zBlowSeq(n) >= m And zBlowSeq(n) <= n1 Then zani(n)=6:zf(n)=14
     
 ;---------- Hit box --------------
-    If zBlowSeq(n) >= d And zBlowSeq(n) < i Then
-        zblowPamount(n)=2:nn=1
-        xblow(n,nn)=10: yblow(n,nn)=30:wblow(n,nn)=35:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=35:hblow(n,nn)=1:nn=nn+1
+    If zBlowSeq(n) >= d And zBlowSeq(n) < j Then
+        zblowPamount(n)=4:nn=1
+        xblow(n,nn)=9.58667:yblow(n,nn)=51.0:wblow(n,nn)=19:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=28.5867:yblow(n,nn)=52.0:wblow(n,nn)=14:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=42.5867:yblow(n,nn)=52.0:wblow(n,nn)=9:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=51.5867:yblow(n,nn)=54.0:wblow(n,nn)=14:hblow(n,nn)=11:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=8
         zBlowDamage(n)=18:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
         zBlowSound(n)=mvcHit2Snd
@@ -1006,10 +1008,14 @@ Case 2    ;Flying Kick
     
 ;---------- Hit box --------------
     If zBlowSeq(n) >= c And zBlowSeq(n) < h Then
-        zblowPamount(n)=3:nn=1
-        xblow(n,nn)=5: yblow(n,nn)=30:wblow(n,nn)=18:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=10: yblow(n,nn)=20:wblow(n,nn)=22:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=15: yblow(n,nn)=15:wblow(n,nn)=25:hblow(n,nn)=5:nn=nn+1
+        zBlowBack(n)=1
+        zblowPamount(n)=6:nn=1
+        xblow(n,nn)=1:yblow(n,nn)=44:wblow(n,nn)=13:hblow(n,nn)=19:nn=nn+1
+        xblow(n,nn)=14.0:yblow(n,nn)=38.2:wblow(n,nn)=7:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=22.0:yblow(n,nn)=33.2:wblow(n,nn)=10:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=32.0:yblow(n,nn)=26.2:wblow(n,nn)=7:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=39.0:yblow(n,nn)=21.2:wblow(n,nn)=4:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=43.0:yblow(n,nn)=16.2:wblow(n,nn)=11:hblow(n,nn)=10:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=8
         zBlowDamage(n)=12:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
         zBlowSound(n)=mvcHit2Snd
@@ -1420,7 +1426,7 @@ Case 15    ;WW throw
     a=144:b=a+2:c=b+2:d=c+4:e=d+4:f=e+4:g=f+4:h=g+1:i=h+1:j=i+2:k=j+3:l=k+3:m=l+3:n1=m+3:o=n1+4:p=o+3
     aa=200:bb=aa+6:cc=bb+4:dd=cc+4:ee=dd+9:ff=ee+7:gg=ff+6:hh=gg+5:ii=hh+4:jj=ii+8:kk=jj+7:ll=kk+6:mm=ll+5:nn=mm+3
     aaa=300
-    If zOnGnd(n)=0 And zBlowSeq(n) < b Then zy(n)=zy(n)-2
+    If zOnGnd(n)=0 And zBlowSeq(n) < b Then zy(n)=zy(n)-3
 
 ;----------------- Animations and Sounds ------------------
     If zBlowSeq(n)=1 And downKey(n)=0 Then zBlowSeq(n)=aaa
