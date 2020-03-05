@@ -4123,7 +4123,6 @@ If objTaken(n)=0 Then
     If Not ImageRectCollide(map,0,0,0,xObj(n)-objSide(n),yObj(n)+1,1,1) Then
         If Not ImageRectCollide(map,0,0,0,xObj(n)+objSide(n),yObj(n)+1,1,1) Then
             yobj(n)=yobj(n)+objYSpeed(n)
-            ;DebugLog "PUTA3"
         Else
             If objHurt(n)=1 Then objHit(n)=1
             objYspeed(n)=0:objhitsolid(n)
@@ -6515,12 +6514,20 @@ Function doDebugMode()
             Next
         Next
         
-        If MouseHit(2) Then
+        If MouseHit(3) Then 
             For n=0 To curHitBox
                 xHitbox(n)=0:yHitbox(n)=0
                 wHitbox(n)=0:hHitbox(n)=0
             Next
             curHitBox=0
+            dispHitBox()
+        End If
+        
+        If MouseHit(2) Then
+            xHitbox(curHitBox)=0:yHitbox(curHitBox)=0
+            wHitbox(curHitBox)=0:hHitbox(curHitBox)=0
+            If curHitBox > 0 Then curHitBox=curHitBox-1
+            dispHitBox
         End If
         
         If MouseHit(1) Then
@@ -6534,13 +6541,7 @@ Function doDebugMode()
                 hHitBox(curHitBox)=(MouseY()-yHitbox(curHitBox))
                 curHitBox=curHitBox+1
                 
-                DebugLog "======= Hitboxes ======="
-                For n=0 To curHitBox
-                    Color 255,255,255
-                    Rect xHitbox(n),yHitbox(n),wHitbox(n),hHitbox(n),0
-                    DebugLog n + ": xblow(n,nn)=" + ((xHitbox(n)-zx(1))+xScr) + ":yblow(n,nn)=" + ((zy(1)-yHitbox(n))-yScr) + ":wblow(n,nn)=" + wHitbox(n) + ":hblow(n,nn)=" + hHitbox(n) + ", zani: " + zani(1) + ", zf: " + zf(1)
-                Next
-                DebugLog "========================"
+                dispHitBox()
             End If
         End If
         Flip
@@ -6569,6 +6570,19 @@ Function doDebugMode()
             End If
         Next
     Next
+End Function
+
+Function dispHitBox()
+    DebugLog "======= Hitboxes (zani: " + zani(1) + ", zf: " + zf(1) + ")======="
+    DebugLog " "
+    DebugLog "zblowPamount(n)=" + curHitBox + ":nn=1"
+    For n=0 To curHitBox-1
+        Color 255,255,255
+        Rect xHitbox(n),yHitbox(n),wHitbox(n),hHitbox(n),0
+        DebugLog "xblow(n,nn)=" + ((xHitbox(n)-zx(1))+xScr) + ":yblow(n,nn)=" + ((zy(1)-yHitbox(n))-yScr) + ":wblow(n,nn)=" + wHitbox(n) + ":hblow(n,nn)=" + hHitbox(n) + ":nn=nn+1"
+    Next
+    DebugLog " "
+    DebugLog "======================================"
 End Function
 
 Function handleShotToShotCollision(n)
