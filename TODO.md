@@ -17,7 +17,6 @@ character-specific:
 3. Wonderwoman projectile deflect reaction to scorpion spear (facing right)
 4. Piccolo makuuhouidan remaster
 5. Frozen sprites resize (stuff folder)
-6. 
 
 Sprite resize offset (by percentage):
 Evil Ryu - 55
@@ -25,6 +24,12 @@ Strider Hiryu - 54
 Wolverine - 54
 Sub Zero - 48
 Scorpion - 48
-Wonderwoman - 49
+Wonderwoman - 75
 Juggernaut - 40
 Piccolo - 50
+
+Re-sized parts:
+
+127
+128
+129

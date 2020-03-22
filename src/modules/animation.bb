@@ -164,11 +164,10 @@ Function getWonderwomanRunStatus(n)
     ret=0
     If zRunSeqNoReset(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
     
-    If leftKey(n)=0 And rightKey(n)=0 Then 
+    If leftKey(n)=0 And rightKey(n)=0 Then
         ret=1
         If abs(zSpeed#(n))<=7.68 And abs(zSpeed#(n))>6.88 Then zani(n)=21:zf(n)=8
-        If zOnGnd(n)=1 And abs(zSpeed#(n))=4.8 And gameSound Then PlaySound pullSnd
-
+        If zOnGnd(n)=1 And abs(zSpeed#(n)) >= 7.67 And abs(zSpeed#(n)) <= 7.69 And gameSound Then PlaySound pullSnd
         If abs(zSpeed#(n))<=6.08 And abs(zSpeed#(n))>5.28 Then zani(n)=21:zf(n)=9
         If abs(zSpeed#(n))<=5.28 And abs(zSpeed#(n))>4.48 Then zani(n)=21:zf(n)=10
         If abs(zSpeed#(n))<=4.48 And abs(zSpeed#(n))>3.68 Then zani(n)=21:zf(n)=11

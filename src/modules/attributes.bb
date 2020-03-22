@@ -451,13 +451,46 @@ Case 14: ;Wonder Woman
     zStanceSpeed(n)=6
     zWalkFrames(n)=27
     
-    For iter=0 To zWalkFrames(n)
-        zxHand(n,iter)=-8 :zyHand(n,iter)=32
-    Next
+    zxHand(n,0)=-9.80109 :zyHand(n,0)=62.0
+    zxHand(n,1)=-10.2011 :zyHand(n,1)=63.0
+    zxHand(n,2)=-9.60114 :zyHand(n,2)=66.0
+    zxHand(n,3)=-10.0012 :zyHand(n,3)=67.0
+    zxHand(n,4)=-12.4012 :zyHand(n,4)=63.0
+    zxHand(n,5)=-11.8809 :zyHand(n,5)=64.0
+    zxHand(n,6)=-11.2809 :zyHand(n,6)=60.0
+    zxHand(n,7)=-11.2809 :zyHand(n,7)=60.0
+    zxHand(n,8)=-10.681 :zyHand(n,8)=60.0
+    zxHand(n,9)=-12.0006 :zyHand(n,9)=58.0
+    zxHand(n,10)=-12.4006 :zyHand(n,10)=60.0
+    zxHand(n,11)=-9.80066 :zyHand(n,11)=61.0
+    zxHand(n,12)=-10.2007 :zyHand(n,12)=58.0
+    zxHand(n,13)=-9.60071 :zyHand(n,13)=61.0
+    zxHand(n,14)=-7.00073 :zyHand(n,14)=64.0
+    zxHand(n,15)=-7.40076 :zyHand(n,15)=64.0
+    zxHand(n,16)=-5.80078 :zyHand(n,16)=66.0
+    zxHand(n,17)=-6.14063 :zyHand(n,17)=65.0
+    zxHand(n,18)=-6.02063 :zyHand(n,18)=64.0
+    zxHand(n,19)=-7.46063 :zyHand(n,19)=64.0
+    zxHand(n,20)=-5.86066 :zyHand(n,20)=61.0
+    zxHand(n,21)=-7.26068 :zyHand(n,21)=61.0
+    zxHand(n,22)=-7.26068 :zyHand(n,22)=61.0
+    zxHand(n,23)=-8.20099 :zyHand(n,23)=57.0
+    zxHand(n,24)=-8.60101 :zyHand(n,24)=59.0
+    zxHand(n,25)=-9.00104 :zyHand(n,25)=58.0
+    zxHand(n,26)=-8.40106 :zyHand(n,26)=59.0
     
-    For iter=0 To zStanceFrames(n)
-        zStanceObjX(n,iter)=-8 :zStanceObjY(n,iter)=24
-    Next
+    zStanceObjX#(n,1)=-18.7203 :zStanceObjY#(n,1)=43.0
+    zStanceObjX#(n,2)=-18.82 :zStanceObjY#(n,2)=42.0
+    zStanceObjX#(n,3)=-20.82 :zStanceObjY#(n,3)=40.0
+    zStanceObjX#(n,4)=-19.82 :zStanceObjY#(n,4)=40.0
+    zStanceObjX#(n,5)=-21.6805 :zStanceObjY#(n,5)=38.0
+    zStanceObjX#(n,6)=-23.6805 :zStanceObjY#(n,6)=39.0
+    zStanceObjX#(n,7)=-23.4402 :zStanceObjY#(n,7)=39.0
+    zStanceObjX#(n,8)=-22.7203 :zStanceObjY#(n,8)=39.0
+    zStanceObjX#(n,9)=-24.7203 :zStanceObjY#(n,9)=41.0
+    zStanceObjX#(n,10)=-24.7203 :zStanceObjY#(n,10)=40.0
+    zStanceObjX#(n,11)=-20.7203 :zStanceObjY#(n,11)=40.0
+    zStanceObjX#(n,12)=-18.7203 :zStanceObjY#(n,12)=43.0
     
     zWalkFrameSpeed#(n)=2
     zRunFrames(n)=7
@@ -1931,8 +1964,8 @@ objNoGrav(n)=0
 objTrailType(n)=0
 objSuper(n)=0
 objHitMode(n)=0
-objHitXspeed(n)=3
-objHitYspeed(n)=2
+objHitXspeed(n)=4.8
+objHitYspeed(n)=3.2
 objFallTime(n)=30
 objEat(n)=0
 BeatIten(n)=0

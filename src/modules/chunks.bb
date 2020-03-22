@@ -1240,7 +1240,7 @@ Case 147:       ;Counter
     If chunkSeq(n)>20 Then chunk(n)=0
     
 Case 148:       ;Ground crack
-    isChunkSolid(n)=1:chunkYAdj(n)=10:yChunkSpeed#(n)=4
+    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4
     chunkWidth(n)=85:chunkHeight(n)=21
     seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
     
@@ -1268,8 +1268,8 @@ Case 150:       ;Wonderwoman Themyscira low 2 sillhouete
     If chunkSeq(n)>4 Then chunk(n)=0
     
 Case 151:       ;Ground crack half
-    isChunkSolid(n)=1:chunkYAdj(n)=10:yChunkSpeed#(n)=4
-    chunkWidth(n)=85:chunkHeight(n)=21
+    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4
+    chunkWidth(n)=136:chunkHeight(n)=33.6
     seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
     
     If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(121,1):chunkPic_(n)=ptPic_(121,1)
@@ -1466,14 +1466,14 @@ Case 159:   ;Raging spin (Small)
 Case 160:   ;Raging stars (Inward)
     endSeq=20
     chOwn=chunkOwner(n)
-    If zFace(chOwn)=2 Then xAdj=3 Else xAdj=-3
+    If zFace(chOwn)=2 Then xAdj=4.8 Else xAdj=-4.8
     
     chunkPic(n)=ptPic(127,1):chunkPic_(n)=ptPic_(127,1)
-    If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-3
-    If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+3
+    If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-4.8
+    If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+4.8
     
-    If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-3
-    If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+3
+    If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-4.8
+    If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+4.8
     
     If chunkSeq(n)>endSeq Then chunk(n)=0
     
@@ -1493,6 +1493,7 @@ Case 161:   ;Axe Slash
     If chunkSeq(n)>20 Then chunk(n)=0
     
 Case 162:   ;Axe disappear
+    isChunkSolid(n)=1:chunkYAdj(n)=0:yChunkSpeed#(n)=6.4
     seq1=19:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2:seq7=seq6+2
     
     If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(129,1):chunkPic_(n)=ptPic_(129,1)
@@ -1506,18 +1507,18 @@ Case 162:   ;Axe disappear
     If chunkSeq(n)>seq7 Then chunk(n)=0
     
 Case 163:   ;Raging stars (Outward)
-    endSeq=20
+    endSeq=36
     chOwn=chunkOwner(n)
-    If zFace(chOwn)=2 Then xAdj=3 Else xAdj=-3
+    If zFace(chOwn)=2 Then xAdj=4.8 Else xAdj=-4.8
     
     chunkPic(n)=ptPic(127,1):chunkPic_(n)=ptPic_(127,1)
-    If xChunk#(n) >= zx(chOwn)+5 Or xChunk#(n) <= zx(chOwn)-5 Then
-        If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+3
-        If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-3
+    If xChunk#(n) >= zx(chOwn)+8 Or xChunk#(n) <= zx(chOwn)-8 Then
+        If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+4.8
+        If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-4.8
     End If
-    If yChunk#(n) >= (zy(chOwn)-(zHeight(chOwn)/2))+5 Or yChunk#(n) <= (zy(chOwn)-(zHeight(chOwn)/2))-5 Then
-        If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+3
-        If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-3
+    If yChunk#(n) >= (zy(chOwn)-(zHeight(chOwn)/2))+8 Or yChunk#(n) <= (zy(chOwn)-(zHeight(chOwn)/2))-8 Then
+        If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+4.8
+        If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-4.8
     End If
     
     If chunkSeq(n)>endSeq Then chunk(n)=0

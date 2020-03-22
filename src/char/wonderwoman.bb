@@ -154,11 +154,11 @@ Function doRoyalThrust(n)
 ;=========== Shots ===============
     If zBlowSeq(n)=seq6+1 Or zBlowSeq(n)=seq16+1 Then
         If zBlowSeq(n)=seq6+1 Then 
-            y=zy(n)-zheight(n)+30
-            xOffset=30
+            y=zy(n)-zheight(n)+48
+            xOffset=48
         Else
-            y=zy(n)-zheight(n)+28
-            xOffset=24
+            y=zy(n)-zheight(n)+44.8
+            xOffset=38.4
         End If
         
         en=getNearestEnemy(n)
@@ -258,21 +258,21 @@ Function doRagingEagle(n)
             For i=1 To 3
                 randSeed=Rand(8)
                 If randSeed=1 Then
-                    makechunk(n,zx(n),zy(n)-112,zFace(n),160)
+                    makechunk(n,zx(n),zy(n)-179.2,zFace(n),160)
                 Else If randSeed=2 Then
-                    makechunk(n,zx(n),zy(n)+64,zFace(n),160)
+                    makechunk(n,zx(n),zy(n)+102.4,zFace(n),160)
                 Else If randSeed=3 Then
-                    makechunk(n,zx(n)-80,zy(n)-40,zFace(n),160)
+                    makechunk(n,zx(n)-128,zy(n)-64,zFace(n),160)
                 Else If randSeed=4 Then
-                    makechunk(n,zx(n)+80,zy(n)-40,zFace(n),160)
+                    makechunk(n,zx(n)+128,zy(n)-64,zFace(n),160)
                 Else If randSeed=5 Then
-                    makechunk(n,zx(n)-80,zy(n)-112,zFace(n),160)
+                    makechunk(n,zx(n)-128,zy(n)-179.2,zFace(n),160)
                 Else If randSeed=6 Then
-                    makechunk(n,zx(n)+80,zy(n)-112,zFace(n),160)
+                    makechunk(n,zx(n)+128,zy(n)-179.2,zFace(n),160)
                 Else If randSeed=7
-                    makechunk(n,zx(n)-80,zy(n)+64,zFace(n),160)
+                    makechunk(n,zx(n)-128,zy(n)+102.4,zFace(n),160)
                 Else
-                    makechunk(n,zx(n)+80,zy(n)+64,zFace(n),160)
+                    makechunk(n,zx(n)+128,zy(n)+102.4,zFace(n),160)
                 End If
             Next
         End If
@@ -337,6 +337,13 @@ Function doRagingEagle(n)
     If zBlowSeq(n)>seq13 And zBlowSeq(n)<=seq14 Then zani(n)=26:zF(n)=29
     If zBlowSeq(n)>seq14 And zBlowSeq(n)<=seq15 Then zani(n)=26:zF(n)=30
     If zBlowSeq(n)>seq15 And zBlowSeq(n)<=seq16 Then zani(n)=26:zF(n)=31
+    If zBlowSeq(n)=seq15+1 Then
+        If zFace(n)=2 Then
+            makechunk(n,zx(n)+98,zy(n),zFace(n),162)
+        Else
+            makechunk(n,zx(n)-98,zy(n),zFace(n),162)
+        End If
+    End If
     
     ;========== Raging end ============
     If zBlowSeq(n)>seq16 And zBlowSeq(n)<=seq17 Then
@@ -353,21 +360,21 @@ Function doRagingEagle(n)
             For i=1 To 3
                 randSeed=Rand(8)
                 If randSeed=1 Then
-                    makechunk(n,zx(n)-10,zy(n)-40,zFace(n),163)
+                    makechunk(n,zx(n)-16,zy(n)-25,zFace(n),163)
                 Else If randSeed=2 Then
-                    makechunk(n,zx(n)+10,zy(n)-40,zFace(n),163)
+                    makechunk(n,zx(n)+16,zy(n)-25,zFace(n),163)
                 Else If randSeed=3 Then
-                    makechunk(n,zx(n)-10,zy(n)-51,zFace(n),163)
+                    makechunk(n,zx(n)-16,zy(n)-32,zFace(n),163)
                 Else If randSeed=4 Then
-                    makechunk(n,zx(n)+11,zy(n)-51,zFace(n),163)
+                    makechunk(n,zx(n)+17.6,zy(n)-32,zFace(n),163)
                 Else If randSeed=5 Then
-                    makechunk(n,zx(n)-10,zy(n)-30,zFace(n),163)
+                    makechunk(n,zx(n)-16,zy(n)-48,zFace(n),163)
                 Else If randSeed=6 Then
-                    makechunk(n,zx(n)+10,zy(n)-30,zFace(n),163)
+                    makechunk(n,zx(n)+16,zy(n)-48,zFace(n),163)
                 Else If randSeed=7
-                    makechunk(n,zx(n),zy(n)-50,zFace(n),163)
-                Else
                     makechunk(n,zx(n),zy(n)-30,zFace(n),163)
+                Else
+                    makechunk(n,zx(n),zy(n)-48,zFace(n),163)
                 End If
             Next
         End If
@@ -508,7 +515,7 @@ Function doFierceAmazonHitSeq(n)
     seqStart=100000:seq1=seqStart+36:seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+4
     seq6=seq5+4:seq7=seq6+4:seq8=seq7+4:seq9=seq8+4:seq10=seq9+4:seq11=seq10+4:seq12=seq11+4
     endSeq=2
-    zNoGrav(n)=1:zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
+    zNoGrav(n)=1:zNoMove(n)=1:zSpeed#(n)=0:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
     If zBlowSeq(n)>=seq8 Then zNoGrav(n)=0
     If zBlowSeq(n)>=seq10 And zOnGnd(n)=1 Then zBlowSeq(n)=endSeq
 ;=========== Animation ============
@@ -546,9 +553,9 @@ Function doFierceAmazonHitSeq(n)
     If zBlowSeq(n) >= seqStart And zBlowSeq(n) < seq1 Then 
         seq=zBlowSeq(n)-seqStart
         zblowPamount(n)=3:nn=1
-        xblow(n,nn)=25.695:yblow(n,nn)=40.8008:wblow(n,nn)=16:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=41.695:yblow(n,nn)=41.8008:wblow(n,nn)=20:hblow(n,nn)=12:nn=nn+1
-        xblow(n,nn)=46.695:yblow(n,nn)=29.8008:wblow(n,nn)=15:hblow(n,nn)=7:nn=nn+1
+        xblow(n,nn)=25.695:yblow(n,nn)=40.8008:wblow(n,nn)=24:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=41.695:yblow(n,nn)=41.8008:wblow(n,nn)=28:hblow(n,nn)=12:nn=nn+1
+        xblow(n,nn)=46.695:yblow(n,nn)=29.8008:wblow(n,nn)=23:hblow(n,nn)=7:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=36-seq:zBlowTypeModulo(n)=5:zBlowType(n)=1
         zBlowDamage(n)=3:zBLowEffect(n)=1:zEnemyImmuneTime(n)=7:zBlowStillTime(n)=1:zBlowBlockTime(n)=30
         zBlowSound(n)=mvcHit1Snd
@@ -748,11 +755,13 @@ Function doThemysciraNear(n)
 ;======= Hitbox ========
     If zBlowSeq(n)>seq7 And zBlowSeq(n)<=seq8 Then
         zBlowBack(n)=1
-        zblowPamount(n)=4:nn=1
+        zblowPamount(n)=6:nn=1
         xblow(n,nn)=-17.5432:yblow(n,nn)=25.6004:wblow(n,nn)=14:hblow(n,nn)=6:nn=nn+1
         xblow(n,nn)=-11.5432:yblow(n,nn)=19.6004:wblow(n,nn)=11:hblow(n,nn)=6:nn=nn+1
         xblow(n,nn)=-8.54321:yblow(n,nn)=14.6004:wblow(n,nn)=16:hblow(n,nn)=5:nn=nn+1
         xblow(n,nn)=-6.54321:yblow(n,nn)=9.6004:wblow(n,nn)=14:hblow(n,nn)=5:nn=nn+1
+        xblow(n,nn)=2.98077:yblow(n,nn)=54.6:wblow(n,nn)=7:hblow(n,nn)=9:nn=nn+1
+        xblow(n,nn)=-1.01923:yblow(n,nn)=48.6:wblow(n,nn)=7:hblow(n,nn)=13:nn=nn+1
         zHitMode(n)=2:zBlowHold(n)=12
         zHitSpeed#(n)=1:zHitUpSpeed#(n)=0:zHitDownSpeed#(n)=5:zHitTime(n)=40
         zBlowDamage(n)=20:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=12:zBlowBlockTime(n)=25
@@ -1077,6 +1086,7 @@ Case 5    ;Up + Special (Warrior's heart)
     l=k+2:m=l+2:n1=m+1:o=n1+1:p=o+2:q=p+2:r=q+3:s=r+3
     aa=s+2:bb=aa+2:cc=bb+2:dd=cc+1:ee=dd+1:ff=ee+2:gg=ff+2:hh=gg+3:ii=hh+3
 
+    If zBlowSeq(n)=1 Then onGroundSeq(n)=0
     If zBlowSeq(n)=1 And upKeyDoubleTap(n)=1 Then
         zBlowUpLimit(n)=zy(n)-128
         attackMode(n, 1)=1
@@ -1126,13 +1136,13 @@ Case 5    ;Up + Special (Warrior's heart)
     If (zBlowSeq(n) >= e And zBlowSeq(n) =< g) Or (zBlowSeq(n) >= m And zBlowSeq(n) <= o) Or (attackMode(n, 1)=1 And zBlowSeq(n) >= cc And zBlowSeq(n) <= ee) Then
         zBlowBack(n)=1
         zblowPamount(n)=7:nn=1
-        xblow(n,nn)=-8.56:yblow(n,nn)=115.6:wblow(n,nn)=11:hblow(n,nn)=12:nn=nn+1
-        xblow(n,nn)=3.44:yblow(n,nn)=110.6:wblow(n,nn)=8:hblow(n,nn)=10:nn=nn+1
-        xblow(n,nn)=12.44:yblow(n,nn)=107.6:wblow(n,nn)=6:hblow(n,nn)=16:nn=nn+1
-        xblow(n,nn)=19.44:yblow(n,nn)=100.6:wblow(n,nn)=10:hblow(n,nn)=20:nn=nn+1
-        xblow(n,nn)=23.44:yblow(n,nn)=78.6003:wblow(n,nn)=6:hblow(n,nn)=11:nn=nn+1
-        xblow(n,nn)=19.44:yblow(n,nn)=67.6003:wblow(n,nn)=7:hblow(n,nn)=9:nn=nn+1
-        xblow(n,nn)=12.44:yblow(n,nn)=58.6003:wblow(n,nn)=11:hblow(n,nn)=9:nn=nn+1
+        xblow(n,nn)=4.56:yblow(n,nn)=110.6:wblow(n,nn)=11:hblow(n,nn)=12:nn=nn+1
+        xblow(n,nn)=15.44:yblow(n,nn)=105.6:wblow(n,nn)=8:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=24.44:yblow(n,nn)=102.6:wblow(n,nn)=6:hblow(n,nn)=16:nn=nn+1
+        xblow(n,nn)=31.44:yblow(n,nn)=95.6:wblow(n,nn)=10:hblow(n,nn)=20:nn=nn+1
+        xblow(n,nn)=35.44:yblow(n,nn)=73.6003:wblow(n,nn)=6:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=31.44:yblow(n,nn)=62.6003:wblow(n,nn)=7:hblow(n,nn)=9:nn=nn+1
+        xblow(n,nn)=24.44:yblow(n,nn)=53.6003:wblow(n,nn)=11:hblow(n,nn)=9:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=4.5:zHitTime(n)=20
         If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),2)
@@ -1181,9 +1191,19 @@ Case 5    ;Up + Special (Warrior's heart)
         End If
         zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
     End If
-    If zongnd(n)=1 And zBlowSeq(n) >= s-2 And attackMode(n, 1)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-    If zongnd(n)=1 And zBlowSeq(n) >= ii-2 And attackMode(n, 1)=1 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-
+    
+    If zongnd(n)=1 And zBlowSeq(n) >= s Then onGroundSeq(n)=onGroundSeq(n)+1
+    If onGroundSeq(n) >= 1 And (leftKey(n)=1 Or rightKey(n)=1) Then onGroundSeq(n)=16
+    If onGroundSeq(n) >= 1 And onGroundSeq(n) < 7 Then
+        zani(n)=7:zf(n)=13
+    Else If onGroundSeq(n) >= 7 And onGroundSeq(n) < 12 Then
+        zani(n)=7:zf(n)=14
+    Else If onGroundSeq(n) >= 12 And onGroundSeq(n) < 16 Then
+        zani(n)=7:zf(n)=15
+    Else If onGroundSeq(n) >= 16 Then
+        If zongnd(n)=1 And zBlowSeq(n) >= s-2 And attackMode(n, 1)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+        If zongnd(n)=1 And zBlowSeq(n) >= ii-2 And attackMode(n, 1)=1 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    End If
 
 Case 6    ;throwing iten
     a=2:b=3:c=6:d=8
@@ -1379,27 +1399,31 @@ Case 11    ;club
     zNoJump(n)=1
     extraDraw(n)=1
     drawObjOnZ(n)=0
-    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-40:yed(n)=40
-    If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-40:yed(n)=42
+    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-64:yed(n)=64
+    If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-64:yed(n)=67.2
     If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
     If zBlowSeq(n) => b And zBlowSeq(n) =< c Then
-        zblowPamount(n)=6
-        nn=6
-        xblow(n,nn)=48: yblow(n,nn)=4:wblow(n,nn)=42:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=8: yblow(n,nn)=26:wblow(n,nn)=98:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=8: yblow(n,nn)=16:wblow(n,nn)=98:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=8: yblow(n,nn)=36:wblow(n,nn)=95:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=8: yblow(n,nn)=46:wblow(n,nn)=85:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=-5: yblow(n,nn)=56:wblow(n,nn)=77:hblow(n,nn)=1:nn=nn+1
+        zblowPamount(n)=11:nn=1
+        xblow(n,nn)=54.3596:yblow(n,nn)=57.0:wblow(n,nn)=17:hblow(n,nn)=10:nn=nn+1
+        xblow(n,nn)=70.3596:yblow(n,nn)=58.0:wblow(n,nn)=17:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=88.3596:yblow(n,nn)=58.0:wblow(n,nn)=13:hblow(n,nn)=12:nn=nn+1
+        xblow(n,nn)=99.3596:yblow(n,nn)=70.0:wblow(n,nn)=20:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=119.36:yblow(n,nn)=70.0:wblow(n,nn)=11:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=129.36:yblow(n,nn)=68.0:wblow(n,nn)=10:hblow(n,nn)=15:nn=nn+1
+        xblow(n,nn)=139.36:yblow(n,nn)=63.0:wblow(n,nn)=12:hblow(n,nn)=16:nn=nn+1
+        xblow(n,nn)=101.36:yblow(n,nn)=57.0:wblow(n,nn)=19:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=119.36:yblow(n,nn)=58.0:wblow(n,nn)=23:hblow(n,nn)=17:nn=nn+1
+        xblow(n,nn)=99.3596:yblow(n,nn)=46.0:wblow(n,nn)=21:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=119.36:yblow(n,nn)=42.0:wblow(n,nn)=16:hblow(n,nn)=8:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=10
         zBlowDamage(n)=25:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
         zChunkType(n)=5
         zBlowSound(n)=smashsnd
         zani(n)=6:zf(n)=12
-        eAni(n)=1:ef(n)=3:xED(n)=65:yed(n)=20
+        eAni(n)=1:ef(n)=3:xED(n)=104:yed(n)=32
     EndIf
-    If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=6:zf(n)=11 :eAni(n)=1:ef(n)=4:xed(n)=65:yed(n)=18
-    If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-40:yed(n)=40
+    If zBlowSeq(n) => c And zBlowSeq(n) =< d Then zani(n)=6:zf(n)=11 :eAni(n)=1:ef(n)=4:xed(n)=104:yed(n)=28.8
+    If zBlowSeq(n) => d And zBlowSeq(n) =< e Then zani(n)=6:zf(n)=1 :eAni(n)=1:ef(n)=2:xed(n)=-64:yed(n)=64
     If zBlowSeq(n) > e Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 12    ;Shooting Position

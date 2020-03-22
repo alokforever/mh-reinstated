@@ -599,7 +599,11 @@ Case 7    ; Juggernaut punch (special)
     a3=2000:b3=a3+12:c3=b3+8:d3=c3+4
     If zOnGnd(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     If zBlowSeq(n)=1 And isRunning(n) Then 
-        If zStaminaBar(n) >= 60 Then zStaminaBar(n)=zStaminaBar(n)-60:zBlowSeq(n)=ex:isRunning(n)=0
+        If zStaminaBar(n) >= 60 Then 
+            zStaminaBar(n)=zStaminaBar(n)-60:zBlowSeq(n)=ex:isRunning(n)=0
+        Else
+            isFlashLowStamina(n)=1
+        End If
     End If
     If zBlowSeq(n) = i+1 Or zBlowSeq(n) = i2+1 Then zBlowSeq(n)=a3
 ;================= Animation ==============
@@ -718,7 +722,11 @@ Case 9    ; Earthquake (down special)
         checkDist(n,zx(n),zy(n)-20,zFace(n))
     End If
     If zBlowSeq(n)=1 And downKeyDoubleTap(n)=1 Then 
-        If zStaminaBar(n) >= 80 Then zStaminaBar(n)=zStaminaBar(n)-80:zBlowSeq(n)=ex
+        If zStaminaBar(n) >= 80 Then
+            zStaminaBar(n)=zStaminaBar(n)-90:zBlowSeq(n)=ex
+        Else
+            isFlashLowStamina(n)=1
+        End If
     End If
 
 ;=============== Animation =================

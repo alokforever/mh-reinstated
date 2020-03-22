@@ -80,7 +80,7 @@ Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),
 Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
 Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)            
 Dim zUpHeight(maxZ),zDuckHeight(maxZ),zHitHead(maxZ),zIcon(60),zRollOnImpact(maxZ)
-Dim zheight(maxZ),zduck(maxZ),zgravity#(maxZ),zSpeed#(maxZ),zSide(maxZ),zxHand(maxZ,40),zyHand(maxZ,40)
+Dim zheight(maxZ),zduck(maxZ),zgravity#(maxZ),zSpeed#(maxZ),zSide(maxZ),zxHand#(maxZ,40),zyHand#(maxZ,40)
 Dim Zrun(maxZ), zCurWeapon(maxZ),dangerMove9(maxZ),dangerMove5(maxZ),zGotObj(maxZ), zLeftCollide(maxZ), zRightCollide(maxZ)
 Dim zLives(maxZ), zJumping(maxZ),zonplat(maxZ),zonThickPlat(maxZ),justMovedByplat(maxZ)
 Dim zantiPlatTime(maxZ),zantiPlatSeq(maxZ),zForceAntiPlat(maxZ)
@@ -249,7 +249,7 @@ Dim shotStopDuration(200), shotStopSeq(200), myShots(maxZ, 200), shotExplodeChun
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
 Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500)
-Dim superMovePortraitSeqStart(maxZ), zStanceObjX(maxZ,40), zStanceObjY(maxZ,40), isCounterAttack(maxZ)
+Dim superMovePortraitSeqStart(maxZ), zStanceObjX#(maxZ,40), zStanceObjY#(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoubleTap(maxZ), blockKeyHitTimer(maxZ)
 Dim preSuperEffect(maxZ), preSuperEffectX(maxZ), preSuperEffectY(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
@@ -260,6 +260,8 @@ Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBg
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
 Dim maxFlightYLimit(maxZ), loadingImg(maxZ), charIdxList(4), imgScaleFactor#(maxCharamt)
+Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
+Dim onGroundSeq(maxZ)
 
 ; developer mode variables
 Global freezeMode, clicked, curHitBox
@@ -1471,6 +1473,7 @@ For n=1 To 4
     End Select
     If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
     Rect x,y+24,zSuperbar(n) * 1.6,4,1
+    If isFlashLowStamina(n)=1 Then flashLowStamina(n)
     If zStaminaBar#(n) < 40 Then Color 231,76,60 Else Color 52,152,219
     Rect x,y+32,zStaminaBar#(n) * 1.6,4,1
     Color 74,35,90
@@ -2372,13 +2375,13 @@ If scrollMap=0 Then
     EndIf
 EndIf
 
-;If zCurPic(n) <> 0 Then     ;test
-    ;If n=1 Then DebugLog "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
+If zCurPic(n) <> 0 Then     ;test
     DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
     If isDrawAfterImage(n)=1 Then drawAfterImages(n)
-;Else
-;    runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
-;EndIf
+Else
+;   runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
+    DebugLog "n: " + n + "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
+EndIf
 
 If zGotObj(n) <> 0 Then
     If drawObjOnZ(n)=1 Then
@@ -4540,7 +4543,7 @@ EndIf
 For nn=1 To zzamount
 .tryPlatAgain
     If zon(nn)=1 And zx(nn) => xoldPlat(n)-zSide(nn) And zx(nn) =< xoldPlat(n)+(platWidth(n)+zSide(nn)) And zJump(nn)=0 Then
-        If zy(nn) => yPlat(n)-3 And zy(nn) =< yPlat(n)+4 Then
+        If zy(nn) => yPlat(n)-4.8 And zy(nn) =< yPlat(n)+6.4 Then
             If zBeenHere(nn)=1 Then Goto platDone
             If platXspeed(n) > 0 Then zBeenHere(nn)=1
             If zantiplat(nn)=1 Then
@@ -4568,7 +4571,7 @@ For nn=1 To zzamount
                 zy(nn)=yplat(n)-1
                 If zCanFly(nn)=1 Then zy(nn)=zy(nn)-1
                 ;Goto platDone
-            EndIf    
+            EndIf
         EndIf
     EndIf
     
@@ -5836,9 +5839,9 @@ End Function
 
 ;----------------- Decelerate ------------------------------------
 Function decelerate(n)
-    If zSpeed#(n) > 0.2 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
+    If zSpeed#(n) > 0.32 Then zSpeed#(n)=zSpeed#(n)-(zAcc#(n)*1.5)
     If zSpeed#(n) < -0.2 Then zSpeed#(n)=zSpeed#(n)+(zAcc#(n)*1.5)
-    If Abs(zSpeed#(n)) <= 0.2 Then zSpeed#(n)=0:isRunning(n)=0
+    If Abs(zSpeed#(n)) <= 0.32 Then zSpeed#(n)=0:isRunning(n)=0
 End Function
 
 ;----------------- Process Heavy Characters on Air ----------------
@@ -6623,4 +6626,27 @@ Function displayLoadingScr()
         DrawImage loadingImg(charIdxList(i)), 0, 0       ; Loading screen
     End If
     .SkipLoadingScr
+End Function
+
+Function flashLowStamina(n)
+    x=21 + (248 * (n-1)):y=35
+
+    flashLowStaminaSeq(n)=flashLowStaminaSeq(n)+1
+    If flashLowStaminaSeq(n)=1 And gameSound Then PlaySound lowStaminaSnd
+    If flashLowStaminaSeq(n) Mod 7 = 0 Then
+        If isStaminaRectShow(n)=0 Then
+            isStaminaRectShow(n)=1
+        Else
+            isStaminaRectShow(n)=0
+        End If
+    End If
+    
+    If isStaminaRectShow(n)=1 Then
+        Color 255,136,38
+        Rect x,y,(zStaminaBar#(n) * 1.6) + 6,10,01
+    End If
+    
+    If flashLowStaminaSeq(n) > 56 Then
+        isFlashLowStamina(n)=0:flashLowStaminaSeq(n)=0:isStaminaRectShow(n)=0
+    End If
 End Function
