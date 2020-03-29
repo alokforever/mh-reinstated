@@ -34,6 +34,10 @@ Function isPriorityMoveFound(n, en)
             extraSpecialkey(n)=1
             moveFound=1
         End If
+    Case 40 ; Turtle
+        If Abs(zx(en)-zx(n)) >= 300 Or Abs(zy(en)-zy(n)) >= 300 Then
+            If Rand(1,300)=15 Then tauntKey(n)=1:moveFound=1
+        End If
     End Select
     return moveFound
 End Function
@@ -450,7 +454,7 @@ EndIf
 Next
 
 ;Flee area
-If dangerArea(curArea)=1 Then    
+If dangerArea(curArea)=1 Then
     If FleeDir(curArea) =2 Then
         rightkey(n)=1
         If zjump(n)=0 Then jumpKey(n)=1:jumpKeyDown(n)=1:Goto aiDone

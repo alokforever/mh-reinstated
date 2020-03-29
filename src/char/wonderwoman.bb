@@ -67,7 +67,7 @@ Function doRoyalThrust(n)
     If zOnGnd(n)=1 Then zy(n)=zy(n)-2
     If zBlowSeq(n)=seqStart Then 
         moveRepeatTimes(n)=0:preSuperEffect(n)=preSuperCrosshair
-        preSuperEffectX(n)=-30:preSuperEffectY(n)=25
+        preSuperEffectX(n)=-40:preSuperEffectY(n)=5
     End If
     
 ;=========== Animation ============
@@ -406,43 +406,74 @@ Function doRagingEagle(n)
 ;=========== Hitbox ============
     If zBlowSeq(n) >= seq9 And zBlowSeq(n) < seq10 And zani(n)=17 And zF(n)<>25 Then 
         zHitMode(n)=2:zBlowHold(n)=0
-        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=16:zBlowStillTime(n)=0:zBlowBlockTime(n)=60
+        zBlowDamage(n)=15:zBLowEffect(n)=1:zEnemyImmuneTime(n)=12:zBlowStillTime(n)=0:zBlowBlockTime(n)=60
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=1.2:zHitTime(n)=60
-        If zF(n)=27 Then
+        If zF(n)=26 Then
+            zblowPamount(n)=13:nn=1
+            xblow(n,nn)=-40.2236:yblow(n,nn)=72.0:wblow(n,nn)=7:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=-37.2236:yblow(n,nn)=59.0:wblow(n,nn)=11:hblow(n,nn)=17:nn=nn+1
+            xblow(n,nn)=-25.2236:yblow(n,nn)=50.0:wblow(n,nn)=10:hblow(n,nn)=16:nn=nn+1
+            xblow(n,nn)=-15.2236:yblow(n,nn)=45.0:wblow(n,nn)=11:hblow(n,nn)=17:nn=nn+1
+            xblow(n,nn)=-3.22363:yblow(n,nn)=39.0:wblow(n,nn)=12:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=9.77637:yblow(n,nn)=38.0:wblow(n,nn)=15:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=26.7764:yblow(n,nn)=38.0:wblow(n,nn)=13:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=39.7764:yblow(n,nn)=39.0:wblow(n,nn)=13:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=51.7764:yblow(n,nn)=41.0:wblow(n,nn)=12:hblow(n,nn)=16:nn=nn+1
+            xblow(n,nn)=59.7764:yblow(n,nn)=48.0:wblow(n,nn)=15:hblow(n,nn)=14:nn=nn+1
+            xblow(n,nn)=63.7764:yblow(n,nn)=57.0:wblow(n,nn)=25:hblow(n,nn)=10:nn=nn+1
+            xblow(n,nn)=75.7764:yblow(n,nn)=48.0:wblow(n,nn)=9:hblow(n,nn)=8:nn=nn+1
+            xblow(n,nn)=87.7764:yblow(n,nn)=58.0:wblow(n,nn)=8:hblow(n,nn)=10:nn=nn+1
+            zBlowSound(n)=slashsnd
+            zchunkType(n)=161
+        Else If zF(n)=27 Then
             zblowPamount(n)=2
             nn=1
-            xblow(n,nn)=40: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
-            xblow(n,nn)=55: yblow(n,nn)=40:wblow(n,nn)=15:hblow(n,nn)=10:nn=nn+1
+            zblowPamount(n)=3:nn=1
+            xblow(n,nn)=51.7369:yblow(n,nn)=57.0:wblow(n,nn)=12:hblow(n,nn)=8:nn=nn+1
+            xblow(n,nn)=64.7369:yblow(n,nn)=56.0:wblow(n,nn)=11:hblow(n,nn)=8:nn=nn+1
+            xblow(n,nn)=76.7369:yblow(n,nn)=56.0:wblow(n,nn)=15:hblow(n,nn)=7:nn=nn+1
             zBlowSound(n)=slashsnd
             zchunkType(n)=161
         Else If zF(n)=28 Then
-            zblowPamount(n)=6:zBlowBack(n)=1
-            nn=1
-            xblow(n,nn)=-25: yblow(n,nn)=47:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=-2: yblow(n,nn)=47:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=38: yblow(n,nn)=47:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=-25: yblow(n,nn)=34:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=-2: yblow(n,nn)=34:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=38: yblow(n,nn)=34:wblow(n,nn)=40:hblow(n,nn)=13:nn=nn+1
+            zBlowBack(n)=1
+            zblowPamount(n)=13:nn=1
+            xblow(n,nn)=-50.3201:yblow(n,nn)=69.0:wblow(n,nn)=15:hblow(n,nn)=9:nn=nn+1
+            xblow(n,nn)=-44.3201:yblow(n,nn)=78.0:wblow(n,nn)=14:hblow(n,nn)=9:nn=nn+1
+            xblow(n,nn)=-33.3201:yblow(n,nn)=83.0:wblow(n,nn)=20:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=-35.3201:yblow(n,nn)=68.0:wblow(n,nn)=18:hblow(n,nn)=8:nn=nn+1
+            xblow(n,nn)=-15.3201:yblow(n,nn)=89.0:wblow(n,nn)=17:hblow(n,nn)=11:nn=nn+1
+            xblow(n,nn)=-13.3201:yblow(n,nn)=79.0:wblow(n,nn)=13:hblow(n,nn)=7:nn=nn+1
+            xblow(n,nn)=1.67995:yblow(n,nn)=91.0:wblow(n,nn)=19:hblow(n,nn)=13:nn=nn+1
+            xblow(n,nn)=20.6799:yblow(n,nn)=94.0:wblow(n,nn)=23:hblow(n,nn)=17:nn=nn+1
+            xblow(n,nn)=43.6799:yblow(n,nn)=90.0:wblow(n,nn)=16:hblow(n,nn)=19:nn=nn+1
+            xblow(n,nn)=60.6799:yblow(n,nn)=84.0:wblow(n,nn)=18:hblow(n,nn)=20:nn=nn+1
+            xblow(n,nn)=78.6799:yblow(n,nn)=74.0:wblow(n,nn)=12:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=91.6799:yblow(n,nn)=66.0:wblow(n,nn)=13:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=73.6799:yblow(n,nn)=58.0:wblow(n,nn)=21:hblow(n,nn)=9:nn=nn+1
             zBlowSound(n)=slashsnd
             zchunkType(n)=161
         Else If zF(n)=32
-            zblowPamount(n)=2
-            nn=1
-            xblow(n,nn)=10: yblow(n,nn)=47:wblow(n,nn)=46:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=10: yblow(n,nn)=34:wblow(n,nn)=46:hblow(n,nn)=13:nn=nn+1
+            zblowPamount(n)=5:nn=1
+            xblow(n,nn)=11.6185:yblow(n,nn)=92.0:wblow(n,nn)=24:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=35.6185:yblow(n,nn)=91.0:wblow(n,nn)=19:hblow(n,nn)=20:nn=nn+1
+            xblow(n,nn)=54.6185:yblow(n,nn)=86.0:wblow(n,nn)=17:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=50.6185:yblow(n,nn)=71.0:wblow(n,nn)=25:hblow(n,nn)=14:nn=nn+1
+            xblow(n,nn)=47.6185:yblow(n,nn)=58.0:wblow(n,nn)=28:hblow(n,nn)=14:nn=nn+1
             zBlowSound(n)=mvcHit2Snd
         Else If zF(n)=33
-            zblowPamount(n)=2
-            nn=1
-            xblow(n,nn)=32: yblow(n,nn)=40:wblow(n,nn)=12:hblow(n,nn)=10:nn=nn+1
-            xblow(n,nn)=47: yblow(n,nn)=40:wblow(n,nn)=12:hblow(n,nn)=10:nn=nn+1
+            zblowPamount(n)=2:nn=1
+            xblow(n,nn)=47.0184:yblow(n,nn)=59.0:wblow(n,nn)=16:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=63.0184:yblow(n,nn)=59.0:wblow(n,nn)=14:hblow(n,nn)=16:nn=nn+1
             zBlowSound(n)=mvcHit2Snd
         Else If zF(n)=34
-            zblowPamount(n)=2
-            nn=1
-            xblow(n,nn)=0: yblow(n,nn)=40:wblow(n,nn)=36:hblow(n,nn)=13:nn=nn+1
-            xblow(n,nn)=0: yblow(n,nn)=27:wblow(n,nn)=36:hblow(n,nn)=13:nn=nn+1
+            zBlowBack(n)=1
+            zblowPamount(n)=6:nn=1
+            xblow(n,nn)=-16.9817:yblow(n,nn)=41.0:wblow(n,nn)=22:hblow(n,nn)=18:nn=nn+1
+            xblow(n,nn)=3.01831:yblow(n,nn)=41.0:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
+            xblow(n,nn)=18.0183:yblow(n,nn)=43.0:wblow(n,nn)=15:hblow(n,nn)=17:nn=nn+1
+            xblow(n,nn)=31.0183:yblow(n,nn)=47.0:wblow(n,nn)=19:hblow(n,nn)=19:nn=nn+1
+            xblow(n,nn)=44.0183:yblow(n,nn)=55.0:wblow(n,nn)=21:hblow(n,nn)=15:nn=nn+1
+            xblow(n,nn)=51.0183:yblow(n,nn)=64.0:wblow(n,nn)=27:hblow(n,nn)=16:nn=nn+1
             zBlowSound(n)=mvcHit2Snd
         Else
             zblowPamount(n)=0
@@ -452,9 +483,10 @@ Function doRagingEagle(n)
     End If
     
     If zBlowSeq(n)>seq11 And zBlowSeq(n)<=seq12 Then ;Axe (zf=27)
-        zblowPamount(n)=2:nn=1:zBlowBack(n)=1
-        xblow(n,nn)=-30: yblow(n,nn)=70:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
-        xblow(n,nn)=-30: yblow(n,nn)=57:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        zBlowBack(n)=1
+        zblowPamount(n)=2:nn=1
+        xblow(n,nn)=-30.3513:yblow(n,nn)=98.0:wblow(n,nn)=20:hblow(n,nn)=19:nn=nn+1
+        xblow(n,nn)=-18.3513:yblow(n,nn)=112.0:wblow(n,nn)=18:hblow(n,nn)=21:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
         zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
@@ -464,8 +496,8 @@ Function doRagingEagle(n)
 
     If zBlowSeq(n)>seq12 And zBlowSeq(n)<=seq13 Then ;Axe (zf=28)
         zblowPamount(n)=2:nn=1
-        xblow(n,nn)=10: yblow(n,nn)=70:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
-        xblow(n,nn)=10: yblow(n,nn)=57:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=22.6487:yblow(n,nn)=119.0:wblow(n,nn)=15:hblow(n,nn)=25:nn=nn+1
+        xblow(n,nn)=37.6487:yblow(n,nn)=118.0:wblow(n,nn)=17:hblow(n,nn)=26:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
         zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
@@ -474,9 +506,11 @@ Function doRagingEagle(n)
     End If
     
     If zBlowSeq(n)>seq13 And zBlowSeq(n)<=seq14 Then ;Axe (zf=29)
-        zblowPamount(n)=2:nn=1
-        xblow(n,nn)=50: yblow(n,nn)=62:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
-        xblow(n,nn)=50: yblow(n,nn)=49:wblow(n,nn)=30:hblow(n,nn)=13:nn=nn+1
+        zblowPamount(n)=4:nn=1
+        xblow(n,nn)=87.6487:yblow(n,nn)=95.0:wblow(n,nn)=14:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=81.6487:yblow(n,nn)=86.0:wblow(n,nn)=22:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=102.649:yblow(n,nn)=83.0:wblow(n,nn)=11:hblow(n,nn)=13:nn=nn+1
+        xblow(n,nn)=97.6487:yblow(n,nn)=73.0:wblow(n,nn)=12:hblow(n,nn)=8:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
         zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
@@ -486,8 +520,8 @@ Function doRagingEagle(n)
     
     If zBlowSeq(n)>seq14 And zBlowSeq(n)<=seq15 Then ;Axe (zf=30)
         zblowPamount(n)=2:nn=1
-        xblow(n,nn)=50: yblow(n,nn)=22:wblow(n,nn)=35:hblow(n,nn)=11:nn=nn+1
-        xblow(n,nn)=50: yblow(n,nn)=0:wblow(n,nn)=35:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=101.649:yblow(n,nn)=30.0:wblow(n,nn)=24:hblow(n,nn)=14:nn=nn+1
+        xblow(n,nn)=99.6487:yblow(n,nn)=16.0:wblow(n,nn)=24:hblow(n,nn)=16:nn=nn+1
         zHitMode(n)=0:zBlowHold(n)=0
         zHitSpeed#(n)=3:zHitUpSpeed#(n)=3:zHitTime(n)=40
         zBlowDamage(n)=22:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=0:zBlowBlockTime(n)=70
@@ -583,17 +617,17 @@ End Function
 
 Function renderGroundCrack(n)
     renderOk=1
-    xRender=10
+    xRender=16
     checkYDist(n, zx(n)+xRender, zy(n), 2)
-    If yDist(n)>10 Then renderOk=0
+    If yDist(n)>16 Then renderOk=0
     checkYDist(n, zx(n)-xRender, zy(n), 2)
-    If yDist(n)>10 Then renderOk=0
+    If yDist(n)>16 Then renderOk=0
     If renderOk=1 Then
         xRender=xRender*2
         checkYDist(n,zx(n)+xRender,zy(n),2)
-        If yDist(n)>10 Then renderOk=0
+        If yDist(n)>16 Then renderOk=0
         checkYDist(n,zx(n)-xRender,zy(n),2)
-        If yDist(n)>10 Then renderOk=0
+        If yDist(n)>16 Then renderOk=0
         If renderOk=1 Then
             makechunk(n,zx(n),zy(n)+16,zFace(n),148)
         Else

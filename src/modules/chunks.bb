@@ -553,12 +553,7 @@ Case 75: a=5:b=10:c=14:d=18         ;freeze ball hit
     If chunkSeq(n) > b And chunkSeq(n) =< c Then chunkPic(n)=ptPic(44,3):chunkPic_(n)=ptPic_(44,3)
     If chunkSeq(n) > c And chunkSeq(n) =< d Then chunkPic(n)=ptPic(44,4):chunkPic_(n)=ptPic_(44,4)
     If chunkSeq(n) > d Then chunk(n)=0
-Case 76: a=5:b=10:c=14:d=18         ;ground freeze hit
-    ;If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(43,1):chunkPic_(n)=ptPic(43,1)
-    ;If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(43,2):chunkPic_(n)=ptPic(43,2)
-    ;If chunkSeq(n) > b And chunkSeq(n) =< c Then chunkPic(n)=ptPic(43,3):chunkPic_(n)=ptPic(43,3)
-    ;If chunkSeq(n) > c And chunkSeq(n) =< d Then chunkPic(n)=ptPic(43,4):chunkPic_(n)=ptPic(43,4)
-    ;If chunkSeq(n) > d Then chunk(n)=0
+Case 76: a=5:b=10:c=14:d=18         ;no chunk
     chunkPic(n)=noPic
 Case 77:         ;berserker barrage slash1a
     a=5:b=10:c=15:d=20:e=25:f=30:g=35:h=40
@@ -1543,6 +1538,36 @@ Case 164: ;Evil Ryu Stance Electricity
     
     If chunkSeq(n)>12 Then chunk(n)=0
 
+Case 165: ;Falling kart
+    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4
+    chunkWidth(n)=150:chunkHeight(n)=40
+    endSeq=100
+    
+    If chunkSeq(n)=1 Then isChunkOnGnd(n)=0
+
+    If chunkSeq(n) Mod 3 = 0 Then 
+        If chunkPic(n)=ptPic(131,1) Then
+            chunkPic(n)=ptPic(131,2):chunkPic_(n)=ptPic_(131,2)
+        Else
+            chunkPic(n)=ptPic(131,1):chunkPic_(n)=ptPic_(131,1)
+        End If
+    End If
+    
+    If isChunkOnGnd(n)=1 And zOnGnd(chunkOwner(n))=1 Then chunk(n)=0
+    
+Case 166: ;Large Explosion
+    seq1=2
+    seqEnd=36
+    
+    If chunkSeq(n) >= 0 And chunkSeq(n) <= seq1 Then
+        chunkPic(n)=ptPic(132,1):chunkPic_(n)=ptPic_(132,1)
+    Else
+        idx=chunkSeq(n) / 2
+        chunkPic(n)=ptPic(132,idx):chunkPic_(n)=ptPic_(132,idx)
+    End If
+    
+    If chunkSeq(n) > 36 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

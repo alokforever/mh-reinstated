@@ -782,7 +782,7 @@ Case 39    ;thief
     gender(n)=maleVal
 
 Case 40    ;turtle
-    zBlowDist(n,1)=200
+    zBlowDist(n,1)=50
     zBlowDist(n,2)=200
     zBlowDist(n,4)=200
     zBlowDist(n,5)=200
@@ -791,13 +791,24 @@ Case 40    ;turtle
     zBlowDist(n,10)=200
     zBlowDist(n,11)=200
     zBlowDist(n,14)=200
-    zheight(n)=64
-    zUpHeight(n)=64
-    zDuckHeight(n)=64
+    hasSpecialAirFrames(n)=1
+    zheight(n)=50
+    zUpHeight(n)=50
+    zDuckHeight(n)=40
     zDontJump(n)=1
-    zDontPickItem(n)=1
+    zDontPickItem(n)=0
     zNoAirSpecial(n)=1
     gender(n)=noGenderVal
+    zStanceFrames(n)=16
+    zStanceSpeed(n)=4
+    dizzyFrames(n)=2
+    dizzyFrameSpeed(n)=7
+    zWalkFrames(n)=6
+    zWalkFrameSpeed#(n)=7
+    electrocuteFrames(n)=3
+    electrocuteFrameSpd(n)=2
+    zJumpSnd(n)=mvcJump1Snd
+    zJumpSnd2(n)=mvcJump2Snd
 
 Case 41: ;Turtle Cloud
     zJumpLimit(n)=0
@@ -2571,24 +2582,39 @@ End Select
 End Function
 ;----------------------------- Explosion data------------------------------------
 Function expData(n)
+
+explosionSound(n)=explodesnd
 Select expType(n)
 Case 1
     expDamage(n)=40
-    expHeight(n)=40
-    expSide(n)=20
-    expImpact(n)=50
+    expHeight(n)=64
+    expSide(n)=32
+    expImpact(n)=80
+    explodeChunkType(n)=7
 
 Case 2
     expDamage(n)=shotExplosiveDamage(n)
     expHeight(n)=shotExplosiveHeight(n)
     expSide(n)=shotExplosiveSide(n)
     expImpact(n)=shotExpImpact(n)
+    explodeChunkType(n)=shotExplodeChunk(n)
+    
+Case 3
+    expDamage(n)=30
+    expHeight(n)=64
+    expSide(n)=32
+    expImpact(n)=80
+    explosionSound(n)=ktKartExplodeSnd
+    explodeChunkType(n)=76
+    
 End Select
 
-explosionSound(n)=shotExplosionSound(n)
 End Function
 ;------------------Load sprites ------------------------------------
 Function loadPics(n)
+local loadTimeStart, loadTimeEnd
+loadTimeStart=MilliSecs()
+
 gfxdir$="gfx\" + n + "\"
 guyLoaded(n)=1
 
@@ -2837,6 +2863,20 @@ If n=42 Then    ;Joker
     Next
     If jokerSnd=0 Then jokerSnd=LoadSound(soundsdir$ + "joker.wav")
 EndIf
+
+If n=40 Then ;Turtle
+    If ktKickSnd=0 Then ktKickSnd=LoadSound(soundsDir$ + "koopaTroopa\ktKick.wav")
+    If ktGrunt1Snd=0 Then ktGrunt1Snd=LoadSound(soundsDir$ + "koopaTroopa\ktGrunt1.wav")
+    If ktGrunt2Snd=0 Then ktGrunt2Snd=LoadSound(soundsDir$ + "koopaTroopa\ktGrunt2.wav")
+    If ktSpinSnd=0 Then ktSpinSnd=LoadSound(soundsDir$ + "koopaTroopa\ktSpin.wav")
+    If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "koopaTroopa\ktDie.wav")
+    If mvcJump1Snd=0 Then mvcJump1Snd=LoadSound(soundsdir$ + "mvc\mvcJmp1Snd.wav")
+    If mvcJump2Snd=0 Then mvcJump2Snd=LoadSound(soundsdir$ + "mvc\mvcJmp2Snd.wav")
+    If ktOneMoreTimeSnd=0 Then ktOneMoreTimeSnd=LoadSound(soundsdir$ + "koopaTroopa\ktOneMoreTime.wav")
+    If mvcSuper1Snd=0 Then mvcSuper1Snd=LoadSound(soundsdir$ + "mvc\mvcSuper1Snd.wav")
+    If ktKartScreechSnd=0 Then ktKartScreechSnd=LoadSound(soundsdir$ + "koopaTroopa\ktKartScreech.wav")
+    If ktKartExplodeSnd=0 Then ktKartExplodeSnd=LoadSound(soundsdir$ + "koopaTroopa\ktKartExplode.wav")
+End If
 
 If n=16 Then ;Piccolo
     If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "piccolo\piccoloDieSnd.wav")
@@ -3094,27 +3134,6 @@ If n=41 Then     ;Turtle CLoud
     Next
 EndIf
 
-If n=40 Then    ;Turtle
-    zpic(n,1,3)=zpic(n,1,0)
-    zpic_(n,1,3)=zpic_(n,1,0)
-    zpic(n,2,2)=zpic(n,2,1)
-    zpic_(n,2,2)=zpic_(n,2,1)
-    zpic(n,2,4)=zpic(n,2,0)
-    zpic_(n,2,4)=zpic_(n,2,0)
-    zpic(n,2,7)=zpic(n,2,6)
-    zpic_(n,2,7)=zpic_(n,2,6)
-    zpic(n,4,1)=zpic(n,1,3)
-    zpic_(n,4,1)=zpic_(n,1,3)
-    zpic(n,3,1)=zpic(n,1,0)
-    zpic_(n,3,1)=zpic_(n,1,0)
-    zpic(n,6,5)=zpic_(n,6,3)
-    zpic_(n,6,5)=zpic(n,6,3)
-    For i=1 To 4
-    zpic(n,5,i)=zpic(n,1,0)
-    zpic_(n,5,i)=zpic_(n,1,0)
-    Next
-EndIf
-
 If n=39 Then    ;Thief
     zpic(n,4,1)=zpic(n,1,3)
     zpic_(n,4,1)=zpic_(n,1,3)
@@ -3230,6 +3249,9 @@ If n=31 Then
     Next
 EndIf
 
+loadTimeEnd=MilliSecs()
+DebugLog "n: " + n + ", loadTime: " + (loadTimeEnd-loadTimeStart)
+
 End Function
 
 Function initStance(n)
@@ -3260,5 +3282,8 @@ Function initStance(n)
     Case 16 ; Piccolo
         zStanceFrames(n)=7
         zStanceSpeed(n)=6
+    Case 40 ; Turtle
+        zStanceFrames(n)=16
+        zStanceSpeed(n)=4
     End Select
 End Function

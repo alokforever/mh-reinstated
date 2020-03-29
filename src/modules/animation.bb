@@ -16,14 +16,10 @@ Function drawFrozenState(unit)
             If freezeSeq(unit) Mod 4 = 1  Then zx(unit)=zx(unit)+shakeXAxis
         EndIf
         If currentFreezeTime(unit) =< endFreezeTime(unit) Then
-            If curGuy(unit) = 40 Then 
-                zani(unit)=0:zf(unit)=1
+            If zpic(curguy(unit),0,2) <> 0 And zpic_(curguy(unit),0,2) <> 0 Then
+                zani(unit)=0:zf(unit)=2
             Else
-                If zpic(curguy(unit),0,2) <> 0 And zpic_(curguy(unit),0,2) <> 0 Then
-                    zani(unit)=0:zf(unit)=2
-                Else
-                    zani(unit)=0:zf(unit)=0
-                EndIf
+                zani(unit)=0:zf(unit)=0
             EndIf
         EndIf
         If currentFreezeTime(unit) => endFreezeTime(unit) Then cantGetTime(unit)=0:unFreeze(unit,1):zani(unit)=zPrevAni(unit):zf(unit)=zPrevF(unit)
@@ -513,7 +509,7 @@ Function processPiccoloAirFrames(n)
     End If
 End Function
 
-;----------------- Process Picccolo Air Frames -------------------
+;----------------- Process Gohan Helper Air Frames -------------------
 Function processGohanHelperAirFrames(n)
     If abs(zSpeed#(n)) >= 1.8 And abs(zSpeed#(n)) < 2.7 And isHelperAttackDone(n)=1 Then 
         zani(n)=4:zf(n)=4
@@ -526,6 +522,20 @@ Function processGohanHelperAirFrames(n)
     End If
 End Function
 
+;----------------- Process Turtle Air Frames -------------------
+Function processTurtleAirFrames(n)
+    If zjump(n)=0 Then ;Falling
+        zJumpFallSeq(n)=zjumpfallseq(n)+1
+        If zJumpFallSeq(n) > 0 And zJumpFallSeq(n) <= 3 Then zani(n)=4:zf(n)=3
+        If zJumpFallSeq(n) > 3 And zJumpFallSeq(n) <= 6 Then zani(n)=4:zf(n)=4
+        If zJumpFallSeq(n) > 6 Then zani(n)=4:zf(n)=5
+    Else ;Jump up
+        If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+        If zjumpseq(n) <= 2 Then zani(n)=4:zf(n)=1
+        If zjumpseq(n) > 2 Then zani(n)=4:zf(n)=2
+    End If
+End Function
+
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
     If curGuy(n)=1 Then processEvilRyuAirFrames(n)
@@ -533,6 +543,7 @@ Function processOnAirFrames(n)
     If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
     If curGuy(n)=16 Then processPiccoloAirFrames(n)
+    If curGuy(n)=40 Then processTurtleAirFrames(n)
     If curGuy(n)=53 Then processGohanHelperAirFrames(n)
 End Function
 

@@ -28,8 +28,20 @@ Wonderwoman - 75
 Juggernaut - 40
 Piccolo - 50
 
+turtle - 100
+
 Re-sized parts:
 
+118
+120
+121
+122
+123
+124
+125
 127
 128
 129
+
+Re-sized shots:
+72 to 77

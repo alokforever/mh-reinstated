@@ -547,7 +547,7 @@ Function menu()
 pointers
 
 For n=1 To ButtonAmount
-If clickedBut(n) Then    
+If clickedBut(n) Then
     Select n    ;Add character, add CASE 11 for your new guy, set curGuy(clickedBy(n)=11 in the new line
 
     Case 1:
@@ -756,6 +756,8 @@ If clickedBut(n) Then
 EndIf
 Next
 
+selectSecretChars()
+
 zamountPlaying=0
 For n=1 To zzamount
     If zon(n)=1 Then zamountPlaying=zamountplaying+1
@@ -768,7 +770,7 @@ y=0
 buttonAmount = 80
 fontType = 2
 
-For b = 1 To characterAmount
+For b = 1 To mainCharAmt
 If x Mod 800 = 0 And x <> 0 Then y=y+96:x=0
 xBut(b)=112+x:yBut(b)=72+y:wBut(b)=80:hBut(b)=96
 x=x+80
@@ -812,7 +814,8 @@ xBut(71)=752:yBut(71)=720:wBut(71)=253:hBut(71)=32
 TileImage backg,xtileimg,ytileimg
 ;xtileimg=xtileimg+.1:ytileimg=ytileimg+.1
 
-For b= 1 To characterAmount ;characters to select
+For b = 1 To mainCharAmt ;characters to select
+    If charSelectable(b)=0 Then Goto skipButtonRender
     drawimage board3,xbut(b),ybut(b)
     ;Color 100,100,100:Rect xbut(b),ybut(b),wbut(b),hBut(b),1
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
@@ -825,8 +828,10 @@ For b= 1 To characterAmount ;characters to select
         EndIf
         DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +90
     Else
+        DebugLog "b: " + b
         DrawImage lock,xbut(b)+16, ybut(b)+24
     EndIf
+    .skipButtonRender
 Next
 
 b=50
@@ -877,7 +882,7 @@ Next
 n=0
 For b=55 To 58  ;team, selected player
     n=n+1
-    If curGuy(n)<=maxZ Then
+    If curGuy(n)<=maxCharAmt Then
         If zStanceFrames(curGuy(n))>0 And zOn(n)=1 Then
             If curGuy(n)=1 Then
                 menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+72, 536)
@@ -908,7 +913,7 @@ For b=55 To 58  ;team, selected player
     xOffset=38
     If curGuy(n)=6 Then xOffset=16
     If curGuy(n)=15 Then xOffset=32
-    If CurGuy(n) > 0 And CurGuy(n) < 30 And zon(n) > 0 Then 
+    If CurGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then 
         If butPic2(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
         DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(butpic2(curGuy(n), butFrame))
     End If
@@ -984,7 +989,7 @@ If clickedBut(n) Then
   Select n
     Case 1: menuOption=1:vsMode=0 :defineButtons(1)
     Case 2: menuOption=1:vsMode=1:changeMusic(music12):initCharSelect() ;go to character Select screen (vs mode)
-    Case 3: menuOption=3                ;go to options screen
+    Case 3: menuOption=3  ;go to options screen
     Case 4: rollCredits()
     Case 5: saveConfig() : end
   End Select
@@ -1922,11 +1927,15 @@ menuOption=2
 End Function 
 
 Function waitCheats()
+    For i=2 To 5
+        If KeyHit(i) Then LastKeyPressed=i-1
+    Next
+
     If KeyHit(14) Then  ;BACKSPACE key
         cheatSeq(1)=cheatSeq(1)+1
     EndIf
 
-    If KeyHit(13) Then  ;'=' Key
+    If KeyHit(cheatKeys(2,cheatSeq(2))) Then  ;slowpoke cheat
         cheatSeq(2)=cheatSeq(2)+1
     End If
     
@@ -1934,26 +1943,21 @@ Function waitCheats()
         If cheatSeq(1)=5 And cheat(1)=0 Then
             cheat(1)=1  ;cheat_1 activated
             If gameSound Then PlaySound energySnd
-            For n=4 To characterAmount ;unlock all playable characters
+            For n=4 To mainCharAmt ;unlock all playable characters
                 characterOpen(n)=1
+            Next
+            
+            For n=1 To 30
+                vsMapOpen(n)=1
             Next
         EndIf
         
-        If cheatSeq(2)=5 Then
-            If cheat(2)=0 Then
-                cheat(2)=1  ;cheat_2 activated
-                If gameSound Then PlaySound energySnd
-                isUnliSuper = 1
-            Else
-                cheat(2)=0  ;cheat_2 deactivated
-                If gameSound Then PlaySound energyReversedSnd
-                isUnliSuper = 0
-            End If
+        If cheatSeq(2)=8 Then
+            cheat(2)=lastKeyPressed  ;cheat_2 activated
+            If gameSound Then PlaySound energySnd
+            CurGuy(lastKeyPressed)=40 ;set selected character to turlte
         End If
         
-        For n=1 To 30
-            vsMapOpen(n)=1
-        Next
         cheatSeq(1)=0
         cheatSeq(2)=0
     EndIf
@@ -1967,5 +1971,11 @@ Function setStanceFrame(n)
             zStanceSeq(n)=0
             menuStanceFrame(n)=menuStanceFrame(n)+1
         End If
+    End If
+End Function
+
+Function selectSecretChars()
+    If cheat(2) > 0 Then
+        curGuy(cheat(2))=40:cheat(2)=0
     End If
 End Function

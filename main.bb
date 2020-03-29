@@ -56,11 +56,12 @@ Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
 Global debugMode=1
+Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
-Dim cheat(20),cheatSeq(20)
-    
+Dim cheat(20),cheatSeq(20), cheatKeys(20,20)
+
 Global debugSeq
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
@@ -70,9 +71,9 @@ Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
 Dim clickedBy(100),butPic(100),butPic2(100, maxFrame),butText$(100),butSeq(100),tpic(100)
-Dim xPointer(10),yPointer(10),zName$(16),zThumbNail(16),mapTn(100)
+Dim xPointer(10),yPointer(10),zName$(maxCharAmt),zThumbNail(maxCharAmt),mapTn(100)
 
-Dim tempN#(10), strinfo$(200), characterOpen(maxZ)
+Dim tempN#(10), strinfo$(200), characterOpen(maxCharAmt), charSelectable(maxCharAmt)
 Dim zx#(maxZ),zy#(maxZ),zdi(maxZ),zface(maxZ),zoldx#(maxZ),zoldy#(maxZ),zWasOn(maxZ),zon(maxZ),prevZOn(maxZ),CurGuy(maxCharAmt),lastZon(maxZ),lastzAI(maxZ)
 Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zjump2seq(maxZ),zFallDir(maxZ),zDeadEvent(maxZ)
 Dim zlife(maxZ),zhit(maxZ),zhitseq(maxZ),Zshield(maxZ),zTempShield(maxZ),Zshieldseq(maxZ),ZshieldedTime(maxZ),zHit2(maxZ)
@@ -141,8 +142,8 @@ Global areaMoves, saAreaMovesAmount,daAreaMovesAmount
 
 Global rectAmount
 Dim rectHit(50),zGotRect(maxZ),rectOwner(50),xRect(50),yRect(50),rectDir(50),wRect(50),hRect(50),rectSide(50)
-Dim    RectHitMode(50),rectDamage(50),rectHitHold(50),rectXHitSpeed(50),rectYHitSpeed(50)
-Dim    rectChunkType(50),rectHitSound(50),zHitByRect(50)
+Dim RectHitMode(50),rectDamage(50),rectHitHold(50),rectXHitSpeed(50),rectYHitSpeed(50)
+Dim rectChunkType(50),rectHitSound(50),zHitByRect(50)
 
 Dim shotsfired(maxShots),zShotLimit(maxShots),zAmmo(maxShots),shotDraw(maxShots),shotUseAcc(maxShots),shotHold(maxShots),shotTrailType(maxShots)
 Dim shotHitXspeed(maxShots),shotHitYspeed#(maxShots),shotFallTime(maxShots),shotHitMode(maxShots),oldxShot(maxShots), shotExplosive(maxShots)
@@ -199,8 +200,8 @@ Dim EventAction(100),Tsound(100)
 Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
 Dim xChunk#(1500),yChunk#(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
-Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,15),ptPic_(1500,15),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
-Dim chunkOwner(1500), isChunkSolid(1500), chunkYAdj(1500), yChunkSpeed#(1500)
+Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,20),ptPic_(1500,20),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
+Dim chunkOwner(1500), isChunkSolid(1500), isChunkOnGnd(1500), chunkYAdj(1500), yChunkSpeed#(1500)
 
 Dim explosion(100),xExp(100),yExp(100),expDamage(100), expSide(100),expHeight(100),expImpact(100),expType(100),explosionSound(100)
 
@@ -219,13 +220,13 @@ Global gamePaused,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxSco
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=3248,lScrLimit=-760,uScrLimit=-50000,dScrLimit=1252, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global characterAmount=16    ;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global mainCharAmt=16    ;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
 Global menuOption, duringGameMenu
 
 ;zeto's variables
 Global isStuffFall
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
-Dim zStanceFrames(maxZ), zStanceSeq(maxZ), zStanceSpeed(maxZ), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
+Dim zStanceFrames(maxCharAmt), zStanceSeq(maxCharAmt), zStanceSpeed(maxCharAmt), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
@@ -252,16 +253,16 @@ Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX#(maxZ,40), zStanceObjY#(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoubleTap(maxZ), blockKeyHitTimer(maxZ)
-Dim preSuperEffect(maxZ), preSuperEffectX(maxZ), preSuperEffectY(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxZ)
+Dim preSuperEffect(maxZ), preSuperEffectX(maxZ), preSuperEffectY(maxZ), moveRepeatTimes(maxZ), menuStanceFrame(maxCharAmt)
 Dim zTempStone(maxZ), zStoneSeq(maxZ), zStoneMaxTime(maxZ), zBlockedSnd(maxZ), zFlipMaxSeq(maxCharAmt)
 Dim cantSoundCdVoice(maxZ), cooldownVoiceSeq(maxZ), immuneToCollide(maxZ), cantDie(100)
 Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), superPicSeed(maxZ)
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
-Dim maxFlightYLimit(maxZ), loadingImg(maxZ), charIdxList(4), imgScaleFactor#(maxCharamt)
+Dim maxFlightYLimit(maxZ), loadingImg(100, 2), charIdxList(4), imgScaleFactor#(maxCharamt)
 Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
-Dim onGroundSeq(maxZ)
+Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 
 ; developer mode variables
 Global freezeMode, clicked, curHitBox
@@ -319,7 +320,7 @@ For i=1 To 20
 Next
 
 gfxdir$="gfx\"
-For i=1 To characterAmount
+For i=1 To mainCharAmt
     zIcon(i)=LoadImage(gfxdir$ + i + "\zIcon.bmp")
 Next
 
@@ -536,6 +537,7 @@ music=LoadSound(soundsdir$ + "music10.mp3")
 
 gameIntro()
 justIntroduced=1
+setCheats()
 
 menuOption=mainMenuVal
 .menuStart    ;----STARTS MENU -------------------------------
@@ -720,7 +722,7 @@ Next
 If backg <> 0 Then FreeImage backg:backg=0
 If backg1 <> 0 Then FreeImage backg1:backg1=0
 If title <> 0 Then FreeImage title:title=0
-For n= 0 To characterAmount
+For n= 0 To maxCharAmt
     If zThumbnail(n) <> 0 Then FreeImage zThumbnail(n):zThumbnail(n)=0
 Next
 For n=0 To 100
@@ -756,7 +758,8 @@ SetBuffer BackBuffer()
 Cls
 ClsColor 0,0,0
 
-displayLoadingScr
+;CurGuy(1)=40
+displayLoadingScr()
 
 Flip
 
@@ -814,7 +817,7 @@ Next
 If vsMode=0 Then gameMode=1
 If gamemode=2 Then setPos_ctf Else setpos   ;Load map definitions
 
-;Load helpers
+;Load special characters
 If guyLoaded(43)=0 Then loadPics(43)
 If guyLoaded(45)=0 Then loadPics(45)
 If guyLoaded(46)=0 Then loadPics(46)
@@ -1867,6 +1870,9 @@ End Function
 
 ;---------- check what characters are open ---------------
 Function checkWhatsOpen()
+    For i=1 To maxZ-1
+        charSelectable(i)=1
+    Next
  
     response=0
     
@@ -4714,6 +4720,7 @@ For nn=1 To chunkAmount
     If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
         If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
             If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
+            isChunkOnGnd(nn)=1
             Select platXDir(n)
                 Case 2:xChunk(nn)=xChunk(nn)+platXSpeed(n)
                 Case 4:xChunk(nn)=xChunk(nn)-platXSpeed(n)
@@ -4853,7 +4860,7 @@ For nn=1 To zzamount
                     zBlow(nn)=0:zBlowStill(nn)=0:zHitSeq(nn)=0
                     calcBlow(nn,n,0,zDamage(nn))
                 EndIf
-                makechunk(n,zx(nn),zy(nn)-zduckheight(nn),2,7)
+                makechunk(n,zx(nn),zy(nn)-zduckheight(nn),2,explodeChunkType(n))
             EndIf
         EndIf
     EndIf
@@ -4889,7 +4896,6 @@ Function shotExp(n,x,y,kind)
             PlaySound shotExplosionSound(n)
         End If
     End If
-    makeChunk(n,x,y,shotDir(n),shotExplodeChunk(n))
 End Function
 
 ;-------------Define Team -----------------------------
@@ -5157,10 +5163,12 @@ End Function
 ;--------CHECK IF PLAYER IS INSIDE WALL AND FIX-----------------------------------------------------------
 Function checkZvsWall(n,t)
 
+isHitWall(n)=0
 For q=1 To zheight(n) Step 10
     If ImageRectCollide(map,0,0,0,zx(n)+zside(n),zy(n)-q,1,1) Or ImageRectCollide(map,0,0,0,zx(n)-zside(n),zy(n)-q,1,1)Then
-        Select t    
-            Case 0:zx(n)=zoldx(n): zy(n)=zoldy(n)    
+        isHitWall(n)=1
+        Select t
+            Case 0:zx(n)=zoldx(n): zy(n)=zoldy(n)
             Case 1:zx(n)=zoldx(n)
             Case 2:zy(n)=zoldy(n)
         End Select
@@ -5171,6 +5179,7 @@ Next
 For nn=1 To platAmount
     If platHeight(nn)>1 And zx(n) => xplat(nn)-zside(n) And zx(n) <= xplat(nn)+platWidth(nn)+zside(n) Then
         If zy(n) > yplat(nn)+5 And (zy(n)-zheight(n)) < yplat(nn)+platHeight(nn) Then
+            isHitWall(n)=1
             Select t
                 Case 0:zx(n)=zoldx(n): zy(n)=zoldy(n)
                 Case 1:zx(n)=zoldx(n)
@@ -5296,7 +5305,7 @@ End Function
 Function moveX(n,dir,speed#)
 
 Select dir
-Case 2:zx(n)=zx(n)+(speed# * 1.6) ; * 1.6 is 1024 x 768 transition
+Case 2:zx(n)=zx(n)+(speed# * 1.6) ; * 1.6 is for 1024 x 768 transition
 Case 4:zx(n)=zx(n)-(speed# * 1.6)
 End Select
 
@@ -5317,7 +5326,7 @@ For b=0 To 20
     Next
 Next
 
-For n=0 To characterAmount
+For n=0 To maxCharAmt
     guyLoaded(n)=0
     For n1=0 To 50
         For n2=0 To maxPicFrames
@@ -5325,7 +5334,9 @@ For n=0 To characterAmount
             If zpic_(n,n1,n2) <> 0 Then FreeImage zpic_(n,n1,n2):zpic_(n,n1,n2)=0
         Next
     Next
-    If zCurPic(n) <> 0 Then FreeImage zCurPic(n)
+    If n <= maxZ Then
+        If zCurPic(n) <> 0 Then FreeImage zCurPic(n)
+    End If
 Next
 
 For n=30 To maxCharAmt    ;add character
@@ -5718,7 +5729,7 @@ Function drawTimer(n, spellId)
 End Function
 
 ;------------------ Check Wall Jump -----------------
-Function checkWallJump(n)    
+Function checkWallJump(n)
     checkYDist(n,zx(n),zy(n),2)
     If KeyDown(leftK(n))=1 Then zFace(n)=4:checkDist(n,zx(n),zy(n)-20,4)
     If KeyDown(rightK(n))=1 Then zFace(n)=2:checkDist(n,zx(n),zy(n)-20,2)
@@ -6247,8 +6258,7 @@ Function setScaleFactorPerChar()
 End Function
 
 Function initCharSelect()
-For n=1 To maxZ
-    If curGuy(n) >= 30 Then GoTo SkipInitChar
+For n=1 To maxCharAmt
     initStance(n)
     If zStanceFrames(n)>0 Then
         For m=1 To zStanceFrames(n)
@@ -6261,7 +6271,6 @@ For n=1 To maxZ
         If butPic2(n, 1)=0 Then butPic2(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
     End If
 Next
-.SkipInitChar
 End Function
 
 Function checkEnemy(n, x#, y#, w#, h#)
@@ -6612,20 +6621,25 @@ Function getShotSeekXSpd(shot, target, xDest)
 End Function
 
 Function displayLoadingScr()
+    Local secondBgChanceSeed, bgIdx=0
     For n=1 To zamountPlaying
-        If curGuy(n) >= 30 Then GoTo SkipLoadingScr
         charIdxList(n)=curGuy(n)
     Next
     
+    secondBgChanceSeed=Rand(1,100)
+    If secondBgChanceSeed >= 1 And secondBgChanceSeed <= 5 Then
+        ;5% chance to display second background screen
+        bgIdx=1
+    End If
+    
     i=Rand(1,zamountPlaying)
-    If loadingImg(charIdxList(i))=0 Then
-        loadingImg(charIdxList(i))=LoadImage("gfx\stuff\loading\loading_" + charIdxList(i) + ".png")
+    If loadingImg(charIdxList(i), bgIdx)=0 Then
+        loadingImg(charIdxList(i), bgIdx)=LoadImage("gfx\stuff\loading\loading" + charIdxList(i) + "_" + (bgIdx+1) + ".png")
     End If
 
-    If loadingImg(charIdxList(i)) <> 0 Then
-        DrawImage loadingImg(charIdxList(i)), 0, 0       ; Loading screen
+    If loadingImg(charIdxList(i), bgIdx) <> 0 Then
+        DrawImage loadingImg(charIdxList(i), bgIdx), 0, 0       ; Loading screen
     End If
-    .SkipLoadingScr
 End Function
 
 Function flashLowStamina(n)
@@ -6649,4 +6663,19 @@ Function flashLowStamina(n)
     If flashLowStaminaSeq(n) > 56 Then
         isFlashLowStamina(n)=0:flashLowStaminaSeq(n)=0:isStaminaRectShow(n)=0
     End If
+End Function
+
+Function setCheats()
+    Local file = ReadFile("cheats.dat")
+    Local cheatIdx
+    
+    If file <> 0 Then
+        cheatIdx=ReadInt(file)
+        For i=0 To 8
+            cheatKeys(cheatIdx,i)=ReadInt(file)
+            DebugLog "cheatIdx: " + cheatIdx + ", cheatKeys: " + cheatKeys(cheatIdx,i)
+        Next
+    End If
+
+    CloseFile file
 End Function
