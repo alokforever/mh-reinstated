@@ -622,12 +622,16 @@ Function doNormalHitSeq(n)
 End Function
 
 Function drawBouncedOnGnd(n)
-    If zBouncedGndFrames(n) > 0 Then
+    Select zBouncedGndFrames(n)
+    Case 1:
+        If zBouncedGndSeq(n)>=1 And zBouncedGndSeq(n)<12 Then zani(n)=25:zf(n)=1
+        If zBouncedGndSeq(n)>=12 Then zani(n)=2:zf(n)=0
+    Case 3:
         If zBouncedGndSeq(n)>=0 And zBouncedGndSeq(n)<4 Then zani(n)=25:zf(n)=1
         If zBouncedGndSeq(n)>=4 And zBouncedGndSeq(n)<8 Then zani(n)=25:zf(n)=2
         If zBouncedGndSeq(n)>=8 And zBouncedGndSeq(n)<12 Then zani(n)=25:zf(n)=3
         If zBouncedGndSeq(n)>=12 Then zani(n)=2:zf(n)=0
-    Else
+    default:
         zani(n)=2:zf(n)=0
-    End If
+    End Select
 End Function

@@ -81,7 +81,7 @@ Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),
 Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
 Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)            
 Dim zUpHeight(maxZ),zDuckHeight(maxZ),zHitHead(maxZ),zIcon(60),zRollOnImpact(maxZ)
-Dim zheight(maxZ),zduck(maxZ),zgravity#(maxZ),zSpeed#(maxZ),zSide(maxZ),zxHand#(maxZ,40),zyHand#(maxZ,40)
+Dim zheight(maxZ),zduck(maxZ),zgravity#(maxZ),zSpeed#(maxZ),zSide(maxZ),zWalkObjX#(maxZ,40),zWalkObjY#(maxZ,40)
 Dim Zrun(maxZ), zCurWeapon(maxZ),dangerMove9(maxZ),dangerMove5(maxZ),zGotObj(maxZ), zLeftCollide(maxZ), zRightCollide(maxZ)
 Dim zLives(maxZ), zJumping(maxZ),zonplat(maxZ),zonThickPlat(maxZ),justMovedByplat(maxZ)
 Dim zantiPlatTime(maxZ),zantiPlatSeq(maxZ),zForceAntiPlat(maxZ)
@@ -249,7 +249,7 @@ Dim superMoveMaxSeq(maxZ), superPicNum(maxZ), electrocuteFrames(maxZ), electrocu
 Dim shotStopDuration(200), shotStopSeq(200), myShots(maxZ, 200), shotExplodeChunk(200)
 Dim shotExplosiveDamage(200), shotExplosiveSide(200), shotExplosiveHeight(200), shotExpImpact(200)
 Dim isChunkRenderLowPrio(1500), chunkFollowOwner(1500), chunkOwnerX#(1500), chunkOwnerY#(1500)
-Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500)
+Dim xChunkForce#(1500), yChunkForce#(1500), xChunkVelocity#(1500), zSpecialObjX#(maxZ, 40), zSpecialObjY#(maxZ, 40)
 Dim superMovePortraitSeqStart(maxZ), zStanceObjX#(maxZ,40), zStanceObjY#(maxZ,40), isCounterAttack(maxZ)
 Dim isHelperAttackDone(maxZ), helperOwner(maxZ), helperSeq(maxZ), isHelper(maxZ), prevZx(maxZ)
 Dim maxHitSeq(maxZ), zBouncedGndSeq(maxZ), zBouncedGndFrames(maxZ), blockKeyDoubleTap(maxZ), blockKeyHitTimer(maxZ)
@@ -490,6 +490,7 @@ Global objTypeN=19    ;Amount of existing objects
 Include "src\modules\menus.bb"
 Include "src\modules\attributes.bb"
 Include "src\modules\chunks.bb"
+Include "src\modules\ObjPos.bb"
 Include "src\modules\moves1.bb"
 Include "src\modules\moves2.bb"
 Include "src\modules\animation.bb"
@@ -1444,7 +1445,7 @@ For b=3 To 5
 Next
 
 For n=1 To zzamount
-    If curGuy(n) <= 30 Then checkCooldown(n):checkBuffStatus(n)
+    If curGuy(n) <= 40 Then checkCooldown(n):checkBuffStatus(n)
     If showLifeBar(n)=1 Then drawBossLife(n)
 Next
 
@@ -2389,13 +2390,16 @@ Else
     DebugLog "n: " + n + "zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
 EndIf
 
+; Object positioning per animation
 If zGotObj(n) <> 0 Then
     If drawObjOnZ(n)=1 Then
-        If zani(n)=1 Then
+        If zani(n)=1 Then ;Walking
             If zWalkFrames(n)>0 And zf(n)>0 Then zfHand=zf(n)-1 Else zfHand=zf(n)
-            xED(n)=(zxHand(n,zfHand) + xObjHand(zGotObj(n))): yED(n)=(zyHand(n,zfHand) + yObjHand(zGotObj(n)))
-        Else If zani(n)=19 Then
+            xED(n)=(zWalkObjX(n,zfHand) + xObjHand(zGotObj(n))): yED(n)=(zWalkObjY(n,zfHand) + yObjHand(zGotObj(n)))
+        Else If zani(n)=19 Then ;Stance
             xED(n)=(zStanceObjX(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zStanceObjY(n,zf(n)) + yObjHand(zGotObj(n)))
+        Else If zani(n)=10 ;Special move
+            xED(n)=(zSpecialObjX(n,zf(n)) + xObjHand(zGotObj(n))): yED(n)=(zSpecialObjY(n,zf(n)) + yObjHand(zGotObj(n)))
         Else
             xED(n)=3:yED(n)=zHeight(n)/2
         EndIf
@@ -2733,27 +2737,14 @@ EndIf
 If jumpKey(n)=1 Then    ;jumping
     If canWallJump(n)=1 Then checkWallJump(n)
     If zhit(n)=0 And zBlow(n)=0 And zNoJump(n)=0 Then
-        downKey(n)=0
-        If zjump(n)=0 And zongnd(n)=1 Then
-            If gamesound Then 
-                If isRunning(n)=1 And canAirGlide(n)=1 Then
-                    PlaySound zRunGruntSound(curGuy(n)) 
-                Else
-                    PlaySound zJumpSnd(n)
-                End If
-            End If
-            zjump(n)=1:zjumpseq(n)=0:zongnd(n)=0
-            If zblockLife(n) > zblockfull(n) Then zblockLife(n)=zblockfull(n)
-        Else
-            performDoubleJump(n)
-        End If
+        doJump(n)
     EndIf
     If zWallJump(n)=1 Then zWallJump(n)=0
 EndIf
 
 If zBlowSeq(n) > 12 And zBlow(n)<>0 And zCurBlow(n)=18 And jumpKey(n)=1 Then
     zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0:zNoJump(n)=0
-    performDoubleJump(n)
+    doDoubleJump(n)
 End If
 
 If blockKey(n)=1 And zHit(n)=0 And zBlow(n)=0 And zongnd(n)=1 Then 
@@ -5709,11 +5700,15 @@ End Function
 
 ;---------------- Check Buff Status -----------------
 Function checkBuffStatus(n)
-    x=-5:y=33
+    x=-8:y=33
     If curGuy(n)=11 And wolverineRage(n)=1 Then
         Local curRageTime = (endRageTime(n) - currentRageTime(n))
         Local rageDuration = 21000 ; milliseconds
-        DrawImage timerImage(Int((Float(curRageTime)/rageDuration)*90)),x+((n-1)*155)+20,y
+        DrawImage timerImage(Int((Float(curRageTime)/rageDuration)*90)),x+((n-1)*248)+32,y
+    End If
+    If curGuy(n)=40 And zBlow(n)=1 And zCurBlow(n)=17 Then ; Turtle flight
+        Local maxFlightFrames = 728 ;(14 seconds * 52 Nfps)
+        DrawImage timerImage(Int(zBlowSeq(n)/maxFlightFrames)*90),x+((n-1)*248)+32,y
     End If
 End Function
 
@@ -5743,7 +5738,7 @@ Function checkWallJump(n)
 End Function
 
 ;---------------- Perform Double Jump --------------
-Function performDoubleJump(n)
+Function doDoubleJump(n)
     If zjump2(n)=0 And noDoubleJump=0 Then
         zjump2(n)=1:zjump2seq(n)=0
         zjump(n)=1:zjumpseq(n)=0
@@ -6361,16 +6356,6 @@ Function reduceHealth(n, dmg)
     If isBoss(n)=1 Then showLifeBar(n)=1:showLifeBarSeq(n)=0
 End Function
 
-Function HitBoxDebug()
-    If MouseHit(1)=1 Then
-        makechunk(n,MouseX(),MouseY(),2,130)
-        DebugLog "zx(1): " + zx(1) + ", zy(1): " + zy(1)
-        DebugLog "MouseX(): " + MouseX() + ", MouseY(): " + MouseY()
-        DebugLog "Hitbox X: " + (MouseX()-zx(1)) + "Hitbox Y: " + (MouseY()-zy(1))
-        DebugLog " "
-    End If
-End Function
-
 Function processChunks()
     If chunk(chunkAmount)=0 Then chunkAmount=chunkAmount-1
     If chunkAMount < 0 Then chunkAMount=0
@@ -6526,7 +6511,7 @@ Function doDebugMode()
             Next
         Next
         
-        If MouseHit(3) Then 
+        If MouseHit(3) Then ; mouse wheel
             For n=0 To curHitBox
                 xHitbox(n)=0:yHitbox(n)=0
                 wHitbox(n)=0:hHitbox(n)=0
@@ -6535,14 +6520,14 @@ Function doDebugMode()
             dispHitBox()
         End If
         
-        If MouseHit(2) Then
+        If MouseHit(2) Then ; right click
             xHitbox(curHitBox)=0:yHitbox(curHitBox)=0
             wHitbox(curHitBox)=0:hHitbox(curHitBox)=0
             If curHitBox > 0 Then curHitBox=curHitBox-1
             dispHitBox
         End If
         
-        If MouseHit(1) Then
+        If MouseHit(1) Then ; left click
             If clicked=0 Then
                 clicked=1
                 xHitbox(curHitBox)=MouseX()
@@ -6678,4 +6663,21 @@ Function setCheats()
     End If
 
     CloseFile file
+End Function
+
+Function doJump(n)
+    downKey(n)=0
+    If zjump(n)=0 And zongnd(n)=1 Then
+        If gamesound Then 
+            If isRunning(n)=1 And canAirGlide(n)=1 Then
+                PlaySound zRunGruntSound(curGuy(n)) 
+            Else
+                PlaySound zJumpSnd(n)
+            End If
+        End If
+        zjump(n)=1:zjumpseq(n)=0:zongnd(n)=0
+        If zblockLife(n) > zblockfull(n) Then zblockLife(n)=zblockfull(n)
+    Else
+        doDoubleJump(n)
+    End If
 End Function

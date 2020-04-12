@@ -1031,7 +1031,7 @@ Case 2    ;Flying Kick
     zNoJump(n)=0:ZJUMPING(N)=1
     a=5:b=a+4:c=b+1:d=c+1:e=d+1:f=e+3:g=f+4:h=g+5:i=h+5:j=i+6
 
-;----------- Sounds ------------
+;------------ Sounds -------------
     randSeed=Rand(3)
     If zBlowSeq(n)=1 And gameSound Then
         If randSeed=1 Then PlaySound wwShout1Snd
@@ -1040,7 +1040,7 @@ Case 2    ;Flying Kick
     End If
     If zBlowSeq(n)=c-1 And gameSound Then PlaySound mvcBlow1Snd
 
-;---------- Animation ------------    
+;---------- Animation ------------
     If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=8:zf(n)=1
     If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=8:zf(n)=2
     If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=8:zf(n)=3
@@ -1367,7 +1367,7 @@ Case 10    ;High Attack
     End If
     If zBlowSeq(n)=c-1 And gameSound Then PlaySound mvcBlow1Snd
     
-;---------- Animation ------------    
+;---------- Animation ------------
     zani(n)=14
     If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zf(n)=1
     If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zf(n)=2
@@ -1711,7 +1711,7 @@ Case 16 ;Counter Key (Taunt)
     If zBlowSeq(n)>=taunt2Seq Then doWwTaunt2(n)
 ;---------- Sound effects ------------
     If zBlowSeq(n)=1 Then
-        If blockKeyDoubleTap(n)=0 Then 
+        If blockKeyDoubleTap(n)=0 Then
             zBlowSeq(n)=taunt2Seq:zTauntSeed(n)=1
         Else
             zTauntSeed(n)=2
@@ -1760,7 +1760,7 @@ Case 17 ;Extra special key (Flight)
     
     DebugLog "maxFlightYLimit: " + maxFlightYLimit(n) + ", zy: " + zy(n)
     If zBlowSeq(n)=1 Then 
-        maxFlightYLimit(n)=zy(n)
+        maxFlightYLimit(n)=zy(n)-200
         If zOnGnd(n)=0 Then zBlowSeq(n)=seq3
     End If
     

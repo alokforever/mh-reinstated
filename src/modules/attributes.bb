@@ -97,10 +97,6 @@ Case 1: ;Evil Ryu
     zBlowDist(n,10)=44
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -122,10 +118,6 @@ Case 2: ;Rash
     zBlowDist(n,10)=45
     zBlowDist(n,11)=150
     zBlowDist(n,14)=280
-    zxHand(n,0)=-5 :zyHand(n,0)=20
-    zxHand(n,1)=6 :zyHand(n,1)=23
-    zxHand(n,2)=-13 :zyHand(n,2)=22
-    zxHand(n,3)=-8 :zyHand(n,3)=20
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -141,10 +133,6 @@ Case 3: ;Spider-man
     zBlowDist(n,11)=150
     zBlowDist(n,14)=400
     zGrabDist(n)=25
-    zxHand(n,0)=-10 :zyHand(n,0)=10
-    zxHand(n,1)=-11 :zyHand(n,1)=11
-    zxHand(n,2)=-13 :zyHand(n,2)=12
-    zxHand(n,3)=-13 :zyHand(n,3)=10
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -159,10 +147,6 @@ Case 4: ;Mario
     zBlowDist(n,10)=34
     zBlowDist(n,11)=150
     zBlowDist(n,14)=500
-    zxHand(n,0)=-11 :zyHand(n,0)=15
-    zxHand(n,1)=7 :zyHand(n,1)=17
-    zxHand(n,2)=-11 :zyHand(n,2)=14
-    zxHand(n,3)=-6 :zyHand(n,3)=13
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -178,10 +162,6 @@ Case 5: ;Michaelangelo
     zBlowDist(n,11)=150
     zBlowDist(n,14)=70
     zGrabDist(n)=zGrabDist(n)+5
-    zxHand(n,0)=-6 :zyHand(n,0)=22
-    zxHand(n,1)=-6 :zyHand(n,1)=20
-    zxHand(n,2)=-5 :zyHand(n,2)=21
-    zxHand(n,3)=-7 :zyHand(n,3)=20
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -196,10 +176,6 @@ Case 6: ;Strider Hiryu
     zBlowDist(n,10)=50
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
-    zxHand(n,0)=-5 :zyHand(n,0)=21
-    zxHand(n,1)=-5 :zyHand(n,1)=22
-    zxHand(n,2)=-5 :zyHand(n,2)=21
-    zxHand(n,3)=-4 :zyHand(n,3)=21
     zRollOnImpact(n)=1
     zJumpSnd(n)=mvcJump1Snd
     zJumpSnd2(n)=mvcJump2Snd
@@ -236,10 +212,6 @@ Case 7: ;Batman
     zBlowDist(n,11)=150
     zBlowDist(n,14)=300
     zGrabDist(n)=zGrabDist(n)+5
-    zxHand(n,0)=-4 :zyHand(n,0)=20
-    zxHand(n,1)=-8 :zyHand(n,1)=20
-    zxHand(n,2)=16 :zyHand(n,2)=14
-    zxHand(n,3)=-2 :zyHand(n,3)=15
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -255,10 +227,6 @@ Case 8: ;Predator
     zBlowDist(n,11)=150
     zBlowDist(n,14)=500
     zGrabDist(n)=zGrabDist(n)+7
-    zxHand(n,0)=-5 :zyHand(n,0)=23
-    zxHand(n,1)=4 :zyHand(n,1)=22
-    zxHand(n,2)=-11 :zyHand(n,2)=24
-    zxHand(n,3)=-5 :zyHand(n,3)=24
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -273,10 +241,6 @@ Case 9: ;Goku
     zBlowDist(n,10)=39
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -291,10 +255,6 @@ Case 10: ;Richter Belmont
     zBlowDist(n,10)=44
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
-    zxHand(n,0)=15 :zyHand(n,0)=21
-    zxHand(n,1)=7 :zyHand(n,1)=23
-    zxHand(n,2)=-11 :zyHand(n,2)=20
-    zxHand(n,3)=-6 :zyHand(n,3)=19
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -310,10 +270,6 @@ Case 11: ;Wolverine
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
     zBlowDist(n,16)=550
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zSide(n)=12
     zRollOnImpact(n)=1
     zJumpSnd(n)=jumpsnd
@@ -322,15 +278,6 @@ Case 11: ;Wolverine
     zWalkFrameSpeed#(n)=3
     zStanceFrames(n)=17
     zStanceSpeed(n)=3
-    
-    For iter=0 To zStanceFrames(n)
-        zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
-    Next
-    
-    For iter=0 To zWalkFrames(n)
-        zxHand(n,iter)=-2 :zyHand(n,iter)=23
-    Next
-    
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=4
@@ -353,10 +300,6 @@ Case 12: ;Scorpion
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
     zBlowDist(n,16)=370
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zheight(n)=85
     zUpHeight(n)=85
     zRollOnImpact(n)=1
@@ -366,15 +309,6 @@ Case 12: ;Scorpion
     zStanceSpeed(n)=5
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=4
-    
-    For iter=0 To zStanceFrames(n)
-        zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
-    Next
-    
-    For iter=0 To zWalkFrames(n)
-        zxHand(n,iter)=-2 :zyHand(n,iter)=23
-    Next
-    
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=3.2
@@ -398,12 +332,8 @@ Case 13: ;Sub Zero
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
     zBlowDist(n,16)=370
-    zxHand(n,0)=2 :zyHand(n,0)=23
-    zxHand(n,1)=2 :zyHand(n,1)=23
-    zxHand(n,2)=-2 :zyHand(n,2)=23
-    zxHand(n,3)=-2 :zyHand(n,3)=23
     zheight(n)=85
-    ;zUpHeight(n)=85
+    zUpHeight(n)=85
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
@@ -411,15 +341,6 @@ Case 13: ;Sub Zero
     zStanceSpeed(n)=5
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=4
-    
-    For iter=0 To zStanceFrames(n)
-        zStanceObjX(n,iter)=-2 :zStanceObjY(n,iter)=23
-    Next
-
-    For iter=0 To zWalkFrames(n)
-        zxHand(n,iter)=-2 :zyHand(n,iter)=23
-    Next
-    
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=3.2
@@ -450,48 +371,6 @@ Case 14: ;Wonder Woman
     zStanceFrames(n)=12
     zStanceSpeed(n)=6
     zWalkFrames(n)=27
-    
-    zxHand(n,0)=-9.80109 :zyHand(n,0)=62.0
-    zxHand(n,1)=-10.2011 :zyHand(n,1)=63.0
-    zxHand(n,2)=-9.60114 :zyHand(n,2)=66.0
-    zxHand(n,3)=-10.0012 :zyHand(n,3)=67.0
-    zxHand(n,4)=-12.4012 :zyHand(n,4)=63.0
-    zxHand(n,5)=-11.8809 :zyHand(n,5)=64.0
-    zxHand(n,6)=-11.2809 :zyHand(n,6)=60.0
-    zxHand(n,7)=-11.2809 :zyHand(n,7)=60.0
-    zxHand(n,8)=-10.681 :zyHand(n,8)=60.0
-    zxHand(n,9)=-12.0006 :zyHand(n,9)=58.0
-    zxHand(n,10)=-12.4006 :zyHand(n,10)=60.0
-    zxHand(n,11)=-9.80066 :zyHand(n,11)=61.0
-    zxHand(n,12)=-10.2007 :zyHand(n,12)=58.0
-    zxHand(n,13)=-9.60071 :zyHand(n,13)=61.0
-    zxHand(n,14)=-7.00073 :zyHand(n,14)=64.0
-    zxHand(n,15)=-7.40076 :zyHand(n,15)=64.0
-    zxHand(n,16)=-5.80078 :zyHand(n,16)=66.0
-    zxHand(n,17)=-6.14063 :zyHand(n,17)=65.0
-    zxHand(n,18)=-6.02063 :zyHand(n,18)=64.0
-    zxHand(n,19)=-7.46063 :zyHand(n,19)=64.0
-    zxHand(n,20)=-5.86066 :zyHand(n,20)=61.0
-    zxHand(n,21)=-7.26068 :zyHand(n,21)=61.0
-    zxHand(n,22)=-7.26068 :zyHand(n,22)=61.0
-    zxHand(n,23)=-8.20099 :zyHand(n,23)=57.0
-    zxHand(n,24)=-8.60101 :zyHand(n,24)=59.0
-    zxHand(n,25)=-9.00104 :zyHand(n,25)=58.0
-    zxHand(n,26)=-8.40106 :zyHand(n,26)=59.0
-    
-    zStanceObjX#(n,1)=-18.7203 :zStanceObjY#(n,1)=43.0
-    zStanceObjX#(n,2)=-18.82 :zStanceObjY#(n,2)=42.0
-    zStanceObjX#(n,3)=-20.82 :zStanceObjY#(n,3)=40.0
-    zStanceObjX#(n,4)=-19.82 :zStanceObjY#(n,4)=40.0
-    zStanceObjX#(n,5)=-21.6805 :zStanceObjY#(n,5)=38.0
-    zStanceObjX#(n,6)=-23.6805 :zStanceObjY#(n,6)=39.0
-    zStanceObjX#(n,7)=-23.4402 :zStanceObjY#(n,7)=39.0
-    zStanceObjX#(n,8)=-22.7203 :zStanceObjY#(n,8)=39.0
-    zStanceObjX#(n,9)=-24.7203 :zStanceObjY#(n,9)=41.0
-    zStanceObjX#(n,10)=-24.7203 :zStanceObjY#(n,10)=40.0
-    zStanceObjX#(n,11)=-20.7203 :zStanceObjY#(n,11)=40.0
-    zStanceObjX#(n,12)=-18.7203 :zStanceObjY#(n,12)=43.0
-    
     zWalkFrameSpeed#(n)=2
     zRunFrames(n)=7
     zRunFrameSpeed#(n)=3
@@ -533,15 +412,6 @@ Case 15: ;Juggernaut
     zStanceSpeed(n)=6
     zWalkFrames(n)=16
     zWalkFrameSpeed#(n)=4
-    
-    For iter=0 To zWalkFrames(n)
-        zxHand(n,iter)=-6 :zyHand(n,iter)=9
-    Next
-    
-    For iter=0 To zStanceFrames(n)
-        zStanceObjX(n,iter)=0 :zStanceObjY(n,iter)=25
-    Next
-    
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4
     zRunSpeed#(n)=4.8
@@ -565,21 +435,12 @@ Case 16: ;Piccolo
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
     zBlowDist(n,16)=370
-    zxHand(n,0)=14 :zyHand(n,0)=36
-    zxHand(n,1)=14 :zyHand(n,1)=36
-    zxHand(n,2)=15 :zyHand(n,2)=36
-    zxHand(n,3)=15 :zyHand(n,3)=36
     zheight(n)=86
     zUpHeight(n)=86
     zRollOnImpact(n)=1
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
     zStanceFrames(n)=7
-    
-    For iter=0 To zStanceFrames(n)
-        zStanceObjX(n,iter)=15 :zStanceObjY(n,iter)=36
-    Next
-    
     zStanceSpeed(n)=6
     zWalkFrames(n)=4
     zWalkFrameSpeed#(n)=7
@@ -799,16 +660,17 @@ Case 40    ;turtle
     zDontPickItem(n)=0
     zNoAirSpecial(n)=1
     gender(n)=noGenderVal
-    zStanceFrames(n)=16
-    zStanceSpeed(n)=4
     dizzyFrames(n)=2
     dizzyFrameSpeed(n)=7
-    zWalkFrames(n)=6
-    zWalkFrameSpeed#(n)=7
     electrocuteFrames(n)=3
     electrocuteFrameSpd(n)=2
     zJumpSnd(n)=mvcJump1Snd
     zJumpSnd2(n)=mvcJump2Snd
+    zBouncedGndFrames(n)=1
+    zWalkFrames(n)=6
+    zWalkFrameSpeed#(n)=7
+    zStanceFrames(n)=16
+    zStanceSpeed(n)=4
 
 Case 41: ;Turtle Cloud
     zJumpLimit(n)=0
@@ -972,10 +834,6 @@ Case 51: ;Gray Ninja
     zBlowDist(n,10)=50
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
-    zxHand(n,0)=-5 :zyHand(n,0)=21
-    zxHand(n,1)=-5 :zyHand(n,1)=22
-    zxHand(n,2)=-5 :zyHand(n,2)=21
-    zxHand(n,3)=-4 :zyHand(n,3)=21
     zDtopSpeed(n)=4
     zTopSpeed(n)=zDtopSpeed(n)
     zjumplimit(n)=35
@@ -1009,6 +867,7 @@ Case 53: ;Gohan helper
     hasSpecialAirFrames(n)=1
 End Select
 
+setObjPos(n)
 
 End Function
 ;-----------shotData--------------------------------------------
@@ -2600,7 +2459,7 @@ Case 2
     explodeChunkType(n)=shotExplodeChunk(n)
     
 Case 3
-    expDamage(n)=30
+    expDamage(n)=20
     expHeight(n)=64
     expSide(n)=32
     expImpact(n)=80
@@ -2669,8 +2528,8 @@ For i=1 To 20
 Next
 
 For i=1 To 20
-    zpic(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + ".bmp")
-    zpic_(n,7,i)=LoadImage(gfxdir$ + "zuspecial" + i + "_.bmp")
+    zpic(n,7,i)=LoadImage(gfxdir$ + "upspecial/zuspecial" + i + ".bmp")
+    zpic_(n,7,i)=LoadImage(gfxdir$ + "upspecial/zuspecial" + i + "_.bmp")
 Next
 
 For i=1 To 20
@@ -2684,8 +2543,8 @@ For i=1 To 30
 Next
 
 For i=1 To 50
-    zpic(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + ".bmp")
-    zpic_(n,10,i)=LoadImage(gfxdir$ + "zspecial" + i + "_.bmp")
+    zpic(n,10,i)=LoadImage(gfxdir$ + "special/zspecial" + i + ".bmp")
+    zpic_(n,10,i)=LoadImage(gfxdir$ + "special/zspecial" + i + "_.bmp")
 Next
 
 For i=1 To 2
@@ -2694,8 +2553,8 @@ For i=1 To 2
 Next
 
 For i=1 To 21
-    zpic(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + ".bmp")
-    zpic_(n,12,i)=LoadImage(gfxdir$ + "zDspecial" + i + "_.bmp")
+    zpic(n,12,i)=LoadImage(gfxdir$ + "downspecial/zDspecial" + i + ".bmp")
+    zpic_(n,12,i)=LoadImage(gfxdir$ + "downspecial/zDspecial" + i + "_.bmp")
 Next
 
 For i=1 To 3
@@ -2868,6 +2727,8 @@ If n=40 Then ;Turtle
     If ktKickSnd=0 Then ktKickSnd=LoadSound(soundsDir$ + "koopaTroopa\ktKick.wav")
     If ktGrunt1Snd=0 Then ktGrunt1Snd=LoadSound(soundsDir$ + "koopaTroopa\ktGrunt1.wav")
     If ktGrunt2Snd=0 Then ktGrunt2Snd=LoadSound(soundsDir$ + "koopaTroopa\ktGrunt2.wav")
+    If ktGrunt3Snd=0 Then ktGrunt3Snd=LoadSound(soundsDir$ + "koopaTroopa\ktGrunt3.wav")
+    If ktGrunt4Snd=0 Then ktGrunt4Snd=LoadSound(soundsDir$ + "koopaTroopa\ktGrunt4.wav")
     If ktSpinSnd=0 Then ktSpinSnd=LoadSound(soundsDir$ + "koopaTroopa\ktSpin.wav")
     If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "koopaTroopa\ktDie.wav")
     If mvcJump1Snd=0 Then mvcJump1Snd=LoadSound(soundsdir$ + "mvc\mvcJmp1Snd.wav")
@@ -2876,6 +2737,7 @@ If n=40 Then ;Turtle
     If mvcSuper1Snd=0 Then mvcSuper1Snd=LoadSound(soundsdir$ + "mvc\mvcSuper1Snd.wav")
     If ktKartScreechSnd=0 Then ktKartScreechSnd=LoadSound(soundsdir$ + "koopaTroopa\ktKartScreech.wav")
     If ktKartExplodeSnd=0 Then ktKartExplodeSnd=LoadSound(soundsdir$ + "koopaTroopa\ktKartExplode.wav")
+    If turtleSlideSnd=0 Then turtleSlideSnd=LoadSound(soundsdir$ + "koopaTroopa\turtleSlide.wav")
 End If
 
 If n=16 Then ;Piccolo
