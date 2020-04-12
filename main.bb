@@ -4,6 +4,7 @@ Include "src\modules\enums.bb"
 Global windowMode, videoColorDepth, curWindowMode
 Global curIdiom, gameSound, gameMusic
 Global modsAmount, curModId, maxCharAmt=54
+Global maxMap=50
 
 If loadConfig() = False Then 
     gameSound=1
@@ -55,7 +56,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=1
+Global debugMode=0
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -263,6 +264,8 @@ Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ),
 Dim maxFlightYLimit(maxZ), loadingImg(100, 2), charIdxList(4), imgScaleFactor#(maxCharamt)
 Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
+Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
+Global mapStartTime, mapEndTime
 
 ; developer mode variables
 Global freezeMode, clicked, curHitBox
@@ -416,6 +419,7 @@ Global flag1P=LoadImage(gfxdir$ + "flag1.bmp")
 Global flag2P=LoadImage(gfxdir$ + "flag2.bmp")
 Global controllerPic=LoadImage(gfxdir$ + "controller.bmp")
 Global keyboardPic=LoadImage(gfxdir$ + "keyboard.bmp")
+Global clockPic=LoadImage(gfxdir$ + "clock.bmp")
 
 For n=1 To 100   ;load shots
     shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")
@@ -669,6 +673,7 @@ Until gamestart=1
 .changeMod
 ;-------------- Ends character select screen loop And Loads/display map thumbnails -------------------------
 
+loadSpeedrun()  ;Loads speedrun timers
 For n=60 To 63
     lastBut(n)=butSeq(n)
 Next
@@ -957,6 +962,7 @@ FlushKeys() : FlushJoy()
 ;------*-------*-------------------*--------*--------
 ;------*-------*--- MAIN LOOP -----*--------*--------
 ;------*-------*-------------------*--------*--------
+mapStartTime=MilliSecs()
 While Not gameDone=1
 Getinput
 
@@ -6607,6 +6613,7 @@ End Function
 
 Function displayLoadingScr()
     Local secondBgChanceSeed, bgIdx=0
+    DebugLog "zamountPlaying: " + zamountPlaying
     For n=1 To zamountPlaying
         charIdxList(n)=curGuy(n)
     Next
@@ -6651,7 +6658,7 @@ Function flashLowStamina(n)
 End Function
 
 Function setCheats()
-    Local file = ReadFile("cheats.dat")
+    Local file = ReadFile("cfg/cheats.dat")
     Local cheatIdx
     
     If file <> 0 Then

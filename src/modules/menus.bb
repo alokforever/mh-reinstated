@@ -102,7 +102,7 @@ End Function
 
 ;------------------save general maps data----
 Function saveData()
-file = WriteFile("maps.dat")
+file = WriteFile("cfg/maps.dat")
 
 WriteInt file, maxAmap
 WriteInt file, maxVsMap
@@ -121,7 +121,7 @@ End Function
 ;-------Load general maps data ---------------------
 Function loadData()
 
-file=ReadFile("maps.dat")
+file=ReadFile("cfg/maps.dat")
 
 maxAmap = ReadInt (file)
 maxVsMap = ReadInt (file)
@@ -130,6 +130,62 @@ lastAmap = ReadInt (file)
 CloseFile file
 
 End Function 
+
+;--------- load speed run timers -------
+Function loadSpeedrun()
+
+If FileType("cfg/speedrun.dat")=0 Then
+    temp=WriteFile("cfg/speedrun.dat")    ;create file
+    For n=1 To 5100
+        WriteInt temp, 0
+    Next
+    CloseFile temp
+EndIf
+
+file=ReadFile("cfg/speedrun.dat")
+
+For i=1 To maxMap
+    bestMapTime(i) = ReadInt (file)
+    fastestHeroPerMap(i) = ReadInt (file)
+    For j=1 To 100 ;Max Heroes
+        fastestHeroTimePerMap(i,j) = ReadInt (file)
+    Next
+Next
+
+End Function
+
+;--------- save speed run timers -------
+Function saveSpeedrun()
+    Local timeTaken = (mapEndTime-mapStartTime)
+    Local isTimeChanged=0
+    
+    ;Check if new record
+    If timeTaken < bestMapTime(curMap) Or bestMapTime(curMap)=0 Then
+        isTimeChanged=1:bestMapTime(curMap)=timeTaken
+        fastestHeroPerMap(curMap)=curGuy(1)
+    End If
+    For i=1 To zamountPlaying
+        If timeTaken < fastestHeroTimePerMap(curMap,curGuy(i)) Or fastestHeroTimePerMap(curMap,curGuy(i))=0
+            If zLife(i) > 0 Then
+                isTimeChanged=1
+                fastestHeroTimePerMap(curMap,curGuy(i)) = timeTaken
+            End If
+        End If
+    Next
+    
+    If isTimeChanged <> 0 Then
+        file = WriteFile("cfg/speedrun.dat")
+        For i=1 To maxMap
+            WriteInt file, bestMapTime(i)
+            WriteInt file, fastestHeroPerMap(i)
+            For j=1 To 100 ;Max Heroes
+                WriteInt file, fastestHeroTimePerMap(i,j)
+            Next
+        Next
+        
+        CloseFile file
+    End If
+End Function
 ;------------------- Start menu For vs stage Select ---------------------------------
 Function vsSelectMap()
 
@@ -269,35 +325,56 @@ End Function
 ;------------ displays after stage screen ----------------
 Function statsScreen()
 
+mapEndTime=MilliSecs()
 SetBuffer BackBuffer()
 ClsColor 0,50,100
 Cls
 statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
-;n1=1024-(priW(strInfo$(36))) : x=(n1/2)
+strInfo$(36)="stage " + (curMap-1) + " complete!"
 pri priW(strInfo$(36)),120, strInfo$(36)
 
 If checkWhatsOpen()=1 Then pri 160,160, strInfo$(61)
 
-pri 160,200, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
-x=160:y=280:xOffset=0
+pri 90,190, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
+drawimage clockPic,530,182
+Local timeTaken$=getTimeTaken$(mapEndTime-mapStartTime)
+Local bestTime$=getTimeTaken$(bestMapTime(curMap))
+Local timeTakenPerHero$
+If bestTime$ = "00:00:00" Then bestTime$=timeTaken$
+pri 567,190, timeTaken$ + " / " + bestTime$
+x=160:y=265
 For i=1 To 4
-  If curGuy(i)=6 Then 
-    xOffset=32 
-  Else 
+  xOffset=0:yOffset=0
+  Select curGuy(i)
+  Case 6:
+    xOffset=32
+  Case 14:
+    xOffset=15
+    yOffset=10
+  default:
     xOffset=0
-  End If
+  End Select
   
   If zwason(i)=1 Then
-    drawimage zPic(curGuy(i),1,0),x-(64+xOffset),y-16
+    ;Character-specific hits taken:
+    drawimage zPic(curGuy(i),1,0),x-(64+xOffset),y-(16+yOffset)
     pri x,y, strInfo$(38) + zGotHitsAmount(i)
-    If zGotHitsAmount(i)=0 Then pri x+368,y,strInfo$(39)
-    y=y+80
- EndIf
+    
+    ;Character-specific timer:
+    If vsMode=0 Then
+        drawimage clockPic,x+348,y-8
+        timeTakenPerHero$=getTimeTaken$(fastestHeroTimePerMap(curMap,curGuy(i)))
+        If timeTakenPerHero$="00:00:00" Then timeTakenPerHero$=timeTaken$
+        pri x+388,y, timeTaken$ + " / " + timeTakenPerHero$
+    End If
+    y=y+90
+  EndIf
 Next
 
 pri priW(strInfo$(37)),624, strInfo$(37)
+saveSpeedrun()
 
 Flip
 Delay 200
@@ -1731,15 +1808,15 @@ End Function
 ;-------Load keys---------------------
 Function loadkeys()
 
-If FileType("keys.cfg")=0 Then
-    temp=WriteFile("keys.cfg")    ;create dumb file
+If FileType("cfg/keys.cfg")=0 Then
+    temp=WriteFile("cfg/keys.cfg")    ;create dumb file
     For n=1 To 60
         WriteInt temp, 0
     Next
     CloseFile temp
 EndIf
 
-file=ReadFile("keys.cfg")
+file=ReadFile("cfg/keys.cfg")
 For n=1 To 4
 
 zController(n) = ReadInt (file)
@@ -1763,7 +1840,7 @@ End Function
 
 ;------------------save keys to file----
 Function savekeys()
-file=WriteFile("keys.cfg")
+file=WriteFile("cfg/keys.cfg")
 For n=1 To 4
     WriteInt file, zController(n)
     WriteInt file, controllerPort(n)
@@ -1783,8 +1860,8 @@ End Function
 ;-------Load game config ---------------------
 Function loadConfig()
 
-If FileType("game.cfg")=0 Then ;create file If it doesn`t exist
-    temp=WriteFile("game.cfg")
+If FileType("cfg/game.cfg")=0 Then ;create file If it doesn`t exist
+    temp=WriteFile("cfg/game.cfg")
     For n=1 To 20
         WriteInt temp, 0
     Next
@@ -1792,7 +1869,7 @@ If FileType("game.cfg")=0 Then ;create file If it doesn`t exist
     Return False
 EndIf
 
-file=ReadFile("game.cfg")
+file=ReadFile("cfg/game.cfg")
 
 windowMode = ReadInt (file)
 videoColorDepth = ReadInt (file)
@@ -1809,7 +1886,7 @@ End Function
 
 ;------------------save game config to file----
 Function saveConfig()
-file=WriteFile("game.cfg")
+file=WriteFile("cfg/game.cfg")
 
 WriteInt file, windowMode
 WriteInt file, videoColorDepth
@@ -2007,4 +2084,30 @@ Function resetOtherCheats(currCheatIdx)
             cheatSeq(i)=0
         End If
     Next
+End Function
+
+Function getTimeTaken$(totalMilliSecs)
+    Local timeTaken$=""
+    Local milliSecs=totalMilliSecs
+    Local secs=milliSecs/1000
+    Local minutes=secs/60
+    
+    If minutes > 99 Then
+        timeTaken$="99:99:99"
+        return timeTaken$
+    End If
+    
+    If minutes < 10 Then timeTaken$ = "0"
+    timeTaken$ = timeTaken$ + minutes + ":"
+    
+    secs = secs Mod 60
+    If secs < 10 Then timeTaken$ = timeTaken$ + "0"
+    timeTaken$ = timeTaken$ + secs + ":"
+    
+    milliSecs = milliSecs Mod 1000
+    milliSecs = milliSecs / 10
+    If milliSecs < 10 Then timeTaken$ = timeTaken$ + "0"
+    timeTaken$ = timeTaken$ + milliSecs
+    
+    return timeTaken$
 End Function
