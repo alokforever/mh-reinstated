@@ -1261,8 +1261,6 @@ Case 14    ;Super Special
     zNoMove(n)=1:zNoJump(n)=1:zJump(n)=0:zJumping(n)=0
     kartMoveSeq=1000:isHitWall(n)=0
     
-    If jumpKey(n)=1 Then doJump(n)
-    
     If zBlowseq(n)=0 Then checkChunk(n)=0
     If zBlowSeq(n)=1 Then
         zani(n)=16:zF(n)=1
@@ -1382,6 +1380,7 @@ Default     ;spinning shell
     seq8=seq7+80:seq9=seq8+5:seq10=seq9+5
     zani(n)=10
     
+    If jumpKey(n)=1 Then doJump(n)
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq7 Then zNoMove(n)=1
     
 ;--------------------- Animation --------------------

@@ -1927,19 +1927,27 @@ menuOption=2
 End Function 
 
 Function waitCheats()
-    For i=2 To 5
+    For i=2 To 5 ; Player index to apply the cheat
         If KeyHit(i) Then LastKeyPressed=i-1
     Next
 
-    If KeyHit(14) Then  ;BACKSPACE key
-        cheatSeq(1)=cheatSeq(1)+1
-    EndIf
+    Local key=getKeyPressed()
 
-    If KeyHit(cheatKeys(2,cheatSeq(2))) Then  ;slowpoke cheat
+    If key = 14 Then  ;BACKSPACE key
+        cheatSeq(1)=cheatSeq(1)+1
+        resetOtherCheats(1)
+    EndIf
+    
+    If key = cheatKeys(2,cheatSeq(2)) And key <> 0 Then  ;slowpoke cheat
+        DebugLog "AAA: " + key
         cheatSeq(2)=cheatSeq(2)+1
+        resetOtherCheats(2)
+    Else If key <> 28 And key <> 0 Then ; If a key is pressed but not enter key
+        DebugLog "BBB"
+        cheatSeq(2)=0 ; Reset keys since wrong key is pressed
     End If
     
-    If KeyHit(28) Then  ;ENTER key
+    If key = 28 Then  ;ENTER key
         If cheatSeq(1)=5 And cheat(1)=0 Then
             cheat(1)=1  ;cheat_1 activated
             If gameSound Then PlaySound energySnd
@@ -1978,4 +1986,25 @@ Function selectSecretChars()
     If cheat(2) > 0 Then
         curGuy(cheat(2))=40:cheat(2)=0
     End If
+End Function
+
+Function getKeyPressed()
+    retVal=0
+    For i=0 To 105
+        If KeyHit(i)=1 Then
+            retVal=i
+        End If
+    Next
+    
+    return retVal
+End Function
+
+Function resetOtherCheats(currCheatIdx)
+    Local maxCheats=20
+    
+    For i=0 To maxCheats
+        If i <> currCheatIdx Then
+            cheatSeq(i)=0
+        End If
+    Next
 End Function
