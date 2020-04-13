@@ -266,7 +266,7 @@ Dim maxFlightYLimit(maxZ), loadingImg(100, 2), charIdxList(4), imgScaleFactor#(m
 Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
-Global mapStartTime, mapEndTime
+Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
 Global freezeMode, clicked, curHitBox
@@ -959,11 +959,11 @@ Else
     makechunk(0,330,-30,2,2)
 EndIf
 FlushKeys() : FlushJoy()
+mapStartTime=MilliSecs()
 
 ;------*-------*-------------------*--------*--------
 ;------*-------*--- MAIN LOOP -----*--------*--------
 ;------*-------*-------------------*--------*--------
-mapStartTime=MilliSecs()
 While Not gameDone=1
 Getinput
 
@@ -1739,6 +1739,7 @@ For n=1 To zzamount
     End If
 Next
 isStuffFall=1
+setAppTitle()
 
 Wend    ;******* ENDS MAIN LOOP + GAME RENDER LOOP **********
 
@@ -5533,7 +5534,7 @@ Function checkInputs(n)
 End Function
 
 ;----------- Check right key hit ---------------
-Function checkRightKeyHit(n)    
+Function checkRightKeyHit(n)
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - rightKeyHitTimer(n)) < quartSec And (curTime - rightKeyHitTimer(n)) > 0 Then
         If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
@@ -6614,7 +6615,6 @@ End Function
 
 Function displayLoadingScr()
     Local secondBgChanceSeed, bgIdx=0
-    DebugLog "zamountPlaying: " + zamountPlaying
     For n=1 To zamountPlaying
         charIdxList(n)=curGuy(n)
     Next
@@ -6688,4 +6688,13 @@ Function doJump(n)
     Else
         doDoubleJump(n)
     End If
+End Function
+
+Function setAppTitle()
+    mapTimeLapse=MilliSecs()-mapStartTime
+    Local actualCurMap=curMap+1
+    If mapComplete=1 Then actualCurMap=curMap
+    timerStr$ = " (" + getTimeTaken$(mapTimeLapse) + " / "
+    timerStr$ = timerStr$ + getTimeTaken$(bestMapTime(actualCurMap)) + ")"
+    AppTitle "Multihero" + timerStr$
 End Function

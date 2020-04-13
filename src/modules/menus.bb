@@ -156,7 +156,7 @@ End Function
 
 ;--------- save speed run timers -------
 Function saveSpeedrun()
-    Local timeTaken = (mapEndTime-mapStartTime)
+    Local timeTaken = (mapTimeLapse)
     Local isTimeChanged=0
     
     ;Check if new record
@@ -325,14 +325,13 @@ End Function
 ;------------ displays after stage screen ----------------
 Function statsScreen()
 
-mapEndTime=MilliSecs()
 SetBuffer BackBuffer()
 ClsColor 0,50,100
 Cls
 statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
-Local timeTaken=mapEndTime-mapStartTime
+Local timeTaken=mapTimeLapse
 strInfo$(36)="stage " + (curMap-1) + " complete!"
 If timeTaken < bestMapTime(curMap) Or bestMapTime(curMap)=0
     strInfo$(36)=strInfo$(36) + " new record!"
@@ -2037,7 +2036,6 @@ Function waitCheats()
     EndIf
     
     If key = cheatKeys(2,cheatSeq(2)) And key <> 0 Then  ;slowpoke cheat
-        DebugLog "AAA: " + key
         cheatSeq(2)=cheatSeq(2)+1
         resetOtherCheats(2)
     Else If key <> 28 And key <> 0 Then ; If a key is pressed but not enter key
