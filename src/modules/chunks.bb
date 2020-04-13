@@ -257,7 +257,7 @@ Case 40:a=10    ;tutorial 1 - double jump
         message=0
         tutorial(1)=1
     EndIf
-    If tutorial(1)=1 Then chunk(n)=0:message=0
+    If tutorial(1)=1 Or showTutorial=0 Then chunk(n)=0:message=0
 
 Case 41:a=10    ;tutorial 2 - up special
     message=1 : messageN=n
@@ -278,7 +278,7 @@ Case 41:a=10    ;tutorial 2 - up special
         message=0
         tutorial(2)=1
     EndIf
-       If tutorial(2)=1 Then chunk(n)=0:message=0
+       If tutorial(2)=1 Or showTutorial=0 Then chunk(n)=0:message=0
        
 Case 42:a=10    ;tutorial 3 - fight
     message=1 : messageN=n
@@ -300,7 +300,7 @@ Case 42:a=10    ;tutorial 3 - fight
         message=0
         tutorial(3)=1
     EndIf
-    If tutorial(3)=1 Then chunk(n)=0:message=0
+    If tutorial(3)=1 Or showTutorial=0 Then chunk(n)=0:message=0
  
 Case 43:a=10    ;tutorial 4 - use switch
     message=1 : messageN=n
@@ -320,7 +320,7 @@ Case 43:a=10    ;tutorial 4 - use switch
         message=0
         tutorial(4)=1
     EndIf
-    If tutorial(4)=1 Then chunk(n)=0:message=0
+    If tutorial(4)=1 Or showTutorial=0 Then chunk(n)=0:message=0
     
 Case 44:a=10    ;tutorial 5 - pick up item
     message=1 : messageN=n
@@ -342,7 +342,7 @@ Case 44:a=10    ;tutorial 5 - pick up item
         message=0
         tutorial(5)=1
     EndIf
-    If tutorial(5)=1 Then chunk(n)=0:message=0
+    If tutorial(5)=1 Or showTutorial=0 Then chunk(n)=0:message=0
     
 Case 45:a=10    ;tutorial 6 - go down from platform
     message=1 : messageN=n
@@ -363,7 +363,7 @@ Case 45:a=10    ;tutorial 6 - go down from platform
         message=0
         tutorial(6)=1
     EndIf
-    If tutorial(6)=1 Then chunk(n)=0:message=0
+    If tutorial(6)=1 Or showTutorial=0 Then chunk(n)=0:message=0
     
 Case 46:a=10    ;tutorial 7 - throw item diagonally
     message=1 : messageN=n
@@ -386,7 +386,7 @@ Case 46:a=10    ;tutorial 7 - throw item diagonally
         message=0
         tutorial(7)=1
     EndIf
-    If tutorial(7)=1 Then chunk(n)=0:message=0
+    If tutorial(7)=1 Or showTutorial=0 Then chunk(n)=0:message=0
 
 Case 47:a=10    ;tutorial 8 - super special
     message=1 : messageN=n
@@ -408,7 +408,7 @@ Case 47:a=10    ;tutorial 8 - super special
         message=0
         tutorial(8)=1
     EndIf
-    If tutorial(8)=1 Then chunk(n)=0:message=0
+    If tutorial(8)=1 Or showTutorial=0 Then chunk(n)=0:message=0
 
 Case 48 ;special event for level #50, in the beginning, set Venom life according to amount of players
         ;Delay item respawn from factory #2

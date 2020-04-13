@@ -332,18 +332,22 @@ Cls
 statsImg=LoadImage(gfxStuffDir$ + "stats.bmp")
 Color 255,255,255
 DrawImage statsImg,0,0
+Local timeTaken=mapEndTime-mapStartTime
 strInfo$(36)="stage " + (curMap-1) + " complete!"
+If timeTaken < bestMapTime(curMap) Or bestMapTime(curMap)=0
+    strInfo$(36)=strInfo$(36) + " new record!"
+End If
 pri priW(strInfo$(36)),120, strInfo$(36)
 
 If checkWhatsOpen()=1 Then pri 160,160, strInfo$(61)
 
 pri 90,190, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
 drawimage clockPic,530,182
-Local timeTaken$=getTimeTaken$(mapEndTime-mapStartTime)
+Local timeTakenStr$=getTimeTaken$(timeTaken)
 Local bestTime$=getTimeTaken$(bestMapTime(curMap))
 Local timeTakenPerHero$
-If bestTime$ = "00:00:00" Then bestTime$=timeTaken$
-pri 567,190, timeTaken$ + " / " + bestTime$
+If bestTime$ = "00:00:00" Then bestTime$=timeTakenStr$
+pri 567,190, timeTakenStr$ + " / " + bestTime$
 x=160:y=265
 For i=1 To 4
   xOffset=0:yOffset=0
@@ -366,8 +370,8 @@ For i=1 To 4
     If vsMode=0 Then
         drawimage clockPic,x+348,y-8
         timeTakenPerHero$=getTimeTaken$(fastestHeroTimePerMap(curMap,curGuy(i)))
-        If timeTakenPerHero$="00:00:00" Then timeTakenPerHero$=timeTaken$
-        pri x+388,y, timeTaken$ + " / " + timeTakenPerHero$
+        If timeTakenPerHero$="00:00:00" Then timeTakenPerHero$=timeTakenStr$
+        pri x+388,y, timeTakenStr$ + " / " + timeTakenPerHero$
     End If
     y=y+90
   EndIf
@@ -1166,8 +1170,10 @@ If clickedBut(n) Then
            
     Case 5:menuOption=4
     Case 6:If curIdiom=1 Then curIdiom=2 Else curIdiom=1
-            idioms(curIdiom)
+        idioms(curIdiom)
     Case 7:
+        If showTutorial=1 Then showTutorial=0 Else showTutorial=1
+    Case 8:
         If duringGameMenu=1 Then menuOption=5 Else menuOption=2
   End Select
     If gamesound Then PlaySound ddhitsnd
@@ -1176,10 +1182,10 @@ Next
 
 ;----------Buttons attributes--------------------------
 x=0 : y=0
-buttonAmount = 7
+buttonAmount = 8
 For b= 1 To buttonAmount
-    If b=7 Then y=y+80
-    xBut(b)=288+x:yBut(b)=320+y:wBut(b)=464:hBut(b)=35
+    If b=8 Then y=y+80
+    xBut(b)=288+x:yBut(b)=260+y:wBut(b)=464:hBut(b)=35
     y=y+48
 Next
 
@@ -1189,7 +1195,8 @@ butText$(3)=strInfo$(45)
 butText$(4)=strInfo$(46)
 butText$(5)=strInfo$(49)
 butText$(6)=strInfo$(16)
-butText$(7)=strInfo$(48)
+butText$(7)=strInfo$(98)
+butText$(8)=strInfo$(48)
 
 ;-----Rendering menu --------------------------------
 fontType=1
@@ -1224,6 +1231,12 @@ Else
 EndIf
 
 pri xBut(6)+o, yBut(6), strInfo$(47)
+
+If showTutorial=1 Then
+    pri xBut(7)+o, yBut(7), strInfo$(41)
+Else
+    pri xBut(7)+o, yBut(7), strInfo$(42)
+End If
 
 For n=1 To 4
     DrawImage pointerPic(n),xpointer(n),ypointer(n)
@@ -1413,6 +1426,9 @@ strInfo$(95)="secrets found: "
 strInfo$(96)="items: on"
 strInfo$(97)="items: off"
 
+strInfo$(98)="tutorials"
+strInfo$(99)="tutorials"
+
 Case 2
 strInfo$(1)="INICIAR JOGO!"
 strInfo$(2)="Time Ataca =SIM"
@@ -1513,6 +1529,9 @@ strInfo$(95)="segredos encontrados: "
 
 strInfo$(96)="itens: sim"
 strInfo$(97)="itens: N?O"
+
+strInfo$(98)="tutoriais: sim"
+strInfo$(99)="tutoriais: N?O"
 
 End Select
 
@@ -1876,6 +1895,7 @@ videoColorDepth = ReadInt (file)
 gameSound = ReadInt (file)
 gameMusic = ReadInt (file)
 curIdiom = ReadInt (file)
+showTutorial = ReadInt (file)
 curModId = ReadInt (file)
 
 CloseFile file
@@ -1893,6 +1913,7 @@ WriteInt file, videoColorDepth
 WriteInt file, gameSound
 WriteInt file, gameMusic
 WriteInt file, curIdiom
+WriteInt file, showTutorial
 WriteInt file, curModId        ;Current MOD id
 
 CloseFile file

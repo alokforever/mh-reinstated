@@ -58,6 +58,7 @@ Global maxShots=200
 Global hyperBgDsp=0
 Global debugMode=0
 Global LastKeyPressed=1
+Global showTutorial
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
