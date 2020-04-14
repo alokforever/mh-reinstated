@@ -441,7 +441,7 @@ Case 16: ;Piccolo
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
     zStanceFrames(n)=7
-    zStanceSpeed(n)=6
+    zStanceSpeed(n)=8
     zWalkFrames(n)=4
     zWalkFrameSpeed#(n)=7
     zRunFrames(n)=1
@@ -3143,7 +3143,7 @@ Function initStance(n)
         zStanceSpeed(n)=6
     Case 16 ; Piccolo
         zStanceFrames(n)=7
-        zStanceSpeed(n)=6
+        zStanceSpeed(n)=8
     Case 40 ; Turtle
         zStanceFrames(n)=16
         zStanceSpeed(n)=4

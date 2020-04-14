@@ -622,7 +622,7 @@ EndIf
 End Function 
 
 ;----------- MENU (character select)----------------------------------------
-Function menu()
+Function displayCharMenu()
 
 pointers
 
@@ -788,7 +788,7 @@ If clickedBut(n) Then
     Case 70    ;START BUTTON
         ;vsMode=1
         gameStart=1
-        If gamemode=2 Then
+        If gamemode=2 And vsMode=1 Then
             For k=1 To zzamount
                 If zteam(k)=0 And zon(k)=1 Then    ;checks so that everyone has a team on CTF mode
                     gameStart=0
@@ -894,19 +894,26 @@ xBut(71)=752:yBut(71)=720:wBut(71)=253:hBut(71)=32
 TileImage backg,xtileimg,ytileimg
 ;xtileimg=xtileimg+.1:ytileimg=ytileimg+.1
 
+For b = 1 To mainCharAmt
+    drawimage board3,xbut(b),ybut(b)
+    ; Draw the board with priority than the hero thumbnails
+Next
+
 For b = 1 To mainCharAmt ;characters to select
     If charSelectable(b)=0 Then Goto skipButtonRender
-    drawimage board3,xbut(b),ybut(b)
     ;Color 100,100,100:Rect xbut(b),ybut(b),wbut(b),hBut(b),1
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     If characterOpen(b)=1 Then
-        Local xOffset=10
-        If b=6 Or b=15 Then
+        Local xOffset=10, yOffset=90
+        If b=6 Then
             xOffset=-8
         Else If b = 11 Or b = 14 Then
             xOffset=5
+        Else If b=15
+            xOffset=-8
+            yOffset=95
         EndIf
-        DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) +90
+        DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) + yOffset
     Else
         DebugLog "b: " + b
         DrawImage lock,xbut(b)+16, ybut(b)+24
@@ -1067,11 +1074,12 @@ waitCheats()
 For n=1 To ButtonAmount
 If clickedBut(n) Then
   Select n
-    Case 1: menuOption=1:vsMode=0 :defineButtons(1)
-    Case 2: menuOption=1:vsMode=1:changeMusic(music12):initCharSelect() ;go to character Select screen (vs mode)
-    Case 3: menuOption=3  ;go to options screen
-    Case 4: rollCredits()
-    Case 5: saveConfig() : end
+    Case 1: menuOption=charSelectVal:vsMode=0 :defineButtons(1)
+    Case 2: menuOption=charSelectVal:vsMode=1:changeMusic(music12):initCharSelect() ;go to character Select screen (vs mode)
+    Case 3: menuOption=optionsMenuVal  ;go to options screen
+    Case 4: menuOption=recordsMenuVal : showRecords()
+    Case 5: rollCredits()
+    Case 6: saveConfig() : end
   End Select
     If gamesound Then PlaySound ddhitsnd
 EndIf
@@ -1079,8 +1087,8 @@ Next
 
 ;----------Buttons attributes--------------------------
 x=0 : y=0
-buttonAmount = 5
-For b = 1 To 5
+buttonAmount = 6
+For b = 1 To buttonAmount
     xBut(b)=320+x:yBut(b)=320+y:wBut(b)=384:hBut(b)=35
     y=y+48
 Next
@@ -1088,8 +1096,9 @@ Next
 butText$(1)=strInfo$(14)
 butText$(2)=strInfo$(21)
 butText$(3)=strInfo$(15)
-butText$(4)=strInfo$(40)
-butText$(5)=strInfo$(50)
+butText$(4)=strInfo$(99)
+butText$(5)=strInfo$(40)
+butText$(6)=strInfo$(50)
 
 ;-----Rendering menu --------------------------------
 fontType=1
@@ -1426,7 +1435,7 @@ strInfo$(96)="items: on"
 strInfo$(97)="items: off"
 
 strInfo$(98)="tutorials"
-strInfo$(99)="tutorials"
+strInfo$(99)="records"
 
 Case 2
 strInfo$(1)="INICIAR JOGO!"
@@ -1529,8 +1538,8 @@ strInfo$(95)="segredos encontrados: "
 strInfo$(96)="itens: sim"
 strInfo$(97)="itens: N?O"
 
-strInfo$(98)="tutoriais: sim"
-strInfo$(99)="tutoriais: N?O"
+strInfo$(98)="tutoriais"
+strInfo$(99)="registro"
 
 End Select
 
@@ -1957,7 +1966,39 @@ flip
 waitThis(8200)
 freesound intro
 freeimage logo
-End Function 
+End Function
+
+;----------------- Show in-game statistics ------------------
+Function showRecords()
+
+pointers
+
+For n=1 To ButtonAmount
+If clickedBut(n) Then
+  Select n
+    Case 1: If duringGameMenu=1 Then menuOption=5 Else menuOption=2
+  End Select
+  If gamesound Then PlaySound ddhitsnd
+EndIf
+Next
+
+;----------Buttons attributes--------------------------
+x=0 : y=0
+buttonAmount = 1
+xBut(1)=320+x:yBut(1)=320+240:wBut(1)=384:hBut(1)=35
+
+butText$(1)=strInfo$(48)
+
+;-----Rendering menu --------------------------------
+fontType=1
+pri priW(butText$(1)), yBut(1), butText$(1)
+
+For n=1 To 4
+    DrawImage pointerPic(n),xpointer(n),ypointer(n)
+Next
+
+End Function
+
 ;---------------------- Roll Credits ------------------------
 Function rollCredits()
 n=1
@@ -2039,7 +2080,6 @@ Function waitCheats()
         cheatSeq(2)=cheatSeq(2)+1
         resetOtherCheats(2)
     Else If key <> 28 And key <> 0 Then ; If a key is pressed but not enter key
-        DebugLog "BBB"
         cheatSeq(2)=0 ; Reset keys since wrong key is pressed
     End If
     

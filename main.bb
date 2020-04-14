@@ -619,7 +619,7 @@ Repeat     ;--------Menus loop-------------------------
 Cls
 WaitTimer(frameTimer)
 
-If menuOption=mainMenuVal Or menuOption=optionsMenuVal Or menuOption=controlsMenuVal Then
+If menuOption=mainMenuVal Or menuOption=optionsMenuVal Or menuOption=controlsMenuVal Or menuOption=recordsMenuVal Then
     DrawImage backg1,0,0
     DrawImage title,39,38
     fontType=2
@@ -636,17 +636,19 @@ If KeyHit(1) Then
       If vsMode=1 Then changeMusic(music10)
   End If
   If menuOption = optionsMenuVal Then menuOption = mainMenuVal
+  If menuOption = recordsMenuVal Then menuOption = mainMenuVal
   If menuOption = controlsMenuVal Then menuOption = optionsMenuVal : savekeys()
 EndIf
 
 Select menuOption
-    Case charSelectVal: menu()  ;character Select screen
+    Case charSelectVal: displayCharMenu()  ;character Select screen
     Case mainMenuVal: mainMenu()  ;main menu, first screen
             For i=1 To zzamount
                 clearSubStates(i, 0)
             Next
     Case optionsMenuVal: optionsMenu()   ;Options menu
     Case controlsMenuVal: controlsMenu()   ;Controls menu
+    Case recordsMenuVal: showRecords()   ;Controls menu
 End Select
 
 If warning=1 Then
@@ -1708,6 +1710,7 @@ Repeat
       If menuOption = inGameMenuVal Then gamePaused=0
       If menuOption = optionsMenuVal Then menuOption = inGameMenuVal
       If menuOption = controlsMenuVal Then menuOption = optionsMenuVal : savekeys()
+      If menuOption = recordsMenuVal Then menuOption = inGameMenuVal
 
     EndIf
 
@@ -1715,6 +1718,7 @@ Repeat
         Case optionsMenuVal: optionsMenu()   ;Options menu
         Case controlsMenuVal: controlsMenu()  ;Controls menu
         Case inGameMenuVal: inGameMenu()    ;during gameplay menu
+        Case recordsMenuVal: showRecords()    ;during gameplay menu
     End Select
 
 If warning=1 Then
@@ -6258,6 +6262,8 @@ Function setScaleFactorPerChar()
     Next
     
     imgScaleFactor#(14)=0.75
+    imgScaleFactor#(15)=0.65
+    imgScaleFactor#(16)=0.80
 End Function
 
 Function initCharSelect()

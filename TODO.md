@@ -25,7 +25,7 @@ Wolverine - 54
 Sub Zero - 48
 Scorpion - 48
 Wonderwoman - 75
-Juggernaut - 40
+Juggernaut - 64.6
 Piccolo - 50
 
 turtle - 100

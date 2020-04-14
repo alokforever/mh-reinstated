@@ -1,5 +1,5 @@
 Global seekTypeSemi=1, seekTypeFull=2, seekTypeNone=0 ; shot seek types
-Global charSelectVal=1, mainMenuVal=2, optionsMenuVal=3, controlsMenuVal=4, inGameMenuVal=5 ;Menu values
+Global charSelectVal=1, mainMenuVal=2, optionsMenuVal=3, controlsMenuVal=4, inGameMenuVal=5, statsMenuVal=6 ;Menu values
 Global preSuperDancingCircles=0, preSuperCrosshair=1 ;Pre-super effects
 Global dirUp=1, dirRight=2, dirDown=3, dirLeft=4 ;Directions
 Global superPortraitNoShow=0, superPortraitNrmShow=1, superPortraitCustmTimed=2 ;Super portrait display mode
