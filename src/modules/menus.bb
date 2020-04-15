@@ -341,7 +341,7 @@ pri priW(strInfo$(36)),120, strInfo$(36)
 If checkWhatsOpen()=1 Then pri 160,160, strInfo$(61)
 
 pri 90,190, strInfo$(35)+" "+secretsFound+" / "+secretsAmount
-drawimage clockPic,530,182
+drawimage clockPic,530,176
 Local timeTakenStr$=getTimeTaken$(timeTaken)
 Local bestTime$=getTimeTaken$(bestMapTime(curMap))
 Local timeTakenPerHero$

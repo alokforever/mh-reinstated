@@ -323,9 +323,12 @@ For i=1 To 20
     Next
 Next
 
+setScaleFactorPerChar()
+
 gfxdir$="gfx\"
 For i=1 To mainCharAmt
     zIcon(i)=LoadImage(gfxdir$ + i + "\zIcon.bmp")
+    ScaleImage zIcon(i),imgScaleFactor#(i),imgScaleFactor#(i)
 Next
 
 gfxdir$="gfx\stuff\"
@@ -607,7 +610,6 @@ Next
 
 butPic(72)=butPic(71)
 
-setScaleFactorPerChar()
 initCharSelect()
 
 gamestart=0
