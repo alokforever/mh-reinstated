@@ -627,213 +627,223 @@ Function displayCharMenu()
 pointers
 
 For n=1 To ButtonAmount
-If clickedBut(n) Then
-    Select n    ;Add character, add CASE 11 for your new guy, set curGuy(clickedBy(n)=11 in the new line
+    If clickedBut(n) Then
+        Select n    ;Add character, add CASE 11 for your new guy, set curGuy(clickedBy(n)=11 in the new line
 
-    Case 1:
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=1:zThumbNail(clickedBy(n))=butpic(n)
-    Case 2
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=2:zThumbNail(clickedBy(n))=butpic(n)
-    Case 3
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=3:zThumbNail(clickedBy(n))=butpic(n)
-    Case 4
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=4:zThumbNail(clickedBy(n))=butpic(n)
-    Case 5
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=5:zThumbNail(clickedBy(n))=butpic(n)
-    Case 6
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=6:zThumbNail(clickedBy(n))=butpic(n)
-    Case 7
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=7:zThumbNail(clickedBy(n))=butpic(n)
-    Case 8
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=8:zThumbNail(clickedBy(n))=butpic(n)
-    Case 9
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=9:zThumbNail(clickedBy(n))=butpic(n)
-    Case 10
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=10:zThumbNail(clickedBy(n))=butpic(n)
-    Case 11
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=11:zThumbNail(clickedBy(n))=butpic(n)
-    Case 12
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=12:zThumbNail(clickedBy(n))=butpic(n)
-    Case 13
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
-    Case 14
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
-    Case 15
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
-    Case 16
-        If characterOpen(n)=1 Then curGuy(clickedBy(n))=16:zThumbNail(clickedBy(n))=butpic(n)
-        
-    Case 50 ;Select game mode on vs
-        gamemode=gamemode+1
-        If gamemode >4 Then gamemode=1
-        If gamemode=1 Then flagAmount=0:gmStr$=strInfo$(6)
-        If gamemode=2 Then flagAmount=2:gmStr$=strInfo$(7)
-        If gamemode=3 Then flagAmount=1:gmStr$=strInfo$(8)
-        If gamemode=4 Then flagAmount=0:gmStr$=strInfo$(9)
-    Case 51 ;Select how many points / lives / time
-        Select gameMode
-            Case 2
-            flagMaxScore=flagMaxScore-1
-            If flagMaxScore < 1 Then flagMaxScore=99
-            Case 3
-            flagMaxTime=flagMaxTime-50
-            If flagMaxTime < 1 Then flagMaxTime=1000
-            Case 1
-            gameLives=gameLives-1
-            If gameLives < 1 Then gameLives=99
-            Case 4
-            targetMaxScore=targetMaxScore-1
-            If targetMAxScore < 1 Then targetMAxScore=99
+        Case 1:
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=1:zThumbNail(clickedBy(n))=butpic(n)
+        Case 2
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=2:zThumbNail(clickedBy(n))=butpic(n)
+        Case 3
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=3:zThumbNail(clickedBy(n))=butpic(n)
+        Case 4
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=4:zThumbNail(clickedBy(n))=butpic(n)
+        Case 5
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=5:zThumbNail(clickedBy(n))=butpic(n)
+        Case 6
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=6:zThumbNail(clickedBy(n))=butpic(n)
+        Case 7
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=7:zThumbNail(clickedBy(n))=butpic(n)
+        Case 8
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=8:zThumbNail(clickedBy(n))=butpic(n)
+        Case 9
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=9:zThumbNail(clickedBy(n))=butpic(n)
+        Case 10
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=10:zThumbNail(clickedBy(n))=butpic(n)
+        Case 11
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=11:zThumbNail(clickedBy(n))=butpic(n)
+        Case 12
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=12:zThumbNail(clickedBy(n))=butpic(n)
+        Case 13
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
+        Case 14
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
+        Case 15
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
+        Case 16
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=16:zThumbNail(clickedBy(n))=butpic(n)
+            
+        Case 50 ;Select game mode on vs
+            gamemode=gamemode+1
+            If gamemode >4 Then gamemode=1
+            If gamemode=1 Then flagAmount=0:gmStr$=strInfo$(6)
+            If gamemode=2 Then flagAmount=2:gmStr$=strInfo$(7)
+            If gamemode=3 Then flagAmount=1:gmStr$=strInfo$(8)
+            If gamemode=4 Then flagAmount=0:gmStr$=strInfo$(9)
+        Case 51 ;Select how many points / lives / time
+            Select gameMode
+                Case 2
+                flagMaxScore=flagMaxScore-1
+                If flagMaxScore < 1 Then flagMaxScore=99
+                Case 3
+                flagMaxTime=flagMaxTime-50
+                If flagMaxTime < 1 Then flagMaxTime=1000
+                Case 1
+                gameLives=gameLives-1
+                If gameLives < 1 Then gameLives=99
+                Case 4
+                targetMaxScore=targetMaxScore-1
+                If targetMAxScore < 1 Then targetMAxScore=99
 
-        End Select
-    Case 52 ;Select how many points / lives / time
-        Select gameMode
-            Case 2
-                flagMaxScore=flagMaxScore+1
-                If flagMaxScore > 99 Then flagMaxScore=1
-            Case 3
-                flagMaxTime=flagMaxTime+50
-                If flagMaxTime > 1000 Then flagMaxTime=50
-            Case 1
-                gameLives=gameLives+1
-                If gameLives >99 Then gameLives=1
-            Case 4
-                targetMaxScore=targetMaxScore+1
-                If targetMAxScore > 99 Then targetMAxScore=1
+            End Select
+        Case 52 ;Select how many points / lives / time
+            Select gameMode
+                Case 2
+                    flagMaxScore=flagMaxScore+1
+                    If flagMaxScore > 99 Then flagMaxScore=1
+                Case 3
+                    flagMaxTime=flagMaxTime+50
+                    If flagMaxTime > 1000 Then flagMaxTime=50
+                Case 1
+                    gameLives=gameLives+1
+                    If gameLives >99 Then gameLives=1
+                Case 4
+                    targetMaxScore=targetMaxScore+1
+                    If targetMAxScore > 99 Then targetMAxScore=1
 
-        End Select
-    Case 54
-        If teamAttack=1 Then
-            teamAttack=0
-        Else
-            teamAttack=1
-        EndIf
-    Case 55
-        k=1
-        zTeam(k)=zTeam(k)+1
-        If zTeam(k) > 2 Then zTeam(k)=0
-    Case 56
-        k=2
-        zTeam(k)=zTeam(k)+1
-        If zTeam(k) > 2 Then zTeam(k)=0
-    Case 57
-        k=3
-        zTeam(k)=zTeam(k)+1
-        If zTeam(k) > 2 Then zTeam(k)=0
-    Case 58
-        k=4
-        zTeam(k)=zTeam(k)+1
-        If zTeam(k) > 2 Then zTeam(k)=0
+            End Select
+        Case 54
+            If teamAttack=1 Then
+                teamAttack=0
+            Else
+                teamAttack=1
+            EndIf
+        Case 55
+            k=1
+            zTeam(k)=zTeam(k)+1
+            If zTeam(k) > 2 Then zTeam(k)=0
+        Case 56
+            k=2
+            zTeam(k)=zTeam(k)+1
+            If zTeam(k) > 2 Then zTeam(k)=0
+        Case 57
+            k=3
+            zTeam(k)=zTeam(k)+1
+            If zTeam(k) > 2 Then zTeam(k)=0
+        Case 58
+            k=4
+            zTeam(k)=zTeam(k)+1
+            If zTeam(k) > 2 Then zTeam(k)=0
 
-    Case 60
-        k=1
-        Select ButSeq(60)
-        Case 0:ButSeq(60)=1:zon(k)=1:zAI(k)=0
-        Case 1:ButSeq(60)=2:zon(k)=1:zAI(k)=1
-.anotherCharacter1
-               curGuy(1)=Rand(1,8):zThumbNail(1)=butpic(curGuy(1))
-               If characterOpen(curGuy(1))=0 Then Goto anotherCharacter1
-              If vsMode=0 Then ButSeq(60)=0:zon(k)=0:zAI(k)=0
-        Case 2:ButSeq(60)=0:zon(k)=0:zAI(k)=0
-        End Select
-    Case 61
-        k=2
-        Select ButSeq(61)
-        Case 0:ButSeq(61)=1:zon(k)=1:zAI(k)=0
-        Case 1:ButSeq(61)=2:zon(k)=1:zAI(k)=1
-.anotherCharacter2
-               curGuy(2)=Rand(1,8):zThumbNail(2)=butpic(curGuy(2))
-               If characterOpen(curGuy(2))=0 Then Goto anotherCharacter2
-               If vsMode=0 Then ButSeq(61)=0:zon(k)=0:zAI(k)=0
-        Case 2:ButSeq(61)=0:zon(k)=0:zAI(k)=0
-        End Select
-    Case 62
-        k=3
-        Select ButSeq(62)
-        Case 0:ButSeq(62)=1:zon(k)=1:zAI(k)=0
-        Case 1:ButSeq(62)=2:zon(k)=1:zAI(k)=1
-.anotherCharacter3
-               curGuy(3)=Rand(1,8):zThumbNail(3)=butpic(curGuy(3))
-               If characterOpen(curGuy(3))=0 Then Goto anotherCharacter3
-               If vsMode=0 Then ButSeq(62)=0:zon(k)=0:zAI(k)=0
-        Case 2:ButSeq(62)=0:zon(k)=0:zAI(k)=0
-        End Select
-    Case 63
-        k=4
-        Select ButSeq(63)
-        Case 0:ButSeq(63)=1:zon(k)=1:zAI(k)=0
-        Case 1:ButSeq(63)=2:zon(k)=1:zAI(k)=1
-.anotherCharacter4
-              curGuy(4)=Rand(1,8):zThumbNail(4)=butpic(curGuy(4))
-              If characterOpen(curGuy(4))=0 Then Goto anotherCharacter4
-              If vsMode=0 Then ButSeq(63)=0:zon(k)=0:zAI(k)=0
-        Case 2:ButSeq(63)=0:zon(k)=0:zAI(k)=0
-        End Select
-    Case 64    ;PLAYER# 1 A.I LEVEL
-        k=1
-        aiLevel(k)=aiLevel(k)+1
-        If aiLevel(k) > 5 Then aiLevel(k)=1
-    Case 65    ;PLAYER# 2 A.I LEVEL
-        k=2
-        aiLevel(k)=aiLevel(k)+1
-        If aiLevel(k) > 5 Then aiLevel(k)=1
-    Case 66    ;PLAYER# 3 A.I LEVEL
-        k=3
-        aiLevel(k)=aiLevel(k)+1
-        If aiLevel(k) > 5 Then aiLevel(k)=1
-    Case 67    ;PLAYER# 4 A.I LEVEL
-        k=4
-        aiLevel(k)=aiLevel(k)+1
-        If aiLevel(k) > 5 Then aiLevel(k)=1
-    Case 70    ;START BUTTON
-        ;vsMode=1
-        gameStart=1
-        If gamemode=2 And vsMode=1 Then
-            For k=1 To zzamount
-                If zteam(k)=0 And zon(k)=1 Then    ;checks so that everyone has a team on CTF mode
-                    gameStart=0
-                    defineButtons(0)
-                    warning=1:warnSeq=0:strWarning$=strInfo$(33)
-                    Exit
+        Case 60
+            k=1
+            Select ButSeq(60)
+            Case 0:ButSeq(60)=1:zon(k)=1:zAI(k)=0
+            Case 1:ButSeq(60)=2:zon(k)=1:zAI(k)=1
+    .anotherCharacter1
+                   curGuy(1)=Rand(1,8):zThumbNail(1)=butpic(curGuy(1))
+                   If characterOpen(curGuy(1))=0 Then Goto anotherCharacter1
+                  If vsMode=0 Then ButSeq(60)=0:zon(k)=0:zAI(k)=0
+            Case 2:ButSeq(60)=0:zon(k)=0:zAI(k)=0
+            End Select
+        Case 61
+            k=2
+            Select ButSeq(61)
+            Case 0:ButSeq(61)=1:zon(k)=1:zAI(k)=0
+            Case 1:ButSeq(61)=2:zon(k)=1:zAI(k)=1
+    .anotherCharacter2
+                   curGuy(2)=Rand(1,8):zThumbNail(2)=butpic(curGuy(2))
+                   If characterOpen(curGuy(2))=0 Then Goto anotherCharacter2
+                   If vsMode=0 Then ButSeq(61)=0:zon(k)=0:zAI(k)=0
+            Case 2:ButSeq(61)=0:zon(k)=0:zAI(k)=0
+            End Select
+        Case 62
+            k=3
+            Select ButSeq(62)
+            Case 0:ButSeq(62)=1:zon(k)=1:zAI(k)=0
+            Case 1:ButSeq(62)=2:zon(k)=1:zAI(k)=1
+    .anotherCharacter3
+                   curGuy(3)=Rand(1,8):zThumbNail(3)=butpic(curGuy(3))
+                   If characterOpen(curGuy(3))=0 Then Goto anotherCharacter3
+                   If vsMode=0 Then ButSeq(62)=0:zon(k)=0:zAI(k)=0
+            Case 2:ButSeq(62)=0:zon(k)=0:zAI(k)=0
+            End Select
+        Case 63
+            k=4
+            Select ButSeq(63)
+            Case 0:ButSeq(63)=1:zon(k)=1:zAI(k)=0
+            Case 1:ButSeq(63)=2:zon(k)=1:zAI(k)=1
+    .anotherCharacter4
+                  curGuy(4)=Rand(1,8):zThumbNail(4)=butpic(curGuy(4))
+                  If characterOpen(curGuy(4))=0 Then Goto anotherCharacter4
+                  If vsMode=0 Then ButSeq(63)=0:zon(k)=0:zAI(k)=0
+            Case 2:ButSeq(63)=0:zon(k)=0:zAI(k)=0
+            End Select
+        Case 64    ;PLAYER# 1 A.I LEVEL
+            k=1
+            aiLevel(k)=aiLevel(k)+1
+            If aiLevel(k) > 5 Then aiLevel(k)=1
+        Case 65    ;PLAYER# 2 A.I LEVEL
+            k=2
+            aiLevel(k)=aiLevel(k)+1
+            If aiLevel(k) > 5 Then aiLevel(k)=1
+        Case 66    ;PLAYER# 3 A.I LEVEL
+            k=3
+            aiLevel(k)=aiLevel(k)+1
+            If aiLevel(k) > 5 Then aiLevel(k)=1
+        Case 67    ;PLAYER# 4 A.I LEVEL
+            k=4
+            aiLevel(k)=aiLevel(k)+1
+            If aiLevel(k) > 5 Then aiLevel(k)=1
+        Case 70    ;START BUTTON
+            ;vsMode=1
+            gameStart=1
+            If gamemode=2 And vsMode=1 Then
+                For k=1 To zzamount
+                    If zteam(k)=0 And zon(k)=1 Then    ;checks so that everyone has a team on CTF mode
+                        gameStart=0
+                        defineButtons(0)
+                        warning=1:warnSeq=0:strWarning$=strInfo$(33)
+                        Exit
+                    EndIf
+                Next
+
+            Else
+                If vsMode=1 Then
+                     If zamountPlaying < 2 Then gameStart=0
                 EndIf
-            Next
-
-        Else
-            If vsMode=1 Then
-                 If zamountPlaying < 2 Then gameStart=0
+                If vsMode=0 Then
+                     If zamountPlaying < 1 Then gameStart=0
+                EndIf
+                defineButtons(0)
             EndIf
-            If vsMode=0 Then
-                 If zamountPlaying < 1 Then gameStart=0
-            EndIf
-            defineButtons(0)
-        EndIf
-        If gameStart=0 Then If gamesound Then PlaySound brokensnd
+            If gameStart=0 Then If gamesound Then PlaySound brokensnd
 
-    Case 71    ;TOGGLE ITEMS ON / OFF
-        If noItems=1 Then
-            noItems=0
-        Else
-            noItems=1
-        EndIf
-    Case 72
-        selectPlayer(1,n,0)
-    Case 73
-        selectPlayer(1,n,1)
-    Case 74
-        selectPlayer(2,n,0)
-    Case 75
-        selectPlayer(2,n,1)
-    Case 76
-        selectPlayer(3,n,0)
-    Case 77
-        selectPlayer(3,n,1)
-    Case 78
-        selectPlayer(4,n,0)
-    Case 79
-        selectPlayer(4,n,1)
+        Case 71    ;TOGGLE ITEMS ON / OFF
+            If noItems=1 Then
+                noItems=0
+            Else
+                noItems=1
+            EndIf
+        Case 72
+            selectPlayer(1,n,0)
+        Case 73
+            selectPlayer(1,n,1)
+        Case 74
+            selectPlayer(2,n,0)
+        Case 75
+            selectPlayer(2,n,1)
+        Case 76
+            selectPlayer(3,n,0)
+        Case 77
+            selectPlayer(3,n,1)
+        Case 78
+            selectPlayer(4,n,0)
+        Case 79
+            selectPlayer(4,n,1)
+        End Select
+        If gamesound And butOn(n)=1 Then PlaySound clicksnd
+    EndIf
+
+    If rightClickedBut(n)
+
+    Select n
+    Case 15
+        If characterOpen(n)=1 Then stanceMode(rightClickedBy(n))=2
     End Select
-    If gamesound And butOn(n)=1 Then PlaySound clicksnd
-EndIf
+
+    End If
+
 Next
 
 selectSecretChars()
@@ -913,7 +923,12 @@ For b = 1 To mainCharAmt ;characters to select
             xOffset=-8
             yOffset=95
         EndIf
-        DrawImage butpic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(butpic2(b, 1)) ) + yOffset
+
+        If stanceMode(n)=1 Then
+            DrawImage stanceButPic(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic(b, 1)) ) + yOffset
+        Else
+            DrawImage stanceButPic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic2(b, 1)) ) + yOffset
+        End If
     Else
         DebugLog "b: " + b
         DrawImage lock,xbut(b)+16, ybut(b)+24
@@ -1000,9 +1015,14 @@ For b=55 To 58  ;team, selected player
     xOffset=38
     If curGuy(n)=6 Then xOffset=16
     If curGuy(n)=15 Then xOffset=32
-    If CurGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then 
-        If butPic2(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
-        DrawImage butpic2(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(butpic2(curGuy(n), butFrame))
+    If CurGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then
+        If stanceMode(n)=1 Then
+            If stanceButPic(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
+            DrawImage stanceButPic(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic(curGuy(n), butFrame))
+        Else
+            If stanceButPic2(curGuy(n), butFrame)=0 Then zStance2Frames(curGuy(n))=0:butFrame=1
+            DrawImage stanceButPic2(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic2(curGuy(n), butFrame))
+        End If
     End If
 Next
 
@@ -1552,6 +1572,7 @@ End Function
 Function pointers()
 For n=1 To buttonAmount
 clickedBut(n)=0:clickedBy(n)=0
+rightClickedBut(n)=0:rightClickedBy(n)=0
 Next
 
 For n=1 To zzamount
@@ -1590,6 +1611,7 @@ For n=1 To 4
     If leftKey(n)=1 Then xpointer(n)=xpointer(n)-pve
     If rightKey(n)=1 Then xpointer(n)=xpointer(n)+pve
     If shotKey(n)=1 Then clickButton(n)
+    If specialkey(n)=1 Then rightClickButton(n)
 
     If xpointer(n) < 1 Then xpointer(n) = 1
     If xpointer(n) > 1014 Then xpointer(n) = 1014
@@ -1598,6 +1620,7 @@ For n=1 To 4
 Next
 
 If MouseHit(1) Then clickbutton(1)
+If MouseHit(2) Then rightClickButton(1)
 End Function 
 ;------------ define buttons For vs/adventure mode -----------------
 Function defineButtons(n)
@@ -1720,12 +1743,26 @@ Function clickButton(n)
 For nn=1 To buttonAmount
     If xpointer(n) => xBut(nn) And xpointer(n) =< xbut(nn)+wbut(nn) And butOn(nn) Then
     If ypointer(n) => yBut(nn) And ypointer(n) =< ybut(nn)+hbut(nn) Then
-        clickedBut(nn)=1:clickedBy(nn)=n:
+        clickedBut(nn)=1:clickedBy(nn)=n
     EndIf
     EndIf
 Next
 
 End Function 
+
+;---------- RIGHT BUTTON CLICK -----------------------------------------------
+Function rightClickButton(n)
+
+For nn=1 To buttonAmount
+    If xpointer(n) => xBut(nn) And xpointer(n) =< xbut(nn)+wbut(nn) And butOn(nn) Then
+    If ypointer(n) => yBut(nn) And ypointer(n) =< ybut(nn)+hbut(nn) Then
+        rightClickedBut(nn)=1:rightClickedBy(nn)=n
+    EndIf
+    EndIf
+Next
+
+End Function 
+
 ;----------- Set controller type ----------------------------
 Function setController(n)
 

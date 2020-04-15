@@ -71,8 +71,8 @@ Global fontType=1, fontSpace=1, previousMap, screenShotN
 Global maxZ=30, maxFrame=35, maxHyperBg=25
 Dim wolverineRage(30)
 Dim NextMap(5)
-Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),lastBut(100)
-Dim clickedBy(100),butPic(100),butPic2(100, maxFrame),butText$(100),butSeq(100),tpic(100)
+Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),rightClickedBut(100),lastBut(100)
+Dim clickedBy(100),rightClickedBy(100),butPic(100),stanceButPic(100, maxFrame),stanceButPic2(100, maxFrame),butText$(100),butSeq(100),tpic(100)
 Dim xPointer(10),yPointer(10),zName$(maxCharAmt),zThumbNail(maxCharAmt),mapTn(100)
 
 Dim tempN#(10), strinfo$(200), characterOpen(maxCharAmt), charSelectable(maxCharAmt)
@@ -228,7 +228,7 @@ Global menuOption, duringGameMenu
 ;zeto's variables
 Global isStuffFall
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
-Dim zStanceFrames(maxCharAmt), zStanceSeq(maxCharAmt), zStanceSpeed(maxCharAmt), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
+Dim zStanceFrames(maxCharAmt), zStance2Frames(maxCharAmt), zStanceSeq(maxCharAmt), zStanceSpeed(maxCharAmt), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
@@ -266,6 +266,7 @@ Dim maxFlightYLimit(maxZ), loadingImg(100, 2), charIdxList(4), imgScaleFactor#(m
 Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
+Dim stanceMode(maxCharAmt)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -741,7 +742,8 @@ For n=0 To 100
 Next
 For n=0 To 100
     For nn=0 To maxFrame
-        If butPic2(n, nn) <> 0 Then FreeImage butPic2(n, nn):butPic2(n, nn)=0
+        If stanceButPic(n, nn) <> 0 Then FreeImage stanceButPic(n, nn):stanceButPic(n, nn)=0
+        If stanceButPic2(n, nn) <> 0 Then FreeImage stanceButPic2(n, nn):stanceButPic2(n, nn)=0
     Next
 Next
 
@@ -6263,8 +6265,11 @@ Function setScaleFactorPerChar()
         imgScaleFactor#(i)=1
     Next
     
+    imgScaleFactor#(11)=0.882
+    imgScaleFactor#(12)=0.77
+    imgScaleFactor#(13)=0.77
     imgScaleFactor#(14)=0.75
-    imgScaleFactor#(15)=0.65
+    imgScaleFactor#(15)=0.646
     imgScaleFactor#(16)=0.80
 End Function
 
@@ -6273,13 +6278,22 @@ For n=1 To maxCharAmt
     initStance(n)
     If zStanceFrames(n)>0 Then
         For m=1 To zStanceFrames(n)
-            If butPic2(n, m)=0 Then
-                butPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance" + m + ".bmp")
-                If imgScaleFactor#(n) <> 1 Then ScaleImage butPic2(n, m),imgScaleFactor#(n),imgScaleFactor#(n)
+            If stanceButPic(n, m)=0 Then
+                stanceButPic(n, m)=LoadImage("gfx\" + n + "\stance\zStance_a" + m + ".bmp")
+                If imgScaleFactor#(n) <> 1 Then ScaleImage stanceButPic(n, m),imgScaleFactor#(n),imgScaleFactor#(n)
             End If
         Next
     Else
-        If butPic2(n, 1)=0 Then butPic2(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
+        If stanceButPic(n, 1)=0 Then stanceButPic(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
+    End If
+    
+    If zStance2Frames(n)>0 Then
+        For m=1 To zStance2Frames(n)
+            If stanceButPic2(n, m)=0 Then
+                stanceButPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance_b" + m + ".bmp")
+                If imgScaleFactor#(n) <> 1 Then ScaleImage stanceButPic2(n, m),imgScaleFactor#(n),imgScaleFactor#(n)
+            End If
+        Next
     End If
 Next
 End Function

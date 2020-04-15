@@ -276,7 +276,7 @@ Case 11: ;Wolverine
     zJumpSnd2(n)=wolverinejumpsnd
     zWalkFrames(n)=16
     zWalkFrameSpeed#(n)=3
-    zStanceFrames(n)=17
+    zStanceFrames(n)=18
     zStanceSpeed(n)=3
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
@@ -409,6 +409,7 @@ Case 15: ;Juggernaut
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
     zStanceFrames(n)=8
+    zStance2Frames(n)=9
     zStanceSpeed(n)=6
     zWalkFrames(n)=16
     zWalkFrameSpeed#(n)=4
@@ -2588,8 +2589,10 @@ For i = 1 To 40
 Next
 
 For i = 1 To 35
-    zpic(n,19,i)=LoadImage(gfxdir$ + "stance\zstance" + i + ".bmp")
-    zpic_(n,19,i)=LoadImage(gfxdir$ + "stance\zstance" + i + "_.bmp")
+    zpic(n,19,i)=LoadImage(gfxdir$ + "stance\zStance_a" + i + ".bmp")
+    zpic_(n,19,i)=LoadImage(gfxdir$ + "stance\zStance_a" + i + "_.bmp")
+    zpic(n,27,i)=LoadImage(gfxdir$ + "stance\zStance_b" + i + ".bmp")
+    zpic_(n,27,i)=LoadImage(gfxdir$ + "stance\zStance_b" + i + "_.bmp")
 Next
 
 For i = 1 To 20
@@ -3119,6 +3122,7 @@ End Function
 Function initStance(n)
     zStanceFrames(n)=0
     zStanceSpeed(n)=0
+    stanceMode(n)=1
     
     select(n)
     Case 1  ; Evil Ryu
@@ -3127,7 +3131,7 @@ Function initStance(n)
         zStanceFrames(n)=20
         zStanceSpeed(n)=3
     case 11 ; Wolverine
-        zStanceFrames(n)=17
+        zStanceFrames(n)=18
         zStanceSpeed(n)=3
     case 12 ; Scorpion
         zStanceFrames(n)=9
@@ -3140,6 +3144,7 @@ Function initStance(n)
         zStanceSpeed(n)=6
     Case 15 ; Juggernaut
         zStanceFrames(n)=8
+        zStance2Frames(n)=9
         zStanceSpeed(n)=6
     Case 16 ; Piccolo
         zStanceFrames(n)=7

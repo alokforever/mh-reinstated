@@ -108,7 +108,7 @@ Function drawWalkSequence(n)
                 If zFace(n)=4 Then x=zx(n)+5
                 zF(n)=getEvilRyuStance(n, x, zy(n)-10)
             Else
-                drawStanceFrame(n)
+                If stanceMode(n)=1 Then drawStanceFrame(n)
             End If
             Return
         Else
@@ -313,15 +313,24 @@ End Function
 
 ;----------- Draw Stance Sequence --------------
 Function drawStanceFrame(n)
+    Local frameCount
+    If stanceMode(n)=1 Then
+        frameCount=zStanceFrames(n)
+        zani(n)=19
+    Else
+        frameCount=zStance2Frames(n)
+        zani(n)=27
+    End If
+
     If zStanceSeq(n) < zStanceSpeed(n) Then 
         zStanceSeq(n) = zStanceSpeed(n)
     Else
         zStanceSeq(n) = zStanceSeq(n) + 1
     End If
-    For frame=zStanceFrames(n) To 1 Step -1
+    For frame=frameCount To 1 Step -1
         If (zStanceSeq(n) / zStanceSpeed(n)) Mod frame = 0 Then
-            zani(n)=19:zf(n)=frame
-            If zStanceSeq(n)-1 > zStanceFrames(n)*zStanceSpeed(n) Then zStanceSeq(n) = zStanceSpeed(n)-1
+            zf(n)=frame
+            If zStanceSeq(n)-1 > frameCount*zStanceSpeed(n) Then zStanceSeq(n) = zStanceSpeed(n)-1
             Return
         EndIf
     Next
