@@ -108,7 +108,7 @@ Function drawWalkSequence(n)
                 If zFace(n)=4 Then x=zx(n)+5
                 zF(n)=getEvilRyuStance(n, x, zy(n)-10)
             Else
-                If stanceMode(n)=1 Then drawStanceFrame(n)
+                drawStanceFrame(n)
             End If
             Return
         Else

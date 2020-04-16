@@ -411,7 +411,7 @@ Case 15: ;Juggernaut
     zStanceFrames(n)=8
     zStance2Frames(n)=9
     zStanceSpeed(n)=6
-    zWalkFrames(n)=16
+    zWalkFrames(n)=15
     zWalkFrameSpeed#(n)=4
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4

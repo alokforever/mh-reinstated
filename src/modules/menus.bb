@@ -628,6 +628,9 @@ pointers
 
 For n=1 To ButtonAmount
     If clickedBut(n) Then
+        If n <= mainCharAmt Then
+            stanceMode(clickedBy(n))=1
+        End If
         Select n    ;Add character, add CASE 11 for your new guy, set curGuy(clickedBy(n)=11 in the new line
 
         Case 1:
@@ -835,13 +838,12 @@ For n=1 To ButtonAmount
         If gamesound And butOn(n)=1 Then PlaySound clicksnd
     EndIf
 
-    If rightClickedBut(n)
-
-    Select n
-    Case 15
-        If characterOpen(n)=1 Then stanceMode(rightClickedBy(n))=2
-    End Select
-
+    If rightClickedBut(n) Then
+        stanceMode(rightClickedBy(n))=1
+        Select n
+        Case 15
+            If characterOpen(n)=1 Then curGuy(rightClickedBy(n))=15:stanceMode(rightClickedBy(n))=2
+        End Select
     End If
 
 Next
@@ -917,11 +919,17 @@ For b = 1 To mainCharAmt ;characters to select
         Local xOffset=10, yOffset=90
         If b=6 Then
             xOffset=-8
-        Else If b = 11 Or b = 14 Then
-            xOffset=5
+        Else If b = 11
+            xOffset=1
+        Else If b = 12
+            xOffset=14
+        Else If b = 13
+            xOffset=16
+        Else If b = 14
+            xOffset=8
         Else If b=15
             xOffset=-8
-            yOffset=95
+            yOffset=93
         EndIf
 
         If stanceMode(n)=1 Then
@@ -930,7 +938,6 @@ For b = 1 To mainCharAmt ;characters to select
             DrawImage stanceButPic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic2(b, 1)) ) + yOffset
         End If
     Else
-        DebugLog "b: " + b
         DrawImage lock,xbut(b)+16, ybut(b)+24
     EndIf
     .skipButtonRender
