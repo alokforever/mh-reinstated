@@ -2,7 +2,7 @@
 ;load mods
 Function setModDirs()
 
-; Define what folder to start with ...
+; Define what folder to start with
 folder$ = mapsBaseDir$
 
 ; Open up the directory, and assign the handle to myDir
@@ -665,7 +665,11 @@ For n=1 To ButtonAmount
             If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
         Case 16
             If characterOpen(n)=1 Then curGuy(clickedBy(n))=16:zThumbNail(clickedBy(n))=butpic(n)
-            
+        Case 17
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=17:zThumbNail(clickedBy(n))=butpic(n)
+        Case 18
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=18:zThumbNail(clickedBy(n))=butpic(n)
+        
         Case 50 ;Select game mode on vs
             gamemode=gamemode+1
             If gamemode >4 Then gamemode=1
@@ -930,6 +934,12 @@ For b = 1 To mainCharAmt ;characters to select
         Else If b=15
             xOffset=-8
             yOffset=93
+        Else If b=16
+            xOffset=13
+        Else If b=17
+            xOffset=1
+        Else If b=18
+            xOffset=-14
         EndIf
 
         If stanceMode(n)=1 Then
@@ -1022,6 +1032,8 @@ For b=55 To 58  ;team, selected player
     xOffset=38
     If curGuy(n)=6 Then xOffset=16
     If curGuy(n)=15 Then xOffset=32
+    If curGuy(n)=17 Then xOffset=31
+    If curGuy(n)=18 Then xOffset=12
     If CurGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then
         If stanceMode(n)=1 Then
             If stanceButPic(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1

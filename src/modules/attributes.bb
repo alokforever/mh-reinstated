@@ -460,6 +460,75 @@ Case 16: ;Piccolo
     zGrabDist(n)=zGrabDist(n)+15
     maxHitSeq(n)=35
     
+Case 17: ;Hulk
+    zBlowDist(n,1)=45
+    zBlowDist(n,2)=50
+    zBlowDist(n,4)=64
+    zBlowDist(n,5)=48
+    zBlowDist(n,7)=250
+    zBlowDist(n,9)=400    :dangerMove9(n)=1
+    zBlowDist(n,10)=40
+    zBlowDist(n,11)=150
+    zBlowDist(n,14)=600
+    zBlowDist(n,16)=370
+    zGrabDist(n)=zGrabDist(n)+15
+    zSide(n)=16
+    zheight(n)=90
+    zUpHeight(n)=90
+    zRollOnImpact(n)=1
+    zJumpSnd(n)=juggJumpSnd
+    zJumpSnd2(n)=wolverinejumpsnd
+    zStanceFrames(n)=8
+    zStance2Frames(n)=9
+    zStanceSpeed(n)=6
+    zWalkFrames(n)=15
+    zWalkFrameSpeed#(n)=4
+    zRunFrames(n)=6
+    zRunFrameSpeed#(n)=4
+    zRunSpeed#(n)=4.8
+    dizzyFrames(n)=8
+    dizzyFrameSpeed(n)=7
+    gender(n)=maleVal
+    zRunFootSoundSeq(n)=18
+    zWalkQuakeSeq1(n)=2
+    zWalkQuakeSeq2(n)=10
+    isHeavy(n)=1
+    hasSpecialAirFrames(n)=1
+    
+Case 18: ;Thor
+    zBlowDist(n,1)=45
+    zBlowDist(n,2)=50
+    zBlowDist(n,4)=64
+    zBlowDist(n,5)=48
+    zBlowDist(n,7)=250
+    zBlowDist(n,9)=400    :dangerMove9(n)=1
+    zBlowDist(n,10)=40
+    zBlowDist(n,11)=150
+    zBlowDist(n,14)=600
+    zBlowDist(n,16)=370
+    zGrabDist(n)=zGrabDist(n)+15
+    zSide(n)=16
+    zheight(n)=90
+    zUpHeight(n)=90
+    zRollOnImpact(n)=1
+    zJumpSnd(n)=juggJumpSnd
+    zJumpSnd2(n)=wolverinejumpsnd
+    zStanceFrames(n)=8
+    zStanceSpeed(n)=8
+    zWalkFrames(n)=15
+    zWalkFrameSpeed#(n)=4
+    zRunFrames(n)=6
+    zRunFrameSpeed#(n)=4
+    zRunSpeed#(n)=4.8
+    dizzyFrames(n)=8
+    dizzyFrameSpeed(n)=7
+    gender(n)=maleVal
+    zRunFootSoundSeq(n)=18
+    zWalkQuakeSeq1(n)=2
+    zWalkQuakeSeq2(n)=10
+    isHeavy(n)=1
+    hasSpecialAirFrames(n)=1
+    
 Case 30: ;Pig
     zBlowDist(n,1)=64
     zBlowDist(n,2)=60
@@ -3148,6 +3217,12 @@ Function initStance(n)
         zStanceSpeed(n)=6
     Case 16 ; Piccolo
         zStanceFrames(n)=7
+        zStanceSpeed(n)=8
+    Case 17 ; Hulk
+        zStanceFrames(n)=8
+        zStanceSpeed(n)=6
+    Case 18 ; Thor
+        zStanceFrames(n)=8
         zStanceSpeed(n)=8
     Case 40 ; Turtle
         zStanceFrames(n)=16

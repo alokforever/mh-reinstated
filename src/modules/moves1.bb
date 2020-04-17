@@ -6,6 +6,8 @@ Include "src\char\juggernaut.bb"
 Include "src\char\piccolo.bb"
 Include "src\char\hiryu.bb"
 Include "src\char\evilryu.bb"
+Include "src\char\hulk.bb"
+Include "src\char\thor.bb"
 
 Function DoRyu(n)
 
@@ -16,7 +18,7 @@ zBlowEffect(n)=0
         If zBlowStillSeq(n) > zBlowStillTime(n) Then zBlowStill(n)=0
         Goto noBlowSeq1
     EndIf
-zBlowSeq(n)=zBlowSeq(n)+1:
+zBlowSeq(n)=zBlowSeq(n)+1
 .noBlowSeq1
 zCHunkType(n)=10
 

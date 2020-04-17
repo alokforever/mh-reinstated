@@ -222,7 +222,14 @@ Global gamePaused,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxSco
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=3248,lScrLimit=-760,uScrLimit=-50000,dScrLimit=1252, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global mainCharAmt=16    ;Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global mainCharAmt=18    ;1. Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+                         ;2. Add the character in displayCharMenu() in menus.bb
+                         ;3. Add Include "src\char\characterName.bb" in moves1.bb where characterName is the name of your new character
+                         ;4. Create the file for your created character (for example "thor.bb") and place it in "src\char\"
+                         ;5. Search the keyword "Case 1:DoEvilRyu(n)" in this file and place your new case. For example "DoThor(n).bb"
+                         ;6. Add your function (for example DoThor(n)) in the file you created in #4. Refer to existing functions on how to define your new function.
+                         ;7. Add your new character in "Function initZ(n)" in file attributes.bb
+                         ;8. Add your new character in "Function initStance(n)" in file attributes.bb
 Global menuOption, duringGameMenu
 
 ;zeto's variables
@@ -1046,6 +1053,8 @@ For n=1 To zzamount
             Case 14:DoWonderWoman(n)
             Case 15:DoJuggernaut(n)
             Case 16:DoPiccolo(n)
+            Case 17:DoHulk(n)
+            Case 18:DoThor(n)
             Case 30:DoPig(n)
             Case 31:DoAlien(n)
             Case 32:DoFootClan(n)
@@ -6265,12 +6274,14 @@ Function setScaleFactorPerChar()
         imgScaleFactor#(i)=1
     Next
     
-    imgScaleFactor#(11)=0.882
+    imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
     imgScaleFactor#(13)=0.77
     imgScaleFactor#(14)=0.75
     imgScaleFactor#(15)=0.646
-    imgScaleFactor#(16)=0.80
+    imgScaleFactor#(16)=0.76
+    imgScaleFactor#(17)=0.70
+    imgScaleFactor#(18)=0.61
 End Function
 
 Function initCharSelect()
