@@ -849,8 +849,10 @@ For n=1 To ButtonAmount
     If rightClickedBut(n) Then
         stanceMode(rightClickedBy(n))=1
         Select n
+        Case 1
+            If characterOpen(n)=1 Then curGuy(rightClickedBy(n))=n:stanceMode(rightClickedBy(n))=2
         Case 15
-            If characterOpen(n)=1 Then curGuy(rightClickedBy(n))=15:stanceMode(rightClickedBy(n))=2
+            If characterOpen(n)=1 Then curGuy(rightClickedBy(n))=n:stanceMode(rightClickedBy(n))=2
         End Select
     End If
 
@@ -988,7 +990,7 @@ For b=55 To 58  ;team, selected player
     n=n+1
     If curGuy(n)<=maxCharAmt Then
         If zStanceFrames(curGuy(n))>0 And zOn(n)=1 Then
-            butFrame=getCurStanceFrame(n)
+            butFrame=getCurStanceFrame(n, b)
         Else
             butFrame=1
         End If
@@ -1008,6 +1010,7 @@ For b=55 To 58  ;team, selected player
         EndIf
     EndIf
     xOffset=38
+    If curGuy(n)=1 Then xOffset=30
     If curGuy(n)=6 Then xOffset=16
     If curGuy(n)=15 Then xOffset=32
     If curGuy(n)=17 Then xOffset=31
@@ -1016,10 +1019,10 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=20 Then xOffset=40
     If curGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then
         If stanceMode(n)=1 Then
-            If stanceButPic(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
+            If stanceButPic(curGuy(n), butFrame)=0 Then butFrame=1
             DrawImage stanceButPic(curGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic(curGuy(n), butFrame))
         Else
-            If stanceButPic2(curGuy(n), butFrame)=0 Then zStance2Frames(curGuy(n))=0:butFrame=1
+            If stanceButPic2(curGuy(n), butFrame)=0 Then butFrame=1
             DrawImage stanceButPic2(curGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic2(curGuy(n), butFrame))
         End If
     End If
@@ -2223,29 +2226,30 @@ End Function
 
 Function getButPicXOffset(b)
     xOffset=10
-    If b=6 Then
+    Select b
+    Case 6
         xOffset=-8
-    Else If b = 11
+    Case 11
         xOffset=4
-    Else If b = 12
+    Case 12
         xOffset=14
-    Else If b = 13
+    Case 13
         xOffset=16
-    Else If b = 14
+    Case 14
         xOffset=8
-    Else If b=15
+    Case 15
         xOffset=-8
-    Else If b=16
+    Case 16
         xOffset=13
-    Else If b=17
+    Case 17
         xOffset=1
-    Else If b=18
+    Case 18
         xOffset=-14
-    Else If b=19
+    Case 19
         xOffset=-11
-    Else If b=20
+    Case 20
         xOffset=13
-    EndIf
+    End Select
 
     return xOffset
 End Function
@@ -2259,10 +2263,10 @@ Function getButPicYOffset(b)
     return yOffset
 End Function
 
-Function getCurStanceFrame(n)
+Function getCurStanceFrame(n, b)
     Local butFrame
     If curGuy(n)=1 Then
-        menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+72, 536)
+        menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+55, 536)
     Else If curGuy(n)=19 Then
         menuStanceFrame(n)=getLeiLeiStance(n)
     Else If curGuy(n)=20 Then

@@ -554,9 +554,7 @@ For n=1 To zzamount
 Next
 HidePointer
 
-menuTheme(0)=LoadSound(soundsdir$ + "music10.mp3")
-menuTheme(1)=LoadSound(soundsdir$ + "music15.mp3")
-music=menuTheme(menuThemeIdx)
+loadMenuTheme()
 
 initCharSelect()
 cls
@@ -582,6 +580,7 @@ Else
     Next
     freeMap()
     If menuOption <> charSelectVal Or scoreDone=1 Then
+        loadMenuTheme()
         changeMusic(music)
     EndIf
 EndIf
@@ -6274,6 +6273,7 @@ Function setScaleFactorPerChar()
         imgScaleFactor#(i)=1
     Next
     
+    imgScaleFactor#(1)=0.82
     imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
     imgScaleFactor#(13)=0.77
@@ -6734,4 +6734,10 @@ Function setAppTitle()
     timerStr$ = " (" + getTimeTaken$(mapTimeLapse) + " / "
     timerStr$ = timerStr$ + getTimeTaken$(bestMapTime(actualCurMap)) + ")"
     AppTitle "Multihero" + timerStr$
+End Function
+
+Function loadMenuTheme()
+    menuTheme(0)=LoadSound(soundsdir$ + "music10.mp3")
+    menuTheme(1)=LoadSound(soundsdir$ + "music15.mp3")
+    music=menuTheme(menuThemeIdx)
 End Function

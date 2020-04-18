@@ -2735,7 +2735,6 @@ Next
 For j=0 To 50
     For i=0 To maxPicFrames
         If zpic(n,j,i) <> 0 And imgScaleFactor#(n) <> 0 And imgScaleFactor#(n) <> 1 Then
-            DebugLog "n: " + n + " ,zani: " + j + ", zf: " + i
             ScaleImage zpic(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
             ScaleImage zpic_(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
         End If
@@ -3235,6 +3234,7 @@ Function initStance(n)
     select(n)
     Case 1  ; Evil Ryu
         zStanceFrames(n)=34
+        zStance2Frames(n)=10
     Case 6  ; Strider Hiryu
         zStanceFrames(n)=20
         zStanceSpeed(n)=3

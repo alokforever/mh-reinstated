@@ -19,7 +19,7 @@ character-specific:
 5. Frozen sprites resize (stuff folder)
 
 Sprite resize offset (by percentage):
-Evil Ryu - 55
+Evil Ryu - 82
 Strider Hiryu - 54
 Wolverine - 88.2
 Scorpion - 77.0
@@ -42,6 +42,7 @@ Re-sized parts:
 127
 128
 129
+130
 
 Re-sized shots:
 72 to 77
