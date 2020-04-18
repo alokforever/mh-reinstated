@@ -8,6 +8,8 @@ Include "src\char\hiryu.bb"
 Include "src\char\evilryu.bb"
 Include "src\char\hulk.bb"
 Include "src\char\thor.bb"
+Include "src\char\leilei.bb"
+Include "src\char\kenshiro.bb"
 
 Function DoRyu(n)
 

@@ -101,18 +101,24 @@ End Function
 ;------------ Draw Walk Sequence ----------------
 Function drawWalkSequence(n)
     If zwalkseq(n) = 0 Then 
-        If zStanceFrames(n) <> 0 Then 
-            If curGuy(n)=1 Then
-                zani(n)=19
+        zani(n)=19
+        If zStanceFrames(curGuy(n)) <> 0 Then
+            Select curGuy(n)
+            Case 1
                 If zFace(n)=2 Then x=zx(n)-5
                 If zFace(n)=4 Then x=zx(n)+5
                 zF(n)=getEvilRyuStance(n, x, zy(n)-10)
-            Else
+            Case 19
+                zF(n)=getLeiLeiStance(n)
+            Case 20
+                zF(n)=getKenshiroStance(n)
+            Default
                 drawStanceFrame(n)
-            End If
+            End Select
             Return
         Else
-            zani(n)=1:zf(n)=0
+            zani(n)=1
+            zf(n)=0
         EndIf
         Return
     EndIf
@@ -311,26 +317,111 @@ Function getEvilRyuStance(n, x, y)
     Return frame
 End Function
 
+Function getLeiLeiStance(n)
+    Local frame=1
+    seq1=7:seq2=seq1+6:seq3=seq2+4:seq4=seq3+4:seq5=seq4+4:seq6=seq5+4
+    seq7=seq6+4:seq8=seq7+4:seq9=seq8+4:seq10=seq9+4:seq11=seq10+4
+    seq12=seq11+2:seq13=seq12+4:seq14=seq13+4:seq15=seq14+4:seq16=seq15+4
+    seq17=seq16+4:seq18=seq17+4:seq19=seq18+5:seq20=seq19+5:seq21=seq20+5
+    seq22=seq21+4:seq23=seq22+4:seq24=seq23+4:seq25=seq24+4:seq26=seq25+4
+    seq27=seq26+4:seq28=seq27+6:seq29=seq28+6:seq30=seq29+5
+    
+    zStanceSeq(n)=zStanceSeq(n)+1
+;======== Animation =========
+    If zStanceSeq(n)>0 And zStanceSeq(n)<=seq1 Then frame=1
+    If zStanceSeq(n)>seq1 And zStanceSeq(n)<=seq2 Then frame=2
+    If zStanceSeq(n)>seq2 And zStanceSeq(n)<=seq3 Then frame=3
+    If zStanceSeq(n)>seq3 And zStanceSeq(n)<=seq4 Then frame=4
+    If zStanceSeq(n)>seq4 And zStanceSeq(n)<=seq5 Then frame=5
+    If zStanceSeq(n)>seq5 And zStanceSeq(n)<=seq6 Then frame=6
+    If zStanceSeq(n)>seq6 And zStanceSeq(n)<=seq7 Then frame=7
+    If zStanceSeq(n)>seq7 And zStanceSeq(n)<=seq8 Then frame=8
+    If zStanceSeq(n)>seq8 And zStanceSeq(n)<=seq9 Then frame=9
+    If zStanceSeq(n)>seq9 And zStanceSeq(n)<=seq10 Then frame=10
+    If zStanceSeq(n)>seq10 And zStanceSeq(n)<=seq11 Then frame=11
+    If zStanceSeq(n)>seq11 And zStanceSeq(n)<=seq12 Then frame=12
+    If zStanceSeq(n)>seq12 And zStanceSeq(n)<=seq13 Then frame=13
+    If zStanceSeq(n)>seq13 And zStanceSeq(n)<=seq14 Then frame=12
+    If zStanceSeq(n)>seq14 And zStanceSeq(n)<=seq15 Then frame=13
+    If zStanceSeq(n)>seq15 And zStanceSeq(n)<=seq16 Then frame=12
+    If zStanceSeq(n)>seq16 And zStanceSeq(n)<=seq17 Then frame=13
+    If zStanceSeq(n)>seq17 And zStanceSeq(n)<=seq18 Then frame=12
+    If zStanceSeq(n)>seq18 And zStanceSeq(n)<=seq19 Then frame=13
+    If zStanceSeq(n)>seq19 And zStanceSeq(n)<=seq20 Then frame=10
+    If zStanceSeq(n)>seq20 And zStanceSeq(n)<=seq21 Then frame=9
+    If zStanceSeq(n)>seq21 And zStanceSeq(n)<=seq22 Then frame=8
+    If zStanceSeq(n)>seq22 And zStanceSeq(n)<=seq23 Then frame=7
+    If zStanceSeq(n)>seq23 And zStanceSeq(n)<=seq24 Then frame=6
+    If zStanceSeq(n)>seq24 And zStanceSeq(n)<=seq25 Then frame=5
+    If zStanceSeq(n)>seq25 And zStanceSeq(n)<=seq26 Then frame=4
+    If zStanceSeq(n)>seq26 And zStanceSeq(n)<=seq27 Then frame=3
+    If zStanceSeq(n)>seq27 And zStanceSeq(n)<=seq28 Then frame=2
+    If zStanceSeq(n)>seq28 And zStanceSeq(n)<=seq29 Then frame=1
+    If zStanceSeq(n)>seq29 And zStanceSeq(n)<=seq30 Then frame=2
+    
+    If zStanceSeq(n) > seq30 Then zStanceSeq(n)=0
+    
+    Return frame
+End Function
+
+Function getKenshiroStance(n)
+    Local frame=1
+    seq1=5:seq2=seq1+5:seq3=seq2+5:seq4=seq3+9:seq5=seq4+5:seq6=seq5+5
+    seq7=seq6+5:seq8=seq7+5:seq9=seq8+5:seq10=seq9+5:seq11=seq10+5
+    seq12=seq11+9:seq13=seq12+5:seq14=seq13+5:seq15=seq14+5:seq16=seq15+5
+    seq17=seq16+5:seq18=seq17+5:seq19=seq18+5:seq20=seq19+5:seq21=seq20+5
+    seq22=seq21+5
+    
+    zStanceSeq(n)=zStanceSeq(n)+1
+;======== Animation =========
+    If zStanceSeq(n)>0 And zStanceSeq(n)<=seq1 Then frame=1
+    If zStanceSeq(n)>seq1 And zStanceSeq(n)<=seq2 Then frame=2
+    If zStanceSeq(n)>seq2 And zStanceSeq(n)<=seq3 Then frame=3
+    If zStanceSeq(n)>seq3 And zStanceSeq(n)<=seq4 Then frame=4
+    If zStanceSeq(n)>seq4 And zStanceSeq(n)<=seq5 Then frame=3
+    If zStanceSeq(n)>seq5 And zStanceSeq(n)<=seq6 Then frame=2
+    If zStanceSeq(n)>seq6 And zStanceSeq(n)<=seq7 Then frame=5
+    If zStanceSeq(n)>seq7 And zStanceSeq(n)<=seq8 Then frame=6
+    If zStanceSeq(n)>seq8 And zStanceSeq(n)<=seq9 Then frame=5
+    If zStanceSeq(n)>seq9 And zStanceSeq(n)<=seq10 Then frame=7
+    If zStanceSeq(n)>seq10 And zStanceSeq(n)<=seq11 Then frame=8
+    If zStanceSeq(n)>seq11 And zStanceSeq(n)<=seq12 Then frame=9
+    If zStanceSeq(n)>seq12 And zStanceSeq(n)<=seq13 Then frame=8
+    If zStanceSeq(n)>seq13 And zStanceSeq(n)<=seq14 Then frame=7
+    If zStanceSeq(n)>seq14 And zStanceSeq(n)<=seq15 Then frame=5
+    If zStanceSeq(n)>seq15 And zStanceSeq(n)<=seq16 Then frame=6
+    If zStanceSeq(n)>seq16 And zStanceSeq(n)<=seq17 Then frame=5
+    If zStanceSeq(n)>seq17 And zStanceSeq(n)<=seq18 Then frame=2
+    If zStanceSeq(n)>seq18 And zStanceSeq(n)<=seq19 Then frame=3
+    If zStanceSeq(n)>seq19 And zStanceSeq(n)<=seq20 Then frame=4
+    If zStanceSeq(n)>seq20 And zStanceSeq(n)<=seq21 Then frame=3
+    If zStanceSeq(n)>seq21 And zStanceSeq(n)<=seq22 Then frame=2
+    
+    If zStanceSeq(n) > seq22 Then zStanceSeq(n)=0
+    
+    Return frame
+End Function
+
 ;----------- Draw Stance Sequence --------------
 Function drawStanceFrame(n)
     Local frameCount
     If stanceMode(n)=1 Then
-        frameCount=zStanceFrames(n)
+        frameCount=zStanceFrames(curGuy(n))
         zani(n)=19
     Else
-        frameCount=zStance2Frames(n)
+        frameCount=zStance2Frames(curGuy(n))
         zani(n)=27
     End If
 
-    If zStanceSeq(n) < zStanceSpeed(n) Then 
-        zStanceSeq(n) = zStanceSpeed(n)
+    If zStanceSeq(n) < zStanceSpeed(curGuy(n)) Then 
+        zStanceSeq(n) = zStanceSpeed(curGuy(n))
     Else
         zStanceSeq(n) = zStanceSeq(n) + 1
     End If
     For frame=frameCount To 1 Step -1
-        If (zStanceSeq(n) / zStanceSpeed(n)) Mod frame = 0 Then
+        If (zStanceSeq(n) / zStanceSpeed(curGuy(n))) Mod frame = 0 Then
             zf(n)=frame
-            If zStanceSeq(n)-1 > frameCount*zStanceSpeed(n) Then zStanceSeq(n) = zStanceSpeed(n)-1
+            If zStanceSeq(n)-1 > frameCount*zStanceSpeed(curGuy(n)) Then zStanceSeq(n) = zStanceSpeed(curGuy(n))-1
             Return
         EndIf
     Next

@@ -634,41 +634,45 @@ For n=1 To ButtonAmount
         Select n    ;Add character, add CASE 11 for your new guy, set curGuy(clickedBy(n)=11 in the new line
 
         Case 1:
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=1:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 2
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=2:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 3
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=3:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 4
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=4:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 5
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=5:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 6
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=6:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 7
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=7:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 8
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=8:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 9
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=9:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 10
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=10:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 11
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=11:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 12
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=12:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 13
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=13:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 14
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=14:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 15
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=15:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 16
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=16:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 17
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=17:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         Case 18
-            If characterOpen(n)=1 Then curGuy(clickedBy(n))=18:zThumbNail(clickedBy(n))=butpic(n)
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
+        Case 19
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
+        Case 20
+            If characterOpen(n)=1 Then curGuy(clickedBy(n))=n:zThumbNail(clickedBy(n))=butpic(n)
         
         Case 50 ;Select game mode on vs
             gamemode=gamemode+1
@@ -920,27 +924,8 @@ For b = 1 To mainCharAmt ;characters to select
     ;Color 100,100,100:Rect xbut(b),ybut(b),wbut(b),hBut(b),1
     ;Color 200,200,200:Rect xbut(b),ybut(b),wbut(b),hBut(b),0
     If characterOpen(b)=1 Then
-        Local xOffset=10, yOffset=90
-        If b=6 Then
-            xOffset=-8
-        Else If b = 11
-            xOffset=1
-        Else If b = 12
-            xOffset=14
-        Else If b = 13
-            xOffset=16
-        Else If b = 14
-            xOffset=8
-        Else If b=15
-            xOffset=-8
-            yOffset=93
-        Else If b=16
-            xOffset=13
-        Else If b=17
-            xOffset=1
-        Else If b=18
-            xOffset=-14
-        EndIf
+        Local xOffset=getButPicXOffset(b)
+        Local yOffset=getButPicYOffset(b)
 
         If stanceMode(n)=1 Then
             DrawImage stanceButPic(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic(b, 1)) ) + yOffset
@@ -1003,14 +988,7 @@ For b=55 To 58  ;team, selected player
     n=n+1
     If curGuy(n)<=maxCharAmt Then
         If zStanceFrames(curGuy(n))>0 And zOn(n)=1 Then
-            If curGuy(n)=1 Then
-                menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+72, 536)
-            Else
-                setStanceFrame(n)
-            End If
-            If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1:zStanceSeq(n)=0
-            butFrame=menuStanceFrame(n)
-            If butFrame=0 Then butFrame=1
+            butFrame=getCurStanceFrame(n)
         Else
             butFrame=1
         End If
@@ -1034,13 +1012,15 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=15 Then xOffset=32
     If curGuy(n)=17 Then xOffset=31
     If curGuy(n)=18 Then xOffset=12
-    If CurGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then
+    If curGuy(n)=19 Then xOffset=34
+    If curGuy(n)=20 Then xOffset=40
+    If curGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then
         If stanceMode(n)=1 Then
             If stanceButPic(curGuy(n), butFrame)=0 Then zStanceFrames(curGuy(n))=0:butFrame=1
-            DrawImage stanceButPic(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic(curGuy(n), butFrame))
+            DrawImage stanceButPic(curGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic(curGuy(n), butFrame))
         Else
             If stanceButPic2(curGuy(n), butFrame)=0 Then zStance2Frames(curGuy(n))=0:butFrame=1
-            DrawImage stanceButPic2(CurGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic2(curGuy(n), butFrame))
+            DrawImage stanceButPic2(curGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic2(curGuy(n), butFrame))
         End If
     End If
 Next
@@ -1219,8 +1199,11 @@ If clickedBut(n) Then
     Case 6:If curIdiom=1 Then curIdiom=2 Else curIdiom=1
         idioms(curIdiom)
     Case 7:
-        If showTutorial=1 Then showTutorial=0 Else showTutorial=1
+        If menuThemeIdx=1 Then menuThemeIdx=0 Else menuThemeIdx=1
+        If gamestart <> 1 Then changeMusic(menuTheme(menuThemeIdx))
     Case 8:
+        If showTutorial=1 Then showTutorial=0 Else showTutorial=1
+    Case 9:
         If duringGameMenu=1 Then menuOption=5 Else menuOption=2
   End Select
     If gamesound Then PlaySound ddhitsnd
@@ -1229,10 +1212,10 @@ Next
 
 ;----------Buttons attributes--------------------------
 x=0 : y=0
-buttonAmount = 8
+buttonAmount = 9
 For b= 1 To buttonAmount
-    If b=8 Then y=y+80
-    xBut(b)=288+x:yBut(b)=260+y:wBut(b)=464:hBut(b)=35
+    If b=9 Then y=y+80
+    xBut(b)=240+x:yBut(b)=260+y:wBut(b)=464:hBut(b)=35
     y=y+48
 Next
 
@@ -1242,8 +1225,9 @@ butText$(3)=strInfo$(45)
 butText$(4)=strInfo$(46)
 butText$(5)=strInfo$(49)
 butText$(6)=strInfo$(16)
-butText$(7)=strInfo$(98)
-butText$(8)=strInfo$(48)
+butText$(7)=strInfo$(100)
+butText$(8)=strInfo$(98)
+butText$(9)=strInfo$(48)
 
 ;-----Rendering menu --------------------------------
 fontType=1
@@ -1277,12 +1261,18 @@ Else
     pri xBut(4)+o, yBut(4), strInfo$(42)
 EndIf
 
-pri xBut(6)+o, yBut(6), strInfo$(47)
+pri xBut(6)+o, yBut(6), strInfo$(47) ;ENGLISH/PORTUGUES
+
+If menuThemeIdx=1 Then
+    pri xBut(7)+o, yBut(7), "2"
+Else
+    pri xBut(7)+o, yBut(7), "1"
+End If
 
 If showTutorial=1 Then
-    pri xBut(7)+o, yBut(7), strInfo$(41)
+    pri xBut(8)+o, yBut(8), strInfo$(41)
 Else
-    pri xBut(7)+o, yBut(7), strInfo$(42)
+    pri xBut(8)+o, yBut(8), strInfo$(42)
 End If
 
 For n=1 To 4
@@ -1475,6 +1465,7 @@ strInfo$(97)="items: off"
 
 strInfo$(98)="tutorials"
 strInfo$(99)="records"
+strInfo$(100)="menu theme: "
 
 Case 2
 strInfo$(1)="INICIAR JOGO!"
@@ -1579,6 +1570,7 @@ strInfo$(97)="itens: N?O"
 
 strInfo$(98)="tutoriais"
 strInfo$(99)="registro"
+strInfo$(100)="tema do menu"
 
 End Select
 
@@ -1959,6 +1951,7 @@ videoColorDepth = ReadInt (file)
 gameSound = ReadInt (file)
 gameMusic = ReadInt (file)
 curIdiom = ReadInt (file)
+menuThemeIdx = ReadInt (file)
 showTutorial = ReadInt (file)
 curModId = ReadInt (file)
 
@@ -1977,6 +1970,7 @@ WriteInt file, videoColorDepth
 WriteInt file, gameSound
 WriteInt file, gameMusic
 WriteInt file, curIdiom
+WriteInt file, menuThemeIdx
 WriteInt file, showTutorial
 WriteInt file, curModId        ;Current MOD id
 
@@ -2225,4 +2219,60 @@ Function getTimeTaken$(totalMilliSecs)
     timeTaken$ = timeTaken$ + milliSecs
     
     return timeTaken$
+End Function
+
+Function getButPicXOffset(b)
+    xOffset=10
+    If b=6 Then
+        xOffset=-8
+    Else If b = 11
+        xOffset=4
+    Else If b = 12
+        xOffset=14
+    Else If b = 13
+        xOffset=16
+    Else If b = 14
+        xOffset=8
+    Else If b=15
+        xOffset=-8
+    Else If b=16
+        xOffset=13
+    Else If b=17
+        xOffset=1
+    Else If b=18
+        xOffset=-14
+    Else If b=19
+        xOffset=-11
+    Else If b=20
+        xOffset=13
+    EndIf
+
+    return xOffset
+End Function
+
+Function getButPicYOffset(b)
+    yOffset=90
+    If b=15
+        yOffset=93
+    End If
+    
+    return yOffset
+End Function
+
+Function getCurStanceFrame(n)
+    Local butFrame
+    If curGuy(n)=1 Then
+        menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+72, 536)
+    Else If curGuy(n)=19 Then
+        menuStanceFrame(n)=getLeiLeiStance(n)
+    Else If curGuy(n)=20 Then
+        menuStanceFrame(n)=getKenshiroStance(n)
+    Else
+        setStanceFrame(n)
+    End If
+    If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1:zStanceSeq(n)=0
+    butFrame=menuStanceFrame(n)
+    if butFrame=0 Then butFrame=1
+    
+    return butFrame
 End Function

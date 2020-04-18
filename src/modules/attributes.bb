@@ -48,8 +48,6 @@ zBlocked(n)=0: aiGetTarget(n):
     zTrailType(n)=0
     zHitByRect(nn)=0
     zRollOnImpact(n)=0
-    zStanceFrames(n)=0
-    zStanceSpeed(n)=0
     zWalkFrames(n)=0
     zWalkFrameSpeed#(n)=0
     zRunFrames(n)=0
@@ -105,8 +103,6 @@ Case 1: ;Evil Ryu
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
     hasSpecialAirFrames(n)=1
-    zStanceFrames(n)=34
-    zStanceSpeed(n)=3
 
 Case 2: ;Rash
     zBlowDist(n,1)=65
@@ -182,8 +178,6 @@ Case 6: ;Strider Hiryu
     gender(n)=maleVal
     zheight(n)=78
     zRunSpeed#(n)=4
-    zStanceFrames(n)=20
-    zStanceSpeed(n)=3
     duckFrames(n)=10
     duckFrameSpeed(n)=5
     flipFrames(n)=7
@@ -276,8 +270,6 @@ Case 11: ;Wolverine
     zJumpSnd2(n)=wolverinejumpsnd
     zWalkFrames(n)=16
     zWalkFrameSpeed#(n)=3
-    zStanceFrames(n)=18
-    zStanceSpeed(n)=3
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=4
@@ -305,8 +297,6 @@ Case 12: ;Scorpion
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
-    zStanceFrames(n)=9
-    zStanceSpeed(n)=5
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=4
     zRunFrames(n)=11
@@ -337,8 +327,6 @@ Case 13: ;Sub Zero
     zRollOnImpact(n)=1
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
-    zStanceFrames(n)=9
-    zStanceSpeed(n)=5
     zWalkFrames(n)=9
     zWalkFrameSpeed#(n)=4
     zRunFrames(n)=11
@@ -368,8 +356,6 @@ Case 14: ;Wonder Woman
     zRollOnImpact(n)=1
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
-    zStanceFrames(n)=12
-    zStanceSpeed(n)=6
     zWalkFrames(n)=27
     zWalkFrameSpeed#(n)=2
     zRunFrames(n)=7
@@ -408,10 +394,7 @@ Case 15: ;Juggernaut
     zRollOnImpact(n)=1
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
-    zStanceFrames(n)=8
-    zStance2Frames(n)=9
-    zStanceSpeed(n)=6
-    zWalkFrames(n)=15
+    zWalkFrames(n)=16
     zWalkFrameSpeed#(n)=4
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4
@@ -441,8 +424,6 @@ Case 16: ;Piccolo
     zRollOnImpact(n)=1
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
-    zStanceFrames(n)=7
-    zStanceSpeed(n)=8
     zWalkFrames(n)=4
     zWalkFrameSpeed#(n)=7
     zRunFrames(n)=1
@@ -478,9 +459,6 @@ Case 17: ;Hulk
     zRollOnImpact(n)=1
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
-    zStanceFrames(n)=8
-    zStance2Frames(n)=9
-    zStanceSpeed(n)=6
     zWalkFrames(n)=15
     zWalkFrameSpeed#(n)=4
     zRunFrames(n)=6
@@ -513,8 +491,70 @@ Case 18: ;Thor
     zRollOnImpact(n)=1
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
-    zStanceFrames(n)=8
-    zStanceSpeed(n)=8
+    zWalkFrames(n)=15
+    zWalkFrameSpeed#(n)=4
+    zRunFrames(n)=6
+    zRunFrameSpeed#(n)=4
+    zRunSpeed#(n)=4.8
+    dizzyFrames(n)=8
+    dizzyFrameSpeed(n)=7
+    gender(n)=maleVal
+    zRunFootSoundSeq(n)=18
+    zWalkQuakeSeq1(n)=2
+    zWalkQuakeSeq2(n)=10
+    isHeavy(n)=1
+    hasSpecialAirFrames(n)=1
+    
+Case 19: ;Leilei
+    zBlowDist(n,1)=45
+    zBlowDist(n,2)=50
+    zBlowDist(n,4)=64
+    zBlowDist(n,5)=48
+    zBlowDist(n,7)=250
+    zBlowDist(n,9)=400    :dangerMove9(n)=1
+    zBlowDist(n,10)=40
+    zBlowDist(n,11)=150
+    zBlowDist(n,14)=600
+    zBlowDist(n,16)=370
+    zGrabDist(n)=zGrabDist(n)+15
+    zSide(n)=16
+    zheight(n)=90
+    zUpHeight(n)=90
+    zRollOnImpact(n)=1
+    zJumpSnd(n)=juggJumpSnd
+    zJumpSnd2(n)=wolverinejumpsnd
+    zWalkFrames(n)=15
+    zWalkFrameSpeed#(n)=4
+    zRunFrames(n)=6
+    zRunFrameSpeed#(n)=4
+    zRunSpeed#(n)=4.8
+    dizzyFrames(n)=8
+    dizzyFrameSpeed(n)=7
+    gender(n)=maleVal
+    zRunFootSoundSeq(n)=18
+    zWalkQuakeSeq1(n)=2
+    zWalkQuakeSeq2(n)=10
+    isHeavy(n)=1
+    hasSpecialAirFrames(n)=1
+    
+Case 20: ;kenshiro
+    zBlowDist(n,1)=45
+    zBlowDist(n,2)=50
+    zBlowDist(n,4)=64
+    zBlowDist(n,5)=48
+    zBlowDist(n,7)=250
+    zBlowDist(n,9)=400    :dangerMove9(n)=1
+    zBlowDist(n,10)=40
+    zBlowDist(n,11)=150
+    zBlowDist(n,14)=600
+    zBlowDist(n,16)=370
+    zGrabDist(n)=zGrabDist(n)+15
+    zSide(n)=16
+    zheight(n)=90
+    zUpHeight(n)=90
+    zRollOnImpact(n)=1
+    zJumpSnd(n)=juggJumpSnd
+    zJumpSnd2(n)=wolverinejumpsnd
     zWalkFrames(n)=15
     zWalkFrameSpeed#(n)=4
     zRunFrames(n)=6
@@ -739,8 +779,6 @@ Case 40    ;turtle
     zBouncedGndFrames(n)=1
     zWalkFrames(n)=6
     zWalkFrameSpeed#(n)=7
-    zStanceFrames(n)=16
-    zStanceSpeed(n)=4
 
 Case 41: ;Turtle Cloud
     zJumpLimit(n)=0
@@ -2697,6 +2735,7 @@ Next
 For j=0 To 50
     For i=0 To maxPicFrames
         If zpic(n,j,i) <> 0 And imgScaleFactor#(n) <> 0 And imgScaleFactor#(n) <> 1 Then
+            DebugLog "n: " + n + " ,zani: " + j + ", zf: " + i
             ScaleImage zpic(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
             ScaleImage zpic_(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
         End If
@@ -3223,7 +3262,13 @@ Function initStance(n)
         zStanceSpeed(n)=6
     Case 18 ; Thor
         zStanceFrames(n)=8
-        zStanceSpeed(n)=8
+        zStanceSpeed(n)=6
+    Case 19 ; LeiLei
+        zStanceFrames(n)=13
+        zStanceSpeed(n)=5
+    Case 20 ; Kenshiro
+        zStanceFrames(n)=9
+        zStanceSpeed(n)=5
     Case 40 ; Turtle
         zStanceFrames(n)=16
         zStanceSpeed(n)=4

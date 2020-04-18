@@ -2,7 +2,7 @@ Include "src\modules\globalSoundVariables.bb"
 Include "src\modules\enums.bb"
 
 Global windowMode, videoColorDepth, curWindowMode
-Global curIdiom, gameSound, gameMusic
+Global gameSound, gameMusic, curIdiom, menuThemeIdx, showTutorial
 Global modsAmount, curModId, maxCharAmt=54
 Global maxMap=50
 
@@ -12,6 +12,8 @@ If loadConfig() = False Then
     curIdiom=1
     videoColorDepth=32
     curModId=1
+    menuThemeIdx=0
+    showTutorial=1
 EndIf
 
 If CommandLine$() = "-nosound" Then
@@ -58,7 +60,6 @@ Global maxShots=200
 Global hyperBgDsp=0
 Global debugMode=0
 Global LastKeyPressed=1
-Global showTutorial
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
@@ -222,7 +223,7 @@ Global gamePaused,timePassed#, keypressed, keyschosen,pn,ifiniteLives,flagMaxSco
 Global endGame,gameTime,gameTime2,NoUserInput,tarN,areaAmount,dAreaAmount,objFrequency, alwaysSpawnObj
 Global rScrLimit=3248,lScrLimit=-760,uScrLimit=-50000,dScrLimit=1252, yScrCameraBottomLimit
 Global rendert, renderFreq, maxObjAmount
-Global mainCharAmt=18    ;1. Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
+Global mainCharAmt=20    ;1. Add character, 1=ryu, 2=rash ... change the value from 10 to 11, 11=your new character id
                          ;2. Add the character in displayCharMenu() in menus.bb
                          ;3. Add Include "src\char\characterName.bb" in moves1.bb where characterName is the name of your new character
                          ;4. Create the file for your created character (for example "thor.bb") and place it in "src\char\"
@@ -230,6 +231,8 @@ Global mainCharAmt=18    ;1. Add character, 1=ryu, 2=rash ... change the value f
                          ;6. Add your function (for example DoThor(n)) in the file you created in #4. Refer to existing functions on how to define your new function.
                          ;7. Add your new character in "Function initZ(n)" in file attributes.bb
                          ;8. Add your new character in "Function initStance(n)" in file attributes.bb
+                         ;9. Create your graphics folder for your character located in "\gfx". For example if your character is 20th, then add a folder named "20".
+                         ;10. Add your character scale in function "setScaleFactorPerChar()" in main.bb
 Global menuOption, duringGameMenu
 
 ;zeto's variables
@@ -269,7 +272,7 @@ Dim isBoss(maxZ), zMaxLife(maxZ), showLifeBar(maxZ), showLifeBarSeq(maxZ), super
 Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBgFrame(maxZ), maxHyperBgSeq(maxZ)
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
-Dim maxFlightYLimit(maxZ), loadingImg(100, 2), charIdxList(4), imgScaleFactor#(maxCharamt)
+Dim maxFlightYLimit(maxZ), loadingImg(100, 20), charIdxList(4), imgScaleFactor#(maxCharamt)
 Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
@@ -476,9 +479,8 @@ soundFx(9)=marioFierceSnd
 soundFx(10)=batsSnd
 soundFx(11)=shockSnd
 
-Global menuMusic
-
 Global justIntroduced
+Dim menuTheme(2)
 Global music
 Global music2
 Global chMusic
@@ -511,6 +513,8 @@ Include "src\modules\moves1.bb"
 Include "src\modules\moves2.bb"
 Include "src\modules\animation.bb"
 Include "src\modules\AI.bb"
+
+pri priW("please wait..."),350,"please wait..."
 
 loadData()  ;Loads general maps data
 
@@ -550,8 +554,12 @@ For n=1 To zzamount
 Next
 HidePointer
 
-music=LoadSound(soundsdir$ + "music10.mp3")
+menuTheme(0)=LoadSound(soundsdir$ + "music10.mp3")
+menuTheme(1)=LoadSound(soundsdir$ + "music15.mp3")
+music=menuTheme(menuThemeIdx)
 
+initCharSelect()
+cls
 gameIntro()
 justIntroduced=1
 setCheats()
@@ -574,7 +582,7 @@ Else
     Next
     freeMap()
     If menuOption <> charSelectVal Or scoreDone=1 Then
-        changeMusic(music10)
+        changeMusic(music)
     EndIf
 EndIf
 
@@ -618,8 +626,6 @@ Next
 
 butPic(72)=butPic(71)
 
-initCharSelect()
-
 gamestart=0
 If gameMode=2 Then gmStr=strinfo$(7)
 ClsColor 0,0,0
@@ -643,7 +649,7 @@ If KeyHit(1) Then
   If menuOption = mainMenuVal Then saveConfig() : End
   If menuOption = charSelectVal Then 
       menuOption = mainMenuVal
-      If vsMode=1 Then changeMusic(music10)
+      If vsMode=1 Then changeMusic(menuTheme(menuThemeIdx))
   End If
   If menuOption = optionsMenuVal Then menuOption = mainMenuVal
   If menuOption = recordsMenuVal Then menuOption = mainMenuVal
@@ -746,12 +752,6 @@ For n= 0 To maxCharAmt
 Next
 For n=0 To 100
     If butPic(n) <> 0 Then FreeImage butPic(n):butPic(n)=0
-Next
-For n=0 To 100
-    For nn=0 To maxFrame
-        If stanceButPic(n, nn) <> 0 Then FreeImage stanceButPic(n, nn):stanceButPic(n, nn)=0
-        If stanceButPic2(n, nn) <> 0 Then FreeImage stanceButPic2(n, nn):stanceButPic2(n, nn)=0
-    Next
 Next
 
 If gameStart=2 Then
@@ -920,8 +920,6 @@ For n=1 To zzamount
     If zx(n)>=1024/2 Then zFace(n)=4 Else zF(n)=2
 Next
 
-;If music=0 Then music=LoadSound(soundsdir$ + "music" + musicN1+ ".wav")
-;If music2=0 Then music2=LoadSound(soundsdir$ + "music" + musicN2+ ".wav")
 If music=0 Then music=LoadSound(soundsdir$ + "music" + musicN1+ ".mp3")
 If music2=0 Then music2=LoadSound(soundsdir$ + "music" + musicN2+ ".mp3")
 
@@ -1055,6 +1053,8 @@ For n=1 To zzamount
             Case 16:DoPiccolo(n)
             Case 17:DoHulk(n)
             Case 18:DoThor(n)
+            Case 19:DoLeilei(n)
+            Case 20:DoKenshiro(n)
             Case 30:DoPig(n)
             Case 31:DoAlien(n)
             Case 32:DoFootClan(n)
@@ -1780,7 +1780,7 @@ If mapComplete=1 Then
     If previousMap = lastAMap Then   ;If beat the game
         statsScreen()
         freesound music
-        music=LoadSound(soundsdir$ + "music" + 10 + ".wav")
+        music=menuTheme(menuThemeIdx)
         If gameMusic=1 Then
           LoopSound music
            chMusic=PlaySound(music)
@@ -6259,9 +6259,9 @@ Function isAttackKeyDown(n)
     return ret
 End Function
 
-Function changeMusic(musicSelected$)
-    FreeSound music
-    music=LoadSound(soundsdir$ + musicSelected$)
+Function changeMusic(musicSelected)
+    ;FreeSound music
+    music=musicSelected
     If gameMusic=1 Then
         StopChannel chMusic
         LoopSound music
@@ -6282,6 +6282,8 @@ Function setScaleFactorPerChar()
     imgScaleFactor#(16)=0.76
     imgScaleFactor#(17)=0.70
     imgScaleFactor#(18)=0.61
+    imgScaleFactor#(19)=0.80
+    imgScaleFactor#(20)=0.33
 End Function
 
 Function initCharSelect()
@@ -6653,19 +6655,21 @@ Function displayLoadingScr()
     Next
     
     secondBgChanceSeed=Rand(1,100)
-    If secondBgChanceSeed >= 1 And secondBgChanceSeed <= 5 Then
-        ;5% chance to display second background screen
-        bgIdx=1
-    End If
+    bgIdx=(secondBgChanceSeed + 4) / 5
     
     i=Rand(1,zamountPlaying)
     If loadingImg(charIdxList(i), bgIdx)=0 Then
         loadingImg(charIdxList(i), bgIdx)=LoadImage("gfx\stuff\loading\loading" + charIdxList(i) + "_" + (bgIdx+1) + ".png")
     End If
-
-    If loadingImg(charIdxList(i), bgIdx) <> 0 Then
-        DrawImage loadingImg(charIdxList(i), bgIdx), 0, 0       ; Loading screen
+    
+    If loadingImg(charIdxList(i), bgIdx) = 0 Then
+        loadingImg(charIdxList(i), bgIdx)=LoadImage("gfx\stuff\loading\loading" + charIdxList(i) + "_1" + ".png")
+        If loadingImg(charIdxList(i), bgIdx) = 0 Then
+            loadingImg(charIdxList(i), bgIdx)=LoadImage("gfx\stuff\loading\blank.png")
+        End If
     End If
+    
+    DrawImage loadingImg(charIdxList(i), bgIdx), 0, 0
 End Function
 
 Function flashLowStamina(n)
