@@ -103,6 +103,7 @@ Case 1: ;Evil Ryu
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
     hasSpecialAirFrames(n)=1
+    specialHitFrames(n)=11
 
 Case 2: ;Rash
     zBlowDist(n,1)=65
@@ -3235,6 +3236,8 @@ Function initStance(n)
     Case 1  ; Evil Ryu
         zStanceFrames(n)=34
         zStance2Frames(n)=10
+    Case 2  ; Rash
+        zStanceFrames(n)=4
     Case 6  ; Strider Hiryu
         zStanceFrames(n)=20
         zStanceSpeed(n)=3

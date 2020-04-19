@@ -103,17 +103,20 @@ Function drawWalkSequence(n)
     If zwalkseq(n) = 0 Then 
         zani(n)=19
         If zStanceFrames(curGuy(n)) <> 0 Then
-            If curGuy(n)=1 Then
+            Select curGuy(n)
+            Case 1
                 If zFace(n)=2 Then x=zx(n)-8
                 If zFace(n)=4 Then x=zx(n)+8
                 zF(n)=getEvilRyuStance(n, x, zy(n)-16)
-            Else If curGuy(n)=19
+            Case 2
+                zF(n)=getRashStance(n)
+            Case 19
                 zF(n)=getLeiLeiStance(n)
-            Else If curGuy(n)=20
+            Case 20
                 zF(n)=getKenshiroStance(n)
-            Else
+            Default
                 drawStanceFrame(n)
-            End If
+            End Select
             Return
         Else
             zani(n)=1
@@ -338,10 +341,8 @@ Function getEvilRyuStance2(n)
     If zStanceSeq(n)>53 And zStanceSeq(n)<=58 Then frame=6
     If zStanceSeq(n)>58 And zStanceSeq(n)<=63 Then frame=5
     If zStanceSeq(n)>58 And zStanceSeq(n)<=68 Then frame=4
-    If zStanceSeq(n)>68 And zStanceSeq(n)<=73 Then frame=3
     
-    If zStanceSeq(n) > 73 Then zStanceSeq(n)=2
-    
+    If zStanceSeq(n) >= 68 Then zStanceSeq(n)=4
     Return frame
 End Function
 
@@ -351,8 +352,43 @@ Function getEvilRyuStance(n, x, y)
     If stanceMode(n)=1 Then
         frame = getEvilRyuStance1(n, x, y)
     Else
+        zani(n)=27
         frame = getEvilRyuStance2(n)
     End If
+    
+    Return frame
+End Function
+
+Function getRashStance(n)
+    Local frame=1
+    seq1=144:seq2=seq1+16:seq3=seq2+8:seq4=seq3+10:seq5=seq4+8
+    seq6=seq5+12:seq7=seq6+8:seq8=seq7+10
+    
+    zStanceSeq(n)=zStanceSeq(n)+1
+;======== Animation =========
+    If zStanceSeq(n) < 16 Then frame=1
+    If zStanceSeq(n)>0 And zStanceSeq(n)<=seq1 Then
+        If zStanceSeq(n) Mod 16 = 0 Then
+            If menuStanceFrame(n)=2 Or zF(n)=2 Then
+                frame=1
+            Else
+                frame=2
+            End If
+        Else
+            If gameStart=1 Then frame=zF(n)
+            If gameStart=0 Then frame=menuStanceFrame(n)
+        End If
+    End If
+ 
+    If zStanceSeq(n)>seq1 And zStanceSeq(n)<=seq2 Then frame=3
+    If zStanceSeq(n)>seq2 And zStanceSeq(n)<=seq3 Then frame=4
+    If zStanceSeq(n)>seq3 And zStanceSeq(n)<=seq4 Then frame=3
+    If zStanceSeq(n)>seq4 And zStanceSeq(n)<=seq5 Then frame=4
+    If zStanceSeq(n)>seq5 And zStanceSeq(n)<=seq6 Then frame=3
+    If zStanceSeq(n)>seq6 And zStanceSeq(n)<=seq7 Then frame=4
+    If zStanceSeq(n)>seq7 And zStanceSeq(n)<=seq8 Then frame=3
+    
+    If zStanceSeq(n) > seq8 Then zStanceSeq(n)=0
     
     Return frame
 End Function
@@ -479,7 +515,7 @@ Function drawDuckSequence(n)
             zani(n)=3:zf(n)=frame
             If duckSeq(n)-1 > duckFrameSpeed(n)*duckFrameSpeed(n) Then duckSeq(n) = duckFrameSpeed(n)-1
             Return
-        EndIf            
+        EndIf
     Next
 End Function
 
@@ -694,10 +730,51 @@ End Function
 
 ;------------------- Do Special hit frames ------------------
 Function doSpecialHitFrames(n)
-    If curGuy(n)=14 Then
+    Select curGuy(n)
+    Case 1
+        drawEvilRyuHitFrames(n)
+    Case 6
+        drawHiryuHitFrames(n)
+    Case 14
         drawWwHitFrames(n)
-    Else
+    Default
         drawSpecialHitFrames(n)
+    End Select
+End Function
+
+Function drawEvilRyuHitFrames(n)
+    seq1=4:seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+4
+    If zhitseq(n)>0 And zHitSeq(n)<=seq1 Then zani(n)=2:zf(n)=2
+    If zhitseq(n)>seq1 And zHitSeq(n)<=seq2 Then zani(n)=2:zf(n)=3
+    If zhitseq(n)>seq2 And zHitSeq(n)<=seq3 Then zani(n)=2:zf(n)=8
+    If zhitseq(n)>seq3 And zHitSeq(n)<=seq4 Then zani(n)=2:zf(n)=4
+    If zhitseq(n)>seq4 And zHitSeq(n)<=seq5 Then zani(n)=2:zf(n)=9
+
+    If zhitseq(n)>seq5 And zHitSeq(n) Mod 3=0 Then
+        zani(n)=2
+        If zF(n)=11 Then
+            zF(n)=10
+        Else
+            zF(n)=11
+        End If
+    End If
+End Function
+
+Function drawHiryuHitFrames(n)
+    seq1=4:seq2=seq1+4:seq3=seq2+4:seq4=seq3+4:seq5=seq4+4
+    If zhitseq(n)>0 And zHitSeq(n)<=seq1 Then zani(n)=2:zf(n)=1
+    If zhitseq(n)>seq1 And zHitSeq(n)<=seq2 Then zani(n)=2:zf(n)=2
+    If zhitseq(n)>seq2 And zHitSeq(n)<=seq3 Then zani(n)=2:zf(n)=3
+    If zhitseq(n)>seq3 And zHitSeq(n)<=seq4 Then zani(n)=2:zf(n)=4
+    If zhitseq(n)>seq4 And zHitSeq(n)<=seq5 Then zani(n)=2:zf(n)=5
+
+    If zhitseq(n)>seq5 And zHitSeq(n) Mod 3=0 Then
+        zani(n)=2
+        If zF(n)=7 Then
+            zF(n)=6
+        Else
+            zF(n)=7
+        End If
     End If
 End Function
 

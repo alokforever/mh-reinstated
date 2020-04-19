@@ -356,6 +356,19 @@ For i=1 To 4
   Case 14:
     xOffset=15
     yOffset=10
+  Case 15:
+    xOffset=45
+    yOffset=14
+  Case 16:
+    yOffset=8
+  Case 17:
+    xOffset=30
+    yOffset=3
+  Case 18:
+    xOffset=28
+    yOffset=7
+  Case 19:
+    xOffset=30
   default:
     xOffset=0
   End Select
@@ -376,7 +389,8 @@ For i=1 To 4
   EndIf
 Next
 
-pri priW(strInfo$(37)),624, strInfo$(37)
+pri priW(strInfo$(37)),600, strInfo$(37)
+pri priW(strInfo$(101)),650, strInfo$(101)
 saveSpeedrun()
 
 Flip
@@ -453,6 +467,7 @@ Repeat
  If KeyHit(1) Then pressed=1
  If KeyHit(28) Then pressed=1
  If KeyHit(57) Then pressed=1
+ If KeyHit(63)=1 Then curMap=curMap-1:pressed=1
  For n=1 To 4
   Select zController(n)
    Case 0
@@ -1184,10 +1199,8 @@ If clickedBut(n) Then
   Select n
     Case 1:If windowMode=0 Then windowMode=1 Else windowMode=0
            warning=1:warnSeq=0:strWarning$=strInfo$(66)
-           saveConfig()
     Case 2:If videoColorDepth=16 Then videoColorDepth=32 Else videoColorDepth=16
            warning=1:warnSeq=0:strWarning$=strInfo$(66)
-           saveConfig()
     Case 3:If gameSound=1 Then gameSound=0 Else gameSound=1
     Case 4:If gameMusic=1 Then
              gameMusic=0
@@ -1210,6 +1223,7 @@ If clickedBut(n) Then
         If duringGameMenu=1 Then menuOption=5 Else menuOption=2
   End Select
     If gamesound Then PlaySound ddhitsnd
+    saveConfig()
 EndIf
 Next
 
@@ -1402,7 +1416,7 @@ strInfo$(33)="All players MUST have a TEAM."
 strInfo$(34)="DRAW GAME!"
 strInfo$(35)="SECRET AREAS:"
 strInfo$(36)="STAGE COMPLETE!"
-strInfo$(37)="PRESS ANY KEY"
+strInfo$(37)="PRESS ANY KEY TO CONTINUE"
 strInfo$(38)="HITS TAKEN: "
 strInfo$(39)="UNTOUCHABLE!"
 strInfo$(40)="CREDITS"
@@ -1469,6 +1483,7 @@ strInfo$(97)="items: off"
 strInfo$(98)="tutorials"
 strInfo$(99)="records"
 strInfo$(100)="menu theme: "
+strInfo$(101)="f5 to restart"
 
 Case 2
 strInfo$(1)="INICIAR JOGO!"
@@ -1574,6 +1589,7 @@ strInfo$(97)="itens: N?O"
 strInfo$(98)="tutoriais"
 strInfo$(99)="registro"
 strInfo$(100)="tema do menu"
+strInfo$(101)="pressione f5 para reiniciar"
 
 End Select
 
@@ -2227,6 +2243,8 @@ End Function
 Function getButPicXOffset(b)
     xOffset=10
     Select b
+    Case 2
+        xOffset=12
     Case 6
         xOffset=-8
     Case 11
@@ -2266,7 +2284,9 @@ End Function
 Function getCurStanceFrame(n, b)
     Local butFrame
     If curGuy(n)=1 Then
-        menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+55, 536)
+        menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+60, 550)
+    Else If curGuy(n)=2 Then
+        menuStanceFrame(n)=getRashStance(n)
     Else If curGuy(n)=19 Then
         menuStanceFrame(n)=getLeiLeiStance(n)
     Else If curGuy(n)=20 Then
@@ -2274,6 +2294,7 @@ Function getCurStanceFrame(n, b)
     Else
         setStanceFrame(n)
     End If
+    
     If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1:zStanceSeq(n)=0
     butFrame=menuStanceFrame(n)
     if butFrame=0 Then butFrame=1

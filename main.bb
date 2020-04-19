@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=0
+Global debugMode=1
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -276,11 +276,11 @@ Dim maxFlightYLimit(maxZ), loadingImg(100, 20), charIdxList(4), imgScaleFactor#(
 Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
-Dim stanceMode(maxCharAmt)
+Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
-Global freezeMode, clicked, curHitBox
+Global freezeMode, clicked, curHitBox, curPicFrame, shouldGoToNextFrame=0
 Dim xHitbox(200), yHitbox(200), wHitbox(200), hHitBox(200)
 
 ;Paths For directories / mods
@@ -339,7 +339,8 @@ setScaleFactorPerChar()
 gfxdir$="gfx\"
 For i=1 To mainCharAmt
     zIcon(i)=LoadImage(gfxdir$ + i + "\zIcon.bmp")
-    ScaleImage zIcon(i),imgScaleFactor#(i),imgScaleFactor#(i)
+    scaleFactor#=getIconScaleFactor#(i)
+    ScaleImage zIcon(i),scaleFactor#,scaleFactor#
 Next
 
 gfxdir$="gfx\stuff\"
@@ -2407,7 +2408,9 @@ If scrollMap=0 Then
 EndIf
 
 If zCurPic(n) <> 0 Then     ;test
-    DrawImage zCurPic(n),(zx(n)-(ImageWidth(zCurpic(n))/2))-xscr,(zy(n)-ImageHeight(zCurPic(n)) +2)-yscr
+    Local x = ((zx(n)-(ImageWidth(zCurpic(n))/2))-xscr)+picXOffset(zF(n))
+    Local y = ((zy(n)-ImageHeight(zCurPic(n)) +2)-yscr)+picYOffset(zF(n))
+    DrawImage zCurPic(n),x,y
     If isDrawAfterImage(n)=1 Then drawAfterImages(n)
 Else
 ;   runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
@@ -6274,6 +6277,7 @@ Function setScaleFactorPerChar()
     Next
     
     imgScaleFactor#(1)=0.82
+    imgScaleFactor#(2)=0.75
     imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
     imgScaleFactor#(13)=0.77
@@ -6528,9 +6532,18 @@ End Function
 
 Function doDebugMode()
     ShowPointer
-    
+
     If KeyHit(59)=1 Then ;F1
+        freezeMode=1:shouldGoToNextFrame=0
+    End If
+    
+    If shouldGoToNextFrame=1 And zF(1) <> curPicFrame Then
         freezeMode=1
+        DebugLog "zani: " + zAni(1) + ", zF: " + zF(1) + ", xOffst: " + picXOffset(zF(1)) + ", yOffst: " + picYOffset(zF(1))
+    End If
+
+    If KeyHit(62)=1 Then ;F4
+        If showBlowArea=1 Then showBlowArea=0 Else showBlowArea=1
     End If
 
     ;======== Go to next level =========
@@ -6586,11 +6599,36 @@ Function doDebugMode()
         End If
         Flip
         
-        If KeyHit(59)=1 Then ;F1
-            freezeMode=0
+        If KeyHit(200) Then ;Up arrow key
+            picYOffset(zF(1))=picYOffset(zF(1))-1
+            DebugLog "zF: " + zF(1) + ", picYOffset: " + picYOffset(zF(1))
+        End If
+        If KeyHit(208) Then ;Down arrow key
+            picYOffset(zF(1))=picYOffset(zF(1))+1
+            DebugLog "zF: " + zF(1) + ", picYOffset: " + picYOffset(zF(1))
+        End If
+        If KeyHit(203) Then ;Left arrow key
+            picXOffset(zF(1))=picXOffset(zF(1))-1
+            DebugLog "zF: " + zF(1) + ", picXOffset: " + picXOffset(zF(1))
+        End IF
+        If KeyHit(205) Then ;Right arrow key
+            picXOffset(zF(1))=picXOffset(zF(1))+1
+            DebugLog "zF: " + zF(1) + ", picXOffset: " + picXOffset(zF(1))
         End If
         
-        If KeyHit(60)=1 Then GoTo Continue ;F2
+        If KeyHit(59)=1 Then ;F1
+            freezeMode=0:shouldGoToNextFrame=0
+        End If
+        
+        If KeyHit(60)=1 Then ;F2
+            DebugLog "zani: " + zAni(1) + ", zF: " + zF(1) + ", xOffst: " + picXOffset(zF(1)) + ", yOffst: " + picYOffset(zF(1))
+            GoTo Continue
+        End If
+        
+        If KeyHit(61)=1 Then ;F3
+            curPicFrame=zF(1):shouldGoToNextFrame=1
+            freezeMode=0
+        End If
     Wend
     .Continue
     
@@ -6740,4 +6778,21 @@ Function loadMenuTheme()
     menuTheme(0)=LoadSound(soundsdir$ + "music10.mp3")
     menuTheme(1)=LoadSound(soundsdir$ + "music15.mp3")
     music=menuTheme(menuThemeIdx)
+End Function
+
+Function getIconScaleFactor#(i)
+    Local scaleFactor#=imgScaleFactor#(i)
+    
+    Select i
+    Case 15:
+        scaleFactor#=0.84
+    Case 16:
+        scaleFactor#=0.83
+    Case 17:
+        scaleFactor#=0.85
+    Case 18:
+        scaleFactor#=0.78
+    End Select
+    
+    return scaleFactor#
 End Function
