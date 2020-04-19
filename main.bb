@@ -6278,6 +6278,8 @@ Function setScaleFactorPerChar()
     
     imgScaleFactor#(1)=0.82
     imgScaleFactor#(2)=0.75
+    imgScaleFactor#(3)=0.75
+    imgScaleFactor#(4)=0.82
     imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
     imgScaleFactor#(13)=0.77

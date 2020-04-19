@@ -351,6 +351,12 @@ x=160:y=265
 For i=1 To 4
   xOffset=0:yOffset=0
   Select curGuy(i)
+  Case 2:
+    xOffset=3
+  Case 3:
+    xOffset=4
+  Case 4:
+    xOffset=5
   Case 6:
     xOffset=32
   Case 14:
@@ -365,8 +371,8 @@ For i=1 To 4
     xOffset=30
     yOffset=3
   Case 18:
-    xOffset=28
-    yOffset=7
+    xOffset=35
+    yOffset=10
   Case 19:
     xOffset=30
   default:
@@ -1026,6 +1032,7 @@ For b=55 To 58  ;team, selected player
     EndIf
     xOffset=38
     If curGuy(n)=1 Then xOffset=30
+    If curGuy(n)=3 Then xOffset=25
     If curGuy(n)=6 Then xOffset=16
     If curGuy(n)=15 Then xOffset=32
     If curGuy(n)=17 Then xOffset=31
@@ -2245,6 +2252,10 @@ Function getButPicXOffset(b)
     Select b
     Case 2
         xOffset=12
+    Case 3
+        xOffset=-5
+    Case 4
+        xOffset=14
     Case 6
         xOffset=-8
     Case 11

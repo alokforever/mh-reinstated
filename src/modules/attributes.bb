@@ -133,6 +133,8 @@ Case 3: ;Spider-man
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
+    zWalkFrames(n)=7
+    zWalkFrameSpeed#(n)=4
 
 Case 4: ;Mario
     zBlowDist(n,1)=92
@@ -3238,6 +3240,12 @@ Function initStance(n)
         zStance2Frames(n)=10
     Case 2  ; Rash
         zStanceFrames(n)=4
+    Case 3  ; Spiderman
+        zStanceFrames(n)=9
+        zStanceSpeed(n)=4
+    Case 4  ; Mario
+        zStanceFrames(n)=16
+        zStanceSpeed(n)=3
     Case 6  ; Strider Hiryu
         zStanceFrames(n)=20
         zStanceSpeed(n)=3
