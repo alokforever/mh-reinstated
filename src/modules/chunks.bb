@@ -5,6 +5,7 @@ isChunkRenderLowPrio(n)=0
 isChunkSolid(n)=0
 yChunkSpeed#(n)=0
 chunkYAdj(n)=0
+chunkYDrawAdj(n)=0
 If isActiveCharacter(chunkOwner(n))=1 chunkSeq(n)=chunkSeq(n)+1
 cc=chunkType(n)
 Select chunkType(n)
@@ -1235,8 +1236,8 @@ Case 147:       ;Counter
     If chunkSeq(n)>20 Then chunk(n)=0
     
 Case 148:       ;Ground crack
-    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4
-    chunkWidth(n)=85:chunkHeight(n)=21
+    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4:chunkYDrawAdj(n)=5
+    chunkWidth(n)=85:chunkHeight(n)=21:isChunkRenderLowPrio(n)=1
     seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
     
     If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(118,1):chunkPic_(n)=ptPic_(118,1)
@@ -1263,8 +1264,8 @@ Case 150:       ;Wonderwoman Themyscira low 2 sillhouete
     If chunkSeq(n)>4 Then chunk(n)=0
     
 Case 151:       ;Ground crack half
-    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4
-    chunkWidth(n)=136:chunkHeight(n)=33.6
+    isChunkSolid(n)=1:chunkYAdj(n)=16:yChunkSpeed#(n)=6.4:chunkYDrawAdj(n)=5
+    chunkWidth(n)=136:chunkHeight(n)=33.6:isChunkRenderLowPrio(n)=1
     seq1=3:seq2=6:seq3=141:seq4=146:seq5=151:seq6=156:seq7=161:seq8=166:seq9=171:seq10=176
     
     If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(121,1):chunkPic_(n)=ptPic_(121,1)

@@ -204,7 +204,7 @@ Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
 Dim xChunk#(1500),yChunk#(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
 Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,20),ptPic_(1500,20),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
-Dim chunkOwner(1500), isChunkSolid(1500), isChunkOnGnd(1500), chunkYAdj(1500), yChunkSpeed#(1500)
+Dim chunkOwner(1500), isChunkSolid(1500), isChunkOnGnd(1500), chunkYAdj(1500), yChunkSpeed#(1500), chunkYDrawAdj(1500)
 
 Dim explosion(100),xExp(100),yExp(100),expDamage(100), expSide(100),expHeight(100),expImpact(100),expType(100),explosionSound(100)
 
@@ -2474,9 +2474,9 @@ Function renderChunks(n)
     ;Select chunkCategory(n)
     ;Case 1    ;normal chunks
       Select chunkDir(n)
-        Case 0:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr
-        Case 2:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
-        Case 4:DrawImage chunkPic_(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,(yChunk(n)-ImageHeight(chunkPic(n)))-yscr 
+        Case 0:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,((yChunk(n)-ImageHeight(chunkPic(n)))-yscr)-chunkYDrawAdj(n)
+        Case 2:DrawImage chunkPic(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,((yChunk(n)-ImageHeight(chunkPic(n)))-yscr)-chunkYDrawAdj(n)
+        Case 4:DrawImage chunkPic_(n),(xChunk(n)-ImageWidth(chunkPic(n))/2)-xscr,((yChunk(n)-ImageHeight(chunkPic(n)))-yscr)-chunkYDrawAdj(n)
       End Select
   EndIf
 
@@ -4735,8 +4735,8 @@ Next
 
 ;Chunks x plat collision
 For nn=1 To chunkAmount
-    If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) =< yPlat(n)+chunkYAdj(nn)+7 Then
-        If xChunk(nn) => xoldPlat(n) And xChunk(nn) =< xoldPlat(n)+(platWidth(n)) Then
+    If yChunk(nn) > yPlat(n)+chunkYAdj(nn) And yChunk(nn) <= yPlat(n)+chunkYAdj(nn)+10 Then
+        If xChunk(nn) >= xoldPlat(n) And xChunk(nn) <= xoldPlat(n)+(platWidth(n)) Then
             If isChunkSolid(nn)=1 Then yChunk(nn)=yPlat(n)+chunkYAdj(nn)
             isChunkOnGnd(nn)=1
             Select platXDir(n)
@@ -4744,7 +4744,7 @@ For nn=1 To chunkAmount
                 Case 4:xChunk(nn)=xChunk(nn)-platXSpeed(n)
             End Select
         EndIf
-    EndIf
+	End If
 Next
 
 Next
