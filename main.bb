@@ -69,7 +69,7 @@ Global debugSeq
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
-Global maxZ=30, maxFrame=35, maxHyperBg=25
+Global maxZ=30, maxFrame=50, maxHyperBg=25
 Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),rightClickedBut(100),lastBut(100)
