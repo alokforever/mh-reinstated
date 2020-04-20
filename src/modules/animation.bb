@@ -110,6 +110,8 @@ Function drawWalkSequence(n)
                 zF(n)=getEvilRyuStance(n, x, zy(n)-16)
             Case 2
                 zF(n)=getRashStance(n)
+            Case 5
+                zF(n)=getLeonardoStance(n)
             Case 19
                 zF(n)=getLeiLeiStance(n)
             Case 20
@@ -389,6 +391,25 @@ Function getRashStance(n)
     If zStanceSeq(n)>seq7 And zStanceSeq(n)<=seq8 Then frame=3
     
     If zStanceSeq(n) > seq8 Then zStanceSeq(n)=0
+    
+    Return frame
+End Function
+
+Function getLeonardoStance(n)
+Local frame=1
+    seq1=20:seq2=seq1+9:seq3=seq2+9:seq4=seq3+20:seq5=seq4+9
+    seq6=seq5+9
+    
+    zStanceSeq(n)=zStanceSeq(n)+1
+;======== Animation =========
+    If zStanceSeq(n)>0 And zStanceSeq(n)<=seq1 Then frame=1
+    If zStanceSeq(n)>seq1 And zStanceSeq(n)<=seq2 Then frame=2
+    If zStanceSeq(n)>seq2 And zStanceSeq(n)<=seq3 Then frame=3
+    If zStanceSeq(n)>seq3 And zStanceSeq(n)<=seq4 Then frame=4
+    If zStanceSeq(n)>seq4 And zStanceSeq(n)<=seq5 Then frame=3
+    If zStanceSeq(n)>seq5 And zStanceSeq(n)<=seq6 Then frame=2
+    
+    If zStanceSeq(n) > seq6 Then zStanceSeq(n)=0
     
     Return frame
 End Function

@@ -3246,6 +3246,8 @@ Function initStance(n)
     Case 4  ; Mario
         zStanceFrames(n)=16
         zStanceSpeed(n)=3
+    Case 5 ; Leonardo
+        zStanceFrames(n)=4
     Case 6  ; Strider Hiryu
         zStanceFrames(n)=20
         zStanceSpeed(n)=3

@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=1
+Global debugMode=0
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -6280,6 +6280,7 @@ Function setScaleFactorPerChar()
     imgScaleFactor#(2)=0.75
     imgScaleFactor#(3)=0.75
     imgScaleFactor#(4)=0.82
+    imgScaleFactor#(5)=0.65
     imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
     imgScaleFactor#(13)=0.77

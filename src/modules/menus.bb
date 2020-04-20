@@ -2298,6 +2298,8 @@ Function getCurStanceFrame(n, b)
         menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+60, 550)
     Else If curGuy(n)=2 Then
         menuStanceFrame(n)=getRashStance(n)
+    Else If curGuy(n)=5 Then
+        menuStanceFrame(n)=getLeonardoStance(n)
     Else If curGuy(n)=19 Then
         menuStanceFrame(n)=getLeiLeiStance(n)
     Else If curGuy(n)=20 Then
