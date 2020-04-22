@@ -366,6 +366,9 @@ For i=1 To 4
     xOffset=15
   Case 8:
     yOffset=10
+  Case 10:
+    yOffset=9
+    xOffset=14
   Case 14:
     xOffset=15
     yOffset=10
@@ -1044,6 +1047,7 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=7 Then xOffset=31
     If curGuy(n)=8 Then xOffset=43
     If curGuy(n)=9 Then xOffset=34
+    If curGuy(n)=9 Then xOffset=42
     If curGuy(n)=15 Then xOffset=32
     If curGuy(n)=17 Then xOffset=31
     If curGuy(n)=18 Then xOffset=12
@@ -2274,6 +2278,8 @@ Function getButPicXOffset(b)
         xOffset=14
     Case 9
         xOffset=4
+    Case 10
+        xOffset=14
     Case 11
         xOffset=4
     Case 12

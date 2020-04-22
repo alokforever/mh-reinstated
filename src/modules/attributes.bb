@@ -3259,6 +3259,9 @@ Function initStance(n)
     Case 9  ; Goku
         zStanceFrames(n)=9
         zStanceSpeed(n)=4
+    Case 10  ; Deadpool
+        zStanceFrames(n)=11
+        zStanceSpeed(n)=6
     case 11 ; Wolverine
         zStanceFrames(n)=18
         zStanceSpeed(n)=3

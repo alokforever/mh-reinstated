@@ -6285,6 +6285,7 @@ Function setScaleFactorPerChar()
     imgScaleFactor#(7)=0.65
     imgScaleFactor#(8)=0.31
     imgScaleFactor#(9)=0.42
+    imgScaleFactor#(10)=0.38
     imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
     imgScaleFactor#(13)=0.77
@@ -6798,6 +6799,8 @@ Function getIconScaleFactor#(i)
     Case 8:
         scaleFactor#=0.85
     Case 9:
+        scaleFactor#=0.81
+    Case 10:
         scaleFactor#=0.81
     Case 15:
         scaleFactor#=0.84
