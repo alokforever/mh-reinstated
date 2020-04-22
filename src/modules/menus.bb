@@ -1041,6 +1041,7 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=3 Then xOffset=25
     If curGuy(n)=6 Then xOffset=20
     If curGuy(n)=7 Then xOffset=31
+    If curGuy(n)=9 Then xOffset=34
     If curGuy(n)=15 Then xOffset=32
     If curGuy(n)=17 Then xOffset=31
     If curGuy(n)=18 Then xOffset=12
@@ -2267,6 +2268,8 @@ Function getButPicXOffset(b)
         xOffset=-9
     Case 7
         xOffset=-1
+    Case 9
+        xOffset=4
     Case 11
         xOffset=4
     Case 12

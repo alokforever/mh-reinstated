@@ -3254,6 +3254,9 @@ Function initStance(n)
     Case 7  ; Batman
         zStanceFrames(n)=6
         zStanceSpeed(n)=4
+    Case 9  ; Goku
+        zStanceFrames(n)=9
+        zStanceSpeed(n)=4
     case 11 ; Wolverine
         zStanceFrames(n)=18
         zStanceSpeed(n)=3

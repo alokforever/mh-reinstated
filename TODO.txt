@@ -20,7 +20,13 @@ character-specific:
 
 Sprite resize offset (by percentage):
 Evil Ryu - 82
-Strider Hiryu - 54
+Rash - 75
+Strider Hiryu - 86
+Spiderman - 75
+Mario - 82
+Leonardo - 65
+Batman - 65
+Goku - 42
 Wolverine - 88.2
 Scorpion - 77.0
 Sub Zero - 77.0
