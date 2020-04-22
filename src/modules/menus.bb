@@ -364,6 +364,7 @@ For i=1 To 4
     xOffset=32
   Case 7:
     xOffset=15
+  Case 8:
     yOffset=10
   Case 14:
     xOffset=15
@@ -1041,6 +1042,7 @@ For b=55 To 58  ;team, selected player
     If curGuy(n)=3 Then xOffset=25
     If curGuy(n)=6 Then xOffset=20
     If curGuy(n)=7 Then xOffset=31
+    If curGuy(n)=8 Then xOffset=43
     If curGuy(n)=9 Then xOffset=34
     If curGuy(n)=15 Then xOffset=32
     If curGuy(n)=17 Then xOffset=31
@@ -2268,6 +2270,8 @@ Function getButPicXOffset(b)
         xOffset=-9
     Case 7
         xOffset=-1
+    Case 8
+        xOffset=14
     Case 9
         xOffset=4
     Case 11
@@ -2314,6 +2318,8 @@ Function getCurStanceFrame(n, b)
         menuStanceFrame(n)=getLeonardoStance(n)
     Else If curGuy(n)=7 Then
         menuStanceFrame(n)=getBatmanStance(n)
+    Else If curGuy(n)=8 Then
+        menuStanceFrame(n)=getSolStance(n)
     Else If curGuy(n)=19 Then
         menuStanceFrame(n)=getLeiLeiStance(n)
     Else If curGuy(n)=20 Then

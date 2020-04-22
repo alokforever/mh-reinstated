@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=0
+Global debugMode=1
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -1610,7 +1610,7 @@ EndIf
 ;    Text xTile(0,n)+2,yTile(0,n)+2, n
 ;Next
 
-If debugMode=1 Then doDebugMode()
+If debugMode=0 Then doDebugMode()
 
 If showBlowArea=1 Then    ;renders developer`s stuff!
 
@@ -6283,6 +6283,7 @@ Function setScaleFactorPerChar()
     imgScaleFactor#(5)=0.65
     imgScaleFactor#(6)=0.86
     imgScaleFactor#(7)=0.65
+    imgScaleFactor#(8)=0.31
     imgScaleFactor#(9)=0.42
     imgScaleFactor#(11)=0.80
     imgScaleFactor#(12)=0.77
@@ -6793,6 +6794,8 @@ Function getIconScaleFactor#(i)
     Case 5:
         scaleFactor#=0.80
     Case 7:
+        scaleFactor#=0.85
+    Case 8:
         scaleFactor#=0.85
     Case 9:
         scaleFactor#=0.81

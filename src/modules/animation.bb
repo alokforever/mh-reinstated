@@ -114,6 +114,8 @@ Function drawWalkSequence(n)
                 zF(n)=getLeonardoStance(n)
             Case 7
                 zF(n)=getBatmanStance(n)
+            Case 8
+                zF(n)=getSolStance(n)
             Case 19
                 zF(n)=getLeiLeiStance(n)
             Case 20
@@ -435,6 +437,63 @@ Function getBatmanStance(n)
     If zStanceSeq(n)>seq9 And zStanceSeq(n)<=seq10 Then frame=2
     
     If zStanceSeq(n) > seq10 Then zStanceSeq(n)=0
+    
+    Return frame
+End Function
+
+Function getSolStance(n)
+    Local frame=1
+    seq1=9:seq2=seq1+9:seq3=seq2+9:seq4=seq3+9:seq5=seq4+9
+    seq6=seq5+9:seq7=seq6+9:seq8=seq7+9:seq9=seq7+9
+    seq10=100:seq11=seq10+6:seq12=seq11+6:seq13=seq12+6:seq14=seq13+6
+    seq15=seq14+6:seq16=seq15+6:seq17=seq16+6:seq18=seq17+6:seq19=seq18+6
+    seq20=seq19+6:seq21=seq20+6:seq22=seq21+6:seq23=seq22+6
+    
+    DebugLog "zStanceSeq: " + zStanceSeq(n)
+    
+    If zStanceSeq(n)=0 Then stanceLevel(n)=0
+    
+    zStanceSeq(n)=zStanceSeq(n)+1
+;======== Animation =========
+    If zStanceSeq(n)>0 And zStanceSeq(n)<=seq1 Then frame=1
+    If zStanceSeq(n)>seq1 And zStanceSeq(n)<=seq2 Then frame=2
+    If zStanceSeq(n)>seq2 And zStanceSeq(n)<=seq3 Then frame=3
+    If zStanceSeq(n)>seq3 And zStanceSeq(n)<=seq4 Then frame=4
+    If zStanceSeq(n)>seq4 And zStanceSeq(n)<=seq5 Then frame=5
+    If zStanceSeq(n)>seq5 And zStanceSeq(n)<=seq6 Then frame=4
+    If zStanceSeq(n)>seq6 And zStanceSeq(n)<=seq7 Then frame=3
+    If zStanceSeq(n)>seq7 And zStanceSeq(n)<=seq8 Then frame=2
+    
+    If zStanceSeq(n)=seq8 Then
+        stanceLevel(n)=stanceLevel(n)+1
+        
+        rand=Rand(1,4)
+        
+        If rand = 2 Or stanceLevel(n)=9 Then
+            zStanceSeq(n)=seq10
+        Else
+            zStanceSeq(n)=1
+        End If
+    End If
+    
+    If zStanceSeq(n)>seq10 And zStanceSeq(n)<=seq11 Then frame=6
+    If zStanceSeq(n)>seq11 And zStanceSeq(n)<=seq12 Then frame=7
+    If zStanceSeq(n)>seq12 And zStanceSeq(n)<=seq13 Then frame=8
+    If zStanceSeq(n)>seq13 And zStanceSeq(n)<=seq14 Then frame=9
+    If zStanceSeq(n)>seq14 And zStanceSeq(n)<=seq15 Then frame=10
+    If zStanceSeq(n)>seq15 And zStanceSeq(n)<=seq16 Then frame=11
+    If zStanceSeq(n)>seq16 And zStanceSeq(n)<=seq17 Then frame=8
+    If zStanceSeq(n)>seq17 And zStanceSeq(n)<=seq18 Then frame=9
+    If zStanceSeq(n)>seq18 And zStanceSeq(n)<=seq19 Then frame=10
+    If zStanceSeq(n)>seq19 And zStanceSeq(n)<=seq20 Then frame=11
+    If zStanceSeq(n)>seq20 And zStanceSeq(n)<=seq21 Then frame=8
+    If zStanceSeq(n)>seq21 And zStanceSeq(n)<=seq22 Then frame=7
+    If zStanceSeq(n)>seq22 And zStanceSeq(n)<=seq23 Then frame=6
+    
+    If zStanceSeq(n) > seq23 Then zStanceSeq(n)=0
+    
+;=========== Sounds ==============
+    If (zStanceSeq(n)=seq13 Or zStanceSeq(n)=seq17) And gameSound Then PlaySound solCrackSnd
     
     Return frame
 End Function

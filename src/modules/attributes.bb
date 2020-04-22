@@ -3041,10 +3041,9 @@ If n=9 Then ;Goku
     If teleportSnd=0 Then teleportSnd=LoadSound(soundsdir$ + "teleport.wav")
 EndIf
 
-If n=8 Then     ;Predator
+If n=8 Then     ;Sol
     zpic(n,2,0)=zpic(n,2,4)
     zpic_(n,2,0)=zpic_(n,2,4)
-    If PredatorSnd=0 Then PredatorSnd=LoadSound(soundsdir$ + "predator.wav")
 EndIf
 
 If n=7 Then ;Batman
@@ -3253,6 +3252,9 @@ Function initStance(n)
         zStanceSpeed(n)=3
     Case 7  ; Batman
         zStanceFrames(n)=6
+        zStanceSpeed(n)=4
+    Case 8  ; Sol Badguy
+        zStanceFrames(n)=11
         zStanceSpeed(n)=4
     Case 9  ; Goku
         zStanceFrames(n)=9
