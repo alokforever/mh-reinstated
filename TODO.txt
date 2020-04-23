@@ -17,6 +17,7 @@ character-specific:
 3. Wonderwoman projectile deflect reaction to scorpion spear (facing right)
 4. Piccolo makuuhouidan remaster
 5. Frozen sprites resize (stuff folder)
+6. Camera movement issues (single player and multiplayer)
 
 Sprite resize offset (by percentage):
 Evil Ryu - 82

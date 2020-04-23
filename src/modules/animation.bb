@@ -749,27 +749,30 @@ End Function
 
 ;---------------- Process Juggernaut Air Frames ------------------
 Function processJuggernautAirFrames(n)
+    zani(n)=4
     If zjump(n)=0 Then    ;Falling
         zJumpFallSeq(n)=zJumpFallSeq(n)+1
         If zJumpFallSeq(n) >= 0 And zJumpFallSeq(n) < 4 Then zani(n)=4:zf(n)=7
-        If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) Mod 5 = 0 Then
-            If zf(n)=8 Then  
-                zani(n)=4:zf(n)=9
-            Else If zf(n)=15 Then 
-                zani(n)=4:zf(n)=8
+        If zJumpFallSeq(n) >= 4 And zJumpFallSeq(n) < 8 Then zani(n)=4:zf(n)=8
+        If zJumpFallSeq(n) >= 8 And zJumpFallSeq(n) < 12 Then zani(n)=4:zf(n)=9
+        If zJumpFallSeq(n) >= 9 And zJumpFallSeq(n) < 16 Then zani(n)=4:zf(n)=10
+        If zJumpFallSeq(n) >= 16 And zJumpFallSeq(n) Mod 4 = 0 Then
+            If zf(n)=11 Then
+                zf(n)=12
             Else
-                zani(n)=4:zf(n)=8
+                zf(n)=11
             End If
         End If
     Else
         If zJumpFallSeq(n) <> 0 Then zJumpFallSeq(n)=0
-        If zjumpseq(n) >= 0 And zjumpseq(n) <= 3 Then zani(n)=4:zf(n)=2
-        If zjumpseq(n) >= 4 And zjumpseq(n) <= 6 Then zani(n)=4:zf(n)=3
-        If zjumpseq(n) >= 7 And zjumpseq(n) <= 9 Then zani(n)=4:zf(n)=4
-        If zjumpseq(n) >= 10 And zjumpseq(n) <= 13 Then zani(n)=4:zf(n)=5
-        If zjumpseq(n) >= 14 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=6
-        If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=7
+        If zjumpseq(n) >= 0 And zjumpseq(n) <= 3 Then zani(n)=4:zf(n)=1
+        If zjumpseq(n) >= 4 And zjumpseq(n) <= 6 Then zani(n)=4:zf(n)=2
+        If zjumpseq(n) >= 7 And zjumpseq(n) <= 9 Then zani(n)=4:zf(n)=3
+        If zjumpseq(n) >= 10 And zjumpseq(n) <= 13 Then zani(n)=4:zf(n)=4
+        If zjumpseq(n) >= 14 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=5
+        If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=6
     End If
+    DebugLog "zjumpseq: " + zjumpseq(n) + ", zJumpFallSeq: " + zJumpFallSeq(n) + ", zF: " + zF(n)
 End Function
 
 ;----------------- Process Picccolo Air Frames -------------------
