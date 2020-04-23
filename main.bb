@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=1
+Global debugMode=0
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)

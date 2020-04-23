@@ -448,9 +448,7 @@ Function getSolStance(n)
     seq10=100:seq11=seq10+6:seq12=seq11+6:seq13=seq12+6:seq14=seq13+6
     seq15=seq14+6:seq16=seq15+6:seq17=seq16+6:seq18=seq17+6:seq19=seq18+6
     seq20=seq19+6:seq21=seq20+6:seq22=seq21+6:seq23=seq22+6
-    
-    DebugLog "zStanceSeq: " + zStanceSeq(n)
-    
+
     If zStanceSeq(n)=0 Then stanceLevel(n)=0
     
     zStanceSeq(n)=zStanceSeq(n)+1

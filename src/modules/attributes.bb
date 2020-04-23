@@ -2600,8 +2600,8 @@ zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
 zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
 
 For i=0 To 30
-    zpic(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + ".bmp")
-    zpic_(n,1,i)=LoadImage(gfxdir$ + "zwalk" + i + "_.bmp")
+    zpic(n,1,i)=LoadImage(gfxdir$ + "walk/zwalk" + i + ".bmp")
+    zpic_(n,1,i)=LoadImage(gfxdir$ + "walk/zwalk" + i + "_.bmp")
 Next
 
 zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
