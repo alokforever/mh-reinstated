@@ -1268,9 +1268,13 @@ Case 7    ; Seeking ki blast (special)
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
     If zongnd(n)=0 And canAirGlideUp(n)=0 Then zy(n)=zy(n)-2
 
-    If zBlowSeq(n)=1 And spellCooldownSeq(n, 3) > 0 Then
-        playPiccoloCooldownSnd(n)
-        zBlowSeq(n)=0:zBlow(n)=0
+    If zBlowSeq(n)=1 Then
+        If zStaminaBar#(n) < 35
+            zBlowSeq(n)=0:zBlow(n)=0
+            isFlashLowStamina(n)=1
+        Else
+            zStaminaBar#(n)=zStaminaBar#(n)-35
+        End If
     End If
     
 ;----------- Animation -------------
@@ -1288,8 +1292,6 @@ Case 7    ; Seeking ki blast (special)
         If zFace(n)=2 Then x=zx(n)+30
         If zFace(n)=4 Then x=zx(n)-30
         makeshot(n,50,x,y,zface(n))
-        spellCooldownMaxTime(n, 3)=104
-        spellCooldownSeq(n, 3)=spellCooldownMaxTime(n, 3) 
     End If
     
 ;---------- Sounds --------------

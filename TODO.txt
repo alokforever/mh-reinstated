@@ -19,6 +19,10 @@ character-specific:
 5. Frozen sprites resize (stuff folder)
 6. Camera movement issues (single player and multiplayer)
 
+run not stopping
+object falling from moving platforms when dropped
+loadscreen of player
+
 Sprite resize offset (by percentage):
 Evil Ryu - 82
 Rash - 75

@@ -239,13 +239,13 @@ Global menuOption, duringGameMenu
 Global isStuffFall
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
 Dim zStanceFrames(maxCharAmt), zStance2Frames(maxCharAmt), zStanceSeq(maxCharAmt), zStanceSpeed(maxCharAmt), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
-Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ)
+Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ), leftKeyDoubleTap(maxZ), rightKeyDoubleTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
 Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
-Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), timerImage2(120), cdImage(maxZ)
+Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), timerImage2(158), cdImage(maxZ)
 Dim isMkCharacter(maxZ), gender(maxZ), canWallJump(maxZ), zWallJump(maxZ), zTauntSeed(maxZ)
 Dim canPerformNextCombo(maxZ), cooldownPic(maxZ, 4), flipFrames(maxZ), duckFrames(maxZ), duckFrameSpeed(maxZ), duckSeq(maxZ)
 Dim isShotLongRange(maxZ), healMode(maxZ), zHealAmount(maxZ), zHealInterval(maxZ), zHealTimes(maxZ), zHealSeq(maxZ)
@@ -437,26 +437,6 @@ Global controllerPic=LoadImage(gfxdir$ + "controller.bmp")
 Global keyboardPic=LoadImage(gfxdir$ + "keyboard.bmp")
 Global clockPic=LoadImage(gfxdir$ + "clock.bmp")
 
-For n=1 To 100   ;load shots
-    shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")
-    shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
-Next
-
-For n=1 To 200   ; load chunks
-    For nn=1 To 15
-        ptPic(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+ ".bmp" )
-        ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
-    Next
-Next
-
-For n=0 To 90 Step 1
-    timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")
-Next 
-
-For n=0 To 34 Step 1
-    timerImage2(n)=LoadImage(gfxdir$ + "timer2\timer" + n + ".bmp")
-Next 
-
 Dim letter(20,100), letterWidth(20,100)
 ;LOADS fonts
 
@@ -466,19 +446,6 @@ For t=1 To 2
     If Not letter(t,n) = 0 Then letterWidth(t,n) = ImageWidth(letter(t,n))
   Next
 Next
-
-Dim soundFx(20)    ;sound fx, obj list
-soundFx(1)=slashSnd           ;sound list
-soundFx(2)=highpunchsnd
-soundFx(3)=sDoorSnd
-soundFx(4)=mDoorSnd
-soundFx(5)=fireHitSnd
-soundFx(6)=laserSnd
-soundFx(7)=shotSnd
-soundFx(8)=clickSnd
-soundFx(9)=marioFierceSnd
-soundFx(10)=batsSnd
-soundFx(11)=shockSnd
 
 Global justIntroduced
 Dim menuTheme(2)
@@ -516,6 +483,38 @@ Include "src\modules\animation.bb"
 Include "src\modules\AI.bb"
 
 pri priW("please wait..."),350,"please wait..."
+
+For n=1 To 100   ;load shots
+    shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")
+    shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
+Next
+
+For n=1 To 200   ; load chunks
+    For nn=1 To 15
+        ptPic(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+ ".bmp" )
+        ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
+    Next
+Next
+
+For n=0 To 90 Step 1
+    timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")
+Next 
+
+For n=0 To 157 Step 1
+    timerImage2(n)=LoadImage(gfxdir$ + "timer2\timer" + n + ".bmp")
+Next 
+Dim soundFx(20)    ;sound fx, obj list
+soundFx(1)=slashSnd           ;sound list
+soundFx(2)=highpunchsnd
+soundFx(3)=sDoorSnd
+soundFx(4)=mDoorSnd
+soundFx(5)=fireHitSnd
+soundFx(6)=laserSnd
+soundFx(7)=shotSnd
+soundFx(8)=clickSnd
+soundFx(9)=marioFierceSnd
+soundFx(10)=batsSnd
+soundFx(11)=shockSnd
 
 loadData()  ;Loads general maps data
 
@@ -1471,7 +1470,7 @@ For n=1 To zzamount
     If showLifeBar(n)=1 Then drawBossLife(n)
 Next
 
-x=24:y=5    ;draws bars, super bar, damage/life, lives, etc.
+x=15:y=5    ;draws bars, super bar, damage/life, lives, etc.
 For n=1 To 4
     xx=0
  If zon(n) And isHelper(n)=0 Then
@@ -1504,10 +1503,15 @@ For n=1 To 4
     Rect x,y+32,zStaminaBar#(n) * 1.6,4,1
     Color 74,35,90
     Rect x,y+40,(zBlockLife(n)*2),4,1
+    
     Color 120,120,120
-    Rect x,y+24,160,6,0
+    Rect x,y+24,160,6,0 ; super bar case
+    Color 120,120,120
+    Rect x,y+32,160,6,0 ; stamina bar case
+    Color 120,120,120
+    Rect x,y+40,160,6,0 ; shield bar case
  EndIf
-x=x+248
+x=x+258
 Next
 
 superBarDispTime=50
@@ -2634,11 +2638,12 @@ EndIf
 
 If zspeed(n) > 0 Then
     zSpeed#(n)=zSpeed#(n)-zAcc#(n)
-    If ZSPEED(N) < 0 Then zspeed(n)=0:isRunning(n)=0
+    DebugLog "zSpeed: " + zSpeed(n)
+    If zSpeed(n) < 0 Then zspeed(n)=0:isRunning(n)=0
 EndIf
 If zspeed(n) < 0 Then
     zSpeed#(n)=zSpeed#(n)+zAcc#(n)
-    If ZSPEED(N) > 0 Then zspeed(n)=0:isRunning(n)=0
+    If zSpeed(n) > 0 Then zspeed(n)=0:isRunning(n)=0
 EndIf
 .PressedDi
 
@@ -5556,7 +5561,10 @@ End Function
 Function checkRightKeyHit(n)
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - rightKeyHitTimer(n)) < quartSec And (curTime - rightKeyHitTimer(n)) > 0 Then
+        rightKeyDoubleTap(n)=1
         If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
+    Else
+        rightKeyDoubleTap(n)=0
     End If
     rightKeyHitTimer(n) = curTime
 End Function
@@ -5565,7 +5573,10 @@ End Function
 Function checkLeftKeyHit(n)
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - leftKeyHitTimer(n)) < quartSec And (curTime - leftKeyHitTimer(n)) > 0 Then
+        leftKeyDoubleTap(n)=1
         If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
+    Else
+        leftKeyDoubleTap(n)=0
     End If
     leftKeyHitTimer(n) = curTime
 End Function
@@ -5743,11 +5754,11 @@ End Function
 Function drawTimer(n, spellId)
     Local curSeq=spellCooldownSeq(n, spellId)
     Local maxSeq=spellCooldownMaxTime(n, spellId)
-    Local currFrame=Int((Float(curSeq)/maxSeq)*34)
-    x=((n-1)*160)+(spellId*42)-20:y=445
+    Local currFrame=Int((Float(curSeq)/maxSeq)*157)
+    x=((n-1)*256)+(spellId*72)-32:y=712
     
-    DrawImage cooldownPic(curGuy(n),spellId),x-20,y
-    DrawImage timerImage2(currFrame),x+10,y
+    DrawImage cooldownPic(curGuy(n),spellId),x-30,y
+    DrawImage timerImage2(currFrame),x+16,y
 End Function
 
 ;------------------ Check Wall Jump -----------------
@@ -6719,7 +6730,7 @@ Function displayLoadingScr()
 End Function
 
 Function flashLowStamina(n)
-    x=21 + (248 * (n-1)):y=35
+    x=12 + (258 * (n-1)):y=35
 
     flashLowStaminaSeq(n)=flashLowStaminaSeq(n)+1
     If flashLowStaminaSeq(n)=1 And gameSound Then PlaySound lowStaminaSnd
@@ -6733,7 +6744,7 @@ Function flashLowStamina(n)
     
     If isStaminaRectShow(n)=1 Then
         Color 255,136,38
-        Rect x,y,(zStaminaBar#(n) * 1.6) + 6,10,01
+        Rect x,y,(zStaminaBar#(n) * 1.6) + 6,10,0
     End If
     
     If flashLowStaminaSeq(n) > 56 Then

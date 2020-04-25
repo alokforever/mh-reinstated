@@ -598,7 +598,7 @@ Case 7    ; Juggernaut punch (special)
     ex=1000:a2=ex+4:b2=a2+4:c2=b2+4:d2=c2+3:e2=d2+10:f2=e2+3:g2=f2+2:h2=g2+2:i2=h2+2
     a3=2000:b3=a3+12:c3=b3+8:d3=c3+4
     If zOnGnd(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-    If zBlowSeq(n)=1 And isRunning(n) Then 
+    If zBlowSeq(n)=1 And (leftKeyDoubleTap(n)=1 Or rightKeyDoubleTap(n)=1) Then 
         If zStaminaBar(n) >= 60 Then 
             zStaminaBar(n)=zStaminaBar(n)-60:zBlowSeq(n)=ex:isRunning(n)=0
         Else
@@ -607,7 +607,7 @@ Case 7    ; Juggernaut punch (special)
     End If
     If zBlowSeq(n) = i+1 Or zBlowSeq(n) = i2+1 Then zBlowSeq(n)=a3
 ;================= Animation ==============
-    ;=========== Normal Punch =============    
+    ;=========== Normal Punch =============
     If zBlowSeq(n) >= 1 And zBlowSeq(n) <= a Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=10:zf(n)=2
     If zBlowSeq(n) >= b And zBlowSeq(n) <= c Then zani(n)=10:zf(n)=3

@@ -646,7 +646,7 @@ If zAi(i)=1    Then
     oldGuy=curGuy(i)
     curGuy(i)=curGuy(i)+di
     If characterOpen(curGuy(i))=0 Then curGuy(i) = oldGuy
-    If curGuy(i) < 1 Then curGuy(i) = 8
+    If curGuy(i) < 1 Then curGuy(i) = 20
     zThumbNail(i)=butpic(n)
 EndIf
 
@@ -773,7 +773,7 @@ For n=1 To ButtonAmount
             Case 0:ButSeq(60)=1:zon(k)=1:zAI(k)=0
             Case 1:ButSeq(60)=2:zon(k)=1:zAI(k)=1
     .anotherCharacter1
-                   curGuy(1)=Rand(1,8):zThumbNail(1)=butpic(curGuy(1))
+                   curGuy(1)=Rand(1,20):zThumbNail(1)=butpic(curGuy(1))
                    If characterOpen(curGuy(1))=0 Then Goto anotherCharacter1
                   If vsMode=0 Then ButSeq(60)=0:zon(k)=0:zAI(k)=0
             Case 2:ButSeq(60)=0:zon(k)=0:zAI(k)=0
@@ -784,7 +784,7 @@ For n=1 To ButtonAmount
             Case 0:ButSeq(61)=1:zon(k)=1:zAI(k)=0
             Case 1:ButSeq(61)=2:zon(k)=1:zAI(k)=1
     .anotherCharacter2
-                   curGuy(2)=Rand(1,8):zThumbNail(2)=butpic(curGuy(2))
+                   curGuy(2)=Rand(1,20):zThumbNail(2)=butpic(curGuy(2))
                    If characterOpen(curGuy(2))=0 Then Goto anotherCharacter2
                    If vsMode=0 Then ButSeq(61)=0:zon(k)=0:zAI(k)=0
             Case 2:ButSeq(61)=0:zon(k)=0:zAI(k)=0
@@ -795,7 +795,7 @@ For n=1 To ButtonAmount
             Case 0:ButSeq(62)=1:zon(k)=1:zAI(k)=0
             Case 1:ButSeq(62)=2:zon(k)=1:zAI(k)=1
     .anotherCharacter3
-                   curGuy(3)=Rand(1,8):zThumbNail(3)=butpic(curGuy(3))
+                   curGuy(3)=Rand(1,20):zThumbNail(3)=butpic(curGuy(3))
                    If characterOpen(curGuy(3))=0 Then Goto anotherCharacter3
                    If vsMode=0 Then ButSeq(62)=0:zon(k)=0:zAI(k)=0
             Case 2:ButSeq(62)=0:zon(k)=0:zAI(k)=0
@@ -806,7 +806,7 @@ For n=1 To ButtonAmount
             Case 0:ButSeq(63)=1:zon(k)=1:zAI(k)=0
             Case 1:ButSeq(63)=2:zon(k)=1:zAI(k)=1
     .anotherCharacter4
-                  curGuy(4)=Rand(1,8):zThumbNail(4)=butpic(curGuy(4))
+                  curGuy(4)=Rand(1,20):zThumbNail(4)=butpic(curGuy(4))
                   If characterOpen(curGuy(4))=0 Then Goto anotherCharacter4
                   If vsMode=0 Then ButSeq(63)=0:zon(k)=0:zAI(k)=0
             Case 2:ButSeq(63)=0:zon(k)=0:zAI(k)=0
@@ -2189,7 +2189,7 @@ Function waitCheats()
         If cheatSeq(2)=8 Then
             cheat(2)=lastKeyPressed  ;cheat_2 activated
             If gameSound Then PlaySound energySnd
-            CurGuy(lastKeyPressed)=40 ;set selected character to turlte
+            CurGuy(lastKeyPressed)=40 ;set selected character to turtle
         End If
         
         cheatSeq(1)=0
