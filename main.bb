@@ -82,7 +82,7 @@ Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zju
 Dim zlife(maxZ),zhit(maxZ),zhitseq(maxZ),Zshield(maxZ),zTempShield(maxZ),Zshieldseq(maxZ),ZshieldedTime(maxZ),zHit2(maxZ)
 Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),zfallenSeq(maxZ),zFallImpact#(maxZ),zFallSpeed#(maxZ)
 Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
-Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)            
+Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)
 Dim zUpHeight(maxZ),zDuckHeight(maxZ),zHitHead(maxZ),zIcon(60),zRollOnImpact(maxZ)
 Dim zheight(maxZ),zduck(maxZ),zgravity#(maxZ),zSpeed#(maxZ),zSide(maxZ),zWalkObjX#(maxZ,40),zWalkObjY#(maxZ,40)
 Dim Zrun(maxZ), zCurWeapon(maxZ),dangerMove9(maxZ),dangerMove5(maxZ),zGotObj(maxZ), zLeftCollide(maxZ), zRightCollide(maxZ)
@@ -277,6 +277,7 @@ Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
 Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
+Dim menuStanceXAdj(100, maxFrame), menuStanceYAdj(100, maxFrame)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -334,6 +335,7 @@ For i=1 To 20
     Next
 Next
 
+setStanceXYAdj()
 setScaleFactorPerChar()
 
 gfxdir$="gfx\"
@@ -531,8 +533,8 @@ zzamount=4    ;test
 curMap=1
 curGuy(1)=1:lastzon(1)=1:lastBut(60)=1
 curGuy(2)=2:lastzon(2)=1:lastBut(61)=2:zai(2)=1:lastzAI(2)=1
-curGuy(3)=3:lastzon(3)=0:
-curGuy(4)=1:lastzon(4)=0:
+curGuy(3)=3:lastzon(3)=0
+curGuy(4)=1:lastzon(4)=0
 n=5
 For i=1 To 8 Step 1
     curGuy(n)=i:lastzon(n)=1:lastzAI(n)=1:;zteam(n)=2
@@ -658,9 +660,9 @@ EndIf
 Select menuOption
     Case charSelectVal: displayCharMenu()  ;character Select screen
     Case mainMenuVal: mainMenu()  ;main menu, first screen
-            For i=1 To zzamount
-                clearSubStates(i, 0)
-            Next
+        For i=1 To zzamount
+            clearSubStates(i, 0)
+        Next
     Case optionsMenuVal: optionsMenu()   ;Options menu
     Case controlsMenuVal: controlsMenu()   ;Controls menu
     Case recordsMenuVal: showRecords()   ;Controls menu
@@ -758,6 +760,7 @@ If gameStart=2 Then
 EndIf
 
 ;-----------Load map--------------------------------
+freezeMode=0
 isSuperMove=0
 fontType=1
 quake=0
@@ -1955,7 +1958,7 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
             ;FdelaySeq(n)=FdelaySeq(n)-1
             Goto noFac
         EndIf
-     EndIf    
+     EndIf
     
         FdelaySeq(n)=0
         Select facCategory(n,curF(n))
@@ -2400,11 +2403,11 @@ Function renderZ(n)
 l_zani=zani(n) : l_zf=zf(n) : l_zpic=zcurpic(n)
 
 If scrollMap=0 Then
-    If zx(n) < -30 And zHelperObj(n)=0 Then 
+    If zx(n) < -30 And zHelperObj(n)=0 Then
         DrawImage zCurPic(n),20-(ImageWidth (zCurpic(n))/2),zy(n)-ImageHeight (zCurPic(n))+1
         DrawImage greenSign,20-(ImageWidth (greenSign)/2),zy(n)-ImageHeight (greenSign)+1
     Else
-        If zx(n) > 670 And zHelperObj(n)=0 Then 
+        If zx(n) > 670 And zHelperObj(n)=0 Then
         DrawImage zCurPic(n),620-(ImageWidth (zCurpic(n))/2) ,zy(n)-ImageHeight (zCurPic(n))+1
         DrawImage greenSign,620-(ImageWidth (greenSign)/2) ,zy(n)-ImageHeight (greenSign)+1
         EndIf
@@ -2638,12 +2641,11 @@ EndIf
 
 If zspeed(n) > 0 Then
     zSpeed#(n)=zSpeed#(n)-zAcc#(n)
-    DebugLog "zSpeed: " + zSpeed(n)
-    If zSpeed(n) < 0 Then zspeed(n)=0:isRunning(n)=0
+    If zSpeed(n) <= 0 Then zspeed(n)=0:isRunning(n)=0
 EndIf
 If zspeed(n) < 0 Then
     zSpeed#(n)=zSpeed#(n)+zAcc#(n)
-    If zSpeed(n) > 0 Then zspeed(n)=0:isRunning(n)=0
+    If zSpeed(n) >= 0 Then zspeed(n)=0:isRunning(n)=0
 EndIf
 .PressedDi
 
@@ -4116,7 +4118,7 @@ Next
 obj(nn)=1
 objOwner(nn)=n
 zGotObj(n)=nn
-objType(nn)=t    
+objType(nn)=t
 objData(nn,n)
         
 Return nn
@@ -4694,10 +4696,10 @@ For nn=1 To objAmount
             
             If objBounce(nn) = 0 Then
                 objBounce(nn) = 1
-                If objYspeed(nn) > 3 Then
-                    objYspeed(nn) = -2
+                If objYspeed(nn) > 4.8 Then
+                    objYspeed(nn) = -3.2
                 Else
-                    objYspeed(nn) = -1
+                    objYspeed(nn) = -1.6
                 EndIf
             Else
                 objXspeed(nn)=0:objYSpeed(nn)=0
@@ -5283,7 +5285,7 @@ Else    ;If not CTF Then it`s KTF
     For n= 1 To zzamount    ; If player near flag than pick it up! (keep the flag mode)
       If zon(n) Then
         For nn= 1 To flagAmount
-            If flagCarried(nn)=0 Then    
+            If flagCarried(nn)=0 Then
                 If xFlag(nn) > zx(n)-zside(n) And xFlag(nn) < zx(n)+zside(n) Then
                     If yFlag(nn)-10 > zy(n)-zheight(n) And yFlag(nn)-10 < zy(n) Then
                         If zhit(n)=0 Then flagOwner(nn)=n:flagCarried(nn)=1
@@ -6714,7 +6716,10 @@ Function displayLoadingScr()
     secondBgChanceSeed=Rand(1,100)
     bgIdx=(secondBgChanceSeed + 4) / 5
     
+    .anotherPlayer
     i=Rand(1,zamountPlaying)
+    If zOn(i)=0 Then GoTo anotherPlayer
+    
     If loadingImg(charIdxList(i), bgIdx)=0 Then
         loadingImg(charIdxList(i), bgIdx)=LoadImage("gfx\stuff\loading\loading" + charIdxList(i) + "_" + (bgIdx+1) + ".png")
     End If
@@ -6824,4 +6829,8 @@ Function getIconScaleFactor#(i)
     End Select
     
     return scaleFactor#
+End Function
+
+Function setStanceXYAdj()
+    menuStanceXAdj(1, 1)=0
 End Function

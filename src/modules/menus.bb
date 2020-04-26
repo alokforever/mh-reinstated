@@ -1026,6 +1026,7 @@ For b=55 To 58  ;team, selected player
             butFrame=1
         End If
     End If
+
     If vsMode=1 Then
         Color 200,200,200
         Rect xbut(b),ybut(b),wbut(b),hBut(b),0
@@ -1040,26 +1041,32 @@ For b=55 To 58  ;team, selected player
             pri xbut(b)+8,ybut(b)+5,strInfo$(31)
         EndIf
     EndIf
-    xOffset=38
+    xOffset=28
     If curGuy(n)=1 Then xOffset=30
-    If curGuy(n)=3 Then xOffset=25
-    If curGuy(n)=6 Then xOffset=20
+    If curGuy(n)=3 Then xOffset=28
+    If curGuy(n)=6 Then xOffset=28
     If curGuy(n)=7 Then xOffset=31
-    If curGuy(n)=8 Then xOffset=43
-    If curGuy(n)=9 Then xOffset=34
-    If curGuy(n)=9 Then xOffset=42
-    If curGuy(n)=15 Then xOffset=32
+    If curGuy(n)=8 Then xOffset=27
+    If curGuy(n)=9 Then xOffset=30
+    If curGuy(n)=10 Then xOffset=29
+    If curGuy(n)=11 Then xOffset=36
+    If curGuy(n)=15 Then xOffset=41
     If curGuy(n)=17 Then xOffset=31
-    If curGuy(n)=18 Then xOffset=12
-    If curGuy(n)=19 Then xOffset=34
-    If curGuy(n)=20 Then xOffset=40
+    If curGuy(n)=18 Then xOffset=24
+    If curGuy(n)=19 Then xOffset=38
+    If curGuy(n)=20 Then xOffset=29
     If curGuy(n) > 0 And CurGuy(n) < maxCharAmt And zon(n) > 0 Then
+        Local xCoord, yCoord
         If stanceMode(n)=1 Then
             If stanceButPic(curGuy(n), butFrame)=0 Then butFrame=1
-            DrawImage stanceButPic(curGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic(curGuy(n), butFrame))
+            xCoord=40+(xbut(b)-(ImageWidth(stanceButPic(curGuy(n), butFrame))/2))+xOffset
+            yCoord=560-ImageHeight(stanceButPic(curGuy(n), butFrame))
+            DrawImage stanceButPic(curGuy(n), butFrame),xCoord,yCoord
         Else
             If stanceButPic2(curGuy(n), butFrame)=0 Then butFrame=1
-            DrawImage stanceButPic2(curGuy(n), butFrame),xbut(b)+xOffset,560-ImageHeight(stanceButPic2(curGuy(n), butFrame))
+            xCoord=40+(xbut(b)-(ImageWidth(stanceButPic2(curGuy(n), butFrame))/2))+xOffset
+            yCoord=560-ImageHeight(stanceButPic2(curGuy(n), butFrame))
+            DrawImage stanceButPic2(curGuy(n), butFrame),xCoord,yCoord
         End If
     End If
 Next
@@ -1120,6 +1127,7 @@ End Function
 ;----------- Main menu ---------------------------------------------------------
 Function mainMenu()
 
+xScr=0:yScr=0
 pointers
 For n=1 To 200
     If JoyDown(n)=1 Then
@@ -2201,7 +2209,7 @@ Function setStanceFrame(n)
     guy=curGuy(n)
     zStanceSeq(n)=zStanceSeq(n)+1
     If zStanceSpeed(guy) > 0 Then
-        If zStanceSeq(n) Mod zStanceSpeed(guy) = 0 Then 
+        If zStanceSeq(n) Mod zStanceSpeed(guy) = 0 Then
             zStanceSeq(n)=0
             menuStanceFrame(n)=menuStanceFrame(n)+1
         End If
@@ -2339,4 +2347,25 @@ Function getCurStanceFrame(n, b)
     if butFrame=0 Then butFrame=1
     
     return butFrame
+End Function
+
+Function pauseStance(n, frame)
+    If freezeMode=1 Then
+        If KeyHit(200) Then ;Up arrow key
+            menuStanceYAdj(n,frame)=menuStanceYAdj(n,frame)-1
+            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
+        End If
+        If KeyHit(208) Then ;Down arrow key
+            menuStanceYAdj(n,frame)=menuStanceYAdj(n,frame)+1
+            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
+        End If
+        If KeyHit(203) Then ;Left arrow key
+            menuStanceXAdj(n,frame)=menuStanceXAdj(n,frame)-1
+            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
+        End IF
+        If KeyHit(205) Then ;Right arrow key
+            menuStanceXAdj(n,frame)=menuStanceXAdj(n,frame)+1
+            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
+        End If
+    End If
 End Function

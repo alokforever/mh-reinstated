@@ -617,7 +617,7 @@ End Function
 
 Function renderGroundCrack(n)
     renderOk=1
-    xRender=16
+    xRender=25
     checkYDist(n, zx(n)+xRender, zy(n), 2)
     If yDist(n)>16 Then renderOk=0
     checkYDist(n, zx(n)-xRender, zy(n), 2)
