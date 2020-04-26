@@ -2348,24 +2348,3 @@ Function getCurStanceFrame(n, b)
     
     return butFrame
 End Function
-
-Function pauseStance(n, frame)
-    If freezeMode=1 Then
-        If KeyHit(200) Then ;Up arrow key
-            menuStanceYAdj(n,frame)=menuStanceYAdj(n,frame)-1
-            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
-        End If
-        If KeyHit(208) Then ;Down arrow key
-            menuStanceYAdj(n,frame)=menuStanceYAdj(n,frame)+1
-            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
-        End If
-        If KeyHit(203) Then ;Left arrow key
-            menuStanceXAdj(n,frame)=menuStanceXAdj(n,frame)-1
-            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
-        End IF
-        If KeyHit(205) Then ;Right arrow key
-            menuStanceXAdj(n,frame)=menuStanceXAdj(n,frame)+1
-            DebugLog "menuStanceXAdj: " + menuStanceXAdj(n,frame) + ", menuStanceYAdj: " + menuStanceYAdj(n,frame)
-        End If
-    End If
-End Function

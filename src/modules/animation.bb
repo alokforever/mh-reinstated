@@ -150,6 +150,41 @@ Function drawWalkSequence(n)
     EndIf
 End Function
 
+Function getEvilRyuRunStatus(n)
+    ret=1:zani(n)=21
+
+    If zRunSeqNoReset(n)=1 Then wasOnAir(n)=0
+    If zRunSeqNoReset(n) > 1 And wasOnAir(n)=1 Then isRunning(n)=0:Return 0
+;============= Animation =============
+    If zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 3 Then zF(n)=1:zSpeed#(n)=0.01
+    If zRunSeqNoReset(n) > 3 And zRunSeqNoReset(n) <= 6 Then zF(n)=2:zSpeed#(n)=0.01
+    If zRunSeqNoReset(n) > 6 And zRunSeqNoReset(n) <= 8 Then zF(n)=3:zSpeed#(n)=0.01
+    If zRunSeqNoReset(n) > 8 And zRunSeqNoReset(n) <= 26 Then
+        zF(n)=4
+        If zRunSeqNoReset(n) <= 16 Then zSpeed#(n)=9
+        If zRunSeqNoReset(n) > 16 And zRunSeqNoReset(n) <= 18 Then zSpeed#(n)=8
+        If zRunSeqNoReset(n) > 18 And zRunSeqNoReset(n) <= 20 Then zSpeed#(n)=7
+        If zRunSeqNoReset(n) > 20 And zRunSeqNoReset(n) <= 22 Then zSpeed#(n)=6
+        If zRunSeqNoReset(n) > 22 And zRunSeqNoReset(n) <= 24 Then zSpeed#(n)=5
+        If zRunSeqNoReset(n) > 24 And zRunSeqNoReset(n) <= 26 Then zSpeed#(n)=4
+    End If
+    If zRunSeqNoReset(n) > 26 And zRunSeqNoReset(n) <= 29 Then zF(n)=5:zSpeed#(n)=1
+    If zRunSeqNoReset(n) > 29 And zRunSeqNoReset(n) <= 32 Then zF(n)=6:zSpeed#(n)=0.01
+    
+    If zRunSeqNoReset(n) > 32 Then zRunSeqNoReset(n) = 0
+
+;============= Sound =============
+    If zRunSeqNoReset(n)=27 And gameSound Then PlaySound evilryuLightStepSnd
+    
+    If (zRunSeqNoReset(n) > 26 And zRunSeqNoReset(n) <= 23) Or (zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 8) Then
+        If leftKey(n)=0 And rightKey(n)=0 Then isRunning(n)=0
+    End If
+    
+    If zFace(n)=4 Then zSpeed#(n)=zSpeed#(n) * -1 
+    
+    Return ret
+End Function
+
 Function getHiryuRunStatus(n)
     ret=0
     If zRunSeqNoReset(n)=1 Then 
@@ -207,11 +242,11 @@ End Function
 
 Function handleJuggernautRun(n)
     If zFace(n)=2 Then 
-        If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=2
-        If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=1
+        If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=3.2
+        If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=1.6
     Else
-        If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=-2
-        If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=-1
+        If zani(n)=21 And zf(n)=5 Then zSpeed#(n)=-3.2
+        If zani(n)=21 And zf(n)=6 Then zSpeed#(n)=-1.6
     End If
     If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then extraObj(n,zx(n),-40,zy(n),2,zFace(n),89)
 End Function
@@ -254,6 +289,7 @@ Function drawRunSequence(n)
         End If
     End If
     
+    depleteStaminaBar(n, 1)
     If getSpecialRunStatus(n)=1 Then Return
     
     If zRunFrames(n) <> 0 Then
@@ -264,18 +300,18 @@ Function drawRunSequence(n)
                 Return
             EndIf
         Next
-        depleteStaminaBar(n, 1)
     End If
 End Function
 
 Function getSpecialRunStatus(n)
     Local ret=0
+    If curGuy(n)=1 Then ret=getEvilRyuRunStatus(n)
     If curGuy(n)=6 Then ret=getHiryuRunStatus(n)
     If curGuy(n)=10 Then ret=getDeadpoolRunStatus(n)
     If curGuy(n)=14 Then ret=getWonderwomanRunStatus(n)
     If curGuy(n)=15 Then handleJuggernautRun(n)
     If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then ret=1
-    
+
     Return ret
 End Function
 

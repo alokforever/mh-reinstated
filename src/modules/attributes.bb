@@ -104,6 +104,7 @@ Case 1: ;Evil Ryu
     zJumpSnd2(n)=wolverinejumpsnd
     hasSpecialAirFrames(n)=1
     specialHitFrames(n)=11
+    zRunFrames(n)=6
 
 Case 2: ;Rash
     zBlowDist(n,1)=65

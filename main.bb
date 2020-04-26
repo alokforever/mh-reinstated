@@ -65,7 +65,6 @@ Dim credits$(100), ySpace(100), yCredit(100)
 Dim mapOpen(200), mapSecret(200), vsMapOpen(200), CTFmapOpen(200),open(200)
 Dim cheat(20),cheatSeq(20), cheatKeys(20,20)
 
-Global debugSeq
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
@@ -277,7 +276,7 @@ Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
 Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
-Dim menuStanceXAdj(100, maxFrame), menuStanceYAdj(100, maxFrame)
+Dim wasOnAir(maxZ)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -335,7 +334,6 @@ For i=1 To 20
     Next
 Next
 
-setStanceXYAdj()
 setScaleFactorPerChar()
 
 gfxdir$="gfx\"
@@ -988,7 +986,7 @@ For n= 1 To zzamount
     zBlowHold(n)=4: zGrabbed(n)=0: zonThickPlat(n)=0: zTopRunningSpeed(n)=zDtopSpeed(n)*zRunSpeed#(n)
     zLeftCollide(n)=0: zRightCollide(n)=0:immuneToCollide(n)=0
     zControls(n)=0:zControlled(n)=0:zParalyzed(n)=0:isHit(n)=0
-    projectileDeflectMode(n)=0
+    projectileDeflectMode(n)=0:picYOffset(zF(n))=0
 
     If electrocuteSeq(n) <> 0 Then drawElectrocution(n)
     If isFrozen(n) Or isDizzy(n) Then zNoMove(n)=1:zBlow(n)=0:zNoJump(n)=1
@@ -2094,6 +2092,7 @@ Function selectDraw(n)
     EndIf
     
     If zongnd(n)=0 And zhit(n)=0 Then     ;mid air
+        wasOnAir(n)=1
         If isRunning(n) And canAirGlide(n)=1 Then
             If zJumpSeq(n)=1 Then zRunSeq(n)=0:zStanceSeq(n)=0
             zRunSeq(n)=zRunSeq(n)+1
@@ -2111,8 +2110,6 @@ Function selectDraw(n)
             zani(n)=4:zf(n)=1
         End If
         Goto drawZ
-    Else
-        debugSeq = 0
     End If
     handleHeavyCharactersOnAir(n)
     If (Not zhit(n)) And isActiveCharacter(n)=1 Then ;On ground
@@ -2624,7 +2621,7 @@ If rightkey(n)=1 Then
     Else
         If zSpeed#(n) > zTopSpeed#(n) Then zSpeed#(n) = zTopSpeed#(n)
     End If
-    rk=1
+    If curGuy(n)=1 And zani(n)=21 And zF(n)=4 Then rk=0 Else rk=1
     Goto PressedDi
 EndIf
 
@@ -2635,7 +2632,7 @@ If leftkey(n)=1 Then
     Else
         If zSpeed#(n) < zTopSpeed#(n) - (zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed#(n) - (zTopSpeed(n)*2)
     End If
-    lk=1
+    If curGuy(n)=1 And zani(n)=21 And zF(n)=4 Then lk=0 Else lk=1
     Goto PressedDi
 EndIf
 
@@ -6829,8 +6826,4 @@ Function getIconScaleFactor#(i)
     End Select
     
     return scaleFactor#
-End Function
-
-Function setStanceXYAdj()
-    menuStanceXAdj(1, 1)=0
 End Function
