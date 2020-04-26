@@ -170,6 +170,19 @@ Function getHiryuRunStatus(n)
     Return ret
 End Function
 
+Function getDeadpoolRunStatus(n)
+    ret=0
+    
+    If leftKey(n)=0 And rightKey(n)=0 Then
+        ret=1
+        If zOnGnd(n)=1 And abs(zSpeed#(n)) = 6.08 And gameSound Then PlaySound pullSnd
+        If abs(zSpeed#(n))<=6.08 And abs(zSpeed#(n))>3.68 Then zani(n)=21:zf(n)=7
+        If abs(zSpeed#(n))<=3.68 Then zani(n)=21:zf(n)=8
+    End If
+    
+    Return ret
+End Function
+
 Function getWonderwomanRunStatus(n)
     ret=0
     If zRunSeqNoReset(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
@@ -177,7 +190,7 @@ Function getWonderwomanRunStatus(n)
     If leftKey(n)=0 And rightKey(n)=0 Then
         ret=1
         If abs(zSpeed#(n))<=7.68 And abs(zSpeed#(n))>6.88 Then zani(n)=21:zf(n)=8
-        If zOnGnd(n)=1 And abs(zSpeed#(n)) >= 7.67 And abs(zSpeed#(n)) <= 7.69 And gameSound Then PlaySound pullSnd
+        If zOnGnd(n)=1 And abs(zSpeed#(n)) = 7.67 And gameSound Then PlaySound pullSnd
         If abs(zSpeed#(n))<=6.08 And abs(zSpeed#(n))>5.28 Then zani(n)=21:zf(n)=9
         If abs(zSpeed#(n))<=5.28 And abs(zSpeed#(n))>4.48 Then zani(n)=21:zf(n)=10
         If abs(zSpeed#(n))<=4.48 And abs(zSpeed#(n))>3.68 Then zani(n)=21:zf(n)=11
@@ -258,6 +271,7 @@ End Function
 Function getSpecialRunStatus(n)
     Local ret=0
     If curGuy(n)=6 Then ret=getHiryuRunStatus(n)
+    If curGuy(n)=10 Then ret=getDeadpoolRunStatus(n)
     If curGuy(n)=14 Then ret=getWonderwomanRunStatus(n)
     If curGuy(n)=15 Then handleJuggernautRun(n)
     If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then ret=1
@@ -717,6 +731,31 @@ Function processHiryuAirFrames(n)
     End If
 End Function
 
+Function processDeadpoolAirFrames(n)
+    If zjump(n)=0 Then ;Falling
+        zJumpFallSeq(n)=zjumpfallseq(n)+1
+        If zJumpFallSeq(n) > 0 And zJumpFallSeq(n) <= 3 Then zani(n)=4:zf(n)=1
+        If zJumpFallSeq(n) > 3 And zJumpFallSeq(n) <= 6 Then zani(n)=4:zf(n)=2
+        If zJumpFallSeq(n) > 6 And zJumpFallSeq(n) <= 9 Then zani(n)=4:zf(n)=3
+        If zJumpFallSeq(n) > 9 And zJumpFallSeq(n) <= 12 Then zani(n)=4:zf(n)=4
+        If zJumpFallSeq(n) > 12 And zJumpFallSeq(n) Mod 4 = 0 Then
+            If zf(n)=5 Then 
+                zani(n)=4:zf(n)=6
+            Else
+                zani(n)=4:zf(n)=5
+            End If
+        End If
+    Else
+        DebugLog "jumpSeq: " + zJumpSeq(n)
+        If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+        If zjumpseq(n)>0 And zJumpSeq(n) <= 7 Then zani(n)=4:zf(n)=5
+        If zjumpseq(n)>7 And zJumpSeq(n) <= 10 Then zani(n)=4:zf(n)=4
+        If zjumpseq(n)>10 And zJumpSeq(n) <= 13 Then zani(n)=4:zf(n)=3
+        If zjumpseq(n)>13 And zJumpSeq(n) <= 16 Then zani(n)=4:zf(n)=2
+        If zjumpseq(n)>16 And zJumpSeq(n) <= 19 Then zani(n)=4:zf(n)=1
+    End If
+End Function
+
 ;--------------- Process Wonder Woman Air Frames -----------------
 Function processWonderWomanAirFrames(n)
     If zjump(n)=0 Then ;Falling
@@ -822,6 +861,7 @@ End Function
 Function processOnAirFrames(n)
     If curGuy(n)=1 Then processEvilRyuAirFrames(n)
     If curGuy(n)=6 Then processHiryuAirFrames(n)
+    If curGuy(n)=10 Then processDeadpoolAirFrames(n)
     If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
     If curGuy(n)=16 Then processPiccoloAirFrames(n)

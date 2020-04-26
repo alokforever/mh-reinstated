@@ -242,7 +242,7 @@ Case 9: ;Goku
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
 
-Case 10: ;Richter Belmont
+Case 10: ;Deadpool
     zBlowDist(n,1)=110
     zBlowDist(n,2)=110
     zBlowDist(n,4)=110
@@ -255,6 +255,13 @@ Case 10: ;Richter Belmont
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
+    duckFrames(n)=2
+    zWalkFrames(n)=14
+    zWalkFrameSpeed#(n)=3
+    hasSpecialAirFrames(n)=1
+    zRunFrames(n)=6
+    zRunFrameSpeed#(n)=3
+    zRunSpeed#(n)=3
 
 Case 11: ;Wolverine
     zBlowDist(n,1)=60
@@ -3028,7 +3035,7 @@ If n=11 Then
     If wolverineSuper3Snd=0 Then wolverineSuper3Snd=LoadSound(soundsdir$ + "wolverine\wolverineSuper3.wav")
 EndIf
 
-If n=10 Then ;Ritcher
+If n=10 Then ;Deadpool
     If whipSnd=0 Then whipSnd=LoadSound(soundsdir$ + "whip.wav")
     If crossSnd=0 Then crossSnd=LoadSound(soundsdir$ + "cross.wav")
     If richterSnd=0 Then richterSnd=LoadSound(soundsdir$ + "richter.wav")

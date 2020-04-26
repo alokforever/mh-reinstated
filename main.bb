@@ -1046,7 +1046,7 @@ For n=1 To zzamount
             Case 7:DoBatman(n)
             Case 8:DoPredator(n)
             Case 9:DoGoku(n)
-            Case 10:DoRitcher(n)
+            Case 10:DoDeadpool(n)
             Case 11:DoWolverine(n)
             Case 12:DoScorpion(n)
             Case 13:DoSubZero(n)
