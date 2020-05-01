@@ -1615,7 +1615,7 @@ EndIf
 ;    Text xTile(0,n)+2,yTile(0,n)+2, n
 ;Next
 
-If debugMode=0 Then doDebugMode()
+If debugMode=1 Then doDebugMode()
 
 If showBlowArea=1 Then    ;renders developer`s stuff!
 
@@ -6550,7 +6550,7 @@ End Function
 
 Function doDebugMode()
     ShowPointer
-
+    
     If KeyHit(59)=1 Then ;F1
         freezeMode=1:shouldGoToNextFrame=0
     End If

@@ -79,6 +79,7 @@ Global pullSnd=LoadSound(soundsdir$ + "pullSnd.wav")
 Global grabSnd=LoadSound(soundsDir$ + "grabSnd.wav")
 Global blow3Snd=LoadSound(soundsDir$ + "blow3.wav")
 Global blow4Snd=LoadSound(soundsDir$ + "blow4.wav")
+Global blow5Snd=LoadSound(soundsDir$ + "blow5.wav")
 Global lowStaminaSnd=LoadSound(soundsDir$ + "lowStamina.mp3")
 Global ryuBallsnd
 Global ryuSpinsnd
