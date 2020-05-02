@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=0
+Global debugMode=1
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -282,6 +282,7 @@ Global mapStartTime, mapTimeLapse
 ; developer mode variables
 Global freezeMode, clicked, curHitBox, curPicFrame, shouldGoToNextFrame=0
 Dim xHitbox(200), yHitbox(200), wHitbox(200), hHitBox(200)
+Global grabX, grabY, grabW, grabH
 
 ;Paths For directories / mods
 Dim modFolder$(500), modName$(500)
@@ -3651,12 +3652,19 @@ End Function
 ;----------------- Grabbing oponent--------------------------
 Function grabbing(n,x,y,w,h)
 
+Local imageX, imageY, rectX, rectY
+grabX=Int(zx(1)+x):grabY=Int(zy(1)-y):grabW=w:grabH=h
+
 zGrabs(n)=0:zGrabsThis(n)=0
 For nn=1 To zzamount
     If zon(nn) And zTempShield(nn)=0 And nn <> n And zGrabbed(nn)=0 And zShield(nn)=0 And zUngrabable(nn)=0 Then
+        imageX=Int(zx(nn)-(ImageWidth(zCurPic(nn))/2))
+        imageY=Int(zy(nn)-ImageHeight(zCurPic(nn))+1)
+        rectY=Int(zy(n)-y)
         Select zFace(n)
         Case 2
-            If zx(nn) => x And zx(nn) <= x+w And zy(nn) => y And zy(nn) <= y+h Then
+            rectX=Int(zx(n)+x)
+            If ImageRectCollide(zCurPic(nn),imageX,imageY,0,rectX,rectY,w,h) Then
                 zLetGoSeq(nn)=0
                 zGrabbed(nn)=1
                 zGrabbedBy(nn)=n
@@ -3665,9 +3673,9 @@ For nn=1 To zzamount
                 zGrabsThis(n)=nn
                 initNoControl(nn)
             EndIf
-            
         Case 4
-            If zx(nn) =< x And zx(nn) >= x-w And zy(nn) => y And zy(nn) <= y+h Then
+            rectX=Int(zx(n)-(x+w))
+            If ImageRectCollide(zCurPic(nn),imageX,imageY,0,rectX,rectY,w,h) Then
                 zLetGoSeq(nn)=0
                 zGrabbed(nn)=1
                 zGrabbedBy(nn)=n
@@ -3676,9 +3684,8 @@ For nn=1 To zzamount
                 zGrabsThis(n)=nn
                 initNoControl(nn)
             EndIf
-        
         End Select
-    EndIf 
+    EndIf
 Next
 
 
@@ -3802,7 +3809,6 @@ Case 4
         For bn=1 To zblowpamount(n)
             yp=Int(zy(nn)-ImageHeight(zCurPic(nn))+1)
             xp=Int(zx(nn)-(ImageWidth(zCurPic(nn))/2))
-            ;zx(n)-(xBlow(n,bn)+wBlow(n,bn)),zy(n)-yBlow(n,bn)
             yb=Int(zy(n)-yBlow(n,bn))
             xb=Int(zx(n)-(xBlow(n,bn)+wBlow(n,bn)))
              If zCurPic(nn) = 0 Then RuntimeError "nn="+nn
@@ -6287,7 +6293,7 @@ Function setScaleFactorPerChar()
     Next
     
     imgScaleFactor#(1)=0.82
-    imgScaleFactor#(2)=0.75
+    imgScaleFactor#(2)=0.70
     imgScaleFactor#(3)=0.75
     imgScaleFactor#(4)=0.82
     imgScaleFactor#(5)=0.65
@@ -6585,6 +6591,9 @@ Function doDebugMode()
             Next
         Next
         
+        Color 255,0,0 ;Red
+        Rect grabX-xscr,grabY-Yscr,grabW,grabH,0 ;Grab area rectangle
+        
         If MouseHit(3) Then ; mouse wheel
             For n=0 To curHitBox
                 xHitbox(n)=0:yHitbox(n)=0
@@ -6673,7 +6682,7 @@ Function dispHitBox()
     DebugLog " "
     DebugLog "zblowPamount(n)=" + curHitBox + ":nn=1"
     For n=0 To curHitBox-1
-        Color 255,255,255
+        Color 255,255,255 ;white
         Rect xHitbox(n),yHitbox(n),wHitbox(n),hHitbox(n),0
         DebugLog "xblow(n,nn)=" + ((xHitbox(n)-zx(1))+xScr) + ":yblow(n,nn)=" + ((zy(1)-yHitbox(n))-yScr) + ":wblow(n,nn)=" + wHitbox(n) + ":hblow(n,nn)=" + hHitbox(n) + ":nn=nn+1"
     Next

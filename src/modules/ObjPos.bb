@@ -6,10 +6,50 @@ Function setObjPos(n)
 
 Select curGuy(n)
 case 1 ; Evil Ryu
-    zWalkObjX(n,0)=2 :zWalkObjY(n,0)=23
-    zWalkObjX(n,1)=2 :zWalkObjY(n,1)=23
-    zWalkObjX(n,2)=-2 :zWalkObjY(n,2)=23
-    zWalkObjX(n,3)=-2 :zWalkObjY(n,3)=23
+    zWalkObjX(n,0)=-3.0383 :zWalkObjY(n,0)=51
+    zWalkObjX(n,1)=-4.27832 :zWalkObjY(n,1)=59.0
+    zWalkObjX(n,2)=-3.03833 :zWalkObjY(n,2)=54
+    zWalkObjX(n,3)=0.361664 :zWalkObjY(n,3)=56
+    zWalkObjX(n,4)=-1.43832 :zWalkObjY(n,4)=55
+    zWalkObjX(n,5)=-1.43832 :zWalkObjY(n,5)=55
+    zWalkObjX(n,6)=-2.23831 :zWalkObjY(n,5)=53
+    
+    If stanceMode(n)=1 Then
+        zStanceObjX#(n,1)=-5.82922 :zStanceObjY#(n,1)=57.0
+        zStanceObjX#(n,2)=-5.82922 :zStanceObjY#(n,2)=57.0
+        zStanceObjX#(n,3)=2.17078 :zStanceObjY#(n,3)=55.0
+        zStanceObjX#(n,4)=-5.82922 :zStanceObjY#(n,4)=61.0
+        zStanceObjX#(n,5)=-6.82922 :zStanceObjY#(n,5)=54.0
+        zStanceObjX#(n,6)=-9.82922 :zStanceObjY#(n,6)=52.0
+        zStanceObjX#(n,7)=-19.829 :zStanceObjY#(n,7)=44.0
+        zStanceObjX#(n,8)=-18.8292 :zStanceObjY#(n,8)=42.0
+        zStanceObjX#(n,9)=-19.8292 :zStanceObjY#(n,9)=43.0
+        zStanceObjX#(n,10)=-32.8292 :zStanceObjY#(n,10)=32.0
+        zStanceObjX#(n,11)=-32.8292 :zStanceObjY#(n,11)=34.0
+        zStanceObjX#(n,12)=-35.2577 :zStanceObjY#(n,12)=31.0
+        zStanceObjX#(n,13)=-35.1577 :zStanceObjY#(n,13)=31.0
+        zStanceObjX#(n,14)=-34.9583 :zStanceObjY#(n,14)=32.0
+        zStanceObjX#(n,15)=-34.9583 :zStanceObjY#(n,15)=39.0
+        zStanceObjX#(n,16)=-33.9583 :zStanceObjY#(n,16)=39.0
+        zStanceObjX#(n,17)=-33.9583 :zStanceObjY#(n,17)=35.0
+        zStanceObjX#(n,18)=-33.9583 :zStanceObjY#(n,18)=37.0
+        zStanceObjX#(n,19)=-33.9583 :zStanceObjY#(n,19)=37.0
+        zStanceObjX#(n,20)=-33.9583 :zStanceObjY#(n,20)=39.0
+        zStanceObjX#(n,21)=-33.9583 :zStanceObjY#(n,21)=34.0
+        zStanceObjX#(n,22)=-30.9583 :zStanceObjY#(n,22)=36.0
+        zStanceObjX#(n,23)=-31.9583 :zStanceObjY#(n,23)=36.0
+        zStanceObjX#(n,24)=-30.9583 :zStanceObjY#(n,24)=36.0
+        zStanceObjX#(n,25)=-30.9583 :zStanceObjY#(n,25)=36.0
+        zStanceObjX#(n,26)=-17.9583 :zStanceObjY#(n,26)=41.0
+        zStanceObjX#(n,27)=-14.9583 :zStanceObjY#(n,27)=33.0
+        zStanceObjX#(n,28)=-16.9583 :zStanceObjY#(n,28)=31.0
+        zStanceObjX#(n,29)=-16.9583 :zStanceObjY#(n,29)=31.0
+        zStanceObjX#(n,30)=-21.9583 :zStanceObjY#(n,30)=35.0
+        zStanceObjX#(n,31)=-30.9583 :zStanceObjY#(n,31)=34.0
+        zStanceObjX#(n,32)=-30.9583 :zStanceObjY#(n,32)=37.0
+        zStanceObjX#(n,33)=-33.9583 :zStanceObjY#(n,33)=35.0
+        zStanceObjX#(n,34)=-33.9583 :zStanceObjY#(n,34)=35.0
+    End If
     
 Case 2: ;Rash
     zWalkObjX(n,0)=-5 :zWalkObjY(n,0)=20

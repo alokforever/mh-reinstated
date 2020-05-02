@@ -105,6 +105,7 @@ Case 1: ;Evil Ryu
     hasSpecialAirFrames(n)=1
     specialHitFrames(n)=11
     zRunFrames(n)=6
+    zGrabDist(n)=15
 
 Case 2: ;Rash
     zBlowDist(n,1)=65
@@ -2741,6 +2742,11 @@ Next
 For i = 1 To 50
     zpic(n,26,i)=LoadImage(gfxdir$ + "extras\zExtra" + i + ".bmp")
     zpic_(n,26,i)=LoadImage(gfxdir$ + "extras\zExtra" + i + "_.bmp")
+Next
+
+For i = 1 To 30
+    zpic(n,28,i)=LoadImage(gfxdir$ + "combo\zCombo" + i + ".bmp")
+    zpic_(n,28,i)=LoadImage(gfxdir$ + "combo\zCombo" + i + "_.bmp")
 Next
 
 For j=0 To 50
