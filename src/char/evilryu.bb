@@ -340,7 +340,7 @@ Case 10    ;Up + Attack (High Punch)
     EndIf
     
 ;======== Sounds =========
-    If zBlowSeq(n) = 1 And gameSound Then PlaySound blow5Snd
+    If zBlowSeq(n) = 0 And gameSound Then PlaySound blow5Snd
     If zBlowSeq(n) = seq1-1 And gameSound Then PlaySound blow5Snd
     If zBlowSeq(n) = seq3b-1 And gameSound Then PlaySound blow5Snd
 
@@ -479,7 +479,7 @@ Case 15 ;ryu throw
     If zBlowSeq(n) >= a And zBlowSeq(n) <= b Then zani(n)=15:zf(n)=1
     If zBlowSeq(n)= a Then
         If gameSound Then PlaySound blowsnd
-        grabbing(n,1.11935,66.0,zGrabDist(n),18)
+        grabbing(n,zx(n)+1.11935,zy(n)-66.0,zGrabDist(n),18)
         If zGrabs(n)=1 Then zBlowSeq(n)=c+4
     EndIf
     If zBlowSeq(n)=b Then zBlowSeq(n)=0:zBlow(n)=0
@@ -543,6 +543,8 @@ Case 16: ;Taunt
     zNoMove(n)=1:zNoJump(n)=1
     zani(n)=16
     seq1=4:seq2=seq1+4:seq3=seq2+4:seq4=seq3+40
+    
+    If zongnd(n)=0 Then zy(n)=zy(n)-3.2
     
 ;========= Animation ============
     If zBlowSeq(n)>0 And zBlowSeq(n)<=seq1 Then zF(n)=1

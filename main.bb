@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=1
+Global debugMode=0
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -1200,10 +1200,10 @@ If scrollMap=1 Then
     moved=0
     For n=1 To 4
         If zon(n)=1 Then
-            If zx(n) > xscr+704 Then zRight=1
-            If zx(n) < xscr+320 Then zLeft=1
-            If zy(n) > yScr+640 Then zDown=1
-            If zy(n) < yScr+320 Then zTop=1
+            If zx(n) > xscr+440 Then zRight=1
+            If zx(n) < xscr+200 Then zLeft=1
+            If zy(n) > yScr+400 Then zDown=1
+            If zy(n) < yScr+300 Then zTop=1
             
             If zx(n) > xscr+1024 Then zx(n)=zoldx(n)
             If zx(n) < xscr Then zx(n)=zoldx(n)
@@ -1224,14 +1224,14 @@ If scrollMap=1 Then
     yScrOld=yScr
     
     For n=1 To 4
-      If zon(n)=1 Then  
+      If zon(n)=1 Then
         If zamountPlaying > 1 Then    ; more players
-            If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = xScr+2:Goto XscrMoved
-            If zx(n) < xscr+200 And zRight=0 Then moved=1:zRight=1:xScr = xScr-2:Goto XscrMoved
+            If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = xScr+4:Goto XscrMoved
+            If zx(n) < xscr+200 And zRight=0 Then moved=1:zRight=1:xScr = xScr-4:Goto XscrMoved
             .XscrMoved
             
-            If zy(n) > yScr+405 And zTop=0 Then moved=1:zTop=1:yScr = yScr+3:Goto yscrMoved
-            If zy(n) < yScr+205 And zDown=0 Then moved=1:zDown=1:yScr = yScr-3 :Goto yscrMoved
+            If zy(n) > yScr+405 And zTop=0 Then moved=1:zTop=1:yScr = yScr+6:Goto yscrMoved
+            If zy(n) < yScr+205 And zDown=0 Then moved=1:zDown=1:yScr = yScr-6 :Goto yscrMoved
             .yscrMoved
         Else    ;one player    -- working better
             If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = Int(zx(n)-440):Goto XscrMoved2
@@ -1239,13 +1239,13 @@ If scrollMap=1 Then
             .XscrMoved2
                 
             If zy(n) > yScr+400 And zTop=0 Then moved=1:zTop=1:yScr = Int(zy(n)-400):Goto yscrMoved2
-            If zy(n) < yScr+200 And zDown=0 Then moved=1:zDown=1:yScr = Int(zy(n)-200):Goto yscrMoved2
+            If zy(n) < yScr+300 And zDown=0 Then moved=1:zDown=1:yScr = Int(zy(n)-300):Goto yscrMoved2
             .yscrMoved2
         EndIf
       EndIf
       If moved=1 Then Exit
     Next
-    
+
     If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit
 
     If yScr < uScrLimit Then yScr = uScrLimit
@@ -3653,17 +3653,17 @@ End Function
 Function grabbing(n,x,y,w,h)
 
 Local imageX, imageY, rectX, rectY
-grabX=Int(zx(1)+x):grabY=Int(zy(1)-y):grabW=w:grabH=h
+grabX=x:grabY=y:grabW=w:grabH=h
 
 zGrabs(n)=0:zGrabsThis(n)=0
 For nn=1 To zzamount
     If zon(nn) And zTempShield(nn)=0 And nn <> n And zGrabbed(nn)=0 And zShield(nn)=0 And zUngrabable(nn)=0 Then
         imageX=Int(zx(nn)-(ImageWidth(zCurPic(nn))/2))
         imageY=Int(zy(nn)-ImageHeight(zCurPic(nn))+1)
-        rectY=Int(zy(n)-y)
+        rectY=Int(y)
         Select zFace(n)
         Case 2
-            rectX=Int(zx(n)+x)
+            rectX=Int(x)
             If ImageRectCollide(zCurPic(nn),imageX,imageY,0,rectX,rectY,w,h) Then
                 zLetGoSeq(nn)=0
                 zGrabbed(nn)=1
@@ -3674,7 +3674,7 @@ For nn=1 To zzamount
                 initNoControl(nn)
             EndIf
         Case 4
-            rectX=Int(zx(n)-(x+w))
+            rectX=Int(x+w)
             If ImageRectCollide(zCurPic(nn),imageX,imageY,0,rectX,rectY,w,h) Then
                 zLetGoSeq(nn)=0
                 zGrabbed(nn)=1
