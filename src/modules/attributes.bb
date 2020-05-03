@@ -3108,6 +3108,7 @@ If n=1 Then     ;Evil Ryu
     If evilRyuShoryukenSnd=0 Then evilRyuShoryukenSnd=LoadSound(soundsdir$ + "evilryu\evilRyuShoryuken.wav")
     If evilRyuHadoukenSnd=0 Then evilRyuHadoukenSnd=LoadSound(soundsdir$ + "evilryu\evilRyuHadouken.wav")
     If evilRyuShinkuuSnd=0 Then evilRyuShinkuuSnd=LoadSound(soundsdir$ + "evilryu\evilRyuShinkuu.wav")
+    If evilRyuGrunt1Snd=0 Then evilRyuGrunt1Snd=LoadSound(soundsdir$ + "evilryu\evilRyuGrunt1.wav")
 EndIf
 
 If n=41 Then     ;Turtle CLoud

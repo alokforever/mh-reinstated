@@ -1186,7 +1186,6 @@ For n = 1 To zzamount
         initNoMove(n)
     End If
     If zon(n) Then SelectDraw(n)
-    If debugMode=1 Then zSuperBar(n)=100
 Next
 
 processChunks()
@@ -1622,6 +1621,7 @@ If showBlowArea=1 Then    ;renders developer`s stuff!
 
 Color 255,43,234
 
+zSuperBar(n)=100
 For n=1 To zzamount
     For bn=1 To zblowpamount(n)
         If zBlow(n) And zFace(n)=2 And zBlowEffect(n) Then Rect (zx(n)+xBlow(n,bn))-xscr,(zy(n)-yBlow(n,bn))-yscr,wBlow(n,bn),hBlow(n,bn),0
