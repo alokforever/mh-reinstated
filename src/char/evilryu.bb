@@ -145,42 +145,64 @@ Case 4    ;Low kick
 Case 5    ;Up + Special (Shoryuken)
     zNoMove(n)=1
     zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
-    a=3:b=10:c=73
-    If zBlowSeq(n) =1 Then
-        If gameSound Then PlaySound uppercutsnd
-        zBlowUpLimit(n)=zy(n)-c:zJump(n)=0
-    EndIf
-    If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=7:zf(n)=1:moveX(n,zBlowdir(n),.5):zblowAlert(n)=1
-    If zBlowSeq(n) > a And zBlowSeq(n) =< b Then
-        zblowpamount(n)=3:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=18:wblow(n,nn)=10:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=26:wblow(n,nn)=12:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=39:wblow(n,nn)=15:hblow(n,nn)=1:nn=nn+1
+    seq1=5:seq2=seq1+4:seq3=seq2+6:seq4=seq3+74:seq5=seq4+4:seq6=seq5+4
+
+    If zBlowSeq(n) = seq2-1 Then If gameSound Then PlaySound evilRyuShoryukenSnd
+        
+    If zBlowSeq(n) = 1 Then zBlowUpLimit(n)=zy(n)-118:zJump(n)=0
+    
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=7:zf(n)=1:zblowAlert(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then
+        zblowPamount(n)=1:nn=1
+        xblow(n,nn)=10.2993:yblow(n,nn)=41.0:wblow(n,nn)=14:hblow(n,nn)=14:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=0
         zHitSpeed#(n)=2:zHitUpSpeed#(n)=2.5:zHitTime(n)=40
-        If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),1)
-        zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=15:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
-        zBlowSound(n)=Highpunchsnd
+        If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),1.6)
+        zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=4:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+        zBlowSound(n)=mvcHit1Snd
         zani(n)=7:zf(n)=2
     EndIf
-    If zBlowSeq(n) > b And zBlowSeq(n) <= c Then
-        zblowpamount(n)=6:nn=1
-        xblow(n,nn)=0: yblow(n,nn)=66:wblow(n,nn)=6:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=60:wblow(n,nn)=13:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=52:wblow(n,nn)=13:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=44:wblow(n,nn)=13:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=36:wblow(n,nn)=13:hblow(n,nn)=1:nn=nn+1
-        xblow(n,nn)=0: yblow(n,nn)=28:wblow(n,nn)=13:hblow(n,nn)=1:nn=nn+1
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then
+        zblowPamount(n)=2:nn=1
+        xblow(n,nn)=22.8807:yblow(n,nn)=61.0:wblow(n,nn)=11:hblow(n,nn)=16:nn=nn+1
+        xblow(n,nn)=7.88074:yblow(n,nn)=53.0:wblow(n,nn)=17:hblow(n,nn)=13:nn=nn+1
+        zHitmode(n)=2:zBlowHold(n)=0
+        zHitSpeed#(n)=2:zHitUpSpeed#(n)=3.0:zHitTime(n)=40
+        If zBlowStill(n)=0 Then moveX(n,zBlowdir(n),1)
+        zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=6:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
+        zBlowSound(n)=mvcHit1Snd
+        zani(n)=7:zf(n)=3
+    EndIf
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then
+        zblowPamount(n)=3:nn=1
+        xblow(n,nn)=-4.07935:yblow(n,nn)=109.0:wblow(n,nn)=15:hblow(n,nn)=12:nn=nn+1
+        xblow(n,nn)=-2.07935:yblow(n,nn)=97.0:wblow(n,nn)=17:hblow(n,nn)=11:nn=nn+1
+        xblow(n,nn)=-1.07935:yblow(n,nn)=86.0:wblow(n,nn)=13:hblow(n,nn)=15:nn=nn+1
         zHitmode(n)=2:zBlowHold(n)=0
         zHitSpeed#(n)=2:zHitUpSpeed#(n)=2.5:zHitTime(n)=40
-        If zBlowStill(n)=0 Then zy(n)=zy(n)-3:moveX(n,zBlowdir(n),2)
+        If zBlowStill(n)=0 Then zy(n)=zy(n)-6:moveX(n,zBlowdir(n),2)
         zBlowDamage(n)=2:zBLowEffect(n)=1:zEnemyImmuneTime(n)=11:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
-        zBlowSound(n)=Highpunchsnd
-        zani(n)=7:zf(n)=3:zantiplat(n)=1
+        zBlowSound(n)=mvcHit1Snd
+        zani(n)=7:zf(n)=4:zantiplat(n)=1
     EndIf
-    If zy(n) <= zBlowUpLimit(n) Or zHitHead(n)=1 Then zBlowSeq(n)=c
-    If zBlowSeq(n) => c Then zani(n)=4:zf(n)=1:zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
-    If zongnd(n)=1 And zBlowSeq(n) => c-2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+    
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=7:zf(n)=5
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=7:zf(n)=6
+    If zBlowSeq(n) > seq6 Then
+        zani(n)=4
+        If zBlowSeq(n)=seq6+1 Then zF(n)=6
+        If zBlowSeq(n) Mod 2 = 0 Then
+            If zF(n)=7 Then
+                zF(n)=6
+            Else
+                zF(n)=7
+            End If
+        End If
+    End If
+    
+    If zy(n) <= zBlowUpLimit(n) Or zHitHead(n)=1 Then zBlowSeq(n)=seq4
+    If zBlowSeq(n) >= seq4 Then zNoGrav(n)=0:ztopSpeed(n)=1:zNomove(n)=0
+    If zongnd(n)=1 And zBlowSeq(n) >= seq6-2 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     
 Case 6    ;throwing iten
     a=2:b=3:c=6:d=8

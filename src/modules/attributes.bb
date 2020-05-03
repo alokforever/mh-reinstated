@@ -3101,10 +3101,13 @@ If n=3 Then     ;Spider-man
     If webshotsnd=0 Then webshotsnd=LoadSound(soundsdir$ + "webshot.wav")
 EndIf
 
-If n=1 Then
+If n=1 Then     ;Evil Ryu
     If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "evilryu\evilryuDieSnd.wav")
     If evilryuKorosuSnd=0 Then evilryuKorosuSnd=LoadSound(soundsdir$ + "evilryu\evilryuKorosuSnd.wav")
     If evilryuStepSnd=0 Then evilryuStepSnd=LoadSound(soundsdir$ + "evilryu\evilryuStepSnd.wav")
+    If evilRyuShoryukenSnd=0 Then evilRyuShoryukenSnd=LoadSound(soundsdir$ + "evilryu\evilRyuShoryuken.wav")
+    If evilRyuHadoukenSnd=0 Then evilRyuHadoukenSnd=LoadSound(soundsdir$ + "evilryu\evilRyuHadouken.wav")
+    If evilRyuShinkuuSnd=0 Then evilRyuShinkuuSnd=LoadSound(soundsdir$ + "evilryu\evilRyuShinkuu.wav")
 EndIf
 
 If n=41 Then     ;Turtle CLoud

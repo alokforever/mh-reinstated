@@ -244,6 +244,7 @@ Global hiryuSwordSnd, hiryuSlashSnd
 Global evilryuKorosuSnd, evilryuStepSnd
 Global evilryuLightStepSnd=LoadSound(soundsdir$ + "evilryu\evilryuLightStepSnd.wav")
 Global evilryuElectricSnd=LoadSound(soundsdir$ + "evilryu\evilryuElectricSnd.wav")
+Global evilRyuShoryukenSnd, evilRyuHadoukenSnd, evilRyuShinkuuSnd
 
 Global ktKickSnd, ktGrunt1Snd, ktGrunt2Snd, ktGrunt3Snd, ktGrunt4Snd
 Global ktSpinSnd, ktOneMoreTimeSnd, ktKartScreechSnd, ktKartExplodeSnd, turtleSlideSnd
