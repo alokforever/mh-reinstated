@@ -886,7 +886,6 @@ For n=1 To ButtonAmount
             If characterOpen(n)=1 Then curGuy(rightClickedBy(n))=n:stanceMode(rightClickedBy(n))=2
         End Select
     End If
-
 Next
 
 selectSecretChars()

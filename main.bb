@@ -1200,8 +1200,8 @@ If scrollMap=1 Then
     moved=0
     For n=1 To 4
         If zon(n)=1 Then
-            If zx(n) > xscr+440 Then zRight=1
-            If zx(n) < xscr+200 Then zLeft=1
+            If zx(n) > xscr+470 Then zRight=1
+            If zx(n) < xscr+400 Then zLeft=1
             If zy(n) > yScr+400 Then zDown=1
             If zy(n) < yScr+300 Then zTop=1
             
@@ -1226,16 +1226,16 @@ If scrollMap=1 Then
     For n=1 To 4
       If zon(n)=1 Then
         If zamountPlaying > 1 Then    ; more players
-            If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = xScr+4:Goto XscrMoved
-            If zx(n) < xscr+200 And zRight=0 Then moved=1:zRight=1:xScr = xScr-4:Goto XscrMoved
+            If zx(n) > xscr+470 And zLeft=0 Then moved=1:zLeft=1:xScr = xScr+4:Goto XscrMoved
+            If zx(n) < xscr+400 And zRight=0 Then moved=1:zRight=1:xScr = xScr-4:Goto XscrMoved
             .XscrMoved
             
             If zy(n) > yScr+405 And zTop=0 Then moved=1:zTop=1:yScr = yScr+6:Goto yscrMoved
             If zy(n) < yScr+205 And zDown=0 Then moved=1:zDown=1:yScr = yScr-6 :Goto yscrMoved
             .yscrMoved
         Else    ;one player    -- working better
-            If zx(n) > xscr+440 And zLeft=0 Then moved=1:zLeft=1:xScr = Int(zx(n)-440):Goto XscrMoved2
-            If zx(n) < xscr+200 And zRight=0 Then moved=1:zRight=1:xScr = Int(zx(n)-200):Goto xscrMoved2
+            If zx(n) > xscr+470 And zLeft=0 Then moved=1:zLeft=1:xScr = Int(zx(n)-470):Goto XscrMoved2
+            If zx(n) < xscr+400 And zRight=0 Then moved=1:zRight=1:xScr = Int(zx(n)-400):Goto xscrMoved2
             .XscrMoved2
                 
             If zy(n) > yScr+400 And zTop=0 Then moved=1:zTop=1:yScr = Int(zy(n)-400):Goto yscrMoved2
@@ -1245,7 +1245,7 @@ If scrollMap=1 Then
       EndIf
       If moved=1 Then Exit
     Next
-
+    
     If yScr > yScrCameraBottomLimit Then yScr = yScrCameraBottomLimit
 
     If yScr < uScrLimit Then yScr = uScrLimit
