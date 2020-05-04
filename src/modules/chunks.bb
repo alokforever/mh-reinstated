@@ -1,6 +1,7 @@
 ;----------------- Chunks ---------------------------------
 Function chunks(n)
 
+chunkFollowOwner(n)=0
 isChunkRenderLowPrio(n)=0
 isChunkSolid(n)=0
 yChunkSpeed#(n)=0
@@ -1574,6 +1575,23 @@ Case 167: ;Flash kick
     chunkPic(n)=ptPic(133,1):chunkPic_(n)=ptPic_(133,1)
     
     If chunkSeq(n) > seqEnd Then chunk(n)=0
+    
+Case 168: ;Tatsumaki senpu kyaku electricity
+    chunkFollowOwner(n)=1
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2
+    
+    If chunkDir(n)=4 Then isChunkRenderLowPrio(n)=1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(134,1):chunkPic_(n)=ptPic_(134,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(134,2):chunkPic_(n)=ptPic_(134,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(134,3):chunkPic_(n)=ptPic_(134,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(134,4):chunkPic_(n)=ptPic_(134,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(134,5):chunkPic_(n)=ptPic_(134,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(134,6):chunkPic_(n)=ptPic_(134,6)
+    
+    If zBlowStill(chunkOwner(n))=1 Then chunkSeq(n)=chunkSeq(n)-1
+    
+    If chunkSeq(n)>seq6 Then chunk(n)=0
     
 Default
     a=5:b=10:c=14    ;Blocking

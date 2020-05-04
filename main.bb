@@ -276,7 +276,7 @@ Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
 Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
-Dim wasOnAir(maxZ)
+Dim wasOnAir(maxZ), attackChargeLvl(maxZ), attackLevel(maxZ)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -1621,8 +1621,8 @@ If showBlowArea=1 Then    ;renders developer`s stuff!
 
 Color 255,43,234
 
-zSuperBar(n)=100
 For n=1 To zzamount
+    zSuperBar(n)=100
     For bn=1 To zblowpamount(n)
         If zBlow(n) And zFace(n)=2 And zBlowEffect(n) Then Rect (zx(n)+xBlow(n,bn))-xscr,(zy(n)-yBlow(n,bn))-yscr,wBlow(n,bn),hBlow(n,bn),0
         If zBlow(n) And zFace(n)=4 And zBlowEffect(n) Then Rect (zx(n)-(xBlow(n,bn)+wBlow(n,bn)))-xscr,(zy(n)-yBlow(n,bn))-yscr,wBlow(n,bn),hBlow(n,bn),0
@@ -3653,7 +3653,8 @@ End Function
 Function grabbing(n,x,y,w,h)
 
 Local imageX, imageY, rectX, rectY
-grabX=x:grabY=y:grabW=w:grabH=h
+grabY=y:grabW=w:grabH=h ; For Debug mode use
+If zFace(n)=2 Then grabX=x Else grabX=x-w
 
 zGrabs(n)=0:zGrabsThis(n)=0
 For nn=1 To zzamount
@@ -3674,7 +3675,7 @@ For nn=1 To zzamount
                 initNoControl(nn)
             EndIf
         Case 4
-            rectX=Int(x+w)
+            rectX=Int(x-w)
             If ImageRectCollide(zCurPic(nn),imageX,imageY,0,rectX,rectY,w,h) Then
                 zLetGoSeq(nn)=0
                 zGrabbed(nn)=1
