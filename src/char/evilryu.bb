@@ -1,3 +1,81 @@
+Function doAirHadouken(n)
+    seqStart=100:endSeq=41
+    seq1=seqStart+14:seq2=seq1+3:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2
+    seq6=seq5+2:seq7=seq6+2:seq8=seq7+2:seq9=seq8+2:seq10=seq9+2
+    seq11=seq10+2:seq12=seq11+2:seq13=seq12+2
+    
+    If zBlowSeq(n)=seq2 Then
+        If zFace(n)=2 And rightKey(n)=1 Then attackMode(n)=1
+        If zFace(n)=4 And leftKey(n)=1 Then attackMode(n)=1
+    End If
+    
+    Local shotRecoil#
+    If attackMode(n)=1 Then
+        shotRecoil#=-4
+    Else
+        shotRecoil#=-3.2
+    End If
+    
+;========= Animation ==========
+    If zBlowSeq(n) >= seqStart And zBlowSeq(n) <= seq1 Then zani(n)=10:zf(n)=9
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=10:zf(n)=10
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=10:zf(n)=11
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=10:zf(n)=10
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=10:zf(n)=11
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=10:zf(n)=10
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then zani(n)=10:zf(n)=11
+    If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq8 Then zani(n)=10:zf(n)=10
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq9 Then zani(n)=10:zf(n)=11
+    If zBlowSeq(n) > seq9 And zBlowSeq(n) <= seq10 Then zani(n)=10:zf(n)=10
+    If zBlowSeq(n) > seq10 And zBlowSeq(n) <= seq11 Then zani(n)=10:zf(n)=11
+    If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 Then zani(n)=10:zf(n)=12
+
+;========== Sounds ===========
+    If zBlowSeq(n) = seqStart+1 And gameSound=1 Then PlaySound evilRyuHadoukenSnd
+    
+;========= Movement ==========
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then moveX(n,zBlowdir(n),shotRecoil)
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then moveX(n,zBlowdir(n),shotRecoil+0.4)
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then moveX(n,zBlowdir(n),shotRecoil+0.8)
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then moveX(n,zBlowdir(n),shotRecoil+1.2)
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then moveX(n,zBlowdir(n),shotRecoil+1.6)
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then moveX(n,zBlowdir(n),shotRecoil+2.0)
+    If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq8 Then moveX(n,zBlowdir(n),shotRecoil+2.4)
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq9 Then moveX(n,zBlowdir(n),shotRecoil+2.8)
+    If zBlowSeq(n) > seq9 And zBlowSeq(n) <= seq10 Then moveX(n,zBlowdir(n),shotRecoil+3.2)
+    If zBlowSeq(n) > seq10 And zBlowSeq(n) <= seq11 And attackMode(n)=1 Then moveX(n,zBlowdir(n),shotRecoil+3.6)
+    
+;=========== Shot ============
+    If zBlowSeq(n) = seq2 Then 
+        dir=zface(n):y=zy(n)-zheight(n)+45
+        If zface(n)=2 Then x=zx(n)+70
+        If zface(n)=4 Then x=zx(n)-70
+        If (zFace(n)=2 And rightKey(n)=1) Or (zFace(n)=4 And leftKey(n)=1) Then
+            If zStaminaBar#(n) >= 25 Then
+                zStaminaBar#(n)=zStaminaBar#(n)-25
+                makeshot(n,53,x,y,dir)
+            Else
+                If zStaminaBar#(n) >= 15 Then
+                    zStaminaBar#(n)=zStaminaBar#(n)-15
+                    makeshot(n,5,x,y,dir)
+                Else
+                    isFlashLowStamina(n)=1
+                End If
+            End If
+        Else
+            If zStaminaBar#(n) >= 15 Then
+                zStaminaBar#(n)=zStaminaBar#(n)-15
+                makeshot(n,5,x,y,dir)
+            Else
+                isFlashLowStamina(n)=1
+            End If
+        End If
+    EndIf
+    
+    If zBlowSeq(n) > seq13 Then zBlowSeq(n)=endSeq
+    
+End Function
+
 Function DoEvilRyu(n)
 
 zFace(n)=zBlowDir(n)
@@ -219,10 +297,17 @@ Case 7    ;Special (Hadouken)
     seq1=3:seq2=seq1+7:seq3=seq2+4:seq4=seq3+2:seq5=seq4+3:seq6=seq5+4
     seq7=seq6+2:seq8=seq7+2:seq9=seq8+3:seq10=seq9+2:seq11=seq10+2:seq12=seq11+2
     seq13=seq12+2:seq14=seq13+2
+    endSeq=seq14+1 ;41
+    hadoukenAirSeq=100
     zNoMove(n)=1
     zNoJump(n)=1
     zjump(n)=0
-    If zongnd(n)=0 Then zy(n)=zy(n)-2
+    If zongnd(n)=0 Then zy(n)=zy(n)-3.2
+    
+    If zBlowSeq(n)=1 Then attackMode(n)=0
+    If zBlowSeq(n)=1 And zOnGnd(n)=0 Then zBlowSeq(n)=hadoukenAirSeq
+    
+    If zBlowSeq(n) >= hadoukenAirSeq Then doAirHadouken(n)
     
 ;========= Animation ==========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=10:zf(n)=1
@@ -243,7 +328,7 @@ Case 7    ;Special (Hadouken)
 ;========== Sounds ===========
     If zBlowSeq(n) = 1 And gameSound=1 Then PlaySound evilRyuHadoukenSnd
 
-;========= Shot ==========
+;=========== Shot ============
     If zBlowSeq(n) = seq4 Then 
         dir=zface(n):y=zy(n)-zheight(n)+45
         If zface(n)=2 Then x=zx(n)+70
@@ -270,7 +355,7 @@ Case 7    ;Special (Hadouken)
         End If
     EndIf
 
-    If zBlowSeq(n) > seq14 Then zBlowSeq(n)=0:zBlow(n)=0
+    If zBlowSeq(n) = endSeq Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 8    ;Dodging
     zNoMove(n)=1
@@ -477,7 +562,7 @@ Case 11    ;club
     If zBlowSeq(n) => a And zBlowSeq(n) =< b Then zani(n)=28:zf(n)=7 :eAni(n)=1:ef(n)=2:xed(n)=-43.0007:yed(n)=55
     If zBlowSeq(n)= a Then If gameSound Then PlaySound voosnd
     If zBlowSeq(n) => b And zBlowSeq(n) =< c Then
-        zblowPamount(n)=13:nn=1
+        zblowPamount(n)=14:nn=1
         xblow(n,nn)=59.3988:yblow(n,nn)=56.0:wblow(n,nn)=21:hblow(n,nn)=11:nn=nn+1
         xblow(n,nn)=80.3988:yblow(n,nn)=90.0:wblow(n,nn)=17:hblow(n,nn)=14:nn=nn+1
         xblow(n,nn)=98.3988:yblow(n,nn)=89.0:wblow(n,nn)=25:hblow(n,nn)=15:nn=nn+1
@@ -491,6 +576,7 @@ Case 11    ;club
         xblow(n,nn)=84.3988:yblow(n,nn)=44.0:wblow(n,nn)=16:hblow(n,nn)=14:nn=nn+1
         xblow(n,nn)=99.3988:yblow(n,nn)=46.0:wblow(n,nn)=17:hblow(n,nn)=14:nn=nn+1
         xblow(n,nn)=117.399:yblow(n,nn)=46.0:wblow(n,nn)=8:hblow(n,nn)=8:nn=nn+1
+        xblow(n,nn)=34.8107:yblow(n,nn)=55.4082:wblow(n,nn)=23:hblow(n,nn)=11:nn=nn+1
         zHitMode(n)=0 :zBlowHold(n)=10
         zBlowDamage(n)=25:zBLowEffect(n)=1:zEnemyImmuneTime(n)=99:zBlowStillTime(n)=13:zBlowBlockTime(n)=35
         zChunkType(n)=5
