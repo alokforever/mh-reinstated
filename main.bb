@@ -243,7 +243,7 @@ Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), z
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
-Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200)
+Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200), shotChunkYAdj(200)
 Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), timerImage2(158), cdImage(maxZ)
 Dim isMkCharacter(maxZ), gender(maxZ), canWallJump(maxZ), zWallJump(maxZ), zTauntSeed(maxZ)
 Dim canPerformNextCombo(maxZ), cooldownPic(maxZ, 4), flipFrames(maxZ), duckFrames(maxZ), duckFrameSpeed(maxZ), duckSeq(maxZ)
@@ -1501,7 +1501,7 @@ For n=1 To 4
     If zSuperBar(n) < 100 Then Color 255,0,0 Else Color 0,255,0
     Rect x,y+24,zSuperbar(n) * 1.6,4,1
     If isFlashLowStamina(n)=1 Then flashLowStamina(n)
-    If zStaminaBar#(n) < 40 Then Color 231,76,60 Else Color 52,152,219
+    If zStaminaBar#(n) < 30 Then Color 231,76,60 Else Color 52,152,219
     Rect x,y+32,zStaminaBar#(n) * 1.6,4,1
     Color 74,35,90
     Rect x,y+40,(zBlockLife(n)*2),4,1
@@ -2965,13 +2965,13 @@ EndIf
     
 If shotDurationSeq(n) > shotDuration(n) Then
     If shotStopDuration(n) = 0 Then
-        shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
+        shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n)+shotChunkYAdj(n),shotDir(n),shotchunktype(n))
     Else
         If shotDurationSeq(n)=shotDuration(n)+1 Then shotSpeed#(n)=0:shotYspeed#(n)=0
         shotStopSeq(n)=shotStopSeq(n)+1
         
         If shotStopSeq(n) > shotStopDuration(n) Then 
-            shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n),shotDir(n),shotchunktype(n))
+            shot(n)=0:makechunk(shotDir(n),xShot(n),yShot(n)+shotChunkYAdj(n),shotDir(n),shotchunktype(n))
         End If
     End If
     clearShotAfterImg(n)
@@ -2987,7 +2987,7 @@ For nn=1 To shotAmount
     If shot(nn) And yShot(nn) > yRect(n) And yShot(nn) < yRect(n)+hRect(n) Then
         If xShot(nn) > xRect(n) And xShot(nn) < xRect(n)+wRect(n) Then
             shot(nn)=0
-            makechunk(0,xshot(nn),yShot(nn),shotDir(nn),shotChunkType(nn))
+            makechunk(0,xshot(nn),yShot(nn)+shotChunkYAdj(nn),shotDir(nn),shotChunkType(nn))
         EndIf
     EndIf
 Next
@@ -4234,7 +4234,7 @@ For nn=1 To shotAmount    ;object x shot collision
             If shotSuper(nn)=0 Then
                 If shotExplosive(nn) > 0 Then shotexp(nn,xShot(nn),yShot(nn),shotExplosive(nn)):shot(nn)=0
                 shot(nn)=0
-                makechunk(shotDir(nn),xshot(nn),yShot(nn),shotDir(nn),shotChunkType(nn))
+                makechunk(shotDir(nn),xshot(nn),yShot(nn)+shotChunkYAdj(nn),shotDir(nn),shotChunkType(nn))
             EndIf
             Exit
         EndIf
@@ -5509,7 +5509,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile)
                         End If
                         If Not shotDrill(projectile) Then shot(projectile)=0
                             zShotByN(targetPlayer)=projectile : zShotHitSeq(targetPlayer,projectile)=0
-                            makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile),shotDir(projectile),shotChunkType(projectile))
+                            makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile)+shotChunkYAdj(projectile),shotDir(projectile),shotChunkType(projectile))
                         If zblock(targetPlayer)=1 And shotHitMode(shotOwner(projectile)) <> 4 Then
                             zBlocked(targetPlayer)=1:zBlockSeq(targetPlayer)=0
                             zBlockTime(targetPlayer)=shotImpact(projectile)*2:zBlockDir(targetPlayer)=shotDir(projectile)
@@ -5578,7 +5578,13 @@ Function checkRightKeyHit(n)
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - rightKeyHitTimer(n)) < quartSec And (curTime - rightKeyHitTimer(n)) > 0 Then
         rightKeyDoubleTap(n)=1
-        If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
+        If (zOnGnd(n) Or canAirGlide(n)) And zRunFrames(n)>0 Then
+            If zStaminaBar(n) >= 30 Then
+                isRunning(n)=1
+            Else
+                isFlashLowStamina(n)=1
+            End If
+        End If
     Else
         rightKeyDoubleTap(n)=0
     End If
@@ -5590,7 +5596,13 @@ Function checkLeftKeyHit(n)
     Local quartSec=250, curTime=MilliSecs()
     If (curTime - leftKeyHitTimer(n)) < quartSec And (curTime - leftKeyHitTimer(n)) > 0 Then
         leftKeyDoubleTap(n)=1
-        If (zOnGnd(n) Or canAirGlide(n)) And zStaminaBar(n) >= 40 And zRunFrames(n)>0 Then isRunning(n)=1
+        If (zOnGnd(n) Or canAirGlide(n)) And zRunFrames(n)>0 Then
+            If zStaminaBar(n) >= 30 Then
+                isRunning(n)=1
+            Else
+                isFlashLowStamina(n)=1
+            End If
+        End If
     Else
         leftKeyDoubleTap(n)=0
     End If
@@ -5989,7 +6001,7 @@ Function handleShotWallCollision(n, adj)
             shot(n)=0
             clearShotAfterImg(n)
             shotsizeL(n)=adj
-            makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),shotChunkType(n))
+            makechunk(shotDir(n),xshot(n)+adj,yShot(n)+shotChunkYAdj(n),shotDir(n),shotChunkType(n))
             shotHit=1
             If gameSound Then PlaySound shotsound(n)
         EndIf
@@ -6026,7 +6038,7 @@ Function handleShotPlatCollision(n, adj)
                     If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n))
                     shot(n)=0:clearShotAfterImg(n)
                     shotsizeL(n)=adj
-                    makechunk(shotDir(n),xshot(n)+adj,yShot(n),shotDir(n),shotChunkType(n))
+                    makechunk(shotDir(n),xshot(n)+adj,yShot(n)+shotChunkYAdj(n),shotDir(n),shotChunkType(n))
                     shotHit=1
                     If gameSound Then PlaySound shotsound(n)
                 EndIf
@@ -6063,12 +6075,12 @@ Function handleShotCharacterCollision(n, hAdj, wAdj)
                             If shotReturnOnHit(n)=1 And shotHits(n)>=shotHitBeforeReturn(n) Then isShotReturning(n)=1
                             zShotByN(nn)=n:zShotHitSeq(nn,n)=0
                             If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
-                                makechunk(n,zx(nn),yShot(n),shotDir(n),shotChunkType(n))
+                                makechunk(n,zx(nn),yShot(n)+shotChunkYAdj(n),shotDir(n),shotChunkType(n))
                             Else
                                 If (shotChunkHitType(n)=95 Or shotChunkHitType(n)=96) And doesCharBleed(nn)=0 
                                     makechunk(n,zx(nn),yShot(n),shotDir(n),shotChunkType(n))
                                 Else
-                                    makechunk(nn,zx(nn),yShot(n),shotDir(n),shotChunkHitType(n))
+                                    makechunk(nn,zx(nn),yShot(n)+shotChunkYAdj(n),shotDir(n),shotChunkHitType(n))
                                 End If
                             End If
                             If doesShotBurn(n) Then zBurning(nn)=1:zBurnDuration(nn)=200
@@ -6704,7 +6716,7 @@ End Function
 Function handleShotToShotCollision(n)
     If shotSuper(n)=0 And shotReturnOnHit(n)=0 Then
         shot(n)=0:clearShotAfterImg(n)
-        makeChunk(0,xshot(n),yshot(n),shotDir(n),shotChunkType(n))
+        makeChunk(0,xshot(n),yshot(n)+shotChunkYAdj(n),shotDir(n),shotChunkType(n))
     Else shotReturnOnHit(n)=1
         isShotReturning(n)=1
     EndIf

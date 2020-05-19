@@ -1593,6 +1593,22 @@ Case 168: ;Tatsumaki senpu kyaku electricity
     
     If chunkSeq(n)>seq6 Then chunk(n)=0
     
+Case 169: ;Hadouken hit
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+1:seq6=seq5+1
+    seq7=seq6+1:seq8=seq7+1:seq9=seq8+1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(135,1):chunkPic_(n)=ptPic_(135,1)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(135,2):chunkPic_(n)=ptPic_(135,2)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(135,3):chunkPic_(n)=ptPic_(135,3)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(135,4):chunkPic_(n)=ptPic_(135,4)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(135,5):chunkPic_(n)=ptPic_(135,5)
+    If chunkSeq(n)>seq5 And chunkSeq(n)<=seq6 Then chunkPic(n)=ptPic(135,6):chunkPic_(n)=ptPic_(135,6)
+    If chunkSeq(n)>seq6 And chunkSeq(n)<=seq7 Then chunkPic(n)=ptPic(135,7):chunkPic_(n)=ptPic_(135,7)
+    If chunkSeq(n)>seq7 And chunkSeq(n)<=seq8 Then chunkPic(n)=ptPic(135,8):chunkPic_(n)=ptPic_(135,8)
+    If chunkSeq(n)>seq8 And chunkSeq(n)<=seq9 Then chunkPic(n)=ptPic(135,9):chunkPic_(n)=ptPic_(135,9)
+
+    If chunkSeq(n)>seq9 Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

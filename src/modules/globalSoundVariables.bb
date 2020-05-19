@@ -81,7 +81,6 @@ Global blow3Snd=LoadSound(soundsDir$ + "blow3.wav")
 Global blow4Snd=LoadSound(soundsDir$ + "blow4.wav")
 Global blow5Snd=LoadSound(soundsDir$ + "blow5.wav")
 Global lowStaminaSnd=LoadSound(soundsDir$ + "lowStamina.mp3")
-Global ryuBallsnd
 Global ryuSpinsnd
 Global sonyaUpperSnd
 Global sonyaBallSnd
@@ -247,7 +246,7 @@ Global evilryuElectricSnd=LoadSound(soundsdir$ + "evilryu\evilryuElectricSnd.wav
 Global evilRyuShoryukenSnd, evilRyuHadoukenSnd, evilryuTatsumakiSnd, evilRyuShinkuuSnd
 Global evilRyuGrunt1Snd
 Global evilRyuBlow1Snd
-Global evilRyuHit1
+Global evilRyuHit1Snd
 Global evilryuShortElectricSnd
 
 Global ktKickSnd, ktGrunt1Snd, ktGrunt2Snd, ktGrunt3Snd, ktGrunt4Snd

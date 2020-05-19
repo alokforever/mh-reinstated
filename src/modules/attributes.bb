@@ -1057,24 +1057,34 @@ Function shotData(weaponChosen,n)
     shotReturnYDest(n)=0
     shotHits(n)=0
     shotHitBeforeReturn(n)=0
+    shotChunkYAdj(n)=0
 
 Select weaponChosen
     
-Case 5    ;ryu ball
-    shotspeed(n)=3
-    shotsize(n)=18
-    shotheight(n)=16
+Case 5    ;hadouken slow
+    shotspeed(n)=4
+    shotsize(n)=57
+    shotheight(n)=35
     shotSide(n)=shotsize(n)/2
-    shotdamage(n)=4
+    shotdamage(n)=5
     shotHitXspeed(n)=2
     shotHitYspeed(n)=2
     shotFallTime(n)=20
-    shotDuration(n)=200
+    shotDuration(n)=240
     shotMaxSpeed(n)=shotSpeed(n)
-    shotChunkType(n)=3
-    shotPic(n,1)=shotImage(5)
-    shotPic_(n,1)=shotImage_(5)
-    shotSound(n)=HighPunchsnd
+    shotChunkType(n)=169
+    shotChunkYAdj(n)=16
+    shotFramesAmount(n)=4
+    shotFrameTime(n)=2
+    shotPic(n,1)=shotImage(78)
+    shotPic_(n,1)=shotImage_(78)
+    shotPic(n,2)=shotImage(79)
+    shotPic_(n,2)=shotImage_(79)
+    shotPic(n,3)=shotImage(80)
+    shotPic_(n,3)=shotImage_(80)
+    shotPic(n,4)=shotImage(81)
+    shotPic_(n,4)=shotImage_(81)
+    shotSound(n)=evilRyuHit1Snd
 
 Case 6    ;web shot
     shotspeed(n)=3
@@ -1942,6 +1952,32 @@ Case 52:    ;Wonderwoman's Tiara
     shotReturnXDest(n)=-10
     shotReturnYDest(n)=-33
     shotHitBeforeReturn(n)=1
+    
+Case 53    ;hadouken fast
+    shotspeed(n)=6.5
+    shotsize(n)=56
+    shotheight(n)=35
+    shotSide(n)=shotsize(n)/2
+    shotdamage(n)=5
+    shotHitXspeed(n)=4
+    shotHitYspeed(n)=4
+    shotFallTime(n)=20
+    shotDuration(n)=200
+    shotMaxSpeed(n)=shotSpeed(n)
+    shotChunkType(n)=169
+    shotChunkYAdj(n)=16
+    shotFramesAmount(n)=4
+    shotFrameTime(n)=2
+    shotPic(n,1)=shotImage(78)
+    shotPic_(n,1)=shotImage_(78)
+    shotPic(n,2)=shotImage(79)
+    shotPic_(n,2)=shotImage_(79)
+    shotPic(n,3)=shotImage(80)
+    shotPic_(n,3)=shotImage_(80)
+    shotPic(n,4)=shotImage(81)
+    shotPic_(n,4)=shotImage_(81)
+    shotSound(n)=evilRyuHit1Snd
+    
 End Select
 
 End Function
