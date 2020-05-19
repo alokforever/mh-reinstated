@@ -1123,16 +1123,16 @@ Case 5    ;Up + Special (Warrior's heart)
     If zBlowSeq(n)=1 Then onGroundSeq(n)=0
     If zBlowSeq(n)=1 And upKeyDoubleTap(n)=1 Then
         zBlowUpLimit(n)=zy(n)-128
-        attackMode(n, 1)=1
+        attackMode(n)=1
     Else If zBlowSeq(n)=1 And upKeyDoubleTap(n)=0
         zBlowUpLimit(n)=zy(n)-112
-        attackMode(n, 1)=0
+        attackMode(n)=0
     End If
 
 ;------------- Sounds ----------------
-    If zBlowSeq(n) = c And attackMode(n, 1)=0 And gameSound Then PlaySound wonderwomanWH1Snd
-    If zBlowSeq(n) = c And attackMode(n, 1)=1 And gameSound Then PlaySound wonderwomanWH2Snd
-    If (zBlowSeq(n) = e-1 Or zBlowSeq(n) = m-1 Or (zBlowSeq(n) = cc-1 And attackMode(n, 1)=1)) And gameSound Then PlaySound wonderwomanWhWaveSnd
+    If zBlowSeq(n) = c And attackMode(n)=0 And gameSound Then PlaySound wonderwomanWH1Snd
+    If zBlowSeq(n) = c And attackMode(n)=1 And gameSound Then PlaySound wonderwomanWH2Snd
+    If (zBlowSeq(n) = e-1 Or zBlowSeq(n) = m-1 Or (zBlowSeq(n) = cc-1 And attackMode(n)=1)) And gameSound Then PlaySound wonderwomanWhWaveSnd
  
 ;------------ Animations -------------
     If zBlowSeq(n) => 1 And zBlowSeq(n) <= a Then zani(n)=7:zf(n)=1
@@ -1155,7 +1155,7 @@ Case 5    ;Up + Special (Warrior's heart)
     If zBlowSeq(n) => q And zBlowSeq(n) <= r Then zani(n)=7:zf(n)=10:zNoGrav(n)=0
     If zBlowSeq(n) => r And zBlowSeq(n) <= s Then zani(n)=7:zf(n)=11:zNoGrav(n)=0
 
-    If attackMode(n, 1)=1 Then
+    If attackMode(n)=1 Then
         If zBlowSeq(n) => aa And zBlowSeq(n) <= bb Then zani(n)=7:zf(n)=12:moveX(n,zBlowdir(n),1.5):zy(n)=zy(n)-2
         If zBlowSeq(n) => bb And zBlowSeq(n) <= cc Then zani(n)=7:zf(n)=5:zy(n)=zy(n)-2.4
         If zBlowSeq(n) => cc And zBlowSeq(n) <= dd Then zani(n)=7:zf(n)=6:moveX(n,zBlowdir(n),1.5)
@@ -1167,7 +1167,7 @@ Case 5    ;Up + Special (Warrior's heart)
     End If
 
 ;------------ Hit boxes --------------
-    If (zBlowSeq(n) >= e And zBlowSeq(n) =< g) Or (zBlowSeq(n) >= m And zBlowSeq(n) <= o) Or (attackMode(n, 1)=1 And zBlowSeq(n) >= cc And zBlowSeq(n) <= ee) Then
+    If (zBlowSeq(n) >= e And zBlowSeq(n) =< g) Or (zBlowSeq(n) >= m And zBlowSeq(n) <= o) Or (attackMode(n)=1 And zBlowSeq(n) >= cc And zBlowSeq(n) <= ee) Then
         zBlowBack(n)=1
         zblowPamount(n)=7:nn=1
         xblow(n,nn)=4.56:yblow(n,nn)=110.6:wblow(n,nn)=11:hblow(n,nn)=12:nn=nn+1
@@ -1184,7 +1184,7 @@ Case 5    ;Up + Special (Warrior's heart)
         zBlowSound(n)=mvcHit1Snd
         zani(n)=7:zf(n)=6:zantiplat(n)=1
     EndIf
-    If (zBlowSeq(n) > g And zBlowSeq(n) =< h) Or (zBlowSeq(n) > o And zBlowSeq(n) <= p) Or (attackMode(n, 1)=1 And zBlowSeq(n) > ee And zBlowSeq(n) <= ff) Then
+    If (zBlowSeq(n) > g And zBlowSeq(n) =< h) Or (zBlowSeq(n) > o And zBlowSeq(n) <= p) Or (attackMode(n)=1 And zBlowSeq(n) > ee And zBlowSeq(n) <= ff) Then
         zblowPamount(n)=5:nn=1
         xblow(n,nn)=-22.8192:yblow(n,nn)=117.6:wblow(n,nn)=19:hblow(n,nn)=6:nn=nn+1
         xblow(n,nn)=-4.81924:yblow(n,nn)=121.6:wblow(n,nn)=30:hblow(n,nn)=9:nn=nn+1
@@ -1198,7 +1198,7 @@ Case 5    ;Up + Special (Warrior's heart)
         zBlowSound(n)=mvcHit1Snd
         zantiplat(n)=1
     EndIf
-    If (zBlowSeq(n) >= h And zBlowSeq(n) < i) Or (zBlowSeq(n) >= p And zBlowSeq(n) < q) Or (attackMode(n, 1)=1 And zBlowSeq(n) >= ff And zBlowSeq(n) < gg) Then
+    If (zBlowSeq(n) >= h And zBlowSeq(n) < i) Or (zBlowSeq(n) >= p And zBlowSeq(n) < q) Or (attackMode(n)=1 And zBlowSeq(n) >= ff And zBlowSeq(n) < gg) Then
         zblowPamount(n)=6:nn=1
         xblow(n,nn)=-32.0398:yblow(n,nn)=117.4:wblow(n,nn)=9:hblow(n,nn)=9:nn=nn+1
         xblow(n,nn)=-23.0398:yblow(n,nn)=123.4:wblow(n,nn)=13:hblow(n,nn)=8:nn=nn+1
@@ -1215,7 +1215,7 @@ Case 5    ;Up + Special (Warrior's heart)
     EndIf
 
     If zHitHead(n)=1 Then zBlowSeq(n)=ii
-    If (zBlowSeq(n) => s And attackMode(n, 1)=0) Or (zBlowSeq(n) >= ii And attackMode(n, 1)=1) Then 
+    If (zBlowSeq(n) => s And attackMode(n)=0) Or (zBlowSeq(n) >= ii And attackMode(n)=1) Then 
         If zBlowSeq(n) Mod 3=0 Then 
             If zf(n)=11 Then 
                 zani(n)=7:zf(n)=10
@@ -1235,8 +1235,8 @@ Case 5    ;Up + Special (Warrior's heart)
     Else If onGroundSeq(n) >= 12 And onGroundSeq(n) < 16 Then
         zani(n)=7:zf(n)=15
     Else If onGroundSeq(n) >= 16 Then
-        If zongnd(n)=1 And zBlowSeq(n) >= s-2 And attackMode(n, 1)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
-        If zongnd(n)=1 And zBlowSeq(n) >= ii-2 And attackMode(n, 1)=1 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+        If zongnd(n)=1 And zBlowSeq(n) >= s-2 And attackMode(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
+        If zongnd(n)=1 And zBlowSeq(n) >= ii-2 And attackMode(n)=1 Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
     End If
 
 Case 6    ;throwing iten

@@ -255,13 +255,13 @@ Case 9    ;Down + Special (Tatsumaki senpu kyaku)
     seq5=seq4+4:seq6=seq5+4:seq7=seq6+4:seq8=seq7+4 ;spin
     seq9=seq7+3:seq10=seq9+3:seq11=seq10+4:seq12=seq11+4 ;end
     
-    If attackLevel(n)=2 Then zChunkType(n)=31
+    If attackMode(n)=2 Then zChunkType(n)=31
     
     If zBlowSeq(n)=1 Then
-        attackChargeLvl(n)=2:attackLevel(n)=1
+        attackChargeLvl(n)=2:attackMode(n)=1
         If (zFace(n)=2 And rightKey(n)=1) Or (zFace(n)=4 And leftKey(n)=1) Then
             If zStaminaBar#(n) >= 30 Then
-                attackChargeLvl(n)=3:attackLevel(n)=2
+                attackChargeLvl(n)=3:attackMode(n)=2
                 zStaminaBar#(n)=zStaminaBar#(n)-30
             Else
                 isFlashLowStamina(n)=1
@@ -304,11 +304,11 @@ Case 9    ;Down + Special (Tatsumaki senpu kyaku)
     
     Local oppFace
     If zFace(n)=2 Then oppFace=4 Else oppFace=2
-    If zBlowSeq(n)=seq4+1 And attackLevel(n)=2 Then
+    If zBlowSeq(n)=seq4+1 And attackMode(n)=2 Then
         makechunk(n,zx(n),zy(n)-27,zFace(n),168)
         If zBlowStill(n)=0 And gameSound Then PlaySound evilryuShortElectricSnd
     End If
-    If zBlowSeq(n)=seq6+1 And attackLevel(n)=2 Then
+    If zBlowSeq(n)=seq6+1 And attackMode(n)=2 Then
         makechunk(n,zx(n),zy(n)-27,oppFace,168)
         If zBlowStill(n)=0 And gameSound And zBlowStill(n)=0 Then PlaySound evilryuShortElectricSnd
     End If

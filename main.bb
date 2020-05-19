@@ -252,7 +252,8 @@ Dim downKeyHit(maxZ), upKeyHit(maxZ), isShotDisappearOnHit(200), shotChunkHitTyp
 Dim startDizzyTime(maxZ), currentDizzyTime(maxZ), endDizzyTime(maxZ), cantGetDizzyTime(maxZ), isDizzy(maxZ), dizzySeq(maxZ), dizzyDuration(maxZ)
 Dim dizzyFrames(maxZ), dizzyFrameSpeed(maxZ), zBurnSeq(maxZ), zBurnDuration(maxZ), zBurning(maxZ), doesShotBurn(200), shotGroundType(200)
 Dim zComboMode(maxZ), comboModeDuration(maxZ), startComboModeTime(maxZ), currentComboModeTime(maxZ), endComboModeTime(maxZ), cantGetComboModeTime(maxZ)
-Dim attackMode(maxZ, 5), canAirGlide(maxZ), projectileDeflectMode(maxZ), projectileDeflectSpeed#(maxZ), isDeflecting(maxZ), wwLassoLong(maxZ)
+Dim attackMode(maxZ), canAirGlide(maxZ), speedDeduct#(maxZ)
+Dim projectileDeflectMode(maxZ), projectileDeflectSpeed#(maxZ), isDeflecting(maxZ), wwLassoLong(maxZ)
 Dim zRunFootSoundSeq(maxZ), zWalkQuakeSeq1(maxZ), zWalkQuakeSeq2(maxZ), walkQuakeSnd(maxZ), zBlockSeqStart(maxZ), isHeavy(maxZ)
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4), electrocuteTime(200)
 Dim canAirGlideUp(maxZ), zBlowType(maxZ), zHitType(maxZ), zBlowTypeModulo(maxZ), zHitTypeModulo(maxZ)
@@ -276,7 +277,7 @@ Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
 Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
-Dim wasOnAir(maxZ), attackChargeLvl(maxZ), attackLevel(maxZ)
+Dim wasOnAir(maxZ), attackChargeLvl(maxZ)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -2079,6 +2080,11 @@ Function selectDraw(n)
         Goto drawZ
     End If            ;ducking
     
+    If zongnd(n)=0 And isRunning(n) And canAirGlide(n)=0 Then
+        If rightKey(n)=1 And zSpeed(n) > zTopSpeed#(n) Then speedDeduct#(n)=speedDeduct#(n)+0.1
+        If leftKey(n)=1 And zSpeed(n) < zTopSpeed#(n) * -1 Then speedDeduct#(n)=speedDeduct#(n)+0.1
+    End If
+    
     If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
         If isRunning(n) And canAirGlide(n)
             If zJump2Seq(n)=1 Then zRunSeq(n)=0
@@ -2105,6 +2111,7 @@ Function selectDraw(n)
             End If
             Goto drawZ
         End If
+        
         If hasSpecialAirFrames(n)=1 Then 
             processOnAirFrames(n)
         Else
@@ -2112,7 +2119,10 @@ Function selectDraw(n)
         End If
         Goto drawZ
     End If
-    handleHeavyCharactersOnAir(n)
+    If zOnGnd(n)=1 And zani(n)=4 Then
+        speedDeduct#(n)=0
+        handleHeavyCharactersOnAir(n)
+    End If
     If (Not zhit(n)) And isActiveCharacter(n)=1 Then ;On ground
         If zspeed(n) <> 0 Then    ;Moving
             If isRunning(n) Then
@@ -2618,7 +2628,7 @@ If zhit(n)=1 And zongnd(n)=1 Then zHeight(n)=zDuckHeight(n)
 If rightkey(n)=1 Then
     If (zOnGnd(n)=0 And zSpeed#(n) < zTopSpeed(n)) Or zOnGnd(n) Or canAirGlide(n) Then zSpeed#(n)=zSpeed#(n)+zAcc#(n)
     If isRunning(n) Then
-        If zSpeed#(n) > zTopRunningSpeed#(n) Then zSpeed#(n) = zTopRunningSpeed#(n)
+        If zSpeed#(n) > zTopRunningSpeed#(n) - speedDeduct#(n) Then zSpeed#(n) = zTopRunningSpeed#(n)-speedDeduct#(n)
     Else
         If zSpeed#(n) > zTopSpeed#(n) Then zSpeed#(n) = zTopSpeed#(n)
     End If
@@ -2627,11 +2637,11 @@ If rightkey(n)=1 Then
 EndIf
 
 If leftkey(n)=1 Then
-    If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed#(n) - (zTopSpeed(n)*2)) Or zOnGnd(n) Or canAirGlide(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n)
+    If (zOnGnd(n)=0 And zSpeed#(n) > zTopSpeed(n) * -2) Or zOnGnd(n) Or canAirGlide(n) Then zSpeed#(n)=zSpeed#(n)-zAcc#(n)
     If isRunning(n) Then
-        If zSpeed#(n) < zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2) Then zSpeed#(n) = zTopRunningSpeed#(n) - (zTopRunningSpeed#(n)*2)
+        If zSpeed#(n) < (zTopRunningSpeed#(n) * -1) + speedDeduct#(n) Then zSpeed#(n) = (zTopRunningSpeed#(n) * -1) + speedDeduct#(n)
     Else
-        If zSpeed#(n) < zTopSpeed#(n) - (zTopSpeed(n)*2) Then zSpeed#(n) = zTopSpeed#(n) - (zTopSpeed(n)*2)
+        If zSpeed#(n) < zTopSpeed(n) * -1 Then zSpeed#(n) = zTopSpeed(n) * -1
     End If
     If curGuy(n)=1 And zani(n)=21 And zF(n)=4 Then lk=0 Else lk=1
     Goto PressedDi
@@ -5896,7 +5906,7 @@ End Function
 
 ;----------------- Process Heavy Characters on Air ----------------
 Function handleHeavyCharactersOnAir(n)
-    If zOnGnd(n)=1 And zani(n)=4 And isHeavy(n)=1 Then
+    If isHeavy(n)=1 Then
         If gameSound And quake=0 Then PlaySound quakeSnd
         quake=1:quakeSeq=0
     End If
