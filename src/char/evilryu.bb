@@ -1,3 +1,88 @@
+Function doChargeHadouken(n)
+    seqStart=2000:endSeq=41
+    seq1=seqStart+208:seq2=seq1+2:seq3=seq2+2
+    seq4=seq3+2:seq5=seq4+3:seq6=seq5+4:seq7=seq6+2:seq8=seq7+2
+    seq9=seq8+3:seq10=seq9+2:seq11=seq10+2:seq12=seq11+2
+    seq13=seq12+4:seq14=seq13+3
+    
+    If zBlowSeq(n)=seqStart Then
+        attackChargeLvl(n)=0
+        If zStaminaBar#(n) < 20 Then isFlashLowStamina(n)=1:zBlowSeq(n)=endSeq
+    Else
+        If zBlowSeq(n) < seq1 Then
+            ;depleteStaminaBar(n,0.68)
+            attackChargeLvl(n) = (zBlowSeq(n)-seqStart) / 40
+            If zBlowSeq(n) <= seqStart+72 And zBlowSeq(n) Mod 9=0 Then
+                dirSeed=Rand(2)
+                If zFace(n)=2 Then xOffset=-40 Else xOffset=40
+                xPosSeed=Rand(90)
+                yPosSeed=Rand(180)
+                makechunk(n,(zx(n)+xOffset)+xPosSeed,(zy(n)-45)+yPosSeed,zFace(n),171)
+            End If
+        End If
+    End If
+    
+    Local chunkStart=seqStart+60
+    If zBlowSeq(n) >= chunkStart And zBlowSeq(n) < seq1 Then
+        If zBlowSeq(n) Mod 10=0 Then
+            height=(zy(n)-42) + (attackChargeLvl(n) * 2)
+            If zFace(n)=2 Then xPos=-28 Else xPos=28
+            makechunk(n,zx(n)+xPos,height,zFace(n),170)
+        End If
+    End If
+    
+;============= Animation ===============
+    zani(n)=10
+    If zBlowSeq(n) >= seqStart And zBlowSeq(n) < seq1 Then
+        If zBlowSeq(n) Mod 3 = 0 Then
+            If zF(n)=14 Then
+                zF(n)=13
+            Else
+                zF(n)=14
+            End If
+        End If
+    End If
+    
+    If zBlowSeq(n) >= seq1 And zBlowSeq(n) < seq2 Then zF(n)=2
+    If zBlowSeq(n) >= seq2 And zBlowSeq(n) < seq3 Then zF(n)=3
+    If zBlowSeq(n) >= seq3 And zBlowSeq(n) < seq4 Then zani(n)=10:zf(n)=4
+    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then zani(n)=10:zf(n)=5
+    If zBlowSeq(n) >= seq5 And zBlowSeq(n) < seq6 Then zani(n)=10:zf(n)=6
+    If zBlowSeq(n) >= seq6 And zBlowSeq(n) < seq7 Then zani(n)=10:zf(n)=4
+    If zBlowSeq(n) >= seq7 And zBlowSeq(n) < seq8 Then zani(n)=10:zf(n)=5
+    If zBlowSeq(n) >= seq8 And zBlowSeq(n) < seq9 Then zani(n)=10:zf(n)=6
+    If zBlowSeq(n) >= seq9 And zBlowSeq(n) < seq10 Then zani(n)=10:zf(n)=4
+    If zBlowSeq(n) >= seq10 And zBlowSeq(n) < seq11 Then zani(n)=10:zf(n)=5
+    If zBlowSeq(n) >= seq11 And zBlowSeq(n) < seq12 Then zani(n)=10:zf(n)=6
+    If zBlowSeq(n) >= seq12 And zBlowSeq(n) < seq13 Then zani(n)=10:zf(n)=7
+    If zBlowSeq(n) >= seq13 And zBlowSeq(n) < seq14 Then zani(n)=10:zf(n)=8
+    
+    If zBlowSeq(n) >= seqStart+30 And zBlowSeq(n) < seq1 Then
+        If KeyDown(specialK(n))=0 Then zBlowSeq(n)=seq1
+        If zStaminaBar#(n) <= 0 Then zStaminaBar#(n)=0:zBlowSeq(n)=seq1
+    End If
+    
+;=============== Sounds ================
+    If zBlowSeq(n) = seqStart And gameSound Then PlaySound evilRyuHadoukenChargeSnd
+    If zBlowSeq(n) = seq3 And gameSound Then PlaySound evilRyuHadoukenSnd
+    
+;================ Shot =================
+    If zBlowSeq(n) = seq3 Then 
+        dir=zface(n):y=zy(n)-zheight(n)+37
+        If zface(n)=2 Then x=zx(n)+65
+        If zface(n)=4 Then x=zx(n)-68
+        If attackChargeLvl(n) > 1 Then makeshot(n,54,x,y,dir)
+        If attackChargeLvl(n) <= 1 Then makeshot(n,53,x,y,dir)
+    EndIf
+    
+    If zBlowSeq(n)=seq14 Then zBlowSeq(n)=endSeq
+
+End Function
+
+Function doDownAirHadouken(n)
+    seqStart=1000:endSeq=41
+End Function
+
 Function doAirHadouken(n)
     seqStart=100:endSeq=41
     seq1=seqStart+14:seq2=seq1+3:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2
@@ -31,7 +116,7 @@ Function doAirHadouken(n)
     If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 Then zani(n)=10:zf(n)=12
 
 ;========== Sounds ===========
-    If zBlowSeq(n) = seqStart+1 And gameSound=1 Then PlaySound evilRyuHadoukenSnd
+    If zBlowSeq(n) = seqStart+1 And gameSound Then PlaySound evilRyuHadoukenSnd
     
 ;========= Movement ==========
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then moveX(n,zBlowdir(n),shotRecoil)
@@ -139,10 +224,11 @@ Case 1    ;Attack (Kick)
 Case 2    ;Flying Kick
     seq1=3:seq2=seq1+2:seq3=seq2+12:seq4=seq3+4:seq5=seq4+8
     seq1b=102:seq2b=seq1b+22:seq3b=seq2b+3:seq4b=seq3b+3
-    endSeq=seq4b+1
+    chargingKickSeq=200:endSeq=seq4b+1
     zNoJump(n)=0:ZJUMPING(N)=1:zani(n)=8
     
     If zBlowSeq(n)<=1 And upKey(n)=1 Then zBlowSeq(n)=100
+    If zBlowSeq(n)<=1 And downKey(n)=1 Then zBlowSeq(n)=chargingKickSeq
     
 ;======== Animation (down fly kick) =========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zf(n)=1
@@ -157,6 +243,9 @@ Case 2    ;Flying Kick
     If zBlowSeq(n) > seq2b And zBlowSeq(n) <= seq3b Then zf(n)=8
     If zBlowSeq(n) > seq3b And zBlowSeq(n) <= seq4b Then zf(n)=9
     
+;======== Animation (charging kick) =========
+    If zBlowSeq(n) >= chargingKickSeq And zBlowSeq(n) <= seq1b Then zf(n)=6
+
 ;======== Hitboxes (down fly kick) =========
     If zBlowSeq(n) > seq2 And zBlowSeq(n) =< seq3 Then
         zblowPamount(n)=3:nn=1
@@ -299,16 +388,33 @@ Case 7    ;Special (Hadouken)
     seq13=seq12+2:seq14=seq13+2
     endSeq=seq14+1 ;41
     hadoukenAirSeq=100
+    hadoukenDownAirSeq=1000
+    hadoukenChargeSeq=2000
     zNoMove(n)=1
     zNoJump(n)=1
     zjump(n)=0
     If zongnd(n)=0 Then zy(n)=zy(n)-3.2
     
-    If zBlowSeq(n)=1 Then attackMode(n)=0
-    If zBlowSeq(n)=1 And zOnGnd(n)=0 Then zBlowSeq(n)=hadoukenAirSeq
+    If zBlowSeq(n)=1 Then
+        attackMode(n)=0
+        If zOnGnd(n)=0 Then
+            If downForwardTap(n)=1 Then
+                zBlowSeq(n)=hadoukenDownAirSeq
+            Else
+                zBlowSeq(n)=hadoukenAirSeq
+            End If
+        Else
+            If downForwardTap(n)=1 Then zBlowSeq(n)=hadoukenChargeSeq
+        End If
+    End If
     
-    If zBlowSeq(n) >= hadoukenAirSeq Then doAirHadouken(n)
-    
+    If zBlowSeq(n) >= hadoukenAirSeq And zBlowSeq(n) < hadoukenDownAirSeq Then
+        doAirHadouken(n)
+    Else If zBlowSeq(n) >= hadoukenDownAirSeq And zBlowSeq(n) < hadoukenChargeSeq Then
+        doDownAirHadouken(n)
+    Else If zBlowSeq(n) >= hadoukenChargeSeq Then
+        doChargeHadouken(n)
+    End If
 ;========= Animation ==========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=10:zf(n)=2
@@ -326,7 +432,7 @@ Case 7    ;Special (Hadouken)
     If zBlowSeq(n) > seq13 And zBlowSeq(n) <= seq14 Then zani(n)=10:zf(n)=8
 
 ;========== Sounds ===========
-    If zBlowSeq(n) = 1 And gameSound=1 Then PlaySound evilRyuHadoukenSnd
+    If zBlowSeq(n) = 1 And gameSound Then PlaySound evilRyuHadoukenSnd
 
 ;=========== Shot ============
     If zBlowSeq(n) = seq4 Then 
@@ -361,7 +467,7 @@ Case 8    ;Dodging
     zNoMove(n)=1
     zNoJump(n)=1
     a=7:b=15:c=20:d=25:e=30:f=37
-    If zBlowSeq(n) =a And gameSound=1 Then PlaySound shotwallsnd
+    If zBlowSeq(n) =a And gameSound Then PlaySound shotwallsnd
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=5:zf(n)=5
     If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=5:zf(n)=1:moveX(n,zBlowdir(n),2)
     If zBlowSeq(n) > b And zBlowSeq(n) =< c Then zani(n)=5:zf(n)=2:moveX(n,zBlowdir(n),3)
@@ -490,7 +596,10 @@ Case 10    ;Up + Attack (High Punch)
     seq1b=103:seq2b=seq1b+3:seq3b=seq2b+7:seq4b=seq3b+4:seq5b=seq4b+3
     endSeq=seq5b+1
     
-    If zBlowSeq(n)=1 And downKey(n)=1 Then zBlowSeq(n)=100
+    Local forwardKey=0
+    If zFace(n)=2 And rightKey(n)=1 Then forwardKey=1
+    If zFace(n)=4 And leftKey(n)=1 Then forwardKey=1
+    If zBlowSeq(n)=1 And forwardKey=0 Then zBlowSeq(n)=100
     
 ;======== Animation (high kick) =========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zf(n)=4
@@ -647,7 +756,7 @@ Case 14    ;Super Special
     zNoJump(n)=1
     zjump(n)=0
     If zongnd(n)=0 Then zy(n)=zy(n)-2.5 ;zNoGrav(n)=1 
-    If zBlowSeq(n) = b-1 And gameSound=1 Then PlaySound  ryuballSnd
+    If zBlowSeq(n) = b-1 And gameSound Then PlaySound  ryuballSnd
     If zBlowSeq(n) => 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) > a And zBlowSeq(n) < b Then zani(n)=10:zf(n)=2
     If zBlowSeq(n) =b-2 Then

@@ -154,11 +154,12 @@ Dim shotdamage(maxShots),shotsize(maxShots),shotsizeL(maxShots),shotPic(maxShots
 Dim shotImage(100), shotImage_(100), shotHitTrail(maxShots), shotSuper(maxShots), shotBounce(maxShots),shotExplosionSound(maxShots)
 Dim shotHeight(maxShots),shotWidth(maxShots),shotside(maxShots),shotChunkType(maxShots), shotType(maxShots), shotPushForce(maxShots)
 Dim justShot(maxShots),shotSeq(maxShots),shotDuration(maxShots),shotDurationSeq(maxShots), shotDrill(maxShots),shotDuration2(maxShots)
-Dim shotAcc#(maxShots),shotMaxSpeed#(maxShots),shotUturn(maxShots), shotFollowOwner(maxShots),shotUturnseq(maxShots)
+Dim shotAcc#(maxShots),shotMaxSpeed#(maxShots),shotUturn(maxShots), shotFollowOwner(maxShots),shotUturnseq(maxShots), shotStillMaxTime(maxShots), shotStillSeq(maxShots)
 Dim shotFramesAmount(maxShots), shotCurFrame(maxShots), shotFrameSeq(maxShots), shotFrameTime(maxShots),shotImmuneTime(maxShots),shotUturnAmount(maxShots)
 Dim zShotHitType(maxShots), zShotHitTypeModulo(maxShots), shotHasAfterImg(maxShots), shotAfterImageSeq(maxShots)
 Dim shotAfterImage(maxShots, 4), shotAfterImage_(maxShots, 4), shotAfterImgX(maxShots, 20), shotAfterImgY(maxShots, 20)
 Dim shotReturnOnHit(maxShots), isShotReturning(maxShots), shotReturnXDest(maxShots), shotReturnYDest(maxShots), shotHits(maxShots), shotHitBeforeReturn(maxShots)
+Dim shotHitBeforeFade(maxShots)
 
 Dim ObjType(400),objThrow(400),objHurt(400),objId(400),objHitSound(400)
 Dim xobj#(400),yobj#(400),obj(400),objdir(400),objowner(400), objXspeed#(400),objYSpeed#(400),objAmmo(400)
@@ -202,7 +203,7 @@ Dim EventAction(100),Tsound(100)
 Global triggerAmount,triggerMode, triggerImageAmount,amountAffected
 
 Dim xChunk#(1500),yChunk#(1500),chunk(1500),chunkType(1500),chunkSeq(1500),chunkCategory(1500),chunkHeight(1500),chunkStr$(1500,20)
-Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,20),ptPic_(1500,20),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
+Dim chunkPic(1500),chunkPic_(1500),chunkDir(1500),ptPic(1500,25),ptPic_(1500,25),chunkColor(1500),chunkWidth(1500),chunkLines(1500)
 Dim chunkOwner(1500), isChunkSolid(1500), isChunkOnGnd(1500), chunkYAdj(1500), yChunkSpeed#(1500), chunkYDrawAdj(1500)
 
 Dim explosion(100),xExp(100),yExp(100),expDamage(100), expSide(100),expHeight(100),expImpact(100),expType(100),explosionSound(100)
@@ -238,7 +239,7 @@ Global menuOption, duringGameMenu
 Global isStuffFall
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
 Dim zStanceFrames(maxCharAmt), zStance2Frames(maxCharAmt), zStanceSeq(maxCharAmt), zStanceSpeed(maxCharAmt), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
-Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ), leftKeyDoubleTap(maxZ), rightKeyDoubleTap(maxZ)
+Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ), leftKeyDoubleTap(maxZ), rightKeyDoubleTap(maxZ), downForwardTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
 Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
@@ -486,13 +487,14 @@ Include "src\modules\AI.bb"
 
 pri priW("please wait..."),350,"please wait..."
 
+;loadTimeStart=MilliSecs()
 For n=1 To 100   ;load shots
     shotImage(n)=LoadImage(gfxdir$ + "shot\shot"+n+".bmp")
     shotImage_(n)=LoadImage(gfxdir$ + "shot\shot"+n+"_.bmp")
 Next
 
 For n=1 To 200   ; load chunks
-    For nn=1 To 15
+    For nn=1 To 25
         ptPic(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+ ".bmp" )
         ptPic_(n,nn)=LoadImage( gfxdir$ + "part\pt"+n+"_a"+nn+"_.bmp" )
     Next
@@ -560,7 +562,11 @@ loadMenuTheme()
 
 initCharSelect()
 cls
+
+;loadTimeEnd=MilliSecs()
+;DebugLog "Main loadTime: " + (loadTimeEnd-loadTimeStart)
 gameIntro()
+
 justIntroduced=1
 setCheats()
 
@@ -2039,7 +2045,6 @@ If FdelaySeq(n) => facDelay(n,curF(n)) Then
             shotData(facType(n,curF(n)),nn)
             shotDrill(nn)=facLives(n,curF(n))
             shotOwner(nn)=facTeam(n,curF(n))
-                                    
             If facDeadEvent(n,curF(n)) > 0 Then shotSpeed#(nn)=facDeadEvent(n,curF(n))
             If facLife(n,curF(n)) > 0 Then shotHitYspeed(nn)=facLife(n,curF(n))
             If facDamage(n,curF(n)) > 0 Then shotDamage(nn)=facDamage(n,curF(n))
@@ -2921,13 +2926,18 @@ If shotGroundType(n) <> 0 Then handleGroundShotType(n)
 
 If shotSeekType(n) <> 0 Then handleShotSeeking(n)
 If shotHasAfterImg(n)=1 Then setShotAfterImgCoord(n)
-Select shotDir(n)
-    Case dirRight:
-        xshot(n)=xshot(n)+shotspeed#(n)
-    Case dirLeft:
-        xshot(n)=xshot(n)-shotspeed#(n)
-End Select
-yShot(n)=yShot(n)+shotYspeed#(n)
+
+If shotStillSeq(n) > 0 Then
+    shotStillSeq(n)=shotStillSeq(n)-1
+Else
+    Select shotDir(n)
+        Case dirRight:
+            xshot(n)=xshot(n)+shotspeed#(n)
+        Case dirLeft:
+            xshot(n)=xshot(n)-shotspeed#(n)
+    End Select
+    yShot(n)=yShot(n)+shotYspeed#(n)
+End If
 
 If shotFollowOwner(n) Then 
     If yShot(n) > zy(shotOwner(n))-20 Then yShot(n)=yShot(n)-1
@@ -3241,8 +3251,9 @@ Function makeshot(o,n,x,y,dir)
 For i=1 To 200
     If shot(i)=0 Then
         If i > shotAmount Then shotAmount=i
+        shotowner(i)=o
         shotData(n,i)
-        shot(i)=1:shotowner(i)=o
+        shot(i)=1
             Select dir
                 Case dirRight:shotDir(i)=dirRight:xshot(i)=x:yshot(i)=y
                 Case dirLeft:shotDir(i)=dirLeft:xshot(i)=x:yshot(i)=y
@@ -4765,7 +4776,7 @@ For nn=1 To chunkAmount
                 Case 4:xChunk(nn)=xChunk(nn)-platXSpeed(n)
             End Select
         EndIf
-	End If
+    End If
 Next
 
 Next
@@ -5566,17 +5577,28 @@ End Function
 
 ;----------- Check controller Inputs -------------
 Function checkInputs(n)
-    If rightKeyHit(n) Then checkRightKeyHit(n)
-    If leftKeyHit(n) Then checkLeftKeyHit(n)
+    If rightKeyHit(n) Then checkRightKeyHit(n):checkDownForwardHit(n)
+    If leftKeyHit(n) Then checkLeftKeyHit(n):checkDownForwardHit(n)
     If downKeyHit(n) Then checkDownKeyHit(n)
     If upKeyHit(n) Then checkUpKeyHit(n)
     If KeyHit(blockK(n)) Then checkBlockKeyHit(n)
 End Function
 
+;-------- Check down + forward key hit ---------
+Function checkDownForwardHit(n)
+    If zBlow(n)=0
+        If checkKeyPressInterval(downKeyHitTimer(n)) = 1 Then
+            downForwardTap(n)=1
+        Else
+            downForwardTap(n)=0
+        End If
+    End If
+End Function
+
 ;----------- Check right key hit ---------------
 Function checkRightKeyHit(n)
-    Local quartSec=250, curTime=MilliSecs()
-    If (curTime - rightKeyHitTimer(n)) < quartSec And (curTime - rightKeyHitTimer(n)) > 0 Then
+    curTime=MilliSecs()
+    If checkKeyPressInterval(rightKeyHitTimer(n)) = 1 Then
         rightKeyDoubleTap(n)=1
         If (zOnGnd(n) Or canAirGlide(n)) And zRunFrames(n)>0 Then
             If zStaminaBar(n) >= 30 Then
@@ -5593,8 +5615,8 @@ End Function
 
 ;----------- Check left key hit ---------------
 Function checkLeftKeyHit(n)
-    Local quartSec=250, curTime=MilliSecs()
-    If (curTime - leftKeyHitTimer(n)) < quartSec And (curTime - leftKeyHitTimer(n)) > 0 Then
+    curTime=MilliSecs()
+    If checkKeyPressInterval(leftKeyHitTimer(n)) = 1 Then
         leftKeyDoubleTap(n)=1
         If (zOnGnd(n) Or canAirGlide(n)) And zRunFrames(n)>0 Then
             If zStaminaBar(n) >= 30 Then
@@ -5611,8 +5633,8 @@ End Function
 
 ;----------- Check down key hit ---------------
 Function checkDownKeyHit(n)
-    Local quartSec=250, curTime=MilliSecs()
-    If (curTime - downKeyHitTimer(n)) < quartSec And (curTime - downKeyHitTimer(n)) > 0 Then
+    curTime=MilliSecs()
+    If checkKeyPressInterval(downKeyHitTimer(n)) = 1 Then
         downKeyDoubleTap(n)=1
     Else
         downKeyDoubleTap(n)=0
@@ -5622,8 +5644,8 @@ End Function
 
 ;----------- Check up key hit ---------------
 Function checkUpKeyHit(n)
-    Local quartSec=250, curTime=MilliSecs()
-    If (curTime - upKeyHitTimer(n)) < quartSec And (curTime - upKeyHitTimer(n)) > 0 Then
+    curTime=MilliSecs()
+    If checkKeyPressInterval(upKeyHitTimer(n)) = 1 Then
         upKeyDoubleTap(n)=1
     Else
         upKeyDoubleTap(n)=0
@@ -5633,13 +5655,25 @@ End Function
 
 ;----------- Check block key hit ------------
 Function checkBlockKeyHit(n)
-    Local quartSec=250, curTime=MilliSecs()
-    If (curTime - blockKeyHitTimer(n)) < quartSec And (curTime - blockKeyHitTimer(n)) > 0 Then
+    curTime=MilliSecs()
+    If checkKeyPressInterval(blockKeyHitTimer(n)) = 1 Then
         blockKeyDoubleTap(n)=1
     Else
         blockKeyDoubleTap(n)=0
     End If
     blockKeyHitTimer(n) = curTime
+End Function
+
+;-------- Check key press interval ----------
+Function checkKeyPressInterval(keyHitTimer)
+    Local returnVal = 0
+    Local quartSec=250, curTime=MilliSecs()
+    
+    If (curTime - keyHitTimer) < quartSec And (curTime - keyHitTimer) > 0 Then
+        returnVal = 1
+    End If
+    
+    Return returnVal
 End Function
 
 ;------------ Deplete Stamina Bar --------------
@@ -6071,7 +6105,7 @@ Function handleShotCharacterCollision(n, hAdj, wAdj)
                             If projectileDeflectMode(nn)=1 And zFace(nn)=oppDir Then deflectProjectile(n, nn):Exit
                             shotHits(n)=shotHits(n)+1
                             If shotExplosive(n) > 0 Then shotexp(n,xShot(n),yShot(n),shotExplosive(n)):shot(n)=0:clearShotAfterImg(n)
-                            If shotDrill(n)=0 And shotReturnOnHit(n)=0 Then shot(n)=0:clearShotAfterImg(n)
+                            If isShotFade(n)=1 Then shot(n)=0:clearAfterImages(n) Else shotStillSeq(n)=shotStillMaxTime(n)
                             If shotReturnOnHit(n)=1 And shotHits(n)>=shotHitBeforeReturn(n) Then isShotReturning(n)=1
                             zShotByN(nn)=n:zShotHitSeq(nn,n)=0
                             If shotChunkHitType(n) = 0 Or (zblock(nn)=1 And (zBlockLife(nn)-shotDamage(n)) > 0) Then
@@ -6111,7 +6145,7 @@ Function handleShotCharacterCollision(n, hAdj, wAdj)
                                     calcShot(nn,n)
                                     zBlow(nn)=0:zBlowStill(nn)=0:zHitSeq(nn)=0
                                 EndIf
-                                If shotHitTrail(n) > 0 Then zTrail(nn)=1:zTrailSeq(nn)=0:zTrailType(nn)=shotHitTrail(n)                            
+                                If shotHitTrail(n) > 0 Then zTrail(nn)=1:zTrailSeq(nn)=0:zTrailType(nn)=shotHitTrail(n)
                             EndIf
                             isDone=1:Exit
                         EndIf 
@@ -6858,4 +6892,11 @@ Function getIconScaleFactor#(i)
     End Select
     
     return scaleFactor#
+End Function
+
+Function isShotFade(n)
+    If shotDrill(n)=0 And shotReturnOnHit(n)=0 And shotHitBeforeFade(n)=0 Then return 1
+    If shotHitBeforeFade(n) > 0 And shotHits(n)>=shotHitBeforeFade(n) Then return 1
+
+    return 0
 End Function

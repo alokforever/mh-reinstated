@@ -995,7 +995,6 @@ Function shotData(weaponChosen,n)
 
 ;Defaut Values
     shotType(n)=weaponChosen
-    shotOwner(n)=0
     shotspeed(n)=3
     shotYspeed(n)=0
     shotsize(n)=10    ;width
@@ -1057,7 +1056,10 @@ Function shotData(weaponChosen,n)
     shotReturnYDest(n)=0
     shotHits(n)=0
     shotHitBeforeReturn(n)=0
+    shotHitBeforeFade(n)=0
     shotChunkYAdj(n)=0
+    shotStillSeq(n)=0
+    shotStillMaxTime(n)=0
 
 Select weaponChosen
     
@@ -1978,6 +1980,35 @@ Case 53    ;hadouken fast
     shotPic_(n,4)=shotImage_(81)
     shotSound(n)=evilRyuHit1Snd
     
+Case 54    ;Charged hadouken
+    Local chargeLvl=attackChargeLvl(shotOwner(n))
+    shotspeed(n)=6 + (chargeLvl / 2)
+    shotsize(n)=56
+    shotheight(n)=35
+    shotSide(n)=shotsize(n)/2
+    shotdamage(n)=5
+    shotHitXspeed(n)=4
+    shotHitYspeed(n)=4
+    shotFallTime(n)=20
+    shotImmuneTime(n)=10
+    shotHold(n)=10
+    shotDuration(n)=200
+    shotMaxSpeed(n)=shotSpeed(n)
+    shotChunkType(n)=169
+    shotChunkYAdj(n)=16
+    shotFramesAmount(n)=4
+    shotFrameTime(n)=2
+    shotHitBeforeFade(n)=chargeLvl
+    shotPic(n,1)=shotImage(82)
+    shotPic_(n,1)=shotImage_(82)
+    shotPic(n,2)=shotImage(83)
+    shotPic_(n,2)=shotImage_(83)
+    shotPic(n,3)=shotImage(84)
+    shotPic_(n,3)=shotImage_(84)
+    shotPic(n,4)=shotImage(85)
+    shotPic_(n,4)=shotImage_(85)
+    shotSound(n)=evilRyuHit1Snd
+    shotStillMaxTime(n)=10
 End Select
 
 End Function
@@ -3149,6 +3180,8 @@ If n=1 Then     ;Evil Ryu
     If evilryuTatsumakiSnd=0 Then evilryuTatsumakiSnd=LoadSound(soundsdir$ + "evilryu\evilryuTatsumaki.wav")
     If evilRyuHit1Snd=0 Then evilRyuHit1Snd=LoadSound(soundsdir$ + "evilryu\evilRyuHit1.wav")
     If evilryuShortElectricSnd=0 Then evilryuShortElectricSnd=LoadSound(soundsdir$ + "evilryu\evilryuShortElectric.wav")
+    If evilRyuDodgeSnd=0 Then evilRyuDodgeSnd=LoadSound(soundsdir$ + "evilryu\evilRyuDodge.wav")
+    If evilRyuHadoukenChargeSnd=0 Then evilRyuHadoukenChargeSnd=LoadSound(soundsdir$ + "evilryu\evilRyuHadoukenCharge.wav")
 EndIf
 
 If n=41 Then     ;Turtle CLoud

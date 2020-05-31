@@ -1,13 +1,14 @@
 ;----------------- Chunks ---------------------------------
 Function chunks(n)
 
+Local owner = chunkOwner(n)
 chunkFollowOwner(n)=0
 isChunkRenderLowPrio(n)=0
 isChunkSolid(n)=0
 yChunkSpeed#(n)=0
 chunkYAdj(n)=0
 chunkYDrawAdj(n)=0
-If isActiveCharacter(chunkOwner(n))=1 chunkSeq(n)=chunkSeq(n)+1
+If isActiveCharacter(owner)=1 chunkSeq(n)=chunkSeq(n)+1
 cc=chunkType(n)
 Select chunkType(n)
 Case 0: a=5:b=10:c=14:d=18    ;test
@@ -39,9 +40,9 @@ Case 2: a=30:b=100:c=180:d=240        ;Round Introduction
     If chunkSeq(n) > c And chunkSeq(n) =< d Then ychunk(n)=ychunk(n)-10:NoUserInput=0
     If chunkSeq(n) > d Then chunk(n)=0
 
-Case 3: a=10:b=20        ;ryu blue ball impact
+Case 3: a=10:b=20        ;ryu charge hadouken particles
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(cc,1):chunkPic_(n)=ptPic(cc,1)
-    If chunkSeq(n) > a And chunkSeq(n) =< b Then chunkPic(n)=ptPic(cc,2):chunkPic_(n)=ptPic(cc,2)
+    
     If chunkSeq(n) > b Then chunk(n)=0
 
 Case 4: a=5:b=10:c=15:d=20    ;explosion 40
@@ -1116,7 +1117,6 @@ Case 137:        ;Makankousappou impact (ground)
 Case 138:        ;Gohan
     seq1=6:seq2=seq1+1:seq3=seq2+1:seq4=seq3+1:seq5=seq4+1
     seq6=seq5+10:seq7=seq6+1
-    owner=chunkOwner(n)
     
     If chunkSeq(n) > 0 And chunkSeq(n) <= seq1 Then chunkPic(n)=noPic:chunkPic_(n)=noPic
     If chunkSeq(n) > seq1 And chunkSeq(n) <= seq2 Then chunkPic(n)=ptPic(108,1):chunkPic_(n)=ptPic_(108,1)
@@ -1462,15 +1462,14 @@ Case 159:   ;Raging spin (Small)
     
 Case 160:   ;Raging stars (Inward)
     endSeq=20
-    chOwn=chunkOwner(n)
-    If zFace(chOwn)=2 Then xAdj=4.8 Else xAdj=-4.8
+    If zFace(owner)=2 Then xAdj=4.8 Else xAdj=-4.8
     
     chunkPic(n)=ptPic(127,1):chunkPic_(n)=ptPic_(127,1)
-    If xChunk#(n) > zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)-4.8
-    If xChunk#(n) <= zx(chOwn)+xAdj Then xChunk#(n)=xChunk#(n)+4.8
+    If xChunk#(n) > zx(owner)+xAdj Then xChunk#(n)=xChunk#(n)-4.8
+    If xChunk#(n) <= zx(owner)+xAdj Then xChunk#(n)=xChunk#(n)+4.8
     
-    If yChunk#(n) > zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)-4.8
-    If yChunk#(n) <= zy(chOwn)-(zheight(chOwn)/2) Then yChunk#(n)=yChunk#(n)+4.8
+    If yChunk#(n) > zy(owner)-(zheight(owner)/2) Then yChunk#(n)=yChunk#(n)-4.8
+    If yChunk#(n) <= zy(owner)-(zheight(owner)/2) Then yChunk#(n)=yChunk#(n)+4.8
     
     If chunkSeq(n)>endSeq Then chunk(n)=0
     
@@ -1608,6 +1607,32 @@ Case 169: ;Hadouken hit
     If chunkSeq(n)>seq8 And chunkSeq(n)<=seq9 Then chunkPic(n)=ptPic(135,9):chunkPic_(n)=ptPic_(135,9)
 
     If chunkSeq(n)>seq9 Then chunk(n)=0
+    
+Case 170: ;Hadouken charge aura
+    seq1=2:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2
+    Local idxOffset=(5 * attackChargeLvl(owner)) - 4
+    chunkFollowOwner(n)=1
+    
+    If chunkSeq(n)>0 And chunkSeq(n)<=seq1 Then chunkPic(n)=ptPic(136,idxOffset):chunkPic_(n)=ptPic_(136,idxOffset)
+    If chunkSeq(n)>seq1 And chunkSeq(n)<=seq2 Then chunkPic(n)=ptPic(136,idxOffset+1):chunkPic_(n)=ptPic_(136,idxOffset+1)
+    If chunkSeq(n)>seq2 And chunkSeq(n)<=seq3 Then chunkPic(n)=ptPic(136,idxOffset+2):chunkPic_(n)=ptPic_(136,idxOffset+2)
+    If chunkSeq(n)>seq3 And chunkSeq(n)<=seq4 Then chunkPic(n)=ptPic(136,idxOffset+3):chunkPic_(n)=ptPic_(136,idxOffset+3)
+    If chunkSeq(n)>seq4 And chunkSeq(n)<=seq5 Then chunkPic(n)=ptPic(136,idxOffset+4):chunkPic_(n)=ptPic_(136,idxOffset+4)
+    
+    If chunkSeq(n)>seq5 Or zF(owner)=2 Then chunk(n)=0
+    
+Case 171: ;Hadouken charge particles
+    Local yAdj=48.0
+    If zFace(owner)=2 Then xAdj=-30.88 Else xAdj=28
+    Local radius=120 - (chunkSeq(n) * 2)
+    Local angle#=chunkSeq(n) * 10
+    
+    If radius < 5 Then radius=5
+    chunkPic(n)=ptPic(3,1):chunkPic_(n)=ptPic(3,1)
+    xChunk#(n) = (zx(owner)+xAdj) + Cos(angle) * radius
+    yChunk#(n) = (zy(owner)-yAdj) + Sin(angle * 1.2) * radius
+    
+    If (zF(owner) <> 13 And zF(owner) <> 14) Then chunk(n)=0
     
 Default
     a=5:b=10:c=14    ;Blocking
