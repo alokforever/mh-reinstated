@@ -1,3 +1,55 @@
+Function doDownAirHadouken(n)
+    seqStart=1000:endSeq=41
+    seq1=seqStart+8:seq2=seq1+8:seq3=seq2+3:seq4=seq3+3:seq5=seq4+14
+    seq6=seq5+2
+    
+    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then
+        
+        zNoGrav(n)=1
+        If zBlowSeq(n) <= seq4+3 Then zy(n)=zy(n)+4.0:moveX(n,zBlowdir(n),-3)
+        If zBlowSeq(n) > seq4+3 And zBlowSeq(n) <= seq4+6 Then zy(n)=zy(n)+3.8:moveX(n,zBlowdir(n),-2.2)
+        If zBlowSeq(n) > seq4+6 And zBlowSeq(n) <= seq4+9 Then zy(n)=zy(n)+3.6:moveX(n,zBlowdir(n),-1.6)
+        If zBlowSeq(n) > seq4+9 And zBlowSeq(n) <= seq4+12 Then zy(n)=zy(n)+3.4:moveX(n,zBlowdir(n),-0.8)
+    End If
+    
+    If zBlowSeq(n) >= seq5 Then zNoGrav(n)=0
+    
+;============= Animation ===============
+    zani(n)=10
+    If zBlowSeq(n) >= seqStart And zBlowSeq(n) < seq1 Then zF(n)=15
+    If zBlowSeq(n) >= seq1 And zBlowSeq(n) < seq2 Then zF(n)=16
+    If zBlowSeq(n) >= seq2 And zBlowSeq(n) < seq3 Then zF(n)=15
+    If zBlowSeq(n) >= seq3 And zBlowSeq(n) < seq4 Then zf(n)=17
+    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then
+        If zBlowSeq(n) Mod 2 = 0 Then
+            If zF(n)=18 Then
+                zF(n)=19
+            Else
+                zF(n)=18
+            End If
+        End If
+    End If
+    If zBlowSeq(n) >= seq5 And zBlowSeq(n) < seq6 Then zf(n)=15
+    
+;============== Shot ===============
+    If zBlowSeq(n) = seq4+2 Then
+        If gameSound Then PlaySound evilRyuGrunt2Snd
+        If zStaminaBar#(n) >= 15 Then
+            If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
+            dir=zface(n):y=zy(n)-zheight(n)+64
+            If zface(n)=2 Then x=zx(n)+47
+            If zface(n)=4 Then x=zx(n)-47
+            makeshot(n,55,x,y,dir)
+            zStaminaBar#(n)=zStaminaBar#(n)-15
+        Else
+            isFlashLowStamina(n)=1
+        End If
+    End If
+
+    If zBlowSeq(n) >= seq6 Then zBlowSeq(n)=endSeq
+    
+End Function
+
 Function doChargeHadouken(n)
     seqStart=2000:endSeq=41
     seq1=seqStart+208:seq2=seq1+2:seq3=seq2+2
@@ -10,7 +62,7 @@ Function doChargeHadouken(n)
         If zStaminaBar#(n) < 20 Then isFlashLowStamina(n)=1:zBlowSeq(n)=endSeq
     Else
         If zBlowSeq(n) < seq1 Then
-            ;depleteStaminaBar(n,0.68)
+            depleteStaminaBar(n,0.68)
             attackChargeLvl(n) = (zBlowSeq(n)-seqStart) / 40
             If zBlowSeq(n) <= seqStart+72 And zBlowSeq(n) Mod 9=0 Then
                 dirSeed=Rand(2)
@@ -45,17 +97,17 @@ Function doChargeHadouken(n)
     
     If zBlowSeq(n) >= seq1 And zBlowSeq(n) < seq2 Then zF(n)=2
     If zBlowSeq(n) >= seq2 And zBlowSeq(n) < seq3 Then zF(n)=3
-    If zBlowSeq(n) >= seq3 And zBlowSeq(n) < seq4 Then zani(n)=10:zf(n)=4
-    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then zani(n)=10:zf(n)=5
-    If zBlowSeq(n) >= seq5 And zBlowSeq(n) < seq6 Then zani(n)=10:zf(n)=6
-    If zBlowSeq(n) >= seq6 And zBlowSeq(n) < seq7 Then zani(n)=10:zf(n)=4
-    If zBlowSeq(n) >= seq7 And zBlowSeq(n) < seq8 Then zani(n)=10:zf(n)=5
-    If zBlowSeq(n) >= seq8 And zBlowSeq(n) < seq9 Then zani(n)=10:zf(n)=6
-    If zBlowSeq(n) >= seq9 And zBlowSeq(n) < seq10 Then zani(n)=10:zf(n)=4
-    If zBlowSeq(n) >= seq10 And zBlowSeq(n) < seq11 Then zani(n)=10:zf(n)=5
-    If zBlowSeq(n) >= seq11 And zBlowSeq(n) < seq12 Then zani(n)=10:zf(n)=6
-    If zBlowSeq(n) >= seq12 And zBlowSeq(n) < seq13 Then zani(n)=10:zf(n)=7
-    If zBlowSeq(n) >= seq13 And zBlowSeq(n) < seq14 Then zani(n)=10:zf(n)=8
+    If zBlowSeq(n) >= seq3 And zBlowSeq(n) < seq4 Then zf(n)=4
+    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then zf(n)=5
+    If zBlowSeq(n) >= seq5 And zBlowSeq(n) < seq6 Then zf(n)=6
+    If zBlowSeq(n) >= seq6 And zBlowSeq(n) < seq7 Then zf(n)=4
+    If zBlowSeq(n) >= seq7 And zBlowSeq(n) < seq8 Then zf(n)=5
+    If zBlowSeq(n) >= seq8 And zBlowSeq(n) < seq9 Then zf(n)=6
+    If zBlowSeq(n) >= seq9 And zBlowSeq(n) < seq10 Then zf(n)=4
+    If zBlowSeq(n) >= seq10 And zBlowSeq(n) < seq11 Then zf(n)=5
+    If zBlowSeq(n) >= seq11 And zBlowSeq(n) < seq12 Then zf(n)=6
+    If zBlowSeq(n) >= seq12 And zBlowSeq(n) < seq13 Then zf(n)=7
+    If zBlowSeq(n) >= seq13 And zBlowSeq(n) < seq14 Then zf(n)=8
     
     If zBlowSeq(n) >= seqStart+30 And zBlowSeq(n) < seq1 Then
         If KeyDown(specialK(n))=0 Then zBlowSeq(n)=seq1
@@ -71,16 +123,13 @@ Function doChargeHadouken(n)
         dir=zface(n):y=zy(n)-zheight(n)+37
         If zface(n)=2 Then x=zx(n)+65
         If zface(n)=4 Then x=zx(n)-68
+        If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
         If attackChargeLvl(n) > 1 Then makeshot(n,54,x,y,dir)
         If attackChargeLvl(n) <= 1 Then makeshot(n,53,x,y,dir)
     EndIf
     
     If zBlowSeq(n)=seq14 Then zBlowSeq(n)=endSeq
 
-End Function
-
-Function doDownAirHadouken(n)
-    seqStart=1000:endSeq=41
 End Function
 
 Function doAirHadouken(n)
@@ -138,10 +187,12 @@ Function doAirHadouken(n)
         If (zFace(n)=2 And rightKey(n)=1) Or (zFace(n)=4 And leftKey(n)=1) Then
             If zStaminaBar#(n) >= 25 Then
                 zStaminaBar#(n)=zStaminaBar#(n)-25
+                If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
                 makeshot(n,53,x,y,dir)
             Else
                 If zStaminaBar#(n) >= 15 Then
                     zStaminaBar#(n)=zStaminaBar#(n)-15
+                    If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
                     makeshot(n,5,x,y,dir)
                 Else
                     isFlashLowStamina(n)=1
@@ -150,6 +201,7 @@ Function doAirHadouken(n)
         Else
             If zStaminaBar#(n) >= 15 Then
                 zStaminaBar#(n)=zStaminaBar#(n)-15
+                If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
                 makeshot(n,5,x,y,dir)
             Else
                 isFlashLowStamina(n)=1
@@ -313,8 +365,16 @@ Case 5    ;Up + Special (Shoryuken)
     seq1=5:seq2=seq1+4:seq3=seq2+6:seq4=seq3+74:seq5=seq4+4:seq6=seq5+4
 
     If zBlowSeq(n) = seq1-1 Then If gameSound Then PlaySound evilRyuShoryukenSnd
-        
-    If zBlowSeq(n) = 1 Then zBlowUpLimit(n)=zy(n)-118:zJump(n)=0
+    If zBlowSeq(n) = 1 Then
+        attackChargeLvl(n)=0
+        zJump(n)=0
+        If upkeyDoubleTap(n)=1 Then
+            attackChargeLvl(n)=1
+            zBlowUpLimit(n)=zy(n)-124
+        Else
+            zBlowUpLimit(n)=zy(n)-118
+        End If
+    End If
     
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=7:zf(n)=1:zblowAlert(n)=1
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then
@@ -364,6 +424,9 @@ Case 5    ;Up + Special (Shoryuken)
             End If
         End If
     End If
+    
+;========== Chunks ============
+    ;If zBlowSeq(n) >
     
     If zy(n) <= zBlowUpLimit(n) Or zHitHead(n)=1 Then zBlowSeq(n)=seq4
     If zBlowSeq(n) >= seq4 Then zNoGrav(n)=0:ztopSpeed(n)=1:zNomove(n)=0
@@ -442,10 +505,12 @@ Case 7    ;Special (Hadouken)
         If (zFace(n)=2 And rightKey(n)=1) Or (zFace(n)=4 And leftKey(n)=1) Then
             If zStaminaBar#(n) >= 25 Then
                 zStaminaBar#(n)=zStaminaBar#(n)-25
+                If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
                 makeshot(n,53,x,y,dir)
             Else
                 If zStaminaBar#(n) >= 15 Then
                     zStaminaBar#(n)=zStaminaBar#(n)-15
+                    If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
                     makeshot(n,5,x,y,dir)
                 Else
                     isFlashLowStamina(n)=1
@@ -454,6 +519,7 @@ Case 7    ;Special (Hadouken)
         Else
             If zStaminaBar#(n) >= 15 Then
                 zStaminaBar#(n)=zStaminaBar#(n)-15
+                If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
                 makeshot(n,5,x,y,dir)
             Else
                 isFlashLowStamina(n)=1

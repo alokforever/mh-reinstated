@@ -1991,7 +1991,7 @@ Case 54    ;Charged hadouken
     shotHitYspeed(n)=4
     shotFallTime(n)=20
     shotImmuneTime(n)=10
-    shotHold(n)=10
+    shotHold(n)=12
     shotDuration(n)=200
     shotMaxSpeed(n)=shotSpeed(n)
     shotChunkType(n)=169
@@ -2009,6 +2009,36 @@ Case 54    ;Charged hadouken
     shotPic_(n,4)=shotImage_(85)
     shotSound(n)=evilRyuHit1Snd
     shotStillMaxTime(n)=10
+    
+Case 55    ;Down air hadouken
+    shotspeed(n)=5
+    shotYspeed(n)=5
+    shotsize(n)=46
+    shotheight(n)=47
+    shotSide(n)=shotsize(n)/2
+    shotdamage(n)=5
+    shotHitXspeed(n)=4
+    shotHitYspeed(n)=-4
+    shotFallTime(n)=20
+    shotImmuneTime(n)=99
+    shotHold(n)=12
+    shotDuration(n)=200
+    shotMaxSpeed(n)=shotSpeed(n)
+    shotChunkType(n)=169
+    shotChunkYAdj(n)=16
+    shotFramesAmount(n)=4
+    shotFrameTime(n)=2
+    shotHitBeforeFade(n)=chargeLvl
+    shotPic(n,1)=shotImage(86)
+    shotPic_(n,1)=shotImage_(86)
+    shotPic(n,2)=shotImage(87)
+    shotPic_(n,2)=shotImage_(87)
+    shotPic(n,3)=shotImage(88)
+    shotPic_(n,3)=shotImage_(88)
+    shotPic(n,4)=shotImage(89)
+    shotPic_(n,4)=shotImage_(89)
+    shotSound(n)=evilRyuHit1Snd
+    
 End Select
 
 End Function
@@ -3174,8 +3204,10 @@ If n=1 Then     ;Evil Ryu
     If evilryuStepSnd=0 Then evilryuStepSnd=LoadSound(soundsdir$ + "evilryu\evilryuStepSnd.wav")
     If evilRyuShoryukenSnd=0 Then evilRyuShoryukenSnd=LoadSound(soundsdir$ + "evilryu\evilRyuShoryuken.wav")
     If evilRyuHadoukenSnd=0 Then evilRyuHadoukenSnd=LoadSound(soundsdir$ + "evilryu\evilRyuHadouken.wav")
+    If evilRyuHadoukenReleaseSnd=0 Then evilRyuHadoukenReleaseSnd=LoadSound(soundsdir$ + "evilryu\evilRyuHadoukenRelease.wav")
     If evilRyuShinkuuSnd=0 Then evilRyuShinkuuSnd=LoadSound(soundsdir$ + "evilryu\evilRyuShinkuu.wav")
     If evilRyuGrunt1Snd=0 Then evilRyuGrunt1Snd=LoadSound(soundsdir$ + "evilryu\evilRyuGrunt1.wav")
+    If evilryuGrunt2Snd=0 Then evilRyuGrunt2Snd=LoadSound(soundsdir$ + "evilryu\evilryuGrunt2.wav")
     If evilRyuBlow1Snd=0 Then evilRyuBlow1Snd=LoadSound(soundsdir$ + "evilryu\evilRyuBlow1.wav")
     If evilryuTatsumakiSnd=0 Then evilryuTatsumakiSnd=LoadSound(soundsdir$ + "evilryu\evilryuTatsumaki.wav")
     If evilRyuHit1Snd=0 Then evilRyuHit1Snd=LoadSound(soundsdir$ + "evilryu\evilRyuHit1.wav")
