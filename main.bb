@@ -486,6 +486,7 @@ Include "src\modules\animation.bb"
 Include "src\modules\AI.bb"
 
 pri priW("please wait..."),350,"please wait..."
+flip
 
 ;loadTimeStart=MilliSecs()
 For n=1 To 100   ;load shots
