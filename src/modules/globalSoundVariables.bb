@@ -247,7 +247,7 @@ Global evilRyuShoryukenSnd, evilRyuHadoukenSnd, evilryuTatsumakiSnd, evilRyuShin
 Global evilRyuGrunt1Snd, evilRyuGrunt2Snd
 Global evilRyuBlow1Snd
 Global evilRyuHit1Snd
-Global evilRyuDodgeSnd
+Global evilRyuDodgeSnd, evilryuDodge2Snd
 Global evilryuShortElectricSnd, evilRyuHadoukenChargeSnd, evilRyuHadoukenReleaseSnd
 
 Global ktKickSnd, ktGrunt1Snd, ktGrunt2Snd, ktGrunt3Snd, ktGrunt4Snd

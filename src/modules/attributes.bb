@@ -3213,6 +3213,7 @@ If n=1 Then     ;Evil Ryu
     If evilRyuHit1Snd=0 Then evilRyuHit1Snd=LoadSound(soundsdir$ + "evilryu\evilRyuHit1.wav")
     If evilryuShortElectricSnd=0 Then evilryuShortElectricSnd=LoadSound(soundsdir$ + "evilryu\evilryuShortElectric.wav")
     If evilRyuDodgeSnd=0 Then evilRyuDodgeSnd=LoadSound(soundsdir$ + "evilryu\evilRyuDodge.wav")
+    If evilryuDodge2Snd=0 Then evilryuDodge2Snd=LoadSound(soundsdir$ + "evilryu\evilRyuDodge2.wav")
     If evilRyuHadoukenChargeSnd=0 Then evilRyuHadoukenChargeSnd=LoadSound(soundsdir$ + "evilryu\evilRyuHadoukenCharge.wav")
 EndIf
 

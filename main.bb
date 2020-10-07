@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=1
+Global debugMode=0
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -6749,7 +6749,8 @@ Function dispHitBox()
 End Function
 
 Function handleShotToShotCollision(n)
-    If shotSuper(n)=0 And shotReturnOnHit(n)=0 Then
+    shotHits(n)=shotHits(n)+1
+    If shotSuper(n)=0 And shotReturnOnHit(n)=0 And isShotFade(n)=1 Then
         shot(n)=0:clearShotAfterImg(n)
         makeChunk(0,xshot(n),yshot(n)+shotChunkYAdj(n),shotDir(n),shotChunkType(n))
     Else shotReturnOnHit(n)=1
@@ -6854,11 +6855,14 @@ Function doJump(n)
 End Function
 
 Function setAppTitle()
-    mapTimeLapse=MilliSecs()-mapStartTime
     Local actualCurMap=curMap+1
     If mapComplete=1 Then actualCurMap=curMap
-    timerStr$ = " (" + getTimeTaken$(mapTimeLapse) + " / "
-    timerStr$ = timerStr$ + getTimeTaken$(bestMapTime(actualCurMap)) + ")"
+    mapTimeLapse=MilliSecs()-mapStartTime
+    
+    If vsMode=0 Then
+        timerStr$ = " (" + getTimeTaken$(mapTimeLapse) + " / "
+        timerStr$ = timerStr$ + getTimeTaken$(bestMapTime(actualCurMap)) + ")"
+    End If
     AppTitle "Multihero" + timerStr$
 End Function
 

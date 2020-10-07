@@ -947,9 +947,38 @@ Case 16: ;Taunt
     If zBlowSeq(n)=seq3+1 And zOnGnd(n)=1 Then quake=1:quakeSeq=0
     If zBlowSeq(n) > seq4 Then zBlowSeq(n)=0:zBlow(n)=0
     
-Case 17: ;Extra special
-    zBlowSeq(n)=0:zBlow(n)=0
-        
+Case 17: ;Extra special (Evil dodge)
+    zNoMove(n)=1:zNoJump(n)=1:zNoGrav(n)=1
+    seq1=16:seq2=seq1+30
+
+    If zBlowSeq(n)=1 Then isDrawAfterImage(n)=1:afterImageMaxSeq(n)=46
+
+;========= Animation ============
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=16:zF(n)=4
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=18:zF(n)=7
+    
+;========= Sound ============
+    If gameSound Then
+        If zBlowSeq(n)=1 Then PlaySound evilryuDodge2Snd
+        If zBlowSeq(n)=seq1+10 Then PlaySound evilryuDodgeSnd
+    End If
+    
+;========= Movement ============
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= 4 Then moveX(n,zBlowdir(n),2)
+    If zBlowSeq(n) > 4 And zBlowSeq(n) <= 8 Then moveX(n,zBlowdir(n),1)
+    If zBlowSeq(n) > 8 And zBlowSeq(n) <= 12 Then moveX(n,zBlowdir(n),-2.5)
+    If zBlowSeq(n) > 12 And zBlowSeq(n) <= 16 Then moveX(n,zBlowdir(n),-1.2)
+    
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq2 Then
+        zShield(n)=1
+        If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq1+10 Then moveX(n,zBlowdir(n),7.0)
+        If zBlowSeq(n) > seq1+10 And zBlowSeq(n) < seq1+15 Then moveX(n,zBlowdir(n),5.5)
+        If zBlowSeq(n) > seq1+15 And zBlowSeq(n) < seq1+20 Then moveX(n,zBlowdir(n),4.0)
+        If zBlowSeq(n) > seq1+20 And zBlowSeq(n) < seq1+25 Then moveX(n,zBlowdir(n),2.5)
+        If zBlowSeq(n) > seq1+25 And zBlowSeq(n) < seq1+30 Then moveX(n,zBlowdir(n),0.9)
+    End If
+
+    If zBlowSeq(n) > seq2 zBlowSeq(n)=0:zBlow(n)=0
 End Select
 
 End Function

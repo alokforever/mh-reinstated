@@ -1100,7 +1100,7 @@ Case 15 ;Wolverine throw
     If zBlowSeq(n) > d And zBlowSeq(n) < m Then zgrabbed(en)=1:checkZvsWall(en,0)
     If zBlowSeq(n) => nnn Then zBlowSeq(n)=0:zBlow(n)=0:zFace(n)=dir:zBlowDir(n)=dir:zNoGrav(n)=0
 
-Case 16 ;Taunt Key (Berserker Rage)
+Case 16 ;Taunt Key (Berserker Rage or Heal)
     a=4/wolvSpdFctr(n):b=8/wolvSpdFctr(n):c=12/wolvSpdFctr(n):d=16/wolvSpdFctr(n):e=50/wolvSpdFctr(n)
     :f=60:g=62:h=63:i=64:j=65:k=67:l=67:m=69:nnn=70:o=75
     If isRunning(n) And zSpeed#(n) <> 0 Then moveX(n,zBlowdir(n),Abs(zSpeed#(n))/1.5):decelerate(n)
