@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=0
+Global debugMode=1
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -962,7 +962,7 @@ scoreDone=0:winner=0
 teamScore(1)=0:teamScore(2)=0
 xScr=xScrStart:yScr=yScrStart
 gameTime=0:gameTime2=0
-NoUserInput=0 
+NoUserInput=0
 mapComplete=0
 mapRestart=0
 gameDone=0
@@ -972,7 +972,7 @@ If vsMode=0 Then
         zlives(i)=1
         zTeam(i)=1
     Next
-    fightMode=2 
+    fightMode=2
     teamAttack=0
     aliveAmountNeeded=1
 Else
@@ -982,6 +982,7 @@ EndIf
 FlushKeys() : FlushJoy()
 mapStartTime=MilliSecs()
 
+curGuy(1)=51
 ;------*-------*-------------------*--------*--------
 ;------*-------*--- MAIN LOOP -----*--------*--------
 ;------*-------*-------------------*--------*--------
@@ -6366,6 +6367,8 @@ Function setScaleFactorPerChar()
     imgScaleFactor#(18)=0.61
     imgScaleFactor#(19)=0.80
     imgScaleFactor#(20)=0.33
+
+    imgScaleFactor#(51)=0.75
 End Function
 
 Function initCharSelect()
@@ -6624,7 +6627,7 @@ Function doDebugMode()
         If showBlowArea=1 Then showBlowArea=0 Else showBlowArea=1
     End If
 
-    ;======== Go to next level =========
+    ;============ Go to next level ==============
     If KeyHit(88) Then ;F12
         isSuperMove=0
         mapComplete=1
@@ -6637,6 +6640,11 @@ Function doDebugMode()
 
     ;======== Freezes after F1 is pressed, continue one frame if F2 is pressed =========
     While freezeMode=1
+        ;== Show integer equivalent of pressed key ==
+        For n=1 To 200
+            If KeyHit(n) Then DebugLog "KeyHit: " + n
+        Next
+    
         Color 255,43,234
         For n=1 To zzamount
             For bn=1 To zblowpamount(n)
@@ -6821,12 +6829,18 @@ End Function
 Function setCheats()
     Local file = ReadFile("cfg/cheats.dat")
     Local cheatIdx
+    Local key
+    Local cheatAmt=2
     
     If file <> 0 Then
-        cheatIdx=ReadInt(file)
-        For i=0 To 8
-            cheatKeys(cheatIdx,i)=ReadInt(file)
-            DebugLog "cheatIdx: " + cheatIdx + ", cheatKeys: " + cheatKeys(cheatIdx,i)
+        For n=1 To cheatAmt
+            cheatIdx=ReadInt(file)
+            For i=0 To 8
+                key=ReadInt(file)
+                If key <> 0 cheatKeys(cheatIdx,i)=key Else GoTo nextCheat
+                DebugLog "cheatIdx: " + cheatIdx + ", cheatKeys: " + cheatKeys(cheatIdx,i)
+            Next
+            .nextCheat
         Next
     End If
 

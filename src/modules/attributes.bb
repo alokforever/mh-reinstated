@@ -3420,5 +3420,8 @@ Function initStance(n)
     Case 40 ; Turtle
         zStanceFrames(n)=16
         zStanceSpeed(n)=4
+    Case 51 ; Hanzo
+        zStanceFrames(n)=10
+        zStanceSpeed(n)=6
     End Select
 End Function

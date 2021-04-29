@@ -2173,12 +2173,16 @@ Function waitCheats()
         resetOtherCheats(1)
     EndIf
     
-    If key = cheatKeys(2,cheatSeq(2)) And key <> 0 Then  ;slowpoke cheat
-        cheatSeq(2)=cheatSeq(2)+1
-        resetOtherCheats(2)
-    Else If key <> 28 And key <> 0 Then ; If a key is pressed but not enter key
-        cheatSeq(2)=0 ; Reset keys since wrong key is pressed
-    End If
+    Local maxCheats=3
+    For n=1 To maxCheats
+        If key = cheatKeys(n,cheatSeq(n)) And key <> 0 Then
+            DebugLog "n: " + n + ", cheatSeq: " + cheatKeys(n,cheatSeq(n))
+            cheatSeq(n)=cheatSeq(n)+1
+            ;resetOtherCheats(n)
+        Else If key <> 28 And key <> 0 Then ; If a key is pressed but not enter key
+            cheatSeq(n)=0 ; Reset keys since wrong key is pressed
+        End If
+    Next
     
     If key = 28 Then  ;ENTER key
         If cheatSeq(1)=5 And cheat(1)=0 Then
@@ -2199,8 +2203,15 @@ Function waitCheats()
             CurGuy(lastKeyPressed)=40 ;set selected character to turtle
         End If
         
-        cheatSeq(1)=0
-        cheatSeq(2)=0
+        If cheatSeq(3)=7 Then
+            cheat(3)=lastKeyPressed  ;cheat_3 activated
+            If gameSound Then PlaySound energySnd
+            CurGuy(lastKeyPressed)=51 ;set selected character to Hanzo
+        End If
+        
+        For n=1 To maxCheats
+            cheatSeq(n)=0
+        Next
     EndIf
 End Function
 

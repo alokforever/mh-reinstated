@@ -44,6 +44,7 @@ Leilei - 80
 Kenshiro - 33
 
 turtle - 100
+Hattori Hanzo - 75
 
 Re-sized parts:
 
