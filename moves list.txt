@@ -12,12 +12,19 @@ Down + Special
 Block
 Block + Special
 Block + Throw
+Block + Attack: Taunt
 
 *Try these on all characters to see what they do, then refer to the character specific special abilities
 
-section for advanced techniques.
+Section for advanced techniques.
 
 Character specific advanced techniques:
+
+**Evil Ryu**
+Down + Special: Tatsumaki Senpuu-kyaku
+(On Air) 2x Down + Special: Down hadouken
+(On Ground) 2x Down + Special: Charge Hadouken
+Block + Throw: Evil Dodge
 
 **Wolverine**
 
@@ -30,7 +37,6 @@ Down + Special: Berserker Barrage
 Block + Throw + *Direction*:  Drill Claw
 *Running* + Special: Berserker Slash
 *While near wall* Forward + Jump: Wall Jump
-Block + Attack: Taunt
 
 Supers:
 Block + Down + Attack: Berserker Rage
@@ -60,7 +66,6 @@ Special: Scorpion Spear
 Down + Special: Teleport punch
 *While running* Attack (Hold): Combo
 Block + Throw: Flame breath
-Block + Attack: Taunt
 2x Down + Attack: sweeping kick combo
 Block + Attack: Taunt 1
 2x Block + Attack: Taunt 2

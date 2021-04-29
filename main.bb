@@ -485,6 +485,7 @@ Include "src\modules\moves2.bb"
 Include "src\modules\animation.bb"
 Include "src\modules\AI.bb"
 
+SetBuffer BackBuffer()
 pri priW("please wait..."),350,"please wait..."
 flip
 
@@ -988,7 +989,7 @@ While Not gameDone=1
 Getinput
 
 flags
-For n= 1 To zzamount
+For n = 1 To zzamount
     zBeenHere(n)=0
     zJumping(n)=1:zNoGrav(n)=0:zNoJump(n)=0:zNoMove(n)=0:zTopSpeed(n)=zDtopSpeed(n)
     zonPlat(n)=0:zShield(n)=0:zAntiPLat(n)=0:zBlowBack(n)=0:zblowAlert(n)=0:extraDraw(n)=0
@@ -1092,7 +1093,7 @@ For n=1 To zzamount
     EndIf
     zBlowHit(n)=0
     zHitHead(n)=0
-    If zBlowSeq(n)=1 Then zStanceSeq(n)=0
+    If zBlowSeq(n)=1 Then zStanceSeq(n)=0:upKeyDoubleTap(n)=0:downKeyDoubleTap(n)=0
 Next
 
 For n=1 To rectAmount
@@ -1182,8 +1183,8 @@ Next
 
 For n = 1 To zzamount
     If isActiveCharacter(n) Then
-        If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
         checkInputs(n)
+        If zon(n) > 0 And zGrabbed(n)=0 And zParalyzed(n)=0 Then zman(n)
         If zStaminaBar#(n) < 100 And isRunning(n)=0 Then 
             zStaminaBar#(n)=zStaminaBar#(n)+0.2
         End If
@@ -2752,7 +2753,6 @@ If specialKey(n)=1 And (zhit(n)=0 And zBlow(n)=0) Then
         zCurBlow(n)=9:zBlowDir(n)=zFace(n)
         Goto noShot
     EndIf
-
         zBlow(n)=1:zBlowSeq(n)=0:zBlowseq2(n)=0:remImune(n)
         zCurBlow(n)=7:zBlowDir(n)=zFace(n)
         Goto noShot
@@ -5806,10 +5806,6 @@ Function checkBuffStatus(n)
         Local curRageTime = (endRageTime(n) - currentRageTime(n))
         Local rageDuration = 21000 ; milliseconds
         DrawImage timerImage(Int((Float(curRageTime)/rageDuration)*90)),x+((n-1)*248)+32,y
-    End If
-    If curGuy(n)=40 And zBlow(n)=1 And zCurBlow(n)=17 Then ; Turtle flight
-        Local maxFlightFrames = 728 ;(14 seconds * 52 Nfps)
-        DrawImage timerImage(Int(zBlowSeq(n)/maxFlightFrames)*90),x+((n-1)*248)+32,y
     End If
 End Function
 

@@ -1949,7 +1949,7 @@ Case 15 ;mike throw
     If zBlowSeq(n) > c And zBlowSeq(n) < g Then zgrabbed(en)=1:checkZvsWall(en,0)
     If zBlowSeq(n) => i Then zBlowSeq(n)=0:zBlow(n)=0
 
-Case 14    ;Mike's Super Special    
+Case 14    ;Mike's Super Special
     zNoMove(n)=1
     zNoJump(n)=1:zNograv(n)=1:zJumping(n)=0
     a=5:b=15:c=20:d=160:e=165:f=170

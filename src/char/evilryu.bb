@@ -2,6 +2,7 @@ Function doDownAirHadouken(n)
     seqStart=1000:endSeq=41
     seq1=seqStart+8:seq2=seq1+8:seq3=seq2+3:seq4=seq3+3:seq5=seq4+14
     seq6=seq5+2
+    If zongnd(n)=0 Then zy(n)=zy(n)-2
     
     If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then
         
@@ -225,6 +226,7 @@ zBlowEffect(n)=0
 zBlowSeq(n)=zBlowSeq(n)+1:
 .noBlowSeq1
 zCHunkType(n)=10
+If zCurBlow(n)=9 And downKeyDoubleTap(n)=1 Then zCurBlow(n)=7
 
 Select zCurBlow(n)
 Case 0    ;Blocking
@@ -460,14 +462,14 @@ Case 7    ;Special (Hadouken)
     
     If zBlowSeq(n)=1 Then
         attackMode(n)=0
-        If zOnGnd(n)=0 Then
-            If downForwardTap(n)=1 Then
+        If zOnGnd(n)=0 Then ; If on air
+            If downKeyDoubleTap(n)=1 Then
                 zBlowSeq(n)=hadoukenDownAirSeq
             Else
                 zBlowSeq(n)=hadoukenAirSeq
             End If
-        Else
-            If downForwardTap(n)=1 Then zBlowSeq(n)=hadoukenChargeSeq
+        Else                ; If on ground
+            If downKeyDoubleTap(n)=1 Then zBlowSeq(n)=hadoukenChargeSeq
         End If
     End If
     
@@ -478,6 +480,7 @@ Case 7    ;Special (Hadouken)
     Else If zBlowSeq(n) >= hadoukenChargeSeq Then
         doChargeHadouken(n)
     End If
+
 ;========= Animation ==========
     If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=10:zf(n)=1
     If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=10:zf(n)=2
@@ -948,7 +951,7 @@ Case 16: ;Taunt
     If zBlowSeq(n) > seq4 Then zBlowSeq(n)=0:zBlow(n)=0
     
 Case 17: ;Extra special (Evil dodge)
-    zNoMove(n)=1:zNoJump(n)=1:zNoGrav(n)=1
+    zNoMove(n)=1:zNoJump(n)=1:zNoGrav(n)=0
     seq1=16:seq2=seq1+30
 
     If zBlowSeq(n)=1 Then isDrawAfterImage(n)=1:afterImageMaxSeq(n)=46
@@ -969,8 +972,10 @@ Case 17: ;Extra special (Evil dodge)
     If zBlowSeq(n) > 8 And zBlowSeq(n) <= 12 Then moveX(n,zBlowdir(n),-2.5)
     If zBlowSeq(n) > 12 And zBlowSeq(n) <= 16 Then moveX(n,zBlowdir(n),-1.2)
     
-    If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq2 Then
-        zShield(n)=1
+    If zBlowSeq(n) > seq1-6 And zBlowSeq(n) < seq2 Then zShield(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq2-10 Then zNoGrav(n)=1
+    
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq2 Then 
         If zBlowSeq(n) > seq1 And zBlowSeq(n) < seq1+10 Then moveX(n,zBlowdir(n),7.0)
         If zBlowSeq(n) > seq1+10 And zBlowSeq(n) < seq1+15 Then moveX(n,zBlowdir(n),5.5)
         If zBlowSeq(n) > seq1+15 And zBlowSeq(n) < seq1+20 Then moveX(n,zBlowdir(n),4.0)

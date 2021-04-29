@@ -998,7 +998,7 @@ b=70    ;Start the game!
 
 b=71   ;items on/off
 DrawImage butpic(b),xbut(b),ybut(b)
-If noItems=1 Then
+If noItems=1 Or vsMode=0 Then
     pri xbut(b)+80,ybut(b)+8,strInfo$(97)
 Else
     pri xbut(b)+80,ybut(b)+8,strInfo$(96)
