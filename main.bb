@@ -58,7 +58,7 @@ Global cooldownVoiceMaxSeq=46
 Global maxAfterImg=20
 Global maxShots=200
 Global hyperBgDsp=0
-Global debugMode=1
+Global debugMode=0
 Global LastKeyPressed=1
 Dim tutorial(10)
 Dim credits$(100), ySpace(100), yCredit(100)
@@ -68,7 +68,7 @@ Dim cheat(20),cheatSeq(20), cheatKeys(20,20)
 Global choosemap,gameLives, map, map_,backg,title,curMap,sndStr$,loadOnce,Tn,strWarning$,Warning,WarnSeq, mapRestart
 Global buttonAmount,gmStr$,gamestart,mapAmount,lastgamemode,butNA,butHum,butCPU, mapComplete, secretsFound,secretsAmount
 Global fontType=1, fontSpace=1, previousMap, screenShotN
-Global maxZ=30, maxFrame=50, maxHyperBg=25
+Global maxZ=30, maxFrame=60, maxHyperBg=25
 Dim wolverineRage(30)
 Dim NextMap(5)
 Dim butOn(100),xBut(100),yBut(100),wbut(100),hBut(100),clickedBut(100),rightClickedBut(100),lastBut(100)
@@ -181,7 +181,7 @@ Dim xTile2(5,1500),yTile2(5,1500),tileFollowType(5,1500)
 Global colorR,colorG,colorB,bg,bgAmount=5
 
 Dim zBlowBack(maxZ),zBlow(maxZ),zCurBlow(maxZ),zBlowSeq(maxZ),zBlowSeq2(maxZ),zBlowDamage(maxZ),zEnemyImmuneTime(maxZ),zBlowStill(maxZ)
-Dim zBlock(maxZ),zBlocked(maxZ),zBlockDir(maxZ),zBlockSpeed#(maxZ),zBlockSeq(maxZ),zBlockTime(maxZ),zBlockLife#(maxZ),zblockfull(maxZ)
+Dim zBlock(maxZ),zBlocked(maxZ),zBlockDir(maxZ),zBlockSpeed#(maxZ),zBlockedSeq(maxZ),zBlockTime(maxZ),zBlockLife#(maxZ),zblockfull(maxZ)
 Dim zShot1Pic(maxZ),zShot2Pic(maxZ),zShot1Pic_(maxZ),zShot2Pic_(maxZ)
 
 Dim xplatDraw(200),yPlatDraw(200),platFinalDest(200), platBreak(200), platChunk(200)
@@ -240,9 +240,9 @@ Global isStuffFall
 Dim specialHitFrames(maxZ), hitFrameSpeed(maxZ), electrocuteSeq(maxZ), isMoveHit(maxZ)
 Dim zStanceFrames(maxCharAmt), zStance2Frames(maxCharAmt), zStanceSeq(maxCharAmt), zStanceSpeed(maxCharAmt), zWalkFrames(maxZ), zWalkFrameSpeed#(maxZ), deathSnd(100)
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ), leftKeyDoubleTap(maxZ), rightKeyDoubleTap(maxZ), downForwardTap(maxZ)
-Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), zRunGruntSound(maxZ)
+Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), runEndSeq(maxCharAmt), zRunGruntSound(maxCharAmt)
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
-Dim zStaminaBar#(maxZ), zRunFootSound(maxZ), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
+Dim zStaminaBar#(maxZ), zRunFootSound(maxCharAmt), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
 Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200), shotChunkYAdj(200)
 Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), timerImage2(158), cdImage(maxZ)
@@ -255,7 +255,7 @@ Dim dizzyFrames(maxZ), dizzyFrameSpeed(maxZ), zBurnSeq(maxZ), zBurnDuration(maxZ
 Dim zComboMode(maxZ), comboModeDuration(maxZ), startComboModeTime(maxZ), currentComboModeTime(maxZ), endComboModeTime(maxZ), cantGetComboModeTime(maxZ)
 Dim attackMode(maxZ), canAirGlide(maxZ), speedDeduct#(maxZ)
 Dim projectileDeflectMode(maxZ), projectileDeflectSpeed#(maxZ), isDeflecting(maxZ), wwLassoLong(maxZ)
-Dim zRunFootSoundSeq(maxZ), zWalkQuakeSeq1(maxZ), zWalkQuakeSeq2(maxZ), walkQuakeSnd(maxZ), zBlockSeqStart(maxZ), isHeavy(maxZ)
+Dim zRunFootSoundSeq(maxZ), zWalkQuakeSeq1(maxZ), zWalkQuakeSeq2(maxZ), walkQuakeSnd(maxZ), zBlockedSeqStart(maxZ), isHeavy(maxZ)
 Dim b_XJoyHit(4), b_YJoyHit(4), ptrSpd(4), ptrSeq(4), electrocuteTime(200)
 Dim canAirGlideUp(maxZ), zBlowType(maxZ), zHitType(maxZ), zBlowTypeModulo(maxZ), zHitTypeModulo(maxZ)
 Dim superMoveMaxSeq(maxZ), superPicNum(maxZ), electrocuteFrames(maxZ), electrocuteFrameSpd(maxZ)
@@ -982,7 +982,6 @@ EndIf
 FlushKeys() : FlushJoy()
 mapStartTime=MilliSecs()
 
-curGuy(1)=51
 ;------*-------*-------------------*--------*--------
 ;------*-------*--- MAIN LOOP -----*--------*--------
 ;------*-------*-------------------*--------*--------
@@ -1087,7 +1086,7 @@ For n=1 To zzamount
             Case 48:DoCylinder(n)
             Case 49:DoDragon(n)
             Case 50:DoLaserBeam(n)
-            Case 51:DoGaiden(n)
+            Case 51:DoHanzo(n)
             Case 52:DoBag(n)
             Case 53:DoGohanHelper(n)
         End Select
@@ -2199,18 +2198,18 @@ End Function
 Function zman(n)
 
 If zBlocked(n) Then
-    zBlockSeq(n)=zBlockSeq(n)+1
+    zBlockedSeq(n)=zBlockedSeq(n)+1
     zNoMove(n)=1:zNoJump(n)=1:zBlock(n)=1
-        If zBlockseq(n) > 8 Then 
+        If zBlockedSeq(n) > 8 Then 
             zHitByRect(n)=0
             Select zBlockDir(n)
             Case 2:zx(n)=zx(n)+zBlockSpeed(n)
             Case 4:zx(n)=zx(n)-zBlockSpeed(n)
             End Select 
         EndIf
-    If zongnd(n)=0 And zblockseq(n) < zblocktime(n) -5 Then zBlockSeq(n)=zBlockTime(n)-5
+    If zongnd(n)=0 And zBlockedSeq(n) < zblocktime(n) -5 Then zBlockedSeq(n)=zBlockTime(n)-5
         
-    If zBlockSeq(n) > zBlockTime(n) Then zBlocked(n)=0:zBlockSeq(n)=0::zblowseq(n)=0:zblowstill(n)=0
+    If zBlockedSeq(n) > zBlockTime(n) Then zBlocked(n)=0:zBlockedSeq(n)=0::zblowseq(n)=0:zblowstill(n)=0
 EndIf
 
 If zShotHitSeq(n,zShotByN(n)) > 10000 Then zShotHitSeq(n,zShotByN(n))=0:zShotByN(n)=0
@@ -3010,7 +3009,7 @@ For nn=1 To zzamount
         If zy(nn)-2 => yRect(n) And zy(nn)-(zHeight(nn)-2) =< yRect(n)+ hRect(n) And zHitByRect(nn)=0 Then
             If zblock(nn)=1 Then
                 If rectDir(n)=2 Then zFace(nn)=4:zBlockDir(nn)=2 Else zFace(nn)=2:zBlockDir(nn)=4
-                zBlocked(nn)=1:zBlockSeq(nn)=0::zblowDir(nn)=zface(nn)
+                zBlocked(nn)=1:zBlockedSeq(nn)=0::zblowDir(nn)=zface(nn)
                 zBlockTime(nn)=rectHitHold(n)*3
                 zBLockLife(nn)=zBlockLife(nn)-rectDamage(n)
                 zHitByRect(nn)=1
@@ -3254,6 +3253,7 @@ For i=1 To 200
     If shot(i)=0 Then
         If i > shotAmount Then shotAmount=i
         shotowner(i)=o
+        clearShotAfterImg(i)
         shotData(n,i)
         shot(i)=1
             Select dir
@@ -3772,7 +3772,7 @@ Case 2
                                 If zx(n) => zx(nn) Then zface(nn)=2:zFallDir(nn)=4:zblockDir(nn)=4
                                 If zx(n) < zx(nn) Then zface(nn)=4:zFallDir(nn)=2:zblockDir(nn)=2
                             EndIf
-                            zBlocked(nn)=1:zBlockSeq(nn)=0:zblowDir(nn)=zface(nn)
+                            zBlocked(nn)=1:zBlockedSeq(nn)=0:zblowDir(nn)=zface(nn)
                             zBlockTime(nn)=zBlowBlockTime(n)
                             makechunk(n,zx(nn),zy(n)-(yblow(n,bn)-hblow(n,bn)),2,1)
                             zBLockLife(nn)=zBlockLife(nn)-zBlowDamage(n)
@@ -3865,7 +3865,7 @@ Case 4
                             If zx(n) => zx(nn) Then zface(nn)=2:zFallDir(nn)=4:zblockDir(nn)=4
                             If zx(n) < zx(nn) Then zface(nn)=4:zFallDir(nn)=2:zblockDir(nn)=2
                         EndIf
-                        zBlocked(nn)=1:zBlockSeq(nn)=0:zblowdir(nn)=zface(nn)
+                        zBlocked(nn)=1:zBlockedSeq(nn)=0:zblowdir(nn)=zface(nn)
                         zBlockTime(nn)=zBlowBlockTime(n)
                         makechunk(n,zx(nn),zy(n)-(yblow(n,bn)-hblow(n,bn)),2,1)
                         zBLockLife(nn)=zBlockLife(nn)-zBlowDamage(n)
@@ -4353,7 +4353,7 @@ Case  2
                     If objLife(n) =< 0 Then obj(n)=0:makeChunk(0,xObj(n),yObj(n),2,objHitChunk(n))
                     If objSuper(n)=1 Then zBlock(nn)=0
                     If zblock(nn)=1 Then
-                        zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=4:zblowDir(nn)=zface(nn)
+                        zBlocked(nn)=1:zBlockedSeq(nn)=0:zface(nn)=4:zblowDir(nn)=zface(nn)
                         zBlockTime(nn)=objImpact(n)*2:zBlockDir(nn)=2
                         makechunk(n,zx(nn),yobj(n),2,1)
                         zBLockLife(nn)=zBlockLife(nn)-objDamage(n)
@@ -4417,7 +4417,7 @@ Case 4
                     If objLife(n) =< 0 Then obj(n)=0:makeChunk(0,xObj(n),yObj(n),2,objHitChunk(n))
                     If objSuper(n)=1 Then zBlock(nn)=0
                     If zblock(nn)=1 Then
-                        zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=2:zblowDir(nn)=zface(nn)
+                        zBlocked(nn)=1:zBlockedSeq(nn)=0:zface(nn)=2:zblowDir(nn)=zface(nn)
                         zBlockTime(nn)=objImpact(n)*2:zBlockDir(nn)=4
                         makechunk(n,zx(nn),yobj(n),2,1)
                         zBLockLife(nn)=zBlockLife(nn)-objDamage(n)
@@ -4891,7 +4891,7 @@ For nn=1 To zzamount
             EndIf
 
             If zblock(nn)=1 Then
-                zBlocked(nn)=1:zBlockSeq(nn)=0:zblowDir(nn)=zface(nn)
+                zBlocked(nn)=1:zBlockedSeq(nn)=0:zblowDir(nn)=zface(nn)
                 zBlockTime(nn)=expImpact(n)
                 
                 makechunk(n,zx(nn),zy(nn)-zduckheight(nn),2,1)
@@ -5524,7 +5524,7 @@ Function handleSubZeroProjectiles(targetPlayer, projectile)
                             zShotByN(targetPlayer)=projectile : zShotHitSeq(targetPlayer,projectile)=0
                             makechunk(shotDir(projectile),zx(targetPlayer),yShot(projectile)+shotChunkYAdj(projectile),shotDir(projectile),shotChunkType(projectile))
                         If zblock(targetPlayer)=1 And shotHitMode(shotOwner(projectile)) <> 4 Then
-                            zBlocked(targetPlayer)=1:zBlockSeq(targetPlayer)=0
+                            zBlocked(targetPlayer)=1:zBlockedSeq(targetPlayer)=0
                             zBlockTime(targetPlayer)=shotImpact(projectile)*2:zBlockDir(targetPlayer)=shotDir(projectile)
                             zBLockLife(targetPlayer)=zBlockLife(targetPlayer)-shotDamage(projectile)
                             If shotDir(projectile)=4 Then 
@@ -6117,7 +6117,7 @@ Function handleShotCharacterCollision(n, hAdj, wAdj)
                             End If
                             If doesShotBurn(n) Then zBurning(nn)=1:zBurnDuration(nn)=200
                             If zblock(nn)=1 Then
-                                zBlocked(nn)=1:zBlockSeq(nn)=0:zface(nn)=oppDir:zblowDir(nn)=zface(nn)
+                                zBlocked(nn)=1:zBlockedSeq(nn)=0:zface(nn)=oppDir:zblowDir(nn)=zface(nn)
                                 zBlockTime(nn)=shotImpact(n)*2:zBlockDir(nn)=shotDir(n)
                                 zBLockLife(nn)=zBlockLife(nn)-shotDamage(n)
                                 If gameSound Then PlaySound zBlockedSnd(nn)

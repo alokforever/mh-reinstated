@@ -48,7 +48,7 @@ Function drawDizzyState(unit)
                         If zHit(unit)=0 Then zani(unit)=23:zf(unit)=frame
                         If dizzySeq(unit)-1 > dizzyFrames(unit)*dizzyFrameSpeed(unit) Then dizzySeq(unit) = dizzyFrameSpeed(unit)-1
                         Return
-                    EndIf            
+                    EndIf
                 Next
             Else
                 For frame=fallingFrames To 1 Step -1
@@ -56,7 +56,7 @@ Function drawDizzyState(unit)
                         If zHit(unit)=0 Then zani(unit)=2:zf(unit)=frame
                         If dizzySeq(unit)-1 > fallingFrames*fallingFrameSpeed Then dizzySeq(unit) = fallingFrameSpeed-1
                         Return
-                    EndIf            
+                    EndIf
                 Next
             End If
         EndIf
@@ -205,6 +205,22 @@ Function getHiryuRunStatus(n)
     Return ret
 End Function
 
+Function getHanzoRunStatus(n)
+    ret=0
+    
+    If leftKey(n)=0 And rightKey(n)=0 Then
+        runEndSeq(n)=runEndSeq(n)+1
+        zStaminaBar#(n)=zStaminaBar#(n)+1
+        If runEndSeq(n)=1 And gameSound Then PlaySound hanzoRunEndSnd
+        zani(n)=21:zf(n)=5
+        ret=1
+    Else
+        If abs(zSpeed#(n))>=8.0 Then runEndSeq(n)=0
+    End If
+    
+    Return ret
+End Function
+
 Function getDeadpoolRunStatus(n)
     ret=0
     
@@ -223,19 +239,26 @@ Function getWonderwomanRunStatus(n)
     If zRunSeqNoReset(n)=7 And gameSound Then PlaySound zRunFootSound(curGuy(n))
     
     If leftKey(n)=0 And rightKey(n)=0 Then
-        ret=1
         If abs(zSpeed#(n))<=7.68 And abs(zSpeed#(n))>6.88 Then zani(n)=21:zf(n)=8
-        If zOnGnd(n)=1 And abs(zSpeed#(n)) = 7.67 And gameSound Then PlaySound pullSnd
+        If runEndSeq(n)=1 And zOnGnd(n)=1 And gameSound Then PlaySound pullSnd
+        
         If abs(zSpeed#(n))<=6.08 And abs(zSpeed#(n))>5.28 Then zani(n)=21:zf(n)=9
         If abs(zSpeed#(n))<=5.28 And abs(zSpeed#(n))>4.48 Then zani(n)=21:zf(n)=10
         If abs(zSpeed#(n))<=4.48 And abs(zSpeed#(n))>3.68 Then zani(n)=21:zf(n)=11
         If abs(zSpeed#(n))<=3.68 And abs(zSpeed#(n))>2.08 Then zani(n)=21:zf(n)=12
         If abs(zSpeed#(n))<=2.08 And abs(zSpeed#(n))>1.28 Then zani(n)=21:zf(n)=13
         If abs(zSpeed#(n))<=1.28 Then zani(n)=21:zf(n)=14
+        
+        runEndSeq(n)=runEndSeq(n)+1
+        If runEndSeq(n)=1 And gameSound Then PlaySound hanzoRunEndSnd
+        
+        ret=1
     Else If zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 7 Then
         ret=1
         If zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 3 Then zani(n)=21:zf(n)=19
         If zRunSeqNoReset(n) > 3 And zRunSeqNoReset(n) <= 7 Then zani(n)=21:zf(n)=20
+    Else
+        If abs(zSpeed#(n))>=8.0 Then runEndSeq(n)=0
     End If
     Return ret
 End Function
@@ -283,14 +306,15 @@ End Function
 Function drawRunSequence(n)
     drawTrailingEffects(n)
     If (zRunSeqNoReset(n)=5 Or (canAirGlide(n) And zRunSeqNoReset(n)=5 And zOnGnd(n)=0)) And gameSound Then PlaySound zRunGruntSound(curGuy(n))
-    If zRunFootSoundSeq(n) <> 0 Then
-        If zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
-            If gameSound Then PlaySound zRunFootSound(curGuy(n))
-        End If
-    End If
     
     depleteStaminaBar(n, 1)
     If getSpecialRunStatus(n)=1 Then Return
+    
+    If zRunFootSoundSeq(n) <> 0 Then
+        If zRunSeq(n)=1 Or zRunSeq(n) Mod zRunFootSoundSeq(n) = 0 Then
+            If gameSound Then PlaySound zRunFootSound(curGuy(n))
+        End If
+    End If
     
     If zRunFrames(n) <> 0 Then
         For frame=zRunFrames(n) To 1 Step -1
@@ -311,6 +335,7 @@ Function getSpecialRunStatus(n)
     If curGuy(n)=14 Then ret=getWonderwomanRunStatus(n)
     If curGuy(n)=15 Then handleJuggernautRun(n)
     If curGuy(n)=16 Then If getPiccoloRunStatus(n)=1 Then ret=1
+    If curGuy(n)=51 Then ret=getHanzoRunStatus(n)
 
     Return ret
 End Function
@@ -847,7 +872,6 @@ Function processJuggernautAirFrames(n)
         If zjumpseq(n) >= 14 And zjumpseq(n) <= 17 Then zani(n)=4:zf(n)=5
         If zjumpseq(n) >= 18 And zjumpseq(n) <= 20 Then zani(n)=4:zf(n)=6
     End If
-    DebugLog "zjumpseq: " + zjumpseq(n) + ", zJumpFallSeq: " + zJumpFallSeq(n) + ", zF: " + zF(n)
 End Function
 
 ;----------------- Process Picccolo Air Frames -------------------
@@ -863,6 +887,21 @@ Function processPiccoloAirFrames(n)
         If zJumpSeq(n) > 2 And zJumpSeq(n) <= 7 Then zani(n)=4:zf(n)=3
         If zJumpSeq(n) > 7 And zJumpSeq(n) <= 10 Then zani(n)=4:zf(n)=4
         If zJumpSeq(n) > 10 And zJumpSeq(n) <= 20 Then zani(n)=4:zf(n)=5
+    End If
+End Function
+
+;----------------- Process Hanzo Air Frames -------------------
+Function processHanzoAirFrames(n)
+    Local downDir=2
+    zani(n)=4
+    If zJump(n)=0 Then ;Falling
+        checkYDist(n,zx(n),zy(n),downDir)
+        If yDist(n) <= 15 Then zf(n)=6 Else zF(n)=5
+    Else ;Jump start
+        If zJumpSeq(n) > 0 And zJumpSeq(n) <= 2 Then zani(n)=4:zf(n)=1
+        If zJumpSeq(n) > 2 And zJumpSeq(n) <= 7 Then zani(n)=4:zf(n)=2
+        If zJumpSeq(n) > 7 And zJumpSeq(n) <= 10 Then zani(n)=4:zf(n)=3
+        If zJumpSeq(n) > 10 And zJumpSeq(n) <= 20 Then zani(n)=4:zf(n)=4
     End If
 End Function
 
@@ -902,6 +941,7 @@ Function processOnAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
     If curGuy(n)=16 Then processPiccoloAirFrames(n)
     If curGuy(n)=40 Then processTurtleAirFrames(n)
+    If curGuy(n)=51 Then processHanzoAirFrames(n)
     If curGuy(n)=53 Then processGohanHelperAirFrames(n)
 End Function
 
@@ -919,6 +959,8 @@ Function doSpecialHitFrames(n)
         drawHiryuHitFrames(n)
     Case 14
         drawWwHitFrames(n)
+    Case 51
+        drawHanzoHitFrames(n)
     Default
         drawSpecialHitFrames(n)
     End Select
@@ -977,6 +1019,25 @@ Function drawWwHitFrames(n)
             zF(n)=16
         Else
             zF(n)=15
+        End If
+    End If
+End Function
+
+;------------------- Draw Hanzo Hit frames ----------------------
+Function drawHanzoHitFrames(n)
+    seq1=5:seq2=seq1+5:seq3=seq2+5:seq4=seq3+5:seq5=seq4+5
+    If zhitseq(n)>0 And zHitSeq(n)<=seq1 Then zani(n)=2:zf(n)=1
+    If zhitseq(n)>seq1 And zHitSeq(n)<=seq2 Then zani(n)=2:zf(n)=2
+    If zhitseq(n)>seq2 And zHitSeq(n)<=seq3 Then zani(n)=2:zf(n)=3
+    If zhitseq(n)>seq3 And zHitSeq(n)<=seq4 Then zani(n)=2:zf(n)=4
+    If zhitseq(n)>seq4 And zHitSeq(n)<=seq5 Then zani(n)=2:zf(n)=5
+
+    If zhitseq(n)>seq5 And zHitSeq(n) Mod 4=0 Then
+        zani(n)=2
+        If zF(n)=5 Then
+            zF(n)=6
+        Else
+            zF(n)=5
         End If
     End If
 End Function

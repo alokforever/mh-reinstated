@@ -1126,6 +1126,7 @@ End Function
 ;----------- Main menu ---------------------------------------------------------
 Function mainMenu()
 
+AppTitle "Multihero"
 xScr=0:yScr=0
 pointers
 For n=1 To 200

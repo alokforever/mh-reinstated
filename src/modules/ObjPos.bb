@@ -247,10 +247,29 @@ Case 40    ;turtle
     zStanceObjX#(n,16)=10.8357 :zStanceObjY#(n,16)=26.0
     
 Case 51: ;Gray Ninja
-    zWalkObjX(n,0)=-5 :zWalkObjY(n,0)=21
-    zWalkObjX(n,1)=-5 :zWalkObjY(n,1)=22
-    zWalkObjX(n,2)=-5 :zWalkObjY(n,2)=21
-    zWalkObjX(n,3)=-4 :zWalkObjY(n,3)=21
+    zWalkObjX(n,0)=17.0 :zWalkObjY(n,0)=50.0
+    zWalkObjX(n,1)=17.0 :zWalkObjY(n,1)=52.0
+    zWalkObjX(n,2)=17.0 :zWalkObjY(n,2)=52.0
+    zWalkObjX(n,3)=17.0 :zWalkObjY(n,3)=50.0
+    zWalkObjX(n,4)=17.0 :zWalkObjY(n,4)=50.0
+    zWalkObjX(n,5)=17.0 :zWalkObjY(n,5)=52.0
+    zWalkObjX(n,6)=17.0 :zWalkObjY(n,6)=52.0
+    zWalkObjX(n,7)=17.0 :zWalkObjY(n,7)=52.0
+    zWalkObjX(n,8)=17.0 :zWalkObjY(n,8)=50.0
+    zWalkObjX(n,9)=17.0 :zWalkObjY(n,9)=50.0
+    zWalkObjX(n,10)=17.0 :zWalkObjY(n,10)=50.0
+    
+    zStanceObjX(n,0)=11.9 :zStanceObjY(n,0)=43
+    zStanceObjX(n,1)=11.9 :zStanceObjY(n,1)=43
+    zStanceObjX(n,2)=11.5 :zStanceObjY(n,2)=42.5
+    zStanceObjX(n,3)=11.0 :zStanceObjY(n,3)=42.0
+    zStanceObjX(n,4)=10.5 :zStanceObjY(n,4)=41.5
+    zStanceObjX(n,5)=10.5 :zStanceObjY(n,5)=41.5
+    zStanceObjX(n,6)=10.0 :zStanceObjY(n,6)=41
+    zStanceObjX(n,7)=9.5 :zStanceObjY(n,7)=40.5
+    zStanceObjX(n,8)=9.5 :zStanceObjY(n,8)=40.5
+    zStanceObjX(n,9)=10.5 :zStanceObjY(n,9)=41.5
+    zStanceObjX(n,10)=11.5 :zStanceObjY(n,10)=42.5
     
 End Select
 End Function

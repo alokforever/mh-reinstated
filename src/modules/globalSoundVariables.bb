@@ -201,6 +201,7 @@ Global mvcExSnd=LoadSound(soundsdir$ + "mvc\mvcExSnd.wav")
 Global mvcJump1Snd
 Global mvcJump2Snd
 Global mvcJump3Snd
+Global mvcJump4Snd
 Global mvcSuper1Snd
 
 Global juggJumpSnd, juggLateralSnd, juggLateralHitSnd, juggPunchSnd, juggPunchGroundSnd, juggNoManaSnd, juggNoMana2Snd
@@ -254,3 +255,9 @@ Global ktKickSnd, ktGrunt1Snd, ktGrunt2Snd, ktGrunt3Snd, ktGrunt4Snd
 Global ktSpinSnd, ktOneMoreTimeSnd, ktKartScreechSnd, ktKartExplodeSnd, turtleSlideSnd
 
 Global solCrackSnd=LoadSound(soundsdir$ + "sol\solCrack.wav")
+
+Global hanzoFootSnd, hanzoRunEndSnd, hanzoDieSnd
+Global hanzoGrunt1Snd, hanzoGrunt2Snd, hanzoGrunt3Snd, hanzoGrunt4Snd, hanzoGrunt5Snd
+Global hanzoBlow1Snd
+Global hanzoHit1Snd
+Global hanzoSword1Snd

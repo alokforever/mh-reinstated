@@ -974,13 +974,14 @@ zchunkType(n)=154
 
 Select zCurBlow(n)
 Case 0    ;Blocking
+    zSuperBar(n)=100
     zNoMove(n)=1:zNoJump(n)=1
     zBlock(n)=1:zani(n)=13:zf(n)=1
     If zblocked(n)=1 Then 
         zani(n)=13:zf(n)=2
-        zBlockSeqStart(n)=zBlockSeq(n)
+        zBlockedSeqStart(n)=zBlockedSeq(n)
     End If
-    If zBlockSeq(n) = zBlockSeqStart(n)+3 Then zani(n)=13:zf(n)=3
+    If zBlockedSeq(n) = zBlockedSeqStart(n)+3 Then zani(n)=13:zf(n)=3
     If blockKey(n)=0 And zBLocked(n)=0 Then zBlowSeq(n)=0:zBlow(n)=0
 
 Case 1    ;Attack
@@ -1223,7 +1224,7 @@ Case 5    ;Up + Special (Warrior's heart)
                 zani(n)=7:zf(n)=11
             End If
         End If
-        zNoGrav(n)=0:ztopSpeed(n)=.5:zNomove(n)=0
+        zNoGrav(n)=0:ztopSpeed(n)=1:zNomove(n)=0
     End If
     
     If zongnd(n)=1 And zBlowSeq(n) >= s Then onGroundSeq(n)=onGroundSeq(n)+1

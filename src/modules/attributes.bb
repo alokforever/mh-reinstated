@@ -258,6 +258,7 @@ Case 10: ;Deadpool
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
     duckFrames(n)=2
+    duckFrameSpeed(n)=5
     zWalkFrames(n)=14
     zWalkFrameSpeed#(n)=3
     hasSpecialAirFrames(n)=1
@@ -944,7 +945,7 @@ Case 50: ;Laser beam
     ;zxrespawn(n)=zx(n)
     ;zyrespawn(n)=zy(n)
 
-Case 51: ;Gray Ninja
+Case 51: ;Hattori Hanzo
     zBlowDist(n,1)=60
     zBlowDist(n,2)=52
     zBlowDist(n,4)=53
@@ -955,10 +956,21 @@ Case 51: ;Gray Ninja
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
     zDtopSpeed(n)=4
+    hasSpecialAirFrames(n)=1
+    zJumpSnd(n)=mvcJump4Snd
+    zJumpSnd2(n)=wolverinejumpsnd
     zTopSpeed(n)=zDtopSpeed(n)
-    zjumplimit(n)=35
     zRollOnImpact(n)=1
     gender(n)=maleVal
+    zWalkFrames(n)=10
+    zWalkFrameSpeed#(n)=4
+    zRunFrames(n)=4
+    zRunFrameSpeed#(n)=4
+    zRunFootSoundSeq(n)=18
+    zBlockedSnd(n)=wwBlockedSnd
+    zBouncedGndFrames(n)=1
+    specialHitFrames(n)=1
+    dizzyFrames(n)=1
 
 Case 52: ;punching bag
     zUpHeight(n)=54
@@ -2883,6 +2895,19 @@ EndIf
 If n=51 Then    ;Dark ninja
     If swordSnd=0 Then swordSnd=LoadSound(soundsdir$ + "sword.wav")
     If hayabusaSnd=0 Then hayabusaSnd=LoadSound(soundsdir$ + "hayabusa.wav")
+    If mvcJump4Snd=0 Then mvcJump4Snd=LoadSound(soundsdir$ + "mvc\mvcJump4Snd.wav")
+    If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "hanzo\hanzoFootSnd.wav")
+    If hanzoRunEndSnd=0 Then hanzoRunEndSnd=LoadSound(soundsdir$ + "hanzo\hanzoRunEndSnd.wav")
+    If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsdir$ + "hanzo\hanzoDieSnd.wav")
+    If wwBlockedSnd=0 Then wwBlockedSnd=LoadSound(soundsdir$ + "wonderwoman\wwBlockedSnd.wav")
+    If hanzoGrunt1Snd=0 Then hanzoGrunt1Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt1Snd.wav")
+    If hanzoGrunt2Snd=0 Then hanzoGrunt2Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt2Snd.wav")
+    If hanzoGrunt3Snd=0 Then hanzoGrunt3Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt3Snd.wav")
+    If hanzoGrunt4Snd=0 Then hanzoGrunt4Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt4Snd.wav")
+    If hanzoGrunt5Snd=0 Then hanzoGrunt5Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt5Snd.wav")
+    If hanzoBlow1Snd=0 Then hanzoBlow1Snd=LoadSound(soundsdir$ + "hanzo\hanzoBlow1Snd.wav")
+    If hanzoHit1Snd=0 Then hanzoHit1Snd=LoadSound(soundsdir$ + "hanzo\hanzoHit1Snd.wav")
+    If hanzoSword1Snd=0 Then hanzoSword1Snd=LoadSound(soundsdir$ + "hanzo\hanzoSword1Snd.wav")
 EndIf
 
 If n=49 Then    ;Dragon
