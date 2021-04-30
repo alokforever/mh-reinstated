@@ -2051,6 +2051,30 @@ Case 55    ;Down air hadouken
     shotPic_(n,4)=shotImage_(89)
     shotSound(n)=evilRyuHit1Snd
     
+Case 56    ;Hanzo ninja star
+    shotspeed(n)=7
+    shotsize(n)=34
+    shotheight(n)=15
+    shotSide(n)=shotsize(n)/2
+    shotdamage(n)=3
+    shotHitXspeed(n)=2
+    shotHitYspeed(n)=2
+    shotFallTime(n)=20
+    shotDuration(n)=200
+    shotMaxSpeed(n)=shotSpeed(n)
+    shotChunkType(n)=5
+    shotPic(n,1)=shotImage(90)
+    shotPic_(n,1)=shotImage(90)
+    shotPic(n,2)=shotImage(91)
+    shotPic_(n,2)=shotImage(91)
+    shotPic(n,3)=shotImage(92)
+    shotPic_(n,3)=shotImage(92)
+    shotPic(n,4)=shotImage(93)
+    shotPic_(n,4)=shotImage(93)
+    shotFramesAmount(n)=2
+    shotFrameTime(n)=2
+    shotSound(n)=slashSnd
+    
 End Select
 
 End Function
@@ -2908,6 +2932,7 @@ If n=51 Then    ;Dark ninja
     If hanzoBlow1Snd=0 Then hanzoBlow1Snd=LoadSound(soundsdir$ + "hanzo\hanzoBlow1Snd.wav")
     If hanzoHit1Snd=0 Then hanzoHit1Snd=LoadSound(soundsdir$ + "hanzo\hanzoHit1Snd.wav")
     If hanzoSword1Snd=0 Then hanzoSword1Snd=LoadSound(soundsdir$ + "hanzo\hanzoSword1Snd.wav")
+    If hanzoShurikenSnd=0 Then hanzoShurikenSnd=LoadSound(soundsdir$ + "hanzo\hanzoShurikenSnd.wav")
 EndIf
 
 If n=49 Then    ;Dragon

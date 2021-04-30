@@ -259,5 +259,5 @@ Global solCrackSnd=LoadSound(soundsdir$ + "sol\solCrack.wav")
 Global hanzoFootSnd, hanzoRunEndSnd, hanzoDieSnd
 Global hanzoGrunt1Snd, hanzoGrunt2Snd, hanzoGrunt3Snd, hanzoGrunt4Snd, hanzoGrunt5Snd
 Global hanzoBlow1Snd
-Global hanzoHit1Snd
+Global hanzoHit1Snd, hanzoShurikenSnd
 Global hanzoSword1Snd

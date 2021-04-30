@@ -1,6 +1,7 @@
 ;----------------------------- make Hanzo (ninja)'s moves! -----------------------------------
 Function DoHanzo(n)
 
+initMoveStates(n)
 Local randSeed
 zFace(n)=zBlowDir(n)
 zBlowEffect(n)=0
@@ -403,23 +404,46 @@ Case 6    ;throwing iten
     If zBlowSeq(n) => d Then zBlowSeq(n)=0:zBlow(n)=0:zblowstill(n)=0
 
 Case 7    ;ninja star
-    a=7:b=45
+    seq1=8:seq2=seq1+2:seq3=seq2+2:seq4=seq3+2:seq5=seq4+2:seq6=seq5+2
     zNoMove(n)=1
     zNoJump(n)=1
     zjump(n)=0
-    If zongnd(n)=0 Then zy(n)=zy(n)-2
-    If zBlowSeq(n) = a And gameSound=1 Then PlaySound shurikenSnd
-    If zBlowSeq(n) > 1 And zBlowSeq(n) =< a Then zani(n)=10:zf(n)=1
-    If zBlowSeq(n) > a And zBlowSeq(n) =< b Then zani(n)=10:zf(n)=2
-    If zBlowSeq(n) = a+1 Then 
-        dir=zface(n):y=zy(n)-zheight(n)+15
-        If zface(n)=2 Then x=zx(n)+15
-        If zface(n)=4 Then x=zx(n)-15
-        
-        makeshot(n,15,x,y,dir)
+    Local maxStars=3
+
+    If zongnd(n)=0 Then zy(n)=zy(n)-3.2
+    
+;========== Sounds =============
+    If gameSound = 1 Then
+        If zBlowSeq(n) = seq3 Then PlaySound hanzoShurikenSnd
+        If zBlowSeq(n) = seq3 And zBlowSeq2(n) <> 1 Then PlaySound hanzoGrunt1Snd
+    End If
+    
+;========= Animation ==========
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=10:zf(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=10:zf(n)=2
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=10:zf(n)=3
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=10:zf(n)=4
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=10:zf(n)=2
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=10:zf(n)=5
+    
+    If zBlowSeq(n) = seq2+1 Then
+        If zStaminaBar#(n) >= 20
+            zStaminaBar#(n)=zStaminaBar#(n)-20
+            dir=zface(n)
+            If zBlowSeq2(n) = 1 Then y=zy(n)-zheight(n)+35 Else y=zy(n)-zheight(n)+50
+            If zface(n)=2 Then x=zx(n)+38
+            If zface(n)=4 Then x=zx(n)-38
+            makeshot(n,56,x,y,dir)
+        Else
+            isFlashLowStamina(n)=1:zBlowSeq(n)=seq6+1
+        End If
     EndIf
     
-    If zBlowSeq(n) > b Then zBlowSeq(n)=0:zBlow(n)=0:
+    If zBlowSeq(n)=seq6 And KeyDown(specialK(n)) And zBlowSeq2(n) < maxStars-1 Then
+        zBlowSeq(n)=seq1:zBlowSeq2(n)=zBlowSeq2(n)+1
+    End If
+
+    If zBlowSeq(n) > seq6 Then zBlowSeq(n)=0:zBlow(n)=0:zBlowSeq2(n)=0
 
 Case 8    ;Dodging
     zheight(n)=zduckHeight(n)
@@ -485,7 +509,7 @@ Case 10    ;High Kick
     If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq8 Then zf(n)=1
 
 ;=============== Animation ================
-    If zBlowSeq(n) > seq3 And zBlowSeq(n) =< seq6 Then
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) =< seq5 Then
         zblowPamount(n)=4:nn=1
         xblow(n,nn)=-3.95996:yblow(n,nn)=72.0:wblow(n,nn)=14:hblow(n,nn)=20:nn=nn+1
         xblow(n,nn)=4.04004:yblow(n,nn)=88.0:wblow(n,nn)=17:hblow(n,nn)=19:nn=nn+1
