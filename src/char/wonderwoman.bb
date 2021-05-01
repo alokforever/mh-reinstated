@@ -895,7 +895,7 @@ Function performFierceAmazon(n)
     zNoMove(n)=0:zNoJump(n)=1:zNoGrav(n)=1
     a=10:b=16:c=18:d=20:e=41*100:f=43:g=46:h=49
     endSeq=2:faHitSeq=100000
-    If zBlowSeq(n)=a Then 
+    If zBlowSeq(n)=a Then
         If zHitHead(n)=0 Then zy(n)=zy(n)-15
         extraObj(n,zx(n),-40,zy(n),2,zblowdir(n),89)
     End If

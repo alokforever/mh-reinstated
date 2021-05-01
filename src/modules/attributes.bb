@@ -2930,9 +2930,13 @@ If n=51 Then    ;Dark ninja
     If hanzoGrunt4Snd=0 Then hanzoGrunt4Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt4Snd.wav")
     If hanzoGrunt5Snd=0 Then hanzoGrunt5Snd=LoadSound(soundsdir$ + "hanzo\hanzoGrunt5Snd.wav")
     If hanzoBlow1Snd=0 Then hanzoBlow1Snd=LoadSound(soundsdir$ + "hanzo\hanzoBlow1Snd.wav")
+    If hanzoBlow2Snd=0 Then hanzoBlow2Snd=LoadSound(soundsdir$ + "hanzo\hanzoBlow2Snd.wav")
     If hanzoHit1Snd=0 Then hanzoHit1Snd=LoadSound(soundsdir$ + "hanzo\hanzoHit1Snd.wav")
     If hanzoSword1Snd=0 Then hanzoSword1Snd=LoadSound(soundsdir$ + "hanzo\hanzoSword1Snd.wav")
+    If hanzoSwordSheatheSnd=0 Then hanzoSwordSheatheSnd=LoadSound(soundsdir$ + "hanzo\hanzoSwordSheatheSnd.wav")
     If hanzoShurikenSnd=0 Then hanzoShurikenSnd=LoadSound(soundsdir$ + "hanzo\hanzoShurikenSnd.wav")
+    If hanzoTaunt1Snd=0 Then hanzoTaunt1Snd=LoadSound(soundsdir$ + "hanzo\hanzoTaunt1Snd.wav")
+    If hanzoTaunt2Snd=0 Then hanzoTaunt2Snd=LoadSound(soundsdir$ + "hanzo\hanzoTaunt2Snd.wav")
 EndIf
 
 If n=49 Then    ;Dragon
