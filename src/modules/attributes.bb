@@ -105,7 +105,6 @@ Case 1: ;Evil Ryu
     hasSpecialAirFrames(n)=1
     specialHitFrames(n)=11
     zRunFrames(n)=6
-    zGrabDist(n)=15
 
 Case 2: ;Rash
     zBlowDist(n,1)=65
@@ -131,7 +130,6 @@ Case 3: ;Spider-man
     zBlowDist(n,10)=84
     zBlowDist(n,11)=150
     zBlowDist(n,14)=400
-    zGrabDist(n)=25
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
@@ -1946,7 +1944,7 @@ Case 52:    ;Wonderwoman's Tiara
     shotChunkHitType(n)=95
     shotSound(n)=wwTiaraBackSnd
     shotSeekType(n)=seekTypeFull
-    shotSeekSpeed#(n)=12
+    shotSeekSpeed#(n)=24
     shotPic(n,1)=shotImage(72)
     shotPic_(n,1)=shotImage_(72)
     shotYPic(n,1)=shotImage(75)
@@ -2937,6 +2935,9 @@ If n=51 Then    ;Dark ninja
     If hanzoShurikenSnd=0 Then hanzoShurikenSnd=LoadSound(soundsdir$ + "hanzo\hanzoShurikenSnd.wav")
     If hanzoTaunt1Snd=0 Then hanzoTaunt1Snd=LoadSound(soundsdir$ + "hanzo\hanzoTaunt1Snd.wav")
     If hanzoTaunt2Snd=0 Then hanzoTaunt2Snd=LoadSound(soundsdir$ + "hanzo\hanzoTaunt2Snd.wav")
+    If hanzoThrow1Snd=0 Then hanzoThrow1Snd=LoadSound(soundsdir$ + "hanzo\hanzoThrow1Snd.wav")
+    If hanzoThrow2Snd=0 Then hanzoThrow2Snd=LoadSound(soundsdir$ + "hanzo\hanzoThrow2Snd.wav")
+    If hanzoExplodeSnd=0 Then hanzoExplodeSnd=LoadSound(soundsdir$ + "hanzo\hanzoExplodeSnd.wav")
 EndIf
 
 If n=49 Then    ;Dragon

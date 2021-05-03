@@ -262,3 +262,4 @@ Global hanzoBlow1Snd, hanzoBlow2Snd
 Global hanzoHit1Snd, hanzoShurikenSnd
 Global hanzoSword1Snd, hanzoSwordSheatheSnd
 Global hanzoTaunt1Snd, hanzoTaunt2Snd
+Global hanzoThrow1Snd, hanzoThrow2Snd, hanzoExplodeSnd

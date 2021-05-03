@@ -274,11 +274,11 @@ Dim hyperBgPic(maxZ, maxHyperBg), isHyperBgShow(maxZ), hyperBgSeq(maxZ), hyperBg
 Dim stanceLevel(maxZ), isDrawAfterImage(maxZ), afterImage(maxZ, maxAfterImg), afterImageX(maxZ, maxAfterImg)
 Dim afterImageY(maxZ, maxAfterImg), afterImageSeq(maxZ), afterImageMaxSeq(maxZ), doesCharBleed(maxCharAmt)
 Dim maxFlightYLimit(maxZ), loadingImg(100, 20), charIdxList(4), imgScaleFactor#(maxCharamt)
-Dim isFlashLowStamina(4), flashLowStaminaSeq(4), isStaminaRectShow(4)
+Dim isFlashLowStamina(maxZ), flashLowStaminaSeq(maxZ), isStaminaRectShow(maxZ)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
 Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
-Dim wasOnAir(maxZ), attackChargeLvl(maxZ)
+Dim wasOnAir(maxZ), attackChargeLvl(maxZ), charRenderSwapQueue(5, 5)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -788,7 +788,7 @@ SetBuffer BackBuffer()
 Cls
 ClsColor 0,0,0
 
-;CurGuy(1)=40
+CurGuy(1)=34
 displayLoadingScr()
 
 Flip
@@ -6225,7 +6225,7 @@ End Function
 Function getNearestEnemy(n)
     Local nearest=0, prevDist=9999
     For nn=1 To zzamount
-        If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) And curGuy(nn)<>punchingBagIdx And zOn(nn)=1 Then 
+        If (nn <> shotOwner(n)) And zTeam(nn) <> zTeam(shotOwner(n)) And curGuy(nn)<>punchingBagIdx And zOn(nn)=1 Then
             dist=getDistanceFromShot(n, nn)
             If dist < prevDist Then nearest = nn:prevDist=dist
         End If

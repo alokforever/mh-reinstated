@@ -1638,8 +1638,6 @@ Case 172: ;Waza Bombs Flame (Hanzo)
     endSeq=30
     chunkFollowOwner(n)=1
     
-    DebugLog "chunkSeq: " + chunkSeq(n)
-    
     picIdx=1
     idx2=0
     For idx=3 To endSeq Step 3
