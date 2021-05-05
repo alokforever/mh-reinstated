@@ -256,6 +256,8 @@ Global ktSpinSnd, ktOneMoreTimeSnd, ktKartScreechSnd, ktKartExplodeSnd, turtleSl
 
 Global solCrackSnd=LoadSound(soundsdir$ + "sol\solCrack.wav")
 
+Global pigAttack1Snd
+
 Global hanzoFootSnd, hanzoRunEndSnd, hanzoDieSnd
 Global hanzoGrunt1Snd, hanzoGrunt2Snd, hanzoGrunt3Snd, hanzoGrunt4Snd, hanzoGrunt5Snd
 Global hanzoBlow1Snd, hanzoBlow2Snd

@@ -250,7 +250,6 @@ Function getWonderwomanRunStatus(n)
         If abs(zSpeed#(n))<=1.28 Then zani(n)=21:zf(n)=14
         
         runEndSeq(n)=runEndSeq(n)+1
-        If runEndSeq(n)=1 And gameSound Then PlaySound hanzoRunEndSnd
         
         ret=1
     Else If zRunSeqNoReset(n) >= 0 And zRunSeqNoReset(n) <= 7 Then
@@ -456,7 +455,7 @@ Function getRashStance(n)
                 frame=2
             End If
         Else
-            If gameStart=1 Then frame=zF(n)
+            If gameStart=1 Then If zF(n) <= 4 Then frame=zF(n) Else frame=1
             If gameStart=0 Then frame=menuStanceFrame(n)
         End If
     End If
@@ -767,6 +766,14 @@ Function processEvilRyuAirFrames(n)
     End If
 End Function
 
+Function processRashAirFrames(n)
+    If zOnGnd(n)=1 Then
+        zAni(n)=3:zF(n)=1
+    Else
+        zAni(n)=4:zF(n)=1
+    End If
+End Function
+
 Function processHiryuAirFrames(n)
     If zjump(n)=0 Then ;Falling
         zJumpFallSeq(n)=zjumpfallseq(n)+1
@@ -935,6 +942,7 @@ End Function
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
     If curGuy(n)=1 Then processEvilRyuAirFrames(n)
+    If curGuy(n)=2 Then processRashAirFrames(n)
     If curGuy(n)=6 Then processHiryuAirFrames(n)
     If curGuy(n)=10 Then processDeadpoolAirFrames(n)
     If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
@@ -1085,6 +1093,9 @@ Function drawBouncedOnGnd(n)
     Select zBouncedGndFrames(n)
     Case 1:
         If zBouncedGndSeq(n)>=1 And zBouncedGndSeq(n)<12 Then zani(n)=25:zf(n)=1
+        If zBouncedGndSeq(n)>=12 Then zani(n)=2:zf(n)=0
+    Case 2:
+        If zBouncedGndSeq(n)>=1 And zBouncedGndSeq(n) < 12 Then zani(n)=25:zf(n)=1
         If zBouncedGndSeq(n)>=12 Then zani(n)=2:zf(n)=0
     Case 3:
         If zBouncedGndSeq(n)>=0 And zBouncedGndSeq(n)<4 Then zani(n)=25:zf(n)=1

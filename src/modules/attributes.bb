@@ -119,6 +119,13 @@ Case 2: ;Rash
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
+    zWalkFrames(n)=6
+    zWalkFrameSpeed#(n)=4
+    zRunSpeed#(n)=3
+    zRunFrames(n)=4
+    zRunFrameSpeed#(n)=3
+    hasSpecialAirFrames(n)=1
+    zRunFootSoundSeq(n)=6
 
 Case 3: ;Spider-man
     zBlowDist(n,1)=55
@@ -969,6 +976,7 @@ Case 51: ;Hattori Hanzo
     zBouncedGndFrames(n)=1
     specialHitFrames(n)=1
     dizzyFrames(n)=1
+    zGrabDist(n)=zGrabDist(n)+10
 
 Case 52: ;punching bag
     zUpHeight(n)=54
@@ -3019,6 +3027,11 @@ If n=40 Then ;Turtle
     If turtleSlideSnd=0 Then turtleSlideSnd=LoadSound(soundsdir$ + "koopaTroopa\turtleSlide.wav")
 End If
 
+If n=30 Then ;Pig
+    If pigAttack1Snd=0 Then pigAttack1Snd=LoadSound(soundsDir$ + "pig\pigAttack1Snd.wav")
+    If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "pig\pigDeathSnd.wav")
+End If
+
 If n=16 Then ;Piccolo
     If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "piccolo\piccoloDieSnd.wav")
     If piccoloTaunt1Snd=0 Then piccoloTaunt1Snd=LoadSound(soundsDir$ + "piccolo\piccoloTaunt1Snd.wav")
@@ -3252,6 +3265,10 @@ If n=3 Then     ;Spider-man
     If huasnd=0 Then huasnd=LoadSound(soundsdir$ + "hua.wav")
     If webshotsnd=0 Then webshotsnd=LoadSound(soundsdir$ + "webshot.wav")
 EndIf
+
+If n=2 Then     ;Rash
+    If zRunFootSound(n)=0 Then zRunFootSound(n)=LoadSound(soundsdir$ + "rash\rashFootSnd.wav")
+End If
 
 If n=1 Then     ;Evil Ryu
     If deathSnd(n)=0 Then deathSnd(n)=LoadSound(soundsDir$ + "evilryu\evilryuDieSnd.wav")

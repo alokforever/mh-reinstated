@@ -1647,6 +1647,18 @@ Case 172: ;Waza Bombs Flame (Hanzo)
     
     If chunkSeq(n) > endSeq Then chunk(n)=0
     
+Case 173 ;Fire burst hit (Hanzo)
+    endSeq=42
+    
+    picIdx=1
+    idx2=0
+    For idx=3 To endSeq Step 3
+        If chunkSeq(n)>idx2 And chunkSeq(n)<=idx Then chunkPic(n)=ptPic(138,picIdx):chunkPic_(n)=ptPic(138,picIdx)
+        idx2=idx:picIdx=picIdx+1
+    Next
+    
+    If chunkSeq(n) > endSeq Then chunk(n)=0
+    
 Default
     a=5:b=10:c=14    ;Blocking
     If chunkSeq(n) => 1 And chunkSeq(n) =< a Then chunkPic(n)=ptPic(3,1):chunkPic_(n)= ptPic(3,1)

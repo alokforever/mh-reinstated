@@ -72,6 +72,10 @@ Case 10     ;Belly jump hit
     zNoMove(n)=1: zNoJump(n)=1:zJumping(n)=0
     zjump(n)=0:zjump2(n)=0
     
+    If zBlowSeq(n)=1 And gameSound Then
+        If Rand(3)=2 Then PlaySound pigAttack1Snd
+    End If
+    
     If zHitHead(n)=1 Then zBlowSeq(n)=b
     
     If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=6:zf(n)=2:movex2(n,zBlowdir(n),1):movey(n,-4):zNoGrav(n)=1
@@ -97,6 +101,11 @@ Case 10     ;Belly jump hit
 Case 1    ;Belly hit
     a=8: b=a+8: c=b+8: d=c+8: e=d+8: f=e+15
     zNoMove(n)=1: zNoJump(n)=1
+    
+    If zBlowSeq(n)=1 And gameSound Then
+        If Rand(3)=2 Then PlaySound pigAttack1Snd
+    End If
+    
     If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=6:zf(n)=1:movex2(n,zBlowdir(n),2):zy(n)=zy(n)-6
     If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=6:zf(n)=1:movex2(n,zBlowdir(n),2.5):zy(n)=zy(n)-3
     If zBlowSeq(n) => b And zBlowSeq(n) < c Then zani(n)=6:zf(n)=1:movex2(n,zBlowdir(n),2);:zy(n)=zy(n)-3

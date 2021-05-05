@@ -79,7 +79,7 @@ Dim tempN#(10), strinfo$(200), characterOpen(maxCharAmt), charSelectable(maxChar
 Dim zx#(maxZ),zy#(maxZ),zdi(maxZ),zface(maxZ),zoldx#(maxZ),zoldy#(maxZ),zWasOn(maxZ),zon(maxZ),prevZOn(maxZ),CurGuy(maxCharAmt),lastZon(maxZ),lastzAI(maxZ)
 Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zjump2seq(maxZ),zFallDir(maxZ),zDeadEvent(maxZ)
 Dim zlife(maxZ),zhit(maxZ),zhitseq(maxZ),Zshield(maxZ),zTempShield(maxZ),Zshieldseq(maxZ),ZshieldedTime(maxZ),zHit2(maxZ)
-Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),zfallenSeq(maxZ),zFallImpact#(maxZ),zFallSpeed#(maxZ)
+Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),zFallImpact#(maxZ),zFallSpeed#(maxZ)
 Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
 Dim zHitSpeed#(maxZ),zHitUpSpeed#(maxZ),zHitDownSpeed#(maxZ),zHitTime#(maxZ),zHitMode(maxZ),zHitModeTaken(maxZ),zBlowUplimit(maxZ)
 Dim zUpHeight(maxZ),zDuckHeight(maxZ),zHitHead(maxZ),zIcon(60),zRollOnImpact(maxZ)
@@ -278,7 +278,7 @@ Dim isFlashLowStamina(maxZ), flashLowStaminaSeq(maxZ), isStaminaRectShow(maxZ)
 Dim onGroundSeq(maxZ), checkChunk(maxZ), isHitWall(maxZ), explodeChunkType(200)
 Dim bestMapTime(maxMap), fastestHeroPerMap(maxMap), fastestHeroTimePerMap(maxMap,100)
 Dim stanceMode(maxCharAmt), picXOffset(maxFrame), picYOffset(maxFrame)
-Dim wasOnAir(maxZ), attackChargeLvl(maxZ), charRenderSwapQueue(5, 5)
+Dim wasOnAir(maxZ), attackChargeLvl(maxZ), charRenderQueue(maxZ)
 Global mapStartTime, mapTimeLapse
 
 ; developer mode variables
@@ -788,7 +788,7 @@ SetBuffer BackBuffer()
 Cls
 ClsColor 0,0,0
 
-CurGuy(1)=34
+;CurGuy(1)=51
 displayLoadingScr()
 
 Flip
@@ -1038,6 +1038,7 @@ For n = 1 To zzamount
         End Select
         If ztrailseq(n) > ztrailtime(n) Then ztrail(n)=0
     EndIf
+    charRenderQueue(n)=n
 Next
 
 For n=1 To zzamount
@@ -1426,7 +1427,7 @@ For n = 1 To chunkAmount
 Next
 
 For n=1 To zzamount
-    If zon(n) > 0 Then renderZ(n)
+    If zon(n) > 0 Then renderZ(charRenderQueue(n))
 Next
 
 For n = 1 To objAmount
@@ -2157,10 +2158,10 @@ Function selectDraw(n)
         If zBouncedgnd(n)=1 Then
             drawBouncedOnGnd(n)
             zBouncedGndSeq(n)=zBouncedGndSeq(n)+1
-        Else If zongnd(n)=1 And zhitseq(n) > 15 Then
-            zani(n)=2:zf(n)=0
         Else If zHitType(n)>0 Then
             doStationaryHitSequence(n)
+        Else If zongnd(n)=1 And zhitseq(n) > 15 Then
+            zani(n)=2:zf(n)=0
         Else
             If specialHitFrames(n)=0 Then
                 doNormalHitSeq(n)
@@ -2271,6 +2272,8 @@ If zhit(n)=1 Then
             killMan(n)
         End If
     EndIf
+
+    If zHitType(n) > 0 Then Goto dontmove
 
     If zhitSeq(n) > 2 And zongnd(n)=1 And zBouncedgnd(n)=0 And (zUpFallSpeed#(n) < 2.1 Or zDownFallSpeed#(n) > 2.1) Then 
         If gameSound=1 Then PlaySound zhitwallsnd
@@ -6271,7 +6274,7 @@ Function doStationaryHitSequence(n)
 
 If zHitTypeModulo(n) > 0 And zHitType(n)=hitTypeByModulo Then
     If zHitSeq(n)=1 Then zani(n)=2:zf(n)=1
-    If zHitSeq(n) Mod zHitTypeModulo(n) = 0 Then 
+    If zHitSeq(n) Mod zHitTypeModulo(n) = 0 Then
         If zf(n) = 1 Then
             zani(n)=2:zf(n)=2
         Else If zf(n) = 2 Then
@@ -6886,6 +6889,8 @@ Function getIconScaleFactor#(i)
     Local scaleFactor#=imgScaleFactor#(i)
     
     Select i
+    Case 51:
+        
     Case 5:
         scaleFactor#=0.80
     Case 7:
@@ -6914,4 +6919,10 @@ Function isShotFade(n)
     If shotHitBeforeFade(n) > 0 And shotHits(n)>=shotHitBeforeFade(n) Then return 1
 
     return 0
+End Function
+
+Function swapCharRenderQueuePos(x, y)
+    Local tempPos=x
+    charRenderQueue(x)=y
+    charRenderQueue(y)=tempPos
 End Function
