@@ -385,6 +385,9 @@ For i=1 To 4
     yOffset=10
   Case 19:
     xOffset=30
+  Case 51:
+    xOffset=20
+    yOffset=10
   default:
     xOffset=0
   End Select
@@ -960,7 +963,7 @@ For b = 1 To mainCharAmt ;characters to select
         Local yOffset=getButPicYOffset(b)
 
         If stanceMode(n)=1 Then
-            DrawImage stanceButPic(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic(b, 1)) ) + yOffset
+            DrawImage stanceButPic(b, 0),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic(b, 0)) ) + yOffset
         Else
             DrawImage stanceButPic2(b, 1),xbut(b)+xOffset,( ybut(b)-ImageHeight(stanceButPic2(b, 1)) ) + yOffset
         End If
@@ -1261,7 +1264,7 @@ x=0 : y=0
 buttonAmount = 9
 For b= 1 To buttonAmount
     If b=9 Then y=y+80
-    xBut(b)=240+x:yBut(b)=260+y:wBut(b)=464:hBut(b)=35
+    xBut(b)=240+x:yBut(b)=200+y:wBut(b)=464:hBut(b)=35
     y=y+48
 Next
 
@@ -1385,7 +1388,7 @@ xBut(9)=160 : yBut(9)=672: wBut(9)=128: hBut(9)=40: butText$(9)=strInfo$(48)
 fontType=1
 For b=1 To 8
     If b < 5 Then
-        drawimage tPic(b), xBut(b), yBut(b)
+        DrawImage tPic(b), xBut(b), yBut(b)
         If zController(b)=1 Then pri xBut(b)+3,yBut(b)+3,controllerPort(b)+1
    EndIf
     If b > 4 Then pri xBut(b), yBut(b), butText$(b)
@@ -1852,7 +1855,7 @@ FlushKeys()
 
 For b=1 To 8
     If b < 5 Then
-        drawimage tPic(b), xBut(b), yBut(b)
+        DrawImage tPic(b), xBut(b), yBut(b)
         If zController(b)=1 Then pri xBut(b)+3,yBut(b)+3,controllerPort(b)+1
     EndIf
     If b > 4 Then pri xBut(b), yBut(b), butText$(b)
@@ -2177,7 +2180,7 @@ Function waitCheats()
     Local maxCheats=3
     For n=1 To maxCheats
         If key = cheatKeys(n,cheatSeq(n)) And key <> 0 Then
-            DebugLog "n: " + n + ", cheatSeq: " + cheatKeys(n,cheatSeq(n))
+            ;DebugLog "n: " + n + ", cheatSeq: " + cheatKeys(n,cheatSeq(n))
             cheatSeq(n)=cheatSeq(n)+1
             ;resetOtherCheats(n)
         Else If key <> 28 And key <> 0 Then ; If a key is pressed but not enter key
@@ -2335,23 +2338,26 @@ End Function
 
 Function getCurStanceFrame(n, b)
     Local butFrame
-    If curGuy(n)=1 Then
+    Select curGuy(n)
+    Case 1
         menuStanceFrame(n)=getEvilRyuStance(n, xbut(b)+60, 550)
-    Else If curGuy(n)=2 Then
+    Case 2
         menuStanceFrame(n)=getRashStance(n)
-    Else If curGuy(n)=5 Then
+    Case 4
+        menuStanceFrame(n)=getMarioStance(n)
+    Case 5
         menuStanceFrame(n)=getLeonardoStance(n)
-    Else If curGuy(n)=7 Then
+    Case 7
         menuStanceFrame(n)=getBatmanStance(n)
-    Else If curGuy(n)=8 Then
+    Case 8
         menuStanceFrame(n)=getSolStance(n)
-    Else If curGuy(n)=19 Then
+    Case 19
         menuStanceFrame(n)=getLeiLeiStance(n)
-    Else If curGuy(n)=20 Then
+    Case 20
         menuStanceFrame(n)=getKenshiroStance(n)
-    Else
+    Default
         setStanceFrame(n)
-    End If
+    End Select
     
     If menuStanceFrame(n) > zStanceFrames(curGuy(n)) Then menuStanceFrame(n)=1:zStanceSeq(n)=0
     butFrame=menuStanceFrame(n)

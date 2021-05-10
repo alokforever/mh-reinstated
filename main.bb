@@ -111,7 +111,7 @@ Dim rightKeyHit(maxZ),leftKeyHit(maxZ),specialkey(maxZ),zController(maxZ),contro
 Dim runkey(maxZ),zDacc#(maxZ),zAcc#(maxZ),zTopSpeed#(maxZ),zDtopSpeed#(maxZ)
 
 Global maxPicFrames=100
-Dim zpic(200,50,maxPicFrames),zpic_(200,50,maxPicFrames)
+Dim zpic(200,55,maxPicFrames),zpic_(200,50,maxPicFrames)
 Dim guyLoaded(100)
 
 Dim extraDraw(maxZ),extraPic(maxZ), xED(maxZ),yED(maxZ), epic(20,20), epic_(20,20),eAni(20),ef(20)
@@ -423,6 +423,10 @@ For i=1 To 8
     epic_(11,i)=LoadImage(gfxdir$ + "obj\obj19_"+i+"_.bmp")
 Next
 
+;Loads spike
+For i=1 To 4
+    epic(12,i)=LoadImage(gfxdir$ + "obj\obj20_"+i+".bmp")
+Next
 
 Global obj1P=LoadImage(gfxdir$ + "obj\obj1_1.bmp")
 Global obj2P=LoadImage(gfxdir$ + "obj\obj2_1.bmp")
@@ -788,12 +792,12 @@ SetBuffer BackBuffer()
 Cls
 ClsColor 0,0,0
 
-;CurGuy(1)=51
+;CurGuy(1)=41
 displayLoadingScr()
 
 Flip
 
-FreeSound music : music=0
+If music <> 0 Then FreeSound music : music=0
 For n=1 To 4
     If zteam(n)=0 Then zteam(n)=zteam(n)+(100+n)
 Next
@@ -1045,6 +1049,7 @@ For n=1 To zzamount
         If isActiveCharacter(n) And (zblow(n) = 1 Or zblocked(n)) And zgrabbed(n)=0 And zon(n)=1 And zBouncedgnd(n)=0 Then
         ;Add character, add another CASE call to your new function, will probably be 
         ;something like: CASE 11:DoGuyNameHere(n)
+        If zBlowSeq(n)=1 Then zStanceSeq(n)=0:upKeyDoubleTap(n)=0:downKeyDoubleTap(n)=0
         Select curguy(n)
             Case 1:DoEvilRyu(n)
             Case 2:DoRash(n)
@@ -1094,7 +1099,6 @@ For n=1 To zzamount
     EndIf
     zBlowHit(n)=0
     zHitHead(n)=0
-    If zBlowSeq(n)=1 Then zStanceSeq(n)=0:upKeyDoubleTap(n)=0:downKeyDoubleTap(n)=0
 Next
 
 For n=1 To rectAmount
@@ -1529,14 +1533,15 @@ superBarDispTime=50
 For n=1 To zzamount        ;Draws big pictures of characters when performing super special move
     If zSuperMove(n) And zhit(n)=0 And zGrabbed(n)=0 Then
     
-        If zSuperMoveSeq(n)=1 Then ;Set super pic
+        If zSuperMoveSeq(n)=0 Then ;Set super pic
             isSuperMove=1
-            If superPicNum(n)>1 Then 
-                superPicSeed(n)=Rand(2)
+            If superPicNum(n)>1 Then
+                superPicSeed(n)=Rand(superPicNum(n))
             Else
                 superPicSeed(n)=1
             End If
         End If
+        
         
         zSuperMoveSeq(n)=zSuperMoveSeq(n)+1
         
@@ -1569,13 +1574,13 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
         a=superMovePortraitSeqStart(n)+15 : b=superMovePortraitSeqStart(n)+30 : c=superMoveMaxSeq(n)
         Select zSuperDir(n)
         Case dirRight
-            If zSuperMoveSeq(n) > superMovePortraitSeqStart(n) And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)+20
-            If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
-            If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)-20
+            If zSuperMoveSeq(n) > superMovePortraitSeqStart(n) And zSuperMoveSeq(n) <= a Then zSuperX(n)=zSuperX(n)+20
+            If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) <= b Then zSuperX(n)=zSuperX(n)+0
+            If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) <= c Then zSuperX(n)=zSuperX(n)-20
         Case dirLeft
-            If zSuperMoveSeq(n) > 0 And zSuperMoveSeq(n) =< a Then zSuperX(n)=zSuperX(n)-20
-            If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) =< b Then zSuperX(n)=zSuperX(n)+0
-            If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) =< c Then zSuperX(n)=zSuperX(n)+20
+            If zSuperMoveSeq(n) > 0 And zSuperMoveSeq(n) <= a Then zSuperX(n)=zSuperX(n)-20
+            If zSuperMoveSeq(n) > a And zSuperMoveSeq(n) <= b Then zSuperX(n)=zSuperX(n)+0
+            If zSuperMoveSeq(n) > b And zSuperMoveSeq(n) <= c Then zSuperX(n)=zSuperX(n)+20
         End Select
         
         If zSuperMoveSeq(n)>c Then zSuperMove(n)=0:zSuperBar(n)=0:isSuperMove=0
@@ -1587,8 +1592,7 @@ For n=1 To zzamount        ;Draws big pictures of characters when performing sup
                 Rect 0,y,1024,16,1
                 y=y+16
             Next
-            
-            If superPicSeed(n)=1 Or superPicNum(n)=1 Then superPicIdx=1 Else superPicIdx=2
+            If superPicSeed(n)=1 Or superPicNum(n)=1 Then superPicIdx=1 Else superPicIdx=superPicSeed(n)
             If zSuperDir(n)=2 Then DrawImage zPic(curGuy(n),20,superPicIdx),zSuperX(n),zSuperY(n)
             If zSuperDir(n)=4 Then DrawImage zPic_(curGuy(n),20,superPicIdx),zSuperX(n),zSuperY(n)
         End If
@@ -2628,6 +2632,11 @@ If downKey(n)=1 And zHit(n)=0 And zongnd(n)=1 Then
         End If
     End If
 EndIf
+
+If curGuy(n)=41 Then ; Lakitu (Turtle Cloud)
+    If downKey(n)=1 Then zY(n)=zY(n)+3.2
+    If upKey(n)=1 Then zY(n)=zY(n)-3.2
+End If
 
 If downKey(n)=1 And jumpKey(n)=1 And zonplat(n)=1 And zonThickPlat(n)=0 And zHit(n)=0 And zblow(n)=0 Then
     zForceAntiplat(n)=1:zantiPLatTime(n)=5:zantiPlatSeq(n)=0:Goto noshot
@@ -5703,6 +5712,7 @@ Function clearSubStates(n, isKilled)
     If isHelper(n)=1 Then zon(n)=0
     If zTempStone(n)=1 Then zTempStone(n)=0:zStone(n)=0
     showLifeBar(n)=0
+    stanceMode(n)=1
 End Function
 
 ;-------------- Enemy Control Initialization ---------
@@ -6353,7 +6363,7 @@ Function setScaleFactorPerChar()
     imgScaleFactor#(1)=0.82
     imgScaleFactor#(2)=0.70
     imgScaleFactor#(3)=0.75
-    imgScaleFactor#(4)=0.82
+    imgScaleFactor#(4)=0.34
     imgScaleFactor#(5)=0.65
     imgScaleFactor#(6)=0.86
     imgScaleFactor#(7)=0.65
@@ -6381,18 +6391,16 @@ For n=1 To maxCharAmt
         For m=1 To zStanceFrames(n)
             If stanceButPic(n, m)=0 Then
                 stanceButPic(n, m)=LoadImage("gfx\" + n + "\stance\zStance_a" + m + ".bmp")
-                If imgScaleFactor#(n) <> 1 Then ScaleImage stanceButPic(n, m),imgScaleFactor#(n),imgScaleFactor#(n)
+                If imgScaleFactor#(n) <> 1 Then ScaleImage stanceButPic(n,m), imgScaleFactor#(n),imgScaleFactor#(n)
             End If
         Next
-    Else
-        If stanceButPic(n, 1)=0 Then stanceButPic(n, 1)=LoadImage("gfx\" + n + "\zwalk0.bmp")
     End If
     
     If zStance2Frames(n)>0 Then
         For m=1 To zStance2Frames(n)
             If stanceButPic2(n, m)=0 Then
                 stanceButPic2(n, m)=LoadImage("gfx\" + n + "\stance\zStance_b" + m + ".bmp")
-                If imgScaleFactor#(n) <> 1 Then ScaleImage stanceButPic2(n, m),imgScaleFactor#(n),imgScaleFactor#(n)
+                If imgScaleFactor#(n) <> 1 Then ScaleImage stanceButPic2(n,m), imgScaleFactor#(n),imgScaleFactor#(n)
             End If
         Next
     End If
@@ -6616,7 +6624,7 @@ End Function
 
 Function doDebugMode()
     ShowPointer
-    
+    zSuperBar(1)=100
     If KeyHit(59)=1 Then ;F1
         freezeMode=1:shouldGoToNextFrame=0
     End If
@@ -6781,7 +6789,7 @@ End Function
 
 Function displayLoadingScr()
     Local secondBgChanceSeed, bgIdx=0
-    For n=1 To zamountPlaying
+    For n=1 To zzamount
         charIdxList(n)=curGuy(n)
     Next
     
@@ -6789,7 +6797,7 @@ Function displayLoadingScr()
     bgIdx=(secondBgChanceSeed + 4) / 5
     
     .anotherPlayer
-    i=Rand(1,zamountPlaying)
+    i=Rand(1,zzamount)
     If zOn(i)=0 Then GoTo anotherPlayer
     
     If loadingImg(charIdxList(i), bgIdx)=0 Then
@@ -6889,8 +6897,6 @@ Function getIconScaleFactor#(i)
     Local scaleFactor#=imgScaleFactor#(i)
     
     Select i
-    Case 51:
-        
     Case 5:
         scaleFactor#=0.80
     Case 7:
@@ -6909,6 +6915,7 @@ Function getIconScaleFactor#(i)
         scaleFactor#=0.85
     Case 18:
         scaleFactor#=0.78
+    Case 51:
     End Select
     
     return scaleFactor#

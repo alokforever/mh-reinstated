@@ -2,10 +2,10 @@ Function doDownAirHadouken(n)
     seqStart=1000:endSeq=41
     seq1=seqStart+8:seq2=seq1+8:seq3=seq2+3:seq4=seq3+3:seq5=seq4+14
     seq6=seq5+2
-    If zongnd(n)=0 Then zy(n)=zy(n)-2
+    If zongnd(n)=0 And zStaminaBar#(n) >= 20 Then zy(n)=zy(n)-2
     
-    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 Then
-        
+;============= Movement ===============
+    If zBlowSeq(n) >= seq4 And zBlowSeq(n) < seq5 And zStaminaBar#(n) >= 20 Then
         zNoGrav(n)=1
         If zBlowSeq(n) <= seq4+3 Then zy(n)=zy(n)+4.0:moveX(n,zBlowdir(n),-3)
         If zBlowSeq(n) > seq4+3 And zBlowSeq(n) <= seq4+6 Then zy(n)=zy(n)+3.8:moveX(n,zBlowdir(n),-2.2)
@@ -13,7 +13,7 @@ Function doDownAirHadouken(n)
         If zBlowSeq(n) > seq4+9 And zBlowSeq(n) <= seq4+12 Then zy(n)=zy(n)+3.4:moveX(n,zBlowdir(n),-0.8)
     End If
     
-    If zBlowSeq(n) >= seq5 Then zNoGrav(n)=0
+    If zBlowSeq(n) >= seq5 Or zStaminaBar#(n) < 20 Then zNoGrav(n)=0
     
 ;============= Animation ===============
     zani(n)=10
@@ -35,13 +35,13 @@ Function doDownAirHadouken(n)
 ;============== Shot ===============
     If zBlowSeq(n) = seq4+2 Then
         If gameSound Then PlaySound evilRyuGrunt2Snd
-        If zStaminaBar#(n) >= 15 Then
+        If zStaminaBar#(n) >= 20 Then
             If gameSound Then PlaySound evilRyuHadoukenReleaseSnd
             dir=zface(n):y=zy(n)-zheight(n)+64
             If zface(n)=2 Then x=zx(n)+47
             If zface(n)=4 Then x=zx(n)-47
             makeshot(n,55,x,y,dir)
-            zStaminaBar#(n)=zStaminaBar#(n)-15
+            zStaminaBar#(n)=zStaminaBar#(n)-20
         Else
             isFlashLowStamina(n)=1
         End If

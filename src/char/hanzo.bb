@@ -1,4 +1,4 @@
-Function setRashHitBoxOtoshi(n)
+Function setHanzoHitBoxOtoshi(n)
     If zF(n)=12 Or zF(n)=16 Then
         zblowPamount(n)=10:nn=1
         xblow(n,nn)=-22.52:yblow(n,nn)=94.0:wblow(n,nn)=22:hblow(n,nn)=16:nn=nn+1
@@ -493,7 +493,11 @@ Case 9    ;sword flipping jump (down special)
         If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq11 moveX(n,zface(n),3.2):moveY(n,-0.5):zantiplat(n)=1
         If zBlowSeq(n) > seq11 And zBlowSeq(n) <= seq12 moveX(n,zface(n),2.6):moveY(n,0.5):zNograv(n)=0
         If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq14 moveX(n,zface(n),1.0):moveY(n,0.5):zNograv(n)=0
-        If zBlowSeq(n) > seq14 And zBlowSeq(n) <= seq16 moveY(n,3.2):zNograv(n)=0
+        If zBlowSeq(n) > seq14 And zBlowSeq(n) <= seq16
+            zNograv(n)=0
+            checkYDist(n,zx(n),zy(n),2)
+            If yDist(n) >= 10 Then moveY(n,3.2)
+        End If
     End If
     
 ;=========== Hitboxes ===========
@@ -851,7 +855,7 @@ Case 15 ;hanzo throw
     If zBlowSeq(n) > seq19 And zBlowSeq(n) <= seq20 Then zani(n)=5:zf(n)=8:moveX(n,zBlowdir(n),3)
     If zBlowSeq(n) > seq20 And zBlowSeq(n) <= seq21 Then zani(n)=5:zf(n)=9:moveX(n,zBlowdir(n),2)
     If zBlowSeq(n) > seq21 And zBlowSeq(n) <= seq22 Then zani(n)=5:zf(n)=10:moveX(n,zBlowdir(n),1)
-    If zBlowSeq(n) > seq16 And zBlowSeq(n) <= seq22 Then zshield(n)=1:zheight(n)=zduckHeight(n)
+    If zBlowSeq(n) > seq16 And zBlowSeq(n) <= seq22 Then zshield(n)=1:zheight(n)=zduckHeight(n):zantiplat(n)=1
 
 ;========== Movement =========
     If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 And zHitHead(n)=0 Then moveY(n,-5.0)
@@ -882,7 +886,7 @@ Case 15 ;hanzo throw
     
     ; Hitboxes
     If zblowseq(n) > seq12 And zblowseq(n) <= seq13 Then
-        setRashHitBoxOtoshi(n)
+        setHanzoHitBoxOtoshi(n)
         zHitMode(n)=2: zBlowHold(n)=8
         zHitSpeed#(n)=4.8:zHitUpSpeed#(n)=3.2:zHitTime(n)=50:zHitType(n)=0
         zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=50:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
@@ -891,14 +895,14 @@ Case 15 ;hanzo throw
         zImune(en,n)=1:zImuneTo(en,n)=n:zImuneSeq(en,n)=0:zImuneTime(en,n)=zEnemyImmuneTime(n)
     EndIf
     
-    If zblowseq(n) > seq14 And zblowseq(n) <= seq15+1 Then
-        setRashHitBoxOtoshi(n)
+    If zblowseq(n) > seq14 And zblowseq(n) <= seq16 Then
+        setHanzoHitBoxOtoshi(n)
         zHitMode(n)=2: zBlowHold(n)=8
         zHitSpeed#(n)=4.8:zHitUpSpeed#(n)=3.2:zHitTime(n)=50:zHitType(n)=0
         zBlowDamage(n)=5:zBLowEffect(n)=1:zEnemyImmuneTime(n)=50:zBlowStillTime(n)=10:zBlowBlockTime(n)=30
         zBlowSound(n)=mikeKickSnd
         
-        If zOnGnd(n)=0 Then zImune(en,n)=1:zImuneTo(en,n)=n:zImuneSeq(en,n)=0:zImuneTime(en,n)=zEnemyImmuneTime(n)
+        If zBlowSeq(n) < seq16 Then zImune(en,n)=1:zImuneTo(en,n)=n:zImuneSeq(en,n)=0:zImuneTime(en,n)=zEnemyImmuneTime(n)
     EndIf
     
 ;========== Sounds =========

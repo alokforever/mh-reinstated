@@ -1504,23 +1504,39 @@ zchunkType(n)=5
 Select zCurBlow(n)
 
 Default     ;throw hammers
-    a=45: b=a+25: c=b+5 
+    seq1=3:seq2=seq1+3:seq3=seq2+3:seq4=seq3+3:seq5=seq4+3:seq6=seq5+3:seq7=seq6+3:seq8=seq7+3:seq9=seq8+3
+    seq10=seq9+3:seq11=seq10+3:seq12=seq11+3:seq13=seq12+3:seq14=seq13+3:seq15=seq14+3:seq16=seq15+30
     zNoJump(n)=1
-        
-    If zBlowSeq(n) => 1 And zBlowSeq(n) < a Then zani(n)=6:zf(n)=1
+
+;======= Animation =======
+    If zBlowSeq(n) > 0 And zBlowSeq(n) <= seq1 Then zani(n)=6:zf(n)=1
+    If zBlowSeq(n) > seq1 And zBlowSeq(n) <= seq2 Then zani(n)=6:zf(n)=2
+    If zBlowSeq(n) > seq2 And zBlowSeq(n) <= seq3 Then zani(n)=6:zf(n)=3
+    If zBlowSeq(n) > seq3 And zBlowSeq(n) <= seq4 Then zani(n)=6:zf(n)=4
+    If zBlowSeq(n) > seq4 And zBlowSeq(n) <= seq5 Then zani(n)=6:zf(n)=5
+    If zBlowSeq(n) > seq5 And zBlowSeq(n) <= seq6 Then zani(n)=6:zf(n)=6
+    If zBlowSeq(n) > seq6 And zBlowSeq(n) <= seq7 Then zani(n)=6:zf(n)=7
+    If zBlowSeq(n) > seq7 And zBlowSeq(n) <= seq8 Then zani(n)=6:zf(n)=8
+    If zBlowSeq(n) > seq8 And zBlowSeq(n) <= seq9 Then zani(n)=6:zf(n)=9
+    If zBlowSeq(n) > seq9 And zBlowSeq(n) <= seq10 Then zani(n)=6:zf(n)=10
+    If zBlowSeq(n) > seq10 And zBlowSeq(n) <= seq11 Then zani(n)=6:zf(n)=11
+    If zBlowSeq(n) > seq11 And zBlowSeq(n) <= seq12 Then zani(n)=6:zf(n)=12
+    If zBlowSeq(n) > seq12 And zBlowSeq(n) <= seq13 Then zani(n)=6:zf(n)=13
+    If zBlowSeq(n) > seq13 And zBlowSeq(n) <= seq14 Then zani(n)=6:zf(n)=14
+    If zBlowSeq(n) > seq14 And zBlowSeq(n) <= seq15 Then zani(n)=6:zf(n)=15
+    If zBlowSeq(n) > seq15 And zBlowSeq(n) <= seq16 Then zani(n)=6:zf(n)=16
     
-    If zblowSeq(n)=1 Then
+    If zblowSeq(n)=seq15 Then
         originalObj=zGotObj(n)
-        da = getObj(n,13)
+        da = getObj(n,21)
         upkey(n)=0 : downKey(n)=0
-        objXspeed(da)=.3 : objYspeed(da)=-2
+        objXspeed(da)=.48 : objYspeed(da)=-3.2
         If zface(n)=2 Then x=zx(n)+10 Else x=zx(n)-10
-        throwObj(n,x,zy(n)-17,zface(n))
+        throwObj(n,x,zy(n)-27,zface(n))
         zGotObj(n)=originalObj
     EndIf
     
-    If zBlowSeq(n) => a And zBlowSeq(n) < b Then zani(n)=4:zf(n)=1
-    If zblowseq(n) => b Then zBlowSeq(n)=0:zBlow(n)=0
+    If zblowseq(n) > seq16 Then zBlowSeq(n)=0:zBlow(n)=0
     
 End Select
 

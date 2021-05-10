@@ -100,7 +100,7 @@ End Function
 
 ;------------ Draw Walk Sequence ----------------
 Function drawWalkSequence(n)
-    If zwalkseq(n) = 0 Then 
+    If zwalkseq(n) = 0 Then
         zani(n)=19
         If zStanceFrames(curGuy(n)) <> 0 Then
             Select curGuy(n)
@@ -110,6 +110,8 @@ Function drawWalkSequence(n)
                 zF(n)=getEvilRyuStance(n, x, zy(n)-16)
             Case 2
                 zF(n)=getRashStance(n)
+            Case 4
+                zF(n)=getMarioStance(n)
             Case 5
                 zF(n)=getLeonardoStance(n)
             Case 7
@@ -473,6 +475,18 @@ Function getRashStance(n)
     Return frame
 End Function
 
+Function getMarioStance(n)
+    Local frame
+    
+    zStanceSeq(n)=zStanceSeq(n)+1
+    ;======== Animation =========
+    frame=zStanceSeq(n)
+    
+    If zStanceSeq(n)>=51 Then zStanceSeq(n)=0
+    
+    Return frame
+End Function
+
 Function getLeonardoStance(n)
     Local frame=1
     seq1=20:seq2=seq1+9:seq3=seq2+9:seq4=seq3+20:seq5=seq4+9
@@ -814,7 +828,6 @@ Function processDeadpoolAirFrames(n)
             End If
         End If
     Else
-        DebugLog "jumpSeq: " + zJumpSeq(n)
         If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
         If zjumpseq(n)>0 And zJumpSeq(n) <= 7 Then zani(n)=4:zf(n)=5
         If zjumpseq(n)>7 And zJumpSeq(n) <= 10 Then zani(n)=4:zf(n)=4
@@ -939,6 +952,11 @@ Function processTurtleAirFrames(n)
     End If
 End Function
 
+;----------------- Process Lakitu Air Frames -------------------
+Function processLakituAirFrames(n)
+    drawStanceFrame(n)
+End Function
+
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
     If curGuy(n)=1 Then processEvilRyuAirFrames(n)
@@ -949,6 +967,7 @@ Function processOnAirFrames(n)
     If curGuy(n)=15 Then processJuggernautAirFrames(n)
     If curGuy(n)=16 Then processPiccoloAirFrames(n)
     If curGuy(n)=40 Then processTurtleAirFrames(n)
+    If curGuy(n)=41 Then processLakituAirFrames(n)
     If curGuy(n)=51 Then processHanzoAirFrames(n)
     If curGuy(n)=53 Then processGohanHelperAirFrames(n)
 End Function
@@ -967,6 +986,8 @@ Function doSpecialHitFrames(n)
         drawHiryuHitFrames(n)
     Case 14
         drawWwHitFrames(n)
+    Case 41
+        drawLakituHitFrames(n)
     Case 51
         drawHanzoHitFrames(n)
     Default
@@ -1048,6 +1069,17 @@ Function drawHanzoHitFrames(n)
             zF(n)=5
         End If
     End If
+End Function
+
+;------------------- Draw Lakitu Hit frames ----------------------
+Function drawLakituHitFrames(n)
+    endSeq=25
+    If zhitseq(n)>0 And zHitSeq(n)<=endSeq Then
+        zani(n)=2
+        If zBlowSeq(n) >= 1 Then zf(n)=2 Else zf(n)=1
+    Else
+        zHit(n)=0:zHitSeq(n)=0:zBlowSeq(n)=0
+    End if
 End Function
 
 Function drawSpecialHitFrames(n)

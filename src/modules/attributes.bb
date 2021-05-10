@@ -11,7 +11,7 @@ zBlocked(n)=0: aiGetTarget(n):
 
     zJumpSnd(n)=noSnd
     dangerMove5(n)=1
-    zCurPic(n)=zPic_(CurGuy(n),1,0)
+    zCurPic(n)=zPic(CurGuy(n),1,0)
     aiTarget(n)=0
     zFace(n)=2
     zlife(n)=100
@@ -802,10 +802,9 @@ Case 41: ;Turtle Cloud
     zJumpLimit(n)=0
     zDontJump(n)=1
     zDontPickItem(n)=1
-    zDtopSpeed#(n)=1.5
+    zDtopSpeed#(n)=2.4
     zTopSpeed#(n)=zDtopSpeed(n)
     zNoAirSpecial(n)=1
-    zStone(n)=1
     zUngrabable(n)=1
     zAcc(n)=.1
     zUseSpecialAI(n)=1
@@ -815,6 +814,8 @@ Case 41: ;Turtle Cloud
         zDtopSpeed(n)=zvar1(n)
         zTopSpeed(n)=zDTopSpeed(n)
     EndIf
+    hasSpecialAirFrames(n)=1
+    specialHitFrames(n)=1
 
 Case 42    ;Joker
     isBoss(n)=1
@@ -977,6 +978,7 @@ Case 51: ;Hattori Hanzo
     specialHitFrames(n)=1
     dizzyFrames(n)=1
     zGrabDist(n)=zGrabDist(n)+10
+    superPicNum(n)=3
 
 Case 52: ;punching bag
     zUpHeight(n)=54
@@ -2372,7 +2374,7 @@ Case 13    ;Hammer
     objHitYspeed(n)=3
     objFallTime(n)=40
     If e=0 Then objLife(n)=20
-    objHitSound(n)=marioFierceSnd
+    objHitSound(n)=MarioFierceSnd
     objZmade(n)=1
 
     objPic(n,1)=ePic(5,1)
@@ -2595,6 +2597,37 @@ Case 20    ;axe
     objFrameAmount(n)=8
     objHitChunk(n)=10
 
+Case 21    ;Spike
+    objXspeed(n)=4
+    objSize(n)=12
+    objYSpeed(n)=-1
+    objYForce(n)=-5
+    objdamage(n)=8
+    objHeight(n)=12
+    objSide(n)=objSize(n)/2
+    objImpact(n)=20
+    objExplosive(n)=2
+    objHitMode(n)=0
+    objHitXspeed(n)=4
+    objHitYspeed(n)=3
+    objFallTime(n)=40
+    If e=0 Then objLife(n)=20
+    objHitSound(n)=MarioFierceSnd
+    objZmade(n)=1
+
+    objPic(n,1)=ePic(12,1)
+    objPic_(n,1)=ePic(12,1)
+    objPic(n,2)=ePic(12,2)
+    objPic_(n,2)=ePic(12,2)
+    objPic(n,3)=ePic(12,3)
+    objPic_(n,3)=ePic(12,3)
+    objPic(n,4)=ePic(12,4)
+    objPic_(n,4)=ePic(12,4)
+
+    objFrameTime(n)=3
+    objFrameAmount(n)=4
+    objHitChunk(n)=10
+    
 End Select
 
 End Function
@@ -2728,6 +2761,7 @@ Case 3
 End Select
 
 End Function
+
 ;------------------Load sprites ------------------------------------
 Function loadPics(n)
 local loadTimeStart, loadTimeEnd
@@ -2736,14 +2770,13 @@ loadTimeStart=MilliSecs()
 gfxdir$="gfx\" + n + "\"
 guyLoaded(n)=1
 
-zpic(n,20,1)=LoadImage(gfxdir$ + "zSuperPic.bmp")
-zpic(n,20,2)=LoadImage(gfxdir$ + "zSuperPic2.bmp")
-zpic_(n,20,1)=LoadImage(gfxdir$ + "zSuperPic_.bmp")
-zpic_(n,20,2)=LoadImage(gfxdir$ + "zSuperPic2_.bmp")
+For i=1 To 3
+    zpic(n,20,i)=LoadImage(gfxdir$ + "zSuperPic" + i + ".bmp")
+    zpic_(n,20,i)=LoadImage(gfxdir$ + "zSuperPic" + i + "_.bmp")
+Next
+
 zpic(n,0,0)=LoadImage(gfxStuffDir$ + "frozen.bmp")
 zpic_(n,0,0)=LoadImage(gfxStuffDir$ + "frozen_.bmp")
-zpic(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small.bmp")
-zpic_(n,0,1)=LoadImage(gfxStuffDir$ + "frozen_small_.bmp")
 zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
 zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
 
@@ -2769,11 +2802,11 @@ For i=2 To 10
 Next
 
 zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
-zPic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
+zpic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
 
 For i=2 To 20
     zpic(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + ".bmp")
-    zPic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
+    zpic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
 Next
 
 For i=1 To 15
@@ -2846,11 +2879,9 @@ For i = 1 To 40
     zpic_(n,18,i)=LoadImage(gfxdir$ + "extraspecial\zextraspecial" + i + "_.bmp")
 Next
 
-For i = 1 To 35
+For i = 1 To zStanceFrames(n)
     zpic(n,19,i)=LoadImage(gfxdir$ + "stance\zStance_a" + i + ".bmp")
     zpic_(n,19,i)=LoadImage(gfxdir$ + "stance\zStance_a" + i + "_.bmp")
-    zpic(n,27,i)=LoadImage(gfxdir$ + "stance\zStance_b" + i + ".bmp")
-    zpic_(n,27,i)=LoadImage(gfxdir$ + "stance\zStance_b" + i + "_.bmp")
 Next
 
 For i = 1 To 20
@@ -2883,6 +2914,11 @@ For i = 1 To 50
     zpic_(n,26,i)=LoadImage(gfxdir$ + "extras\zExtra" + i + "_.bmp")
 Next
 
+For i = 1 To zStance2Frames(n)
+    zpic(n,27,i)=LoadImage(gfxdir$ + "stance\zStance_b" + i + ".bmp")
+    zpic_(n,27,i)=LoadImage(gfxdir$ + "stance\zStance_b" + i + "_.bmp")
+Next
+
 For i = 1 To 30
     zpic(n,28,i)=LoadImage(gfxdir$ + "combo\zCombo" + i + ".bmp")
     zpic_(n,28,i)=LoadImage(gfxdir$ + "combo\zCombo" + i + "_.bmp")
@@ -2890,13 +2926,12 @@ Next
 
 For j=0 To 50
     For i=0 To maxPicFrames
-        If zpic(n,j,i) <> 0 And imgScaleFactor#(n) <> 0 And imgScaleFactor#(n) <> 1 Then
+        If zpic(n,j,i) <> 0 And imgScaleFactor#(n) <> 0 And imgScaleFactor#(n) <> 1 And j <> 20 Then
             ScaleImage zpic(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
             ScaleImage zpic_(n,j,i),imgScaleFactor#(n),imgScaleFactor#(n)
         End If
     Next
 Next
-
 
 ;Hyper Bgs and Cooldown Pics
 If n <= maxZ
@@ -2994,7 +3029,7 @@ If n=43 Or n=45 Or n=46 Or n= 48 Or n=50 Or n=52 Then
     zpic_(n,2,i)=zpic_(n,1,0)
     Next
     For i=1 To 4
-    zpic(n,5,i)=zpic(n,1,0)
+    zpic(n,5,i)=zpic(n,1,0) 
     zpic_(n,5,i)=zpic_(n,1,0)
     Next
 
@@ -3294,10 +3329,6 @@ If n=41 Then     ;Turtle CLoud
     zpic_(n,3,1)=zpic_(n,1,0)
     zpic(n,4,1)=zpic(n,1,0)
     zpic_(n,4,1)=zpic_(n,1,0)
-        For i=0 To 7
-     zpic(n,2,i)=zpic(n,1,0)
-     zpic_(n,2,i)=zpic_(n,1,0)
-    Next
     For i=1 To 3
      zpic(n,1,i)=zpic(n,1,0)
      zpic_(n,1,i)=zpic_(n,1,0)
@@ -3439,8 +3470,7 @@ Function initStance(n)
         zStanceFrames(n)=9
         zStanceSpeed(n)=4
     Case 4  ; Mario
-        zStanceFrames(n)=16
-        zStanceSpeed(n)=3
+        zStanceFrames(n)=51
     Case 5 ; Leonardo
         zStanceFrames(n)=4
     Case 6  ; Strider Hiryu
@@ -3492,8 +3522,14 @@ Function initStance(n)
     Case 40 ; Turtle
         zStanceFrames(n)=16
         zStanceSpeed(n)=4
+    Case 41 ; Lakitu
+        zStanceFrames(n)=4
+        zStanceSpeed(n)=4
     Case 51 ; Hanzo
         zStanceFrames(n)=10
         zStanceSpeed(n)=6
     End Select
+    
+    stanceButPic(n, 0)=LoadImage("gfx\" + n + "\walk\zwalk0.bmp")
+    If stanceButPic(n, 0) <> 0 Then ScaleImage stanceButPic(n, 0),imgScaleFactor#(n),imgScaleFactor#(n)
 End Function
