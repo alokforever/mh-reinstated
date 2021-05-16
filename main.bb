@@ -77,7 +77,7 @@ Dim xPointer(10),yPointer(10),zName$(maxCharAmt),zThumbNail(maxCharAmt),mapTn(10
 
 Dim tempN#(10), strinfo$(200), characterOpen(maxCharAmt), charSelectable(maxCharAmt)
 Dim zx#(maxZ),zy#(maxZ),zdi(maxZ),zface(maxZ),zoldx#(maxZ),zoldy#(maxZ),zWasOn(maxZ),zon(maxZ),prevZOn(maxZ),CurGuy(maxCharAmt),lastZon(maxZ),lastzAI(maxZ)
-Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zjump2seq(maxZ),zFallDir(maxZ),zDeadEvent(maxZ)
+Dim zxStart(maxZ),zyStart(maxZ),zxRespawn(maxZ),zyRespawn(maxZ),zJump2(maxZ),zJumpFlipSeq(maxZ),zFallDir(maxZ),zDeadEvent(maxZ)
 Dim zlife(maxZ),zhit(maxZ),zhitseq(maxZ),Zshield(maxZ),zTempShield(maxZ),Zshieldseq(maxZ),ZshieldedTime(maxZ),zHit2(maxZ)
 Dim zjump(maxZ),zjumpseq(maxZ),zjumpfallseq(maxZ),zjumplimit(maxZ),zongnd(maxZ),zFallImpact#(maxZ),zFallSpeed#(maxZ)
 Dim zFallTime#(maxZ),zUpFallTime#(maxZ), zUpFallSpeed#(maxZ), zDownFallSpeed#(maxZ), zDamage#(maxZ),zBouncedgnd(maxZ),zGotHitsAmount(maxZ)
@@ -242,7 +242,7 @@ Dim zStanceFrames(maxCharAmt), zStance2Frames(maxCharAmt), zStanceSeq(maxCharAmt
 Dim rightKeyHitTimer(maxZ), leftKeyHitTimer(maxZ), downKeyHitTimer(maxZ), downKeyDoubleTap(maxZ), upKeyHitTimer(maxZ), upKeyDoubleTap(maxZ), leftKeyDoubleTap(maxZ), rightKeyDoubleTap(maxZ), downForwardTap(maxZ)
 Dim isRunning(maxZ), zTopRunningSpeed#(maxZ), zRunSeq(maxZ), zRunFrames(maxZ), zRunFrameSpeed#(maxZ), runEndSeq(maxCharAmt), zRunGruntSound(maxCharAmt)
 Dim zRunSeqNoReset(maxZ), isRunningFlag(maxZ) ;zRunSeqNoReset is run sequence that does not reset to 1 when running
-Dim zStaminaBar#(maxZ), zRunFootSound(maxCharAmt), zRunSpeed#(100), zCurSpeed#(maxZ), hasSpecialAirFrames(maxZ)
+Dim zStaminaBar#(maxZ), zRunFootSound(maxCharAmt), zRunSpeed#(100), zCurSpeed#(maxZ)
 Dim zControls(maxZ), zControlsThis(maxZ), zControlsThese(maxZ, maxZ), zControlled(maxZ), zParalyzed(maxZ), zParalyzedSeq(maxZ)
 Dim shotVerticalSize(200), shotSeekType(200), shotSeekSpeed#(200), shotGroundXDestroy(200), shotChunkYAdj(200)
 Dim isHit(maxZ), spellCooldownSeq(maxZ,5), spellCooldownMaxTime(maxZ,5), timerImage(91), timerImage2(158), cdImage(maxZ)
@@ -2099,8 +2099,8 @@ Function selectDraw(n)
     
     If zongnd(n)=0 And zhit(n)=0 And zjump2(n)=1 Then
         If isRunning(n) And canAirGlide(n)
-            If zJump2Seq(n)=1 Then zRunSeq(n)=0
-            If zjump2seq(n)>zFlipMaxSeq(n) Then 
+            If zJumpFlipSeq(n)=1 Then zRunSeq(n)=0
+            If zJumpFlipSeq(n)>zFlipMaxSeq(n) Then 
                 zRunSeqNoReset(n)=zRunSeqNoReset(n)+1
                 zRunSeq(n)=zRunSeq(n)+1:drawRunSequence(n)
                 Goto drawZ
@@ -2124,11 +2124,7 @@ Function selectDraw(n)
             Goto drawZ
         End If
         
-        If hasSpecialAirFrames(n)=1 Then 
-            processOnAirFrames(n)
-        Else
-            zani(n)=4:zf(n)=1
-        End If
+        processOnAirFrames(n)
         Goto drawZ
     End If
     If zOnGnd(n)=1 And zani(n)=4 Then
@@ -2361,7 +2357,7 @@ If zjump(n)=1 And zhit(n)=0 And zBlowStill(n)=0 And zJumping(n)=1 Then        ;M
     .asd
     If zjumpseq(n) => zjumplimit(n) Then zjump(n)=0
 EndIf
-If zjump2(n)=1 Then zjump2seq(n)=zjump2seq(n)+1
+If zjump2(n)=1 Then zJumpFlipSeq(n)=zJumpFlipSeq(n)+1
 
 ;If player's feet is inside solid space, Then make it go up!
 .checkFootAgain
@@ -5851,7 +5847,7 @@ End Function
 ;---------------- Perform Double Jump --------------
 Function doDoubleJump(n)
     If zjump2(n)=0 And noDoubleJump=0 Then
-        zjump2(n)=1:zjump2seq(n)=0
+        zjump2(n)=1:zJumpFlipSeq(n)=0
         zjump(n)=1:zjumpseq(n)=0
         If gamesound Then
             If zJumpSnd2(n) <> 0 Then 

@@ -33,9 +33,6 @@ Global blow2Snd=LoadSound(soundsdir$ + "blow2.wav")
 Global bhitSnd=LoadSound(soundsdir$ + "bhit.wav")
 Global CapeSnd=LoadSound(soundsdir$ + "cape.wav")
 Global RashHitSnd=LoadSound(soundsdir$ + "RashHit.wav")
-Global MarioUahaSnd=LoadSound(soundsdir$ + "uaha.wav")
-Global MarioWeakSnd=LoadSound(soundsdir$ + "marioWeak.wav")
-Global MarioFierceSnd=LoadSound(soundsdir$ + "marioFierce.wav")
 Global ddHitSnd=LoadSound(soundsdir$ + "ddHit.wav")
 Global shredderSnd=LoadSound(soundsdir$ + "shredder.wav")
 Global shredder2Snd=LoadSound(soundsdir$ + "shredder2.wav")
@@ -54,12 +51,9 @@ Global webshotsnd=LoadSound(soundsdir$ + "webshot.wav")
 Global webhitsnd=LoadSound(soundsdir$ + "webhit.wav")
 Global fireballsnd=LoadSound(soundsdir$ + "fireball.wav")
 Global firehitsnd=LoadSound(soundsdir$ + "firehit.wav")
-Global hiasnd=LoadSound(soundsdir$ + "hia.wav")
-Global hiahuusnd=LoadSound(soundsdir$ + "hiahuu.wav")
 Global coinsnd=LoadSound(soundsdir$ + "coin.wav")
 Global hueSnd=LoadSound(soundsdir$ + "hue.wav")
 Global uppercutsnd=LoadSound(soundsdir$ + "uppercut.wav")
-Global mariouppercutsnd=LoadSound(soundsdir$ + "marioUppercut.wav")
 Global brokensnd=LoadSound(soundsdir$ + "broken.wav")
 Global blockedsnd=LoadSound(soundsdir$ + "blocked.mp3")
 Global kicksnd=LoadSound(soundsdir$ + "highkick.wav")
@@ -265,3 +259,9 @@ Global hanzoHit1Snd, hanzoShurikenSnd
 Global hanzoSword1Snd, hanzoSwordSheatheSnd
 Global hanzoTaunt1Snd, hanzoTaunt2Snd
 Global hanzoThrow1Snd, hanzoThrow2Snd, hanzoExplodeSnd
+
+Global mariouppercutsnd=LoadSound(soundsdir$ + "marioUppercut.wav")
+Global MarioFierceSnd=LoadSound(soundsdir$ + "marioFierce.wav")
+Global marioJump1Snd, marioJump2Snd
+Global marioGrunt1Snd
+Global marioWohooSnd, marioHohooSnd

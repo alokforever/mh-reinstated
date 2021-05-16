@@ -708,50 +708,54 @@ End Function
 
 ;----------------  Draw Flip Frames ----------------
 Function drawFlipFrames(n)
-    If curGuy(n)=14 Then ;Wonderwoman
-        Select True                                                        ;Jump flip
-            Case (zjump2seq(n)>0 And zjump2seq(n)<=3):zani(n)=5:zf(n)=1
-            Case (zjump2seq(n)>3 And zjump2seq(n)<=6):zani(n)=5:zf(n)=2
-            Case (zjump2seq(n)>6 And zjump2seq(n)<=9):zani(n)=5:zf(n)=3
-            Case (zjump2seq(n)>9 And zjump2seq(n)<=12):zani(n)=5:zf(n)=4
-            Case (zjump2seq(n)>12 And zjump2seq(n)<=15):zani(n)=5:zf(n)=5
-            Case (zjump2seq(n)>15 And zjump2seq(n)<=18):zani(n)=5:zf(n)=6
-            Case (zjump2seq(n)>18 And zjump2seq(n)<=21):zani(n)=5:zf(n)=7
-            Case (zjump2seq(n)>21 And zjump2seq(n)<=24):zani(n)=5:zf(n)=8
-            Case (zjump2seq(n)>24 And zjump2seq(n)<=27):zani(n)=5:zf(n)=9
-        End Select
-    Else If flipFrames(n)=0 Then
-        Select True                                                        ;Jump flip
-            Case (zjump2seq(n)=>1 And zjump2seq(n)=<5):zani(n)=5:zf(n)=1
-            Case (zjump2seq(n)=>6 And zjump2seq(n)=<10):zani(n)=5:zf(n)=2
-            Case (zjump2seq(n)=>11 And zjump2seq(n)=<15):zani(n)=5:zf(n)=3
-            Case (zjump2seq(n)=>16 And zjump2seq(n)=<20):zani(n)=5:zf(n)=4
-        End Select
-    Else If flipFrames(n)=6 Then
-        Select True                                                        ;Jump flip
-            Case (zjump2seq(n)=>1 And zjump2seq(n)=<3):zani(n)=5:zf(n)=1
-            Case (zjump2seq(n)=>3 And zjump2seq(n)=<7):zani(n)=5:zf(n)=2
-            Case (zjump2seq(n)=>7 And zjump2seq(n)=<10):zani(n)=5:zf(n)=3
-            Case (zjump2seq(n)=>10 And zjump2seq(n)=<14):zani(n)=5:zf(n)=4
-            Case (zjump2seq(n)=>14 And zjump2seq(n)=<17):zani(n)=5:zf(n)=5
-            Case (zjump2seq(n)=>17 And zjump2seq(n)=<21):zani(n)=5:zf(n)=6
-        End Select
-    Else If flipFrames(n)=7 Then
-        Select True                                                        ;Jump flip
-            Case (zjump2seq(n)>0 And zjump2seq(n)=<3):zani(n)=5:zf(n)=1
-            Case (zjump2seq(n)>3 And zjump2seq(n)=<6):zani(n)=5:zf(n)=2
-            Case (zjump2seq(n)>6 And zjump2seq(n)=<9):zani(n)=5:zf(n)=3
-            Case (zjump2seq(n)>9 And zjump2seq(n)=<12):zani(n)=5:zf(n)=4
-            Case (zjump2seq(n)>12 And zjump2seq(n)=<15):zani(n)=5:zf(n)=5
-            Case (zjump2seq(n)>15 And zjump2seq(n)=<18):zani(n)=5:zf(n)=6
-            Case (zjump2seq(n)>18 And zjump2seq(n)=<21):zani(n)=5:zf(n)=7
-        End Select
-    End If
-    If zjump2seq(n)>zFlipMaxSeq(n) Then 
-        If hasSpecialAirFrames(n)=1 Then
-            processOnAirFrames(n)
-        Else
-            zani(n)=4:zf(n)=1
+    If zJumpFlipSeq(n)>zFlipMaxSeq(n) Then
+        processOnAirFrames(n)
+    Else
+        zani(n)=5
+        If curGuy(n)=4 Then
+            Select True
+                Case zJumpFlipSeq(n)=1 And gameSound:PlaySound marioWohooSnd
+                Case zJumpFlipSeq(n)>0 And zJumpFlipSeq(n)<=2:zf(n)=1
+                Case zF(n) < 30 And zJumpFlipSeq(n) Mod 2 = 0:zF(n)=zF(n)+1
+            End Select
+        Else If curGuy(n)=14 Then ;Wonderwoman
+            Select True
+                Case (zJumpFlipSeq(n)>0 And zJumpFlipSeq(n)<=3):zf(n)=1
+                Case (zJumpFlipSeq(n)>3 And zJumpFlipSeq(n)<=6):zf(n)=2
+                Case (zJumpFlipSeq(n)>6 And zJumpFlipSeq(n)<=9):zf(n)=3
+                Case (zJumpFlipSeq(n)>9 And zJumpFlipSeq(n)<=12):zf(n)=4
+                Case (zJumpFlipSeq(n)>12 And zJumpFlipSeq(n)<=15):zf(n)=5
+                Case (zJumpFlipSeq(n)>15 And zJumpFlipSeq(n)<=18):zf(n)=6
+                Case (zJumpFlipSeq(n)>18 And zJumpFlipSeq(n)<=21):zf(n)=7
+                Case (zJumpFlipSeq(n)>21 And zJumpFlipSeq(n)<=24):zf(n)=8
+                Case (zJumpFlipSeq(n)>24 And zJumpFlipSeq(n)<=27):zf(n)=9
+            End Select
+        Else If flipFrames(n)=0 Then
+            Select True
+                Case (zJumpFlipSeq(n)=>1 And zJumpFlipSeq(n)=<5):zf(n)=1
+                Case (zJumpFlipSeq(n)=>6 And zJumpFlipSeq(n)=<10):zf(n)=2
+                Case (zJumpFlipSeq(n)=>11 And zJumpFlipSeq(n)=<15):zf(n)=3
+                Case (zJumpFlipSeq(n)=>16 And zJumpFlipSeq(n)=<20):zf(n)=4
+            End Select
+        Else If flipFrames(n)=6 Then
+            Select True
+                Case (zJumpFlipSeq(n)=>1 And zJumpFlipSeq(n)=<3):zf(n)=1
+                Case (zJumpFlipSeq(n)=>3 And zJumpFlipSeq(n)=<7):zf(n)=2
+                Case (zJumpFlipSeq(n)=>7 And zJumpFlipSeq(n)=<10):zf(n)=3
+                Case (zJumpFlipSeq(n)=>10 And zJumpFlipSeq(n)=<14):zf(n)=4
+                Case (zJumpFlipSeq(n)=>14 And zJumpFlipSeq(n)=<17):zf(n)=5
+                Case (zJumpFlipSeq(n)=>17 And zJumpFlipSeq(n)=<21):zf(n)=6
+            End Select
+        Else If flipFrames(n)=7 Then
+            Select True
+                Case (zJumpFlipSeq(n)>0 And zJumpFlipSeq(n)=<3):zf(n)=1
+                Case (zJumpFlipSeq(n)>3 And zJumpFlipSeq(n)=<6):zf(n)=2
+                Case (zJumpFlipSeq(n)>6 And zJumpFlipSeq(n)=<9):zf(n)=3
+                Case (zJumpFlipSeq(n)>9 And zJumpFlipSeq(n)=<12):zf(n)=4
+                Case (zJumpFlipSeq(n)>12 And zJumpFlipSeq(n)=<15):zf(n)=5
+                Case (zJumpFlipSeq(n)>15 And zJumpFlipSeq(n)=<18):zf(n)=6
+                Case (zJumpFlipSeq(n)>18 And zJumpFlipSeq(n)=<21):zf(n)=7
+            End Select
         End If
     End If
 End Function
@@ -781,6 +785,23 @@ Function processRashAirFrames(n)
         zAni(n)=3:zF(n)=1
     Else
         zAni(n)=4:zF(n)=1
+    End If
+End Function
+
+Function processMarioAirFrames(n)
+    zani(n)=4
+    If zjump(n)=0 Then ;Falling
+        zJumpFallSeq(n)=zjumpfallseq(n)+1
+        If zJumpFallSeq(n)=1 Then
+            zF(n)=20
+        Else
+            If zJumpFallSeq(n) Mod 2 = 0 Then zF(n)=zF(n)+1
+            If zF(n) > 31 Then zF(n)=30
+        End If
+    Else
+        If zjumpfallseq(n) <> 0 Then zjumpfallseq(n)=0
+        zf(n)=zjumpseq(n)
+        If zJumpSeq(n)=4 And gameSound Then PlaySound marioGrunt1Snd
     End If
 End Function
 
@@ -955,17 +976,34 @@ End Function
 
 ;------------------- Process On Air Frames -----------------------
 Function processOnAirFrames(n)
-    If curGuy(n)=1 Then processEvilRyuAirFrames(n)
-    If curGuy(n)=2 Then processRashAirFrames(n)
-    If curGuy(n)=6 Then processHiryuAirFrames(n)
-    If curGuy(n)=10 Then processDeadpoolAirFrames(n)
-    If curGuy(n)=14 And isRunning(n)=0 Then processWonderWomanAirFrames(n)
-    If curGuy(n)=15 Then processJuggernautAirFrames(n)
-    If curGuy(n)=16 Then processPiccoloAirFrames(n)
-    If curGuy(n)=40 Then processTurtleAirFrames(n)
-    If curGuy(n)=41 Then processLakituAirFrames(n)
-    If curGuy(n)=51 Then processHanzoAirFrames(n)
-    If curGuy(n)=53 Then processGohanHelperAirFrames(n)
+    Select curGuy(n)
+        Case 1
+            processEvilRyuAirFrames(n)
+        Case 2
+            processRashAirFrames(n)
+        Case 4
+            processMarioAirFrames(n)
+        Case 6
+            processHiryuAirFrames(n)
+        Case 10
+            processDeadpoolAirFrames(n)
+        Case 14
+            If isRunning(n)=0 Then processWonderWomanAirFrames(n)
+        Case 15
+            processJuggernautAirFrames(n)
+        Case 16
+            processPiccoloAirFrames(n)
+        Case 40
+            processTurtleAirFrames(n)
+        Case 41
+            processLakituAirFrames(n)
+        Case 51
+            processHanzoAirFrames(n)
+        Case 53
+            processGohanHelperAirFrames(n)
+        Default
+            zani(n)=4:zf(n)=1
+    End Select
 End Function
 
 ;------------------- Process End of Run --------------------------

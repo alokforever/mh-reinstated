@@ -1809,9 +1809,6 @@ Case 9    ;spinning punch (down special)
             EndIf
         EndIf
 
-    
-
-
 Case 10    ;(upBlow)
     zNoMove(n)=1
     zNoJump(n)=1

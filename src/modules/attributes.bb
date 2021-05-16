@@ -66,7 +66,6 @@ zBlocked(n)=0: aiGetTarget(n):
     zWalkQuakeSeq1(n)=0
     zWalkQuakeSeq2(n)=0
     isHeavy(n)=0
-    hasSpecialAirFrames(n)=0
     specialHitFrames(n)=0
     hitFrameSpeed(n)=4
     superMoveMaxSeq(n)=50
@@ -96,13 +95,11 @@ Case 1: ;Evil Ryu
     zBlowDist(n,11)=150
     zBlowDist(n,14)=600
     zRollOnImpact(n)=1
-    zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
     zWalkFrames(n)=6
     zWalkFrameSpeed#(n)=4
     zJumpSnd(n)=jumpsnd
     zJumpSnd2(n)=wolverinejumpsnd
-    hasSpecialAirFrames(n)=1
     specialHitFrames(n)=11
     zRunFrames(n)=6
 
@@ -124,7 +121,6 @@ Case 2: ;Rash
     zRunSpeed#(n)=3
     zRunFrames(n)=4
     zRunFrameSpeed#(n)=3
-    hasSpecialAirFrames(n)=1
     zRunFootSoundSeq(n)=6
 
 Case 3: ;Spider-man
@@ -154,12 +150,14 @@ Case 4: ;Mario
     zBlowDist(n,11)=150
     zBlowDist(n,14)=500
     zRollOnImpact(n)=1
-    zJumpSnd(n)=shotwallsnd
+    zJumpSnd(n)=marioJump1Snd
+    zJumpSnd2(n)=marioJump2Snd
     gender(n)=maleVal
     duckFrames(n)=27
     duckFrameSpeed(n)=5
     zWalkFrames(n)=41
     zWalkFrameSpeed#(n)=1
+    zFlipMaxSeq(n)=59
 
 Case 5: ;Michaelangelo
     zBlowDist(n,1)=64
@@ -201,7 +199,6 @@ Case 6: ;Strider Hiryu
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zRunFootSoundSeq(n)=6
-    hasSpecialAirFrames(n)=1
     dizzyFrames(n)=6
     dizzyFrameSpeed(n)=10
     specialHitFrames(n)=13
@@ -270,7 +267,6 @@ Case 10: ;Deadpool
     duckFrameSpeed(n)=5
     zWalkFrames(n)=14
     zWalkFrameSpeed#(n)=3
-    hasSpecialAirFrames(n)=1
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=3
@@ -389,7 +385,6 @@ Case 14: ;Wonder Woman
     duckFrames(n)=5
     duckFrameSpeed(n)=5
     canAirGlide(n)=1
-    hasSpecialAirFrames(n)=1
     superPicNum(n)=2
     electrocuteFrames(n)=3
     electrocuteFrameSpd(n)=2
@@ -428,7 +423,6 @@ Case 15: ;Juggernaut
     zWalkQuakeSeq1(n)=2
     zWalkQuakeSeq2(n)=10
     isHeavy(n)=1
-    hasSpecialAirFrames(n)=1
 
 Case 16: ;Piccolo
     zBlowDist(n,1)=60
@@ -457,7 +451,6 @@ Case 16: ;Piccolo
     canAirGlide(n)=1
     dizzyFrames(n)=4
     dizzyFrameSpeed(n)=7
-    hasSpecialAirFrames(n)=1
     specialHitFrames(n)=10
     hitFrameSpeed(n)=4
     zGrabDist(n)=zGrabDist(n)+15
@@ -493,7 +486,6 @@ Case 17: ;Hulk
     zWalkQuakeSeq1(n)=2
     zWalkQuakeSeq2(n)=10
     isHeavy(n)=1
-    hasSpecialAirFrames(n)=1
     
 Case 18: ;Thor
     zBlowDist(n,1)=45
@@ -525,7 +517,6 @@ Case 18: ;Thor
     zWalkQuakeSeq1(n)=2
     zWalkQuakeSeq2(n)=10
     isHeavy(n)=1
-    hasSpecialAirFrames(n)=1
     
 Case 19: ;Leilei
     zBlowDist(n,1)=45
@@ -557,7 +548,6 @@ Case 19: ;Leilei
     zWalkQuakeSeq1(n)=2
     zWalkQuakeSeq2(n)=10
     isHeavy(n)=1
-    hasSpecialAirFrames(n)=1
     
 Case 20: ;kenshiro
     zBlowDist(n,1)=45
@@ -589,7 +579,6 @@ Case 20: ;kenshiro
     zWalkQuakeSeq1(n)=2
     zWalkQuakeSeq2(n)=10
     isHeavy(n)=1
-    hasSpecialAirFrames(n)=1
     
 Case 30: ;Pig
     zBlowDist(n,1)=64
@@ -784,7 +773,6 @@ Case 40    ;turtle
     zBlowDist(n,10)=200
     zBlowDist(n,11)=200
     zBlowDist(n,14)=200
-    hasSpecialAirFrames(n)=1
     zheight(n)=50
     zUpHeight(n)=50
     zDuckHeight(n)=40
@@ -818,7 +806,6 @@ Case 41: ;Turtle Cloud
         zDtopSpeed(n)=zvar1(n)
         zTopSpeed(n)=zDTopSpeed(n)
     EndIf
-    hasSpecialAirFrames(n)=1
     specialHitFrames(n)=1
 
 Case 42    ;Joker
@@ -966,7 +953,6 @@ Case 51: ;Hattori Hanzo
     zBlowDist(n,11)=150
     zBlowDist(n,14)=120
     zDtopSpeed(n)=4
-    hasSpecialAirFrames(n)=1
     zJumpSnd(n)=mvcJump4Snd
     zJumpSnd2(n)=wolverinejumpsnd
     zTopSpeed(n)=zDtopSpeed(n)
@@ -1008,7 +994,6 @@ Case 53: ;Gohan helper
     zAcc(n)=.16
     zUseSpecialAI(n)=1
     zCanFly(n)=1
-    hasSpecialAirFrames(n)=1
 End Select
 
 setObjPos(n)
@@ -2790,21 +2775,9 @@ zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
 zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
 
 loadFallingSprites(n)
-
 loadDuckSprites(n)
-
-zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
-zpic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
-
-For i=2 To 20
-    zpic(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + ".bmp")
-    zpic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
-Next
-
-For i=1 To 15
-    zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")
-    zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
-Next
+loadAirSprites(n)
+loadFlipSprites(n)
 
 For i=1 To 20
     zpic(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + ".bmp")
@@ -3278,10 +3251,12 @@ If n=5 Then
 EndIf
 
 If n=4 Then ;Mario
-    If MarioUahaSnd=0 Then MarioUahaSnd=LoadSound(soundsdir$ + "uaha.wav")
-    If hiasnd=0 Then hiasnd=LoadSound(soundsdir$ + "hia.wav")
-    If hiahuusnd=0 Then hiahuusnd=LoadSound(soundsdir$ + "hiahuu.wav")
-    If mariouppercutsnd=0 Then mariouppercutsnd=LoadSound(soundsdir$ + "mariouppercut.wav")
+    If mariouppercutsnd=0 Then mariouppercutsnd=LoadSound(soundsdir$ + "mario\mariouppercut.wav")
+    If marioJump1Snd=0 Then marioJump1Snd=LoadSound(soundsdir$ + "mario\marioJump1Snd.wav")
+    If marioJump2Snd=0 Then marioJump2Snd=LoadSound(soundsdir$ + "mario\marioJump2Snd.wav")
+    If marioGrunt1Snd=0 Then marioGrunt1Snd=LoadSound(soundsdir$ + "mario\marioGrunt1Snd.wav")
+    If marioWohooSnd=0 Then marioWohooSnd=LoadSound(soundsdir$ + "mario\marioWohooSnd.wav")
+    If marioHohooSnd=0 Then marioHohooSnd=LoadSound(soundsdir$ + "mario\marioHohooSnd.wav")
 EndIf
 
 If n=3 Then     ;Spider-man
@@ -3543,6 +3518,22 @@ Function loadDuckSprites(n)
         zpic(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + ".bmp")
         If zpic(n,3,i) = 0 Then Return
         zpic_(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + "_.bmp")
+    Next
+End Function
+
+Function loadAirSprites(n)
+    For i=1 To 50
+        zpic(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + ".bmp")
+        If zpic(n,4,i) = 0 Then Return
+        zpic_(n,4,i)=LoadImage(gfxdir$ + "air/zair" + i + "_.bmp")
+    Next
+End Function
+
+Function loadFlipSprites(n)
+    For i=1 To 30
+        zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")
+        If zpic(n,5,i) = 0 Then Return
+        zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
     Next
 End Function
 
