@@ -507,7 +507,7 @@ For n=1 To 200   ; load chunks
 Next
 
 For n=0 To 90 Step 1
-    timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")
+    ;timerImage(n)=LoadImage(gfxdir$ + "timer\timer" + n + ".bmp")
 Next 
 
 For n=0 To 157 Step 1
@@ -792,7 +792,7 @@ SetBuffer BackBuffer()
 Cls
 ClsColor 0,0,0
 
-;CurGuy(1)=41
+;CurGuy(1)=30
 displayLoadingScr()
 
 Flip
@@ -2082,7 +2082,7 @@ Function selectDraw(n)
         If zCurBlow(n)=5 Then isRunning(n)=0
         Goto drawZ
     End If
-    If zDuck(n)=1 Then
+    If zDuck(n)=1 Then ;ducking
         If duckFrames(n) > 0 Then
             drawDuckSequence(n)
         Else
@@ -2090,7 +2090,7 @@ Function selectDraw(n)
         End If
         If isRunning(n) And zSpeed(n)=0 Then isRunning(n)=0
         Goto drawZ
-    End If            ;ducking
+    End If
     
     If zongnd(n)=0 And isRunning(n) And canAirGlide(n)=0 Then
         If rightKey(n)=1 And zSpeed(n) > zTopSpeed#(n) Then speedDeduct#(n)=speedDeduct#(n)+0.1
@@ -2155,7 +2155,7 @@ Function selectDraw(n)
             processEndRun(n):isRunningFlag(n)=0
             zRunSeqNoReset(n)=0
         End If
-        drawWalkSequence(n):Goto drawZ
+        drawWalkOrStanceSequence(n):Goto drawZ
     EndIf
     
     If zhit(n) Then
@@ -2443,7 +2443,7 @@ If zCurPic(n) <> 0 Then     ;test
     If isDrawAfterImage(n)=1 Then drawAfterImages(n)
 Else
 ;   runtimeerror "paused! n="+n+" ani=" +zani(n) + "f="+zf(n)    ;test
-    DebugLog "n: " + n + ", zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
+    DebugLog "Missing frames! n: " + n + ", zani: " + zani(n) + ", zf: " + zf(n) + ", n: " + n + ", curGuy(n): " + curGuy(n) + ", curBlow: " + zCurBlow(n) + ", zBlowSeq: " + zBlowSeq(n) + ", zBouncedgnd: " + zBouncedgnd(n) + ", zhitSeq: " + zHitSeq(n)
 EndIf
 
 ; Object positioning per animation

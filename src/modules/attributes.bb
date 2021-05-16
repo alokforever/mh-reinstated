@@ -120,7 +120,7 @@ Case 2: ;Rash
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
     zWalkFrames(n)=6
-    zWalkFrameSpeed#(n)=4
+    zWalkFrameSpeed#(n)=5
     zRunSpeed#(n)=3
     zRunFrames(n)=4
     zRunFrameSpeed#(n)=3
@@ -141,7 +141,7 @@ Case 3: ;Spider-man
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
     zWalkFrames(n)=7
-    zWalkFrameSpeed#(n)=4
+    zWalkFrameSpeed#(n)=5
 
 Case 4: ;Mario
     zBlowDist(n,1)=92
@@ -156,6 +156,10 @@ Case 4: ;Mario
     zRollOnImpact(n)=1
     zJumpSnd(n)=shotwallsnd
     gender(n)=maleVal
+    duckFrames(n)=27
+    duckFrameSpeed(n)=5
+    zWalkFrames(n)=41
+    zWalkFrameSpeed#(n)=1
 
 Case 5: ;Michaelangelo
     zBlowDist(n,1)=64
@@ -193,7 +197,7 @@ Case 6: ;Strider Hiryu
     flipFrames(n)=7
     zFlipMaxSeq(n)=21
     zWalkFrames(n)=9
-    zWalkFrameSpeed#(n)=3
+    zWalkFrameSpeed#(n)=4
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=3
     zRunFootSoundSeq(n)=6
@@ -316,7 +320,7 @@ Case 12: ;Scorpion
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
     zWalkFrames(n)=9
-    zWalkFrameSpeed#(n)=4
+    zWalkFrameSpeed#(n)=6
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=3.2
@@ -346,7 +350,7 @@ Case 13: ;Sub Zero
     zJumpSnd(n)=mkJumpSnd
     zJumpSnd2(n)=mkJump2Snd
     zWalkFrames(n)=9
-    zWalkFrameSpeed#(n)=4
+    zWalkFrameSpeed#(n)=6
     zRunFrames(n)=11
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=3.2
@@ -413,7 +417,7 @@ Case 15: ;Juggernaut
     zJumpSnd(n)=juggJumpSnd
     zJumpSnd2(n)=wolverinejumpsnd
     zWalkFrames(n)=16
-    zWalkFrameSpeed#(n)=4
+    zWalkFrameSpeed#(n)=5
     zRunFrames(n)=6
     zRunFrameSpeed#(n)=4
     zRunSpeed#(n)=4.8
@@ -443,7 +447,7 @@ Case 16: ;Piccolo
     zJumpSnd(n)=dbzJmpSnd
     zJumpSnd2(n)=dbzJmp2Snd
     zWalkFrames(n)=4
-    zWalkFrameSpeed#(n)=7
+    zWalkFrameSpeed#(n)=8
     zRunFrames(n)=1
     zRunFrameSpeed#(n)=3
     zRunSpeed#(n)=5.6
@@ -2780,26 +2784,14 @@ zpic_(n,0,0)=LoadImage(gfxStuffDir$ + "frozen_.bmp")
 zpic(n,0,2)=LoadImage(gfxdir$ + "zfrozen.bmp")
 zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
 
-For i=0 To 30
-    zpic(n,1,i)=LoadImage(gfxdir$ + "walk/zwalk" + i + ".bmp")
-    zpic_(n,1,i)=LoadImage(gfxdir$ + "walk/zwalk" + i + "_.bmp")
-Next
+loadWalkSprites(n)
 
 zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
 zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
 
-For i=1 To 16
-    zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
-    zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
-Next
+loadFallingSprites(n)
 
-zpic(n,3,1)=LoadImage(gfxdir$ + "zduck.bmp")
-zpic_(n,3,1)=LoadImage(gfxdir$ + "zduck_.bmp")
-
-For i=2 To 10
-    zpic(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + ".bmp")
-    zpic_(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + "_.bmp")
-Next
+loadDuckSprites(n)
 
 zpic(n,4,1)=LoadImage(gfxdir$ + "zair.bmp")
 zpic_(n,4,1)=LoadImage(gfxdir$ + "zair_.bmp")
@@ -2829,10 +2821,7 @@ For i=1 To 20
     zpic_(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + "_.bmp")
 Next
 
-For i=1 To 30
-    zpic(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + ".bmp")
-    zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
-Next
+loadLowKickSprites(n)
 
 For i=1 To 50
     zpic(n,10,i)=LoadImage(gfxdir$ + "special/zspecial" + i + ".bmp")
@@ -3532,4 +3521,35 @@ Function initStance(n)
     
     stanceButPic(n, 0)=LoadImage("gfx\" + n + "\walk\zwalk0.bmp")
     If stanceButPic(n, 0) <> 0 Then ScaleImage stanceButPic(n, 0),imgScaleFactor#(n),imgScaleFactor#(n)
+End Function
+
+Function loadWalkSprites(n)
+    For i=0 To 50
+        zpic(n,1,i)=LoadImage(gfxdir$ + "walk/zwalk" + i + ".bmp")
+        If zpic(n,1,i) = 0 Then Return
+        zpic_(n,1,i)=LoadImage(gfxdir$ + "walk/zwalk" + i + "_.bmp")
+    Next
+End Function
+
+Function loadFallingSprites(n)
+    For i=1 To 16
+        zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
+        zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
+    Next
+End Function
+
+Function loadDuckSprites(n)
+    For i=1 To 30
+        zpic(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + ".bmp")
+        If zpic(n,3,i) = 0 Then Return
+        zpic_(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + "_.bmp")
+    Next
+End Function
+
+Function loadLowKickSprites(n)
+    For i=1 To 30
+        zpic(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + ".bmp")
+        If zpic(n,9,i) = 0 Then Return
+        zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
+    Next
 End Function

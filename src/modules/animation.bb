@@ -99,7 +99,7 @@ Function handleQuakeWalkSeq(n, frame)
 End Function
 
 ;------------ Draw Walk Sequence ----------------
-Function drawWalkSequence(n)
+Function drawWalkOrStanceSequence(n)
     If zwalkseq(n) = 0 Then
         zani(n)=19
         If zStanceFrames(curGuy(n)) <> 0 Then
@@ -132,23 +132,21 @@ Function drawWalkSequence(n)
         End If
         Return
     EndIf
+    zAni(n)=1
     If zWalkFrames(n) <> 0 Then
-        If zwalkseq(n)>=((zWalkFrames(n)*zWalkFrameSpeed(n))+zWalkFrameSpeed(n))-1 Then zwalkseq(n)=1:Return
-        For frame=zWalkFrames(n) To 1 Step -1
-            If (zwalkseq(n) / zWalkFrameSpeed#(n)) Mod frame = 0 Then 
-                zani(n)=1:zf(n)=frame
-                handleQuakeWalkSeq(n, frame)
-                Return
-            Else If zwalkseq(n) < zWalkFrameSpeed(n) Then
-                zani(n)=1:zf(n)=1
+        If zwalkseq(n) Mod zWalkFrameSpeed#(n) = 0 Then
+            zF(n)=zF(n)+1
+            If zF(n) >= zWalkFrames(n) Then
+                zF(n)=1:zWalkSeq(n)=0
             End If
-        Next
+            handleQuakeWalkSeq(n, zF(n))
+        End If
     Else
         If zwalkseq(n) > 40 Then zwalkseq(n)=1:Return
-        If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zani(n)=1:zf(n)=2:Return
-        If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zani(n)=1:zf(n)=3:Return
-        If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zani(n)=1:zf(n)=1:Return
-        If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zani(n)=1:zf(n)=3:Return
+        If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zf(n)=2:Return
+        If zwalkseq(n) => 11 And zwalkseq(n) =< 20 Then zf(n)=3:Return
+        If zwalkseq(n) => 20 And zwalkseq(n) =< 30 Then zf(n)=1:Return
+        If zwalkseq(n) => 30 And zwalkseq(n) =< 40 Then zf(n)=3:Return
     EndIf
 End Function
 
@@ -696,18 +694,16 @@ End Function
 
 ;----------- Draw Duck Sequence --------------
 Function drawDuckSequence(n)
-    If duckSeq(n) < duckFrameSpeed(n) Then 
-        duckSeq(n) = duckFrameSpeed(n)
-    Else
-        duckSeq(n) = duckSeq(n) + 1
+    zani(n)=3
+    If duckSeq(n)=0 Then zF(n)=1
+    If duckSeq(n) Mod duckFrameSpeed(n) = 0 Then
+        If zF(n) >= duckFrames(n) Then
+            zF(n)=1:duckSeq(n)=0:Return
+        Else
+            zF(n)=zF(n)+1
+        End If
     End If
-    For frame=duckFrames(n) To 1 Step -1
-        If (duckSeq(n) / duckFrameSpeed(n)) Mod frame = 0 Then
-            zani(n)=3:zf(n)=frame
-            If duckSeq(n)-1 > duckFrameSpeed(n)*duckFrameSpeed(n) Then duckSeq(n) = duckFrameSpeed(n)-1
-            Return
-        EndIf
-    Next
+    duckSeq(n) = duckSeq(n) + 1
 End Function
 
 ;----------------  Draw Flip Frames ----------------

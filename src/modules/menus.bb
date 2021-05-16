@@ -2289,7 +2289,7 @@ Function getButPicXOffset(b)
     Case 2
         xOffset=12
     Case 3
-        xOffset=-5
+        xOffset=9
     Case 4
         xOffset=14
     Case 6
