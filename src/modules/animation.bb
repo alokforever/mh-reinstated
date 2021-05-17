@@ -136,11 +136,10 @@ Function drawWalkOrStanceSequence(n)
     If zWalkFrames(n) <> 0 Then
         If zwalkseq(n) Mod zWalkFrameSpeed#(n) = 0 Then
             zF(n)=zF(n)+1
-            If zF(n) >= zWalkFrames(n) Then
-                zF(n)=1:zWalkSeq(n)=0
-            End If
             handleQuakeWalkSeq(n, zF(n))
         End If
+
+        If zF(n) >= zWalkFrames(n) Then zF(n)=1:zWalkSeq(n)=0
     Else
         If zwalkseq(n) > 40 Then zwalkseq(n)=1:Return
         If zwalkseq(n) => 1 And zwalkseq(n) =< 10 Then zf(n)=2:Return

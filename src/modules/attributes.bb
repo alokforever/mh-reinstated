@@ -2771,8 +2771,8 @@ zpic_(n,0,2)=LoadImage(gfxdir$ + "zfrozen_.bmp")
 
 loadWalkSprites(n)
 
-zpic(n,2,0)=LoadImage(gfxdir$ + "zfallen.bmp")
-zpic_(n,2,0)=LoadImage(gfxdir$ + "zfallen_.bmp")
+zpic(n,2,0)=LoadImage(gfxdir$ + "fall/zfallen.bmp")
+zpic_(n,2,0)=LoadImage(gfxdir$ + "fall/zfallen_.bmp")
 
 loadFallingSprites(n)
 loadDuckSprites(n)
@@ -2780,8 +2780,8 @@ loadAirSprites(n)
 loadFlipSprites(n)
 
 For i=1 To 20
-    zpic(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + ".bmp")
-    zpic_(n,6,i)=LoadImage(gfxdir$ + "zblow" + i + "_.bmp")
+    zpic(n,6,i)=LoadImage(gfxdir$ + "blow/zblow" + i + ".bmp")
+    zpic_(n,6,i)=LoadImage(gfxdir$ + "blow/zblow" + i + "_.bmp")
 Next
 
 For i=1 To 20
@@ -2790,8 +2790,8 @@ For i=1 To 20
 Next
 
 For i=1 To 20
-    zpic(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + ".bmp")
-    zpic_(n,8,i)=LoadImage(gfxdir$ + "zflykick" + i + "_.bmp")
+    zpic(n,8,i)=LoadImage(gfxdir$ + "flykick/zflykick" + i + ".bmp")
+    zpic_(n,8,i)=LoadImage(gfxdir$ + "flykick/zflykick" + i + "_.bmp")
 Next
 
 loadLowKickSprites(n)
@@ -2812,23 +2812,23 @@ For i=1 To 21
 Next
 
 For i=1 To 3
-    zpic(n,13,i)=LoadImage(gfxdir$ + "zblock" + i + ".bmp")
-    zpic_(n,13,i)=LoadImage(gfxdir$ + "zblock" + i + "_.bmp")
+    zpic(n,13,i)=LoadImage(gfxdir$ + "block/zblock" + i + ".bmp")
+    zpic_(n,13,i)=LoadImage(gfxdir$ + "block/zblock" + i + "_.bmp")
 Next
 
 For i = 1 To 16
-    zpic(n,14,i)=LoadImage(gfxdir$ + "zupblow" + i + ".bmp")
-    zpic_(n,14,i)=LoadImage(gfxdir$ + "zupblow" + i + "_.bmp")
+    zpic(n,14,i)=LoadImage(gfxdir$ + "upBlow/zupblow" + i + ".bmp")
+    zpic_(n,14,i)=LoadImage(gfxdir$ + "upBlow/zupblow" + i + "_.bmp")
 Next
 
 For i = 1 To 40
-    zpic(n,15,i)=LoadImage(gfxdir$ + "zgrab" + i + ".bmp")
-    zpic_(n,15,i)=LoadImage(gfxdir$ + "zgrab" + i + "_.bmp")
+    zpic(n,15,i)=LoadImage(gfxdir$ + "grab/zgrab" + i + ".bmp")
+    zpic_(n,15,i)=LoadImage(gfxdir$ + "grab/zgrab" + i + "_.bmp")
 Next
 
 For i = 1 To 25
-    zpic(n,16,i)=LoadImage(gfxdir$ + "taunt\zTaunt" + i + ".bmp")
-    zpic_(n,16,i)=LoadImage(gfxdir$ + "taunt\zTaunt" + i + "_.bmp")
+    zpic(n,16,i)=LoadImage(gfxdir$ + "taunt/zTaunt" + i + ".bmp")
+    zpic_(n,16,i)=LoadImage(gfxdir$ + "taunt/zTaunt" + i + "_.bmp")
 Next
 
 For i = 1 To maxPicFrames
@@ -3508,16 +3508,16 @@ End Function
 
 Function loadFallingSprites(n)
     For i=1 To 16
-        zpic(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + ".bmp")
-        zpic_(n,2,i)=LoadImage(gfxdir$ + "zfalling" + i + "_.bmp")
+        zpic(n,2,i)=LoadImage(gfxdir$ + "fall/zfalling" + i + ".bmp")
+        zpic_(n,2,i)=LoadImage(gfxdir$ + "fall/zfalling" + i + "_.bmp")
     Next
 End Function
 
 Function loadDuckSprites(n)
     For i=1 To 30
-        zpic(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + ".bmp")
+        zpic(n,3,i)=LoadImage(gfxdir$ + "duck/zduck" + i + ".bmp")
         If zpic(n,3,i) = 0 Then Return
-        zpic_(n,3,i)=LoadImage(gfxdir$ + "zduck" + i + "_.bmp")
+        zpic_(n,3,i)=LoadImage(gfxdir$ + "duck/zduck" + i + "_.bmp")
     Next
 End Function
 
@@ -3531,16 +3531,16 @@ End Function
 
 Function loadFlipSprites(n)
     For i=1 To 30
-        zpic(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + ".bmp")
+        zpic(n,5,i)=LoadImage(gfxdir$ + "flip/zFlip" + i + ".bmp")
         If zpic(n,5,i) = 0 Then Return
-        zpic_(n,5,i)=LoadImage(gfxdir$ + "zFlip" + i + "_.bmp")
+        zpic_(n,5,i)=LoadImage(gfxdir$ + "flip/zFlip" + i + "_.bmp")
     Next
 End Function
 
 Function loadLowKickSprites(n)
     For i=1 To 30
-        zpic(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + ".bmp")
+        zpic(n,9,i)=LoadImage(gfxdir$ + "lowkick/zlowkick" + i + ".bmp")
         If zpic(n,9,i) = 0 Then Return
-        zpic_(n,9,i)=LoadImage(gfxdir$ + "zlowkick" + i + "_.bmp")
+        zpic_(n,9,i)=LoadImage(gfxdir$ + "lowkick/zlowkick" + i + "_.bmp")
     Next
 End Function
