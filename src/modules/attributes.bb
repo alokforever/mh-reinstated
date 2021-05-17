@@ -3257,6 +3257,7 @@ If n=4 Then ;Mario
     If marioGrunt1Snd=0 Then marioGrunt1Snd=LoadSound(soundsdir$ + "mario\marioGrunt1Snd.wav")
     If marioWohooSnd=0 Then marioWohooSnd=LoadSound(soundsdir$ + "mario\marioWohooSnd.wav")
     If marioHohooSnd=0 Then marioHohooSnd=LoadSound(soundsdir$ + "mario\marioHohooSnd.wav")
+    If marioDodgeSnd=0 Then marioDodgeSnd=LoadSound(soundsdir$ + "mario\marioDodgeSnd.wav")
 EndIf
 
 If n=3 Then     ;Spider-man
@@ -3530,7 +3531,7 @@ Function loadAirSprites(n)
 End Function
 
 Function loadFlipSprites(n)
-    For i=1 To 30
+    For i=1 To 50
         zpic(n,5,i)=LoadImage(gfxdir$ + "flip/zFlip" + i + ".bmp")
         If zpic(n,5,i) = 0 Then Return
         zpic_(n,5,i)=LoadImage(gfxdir$ + "flip/zFlip" + i + "_.bmp")

@@ -264,4 +264,4 @@ Global mariouppercutsnd=LoadSound(soundsdir$ + "marioUppercut.wav")
 Global MarioFierceSnd=LoadSound(soundsdir$ + "marioFierce.wav")
 Global marioJump1Snd, marioJump2Snd
 Global marioGrunt1Snd
-Global marioWohooSnd, marioHohooSnd
+Global marioWohooSnd, marioHohooSnd, marioDodgeSnd
